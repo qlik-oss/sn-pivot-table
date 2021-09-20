@@ -1,2 +1,7 @@
 # sn-pivot-table
-Nebula pivot table
+
+## Usage
+
+```js
+npm install sn-pivot-table
+```

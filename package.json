@@ -1,0 +1,42 @@
+{
+  "name": "sn-pivot-table",
+  "version": "0.1.0",
+  "description": "",
+  "license": "MIT",
+  "author": {
+    "name": "niekvanstaveren",
+    "email": "niek.vanstaveren@qlik.com"
+  },
+  "keywords": [
+    "qlik",
+    "nebula",
+    "stardust"
+  ],
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "main": "dist/sn-pivot-table.js",
+  "module": "dist/sn-pivot-table.esm.js",
+  "scripts": {
+    "build": "nebula build",
+    "lint": "eslint src",
+    "start": "nebula serve",
+    "sense": "nebula sense --ext src/ext.js --meta src/meta.json"
+  },
+  "devDependencies": {
+    "@nebula.js/cli": "1.7.0",
+    "@nebula.js/cli-build": "1.7.0",
+    "@nebula.js/cli-sense": "1.7.0",
+    "@nebula.js/cli-serve": "1.7.0",
+    "eslint": "7.27.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-mocha": "9.0.0"
+  },
+  "peerDependencies": {
+    "@nebula.js/stardust": "^1.x"
+  }
+}
