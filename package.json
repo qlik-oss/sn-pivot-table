@@ -1,19 +1,19 @@
 {
   "name": "sn-pivot-table",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "",
   "license": "MIT",
-  "author": {
-    "name": "niekvanstaveren",
-    "email": "niek.vanstaveren@qlik.com"
-  },
+  "author": "QlikTech International AB",
   "keywords": [
     "qlik",
     "nebula",
     "stardust"
   ],
   "files": [
-    "dist"
+    "dist",
+    "sn-pivot-table-ext",
+    "sn-pivot-table.js",
+    "sn-pivot-table.qext"
   ],
   "engines": {
     "node": ">=8"
@@ -27,14 +27,29 @@
     "sense": "nebula sense --ext src/ext.js --meta src/meta.json"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.14.5",
     "@nebula.js/cli": "1.7.0",
     "@nebula.js/cli-build": "1.7.0",
     "@nebula.js/cli-sense": "1.7.0",
     "@nebula.js/cli-serve": "1.7.0",
-    "eslint": "7.27.0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-react-native-web": "^0.17.1",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "14.2.1",
-    "eslint-plugin-import": "2.23.4",
-    "eslint-plugin-mocha": "9.0.0"
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-mocha": "9.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.4.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-native-paper": "^4.9.2",
+    "react-native-web": "^0.17.1",
+    "shx": "^0.3.3"
   },
   "peerDependencies": {
     "@nebula.js/stardust": "^1.x"
