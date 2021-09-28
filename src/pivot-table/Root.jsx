@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import PivotTable from './components/pivot-table';
+import PivotTable from './components/PivotTable';
 
-export function render(rootElement) {
-  ReactDOM.render(<PivotTable />, rootElement);
+export function render(rootElement, props) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  ReactDOM.render(<PivotTable {...props} />, rootElement);
 }
 
 export function teardown(rootElement) {
