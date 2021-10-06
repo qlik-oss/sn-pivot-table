@@ -4,7 +4,7 @@ env:
 extends:
   - airbnb
   - prettier
-parser: 'babel-eslint'
+parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
     jsx: true
@@ -12,6 +12,30 @@ parserOptions:
   sourceType: module
 plugins:
   - prettier
-rules: {
-  import/no-extraneous-dependencies: off
-}
+rules:
+  import/no-extraneous-dependencies: 0
+  no-use-before-define: 0
+overrides:
+  - files:
+    - src/**/*.tsx
+    - src/**/*.ts
+    parser: '@typescript-eslint/parser'
+    parserOptions:
+      project: './tsconfig.json'
+      ecmaFeatures:
+        jsx: true
+        ecmaVersion: 2018
+        sourceType: module
+    plugins:
+      - react
+      - '@typescript-eslint'
+    extends:
+      - 'plugin:@typescript-eslint/eslint-recommended'
+      - 'plugin:@typescript-eslint/recommended'
+      - airbnb-typescript
+      - prettier
+    rules:
+      import/no-extraneous-dependencies: 0
+  - files:
+    - src/**/*.jsx
+    - src/**/*.js

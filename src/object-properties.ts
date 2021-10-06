@@ -20,6 +20,16 @@ const properties = {
     qSuppressZero: false,
     /** @type {boolean} */
     qShowTotalsAbove: true,
+    qNoOfLeftDims: 2,
+    qInitialDataFetch: [
+      {
+        qTop: 0,
+        qLeft: 0,
+        qWidth: 50,
+        qHeight: 50,
+      },
+    ],
+    qIndentMode: true,
   },
   /**
    * Show title for the visualization
