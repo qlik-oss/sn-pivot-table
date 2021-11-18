@@ -1,6 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
-import { DataTable, Text } from 'react-native-paper';
+import { View, Text } from 'react-native';
 import { NxPivotValuePoint } from '../../types/QIX';
 import { Cell } from '../handle-data';
 

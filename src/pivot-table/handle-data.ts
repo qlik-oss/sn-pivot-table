@@ -14,7 +14,7 @@ export interface Cell {
 
 type CellValue = NxPivotValuePoint | NxPivotDimensionCell | string | null;
 
-type Matrix = Array<Array<Cell>>;
+export type Matrix = Array<Cell[]>;
 
 export interface PivotData {
   matrix: Matrix;
