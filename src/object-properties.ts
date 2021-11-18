@@ -20,7 +20,7 @@ const properties = {
     qSuppressZero: false,
     /** @type {boolean} */
     qShowTotalsAbove: true,
-    qNoOfLeftDims: 2,
+    qNoOfLeftDims: 0,
     qInitialDataFetch: [
       {
         qTop: 0,
