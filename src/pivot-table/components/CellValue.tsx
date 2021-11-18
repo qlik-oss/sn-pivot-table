@@ -4,6 +4,7 @@ import { Model } from '../../types/types';
 import { Cell, TYPE } from '../handle-data';
 import DimensionCell from './DimensionCell';
 import MeasureCell from './MeasureCell';
+import sharedStyles from './shared-styles';
 
 export interface CellValueProps {
   cell: Cell;
@@ -13,36 +14,36 @@ export interface CellValueProps {
   isLeftColumn: boolean;
 }
 
+const borderColor = 'rgb(230, 230, 230)';
+const minHeight = 24;
+
 const styles = StyleSheet.create({
   cell: {
+    color: 'rgb(89, 89, 89)',
     borderLeftWidth: 1,
     borderBottomWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.12)',
+    borderColor,
     paddingLeft: 4,
     paddingRight: 4,
-    minHeight: 48,
+    minHeight,
     justifyContent: 'center',
-  },
-  nullCell: {
-    borderLeftWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.12)',
-    backgroundColor: '#ccc',
-    paddingLeft: 4,
-    paddingRight: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: 48,
   },
   label: {
     fontWeight: 500,
-    color: 'rgba(0, 0, 0, 0.6)',
+    color: 'rgb(89, 89, 89)',
     borderLeftWidth: 1,
     borderBottomWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.12)',
+    borderColor,
     paddingLeft: 4,
     paddingRight: 4,
-    minHeight: 48,
+    minHeight,
     justifyContent: 'center',
+  },
+  topRow: {
+    minHeight: 36
+  },
+  labelText: {
+    fontStyle: 'italic',
   },
 });
 
@@ -53,7 +54,7 @@ const CellValue = ({ cell, model, isLeftColumn, rowIndex, colIndex }: CellValueP
       model={model}
       rowIndex={rowIndex}
       colIndex={colIndex}
-      style={styles.cell}
+      style={isLeftColumn ? styles.cell : [styles.cell, styles.topRow]}
       isLeftColumn={isLeftColumn}
     />
   }
@@ -62,14 +63,13 @@ const CellValue = ({ cell, model, isLeftColumn, rowIndex, colIndex }: CellValueP
     return <MeasureCell
       cell={cell}
       style={styles.cell}
-      nullStyle={styles.nullCell}
     />
   }
 
   if (cell.type === TYPE.LABEL) {
     return (
-      <View style={styles.label}>
-        <Text>{cell.value}</Text>
+      <View style={[styles.label, styles.topRow]}>
+        <Text style={[sharedStyles.text, styles.labelText]}>{cell.value}</Text>
       </View>)
   }
 

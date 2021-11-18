@@ -8,7 +8,6 @@ import Column from './Column';
 
 interface CellRendererProps {
   children: Array<JSX.Element>;
-  onLayout: ({ nativeEvent: LayoutEvent }) => void;
 }
 
 interface RenderItemProps {
@@ -53,10 +52,15 @@ const getNextPage = (qArea: NxPageArea) => {
   };
 };
 
-const CellRenderer = ({ children, onLayout }: CellRendererProps) => (
-  <View style={{ flexGrow: 1 }} onLayout={onLayout}>
-    {children}
-  </View>);
+const CellRenderer = (props: CellRendererProps) => {
+  const { children } = props;
+console.log(props);
+  return ( // eslint-disable-next-line react/jsx-props-no-spreading
+    <View {...props} style={{ flexGrow: 1 }}>
+      {children}
+    </View>
+  )
+};
 const keyExtractor = (item: Cell[]) => item.map(i => i.key).join(',');
 
 export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {

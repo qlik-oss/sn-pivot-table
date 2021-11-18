@@ -20,9 +20,6 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     minWidth: '50px',
-    // borderWidth: 1,
-    // borderColor: 'red'
-    // flex: 1,
   },
 });
 

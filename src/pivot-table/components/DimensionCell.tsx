@@ -1,8 +1,9 @@
 import React from 'react';
-import { Pressable, StyleSheet, View, Text } from "react-native";
+import { Pressable, StyleSheet, View, Text, ViewStyle } from "react-native";
 import { Model } from '../../types/types';
 import { NxPivotDimensionCell } from '../../types/QIX';
 import { Cell } from '../handle-data';
+import sharedStyles from './shared-styles';
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -10,7 +11,7 @@ export interface DimensionCellProps {
   rowIndex: number;
   colIndex: number;
   isLeftColumn?: boolean;
-  style: Record<string, unknown>;
+  style: ViewStyle | ViewStyle[]; // Record<string, unknown>;
 }
 
 const PATH = '/qHyperCubeDef';
@@ -18,8 +19,6 @@ const PATH = '/qHyperCubeDef';
 const styles = StyleSheet.create({
   text: {
     fontWeight: '700',
-    fontSize: 13,
-    color: 'rgb(89, 89, 89)',
   },
 });
 
@@ -43,7 +42,11 @@ const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colInd
   return (
     <Pressable onPress={onPress}>
       <View style={style}>
-        <Text style={styles.text} numberOfLines={1}>{cellContent}</Text>
+        <Text
+          style={[sharedStyles.text, styles.text]}
+          numberOfLines={1}>
+            {cellContent}
+        </Text>
       </View>
     </Pressable>
   );
