@@ -32,6 +32,7 @@ const Column = ({ item: cells, index: colIndex, model, pivotData }: ColumnProps)
       colIndex={colIndex - pivotData.nbrLeftColumns}
       model={model}
       isLeftColumn={false}
+      isHeader
     />)}
     {cells.slice(pivotData.nbrTopRows).map((cell, rowIndex) => <CellValue
       key={cell.key}

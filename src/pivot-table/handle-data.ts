@@ -106,7 +106,7 @@ const extractTop = (qTop: Array<NxPivotDimensionCell>, qArea: NxPageArea): Matri
       colIdx += currIdx === 0 ? 0 : 1;
       mtrx[colIdx][topRowIdx] = toCell(node); // eslint-disable-line no-param-reassign
 
-      if (node.qCanCollapse) {
+      if (node.qSubNodes.length) {
         return extract(node.qSubNodes, mtrx, topRowIdx + 1);
       }
 

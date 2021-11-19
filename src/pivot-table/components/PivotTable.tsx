@@ -52,15 +52,13 @@ const getNextPage = (qArea: NxPageArea) => {
   };
 };
 
-const CellRenderer = (props: CellRendererProps) => {
-  const { children } = props;
-console.log(props);
-  return ( // eslint-disable-next-line react/jsx-props-no-spreading
+const CellRenderer = ({ children, ...props }: CellRendererProps) =>
+   ( // eslint-disable-next-line react/jsx-props-no-spreading
     <View {...props} style={{ flexGrow: 1 }}>
       {children}
     </View>
   )
-};
+;
 const keyExtractor = (item: Cell[]) => item.map(i => i.key).join(',');
 
 export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {

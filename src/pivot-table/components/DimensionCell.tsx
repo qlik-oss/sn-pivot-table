@@ -39,17 +39,19 @@ const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colInd
       : () => model.collapseTop(PATH, rowIndex, colIndex, false);
   }
 
-  return (
-    <Pressable onPress={onPress}>
-      <View style={style}>
-        <Text
-          style={[sharedStyles.text, styles.text]}
-          numberOfLines={1}>
-            {cellContent}
-        </Text>
-      </View>
-    </Pressable>
+  const DimCell = (
+    <View style={style}>
+      <Text
+        style={[sharedStyles.text, styles.text]}
+        numberOfLines={1}>
+          {cellContent}
+      </Text>
+    </View>
   );
+
+  return onPress ?
+  <Pressable onPress={onPress}>{DimCell}</Pressable>
+  : DimCell;
 };
 
 export default DimensionCell;

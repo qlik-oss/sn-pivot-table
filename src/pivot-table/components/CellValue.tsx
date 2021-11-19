@@ -11,15 +11,22 @@ export interface CellValueProps {
   rowIndex: number;
   colIndex: number;
   model: Model;
-  isLeftColumn: boolean;
+  isLeftColumn?: boolean;
+  isHeader?: boolean;
 }
 
 const borderColor = 'rgb(230, 230, 230)';
+const color = 'rgb(89, 89, 89)';
 const minHeight = 24;
 
 const styles = StyleSheet.create({
+  mergedCell: {
+    borderLeftWidth: 0,
+    borderBottomWidth: 1,
+    borderColor,
+  },
   cell: {
-    color: 'rgb(89, 89, 89)',
+    color,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
     borderColor,
@@ -30,7 +37,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: 500,
-    color: 'rgb(89, 89, 89)',
+    color,
     borderLeftWidth: 1,
     borderBottomWidth: 1,
     borderColor,
@@ -39,7 +46,7 @@ const styles = StyleSheet.create({
     minHeight,
     justifyContent: 'center',
   },
-  topRow: {
+  header: {
     minHeight: 36
   },
   labelText: {
@@ -47,14 +54,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const CellValue = ({ cell, model, isLeftColumn, rowIndex, colIndex }: CellValueProps): JSX.Element => {
+const CellValue = ({ cell, model, isLeftColumn = false, isHeader = false, rowIndex, colIndex }: CellValueProps): JSX.Element => {
   if (cell.type === TYPE.DIMENSION) {
     return <DimensionCell
       cell={cell}
       model={model}
       rowIndex={rowIndex}
       colIndex={colIndex}
-      style={isLeftColumn ? styles.cell : [styles.cell, styles.topRow]}
+      style={isHeader ? [styles.cell, styles.header] : styles.cell}
       isLeftColumn={isLeftColumn}
     />
   }
@@ -68,9 +75,13 @@ const CellValue = ({ cell, model, isLeftColumn, rowIndex, colIndex }: CellValueP
 
   if (cell.type === TYPE.LABEL) {
     return (
-      <View style={[styles.label, styles.topRow]}>
+      <View style={[styles.label, styles.header]}>
         <Text style={[sharedStyles.text, styles.labelText]}>{cell.value}</Text>
       </View>)
+  }
+
+  if (isHeader) {
+    return <View style={[styles.mergedCell, styles.header]}>{null}</View>
   }
 
   return <View style={styles.cell}>{null}</View>
