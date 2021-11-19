@@ -68,6 +68,10 @@ export interface NxDimensionInfo {
   qFallbackTitle: string;
 }
 
+export interface NxMeasureInfo {
+  qFallbackTitle: string;
+}
+
 export interface Layout {
   qHyperCube: {
     qPivotDataPages: Array<NxPivotPage>;
@@ -81,9 +85,11 @@ export interface Layout {
 }
 
 export interface HyperCubeDef {
-  qDimensions: Array<NxDimensionInfo>;
+  qDimensions: NxDimensionInfo[];
+  qMeasures: NxMeasureInfo[];
   qNoOfLeftDims: number;
   qPseudoDimPos: number;
+  qInterColumnSortOrder: number[];
 }
 
 export interface GenericObjectLayout {
@@ -91,5 +97,9 @@ export interface GenericObjectLayout {
 }
 
 export interface NxDimension {
+  qLibraryId?: string;
+}
+
+export interface NxMeasure {
   qLibraryId?: string;
 }
