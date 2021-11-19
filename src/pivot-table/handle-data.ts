@@ -3,7 +3,8 @@ import {
   NxPivotDimensionCell,
   NxPivotPage,
   NxPageArea,
-  NxDimensionInfo
+  NxDimensionInfo,
+  NxDimCellType
 } from '../types/QIX';
 
 export interface Cell {
@@ -12,7 +13,7 @@ export interface Cell {
   value: CellValue;
 }
 
-type CellValue = NxPivotValuePoint | NxPivotDimensionCell | string | null;
+type CellValue = NxPivotValuePoint | NxPivotDimensionCell | string | null | undefined;
 
 export type Matrix = Array<Cell[]>;
 
@@ -54,28 +55,30 @@ const toCell = ((value: CellValue, key = ''): Cell => {
   return cell;
 });
 
-const extractLeft = (qLeft: Array<NxPivotDimensionCell>, qArea: NxPageArea): Matrix => {
-  let rowIdx = -1;
+const extractLeft = (qLeft: NxPivotDimensionCell[], qArea: NxPageArea): Matrix => {
   if (!qLeft.length) {
     return [];
   }
 
-  function extract(nodes: Array<NxPivotDimensionCell>, matrix: Matrix = [], colIdx = 0): Matrix {
+  const mapToInitRowValue = (value: undefined, i: number) => toCell(value, `index-key-${0}-${i}`);
+  let rowIdx = 0;
+
+  function extract(nodes: NxPivotDimensionCell[], matrix: Matrix = [], colIdx = 0): Matrix {
     if (!Array.isArray(matrix[colIdx])) {
-      matrix[colIdx] = Array(qArea.qHeight) // eslint-disable-line no-param-reassign
-        .fill(null)
-        .map((value, i) => toCell(value, `index-key-${0}-${i}`));
+      matrix[colIdx] = Array.from({ length: qArea.qHeight }, mapToInitRowValue);  // eslint-disable-line no-param-reassign
     }
 
-    return nodes.reduce((mtrx: Matrix, node) => {
-      rowIdx += node.qElemNo === -1 ? 0 : 1; // If totals node use same row as previous column
-      mtrx[colIdx][rowIdx] = toCell(node); // eslint-disable-line no-param-reassign
-
-      if (node.qCanCollapse) {
-          return extract(node.qSubNodes, mtrx, colIdx + 1);
+    return nodes.reduce((innerMatrix: Matrix, node) => {
+      if (node.qType !== NxDimCellType.NX_DIM_CELL_TOTAL) {
+        innerMatrix[colIdx][rowIdx] = toCell(node); // eslint-disable-line no-param-reassign
+        rowIdx += node.qCanCollapse ? 0 : 1;
       }
 
-      return mtrx;
+      if (node.qCanCollapse) {
+        return extract(node.qSubNodes, innerMatrix, colIdx + 1);
+      }
+
+      return innerMatrix;
     }, matrix);
   }
 

@@ -71,6 +71,7 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
 
   useEffect(() => {
     console.log('LAYOUT CHANGED', layout);
+    setPage(0);
     setArea(layout.qHyperCube.qPivotDataPages[0].qArea);
     setPivotData(toMatrixData(layout.qHyperCube.qPivotDataPages[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims))
   }, [layout])
@@ -79,19 +80,19 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
     console.log('pivotData', pivotData);
   }, [pivotData]);
 
-  useEffect(() => {
-    console.log('qArea', qArea);
-  }, [qArea]);
+  // useEffect(() => {
+  //   console.log('qArea', qArea);
+  // }, [qArea]);
 
-  const onPageChange = (f: number) => {
+  const loadPageHandler = (f: number) => {
     const { qLeft, qWidth } = qArea;
     const qPage = {
-        qLeft,
+        qLeft: 0,
         qTop: f,
-        qWidth,
+        qWidth: 50,
         qHeight: Math.min(50, layout.qHyperCube.qSize.qcy - f)
       };
-      console.log('PRE-onPageChange', pivotData, qPage);
+      // console.log('PRE-onPageChange', pivotData, qPage);
 
       model.getHyperCubePivotData({
       qPath: "/qHyperCubeDef",
@@ -108,14 +109,14 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
     });
   };
 
-  const onEndReached = () => {
+  const endReachedHandler = () => {
     if (qArea.qWidth >= layout.qHyperCube.qSize.qcx) {
-      console.log('callback', qArea.qWidth, layout.qHyperCube.qSize.qcx);
+      console.log('No more data to load', qArea.qWidth, layout.qHyperCube.qSize.qcx);
       return;
     }
 
     const qPage = getNextPage(qArea);
-    console.log('PRE-onEndReached', qPage);
+    // console.log('PRE-onEndReached', qPage);
     model.getHyperCubePivotData({
       "qPath": "/qHyperCubeDef",
       "qPages": [qPage]
@@ -145,7 +146,7 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
           keyExtractor={keyExtractor}
           getItemCount={getItemCount}
           getItem={getItem}
-          onEndReached={onEndReached}
+          onEndReached={endReachedHandler}
           contentContainerStyle={tableStyles.virtList}
           // windowSize={5}
           CellRendererComponent={CellRenderer}
@@ -157,7 +158,7 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
         onPageChange={p => {
           const f = p * numberOfItemsPerPage;
           setPage(p);
-          onPageChange(f);
+          loadPageHandler(f);
         }}
         label={`${from + 1}-${to} of ${layout.qHyperCube.qSize.qcy}`}
         showFastPaginationControls

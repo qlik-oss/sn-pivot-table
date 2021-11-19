@@ -19,7 +19,7 @@ const properties = {
     /** @type {boolean} */
     qSuppressZero: false,
     /** @type {boolean} */
-    qShowTotalsAbove: true,
+    qShowTotalsAbove: false,
     qNoOfLeftDims: 0,
     qInitialDataFetch: [
       {
@@ -29,7 +29,7 @@ const properties = {
         qHeight: 50,
       },
     ],
-    qIndentMode: true,
+    qIndentMode: false,
   },
   /**
    * Show title for the visualization

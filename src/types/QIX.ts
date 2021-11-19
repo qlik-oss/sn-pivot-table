@@ -1,4 +1,4 @@
-enum NxDimCellType {
+export enum NxDimCellType {
   NX_DIM_CELL_VALUE = 'V',
   NX_DIM_CELL_EMPTY = 'E',
   NX_DIM_CELL_NORMAL = 'N',
