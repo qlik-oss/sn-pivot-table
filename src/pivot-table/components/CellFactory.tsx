@@ -6,7 +6,7 @@ import DimensionCell from './DimensionCell';
 import MeasureCell from './MeasureCell';
 import sharedStyles from './shared-styles';
 
-export interface CellValueProps {
+export interface CellFactoryProps {
   cell: Cell;
   rowIndex: number;
   colIndex: number;
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CellValue = ({ cell, model, isLeftColumn = false, isHeader = false, rowIndex, colIndex }: CellValueProps): JSX.Element => {
+const CellFactory = ({ cell, model, isLeftColumn = false, isHeader = false, rowIndex, colIndex }: CellFactoryProps): JSX.Element => {
   if (cell.type === TYPE.DIMENSION) {
     return <DimensionCell
       cell={cell}
@@ -84,4 +84,4 @@ const CellValue = ({ cell, model, isLeftColumn = false, isHeader = false, rowInd
   return <View style={styles.cell}>{null}</View>
 };
 
-export default CellValue;
+export default CellFactory;

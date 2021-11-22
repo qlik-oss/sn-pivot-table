@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, View, Text, ViewStyle } from "react-native";
 import { Model } from '../../types/types';
-import { NxDimCellType, NxPivotDimensionCell } from '../../types/QIX';
+import { NxPivotDimensionCell } from '../../types/QIX';
 import { Cell } from '../handle-data';
 import sharedStyles from './shared-styles';
 
