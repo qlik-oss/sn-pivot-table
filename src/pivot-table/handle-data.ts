@@ -70,7 +70,7 @@ const extractLeft = (qLeft: NxPivotDimensionCell[], qArea: NxPageArea): Matrix =
 
     return nodes.reduce((innerMatrix: Matrix, node) => {
       if (node.qType !== NxDimCellType.NX_DIM_CELL_TOTAL) {
-        innerMatrix[colIdx][rowIdx] = toCell(node, `left-${colIdx}-${rowIdx}`); // eslint-disable-line no-param-reassign
+        innerMatrix[colIdx][rowIdx] = toCell(node, `${node.qType}-${colIdx}-${rowIdx}-${node.qElemNo}`); // eslint-disable-line no-param-reassign
         rowIdx += node.qCanCollapse ? 0 : 1;
       }
 
@@ -107,7 +107,7 @@ const extractTop = (qTop: Array<NxPivotDimensionCell>, qArea: NxPageArea): Matri
 
     return nodes.reduce((mtrx: Matrix, node: NxPivotDimensionCell, currIdx: number) => {
       colIdx += currIdx === 0 ? 0 : 1;
-      mtrx[colIdx][topRowIdx] = toCell(node, `top-${colIdx}-${topRowIdx}`); // eslint-disable-line no-param-reassign
+      mtrx[colIdx][topRowIdx] = toCell(node, `${node.qType}-${colIdx}-${topRowIdx}-${node.qElemNo}`); // eslint-disable-line no-param-reassign
 
       if (node.qSubNodes.length) {
         return extract(node.qSubNodes, mtrx, topRowIdx + 1);
@@ -126,7 +126,7 @@ const addLeftTitles = (qDimensionInfo: Array<NxDimensionInfo>, matrix: Matrix) =
 
     qDimensionInfo.forEach((info, colIdx) => {
       const replace = matrix[colIdx]?.[rowIdx].value === null ? 1 : 0;
-      matrix[colIdx]?.splice(rowIdx, replace, toCell(info.qFallbackTitle));
+      matrix[colIdx]?.splice(rowIdx, replace, toCell(info.qFallbackTitle, `${colIdx}-${rowIdx}-${info.qFallbackTitle}`));
     });
   }
 };
@@ -134,7 +134,7 @@ const addLeftTitles = (qDimensionInfo: Array<NxDimensionInfo>, matrix: Matrix) =
 const addData = (data: Array<Array<NxPivotValuePoint>>, matrix: Matrix) => {
   data.forEach((row, rowIdx) => {
     row.forEach((datum, colIdx) => {
-      matrix[colIdx].push(toCell(datum, `data-${colIdx}-${rowIdx}-${datum.qNum}`));
+      matrix[colIdx].push(toCell(datum, `${datum.qType}-${colIdx}-${rowIdx}-${datum.qNum}`));
     });
   });
 };
