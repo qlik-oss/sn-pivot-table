@@ -67,10 +67,7 @@ const CellValue = ({ cell, model, isLeftColumn = false, isHeader = false, rowInd
   }
 
   if (cell.type === TYPE.MEASURE) {
-    return <MeasureCell
-      cell={cell}
-      style={styles.cell}
-    />
+    return <MeasureCell cell={cell} style={styles.cell} />
   }
 
   if (cell.type === TYPE.LABEL) {

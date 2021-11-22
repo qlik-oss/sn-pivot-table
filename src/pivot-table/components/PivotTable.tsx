@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { DataTable } from 'react-native-paper';
 import { StyleSheet, View, ScrollView, VirtualizedList } from "react-native";
 import { Model } from '../../types/types';
@@ -60,6 +60,8 @@ const CellRenderer = ({ children, ...props }: CellRendererProps) =>
   )
 ;
 const keyExtractor = (item: Cell[]) => item.map(i => i.key).join(',');
+const getItemCount = (data: Matrix) => data.length;
+const getItem = (data: Matrix, index: number) => data[index];
 
 export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
   const [pivotData, setPivotData] = useState<PivotData>({ matrix: [], topMatrix: [], leftMatrix: [], nbrTopRows: 0, nbrLeftColumns: 0 });
@@ -68,72 +70,70 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
   const [numberOfItemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
   const from = page * numberOfItemsPerPage;
   const to = Math.min((page + 1) * numberOfItemsPerPage, layout.qHyperCube.qSize.qcy);
+console.log('RENNDERED', pivotData.matrix.length);
 
-  useEffect(() => {
+
+  useMemo(() => {
     console.log('LAYOUT CHANGED', layout);
     setPage(0);
     setArea(layout.qHyperCube.qPivotDataPages[0].qArea);
     setPivotData(toMatrixData(layout.qHyperCube.qPivotDataPages[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims))
-  }, [layout])
+  }, [layout]);
 
   useEffect(() => {
+    console.log('HAS RENDERED');
+  });
+
+  useMemo(() => {
     console.log('pivotData', pivotData);
   }, [pivotData]);
 
-  // useEffect(() => {
-  //   console.log('qArea', qArea);
-  // }, [qArea]);
-
-  const loadPageHandler = (f: number) => {
-    const { qLeft, qWidth } = qArea;
+  const loadPageHandler = useCallback(async (p: number) => {
+    const f = p * numberOfItemsPerPage;
     const qPage = {
         qLeft: 0,
         qTop: f,
         qWidth: 50,
         qHeight: Math.min(50, layout.qHyperCube.qSize.qcy - f)
       };
-      // console.log('PRE-onPageChange', pivotData, qPage);
-
-      model.getHyperCubePivotData({
-      qPath: "/qHyperCubeDef",
-      qPages: [qPage]
-    }).then((d: Array<NxPivotPage>) => {
-      if (d[0].qLeft.length) {
+      try {
+        const d = await model.getHyperCubePivotData({
+          qPath: "/qHyperCubeDef",
+          qPages: [qPage]
+        });
         console.log('POST-onPageChange', d[0]);
         const matrix = toMatrixData(d[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
         setPivotData(matrix);
         setArea(d[0].qArea);
+        setPage(p);
+      } catch (error) {
+        console.log('ERROR', error)
       }
-    }).catch((err: Error) => {
-      console.log('ERROR', err)
-    });
-  };
+  }, [model, layout]);
 
-  const endReachedHandler = () => {
+  const endReachedHandler = useCallback(async () => {
     if (qArea.qWidth >= layout.qHyperCube.qSize.qcx) {
       console.log('No more data to load', qArea.qWidth, layout.qHyperCube.qSize.qcx);
       return;
     }
 
-    const qPage = getNextPage(qArea);
-    // console.log('PRE-onEndReached', qPage);
-    model.getHyperCubePivotData({
-      "qPath": "/qHyperCubeDef",
-      "qPages": [qPage]
-    }).then((d: Array<NxPivotPage>) => {
-      if (d[0].qData.length) {
-        setArea(d[0].qArea);
-        setPivotData(toMatrixData(d[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims))
-        console.log('POST-onEndReached', d[0]);
-      }
-    }).catch((err: Error) => {
-      console.log('ERROR', err)
-    });
-  };
+    try {
+      const d = await model.getHyperCubePivotData({
+        "qPath": "/qHyperCubeDef",
+        "qPages": [getNextPage(qArea)]
+      });
+      setArea(d[0].qArea);
+      setPivotData(toMatrixData(d[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims))
+      console.log('POST-onEndReached', d[0]);
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+  }, [qArea, model, layout]);
 
-  const renderItem = ({ item, index }: RenderItemProps) => Column({ item, index, model, pivotData });
-  const getItemCount = (data: Matrix) => data.length;
-  const getItem = (data: Matrix, index: number) => data[index];
+  const renderItem = useCallback(
+    ({ item, index }: RenderItemProps) => Column({ item, index, model, pivotData }),
+    [model, pivotData]
+  );
 
   return (
     <View style={{ height: '100%' }}>
@@ -155,11 +155,7 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
       <DataTable.Pagination
         page={page}
         numberOfPages={Math.ceil(layout.qHyperCube.qSize.qcy / numberOfItemsPerPage)}
-        onPageChange={p => {
-          const f = p * numberOfItemsPerPage;
-          setPage(p);
-          loadPageHandler(f);
-        }}
+        onPageChange={loadPageHandler}
         label={`${from + 1}-${to} of ${layout.qHyperCube.qSize.qcy}`}
         showFastPaginationControls
         numberOfItemsPerPageList={numberOfItemsPerPageList}
