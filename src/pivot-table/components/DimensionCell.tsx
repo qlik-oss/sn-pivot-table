@@ -28,12 +28,12 @@ const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colInd
   let onPress;
 
   if (qCanExpand) {
-    cellContent = `+ ${qText}`;
+    cellContent = `[ + ] ${qText}`;
     onPress = isLeftColumn
       ? () => model.expandLeft(PATH, rowIndex, colIndex, false)
       : () => model.expandTop(PATH, rowIndex, colIndex, false);
   } else if (qCanCollapse) {
-    cellContent = `- ${qText}`;
+    cellContent = `[ - ] ${qText}`;
     onPress = isLeftColumn
       ? () => model.collapseLeft(PATH, rowIndex, colIndex, false)
       : () => model.collapseTop(PATH, rowIndex, colIndex, false);
