@@ -3,7 +3,7 @@ import { DataTable } from 'react-native-paper';
 import { StyleSheet, View, ScrollView, VirtualizedList } from "react-native";
 import { Model } from '../../types/types';
 import toMatrixData, { PivotData, Cell, Matrix } from '../handle-data';
-import { Layout, NxPageArea, NxPivotPage } from '../../types/QIX';
+import { Layout, NxPageArea } from '../../types/QIX';
 import Column from './Column';
 
 interface CellRendererProps {
@@ -18,6 +18,12 @@ interface RenderItemProps {
 export interface PivotTableProps {
   model: Model;
   layout: Layout;
+}
+
+interface BatchedState {
+  pivotData: PivotData;
+  area: NxPageArea;
+  page: number;
 }
 
 const numberOfItemsPerPageList = [50, 100];
@@ -67,11 +73,18 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
   const [pivotData, setPivotData] = useState<PivotData>({ matrix: [], topMatrix: [], leftMatrix: [], nbrTopRows: 0, nbrLeftColumns: 0 });
   const [qArea, setArea] = useState<NxPageArea>(layout.qHyperCube.qPivotDataPages[0].qArea);
   const [page, setPage] = useState(0);
+  const [batchedState, setBatchedState] = useState<BatchedState>(); // setState call inside async functions are not batched. This is a hack get around multiple unwanted renders for each setState call.
   const [numberOfItemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
   const from = page * numberOfItemsPerPage;
   const to = Math.min((page + 1) * numberOfItemsPerPage, layout.qHyperCube.qSize.qcy);
-console.log('RENNDERED', pivotData.matrix.length);
 
+  useMemo(() => {
+    if (batchedState) {
+      setPivotData(batchedState.pivotData);
+      setArea(batchedState.area);
+      setPage(batchedState.page);
+    }
+  }, [batchedState]);
 
   useMemo(() => {
     console.log('LAYOUT CHANGED', layout);
@@ -103,9 +116,11 @@ console.log('RENNDERED', pivotData.matrix.length);
         });
         console.log('POST-onPageChange', d[0]);
         const matrix = toMatrixData(d[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
-        setPivotData(matrix);
-        setArea(d[0].qArea);
-        setPage(p);
+        setBatchedState({
+          pivotData: matrix,
+          area: d[0].qArea,
+          page: p,
+        });
       } catch (error) {
         console.log('ERROR', error)
       }
@@ -122,8 +137,12 @@ console.log('RENNDERED', pivotData.matrix.length);
         "qPath": "/qHyperCubeDef",
         "qPages": [getNextPage(qArea)]
       });
-      setArea(d[0].qArea);
-      setPivotData(toMatrixData(d[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims))
+      const matrix = toMatrixData(d[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
+      setBatchedState({
+        pivotData: matrix,
+        area: d[0].qArea,
+        page,
+      });
       console.log('POST-onEndReached', d[0]);
     } catch (error) {
       console.log('ERROR', error);
