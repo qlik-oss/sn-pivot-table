@@ -60,7 +60,7 @@ const extractLeft = (qLeft: NxPivotDimensionCell[], qArea: NxPageArea): Matrix =
     return [];
   }
 
-  const mapToInitRowValue = (value: undefined, i: number) => toCell(value, `index-key-${0}-${i}`);
+  const mapToInitRowValue = (value: undefined, i: number) => toCell(value, `null-${0}-${i}`);
   let rowIdx = 0;
 
   function extract(nodes: NxPivotDimensionCell[], matrix: Matrix = [], colIdx = 0): Matrix {
@@ -70,7 +70,7 @@ const extractLeft = (qLeft: NxPivotDimensionCell[], qArea: NxPageArea): Matrix =
 
     return nodes.reduce((innerMatrix: Matrix, node) => {
       if (node.qType !== NxDimCellType.NX_DIM_CELL_TOTAL) {
-        innerMatrix[colIdx][rowIdx] = toCell(node); // eslint-disable-line no-param-reassign
+        innerMatrix[colIdx][rowIdx] = toCell(node, `left-${colIdx}-${rowIdx}`); // eslint-disable-line no-param-reassign
         rowIdx += node.qCanCollapse ? 0 : 1;
       }
 
@@ -95,19 +95,19 @@ const extractTop = (qTop: Array<NxPivotDimensionCell>, qArea: NxPageArea): Matri
     if (!matrix.length) {
       matrix.push(...Array(qArea.qWidth)
         .fill(null)
-        .map((value, i) => [toCell(value, `index-key-${i}-${0}`)])
+        .map((value, i) => [toCell(value, `null-${i}-${0}`)])
       );
     }
 
     if (Array.isArray(matrix[colIdx+1]) && matrix[colIdx+1].length - 1 < topRowIdx) {
       matrix.forEach((col, i) => {
-        col.push(toCell(null, `index-key-${i}-${topRowIdx}`))
+        col.push(toCell(null, `null-${i}-${topRowIdx}`))
       });
     }
 
     return nodes.reduce((mtrx: Matrix, node: NxPivotDimensionCell, currIdx: number) => {
       colIdx += currIdx === 0 ? 0 : 1;
-      mtrx[colIdx][topRowIdx] = toCell(node); // eslint-disable-line no-param-reassign
+      mtrx[colIdx][topRowIdx] = toCell(node, `top-${colIdx}-${topRowIdx}`); // eslint-disable-line no-param-reassign
 
       if (node.qSubNodes.length) {
         return extract(node.qSubNodes, mtrx, topRowIdx + 1);
@@ -134,7 +134,7 @@ const addLeftTitles = (qDimensionInfo: Array<NxDimensionInfo>, matrix: Matrix) =
 const addData = (data: Array<Array<NxPivotValuePoint>>, matrix: Matrix) => {
   data.forEach((row, rowIdx) => {
     row.forEach((datum, colIdx) => {
-      matrix[colIdx].push(toCell(datum, `index-${colIdx}-${rowIdx}-${datum.qNum}`));
+      matrix[colIdx].push(toCell(datum, `data-${colIdx}-${rowIdx}-${datum.qNum}`));
     });
   });
 };
@@ -157,7 +157,7 @@ export default function toMatrix(dataPage: NxPivotPage, qDimensionInfo: Array<Nx
     pivotData.leftMatrix.forEach((col, colIdx) => {
       col.unshift(...Array(pivotData.nbrTopRows)
         .fill(null)
-        .map((value, rowIdx) => toCell(value, `index-key-${colIdx}-${rowIdx}`))
+        .map((value, rowIdx) => toCell(value, `null-${colIdx}-${rowIdx}`))
       );
     });
   }
