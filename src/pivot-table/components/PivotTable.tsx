@@ -110,15 +110,15 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
         qHeight: Math.min(50, layout.qHyperCube.qSize.qcy - f)
       };
       try {
-        const d = await model.getHyperCubePivotData({
+        const [pivotPage] = await model.getHyperCubePivotData({
           qPath: "/qHyperCubeDef",
           qPages: [qPage]
         });
-        console.log('POST-onPageChange', d[0]);
-        const matrix = toMatrixData(d[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
+        console.log('POST-onPageChange', pivotPage);
+        const matrix = toMatrixData(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
         setBatchedState({
           pivotData: matrix,
-          area: d[0].qArea,
+          area: pivotPage.qArea,
           page: p,
         });
       } catch (error) {
@@ -133,17 +133,17 @@ export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
     }
 
     try {
-      const d = await model.getHyperCubePivotData({
+      const [pivotPage] = await model.getHyperCubePivotData({
         "qPath": "/qHyperCubeDef",
         "qPages": [getNextPage(qArea)]
       });
-      const matrix = toMatrixData(d[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
+      const matrix = toMatrixData(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
       setBatchedState({
         pivotData: matrix,
-        area: d[0].qArea,
+        area: pivotPage.qArea,
         page,
       });
-      console.log('POST-onEndReached', d[0]);
+      console.log('POST-onEndReached', pivotPage);
     } catch (error) {
       console.log('ERROR', error);
     }
