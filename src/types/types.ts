@@ -1,8 +1,17 @@
 // Enigma model
 
+import { NxPageArea, NxPivotPage } from "./QIX";
+
+type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => void;
+type GetHyperCubePivotDataParam = { qPath: string, qPages: Array<NxPageArea> };
+type GetHyperCubePivotData = (param: GetHyperCubePivotDataParam) => Promise<NxPivotPage[]>
+
 export interface Model {
-  expandLeft: (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => void;
-  collapseLeft: (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => void;
+  expandLeft: ExpandFn
+  collapseLeft: ExpandFn
+  expandTop: ExpandFn
+  collapseTop: ExpandFn
+  getHyperCubePivotData: GetHyperCubePivotData
 }
 
 // Created pivot data model
@@ -11,6 +20,7 @@ export interface Item {
   qElemNo: number;
   column: number;
   qText: string;
+  qNum: string;
 }
 
 export interface ColumnItem extends Item {
@@ -32,6 +42,7 @@ export interface PivotTableData {
   leftColumns: PivotColumns;
   topColumns: PivotColumns;
   rows: Array<Array<Item>>;
+  rootIndex: Array<number>
 }
 
 // Object layout
@@ -59,10 +70,3 @@ export interface Dimension {
 
 export type QPivotDataPages = Array<DataPage>;
 export type QDimensionInfo = Array<Dimension>;
-
-export interface Layout {
-  qHyperCube: {
-    qPivotDataPages: QPivotDataPages;
-    qDimensionInfo: QDimensionInfo;
-  };
-}
