@@ -14,7 +14,10 @@ export interface Model {
   getHyperCubePivotData: GetHyperCubePivotData
 }
 
-// Created pivot data model
+export interface Rect {
+  width: number;
+  height: number;
+}
 
 export interface Item {
   qElemNo: number;
