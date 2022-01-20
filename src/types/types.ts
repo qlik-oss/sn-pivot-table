@@ -1,5 +1,6 @@
 // Enigma model
 
+import { PivotData } from "../pivot-table/handle-data";
 import { NxPageArea, NxPivotPage } from "./QIX";
 
 type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => void;
@@ -71,5 +72,12 @@ export interface Dimension {
   qFallbackTitle: string;
 }
 
+export interface ItemData {
+  pivotData: PivotData;
+  model: Model;
+}
+
 export type QPivotDataPages = Array<DataPage>;
 export type QDimensionInfo = Array<Dimension>;
+
+export type ElementRef = { current: HTMLElement } | undefined;

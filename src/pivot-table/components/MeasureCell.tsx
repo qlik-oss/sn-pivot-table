@@ -47,7 +47,7 @@ const MeasureCell = ({ cell, style }: MeasureCellProps): JSX.Element => {
   return (
     <div style={{...style, ...containerStyle}}>
       <div style={qNum === 'NaN' ? nilStyle : numericStyle}>
-        <span style={{ padding: '4px' }}>{qText}</span>
+        <div>{qText}</div>
       </div>
     </div>
   )

@@ -28,11 +28,15 @@ const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colInd
     padding: 4,
     justifyContent: 'center',
     borderStyle: 'solid',
+    height: '100%'
   };
   const textStyle = {
     fontFamily: '"Source Sans Pro", sans-serif',
     fontSize: 13,
     fontWeight: '700',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   };
   const { qText, qCanCollapse, qCanExpand } = (cell.value as NxPivotDimensionCell);
   let cellContent = qText;
@@ -41,7 +45,7 @@ const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colInd
   if (qCanExpand) {
     cellContent = `[ + ] ${qText}`;
     onPress = isLeftColumn
-      ? () => console.log('rowIdx', rowIndex, 'colIdx', colIndex) || model.expandLeft(PATH, rowIndex, colIndex, false)
+      ? () => model.expandLeft(PATH, rowIndex, colIndex, false)
       : () => model.expandTop(PATH, rowIndex, colIndex, false);
   } else if (qCanCollapse) {
     cellContent = `[ - ] ${qText}`;
@@ -51,11 +55,11 @@ const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colInd
   }
 
   return (
-    <div style={containerStyle}>
-      <div style={{ ...cellStyle, ...style }} onClick={onPress} aria-hidden="true">
-        <span style={{ padding: '4px', ...textStyle }}>
+    <div style={{ ...style, ...containerStyle}}>
+      <div style={cellStyle} onClick={onPress} aria-hidden="true">
+        <div style={textStyle}>
             {cellContent}
-        </span>
+        </div>
       </div>
     </div>
   );
