@@ -1,5 +1,3 @@
-// Enigma model
-
 import { NxPageArea, NxPivotDimensionCell, NxPivotPage, NxPivotValuePoint } from "./QIX";
 
 export enum TYPE {
