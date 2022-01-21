@@ -34,13 +34,11 @@ const MeasureCell = ({ cell, style }: MeasureCellProps): JSX.Element => {
     flexDirection: 'row',
     justifyContent: 'center',
     height: '100%',
-    // padding: '4px',
     backgroundClip: 'padding-box',
     ...borderStyle
   };
   const containerStyle = {
     color: 'rgb(89, 89, 89)',
-    minHeight: 24,
     justifyContent: 'center',
   };
 

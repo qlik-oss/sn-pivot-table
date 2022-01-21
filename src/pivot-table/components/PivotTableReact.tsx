@@ -78,7 +78,7 @@ export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Elemen
     }
   }, [rect]);
 
-  const onReachedEndHandler = useCallback(async (isRow) => {
+  const fetchNextPage = useCallback(async (isRow) => {
     if (loading) return;
 
     setLoading(true);
@@ -105,9 +105,9 @@ export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Elemen
     visibleRowStopIndex
   }: OnItemsRenderedProps) => {
     if (visibleRowStopIndex >= pivotData.matrix[0].length - 1 && pivotData.matrix[0].length < layout.qHyperCube.qSize.qcy) {
-      onReachedEndHandler(true);
+      fetchNextPage(true);
     } else if (visibleColumnStopIndex >= pivotData.matrix.length - 1 && pivotData.matrix.length < layout.qHyperCube.qSize.qcx) {
-      onReachedEndHandler(false);
+      fetchNextPage(false);
     }
   };
 
@@ -122,7 +122,7 @@ export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Elemen
       columnWidth={() => getColumnWidth(rect, pivotData.matrix.length)}
       height={rect.height}
       rowCount={pivotData.matrix.length > 0 ? pivotData.matrix[0].length : 0}
-      rowHeight={() => 50}
+      rowHeight={(index: number) => index < pivotData.nbrTopRows ? 28 : 28 }
       width={rect.width}
       itemData={{ model, pivotData }}
       onItemsRendered={onItemsRendered}

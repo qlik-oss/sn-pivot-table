@@ -63,6 +63,15 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
     );
   }
 
+  if (cell.type === TYPE.EMPTY && rowIndex < pivotData.nbrTopRows) {
+    // Empty header cell
+    return (
+      <div style={{ ...style, ...borderStyle, ...{ borderLeftWidth: 0 } }}>
+        {null}
+      </div>
+    );
+  }
+
   return (
     <div style={{ ...style, ...borderStyle }}>
       {null}
