@@ -4,7 +4,7 @@ import toMatrix, { PivotData } from '../handle-data';
 import { Model, Rect } from '../../types/types';
 import { Layout, NxPageArea } from '../../types/QIX';
 import CellFactory from './CellFactory';
-import useDebugInformation from '../../hooks/use-debug-information';
+// import useDebugInformation from '../../hooks/use-debug-information';
 
 export interface PivotTableProps {
   model: Model;
@@ -52,7 +52,7 @@ export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Elemen
   const gridRef = useRef<VariableSizeGrid>();
   const MemoizedCellFactory = memo(CellFactory, areEqual);
 
-  useDebugInformation('PivotTable', { rect, layout, data: pivotData, loading, qArea });
+  // useDebugInformation('PivotTable', { rect, layout, data: pivotData, loading, qArea });
 
   useMemo(() => {
     if (batchedState) {
