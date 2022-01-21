@@ -10,7 +10,7 @@ import EmptyCell from './EmptyCell';
 interface GridCallbackProps {
   columnIndex: number;
   rowIndex: number;
-  style: any;
+  style: ReactWindow.ItemStyle;
   data: ItemData;
 }
 

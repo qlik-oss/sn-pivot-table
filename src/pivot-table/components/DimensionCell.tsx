@@ -10,7 +10,7 @@ export interface DimensionCellProps {
   rowIndex: number;
   colIndex: number;
   isLeftColumn?: boolean;
-  style: any;
+  style: ReactWindow.ItemStyle;
 }
 
 const PATH = '/qHyperCubeDef';

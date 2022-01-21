@@ -5,7 +5,7 @@ import { borderStyle, textStyle } from './shared-styles';
 
 export interface MeasureCellProps {
   cell: Cell;
-  style: any;
+  style: ReactWindow.ItemStyle;
 }
 
 const numericStyle: React.CSSProperties = {

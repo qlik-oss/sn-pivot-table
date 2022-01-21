@@ -49,7 +49,7 @@ export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Elemen
   const [qArea, setArea] = useState<NxPageArea>(layout.qHyperCube.qPivotDataPages[0].qArea);
   const [batchedState, setBatchedState] = useState<BatchedState>(); // setState call inside async functions are not batched. This is a hack get around multiple unwanted renders for each setState call.
   const [loading, setLoading] = useState(false);
-  const gridRef = useRef<VariableSizeGrid>();
+  const gridRef = useRef<ReactWindow.VariableSizeGrid>();
   const MemoizedCellFactory = memo(CellFactory, areEqual);
 
   // useDebugInformation('PivotTable', { rect, layout, data: pivotData, loading, qArea });
@@ -103,7 +103,7 @@ export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Elemen
   const onItemsRendered = ({
     visibleColumnStopIndex,
     visibleRowStopIndex
-  }: OnItemsRenderedProps) => {
+  }: ReactWindow.OnItemsRenderedProps) => {
     if (visibleRowStopIndex >= pivotData.matrix[0].length - 1 && pivotData.matrix[0].length < layout.qHyperCube.qSize.qcy) {
       fetchNextPage(true);
     } else if (visibleColumnStopIndex >= pivotData.matrix.length - 1 && pivotData.matrix.length < layout.qHyperCube.qSize.qcx) {
