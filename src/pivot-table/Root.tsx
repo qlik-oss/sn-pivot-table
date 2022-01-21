@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { PivotTableProps, PivotTable } from './components/PivotTableReact';
+import { PivotTableProps, PivotTable } from './components/PivotTable';
 
 export function render(rootElement: Element, props: PivotTableProps): void {
   // eslint-disable-next-line

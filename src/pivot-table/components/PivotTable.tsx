@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
 import toMatrix, { PivotData } from '../handle-data';
-import { ElementRef, Model, Rect } from '../../types/types';
+import { Model, Rect } from '../../types/types';
 import { Layout, NxPageArea } from '../../types/QIX';
-import CellFactory from './CellFactory2';
+import CellFactory from './CellFactory';
 import useDebugInformation from '../../hooks/use-debug-information';
 
 export interface PivotTableProps {

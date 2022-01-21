@@ -3,6 +3,9 @@ import { ItemData } from '../../types/types';
 import { TYPE } from '../handle-data';
 import DimensionCell from './DimensionCell';
 import MeasureCell from './MeasureCell';
+import DimensionTitleCell from './DimensionTitleCell';
+import EmptyHeaderCell from './EmptyHeaderCell';
+import EmptyCell from './EmptyCell';
 
 interface GridCallbackProps {
   columnIndex: number;
@@ -10,26 +13,6 @@ interface GridCallbackProps {
   style: any;
   data: ItemData;
 }
-
-const borderStyle = {
-  boxSizing: 'border-box',
-  padding: '4px',
-  borderLeftWidth: 1,
-  borderBottomWidth: 1,
-  borderRightWidth: 0,
-  borderTopWidth: 0,
-  borderColor: 'rgb(230, 230, 230)',
-  borderStyle: 'solid',
-};
-
-const textStyle = {
-  fontFamily: '"Source Sans Pro", sans-serif',
-  fontSize: 13,
-  textOverflow: 'ellipsis',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  fontStyle: 'italic'
-};
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
   const { model, pivotData } = data;
@@ -56,27 +39,14 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
   }
 
   if (cell.type === TYPE.LABEL) {
-    return (
-      <div style={{ ...style, ...borderStyle }}>
-        <div style={textStyle}>{cell.value}</div>
-      </div>
-    );
+    return <DimensionTitleCell cell={cell} style={style} />
   }
 
   if (cell.type === TYPE.EMPTY && rowIndex < pivotData.nbrTopRows) {
-    // Empty header cell
-    return (
-      <div style={{ ...style, ...borderStyle, ...{ borderLeftWidth: 0 } }}>
-        {null}
-      </div>
-    );
+    return <EmptyHeaderCell style={style} />
   }
 
-  return (
-    <div style={{ ...style, ...borderStyle }}>
-      {null}
-    </div>
-  );
+  return <EmptyCell style={style} />
 }
 
 export default CellFactory;

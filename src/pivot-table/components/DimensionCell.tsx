@@ -2,6 +2,7 @@ import React from 'react';
 import { Model } from '../../types/types';
 import { NxPivotDimensionCell } from '../../types/QIX';
 import { Cell } from '../handle-data';
+import { borderStyle, textStyle } from './shared-styles';
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -13,31 +14,19 @@ export interface DimensionCellProps {
 }
 
 const PATH = '/qHyperCubeDef';
+const containerStyle: React.CSSProperties = {
+  color: 'rgb(89, 89, 89)',
+};
+const cellStyle: React.CSSProperties = {
+  justifyContent: 'center',
+  height: '100%'
+};
+const dimTextStyle: React.CSSProperties = {
+  ...textStyle,
+  fontWeight: 'bold',
+};
 
 const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colIndex = 0, style }: DimensionCellProps): JSX.Element => {
-  const containerStyle = {
-    color: 'rgb(89, 89, 89)',
-  };
-  const cellStyle = {
-    boxSizing: 'border-box',
-    borderLeftWidth: 1,
-    borderBottomWidth: 1,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-    borderColor: 'rgb(230, 230, 230)',
-    padding: 4,
-    justifyContent: 'center',
-    borderStyle: 'solid',
-    height: '100%'
-  };
-  const textStyle = {
-    fontFamily: '"Source Sans Pro", sans-serif',
-    fontSize: 13,
-    fontWeight: '700',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap'
-  };
   const { qText, qCanCollapse, qCanExpand } = (cell.value as NxPivotDimensionCell);
   let cellContent = qText;
   let onPress;
@@ -56,8 +45,8 @@ const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colInd
 
   return (
     <div style={{ ...style, ...containerStyle}}>
-      <div style={cellStyle} onClick={onPress} aria-hidden="true">
-        <div style={textStyle}>
+      <div style={{ ...cellStyle, ...borderStyle }} onClick={onPress} aria-hidden="true">
+        <div style={dimTextStyle}>
             {cellContent}
         </div>
       </div>
