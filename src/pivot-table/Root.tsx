@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-// import { Provider as PaperProvider } from 'react-native-paper';
 import { PivotTableProps, PivotTable } from './components/PivotTable';
 
 export function render(rootElement: Element, props: PivotTableProps): void {

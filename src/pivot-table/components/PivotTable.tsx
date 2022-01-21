@@ -1,53 +1,39 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { DataTable } from 'react-native-paper';
-import { StyleSheet, View, ScrollView, VirtualizedList } from "react-native";
-import { Model } from '../../types/types';
-import toMatrixData, { PivotData, Cell, Matrix } from '../handle-data';
+import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
+import { VariableSizeGrid, areEqual } from 'react-window';
+import toMatrix from '../handle-data';
+import { Model, PivotData, Rect } from '../../types/types';
 import { Layout, NxPageArea } from '../../types/QIX';
-import Column from './Column';
-
-interface CellRendererProps {
-  children: Array<JSX.Element>;
-}
-
-interface RenderItemProps {
-  item: Cell[];
-  index: number;
-}
+import CellFactory from './CellFactory';
+// import useDebugInformation from '../../hooks/use-debug-information';
 
 export interface PivotTableProps {
   model: Model;
   layout: Layout;
+  rect: Rect;
 }
 
 interface BatchedState {
-  pivotData: PivotData;
+  matrix: PivotData;
   area: NxPageArea;
-  page: number;
+  loading: boolean;
 }
 
-const numberOfItemsPerPageList = [50, 100];
+const DEFAULT_COLUMN_WIDTH = 100;
 
-const tableStyles = StyleSheet.create({
-  virtList: {
-    height: '100%',
-    flexGrow: 1,
-  },
-  column: {
-    height: '100%',
-    flex: 1,
-  },
-  scrollView: {
-    borderWidth: 0,
-    borderColor: 'rgba(0, 0, 0, 0.12)',
-    flexGrow: 1,
-  },
-  row: {
-    minHeight: 24,
-  },
-});
+const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(DEFAULT_COLUMN_WIDTH, (rect.width-15) / columnCount)
 
-const getNextPage = (qArea: NxPageArea) => {
+const getNextRow = (qArea: NxPageArea) => {
+  const { qLeft, qHeight, qWidth } = qArea;
+
+  return {
+    qLeft,
+    qTop: 0,
+    qWidth,
+    qHeight: qHeight + 50,
+  };
+};
+
+const getNextColumn = (qArea: NxPageArea) => {
   const { qTop, qHeight, qWidth } = qArea;
 
   return {
@@ -58,130 +44,91 @@ const getNextPage = (qArea: NxPageArea) => {
   };
 };
 
-const CellRenderer = ({ children, ...props }: CellRendererProps) =>
-   ( // eslint-disable-next-line react/jsx-props-no-spreading
-    <View {...props} style={{ flexGrow: 1 }}>
-      {children}
-    </View>
-  )
-;
-const keyExtractor = (item: Cell[]) => item.map(i => i.key).join(',');
-const getItemCount = (data: Matrix) => data.length;
-const getItem = (data: Matrix, index: number) => data[index];
-
-export function PivotTable({ layout, model }: PivotTableProps): JSX.Element {
-  const [pivotData, setPivotData] = useState<PivotData>({ matrix: [], topMatrix: [], leftMatrix: [], nbrTopRows: 0, nbrLeftColumns: 0 });
+export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Element => {
+  const [pivotData, setPivotData] = useState<PivotData>({ matrix: [[]], topMatrix: [], leftMatrix: [], nbrTopRows: 0, nbrLeftColumns: 0 });
   const [qArea, setArea] = useState<NxPageArea>(layout.qHyperCube.qPivotDataPages[0].qArea);
-  const [page, setPage] = useState(0);
   const [batchedState, setBatchedState] = useState<BatchedState>(); // setState call inside async functions are not batched. This is a hack get around multiple unwanted renders for each setState call.
-  const [numberOfItemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
-  const from = page * numberOfItemsPerPage;
-  const to = Math.min((page + 1) * numberOfItemsPerPage, layout.qHyperCube.qSize.qcy);
+  const [loading, setLoading] = useState(false);
+  const gridRef = useRef<ReactWindow.VariableSizeGrid>();
+  const MemoizedCellFactory = memo(CellFactory, areEqual);
+
+  // useDebugInformation('PivotTable', { rect, layout, data: pivotData, loading, qArea });
 
   useMemo(() => {
     if (batchedState) {
-      setPivotData(batchedState.pivotData);
+      setPivotData(batchedState.matrix);
       setArea(batchedState.area);
-      setPage(batchedState.page);
+      setLoading(batchedState.loading);
     }
   }, [batchedState]);
 
-  useMemo(() => {
-    console.log('LAYOUT CHANGED', layout);
-    setPage(0);
-    setArea(layout.qHyperCube.qPivotDataPages[0].qArea);
-    setPivotData(toMatrixData(layout.qHyperCube.qPivotDataPages[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims))
+  useEffect(() => {
+    if (layout) {
+      const matrix = toMatrix(layout.qHyperCube.qPivotDataPages[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
+      setPivotData(matrix);
+      if (gridRef.current) {
+        gridRef.current.resetAfterColumnIndex(0);
+      }
+    }
   }, [layout]);
 
   useEffect(() => {
-    console.log('HAS RENDERED');
-  });
-
-  useMemo(() => {
-    console.log('pivotData', pivotData);
-  }, [pivotData]);
-
-  const loadPageHandler = useCallback(async (p: number) => {
-    const f = p * numberOfItemsPerPage;
-    const qPage = {
-        qLeft: 0,
-        qTop: f,
-        qWidth: 50,
-        qHeight: Math.min(50, layout.qHyperCube.qSize.qcy - f)
-      };
-      try {
-        const [pivotPage] = await model.getHyperCubePivotData({
-          qPath: "/qHyperCubeDef",
-          qPages: [qPage]
-        });
-        console.log('POST-onPageChange', pivotPage);
-        const matrix = toMatrixData(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
-        setBatchedState({
-          pivotData: matrix,
-          area: pivotPage.qArea,
-          page: p,
-        });
-      } catch (error) {
-        console.log('ERROR', error)
-      }
-  }, [model, layout]);
-
-  const endReachedHandler = useCallback(async () => {
-    if (qArea.qWidth >= layout.qHyperCube.qSize.qcx) {
-      console.log('No more data to load', qArea.qWidth, layout.qHyperCube.qSize.qcx);
-      return;
+    if (gridRef.current) {
+      gridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }
+  }, [rect]);
+
+  const fetchNextPage = useCallback(async (isRow) => {
+    if (loading) return;
+
+    setLoading(true);
 
     try {
       const [pivotPage] = await model.getHyperCubePivotData({
         "qPath": "/qHyperCubeDef",
-        "qPages": [getNextPage(qArea)]
+        "qPages": [isRow ? getNextRow(qArea) : getNextColumn(qArea)]
       });
-      const matrix = toMatrixData(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
+      const matrix = toMatrix(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
       setBatchedState({
-        pivotData: matrix,
+        matrix,
         area: pivotPage.qArea,
-        page,
+        loading: false
       });
-      console.log('POST-onEndReached', pivotPage);
     } catch (error) {
       console.log('ERROR', error);
+      setLoading(false);
     }
-  }, [qArea, model, layout]);
+  }, [qArea, model, layout, loading]);
 
-  const renderItem = useCallback(
-    ({ item, index }: RenderItemProps) => Column({ item, index, model, pivotData }),
-    [model, pivotData]
-  );
+  const onItemsRendered = ({
+    visibleColumnStopIndex,
+    visibleRowStopIndex
+  }: ReactWindow.OnItemsRenderedProps) => {
+    if (visibleRowStopIndex >= pivotData.matrix[0].length - 1 && pivotData.matrix[0].length < layout.qHyperCube.qSize.qcy) {
+      fetchNextPage(true);
+    } else if (visibleColumnStopIndex >= pivotData.matrix.length - 1 && pivotData.matrix.length < layout.qHyperCube.qSize.qcx) {
+      fetchNextPage(false);
+    }
+  };
+
+  const columnWidth = (index: number) => index < pivotData.nbrLeftColumns ?
+      Math.min(layout.qHyperCube.qDimensionInfo[index].qApprMaxGlyphCount * 8, 250) // TODO use a better hard-coded value then 8
+      : 100
 
   return (
-    <View style={{ height: '100%' }}>
-      <ScrollView contentContainerStyle={tableStyles.scrollView}>
-        <VirtualizedList
-          horizontal
-          data={pivotData.matrix}
-          initialNumToRender={15}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          getItemCount={getItemCount}
-          getItem={getItem}
-          onEndReached={endReachedHandler}
-          contentContainerStyle={tableStyles.virtList}
-          // windowSize={5}
-          CellRendererComponent={CellRenderer}
-        />
-      </ScrollView>
-      <DataTable.Pagination
-        page={page}
-        numberOfPages={Math.ceil(layout.qHyperCube.qSize.qcy / numberOfItemsPerPage)}
-        onPageChange={loadPageHandler}
-        label={`${from + 1}-${to} of ${layout.qHyperCube.qSize.qcy}`}
-        showFastPaginationControls
-        numberOfItemsPerPageList={numberOfItemsPerPageList}
-        numberOfItemsPerPage={numberOfItemsPerPage}
-        onItemsPerPageChange={onItemsPerPageChange}
-        selectPageDropdownLabel='Rows per page'
-      />
-    </View>
-  )
+    <VariableSizeGrid
+      ref={gridRef}
+      columnCount={pivotData.matrix.length}
+      columnWidth={() => getColumnWidth(rect, pivotData.matrix.length)}
+      height={rect.height}
+      rowCount={pivotData.matrix.length > 0 ? pivotData.matrix[0].length : 0}
+      rowHeight={(index: number) => index < pivotData.nbrTopRows ? 28 : 28 }
+      width={rect.width}
+      itemData={{ model, pivotData }}
+      onItemsRendered={onItemsRendered}
+    >
+      {MemoizedCellFactory}
+    </VariableSizeGrid>
+  );
 }
+

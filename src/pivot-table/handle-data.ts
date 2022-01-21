@@ -6,31 +6,7 @@ import {
   NxDimensionInfo,
   NxDimCellType
 } from '../types/QIX';
-
-export interface Cell {
-  key: number | string;
-  type: string;
-  value: CellValue;
-}
-
-type CellValue = NxPivotValuePoint | NxPivotDimensionCell | string | null | undefined;
-
-export type Matrix = Array<Cell[]>;
-
-export interface PivotData {
-  matrix: Matrix;
-  leftMatrix: Matrix,
-  topMatrix: Matrix,
-  nbrTopRows: number;
-  nbrLeftColumns: number;
-}
-
-export const TYPE = {
-  LABEL: 'LABEL',
-  DIMENSION: 'DIMENSION',
-  MEASURE: 'MEASURE',
-  EMPTY: 'EMPTY',
-};
+import { Cell, CellValue, Matrix, PivotData, TYPE } from '../types/types'
 
 const toCell = ((value: CellValue, key = ''): Cell => {
   const cell:Cell = {

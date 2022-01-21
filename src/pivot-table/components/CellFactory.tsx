@@ -1,87 +1,51 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Model } from '../../types/types';
-import { Cell, TYPE } from '../handle-data';
+import { ItemData, TYPE } from '../../types/types';
 import DimensionCell from './DimensionCell';
 import MeasureCell from './MeasureCell';
-import sharedStyles from './shared-styles';
+import DimensionTitleCell from './DimensionTitleCell';
+import EmptyHeaderCell from './EmptyHeaderCell';
+import EmptyCell from './EmptyCell';
 
-export interface CellFactoryProps {
-  cell: Cell;
+interface GridCallbackProps {
+  columnIndex: number;
   rowIndex: number;
-  colIndex: number;
-  model: Model;
-  isLeftColumn?: boolean;
-  isHeader?: boolean;
+  style: ReactWindow.ItemStyle;
+  data: ItemData;
 }
 
-const borderColor = 'rgb(230, 230, 230)';
-const color = 'rgb(89, 89, 89)';
-const minHeight = 24;
+const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
+  const { model, pivotData } = data;
+  const cell = pivotData.matrix[columnIndex][rowIndex];
 
-const styles = StyleSheet.create({
-  mergedCell: {
-    borderLeftWidth: 0,
-    borderBottomWidth: 1,
-    borderColor,
-  },
-  cell: {
-    color,
-    borderLeftWidth: 1,
-    borderBottomWidth: 1,
-    borderColor,
-    paddingLeft: 4,
-    paddingRight: 4,
-    minHeight,
-    justifyContent: 'center',
-  },
-  label: {
-    fontWeight: 500,
-    color,
-    borderLeftWidth: 1,
-    borderBottomWidth: 1,
-    borderColor,
-    paddingLeft: 4,
-    paddingRight: 4,
-    minHeight,
-    justifyContent: 'center',
-  },
-  header: {
-    minHeight: 36
-  },
-  labelText: {
-    fontStyle: 'italic',
-  },
-});
-
-const CellFactory = ({ cell, model, isLeftColumn = false, isHeader = false, rowIndex, colIndex }: CellFactoryProps): JSX.Element => {
   if (cell.type === TYPE.DIMENSION) {
+    const isLeftColumn = rowIndex >= pivotData.nbrTopRows;
+
     return <DimensionCell
       cell={cell}
       model={model}
-      rowIndex={rowIndex}
-      colIndex={colIndex}
-      style={isHeader ? [styles.cell, styles.header] : styles.cell}
       isLeftColumn={isLeftColumn}
-    />
+      rowIndex={isLeftColumn ? rowIndex - pivotData.nbrTopRows : rowIndex}
+      colIndex={isLeftColumn ? columnIndex : columnIndex - pivotData.nbrLeftColumns}
+      style={style}
+    />;
   }
 
   if (cell.type === TYPE.MEASURE) {
-    return <MeasureCell cell={cell} style={styles.cell} />
+    return <MeasureCell
+      cell={cell}
+      style={style}
+    />
   }
 
   if (cell.type === TYPE.LABEL) {
-    return (
-      <View style={[styles.label, styles.header]}>
-        <Text style={[sharedStyles.text, styles.labelText]}>{cell.value}</Text>
-      </View>)
+    return <DimensionTitleCell cell={cell} style={style} />
   }
 
-  if (isHeader) {
-    return <View style={[styles.mergedCell, styles.header]}>{null}</View>
+  if (cell.type === TYPE.EMPTY && rowIndex < pivotData.nbrTopRows) {
+    return <EmptyHeaderCell style={style} />
   }
 
-  return <View style={styles.cell}>{null}</View>
-};
+  return <EmptyCell style={style} />
+}
 
 export default CellFactory;

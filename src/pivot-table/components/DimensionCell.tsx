@@ -1,9 +1,7 @@
 import React from 'react';
-import { Pressable, StyleSheet, View, Text, ViewStyle } from "react-native";
-import { Model } from '../../types/types';
+import { Model, Cell } from '../../types/types';
 import { NxPivotDimensionCell } from '../../types/QIX';
-import { Cell } from '../handle-data';
-import sharedStyles from './shared-styles';
+import { borderStyle, textStyle } from './shared-styles';
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -11,16 +9,21 @@ export interface DimensionCellProps {
   rowIndex: number;
   colIndex: number;
   isLeftColumn?: boolean;
-  style: ViewStyle | ViewStyle[];
+  style: ReactWindow.ItemStyle;
 }
 
 const PATH = '/qHyperCubeDef';
-
-const styles = StyleSheet.create({
-  text: {
-    fontWeight: '700',
-  },
-});
+const containerStyle: React.CSSProperties = {
+  color: 'rgb(89, 89, 89)',
+};
+const cellStyle: React.CSSProperties = {
+  justifyContent: 'center',
+  height: '100%'
+};
+const dimTextStyle: React.CSSProperties = {
+  ...textStyle,
+  fontWeight: 'bold',
+};
 
 const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colIndex = 0, style }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand } = (cell.value as NxPivotDimensionCell);
@@ -39,19 +42,15 @@ const DimensionCell = ({ model, cell, isLeftColumn = false, rowIndex = 0, colInd
       : () => model.collapseTop(PATH, rowIndex, colIndex, false);
   }
 
-  const DimCell = (
-    <View style={style}>
-      <Text
-        style={[sharedStyles.text, styles.text]}
-        numberOfLines={1}>
-          {cellContent}
-      </Text>
-    </View>
+  return (
+    <div style={{ ...style, ...containerStyle}}>
+      <div style={{ ...cellStyle, ...borderStyle }} onClick={onPress} aria-hidden="true">
+        <div style={dimTextStyle}>
+            {cellContent}
+        </div>
+      </div>
+    </div>
   );
-
-  return onPress ?
-  <Pressable onPress={onPress}>{DimCell}</Pressable>
-  : DimCell;
 };
 
 export default DimensionCell;

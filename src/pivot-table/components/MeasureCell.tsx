@@ -1,37 +1,45 @@
 import React from 'react';
-import { View, Text, StyleSheet, ViewStyle } from 'react-native';
 import { NxPivotValuePoint } from '../../types/QIX';
-import { Cell } from '../handle-data';
-import sharedStyles from './shared-styles';
+import { Cell } from '../../types/types';
+import { borderStyle, textStyle } from './shared-styles';
 
 export interface MeasureCellProps {
   cell: Cell;
-  style: ViewStyle;
+  style: ReactWindow.ItemStyle;
 }
 
-const styles = StyleSheet.create({
-  numeric: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  null: {
-    alignItems: 'center',
-    backgroundColor: '#f2f2f2',
-  }
-})
+const numericStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  height: '100%',
+  ...borderStyle
+};
+const nilStyle: React.CSSProperties = {
+  alignItems: 'center',
+  backgroundColor: '#f2f2f2',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  height: '100%',
+  backgroundClip: 'padding-box',
+  ...borderStyle
+};
+const containerStyle: React.CSSProperties = {
+  color: 'rgb(89, 89, 89)',
+  justifyContent: 'center',
+};
 
 const MeasureCell = ({ cell, style }: MeasureCellProps): JSX.Element => {
   const { qNum, qText } = (cell.value as NxPivotValuePoint);
-  const s = qNum === 'NaN' ?
-    [style, styles.null] :
-    [style, styles.numeric];
 
   return (
-    <View style={s}>
-      <Text style={sharedStyles.text} numberOfLines={1}>{qText}</Text>
-    </View>
+    <div style={{...style, ...containerStyle}}>
+      <div style={qNum === 'NaN' ? nilStyle : numericStyle}>
+        <div style={textStyle}>{qText}</div>
+      </div>
+    </div>
   )
 };
 

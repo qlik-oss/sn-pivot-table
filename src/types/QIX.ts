@@ -66,6 +66,7 @@ export interface NxPivotPage {
 // https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FNxDimensionInfo
 export interface NxDimensionInfo {
   qFallbackTitle: string;
+  qApprMaxGlyphCount: number;
 }
 
 export interface NxMeasureInfo {
