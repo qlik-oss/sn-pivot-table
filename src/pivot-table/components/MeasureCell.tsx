@@ -1,6 +1,6 @@
 import React from 'react';
 import { NxPivotValuePoint } from '../../types/QIX';
-import { Cell } from '../handle-data';
+import { Cell } from '../../types/types';
 import { borderStyle, textStyle } from './shared-styles';
 
 export interface MeasureCellProps {

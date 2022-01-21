@@ -1,7 +1,6 @@
 import React from 'react';
-import { Model } from '../../types/types';
+import { Model, Cell } from '../../types/types';
 import { NxPivotDimensionCell } from '../../types/QIX';
-import { Cell } from '../handle-data';
 import { borderStyle, textStyle } from './shared-styles';
 
 export interface DimensionCellProps {

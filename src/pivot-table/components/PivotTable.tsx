@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import toMatrix, { PivotData } from '../handle-data';
-import { Model, Rect } from '../../types/types';
+import toMatrix from '../handle-data';
+import { Model, PivotData, Rect } from '../../types/types';
 import { Layout, NxPageArea } from '../../types/QIX';
 import CellFactory from './CellFactory';
 // import useDebugInformation from '../../hooks/use-debug-information';

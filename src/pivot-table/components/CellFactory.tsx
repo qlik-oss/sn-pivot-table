@@ -1,6 +1,5 @@
 import React from 'react';
-import { ItemData } from '../../types/types';
-import { TYPE } from '../handle-data';
+import { ItemData, TYPE } from '../../types/types';
 import DimensionCell from './DimensionCell';
 import MeasureCell from './MeasureCell';
 import DimensionTitleCell from './DimensionTitleCell';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cell } from '../handle-data';
+import { Cell } from '../../types/types';
 import { borderStyle, textStyle } from './shared-styles';
 
 interface LabelCellProps {
