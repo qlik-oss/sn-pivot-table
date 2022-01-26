@@ -1,4 +1,4 @@
-import { useElement, useStaleLayout, useEffect, useModel, useMemo, useRect } from '@nebula.js/stardust';
+import { useElement, useStaleLayout, useEffect, useModel, useMemo, useRect, useConstraints } from '@nebula.js/stardust';
 import properties from './object-properties';
 import data from './data';
 import { render, teardown } from './pivot-table/Root';
@@ -18,16 +18,18 @@ export default function supernova() {
       const layout = useStaleLayout();
       const model = useModel();
       const rect = useRect();
+      const constraints: Stardust.Constraints = useConstraints();
 
       useMemo(() => {
         if (layout && model) {
           render(element, {
             model,
             layout,
-            rect
+            rect,
+            constraints
           });
         }
-      }, [layout, model, rect]);
+      }, [layout, model, rect, constraints]);
 
       useEffect(
         () => () => {

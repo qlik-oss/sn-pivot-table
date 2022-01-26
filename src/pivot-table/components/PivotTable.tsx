@@ -10,6 +10,7 @@ export interface PivotTableProps {
   model: Model;
   layout: Layout;
   rect: Rect;
+  constraints: Stardust.Constraints;
 }
 
 interface BatchedState {
@@ -44,7 +45,7 @@ const getNextColumn = (qArea: NxPageArea) => {
   };
 };
 
-export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Element => {
+export const PivotTable = ({ rect, layout, model, constraints }: PivotTableProps): JSX.Element => {
   const [pivotData, setPivotData] = useState<PivotData>({ matrix: [[]], topMatrix: [], leftMatrix: [], nbrTopRows: 0, nbrLeftColumns: 0 });
   const [qArea, setArea] = useState<NxPageArea>(layout.qHyperCube.qPivotDataPages[0].qArea);
   const [batchedState, setBatchedState] = useState<BatchedState>(); // setState call inside async functions are not batched. This is a hack get around multiple unwanted renders for each setState call.
@@ -118,13 +119,14 @@ export const PivotTable = ({ rect, layout, model }: PivotTableProps): JSX.Elemen
   return (
     <VariableSizeGrid
       ref={gridRef}
+      style={{ overflow: constraints.active ? 'hidden' : 'auto' }}
       columnCount={pivotData.matrix.length}
       columnWidth={() => getColumnWidth(rect, pivotData.matrix.length)}
       height={rect.height}
       rowCount={pivotData.matrix.length > 0 ? pivotData.matrix[0].length : 0}
       rowHeight={(index: number) => index < pivotData.nbrTopRows ? 28 : 28 }
       width={rect.width}
-      itemData={{ model, pivotData }}
+      itemData={{ model, pivotData, constraints }}
       onItemsRendered={onItemsRendered}
     >
       {MemoizedCellFactory}

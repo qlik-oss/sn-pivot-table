@@ -25,6 +25,7 @@ export interface Rect {
 export interface ItemData {
   pivotData: PivotData;
   model: Model;
+  constraints: Stardust.Constraints;
 }
 
 export interface Cell {
