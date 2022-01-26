@@ -14,7 +14,7 @@ interface GridCallbackProps {
 }
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
-  const { model, pivotData } = data;
+  const { model, pivotData, constraints } = data;
   const cell = pivotData.matrix[columnIndex][rowIndex];
 
   if (cell.type === TYPE.DIMENSION) {
@@ -27,6 +27,7 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
       rowIndex={isLeftColumn ? rowIndex - pivotData.nbrTopRows : rowIndex}
       colIndex={isLeftColumn ? columnIndex : columnIndex - pivotData.nbrLeftColumns}
       style={style}
+      constraints={constraints}
     />;
   }
 
