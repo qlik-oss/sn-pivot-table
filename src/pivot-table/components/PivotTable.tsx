@@ -67,6 +67,7 @@ export const PivotTable = ({ rect, layout, model, constraints }: PivotTableProps
     if (layout) {
       const matrix = toMatrix(layout.qHyperCube.qPivotDataPages[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
       setPivotData(matrix);
+      setArea(layout.qHyperCube.qPivotDataPages[0].qArea);
       if (gridRef.current) {
         gridRef.current.resetAfterColumnIndex(0);
       }
