@@ -1,4 +1,6 @@
 import React from 'react';
+import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
+import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
 import { Model, Cell } from '../../types/types';
 import { NxPivotDimensionCell } from '../../types/QIX';
 import { borderStyle, textStyle } from './shared-styles';
@@ -26,13 +28,18 @@ const PATH = '/qHyperCubeDef';
 const containerStyle: React.CSSProperties = {
   color: 'rgb(89, 89, 89)',
 };
+
 const cellStyle: React.CSSProperties = {
-  justifyContent: 'center',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
   height: '100%'
 };
+
 const dimTextStyle: React.CSSProperties = {
   ...textStyle,
   fontWeight: 'bold',
+  marginLeft: 4,
 };
 
 const createOnExpand = ({ model, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandCollapseProps) => {
@@ -65,23 +72,22 @@ const DimensionCell = ({
   constraints
 }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand } = (cell.value as NxPivotDimensionCell);
-  let cellContent = qText;
   let onClickHandler: (() => void) | undefined;
+  let cellIcon = null;
 
   if (qCanExpand) {
-    cellContent = `[ + ] ${qText}`;
+    cellIcon = <AddCircleOutlineSharpIcon fontSize="small" />
     onClickHandler = createOnExpand({ model, isLeftColumn, rowIndex, colIndex, constraints });
   } else if (qCanCollapse) {
-    cellContent = `[ - ] ${qText}`;
+    cellIcon = <RemoveCircleOutlineSharpIcon fontSize="small" />
     onClickHandler = createOnCollapse({ model, isLeftColumn, rowIndex, colIndex, constraints });
   }
 
   return (
     <div style={{ ...style, ...containerStyle}}>
       <div style={{ ...cellStyle, ...borderStyle }} onClick={onClickHandler} aria-hidden="true">
-        <div style={dimTextStyle}>
-            {cellContent}
-        </div>
+        {cellIcon}
+        <div style={dimTextStyle}>{qText}</div>
       </div>
     </div>
   );
