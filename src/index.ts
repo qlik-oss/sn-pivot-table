@@ -19,34 +19,18 @@ export default function supernova() {
       const model = useModel();
       const rect = useRect();
       const constraints: Stardust.Constraints = useConstraints();
-      const {
-        pivotData,
-        fetchNextPage,
-        hasMoreColumns,
-        hasMoreRows,
-        collapseLeft,
-        collapseTop,
-        expandLeft,
-        expandTop,
-      } = useDataLoader(layout, model);
+      const dataLoader = useDataLoader(layout, model);
 
       useMemo(() => {
-        if (pivotData && model && rect && constraints && fetchNextPage) {
+        if (dataLoader && dataLoader.pivotData && model && rect && constraints) {
           render(element, {
             model,
             rect,
             constraints,
-            pivotData,
-            fetchNextPage,
-            hasMoreColumns,
-            hasMoreRows,
-            collapseLeft,
-            collapseTop,
-            expandLeft,
-            expandTop,
+            dataLoader
           });
         }
-      }, [hasMoreRows, hasMoreColumns, pivotData, model, rect, constraints, fetchNextPage]);
+      }, [dataLoader, dataLoader.pivotData, model, rect, constraints]);
 
       useEffect(
         () => () => {

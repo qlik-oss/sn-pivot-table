@@ -1,22 +1,14 @@
 import React, { useEffect, useRef, memo } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { ExpandOrCollapser, Model, PivotData, Rect } from '../../types/types';
+import { DataLoader, Model, Rect } from '../../types/types';
 import CellFactory from './CellFactory';
 import useDebugInformation from '../../hooks/use-debug-information';
-import { FetchNextPage } from '../../hooks/use-data-loader';
 
 export interface PivotTableProps {
   model: Model;
   rect: Rect;
   constraints: Stardust.Constraints;
-  pivotData: PivotData;
-  fetchNextPage: FetchNextPage;
-  hasMoreRows: boolean;
-  hasMoreColumns: boolean;
-  collapseLeft: ExpandOrCollapser;
-  collapseTop: ExpandOrCollapser;
-  expandLeft: ExpandOrCollapser;
-  expandTop: ExpandOrCollapser;
+  dataLoader: DataLoader;
 }
 
 const DEFAULT_COLUMN_WIDTH = 100;
@@ -25,32 +17,24 @@ const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(DEFAULT_COL
 
 export const PivotTable = ({
   rect,
-  hasMoreColumns,
-  hasMoreRows,
-  model,
   constraints,
-  pivotData,
-  fetchNextPage,
-  collapseLeft,
-  collapseTop,
-  expandLeft,
-  expandTop,
+  dataLoader
 }: PivotTableProps): JSX.Element => {
   const gridRef = useRef<ReactWindow.VariableSizeGrid>();
   const MemoizedCellFactory = memo(CellFactory, areEqual);
+  const { pivotData, hasMoreColumns, hasMoreRows } = dataLoader;
 
   useDebugInformation('PivotTable', {
     rect,
     hasMoreColumns,
     hasMoreRows,
-    model,
     constraints,
     pivotData,
-    fetchNextPage,
-    collapseLeft,
-    collapseTop,
-    expandLeft,
-    expandTop,
+    fetchNextPage: dataLoader.fetchNextPage,
+    collapseLeft: dataLoader.collapseLeft,
+    collapseTop: dataLoader.collapseTop,
+    expandLeft: dataLoader.expandLeft,
+    expandTop: dataLoader.expandTop,
   });
 
   useEffect(() => {
@@ -72,9 +56,9 @@ export const PivotTable = ({
     visibleRowStopIndex
   }: ReactWindow.OnItemsRenderedProps) => {
     if (visibleRowStopIndex >= pivotData.matrix[0].length - 1 && hasMoreRows) {
-      fetchNextPage(true);
+      dataLoader.fetchNextPage(true);
     } else if (visibleColumnStopIndex >= pivotData.matrix.length - 1 && hasMoreColumns) {
-      fetchNextPage(false);
+      dataLoader.fetchNextPage(false);
     }
   };
 
@@ -86,17 +70,14 @@ export const PivotTable = ({
     <VariableSizeGrid
       ref={gridRef}
       style={{ overflow: constraints.active ? 'hidden' : 'auto' }}
-      columnCount={pivotData.matrix.length}
+      columnCount={pivotData?.matrix.length}
       columnWidth={() => getColumnWidth(rect, pivotData.matrix.length)}
       height={rect.height}
-      rowCount={pivotData.matrix.length > 0 ? pivotData.matrix[0].length : 0}
+      rowCount={pivotData?.matrix.length > 0 ? pivotData.matrix[0]?.length : 0}
       rowHeight={(index: number) => index < pivotData.nbrTopRows ? 28 : 28 }
       width={rect.width}
       itemData={{
-        collapseLeft,
-        collapseTop,
-        expandLeft,
-        expandTop,
+        dataLoader,
         pivotData,
         constraints,
       }}

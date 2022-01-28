@@ -11,6 +11,8 @@ type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, opti
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
+export type FetchNextPage = (isRow: boolean) => void;
+
 export interface Model {
   expandLeft: ExpandFn
   collapseLeft: ExpandFn
@@ -24,14 +26,22 @@ export interface Rect {
   height: number;
 }
 
+export interface DataLoader {
+  pivotData: PivotData;
+  fetchNextPage: FetchNextPage;
+  hasMoreColumns: boolean;
+  hasMoreRows: boolean;
+  collapseLeft: ExpandOrCollapser
+  collapseTop: ExpandOrCollapser
+  expandLeft: ExpandOrCollapser
+  expandTop: ExpandOrCollapser
+}
+
 export interface ItemData {
   pivotData: PivotData;
   model: Model;
   constraints: Stardust.Constraints;
-  collapseLeft: ExpandOrCollapser;
-  collapseTop: ExpandOrCollapser;
-  expandLeft: ExpandOrCollapser;
-  expandTop: ExpandOrCollapser;
+  dataLoader: DataLoader;
 }
 
 export interface Cell {

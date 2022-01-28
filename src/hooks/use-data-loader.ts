@@ -1,23 +1,10 @@
 import { useEffect, useMemo, useState } from '@nebula.js/stardust';
 import toMatrix from '../pivot-table/handle-data';
 import { Layout, NxPageArea } from "../types/QIX";
-import { ExpandOrCollapser, Model, PivotData } from '../types/types';
-
-export type FetchNextPage = (isRow: boolean) => void;
-
-interface DataLoader {
-  pivotData: PivotData;
-  fetchNextPage: FetchNextPage;
-  hasMoreColumns: boolean;
-  hasMoreRows: boolean;
-  collapseLeft: ExpandOrCollapser
-  collapseTop: ExpandOrCollapser
-  expandLeft: ExpandOrCollapser
-  expandTop: ExpandOrCollapser
-}
+import { DataLoader, FetchNextPage, Model } from '../types/types';
+import useExpandOrCollapser from './use-expand-or-collapser';
 
 const DEFAULT_PAGE_SIZE = 50;
-const PATH = '/qHyperCubeDef';
 
 const getNextRow = (qArea: NxPageArea, lastExpandPos = 0) => {
   const { qLeft, qHeight, qWidth } = qArea;
@@ -49,7 +36,14 @@ export default function useDataLoader(layout: Layout, model: Model): DataLoader 
   const [qNoOfLeftDims, setNoOfLeftDims] = useState(layout?.qHyperCube.qNoOfLeftDims);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
-  const [expandOrCollapseIndex, setExpandOrCollapseIndex] = useState({ hasChanged: false });
+  // const [expandOrCollapseIndex, setExpandOrCollapseIndex] = useState({ hasChanged: false });
+  const {
+    expandOrCollapseIndex,
+    collapseLeft,
+    collapseTop,
+    expandLeft,
+    expandTop,
+  } = useExpandOrCollapser(model);
 
   useEffect(async () => {
     if (layout) {
@@ -104,52 +98,7 @@ export default function useDataLoader(layout: Layout, model: Model): DataLoader 
     }
   }, [qArea, model, qNoOfLeftDims, qDimensionInfo]);
 
-  const collapseLeft: ExpandOrCollapser = useMemo(() => async (rowIndex: number, colIndex: number) => {
-    await model.collapseLeft(PATH, rowIndex, colIndex, false);
-    setExpandOrCollapseIndex((prev) => ({
-      direction: 'row',
-      rowIndex,
-      colIndex,
-      expand: false,
-      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expand !== false,
-    }));
-  }, [model]);
-
-  const collapseTop: ExpandOrCollapser = useMemo(() => async (rowIndex: number, colIndex: number) => {
-    await model.collapseTop(PATH, rowIndex, colIndex, false);
-    setExpandOrCollapseIndex((prev) => ({
-      direction: 'column',
-      rowIndex,
-      colIndex,
-      expand: false,
-      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expand !== false,
-    }));
-  }, [model]);
-
-  const expandLeft: ExpandOrCollapser = useMemo(() => async (rowIndex: number, colIndex: number) => {
-    await model.expandLeft(PATH, rowIndex, colIndex, false);
-    setExpandOrCollapseIndex((prev) => ({
-      direction: 'row',
-      rowIndex,
-      colIndex,
-      expand: true,
-      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expand !== true,
-      // prev: { rowIndex: prev?.rowIndex, colIndex: prev?.colIndex }
-    }));
-  }, [model]);
-
-  const expandTop: ExpandOrCollapser = useMemo(() => async (rowIndex: number, colIndex: number) => {
-    await model.expandTop(PATH, rowIndex, colIndex, false);
-    setExpandOrCollapseIndex((prev) => ({
-      direction: 'column',
-      rowIndex,
-      colIndex,
-      expand: true,
-      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expand !== true,
-    }));
-  }, [model])
-
-  return {
+  const dataLoader: DataLoader = useMemo(() => ({
     pivotData,
     fetchNextPage,
     hasMoreColumns,
@@ -158,5 +107,14 @@ export default function useDataLoader(layout: Layout, model: Model): DataLoader 
     collapseTop,
     expandLeft,
     expandTop,
-  }
+  }),[pivotData,
+    fetchNextPage,
+    hasMoreColumns,
+    hasMoreRows,
+    collapseLeft,
+    collapseTop,
+    expandLeft,
+    expandTop]);
+
+  return dataLoader;
 }
