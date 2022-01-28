@@ -1,7 +1,7 @@
 import React from 'react';
 import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
 import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
-import { Cell, ItemData, DataLoader } from '../../types/types';
+import { Cell, ItemData, DataModel } from '../../types/types';
 import { NxPivotDimensionCell } from '../../types/QIX';
 import { borderStyle, textStyle } from './shared-styles';
 
@@ -19,7 +19,7 @@ interface OnExpandOrCollapseProps {
   colIndex: number;
   isLeftColumn?: boolean;
   constraints: Stardust.Constraints;
-  dataLoader: DataLoader;
+  dataModel: DataModel;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -39,24 +39,24 @@ const dimTextStyle: React.CSSProperties = {
   marginLeft: 4,
 };
 
-const createOnExpand = ({ dataLoader, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandOrCollapseProps) => {
+const createOnExpand = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandOrCollapseProps) => {
   if (constraints.active) {
     return undefined;
   }
 
   return isLeftColumn
-    ? () => dataLoader.expandLeft(rowIndex, colIndex)
-    : () => dataLoader.expandTop(rowIndex, colIndex)
+    ? () => dataModel.expandLeft(rowIndex, colIndex)
+    : () => dataModel.expandTop(rowIndex, colIndex)
 };
 
-const createOnCollapse = ({ dataLoader, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandOrCollapseProps) => {
+const createOnCollapse = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandOrCollapseProps) => {
   if (constraints.active) {
     return undefined;
   }
 
   return isLeftColumn
-    ? () => dataLoader.collapseLeft(rowIndex, colIndex)
-    : () => dataLoader.collapseTop(rowIndex, colIndex);
+    ? () => dataModel.collapseLeft(rowIndex, colIndex)
+    : () => dataModel.collapseTop(rowIndex, colIndex);
 };
 
 const DimensionCell = ({
@@ -70,17 +70,17 @@ const DimensionCell = ({
   const { qText, qCanCollapse, qCanExpand } = (cell.value as NxPivotDimensionCell);
   const {
     constraints,
-    dataLoader
+    dataModel
   } = data;
   let onClickHandler: (() => void) | undefined;
   let cellIcon = null;
 
   if (qCanExpand) {
     cellIcon = <AddCircleOutlineSharpIcon fontSize="small" />
-    onClickHandler = createOnExpand({ dataLoader, isLeftColumn, rowIndex, colIndex, constraints });
+    onClickHandler = createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints });
   } else if (qCanCollapse) {
     cellIcon = <RemoveCircleOutlineSharpIcon fontSize="small" />
-    onClickHandler = createOnCollapse({ dataLoader, isLeftColumn, rowIndex, colIndex, constraints });
+    onClickHandler = createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints });
   }
 
   return (

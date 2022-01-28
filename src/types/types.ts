@@ -26,7 +26,7 @@ export interface Rect {
   height: number;
 }
 
-export interface DataLoader {
+export interface DataModel {
   pivotData: PivotData;
   fetchNextPage: FetchNextPage;
   hasMoreColumns: boolean;
@@ -41,7 +41,7 @@ export interface ItemData {
   pivotData: PivotData;
   model: Model;
   constraints: Stardust.Constraints;
-  dataLoader: DataLoader;
+  dataModel: DataModel;
 }
 
 export interface Cell {

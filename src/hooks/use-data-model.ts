@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from '@nebula.js/stardust';
 import toMatrix from '../pivot-table/handle-data';
 import { Layout, NxPageArea } from "../types/QIX";
-import { DataLoader, FetchNextPage, Model } from '../types/types';
+import { DataModel, FetchNextPage, Model } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
 
 const DEFAULT_PAGE_SIZE = 50;
@@ -28,7 +28,7 @@ const getNextColumn = (qArea: NxPageArea, lastExpandPos = 0) => {
   };
 };
 
-export default function useDataLoader(layout: Layout, model: Model): DataLoader {
+export default function useDataModel(layout: Layout, model: Model): DataModel {
   const [pivotData, setPivotData] = useState();
   const [loading, setLoading] = useState(false);
   const [qArea, setArea] = useState(layout?.qHyperCube.qPivotDataPages[0].qArea);
@@ -98,7 +98,7 @@ export default function useDataLoader(layout: Layout, model: Model): DataLoader 
     }
   }, [qArea, model, qNoOfLeftDims, qDimensionInfo]);
 
-  const dataLoader: DataLoader = useMemo(() => ({
+  const dataModel: DataModel = useMemo(() => ({
     pivotData,
     fetchNextPage,
     hasMoreColumns,
@@ -116,5 +116,5 @@ export default function useDataLoader(layout: Layout, model: Model): DataLoader 
     expandLeft,
     expandTop]);
 
-  return dataLoader;
+  return dataModel;
 }

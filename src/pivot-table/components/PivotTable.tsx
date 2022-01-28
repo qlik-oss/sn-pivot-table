@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, memo } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { DataLoader, Model, Rect } from '../../types/types';
+import { DataModel, Model, Rect } from '../../types/types';
 import CellFactory from './CellFactory';
 import useDebugInformation from '../../hooks/use-debug-information';
 
@@ -8,7 +8,7 @@ export interface PivotTableProps {
   model: Model;
   rect: Rect;
   constraints: Stardust.Constraints;
-  dataLoader: DataLoader;
+  dataModel: DataModel;
 }
 
 const DEFAULT_COLUMN_WIDTH = 100;
@@ -18,11 +18,11 @@ const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(DEFAULT_COL
 export const PivotTable = ({
   rect,
   constraints,
-  dataLoader
+  dataModel
 }: PivotTableProps): JSX.Element => {
   const gridRef = useRef<ReactWindow.VariableSizeGrid>();
   const MemoizedCellFactory = memo(CellFactory, areEqual);
-  const { pivotData, hasMoreColumns, hasMoreRows } = dataLoader;
+  const { pivotData, hasMoreColumns, hasMoreRows } = dataModel;
 
   useDebugInformation('PivotTable', {
     rect,
@@ -30,11 +30,11 @@ export const PivotTable = ({
     hasMoreRows,
     constraints,
     pivotData,
-    fetchNextPage: dataLoader.fetchNextPage,
-    collapseLeft: dataLoader.collapseLeft,
-    collapseTop: dataLoader.collapseTop,
-    expandLeft: dataLoader.expandLeft,
-    expandTop: dataLoader.expandTop,
+    fetchNextPage: dataModel.fetchNextPage,
+    collapseLeft: dataModel.collapseLeft,
+    collapseTop: dataModel.collapseTop,
+    expandLeft: dataModel.expandLeft,
+    expandTop: dataModel.expandTop,
   });
 
   useEffect(() => {
@@ -56,9 +56,9 @@ export const PivotTable = ({
     visibleRowStopIndex
   }: ReactWindow.OnItemsRenderedProps) => {
     if (visibleRowStopIndex >= pivotData.matrix[0].length - 1 && hasMoreRows) {
-      dataLoader.fetchNextPage(true);
+      dataModel.fetchNextPage(true);
     } else if (visibleColumnStopIndex >= pivotData.matrix.length - 1 && hasMoreColumns) {
-      dataLoader.fetchNextPage(false);
+      dataModel.fetchNextPage(false);
     }
   };
 
@@ -77,7 +77,7 @@ export const PivotTable = ({
       rowHeight={(index: number) => index < pivotData.nbrTopRows ? 28 : 28 }
       width={rect.width}
       itemData={{
-        dataLoader,
+        dataModel,
         pivotData,
         constraints,
       }}

@@ -2,7 +2,7 @@ import { useElement, useStaleLayout, useEffect, useModel, useMemo, useRect, useC
 import properties from './object-properties';
 import data from './data';
 import { render, teardown } from './pivot-table/Root';
-import useDataLoader from './hooks/use-data-loader';
+import useDataModel from './hooks/use-data-model';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova() {
@@ -19,18 +19,18 @@ export default function supernova() {
       const model = useModel();
       const rect = useRect();
       const constraints: Stardust.Constraints = useConstraints();
-      const dataLoader = useDataLoader(layout, model);
+      const dataModel = useDataModel(layout, model);
 
       useMemo(() => {
-        if (dataLoader && dataLoader.pivotData && model && rect && constraints) {
+        if (dataModel && dataModel.pivotData && model && rect && constraints) {
           render(element, {
             model,
             rect,
             constraints,
-            dataLoader
+            dataModel
           });
         }
-      }, [dataLoader, dataLoader.pivotData, model, rect, constraints]);
+      }, [dataModel, dataModel.pivotData, model, rect, constraints]);
 
       useEffect(
         () => () => {
