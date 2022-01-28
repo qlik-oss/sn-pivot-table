@@ -49,13 +49,10 @@ export default function useDataLoader(layout: Layout, model: Model): DataLoader 
   const [qNoOfLeftDims, setNoOfLeftDims] = useState(layout?.qHyperCube.qNoOfLeftDims);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
-  const [qLastExpandedPos, setLastExpandedPos] = useState();
-  const currentLastExpandedPos = layout?.qHyperCube.qLastExpandedPos;
   const [expandOrCollapseIndex, setExpandOrCollapseIndex] = useState({ hasChanged: false });
 
   useEffect(async () => {
     if (layout) {
-      // const hasExpandPos = currentLastExpandedPos && qLastExpandedPos;
       let pivotPage = layout.qHyperCube.qPivotDataPages[0];
 
       if (expandOrCollapseIndex.hasChanged && expandOrCollapseIndex.direction === 'column') {
@@ -70,25 +67,12 @@ export default function useDataLoader(layout: Layout, model: Model): DataLoader 
         });
       }
 
-      // if (hasExpandPos && currentLastExpandedPos.qx !== qLastExpandedPos.qx) {
-      //   [pivotPage] = await model.getHyperCubePivotData({
-      //     "qPath": "/qHyperCubeDef",
-      //     "qPages": [getNextColumn(layout.qHyperCube.qPivotDataPages[0].qArea, layout.qHyperCube.qLastExpandedPos.qx)]
-      //   });
-      // } else if (hasExpandPos && currentLastExpandedPos.qy !== qLastExpandedPos.qy) {
-      //   [pivotPage] = await model.getHyperCubePivotData({
-      //     "qPath": "/qHyperCubeDef",
-      //     "qPages": [getNextRow(layout.qHyperCube.qPivotDataPages[0].qArea, layout.qHyperCube.qLastExpandedPos.qy)]
-      //   });
-      // }
-
       const matrix = toMatrix(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
       setPivotData(matrix);
       setDimInfo(layout.qHyperCube.qDimensionInfo);
       setNoOfLeftDims(layout.qHyperCube.qNoOfLeftDims);
       setHasMoreRows(pivotData?.matrix[0]?.length < layout.qHyperCube.qSize.qcy);
       setHasMoreColumns(pivotData?.matrix.length < layout.qHyperCube.qSize.qcx);
-      setLastExpandedPos(layout.qHyperCube.qLastExpandedPos);
       setArea(pivotPage.qArea);
       console.debug('layout', layout)
       console.debug('pivotPage', pivotPage)
@@ -106,8 +90,8 @@ export default function useDataLoader(layout: Layout, model: Model): DataLoader 
       const [pivotPage] = await model.getHyperCubePivotData({
         "qPath": "/qHyperCubeDef",
         "qPages": [isRow
-          ? getNextRow(qArea, qLastExpandedPos?.qy)
-          : getNextColumn(qArea, qLastExpandedPos?.qx)
+          ? getNextRow(qArea)
+          : getNextColumn(qArea)
         ]
       });
       const matrix = toMatrix(pivotPage, qDimensionInfo, qNoOfLeftDims);
