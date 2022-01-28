@@ -2,7 +2,7 @@ import { useElement, useStaleLayout, useEffect, useModel, useMemo, useRect, useC
 import properties from './object-properties';
 import data from './data';
 import { render, teardown } from './pivot-table/Root';
-
+import useDataLoader from './hooks/use-data-loader';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova() {
@@ -19,17 +19,34 @@ export default function supernova() {
       const model = useModel();
       const rect = useRect();
       const constraints: Stardust.Constraints = useConstraints();
+      const {
+        pivotData,
+        fetchNextPage,
+        hasMoreColumns,
+        hasMoreRows,
+        collapseLeft,
+        collapseTop,
+        expandLeft,
+        expandTop,
+      } = useDataLoader(layout, model);
 
       useMemo(() => {
-        if (layout && model) {
+        if (pivotData && model && rect && constraints && fetchNextPage) {
           render(element, {
             model,
-            layout,
             rect,
-            constraints
+            constraints,
+            pivotData,
+            fetchNextPage,
+            hasMoreColumns,
+            hasMoreRows,
+            collapseLeft,
+            collapseTop,
+            expandLeft,
+            expandTop,
           });
         }
-      }, [layout, model, rect, constraints]);
+      }, [hasMoreRows, hasMoreColumns, pivotData, model, rect, constraints, fetchNextPage]);
 
       useEffect(
         () => () => {

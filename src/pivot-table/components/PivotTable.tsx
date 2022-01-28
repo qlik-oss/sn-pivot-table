@@ -1,78 +1,65 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import toMatrix from '../handle-data';
-import { Model, PivotData, Rect } from '../../types/types';
-import { Layout, NxPageArea } from '../../types/QIX';
+import { ExpandOrCollapser, Model, PivotData, Rect } from '../../types/types';
 import CellFactory from './CellFactory';
-// import useDebugInformation from '../../hooks/use-debug-information';
+import useDebugInformation from '../../hooks/use-debug-information';
+import { FetchNextPage } from '../../hooks/use-data-loader';
 
 export interface PivotTableProps {
   model: Model;
-  layout: Layout;
   rect: Rect;
   constraints: Stardust.Constraints;
-}
-
-interface BatchedState {
-  matrix: PivotData;
-  area: NxPageArea;
-  loading: boolean;
+  pivotData: PivotData;
+  fetchNextPage: FetchNextPage;
+  hasMoreRows: boolean;
+  hasMoreColumns: boolean;
+  collapseLeft: ExpandOrCollapser;
+  collapseTop: ExpandOrCollapser;
+  expandLeft: ExpandOrCollapser;
+  expandTop: ExpandOrCollapser;
 }
 
 const DEFAULT_COLUMN_WIDTH = 100;
 
 const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(DEFAULT_COLUMN_WIDTH, (rect.width-15) / columnCount)
 
-const getNextRow = (qArea: NxPageArea) => {
-  const { qLeft, qHeight, qWidth } = qArea;
-
-  return {
-    qLeft,
-    qTop: 0,
-    qWidth,
-    qHeight: qHeight + 50,
-  };
-};
-
-const getNextColumn = (qArea: NxPageArea) => {
-  const { qTop, qHeight, qWidth } = qArea;
-
-  return {
-    qLeft: 0,
-    qTop,
-    qWidth: qWidth + 50,
-    qHeight,
-  };
-};
-
-export const PivotTable = ({ rect, layout, model, constraints }: PivotTableProps): JSX.Element => {
-  const [pivotData, setPivotData] = useState<PivotData>({ matrix: [[]], topMatrix: [], leftMatrix: [], nbrTopRows: 0, nbrLeftColumns: 0 });
-  const [qArea, setArea] = useState<NxPageArea>(layout.qHyperCube.qPivotDataPages[0].qArea);
-  const [batchedState, setBatchedState] = useState<BatchedState>(); // setState call inside async functions are not batched. This is a hack get around multiple unwanted renders for each setState call.
-  const [loading, setLoading] = useState(false);
+export const PivotTable = ({
+  rect,
+  hasMoreColumns,
+  hasMoreRows,
+  model,
+  constraints,
+  pivotData,
+  fetchNextPage,
+  collapseLeft,
+  collapseTop,
+  expandLeft,
+  expandTop,
+}: PivotTableProps): JSX.Element => {
   const gridRef = useRef<ReactWindow.VariableSizeGrid>();
   const MemoizedCellFactory = memo(CellFactory, areEqual);
 
-  // useDebugInformation('PivotTable', { rect, layout, data: pivotData, loading, qArea });
-
-  useMemo(() => {
-    if (batchedState) {
-      setPivotData(batchedState.matrix);
-      setArea(batchedState.area);
-      setLoading(batchedState.loading);
-    }
-  }, [batchedState]);
+  useDebugInformation('PivotTable', {
+    rect,
+    hasMoreColumns,
+    hasMoreRows,
+    model,
+    constraints,
+    pivotData,
+    fetchNextPage,
+    collapseLeft,
+    collapseTop,
+    expandLeft,
+    expandTop,
+  });
 
   useEffect(() => {
-    if (layout) {
-      const matrix = toMatrix(layout.qHyperCube.qPivotDataPages[0], layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
-      setPivotData(matrix);
-      setArea(layout.qHyperCube.qPivotDataPages[0].qArea);
+    if (pivotData) {
       if (gridRef.current) {
         gridRef.current.resetAfterColumnIndex(0);
       }
     }
-  }, [layout]);
+  }, [pivotData]);
 
   useEffect(() => {
     if (gridRef.current) {
@@ -80,42 +67,20 @@ export const PivotTable = ({ rect, layout, model, constraints }: PivotTableProps
     }
   }, [rect]);
 
-  const fetchNextPage = useCallback(async (isRow) => {
-    if (loading) return;
-
-    setLoading(true);
-
-    try {
-      const [pivotPage] = await model.getHyperCubePivotData({
-        "qPath": "/qHyperCubeDef",
-        "qPages": [isRow ? getNextRow(qArea) : getNextColumn(qArea)]
-      });
-      const matrix = toMatrix(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
-      setBatchedState({
-        matrix,
-        area: pivotPage.qArea,
-        loading: false
-      });
-    } catch (error) {
-      console.log('ERROR', error);
-      setLoading(false);
-    }
-  }, [qArea, model, layout, loading]);
-
   const onItemsRendered = ({
     visibleColumnStopIndex,
     visibleRowStopIndex
   }: ReactWindow.OnItemsRenderedProps) => {
-    if (visibleRowStopIndex >= pivotData.matrix[0].length - 1 && pivotData.matrix[0].length < layout.qHyperCube.qSize.qcy) {
+    if (visibleRowStopIndex >= pivotData.matrix[0].length - 1 && hasMoreRows) {
       fetchNextPage(true);
-    } else if (visibleColumnStopIndex >= pivotData.matrix.length - 1 && pivotData.matrix.length < layout.qHyperCube.qSize.qcx) {
+    } else if (visibleColumnStopIndex >= pivotData.matrix.length - 1 && hasMoreColumns) {
       fetchNextPage(false);
     }
   };
 
-  const columnWidth = (index: number) => index < pivotData.nbrLeftColumns ?
-      Math.min(layout.qHyperCube.qDimensionInfo[index].qApprMaxGlyphCount * 8, 250) // TODO use a better hard-coded value then 8
-      : 100
+  // const columnWidth = (index: number) => index < pivotData.nbrLeftColumns ?
+  //     Math.min(layout.qHyperCube.qDimensionInfo[index].qApprMaxGlyphCount * 8, 250) // TODO use a better hard-coded value then 8
+  //     : 100
 
   return (
     <VariableSizeGrid
@@ -127,7 +92,14 @@ export const PivotTable = ({ rect, layout, model, constraints }: PivotTableProps
       rowCount={pivotData.matrix.length > 0 ? pivotData.matrix[0].length : 0}
       rowHeight={(index: number) => index < pivotData.nbrTopRows ? 28 : 28 }
       width={rect.width}
-      itemData={{ model, pivotData, constraints }}
+      itemData={{
+        collapseLeft,
+        collapseTop,
+        expandLeft,
+        expandTop,
+        pivotData,
+        constraints,
+      }}
       onItemsRendered={onItemsRendered}
     >
       {MemoizedCellFactory}

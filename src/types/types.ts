@@ -9,6 +9,8 @@ export enum TYPE {
 
 type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => void;
 
+export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
+
 export interface Model {
   expandLeft: ExpandFn
   collapseLeft: ExpandFn
@@ -26,6 +28,10 @@ export interface ItemData {
   pivotData: PivotData;
   model: Model;
   constraints: Stardust.Constraints;
+  collapseLeft: ExpandOrCollapser;
+  collapseTop: ExpandOrCollapser;
+  expandLeft: ExpandOrCollapser;
+  expandTop: ExpandOrCollapser;
 }
 
 export interface Cell {
@@ -44,4 +50,9 @@ export interface PivotData {
   topMatrix: Matrix,
   nbrTopRows: number;
   nbrLeftColumns: number;
+}
+
+export interface Point {
+  x: number;
+  y: number;
 }
