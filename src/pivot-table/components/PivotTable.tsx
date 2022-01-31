@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, memo } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { DataModel, Model, Rect } from '../../types/types';
+import { DataModel, Rect } from '../../types/types';
 import CellFactory from './CellFactory';
 // import useDebug from '../../hooks/use-debug';
 
 export interface PivotTableProps {
-  model: Model;
   rect: Rect;
   constraints: Stardust.Constraints;
   dataModel: DataModel;

@@ -15,9 +15,7 @@ interface GridCallbackProps {
 }
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
-  const {
-    pivotData,
-  } = data;
+  const { pivotData } = data;
   const cell = pivotData.matrix[columnIndex][rowIndex];
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 

@@ -22,15 +22,14 @@ export default function supernova() {
       const dataModel = useDataModel(layout, model);
 
       useMemo(() => {
-        if (dataModel && dataModel.pivotData && model && rect && constraints) {
+        if (dataModel?.pivotData && rect && constraints) {
           render(element, {
-            model,
             rect,
             constraints,
             dataModel
           });
         }
-      }, [dataModel, dataModel.pivotData, model, rect, constraints]);
+      }, [dataModel, rect, constraints]);
 
       useEffect(
         () => () => {
