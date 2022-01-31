@@ -2,7 +2,7 @@ import React, { useEffect, useRef, memo } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel, Model, Rect } from '../../types/types';
 import CellFactory from './CellFactory';
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 
 export interface PivotTableProps {
   model: Model;
@@ -24,18 +24,18 @@ export const PivotTable = ({
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   const { pivotData, hasMoreColumns, hasMoreRows } = dataModel;
 
-  useDebug('PivotTable', {
-    rect,
-    hasMoreColumns,
-    hasMoreRows,
-    constraints,
-    pivotData,
-    fetchNextPage: dataModel.fetchNextPage,
-    collapseLeft: dataModel.collapseLeft,
-    collapseTop: dataModel.collapseTop,
-    expandLeft: dataModel.expandLeft,
-    expandTop: dataModel.expandTop,
-  });
+  // useDebug('PivotTable', {
+  //   rect,
+  //   hasMoreColumns,
+  //   hasMoreRows,
+  //   constraints,
+  //   pivotData,
+  //   fetchNextPage: dataModel.fetchNextPage,
+  //   collapseLeft: dataModel.collapseLeft,
+  //   collapseTop: dataModel.collapseTop,
+  //   expandLeft: dataModel.expandLeft,
+  //   expandTop: dataModel.expandTop,
+  // });
 
   useEffect(() => {
     if (pivotData) {

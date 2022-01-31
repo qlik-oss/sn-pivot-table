@@ -63,9 +63,6 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
       setArea(pivotPage.qArea);
-      console.debug('layout', layout)
-      console.debug('pivotPage', pivotPage)
-      console.debug('expandOrCollapseIndex', expandOrCollapseIndex);
     }
   }, [layout]);
 

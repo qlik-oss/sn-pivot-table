@@ -7,7 +7,7 @@ export enum TYPE {
   EMPTY = 'EMPTY',
 };
 
-type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => void;
+type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => Promise<void>;
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
