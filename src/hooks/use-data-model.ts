@@ -64,8 +64,8 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       setPivotData(matrix);
       setDimInfo(layout.qHyperCube.qDimensionInfo);
       setNoOfLeftDims(layout.qHyperCube.qNoOfLeftDims);
-      setHasMoreRows(pivotData?.matrix[0]?.length < layout.qHyperCube.qSize.qcy);
-      setHasMoreColumns(pivotData?.matrix.length < layout.qHyperCube.qSize.qcx);
+      setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
+      setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
       setArea(pivotPage.qArea);
       console.debug('layout', layout)
       console.debug('pivotPage', pivotPage)
@@ -91,6 +91,8 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       setPivotData(matrix);
       setArea(pivotPage.qArea);
       setLoading(false);
+      setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
+      setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
     } catch (error) {
       console.log('ERROR', error);
       setLoading(false);

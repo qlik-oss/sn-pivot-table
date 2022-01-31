@@ -55,9 +55,9 @@ export const PivotTable = ({
     visibleColumnStopIndex,
     visibleRowStopIndex
   }: ReactWindow.OnItemsRenderedProps) => {
-    if (visibleRowStopIndex >= pivotData.matrix[0].length - 1 && hasMoreRows) {
+    if (visibleRowStopIndex > pivotData.matrix[0].length - 1 && hasMoreRows) {
       dataModel.fetchNextPage(true);
-    } else if (visibleColumnStopIndex >= pivotData.matrix.length - 1 && hasMoreColumns) {
+    } else if (visibleColumnStopIndex > pivotData.matrix.length - 1 && hasMoreColumns) {
       dataModel.fetchNextPage(false);
     }
   };
