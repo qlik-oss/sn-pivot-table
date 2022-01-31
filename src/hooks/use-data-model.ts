@@ -32,8 +32,6 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
   const [pivotData, setPivotData] = useState();
   const [loading, setLoading] = useState(false);
   const [qArea, setArea] = useState(layout?.qHyperCube.qPivotDataPages[0].qArea);
-  const [qDimensionInfo, setDimInfo] = useState(layout?.qHyperCube.qDimensionInfo);
-  const [qNoOfLeftDims, setNoOfLeftDims] = useState(layout?.qHyperCube.qNoOfLeftDims);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
   const {
@@ -62,8 +60,6 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
 
       const matrix = toMatrix(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
       setPivotData(matrix);
-      setDimInfo(layout.qHyperCube.qDimensionInfo);
-      setNoOfLeftDims(layout.qHyperCube.qNoOfLeftDims);
       setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
       setArea(pivotPage.qArea);
@@ -87,7 +83,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
           : getNextColumn(qArea)
         ]
       });
-      const matrix = toMatrix(pivotPage, qDimensionInfo, qNoOfLeftDims);
+      const matrix = toMatrix(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
       setPivotData(matrix);
       setArea(pivotPage.qArea);
       setLoading(false);
@@ -97,7 +93,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       console.log('ERROR', error);
       setLoading(false);
     }
-  }, [qArea, model, qNoOfLeftDims, qDimensionInfo]);
+  }, [qArea, model, layout]);
 
   const dataModel: DataModel = useMemo(() => ({
     pivotData,
