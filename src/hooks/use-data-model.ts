@@ -36,7 +36,6 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
   const [qNoOfLeftDims, setNoOfLeftDims] = useState(layout?.qHyperCube.qNoOfLeftDims);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
-  // const [expandOrCollapseIndex, setExpandOrCollapseIndex] = useState({ hasChanged: false });
   const {
     expandOrCollapseIndex,
     collapseLeft,

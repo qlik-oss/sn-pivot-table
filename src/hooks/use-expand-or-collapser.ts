@@ -7,7 +7,7 @@ interface ExpandOrCollapseIndex {
   direction: string;
   rowIndex: number;
   colIndex: number;
-  expand: boolean;
+  expanded: boolean;
   hasChanged: boolean;
 }
 
@@ -28,8 +28,8 @@ export default function useExpandOrCollapser(model: Model): ExpandOrCollapserRes
       direction: 'row',
       rowIndex,
       colIndex,
-      expand: false,
-      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expand !== false,
+      expanded: false,
+      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expanded !== false,
     }));
   }, [model]);
 
@@ -39,8 +39,8 @@ export default function useExpandOrCollapser(model: Model): ExpandOrCollapserRes
       direction: 'column',
       rowIndex,
       colIndex,
-      expand: false,
-      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expand !== false,
+      expanded: false,
+      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expanded !== false,
     }));
   }, [model]);
 
@@ -50,8 +50,8 @@ export default function useExpandOrCollapser(model: Model): ExpandOrCollapserRes
       direction: 'row',
       rowIndex,
       colIndex,
-      expand: true,
-      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expand !== true,
+      expanded: true,
+      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expanded !== true,
     }));
   }, [model]);
 
@@ -61,8 +61,8 @@ export default function useExpandOrCollapser(model: Model): ExpandOrCollapserRes
       direction: 'column',
       rowIndex,
       colIndex,
-      expand: true,
-      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expand !== true,
+      expanded: true,
+      hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expanded !== true,
     }));
   }, [model])
 

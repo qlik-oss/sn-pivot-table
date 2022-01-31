@@ -2,7 +2,7 @@ import React, { useEffect, useRef, memo } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel, Model, Rect } from '../../types/types';
 import CellFactory from './CellFactory';
-import useDebugInformation from '../../hooks/use-debug-information';
+import useDebug from '../../hooks/use-debug';
 
 export interface PivotTableProps {
   model: Model;
@@ -24,7 +24,7 @@ export const PivotTable = ({
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   const { pivotData, hasMoreColumns, hasMoreRows } = dataModel;
 
-  useDebugInformation('PivotTable', {
+  useDebug('PivotTable', {
     rect,
     hasMoreColumns,
     hasMoreRows,
@@ -82,6 +82,8 @@ export const PivotTable = ({
         constraints,
       }}
       onItemsRendered={onItemsRendered}
+      overscanRowCount={10}
+      overscanColumnsCount={10}
     >
       {MemoizedCellFactory}
     </VariableSizeGrid>

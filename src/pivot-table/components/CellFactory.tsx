@@ -5,6 +5,7 @@ import MeasureCell from './MeasureCell';
 import DimensionTitleCell from './DimensionTitleCell';
 import EmptyHeaderCell from './EmptyHeaderCell';
 import EmptyCell from './EmptyCell';
+// import useDebug from '../../hooks/use-debug';
 
 interface GridCallbackProps {
   columnIndex: number;
@@ -18,6 +19,7 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
     pivotData,
   } = data;
   const cell = pivotData.matrix[columnIndex][rowIndex];
+  // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 
   if (cell.type === TYPE.DIMENSION) {
     const isLeftColumn = rowIndex >= pivotData.nbrTopRows;
