@@ -61,8 +61,3 @@ export interface PivotData {
   nbrTopRows: number;
   nbrLeftColumns: number;
 }
-
-export interface Point {
-  x: number;
-  y: number;
-}
