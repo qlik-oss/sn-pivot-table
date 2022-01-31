@@ -48,7 +48,7 @@ export const PivotTable = ({
     if (gridRef.current) {
       gridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }
-  }, [rect]);
+  }, [rect.width, rect.height]);
 
   const onItemsRendered = ({
     visibleColumnStopIndex,
