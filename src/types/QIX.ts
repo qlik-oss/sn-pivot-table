@@ -31,6 +31,11 @@ export interface NxPageArea {
   qHeight: number;
 }
 
+export interface NxCellPosition {
+  qx: number;
+  qy: number;
+}
+
 export interface NxPivotValuePoint {
   qLabel: string;
   qText: string;
@@ -82,6 +87,7 @@ export interface Layout {
       qcx: number;
     },
     qNoOfLeftDims: number,
+    qLastExpandedPos: NxCellPosition,
   };
 }
 

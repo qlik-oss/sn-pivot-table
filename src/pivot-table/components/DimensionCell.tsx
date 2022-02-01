@@ -1,29 +1,26 @@
 import React from 'react';
 import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
 import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
-import { Model, Cell } from '../../types/types';
+import { Cell, ItemData, DataModel } from '../../types/types';
 import { NxPivotDimensionCell } from '../../types/QIX';
 import { borderStyle, textStyle } from './shared-styles';
 
 export interface DimensionCellProps {
   cell: Cell;
-  model: Model;
   rowIndex: number;
   colIndex: number;
-  isLeftColumn?: boolean;
   style: ReactWindow.ItemStyle;
-  constraints: Stardust.Constraints;
+  data: ItemData;
+  isLeftColumn: boolean;
 }
 
-interface OnExpandCollapseProps {
-  model: Model;
+interface OnExpandOrCollapseProps {
   rowIndex: number;
   colIndex: number;
   isLeftColumn?: boolean;
   constraints: Stardust.Constraints;
+  dataModel: DataModel;
 }
-
-const PATH = '/qHyperCubeDef';
 
 const containerStyle: React.CSSProperties = {
   color: 'rgb(89, 89, 89)',
@@ -42,45 +39,48 @@ const dimTextStyle: React.CSSProperties = {
   marginLeft: 4,
 };
 
-const createOnExpand = ({ model, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandCollapseProps) => {
+const createOnExpand = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandOrCollapseProps) => {
   if (constraints.active) {
     return undefined;
   }
 
   return isLeftColumn
-    ? () => model.expandLeft(PATH, rowIndex, colIndex, false)
-    : () => model.expandTop(PATH, rowIndex, colIndex, false);
+    ? () => dataModel.expandLeft(rowIndex, colIndex)
+    : () => dataModel.expandTop(rowIndex, colIndex)
 };
 
-const createOnCollapse = ({ model, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandCollapseProps) => {
+const createOnCollapse = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandOrCollapseProps) => {
   if (constraints.active) {
     return undefined;
   }
 
   return isLeftColumn
-    ? () => model.collapseLeft(PATH, rowIndex, colIndex, false)
-    : () => model.collapseTop(PATH, rowIndex, colIndex, false);
+    ? () => dataModel.collapseLeft(rowIndex, colIndex)
+    : () => dataModel.collapseTop(rowIndex, colIndex);
 };
 
 const DimensionCell = ({
-  model,
   cell,
-  isLeftColumn = false,
   rowIndex = 0,
   colIndex = 0,
   style,
-  constraints
+  isLeftColumn = false,
+  data
 }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand } = (cell.value as NxPivotDimensionCell);
+  const {
+    constraints,
+    dataModel
+  } = data;
   let onClickHandler: (() => void) | undefined;
   let cellIcon = null;
 
   if (qCanExpand) {
     cellIcon = <AddCircleOutlineSharpIcon fontSize="small" />
-    onClickHandler = createOnExpand({ model, isLeftColumn, rowIndex, colIndex, constraints });
+    onClickHandler = createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints });
   } else if (qCanCollapse) {
     cellIcon = <RemoveCircleOutlineSharpIcon fontSize="small" />
-    onClickHandler = createOnCollapse({ model, isLeftColumn, rowIndex, colIndex, constraints });
+    onClickHandler = createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints });
   }
 
   return (

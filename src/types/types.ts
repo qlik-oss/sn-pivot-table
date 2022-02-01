@@ -7,7 +7,11 @@ export enum TYPE {
   EMPTY = 'EMPTY',
 };
 
-type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => void;
+type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => Promise<void>;
+
+export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
+
+export type FetchNextPage = (isRow: boolean) => void;
 
 export interface Model {
   expandLeft: ExpandFn
@@ -22,10 +26,22 @@ export interface Rect {
   height: number;
 }
 
+export interface DataModel {
+  pivotData: PivotData;
+  fetchNextPage: FetchNextPage;
+  hasMoreColumns: boolean;
+  hasMoreRows: boolean;
+  collapseLeft: ExpandOrCollapser
+  collapseTop: ExpandOrCollapser
+  expandLeft: ExpandOrCollapser
+  expandTop: ExpandOrCollapser
+}
+
 export interface ItemData {
   pivotData: PivotData;
   model: Model;
   constraints: Stardust.Constraints;
+  dataModel: DataModel;
 }
 
 export interface Cell {
