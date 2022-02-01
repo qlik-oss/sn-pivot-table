@@ -4,7 +4,7 @@ import { borderStyle, textStyle } from './shared-styles';
 
 interface LabelCellProps {
   cell: Cell;
-  style: ReactWindow.ItemStyle;
+  style: React.CSSProperties;
 }
 
 const labelTextStyle: React.CSSProperties = {

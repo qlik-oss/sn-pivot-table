@@ -39,7 +39,6 @@ export interface DataModel {
 
 export interface ItemData {
   pivotData: PivotData;
-  model: Model;
   constraints: Stardust.Constraints;
   dataModel: DataModel;
 }

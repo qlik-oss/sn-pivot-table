@@ -63,6 +63,15 @@ jobs:
           name: Unit tests
           command: echo "No tests.."
 
+  types:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Types
+          command: yarn run types:check
+
 workflows:
   version: 2
   build-all:
@@ -77,3 +86,6 @@ workflows:
       - lint:
           requires:
             - build
+      - types:
+          requires:
+            - install

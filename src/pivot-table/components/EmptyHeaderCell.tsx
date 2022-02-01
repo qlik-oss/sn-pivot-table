@@ -2,7 +2,7 @@ import React from 'react';
 import { borderStyle } from './shared-styles';
 
 interface EmptyHeaderCellProps {
-  style: ReactWindow.ItemStyle;
+  style: React.CSSProperties;
 }
 
 const EmptyHeaderCell = ({ style }: EmptyHeaderCellProps): JSX.Element => (
