@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, memo } from 'react';
-import { VariableSizeGrid, areEqual } from 'react-window';
+import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
 import CellFactory from './CellFactory';
 // import useDebug from '../../hooks/use-debug';
@@ -19,7 +19,7 @@ export const PivotTable = ({
   constraints,
   dataModel
 }: PivotTableProps): JSX.Element => {
-  const gridRef = useRef<ReactWindow.VariableSizeGrid>();
+  const gridRef = useRef<VariableSizeGrid>(null);
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   const { pivotData, hasMoreColumns, hasMoreRows } = dataModel;
 
@@ -53,7 +53,7 @@ export const PivotTable = ({
   const onItemsRendered = ({
     visibleColumnStopIndex,
     visibleRowStopIndex
-  }: ReactWindow.OnItemsRenderedProps) => {
+  }: GridOnItemsRenderedProps) => {
     if (hasMoreRows && visibleRowStopIndex >= pivotData.matrix[0].length - 1) {
       dataModel.fetchNextPage(true);
     } else if (hasMoreColumns && visibleColumnStopIndex >= pivotData.matrix.length - 1) {

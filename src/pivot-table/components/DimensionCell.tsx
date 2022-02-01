@@ -9,7 +9,7 @@ export interface DimensionCellProps {
   cell: Cell;
   rowIndex: number;
   colIndex: number;
-  style: ReactWindow.ItemStyle;
+  style: React.CSSProperties;
   data: ItemData;
   isLeftColumn: boolean;
 }
