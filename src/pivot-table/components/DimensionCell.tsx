@@ -39,6 +39,10 @@ const dimTextStyle: React.CSSProperties = {
   marginLeft: 4,
 };
 
+export const testId = 'dim-cell';
+export const testIdExpandIcon = 'expand-icon';
+export const testIdCollapseIcon = 'collapse-icon';
+
 const createOnExpand = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandOrCollapseProps) => {
   if (constraints.active) {
     return undefined;
@@ -76,15 +80,15 @@ const DimensionCell = ({
   let cellIcon = null;
 
   if (qCanExpand) {
-    cellIcon = <AddCircleOutlineSharpIcon fontSize="small" />
+    cellIcon = <AddCircleOutlineSharpIcon fontSize="small" data-testid={testIdExpandIcon} />
     onClickHandler = createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints });
   } else if (qCanCollapse) {
-    cellIcon = <RemoveCircleOutlineSharpIcon fontSize="small" />
+    cellIcon = <RemoveCircleOutlineSharpIcon fontSize="small" data-testid={testIdCollapseIcon} />
     onClickHandler = createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints });
   }
 
   return (
-    <div style={{ ...style, ...containerStyle}}>
+    <div style={{ ...style, ...containerStyle}} data-testid={testId}>
       <div style={{ ...cellStyle, ...borderStyle }} onClick={onClickHandler} aria-hidden="true">
         {cellIcon}
         <div style={dimTextStyle}>{qText}</div>

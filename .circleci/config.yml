@@ -61,7 +61,7 @@ jobs:
           at: ~/project
       - run:
           name: Unit tests
-          command: echo "No tests.."
+          command: yarn run test
 
   types:
     <<: *defaults

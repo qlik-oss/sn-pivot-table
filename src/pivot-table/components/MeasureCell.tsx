@@ -31,11 +31,13 @@ const containerStyle: React.CSSProperties = {
   justifyContent: 'center',
 };
 
+export const testId = 'measure-cell';
+
 const MeasureCell = ({ cell, style }: MeasureCellProps): JSX.Element => {
   const { qNum, qText } = (cell.value as NxPivotValuePoint);
 
   return (
-    <div style={{...style, ...containerStyle}}>
+    <div style={{...style, ...containerStyle}} data-testid={testId}>
       <div style={qNum === 'NaN' ? nilStyle : numericStyle}>
         <div style={textStyle}>{qText}</div>
       </div>

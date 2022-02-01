@@ -25,7 +25,8 @@
     "lint": "eslint src/",
     "start": "nebula serve",
     "sense": "nebula sense --ext src/ext.js --meta src/meta.json",
-    "types:check": "tsc --noEmit"
+    "types:check": "tsc --noEmit",
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/preset-react": "7.14.5",
@@ -39,6 +40,11 @@
     "@nebula.js/cli-sense": "2.3.1",
     "@nebula.js/cli-serve": "2.3.1",
     "@rollup/plugin-typescript": "8.2.5",
+    "@testing-library/dom": "8.11.3",
+    "@testing-library/jest-dom": "5.16.1",
+    "@testing-library/react": "12.1.2",
+    "@testing-library/user-event": "13.5.0",
+    "@types/jest": "27.4.0",
     "@types/react": "17.0.24",
     "@types/react-dom": "17.0.9",
     "@types/react-window": "1.8.5",
@@ -57,6 +63,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.26.0",
     "eslint-plugin-react-hooks": "4.2.0",
+    "jest": "27.4.7",
     "prettier": "2.4.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
