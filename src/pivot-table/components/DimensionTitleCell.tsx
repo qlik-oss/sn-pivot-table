@@ -12,8 +12,10 @@ const labelTextStyle: React.CSSProperties = {
   fontStyle: 'italic'
 };
 
+export const testId = 'title-cell';
+
 const DimensionTitleCell = ({ cell, style }: LabelCellProps): JSX.Element => (
-  <div style={{ ...style, ...borderStyle }}>
+  <div style={{ ...style, ...borderStyle }} data-testid={testId}>
     <div style={labelTextStyle}>{cell.value}</div>
   </div>
 );

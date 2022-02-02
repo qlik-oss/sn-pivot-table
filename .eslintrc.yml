@@ -39,3 +39,10 @@ overrides:
   - files:
     - src/**/*.jsx
     - src/**/*.js
+
+  # Unit test files
+  - files:
+      - src/**/__tests__/*.test.ts
+      - src/**/__tests__/*.test.tsx
+    env:
+      jest: true
