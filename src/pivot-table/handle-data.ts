@@ -6,7 +6,7 @@ import {
   NxDimensionInfo,
   NxDimCellType
 } from '../types/QIX';
-import { Cell, CellValue, Matrix, PivotData, TYPE } from '../types/types'
+import { Cell, CellValue, Matrix, PivotData, StickyData, TYPE } from '../types/types'
 
 const toCell = ((value: CellValue, key = ''): Cell => {
   const cell:Cell = {
@@ -146,4 +146,64 @@ export default function toMatrix(dataPage: NxPivotPage, qDimensionInfo: Array<Nx
   pivotData.matrix = [...pivotData.leftMatrix, ...pivotData.topMatrix];
 
   return pivotData;
+}
+
+
+export function toData(dataPage: NxPivotPage, qDimensionInfo: Array<NxDimensionInfo>): StickyData {
+  const { qLeft, qArea, qTop, qData } = dataPage;
+
+  const extractData = (data: Array<Array<NxPivotValuePoint>>) => {
+    const ary: Cell[][] = [];
+    data.forEach((row, rowIdx) => {
+      row.forEach((datum, colIdx) => {
+        if (!Array.isArray(ary[colIdx])) {
+          ary[colIdx] = [];
+        }
+        ary[colIdx].push(toCell(datum, `${datum.qType}-${colIdx}-${rowIdx}-${datum.qNum}`));
+      });
+    });
+
+    return ary;
+  };
+
+  const extractHeaders = (qDim: Array<NxDimensionInfo>, nbrTopRows: number, nbrLeftColumns: number) => {
+    const ary: Cell[][] = [];
+
+    for (let colIdx = 0; colIdx < nbrLeftColumns; colIdx += 1) {
+      for (let rowIdx = 0; rowIdx < nbrTopRows - 1; rowIdx += 1) {
+        if (!Array.isArray(ary[colIdx])) {
+          ary[colIdx] = [];
+        }
+
+        ary[colIdx][rowIdx] = toCell(null, `null-${colIdx}-${rowIdx}`);
+      }
+    }
+
+    qDim.slice(0, nbrLeftColumns).forEach((info, colIdx) => {
+      ary[colIdx].push(toCell(info.qFallbackTitle, `${colIdx}-${nbrTopRows - 1}-${info.qFallbackTitle}`))
+    });
+
+    return ary;
+  };
+
+  const data: StickyData = {
+    left: extractLeft(qLeft, qArea),
+    top: extractTop(qTop, qArea),
+    data: extractData(qData),
+    nbrTopRows: 0,
+    nbrLeftColumns: 0,
+    headers: [],
+    size: {
+      rows: 0,
+      columns: 0
+    }
+  };
+
+  data.nbrTopRows = data.top[0].length;
+  data.nbrLeftColumns = data.left.length;
+  data.headers = extractHeaders(qDimensionInfo, data.nbrTopRows, data.nbrLeftColumns);
+  data.size.columns = data.nbrLeftColumns + dataPage.qArea.qWidth;
+  data.size.rows = data.nbrTopRows + dataPage.qArea.qHeight;
+
+  return data;
 }

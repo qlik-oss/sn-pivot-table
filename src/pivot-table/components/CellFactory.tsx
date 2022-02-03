@@ -15,18 +15,17 @@ interface GridCallbackProps {
 }
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
-  const { pivotData } = data;
-  const cell = pivotData.matrix[columnIndex][rowIndex];
+  // console.debug('CellFactory', columnIndex, rowIndex)
+  const { dataModel, matrix, isLeftColumn, isHeader } = data;
+  const cell = matrix[columnIndex][rowIndex];
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 
   if (cell.type === TYPE.DIMENSION) {
-    const isLeftColumn = rowIndex >= pivotData.nbrTopRows;
-
     return <DimensionCell
       cell={cell}
       data={data}
-      rowIndex={isLeftColumn ? rowIndex - pivotData.nbrTopRows : rowIndex}
-      colIndex={isLeftColumn ? columnIndex : columnIndex - pivotData.nbrLeftColumns}
+      rowIndex={rowIndex}
+      colIndex={columnIndex}
       style={style}
       isLeftColumn={isLeftColumn}
     />;
@@ -43,7 +42,7 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
     return <DimensionTitleCell cell={cell} style={style} />
   }
 
-  if (cell.type === TYPE.EMPTY && rowIndex < pivotData.nbrTopRows) {
+  if (cell.type === TYPE.EMPTY && isHeader) {
     return <EmptyHeaderCell style={style} />
   }
 
