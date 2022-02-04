@@ -60,7 +60,7 @@ const TopGrid = ({
         dataModel,
         constraints,
         matrix: dataModel.stickyData.top,
-        isHeader: false
+        isHeader: true
       }}
     >
       {MemoizedCellFactory}

@@ -16,11 +16,11 @@ export interface PivotTableProps {
   dataModel: DataModel;
 }
 
-const DEFAULT_COLUMN_WIDTH = 100;
+const MIN_COLUMN_WIDTH = 100;
 
 const DEFAULT_ROW_HEIGHT = 28;
 
-const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(DEFAULT_COLUMN_WIDTH, (rect.width-15) / columnCount);
+const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(MIN_COLUMN_WIDTH, rect.width / columnCount);
 
 const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
 
@@ -34,12 +34,11 @@ export const StickyPivotTable = ({
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const onScroll = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
-      // console.debug(event)
-      topGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: event.currentTarget.scrollTop });
+      topGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: 0 });
     }
 
     if (leftGridRef.current) {
-      leftGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: event.currentTarget.scrollTop });
+      leftGridRef.current.scrollTo({ scrollLeft: 0, scrollTop: event.currentTarget.scrollTop });
     }
 
     if (dataGridRef.current) {
@@ -52,11 +51,8 @@ export const StickyPivotTable = ({
 
   useDebug('PivotTable', {
     rect,
-    constraints,
-    stickyData: dataModel.stickyData,
+    dataModel,
     columnWidth,
-    hasMoreRows: dataModel.hasMoreRows,
-    hasMoreColumns: dataModel.hasMoreColumns
   });
 
   const leftGridWidth = columnWidth * dataModel.stickyData.left.length;
