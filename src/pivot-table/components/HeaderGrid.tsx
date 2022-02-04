@@ -25,7 +25,11 @@ const HeaderGrid = ({
   height,
   rowHightCallback,
   width,
-}: HeaderGridProps): JSX.Element => {
+}: HeaderGridProps): JSX.Element | null => {
+  if (dataModel.pivotData.size.headers.x === 0) {
+    return null;
+  }
+
   const headerGridRef = useRef<VariableSizeGrid>(null);
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   useDebug('HeaderGrid', {

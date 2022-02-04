@@ -7,7 +7,7 @@ import extractTop from "./extract-top";
 
 const getColumnCount = (matrix: Cell[][]): number => matrix.length;
 
-const getRowCount = (matrix: Cell[][]): number => matrix[0].length;
+const getRowCount = (matrix: Cell[][]): number => matrix[0]?.length || 0;
 
 export default function createData(dataPage: NxPivotPage, qDimensionInfo: NxDimensionInfo[]): PivotData {
   const { qLeft, qArea, qTop, qData } = dataPage;

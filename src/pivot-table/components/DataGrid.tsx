@@ -22,7 +22,11 @@ const DataGrid = ({
   height,
   rowHightCallback,
   width,
-}: DataGridProps): JSX.Element => {
+}: DataGridProps): JSX.Element | null => {
+  if (dataModel.pivotData.size.data.x === 0) {
+    return null;
+  }
+
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   useDebug('DataGrid', {
     dataModel,
@@ -49,9 +53,9 @@ const DataGrid = ({
     visibleColumnStopIndex,
     visibleRowStopIndex
   }: GridOnItemsRenderedProps) => {
-    if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.pivotData.data[0].length - 1) {
+    if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.pivotData.size.data.y - 1) {
       dataModel.fetchNextPage(true);
-    } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.pivotData.data.length - 1) {
+    } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.pivotData.size.data.x - 1) {
       dataModel.fetchNextPage(false);
     }
   }, [dataModel]);
@@ -60,10 +64,10 @@ const DataGrid = ({
     <VariableSizeGrid
       ref={dataGridRef}
       style={gridStyle}
-      columnCount={dataModel.pivotData.data.length}
+      columnCount={dataModel.pivotData.size.data.x}
       columnWidth={columnWidthCallback}
       height={height}
-      rowCount={dataModel.pivotData.data[0].length}
+      rowCount={dataModel.pivotData.size.data.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{

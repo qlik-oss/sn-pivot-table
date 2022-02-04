@@ -29,7 +29,11 @@ const LeftGrid = ({
   width,
   height,
   constraints
-}: LeftGridProps): JSX.Element => {
+}: LeftGridProps): JSX.Element | null => {
+  if (dataModel.pivotData.size.left.x === 0) {
+    return null;
+  }
+
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   useDebug('LeftGrid', {
     dataModel,

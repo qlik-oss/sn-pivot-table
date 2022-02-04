@@ -29,7 +29,11 @@ const TopGrid = ({
   width,
   height,
   constraints
-}: TopGridProps): JSX.Element => {
+}: TopGridProps): JSX.Element | null => {
+  if (dataModel.pivotData.size.data.x === 0) {
+    return null;
+  }
+
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   useDebug('TopGrid', {
     dataModel,
@@ -57,10 +61,10 @@ const TopGrid = ({
     <VariableSizeGrid
       ref={topGridRef}
       style={gridStyle}
-      columnCount={dataModel.pivotData.top.length}
+      columnCount={dataModel.pivotData.size.top.x}
       columnWidth={columnWidthCallback}
       height={height}
-      rowCount={dataModel.pivotData.top[0].length}
+      rowCount={dataModel.pivotData.size.top.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{

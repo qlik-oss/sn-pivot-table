@@ -55,15 +55,15 @@ export const StickyPivotTable = ({
     columnWidth,
   });
 
-  const leftGridWidth = columnWidth * dataModel.pivotData.left.length;
-  const headerGridWidth = leftGridWidth;
+  const leftGridWidth = columnWidth * dataModel.pivotData.size.left.x;
+  const headerGridWidth = columnWidth * dataModel.pivotData.size.headers.x;
   const topGridWidth = rect.width - leftGridWidth;
-  const dataGridWidth = topGridWidth;
+  const dataGridWidth = rect.width - leftGridWidth;
 
-  const headerGridHeight = DEFAULT_ROW_HEIGHT * dataModel.pivotData.headers[0].length;
+  const headerGridHeight = DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.headers.y;
   const leftGridHeight = rect.height - headerGridHeight;
-  const topGridHeight = headerGridHeight;
-  const dataGridHeight = leftGridHeight;
+  const topGridHeight = DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.top.y;
+  const dataGridHeight = rect.height - headerGridHeight;
 
   return (
     <ScrollableContainer rect={rect} onScroll={onScroll} constraints={constraints} >
@@ -74,7 +74,7 @@ export const StickyPivotTable = ({
         <StickyContainer
           rect={rect}
           leftColumnsWidth={columnWidth * dataModel.pivotData.size.left.x}
-          rightColumnsWidth={columnWidth * dataModel.pivotData.data.length}
+          rightColumnsWidth={columnWidth * dataModel.pivotData.size.data.x}
           topRowsHeight={DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.top.y}
           bottomRowsHeight={DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.data.y}
         >
