@@ -15,7 +15,7 @@ export default function createData(dataPage: NxPivotPage, qDimensionInfo: NxDime
   const left = extractLeft(qLeft, qArea);
   const top = extractTop(qTop, qArea);
   const data = extractData(qData);
-  const headers = extractHeaders(qDimensionInfo, top[0].length, left.length);
+  const headers = extractHeaders(qDimensionInfo, getRowCount(top), getColumnCount(left));
   const pivotData: PivotData = {
     left,
     top,
