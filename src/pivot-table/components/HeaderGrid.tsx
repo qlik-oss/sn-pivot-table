@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useLayoutEffect, useRef } from "react";
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
@@ -6,33 +6,41 @@ import useDebug from '../../hooks/use-debug';
 
 interface HeaderGridProps {
   dataModel: DataModel;
-  headerGridRef: React.RefObject<VariableSizeGrid>;
   columnWidthCallback: () => number;
-  headerGridHeight: number;
+  height: number;
   rowHightCallback: () => number;
-  headerGridWidth: number;
-  constraints: Stardust.Constraints;
+  width: number;
 }
 
 const HeaderGrid = ({
   dataModel,
-  headerGridRef,
   columnWidthCallback,
-  headerGridHeight,
+  height,
   rowHightCallback,
-  headerGridWidth,
-  constraints
+  width,
 }: HeaderGridProps): JSX.Element => {
+  const headerGridRef = useRef<VariableSizeGrid>(null);
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   useDebug('HeaderGrid', {
     dataModel,
     headerGridRef,
     columnWidthCallback,
-    headerGridHeight,
+    height,
     rowHightCallback,
-    headerGridWidth,
-    constraints
+    width,
   });
+
+  useLayoutEffect(() => {
+    if (headerGridRef.current) {
+      headerGridRef.current.resetAfterColumnIndex(0);
+    }
+  }, [dataModel]);
+
+  useLayoutEffect(() => {
+    if (headerGridRef.current) {
+      headerGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
+    }
+  }, [width, height]);
 
   return (
     <VariableSizeGrid
@@ -40,13 +48,12 @@ const HeaderGrid = ({
       style={{ overflow: 'hidden' }}
       columnCount={dataModel.stickyData.nbrLeftColumns}
       columnWidth={columnWidthCallback}
-      height={headerGridHeight}
+      height={height}
       rowCount={dataModel.stickyData.headers[0].length}
       rowHeight={rowHightCallback}
-      width={headerGridWidth}
+      width={width}
       itemData={{
         dataModel,
-        constraints,
         matrix: dataModel.stickyData.headers,
         isHeader: true
       }}

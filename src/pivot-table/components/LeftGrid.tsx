@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
@@ -8,9 +8,9 @@ interface LeftGridProps {
   dataModel: DataModel;
   leftGridRef: React.RefObject<VariableSizeGrid>;
   columnWidthCallback: () => number;
-  leftGridHeight: number;
   rowHightCallback: () => number;
-  leftGridWidth: number;
+  width: number;
+  height: number;
   constraints: Stardust.Constraints;
 }
 
@@ -18,9 +18,9 @@ const LeftGrid = ({
   dataModel,
   leftGridRef,
   columnWidthCallback,
-  leftGridHeight,
   rowHightCallback,
-  leftGridWidth,
+  width,
+  height,
   constraints
 }: LeftGridProps): JSX.Element => {
   const MemoizedCellFactory = memo(CellFactory, areEqual);
@@ -28,11 +28,23 @@ const LeftGrid = ({
     dataModel,
     leftGridRef,
     columnWidthCallback,
-    leftGridHeight,
     rowHightCallback,
-    leftGridWidth,
+    width,
+    height,
     constraints
   });
+
+  useLayoutEffect(() => {
+    if (leftGridRef.current) {
+      leftGridRef.current.resetAfterColumnIndex(0);
+    }
+  }, [dataModel]);
+
+  useLayoutEffect(() => {
+    if (leftGridRef.current) {
+      leftGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
+    }
+  }, [width, height]);
 
   return (
     <VariableSizeGrid
@@ -40,10 +52,10 @@ const LeftGrid = ({
       style={{ overflow: 'hidden' }}
       columnCount={dataModel.stickyData.nbrLeftColumns}
       columnWidth={columnWidthCallback}
-      height={leftGridHeight}
+      height={height}
       rowCount={dataModel.stickyData.left[0].length}
       rowHeight={rowHightCallback}
-      width={leftGridWidth}
+      width={width}
       itemData={{
         dataModel,
         constraints,

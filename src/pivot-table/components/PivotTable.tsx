@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useCallback } from 'react';
-import { VariableSizeGrid, GridOnItemsRenderedProps } from 'react-window';
+import React, { useRef, useCallback } from 'react';
+import { VariableSizeGrid } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
 import useDebug from '../../hooks/use-debug';
 import StickyContainer from './StickyContainer';
@@ -29,7 +29,6 @@ export const StickyPivotTable = ({
   constraints,
   dataModel
 }: PivotTableProps): JSX.Element => {
-  const headerGridRef = useRef<VariableSizeGrid>(null);
   const topGridRef = useRef<VariableSizeGrid>(null);
   const leftGridRef = useRef<VariableSizeGrid>(null);
   const dataGridRef = useRef<VariableSizeGrid>(null);
@@ -54,63 +53,11 @@ export const StickyPivotTable = ({
   useDebug('PivotTable', {
     rect,
     constraints,
-    fetchNextPage: dataModel.fetchNextPage,
-    collapseLeft: dataModel.collapseLeft,
-    collapseTop: dataModel.collapseTop,
-    expandLeft: dataModel.expandLeft,
-    expandTop: dataModel.expandTop,
     stickyData: dataModel.stickyData,
     columnWidth,
     hasMoreRows: dataModel.hasMoreRows,
     hasMoreColumns: dataModel.hasMoreColumns
   });
-
-  useEffect(() => {
-    if (headerGridRef.current) {
-      headerGridRef.current.resetAfterColumnIndex(0);
-    }
-
-    if (topGridRef.current) {
-      topGridRef.current.resetAfterColumnIndex(0);
-    }
-
-    if (leftGridRef.current) {
-      leftGridRef.current.resetAfterColumnIndex(0);
-    }
-
-    if (dataGridRef.current) {
-      dataGridRef.current.resetAfterColumnIndex(0);
-    }
-  }, [dataModel]);
-
-  useEffect(() => {
-    if (headerGridRef.current) {
-      headerGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
-    }
-
-    if (topGridRef.current) {
-      topGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
-    }
-
-    if (leftGridRef.current) {
-      leftGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
-    }
-
-    if (dataGridRef.current) {
-      dataGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
-    }
-  }, [rect.width, rect.height]);
-
-  const onItemsRendered = ({
-    visibleColumnStopIndex,
-    visibleRowStopIndex
-  }: GridOnItemsRenderedProps) => {
-    if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.stickyData.data[0].length - 1) {
-      dataModel.fetchNextPage(true);
-    } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.stickyData.data.length - 1) {
-      dataModel.fetchNextPage(false);
-    }
-  };
 
   const leftGridWidth = columnWidth * dataModel.stickyData.left.length;
   const headerGridWidth = leftGridWidth;
@@ -124,7 +71,10 @@ export const StickyPivotTable = ({
 
   return (
     <ScrollableContainer rect={rect} onScroll={onScroll} constraints={constraints} >
-      <FullSizeContainer columnWidth={columnWidth} dataModel={dataModel} >
+      <FullSizeContainer
+        width={columnWidth * dataModel.stickyData.size.columns}
+        height={DEFAULT_ROW_HEIGHT * dataModel.stickyData.size.rows}
+      >
         <StickyContainer
           rect={rect}
           leftColumnsWidth={columnWidth * dataModel.stickyData.nbrLeftColumns}
@@ -134,12 +84,10 @@ export const StickyPivotTable = ({
         >
           <HeaderGrid
             dataModel={dataModel}
-            constraints={constraints}
-            headerGridRef={headerGridRef}
             columnWidthCallback={columnWidthCallback}
             rowHightCallback={rowHightCallback}
-            headerGridWidth={headerGridWidth}
-            headerGridHeight={headerGridHeight}
+            width={headerGridWidth}
+            height={headerGridHeight}
           />
 
           <TopGrid
@@ -148,8 +96,8 @@ export const StickyPivotTable = ({
             topGridRef={topGridRef}
             columnWidthCallback={columnWidthCallback}
             rowHightCallback={rowHightCallback}
-            topGridWidth={topGridWidth}
-            topGridHeight={topGridHeight}
+            width={topGridWidth}
+            height={topGridHeight}
           />
 
           <LeftGrid
@@ -158,19 +106,17 @@ export const StickyPivotTable = ({
             leftGridRef={leftGridRef}
             columnWidthCallback={columnWidthCallback}
             rowHightCallback={rowHightCallback}
-            leftGridWidth={leftGridWidth}
-            leftGridHeight={leftGridHeight}
+            width={leftGridWidth}
+            height={leftGridHeight}
           />
 
           <DataGrid
             dataModel={dataModel}
-            constraints={constraints}
             dataGridRef={dataGridRef}
             columnWidthCallback={columnWidthCallback}
             rowHightCallback={rowHightCallback}
-            dataGridWidth={dataGridWidth}
-            dataGridHeight={dataGridHeight}
-            onItemsRendered={onItemsRendered}
+            width={dataGridWidth}
+            height={dataGridHeight}
           />
         </StickyContainer>
       </FullSizeContainer>

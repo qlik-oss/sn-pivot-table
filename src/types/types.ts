@@ -39,7 +39,7 @@ export interface DataModel {
 }
 
 export interface ItemData {
-  constraints: Stardust.Constraints;
+  constraints?: Stardust.Constraints;
   dataModel: DataModel;
   matrix: Cell[][];
   isLeftColumn?: boolean;

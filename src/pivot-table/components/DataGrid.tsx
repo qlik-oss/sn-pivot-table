@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useLayoutEffect } from "react";
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
@@ -8,34 +8,51 @@ interface DataGridProps {
   dataModel: DataModel;
   dataGridRef: React.RefObject<VariableSizeGrid>;
   columnWidthCallback: () => number;
-  dataGridHeight: number;
+  height: number;
   rowHightCallback: () => number;
-  dataGridWidth: number;
-  constraints: Stardust.Constraints;
-  onItemsRendered: (params: GridOnItemsRenderedProps) => void;
+  width: number;
 }
 
 const DataGrid = ({
   dataModel,
   dataGridRef,
   columnWidthCallback,
-  dataGridHeight,
+  height,
   rowHightCallback,
-  dataGridWidth,
-  constraints,
-  onItemsRendered
+  width,
 }: DataGridProps): JSX.Element => {
   const MemoizedCellFactory = memo(CellFactory, areEqual);
   useDebug('DataGrid', {
     dataModel,
     dataGridRef,
     columnWidthCallback,
-    dataGridHeight,
+    height,
     rowHightCallback,
-    dataGridWidth,
-    constraints,
-    onItemsRendered
+    width,
   });
+
+  useLayoutEffect(() => {
+    if (dataGridRef.current) {
+      dataGridRef.current.resetAfterColumnIndex(0);
+    }
+  }, [dataModel]);
+
+  useLayoutEffect(() => {
+    if (dataGridRef.current) {
+      dataGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
+    }
+  }, [width, height]);
+
+  const onItemsRendered = useCallback(({
+    visibleColumnStopIndex,
+    visibleRowStopIndex
+  }: GridOnItemsRenderedProps) => {
+    if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.stickyData.data[0].length - 1) {
+      dataModel.fetchNextPage(true);
+    } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.stickyData.data.length - 1) {
+      dataModel.fetchNextPage(false);
+    }
+  }, [dataModel]);
 
   return (
     <VariableSizeGrid
@@ -43,13 +60,12 @@ const DataGrid = ({
       style={{ overflow: 'hidden' }}
       columnCount={dataModel.stickyData.data.length}
       columnWidth={columnWidthCallback}
-      height={dataGridHeight}
+      height={height}
       rowCount={dataModel.stickyData.data[0].length}
       rowHeight={rowHightCallback}
-      width={dataGridWidth}
+      width={width}
       itemData={{
         dataModel,
-        constraints,
         matrix: dataModel.stickyData.data,
       }}
       onItemsRendered={onItemsRendered}
