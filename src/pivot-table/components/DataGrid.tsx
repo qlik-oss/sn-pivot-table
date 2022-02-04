@@ -2,7 +2,7 @@ import React, { memo, useCallback, useLayoutEffect } from "react";
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 
 interface DataGridProps {
   dataModel: DataModel;
@@ -28,14 +28,14 @@ const DataGrid = ({
   }
 
   const MemoizedCellFactory = memo(CellFactory, areEqual);
-  useDebug('DataGrid', {
-    dataModel,
-    dataGridRef,
-    columnWidthCallback,
-    height,
-    rowHightCallback,
-    width,
-  });
+  // useDebug('DataGrid', {
+  //   dataModel,
+  //   dataGridRef,
+  //   columnWidthCallback,
+  //   height,
+  //   rowHightCallback,
+  //   width,
+  // });
 
   useLayoutEffect(() => {
     if (dataGridRef.current) {

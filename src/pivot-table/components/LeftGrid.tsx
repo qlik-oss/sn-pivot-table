@@ -2,7 +2,7 @@ import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
 interface LeftGridProps {
@@ -35,15 +35,15 @@ const LeftGrid = ({
   }
 
   const MemoizedCellFactory = memo(CellFactory, areEqual);
-  useDebug('LeftGrid', {
-    dataModel,
-    leftGridRef,
-    columnWidthCallback,
-    rowHightCallback,
-    width,
-    height,
-    constraints
-  });
+  // useDebug('LeftGrid', {
+  //   dataModel,
+  //   leftGridRef,
+  //   columnWidthCallback,
+  //   rowHightCallback,
+  //   width,
+  //   height,
+  //   constraints
+  // });
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {

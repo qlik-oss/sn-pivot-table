@@ -2,7 +2,7 @@ import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from "./shared-styles";
 
 interface TopGridProps {
@@ -35,15 +35,15 @@ const TopGrid = ({
   }
 
   const MemoizedCellFactory = memo(CellFactory, areEqual);
-  useDebug('TopGrid', {
-    dataModel,
-    topGridRef,
-    columnWidthCallback,
-    rowHightCallback,
-    width,
-    height,
-    constraints
-  });
+  // useDebug('TopGrid', {
+  //   dataModel,
+  //   topGridRef,
+  //   columnWidthCallback,
+  //   rowHightCallback,
+  //   width,
+  //   height,
+  //   constraints
+  // });
 
   useLayoutEffect(() => {
     if (topGridRef.current) {

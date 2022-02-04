@@ -1,7 +1,7 @@
 import React, { useRef, useCallback } from 'react';
 import { VariableSizeGrid } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 import StickyContainer from './StickyContainer';
 import ScrollableContainer from './ScrollableContainer';
 import FullSizeContainer from './FullSizeContainer';
@@ -52,11 +52,11 @@ export const StickyPivotTable = ({
 
   const columnWidthCallback = useCallback(() => columnWidth, [columnWidth]);
 
-  useDebug('PivotTable', {
-    rect,
-    dataModel,
-    columnWidth,
-  });
+  // useDebug('PivotTable', {
+  //   rect,
+  //   dataModel,
+  //   columnWidth,
+  // });
 
   const leftGridWidth = columnWidth * size.left.x;
   const headerGridWidth = columnWidth * size.headers.x;

@@ -2,7 +2,7 @@ import React, { memo, useLayoutEffect, useRef } from "react";
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from "./shared-styles";
 
 interface HeaderGridProps {
@@ -32,14 +32,14 @@ const HeaderGrid = ({
 
   const headerGridRef = useRef<VariableSizeGrid>(null);
   const MemoizedCellFactory = memo(CellFactory, areEqual);
-  useDebug('HeaderGrid', {
-    dataModel,
-    headerGridRef,
-    columnWidthCallback,
-    height,
-    rowHightCallback,
-    width,
-  });
+  // useDebug('HeaderGrid', {
+  //   dataModel,
+  //   headerGridRef,
+  //   columnWidthCallback,
+  //   height,
+  //   rowHightCallback,
+  //   width,
+  // });
 
   useLayoutEffect(() => {
     if (headerGridRef.current) {
