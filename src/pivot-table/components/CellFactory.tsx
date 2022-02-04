@@ -15,8 +15,7 @@ interface GridCallbackProps {
 }
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
-  // console.debug('CellFactory', columnIndex, rowIndex)
-  const { dataModel, matrix, isLeftColumn, isHeader } = data;
+  const { matrix, isLeftColumn = false, isHeader = false } = data;
   const cell = matrix[columnIndex][rowIndex];
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 

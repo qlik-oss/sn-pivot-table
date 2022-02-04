@@ -4,14 +4,21 @@ import { Rect } from "../../types/types";
 interface StickyContainerProps {
   rect: Rect;
   children: JSX.Element | JSX.Element[];
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
+  leftColumnsWidth: number;
+  rightColumnsWidth: number;
+  topRowsHeight: number;
+  bottomRowsHeight: number;
 }
 
 const StickyContainer = (
-  {rect, children, left, right, top, bottom }:
+  {
+    rect,
+    children,
+    leftColumnsWidth,
+    rightColumnsWidth,
+    topRowsHeight,
+    bottomRowsHeight
+  }:
   StickyContainerProps
 ): JSX.Element => (
   <div
@@ -20,8 +27,8 @@ const StickyContainer = (
       position: 'sticky',
       top: 0,
       left: 0,
-      gridTemplateColumns: `${left}px ${right}px`,
-      gridTemplateRows: `${top}px ${bottom}px`,
+      gridTemplateColumns: `${leftColumnsWidth}px ${rightColumnsWidth}px`,
+      gridTemplateRows: `${topRowsHeight}px ${bottomRowsHeight}px`,
       width: rect.width,
       height: rect.height
     }}

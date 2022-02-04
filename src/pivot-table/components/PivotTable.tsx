@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, memo } from 'react';
-import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
+import React, { useEffect, useRef, useCallback } from 'react';
+import { VariableSizeGrid, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
-import CellFactory from './CellFactory';
 import useDebug from '../../hooks/use-debug';
 import StickyContainer from './StickyContainer';
 import ScrollableContainer from './ScrollableContainer';
 import FullSizeContainer from './FullSizeContainer';
+import HeaderGrid from './HeaderGrid';
+import TopGrid from './TopGrid';
+import LeftGrid from './LeftGrid';
+import DataGrid from './DataGrid';
 
 export interface PivotTableProps {
   rect: Rect;
@@ -17,20 +20,22 @@ const DEFAULT_COLUMN_WIDTH = 100;
 
 const DEFAULT_ROW_HEIGHT = 28;
 
-const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(DEFAULT_COLUMN_WIDTH, (rect.width-15) / columnCount)
+const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(DEFAULT_COLUMN_WIDTH, (rect.width-15) / columnCount);
+
+const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
 
 export const StickyPivotTable = ({
   rect,
   constraints,
   dataModel
 }: PivotTableProps): JSX.Element => {
-  const MemoizedCellFactory = memo(CellFactory, areEqual);
   const headerGridRef = useRef<VariableSizeGrid>(null);
   const topGridRef = useRef<VariableSizeGrid>(null);
   const leftGridRef = useRef<VariableSizeGrid>(null);
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const onScroll = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
+      // console.debug(event)
       topGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: event.currentTarget.scrollTop });
     }
 
@@ -44,8 +49,7 @@ export const StickyPivotTable = ({
   };
   const columnWidth = getColumnWidth(rect, dataModel.stickyData.size.columns);
 
-  const columnWidthCallback = () => columnWidth;
-  const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
+  const columnWidthCallback = useCallback(() => columnWidth, [columnWidth]);
 
   useDebug('PivotTable', {
     rect,
@@ -118,92 +122,56 @@ export const StickyPivotTable = ({
   const topGridHeight = headerGridHeight;
   const dataGridHeight = leftGridHeight;
 
-
   return (
     <ScrollableContainer rect={rect} onScroll={onScroll} constraints={constraints} >
       <FullSizeContainer columnWidth={columnWidth} dataModel={dataModel} >
         <StickyContainer
           rect={rect}
-          left={columnWidth * dataModel.stickyData.nbrLeftColumns}
-          right={columnWidth * dataModel.stickyData.data.length}
-          top={DEFAULT_ROW_HEIGHT * dataModel.stickyData.nbrTopRows}
-          bottom={DEFAULT_ROW_HEIGHT * dataModel.stickyData.data[0].length}
+          leftColumnsWidth={columnWidth * dataModel.stickyData.nbrLeftColumns}
+          rightColumnsWidth={columnWidth * dataModel.stickyData.data.length}
+          topRowsHeight={DEFAULT_ROW_HEIGHT * dataModel.stickyData.nbrTopRows}
+          bottomRowsHeight={DEFAULT_ROW_HEIGHT * dataModel.stickyData.data[0].length}
         >
-          <VariableSizeGrid
-            ref={headerGridRef}
-            style={{ overflow: 'hidden' }}
-            columnCount={dataModel.stickyData.nbrLeftColumns}
-            columnWidth={columnWidthCallback}
-            height={headerGridHeight}
-            rowCount={dataModel.stickyData.headers[0].length}
-            rowHeight={rowHightCallback}
-            width={headerGridWidth}
-            itemData={{
-              dataModel,
-              constraints,
-              matrix: dataModel.stickyData.headers,
-              isHeader: true
-            }}
-          >
-            {MemoizedCellFactory}
-          </VariableSizeGrid>
+          <HeaderGrid
+            dataModel={dataModel}
+            constraints={constraints}
+            headerGridRef={headerGridRef}
+            columnWidthCallback={columnWidthCallback}
+            rowHightCallback={rowHightCallback}
+            headerGridWidth={headerGridWidth}
+            headerGridHeight={headerGridHeight}
+          />
 
-          <VariableSizeGrid
-            ref={topGridRef}
-            style={{ overflow: 'hidden' }}
-            columnCount={dataModel.stickyData.top.length}
-            columnWidth={columnWidthCallback}
-            height={topGridHeight}
-            rowCount={dataModel.stickyData.top[0].length}
-            rowHeight={rowHightCallback}
-            width={topGridWidth}
-            itemData={{
-              dataModel,
-              constraints,
-              matrix: dataModel.stickyData.top,
-              isHeader: false
-            }}
-          >
-            {MemoizedCellFactory}
-          </VariableSizeGrid>
+          <TopGrid
+            dataModel={dataModel}
+            constraints={constraints}
+            topGridRef={topGridRef}
+            columnWidthCallback={columnWidthCallback}
+            rowHightCallback={rowHightCallback}
+            topGridWidth={topGridWidth}
+            topGridHeight={topGridHeight}
+          />
 
-          <VariableSizeGrid
-            ref={leftGridRef}
-            style={{ overflow: 'hidden' }}
-            columnCount={dataModel.stickyData.nbrLeftColumns}
-            columnWidth={columnWidthCallback}
-            height={leftGridHeight}
-            rowCount={dataModel.stickyData.left[0].length}
-            rowHeight={rowHightCallback}
-            width={leftGridWidth}
-            itemData={{
-              dataModel,
-              constraints,
-              matrix: dataModel.stickyData.left,
-              isLeftColumn: true
-            }}
-          >
-            {MemoizedCellFactory}
-          </VariableSizeGrid>
+          <LeftGrid
+            dataModel={dataModel}
+            constraints={constraints}
+            leftGridRef={leftGridRef}
+            columnWidthCallback={columnWidthCallback}
+            rowHightCallback={rowHightCallback}
+            leftGridWidth={leftGridWidth}
+            leftGridHeight={leftGridHeight}
+          />
 
-          <VariableSizeGrid
-            ref={dataGridRef}
-            style={{ overflow: 'hidden' }}
-            columnCount={dataModel.stickyData.data.length}
-            columnWidth={columnWidthCallback}
-            height={dataGridHeight}
-            rowCount={dataModel.stickyData.data[0].length}
-            rowHeight={rowHightCallback}
-            width={dataGridWidth}
-            itemData={{
-              dataModel,
-              constraints,
-              matrix: dataModel.stickyData.data,
-            }}
+          <DataGrid
+            dataModel={dataModel}
+            constraints={constraints}
+            dataGridRef={dataGridRef}
+            columnWidthCallback={columnWidthCallback}
+            rowHightCallback={rowHightCallback}
+            dataGridWidth={dataGridWidth}
+            dataGridHeight={dataGridHeight}
             onItemsRendered={onItemsRendered}
-          >
-            {MemoizedCellFactory}
-          </VariableSizeGrid>
+          />
         </StickyContainer>
       </FullSizeContainer>
     </ScrollableContainer>
