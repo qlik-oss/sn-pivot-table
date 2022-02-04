@@ -3,6 +3,7 @@ import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
 import useDebug from '../../hooks/use-debug';
+import { gridBorderStyle } from "./shared-styles";
 
 interface HeaderGridProps {
   dataModel: DataModel;
@@ -11,6 +12,12 @@ interface HeaderGridProps {
   rowHightCallback: () => number;
   width: number;
 }
+
+const gridStyle: React.CSSProperties = {
+  overflow: 'hidden',
+  borderWidth: '0px 1px 1px 0px',
+  ...gridBorderStyle
+};
 
 const HeaderGrid = ({
   dataModel,
@@ -45,7 +52,7 @@ const HeaderGrid = ({
   return (
     <VariableSizeGrid
       ref={headerGridRef}
-      style={{ overflow: 'hidden' }}
+      style={gridStyle}
       columnCount={dataModel.stickyData.nbrLeftColumns}
       columnWidth={columnWidthCallback}
       height={height}

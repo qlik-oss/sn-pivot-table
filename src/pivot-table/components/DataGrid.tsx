@@ -13,6 +13,8 @@ interface DataGridProps {
   width: number;
 }
 
+const gridStyle: React.CSSProperties = { overflow: 'hidden' };
+
 const DataGrid = ({
   dataModel,
   dataGridRef,
@@ -57,7 +59,7 @@ const DataGrid = ({
   return (
     <VariableSizeGrid
       ref={dataGridRef}
-      style={{ overflow: 'hidden' }}
+      style={gridStyle}
       columnCount={dataModel.stickyData.data.length}
       columnWidth={columnWidthCallback}
       height={height}

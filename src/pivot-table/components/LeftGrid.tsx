@@ -3,6 +3,7 @@ import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from "../../types/types";
 import CellFactory from "./CellFactory";
 import useDebug from '../../hooks/use-debug';
+import { gridBorderStyle } from './shared-styles';
 
 interface LeftGridProps {
   dataModel: DataModel;
@@ -13,6 +14,12 @@ interface LeftGridProps {
   height: number;
   constraints: Stardust.Constraints;
 }
+
+const gridStyle: React.CSSProperties = {
+  overflow: 'hidden',
+  borderWidth: '0px 1px 0px 0px',
+  ...gridBorderStyle
+};
 
 const LeftGrid = ({
   dataModel,
@@ -49,7 +56,7 @@ const LeftGrid = ({
   return (
     <VariableSizeGrid
       ref={leftGridRef}
-      style={{ overflow: 'hidden' }}
+      style={gridStyle}
       columnCount={dataModel.stickyData.nbrLeftColumns}
       columnWidth={columnWidthCallback}
       height={height}

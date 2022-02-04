@@ -17,7 +17,14 @@ const textStyle: React.CSSProperties = {
   whiteSpace: 'nowrap',
 };
 
+const gridBorderStyle: React.CSSProperties = {
+  borderStyle: 'solid',
+  borderColor: '#a6a6a6',
+  boxSizing: 'border-box',
+};
+
 export {
   borderStyle,
   textStyle,
+  gridBorderStyle,
 };
