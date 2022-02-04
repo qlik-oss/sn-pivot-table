@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from '@nebula.js/stardust';
-import toData from '../pivot-table/handle-data';
+import createData from '../pivot-table/data';
 import { Layout, NxPageArea } from "../types/QIX";
 import { DataModel, FetchNextPage, Model } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
@@ -68,7 +68,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       setDimInfo(layout.qHyperCube.qDimensionInfo);
       setSize(layout.qHyperCube.qSize);
       setNoOfLeftDims(layout.qHyperCube.qNoOfLeftDims);
-      setPivotData(toData(pivotPage, layout.qHyperCube.qDimensionInfo));
+      setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo));
     }
   }, [layout]);
 
@@ -91,7 +91,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       setLoading(false);
       setHasMoreRows(pivotPage.qArea.qHeight < qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < qSize.qcx);
-      setPivotData(toData(pivotPage, qDimInfo));
+      setPivotData(createData(pivotPage, qDimInfo));
     } catch (error) {
       console.log('ERROR', error);
       setLoading(false);
