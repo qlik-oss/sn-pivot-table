@@ -47,7 +47,6 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
 
   useEffect(async () => {
     if (layout) {
-      console.debug('LAYOUT', layout)
       let pivotPage = layout.qHyperCube.qPivotDataPages[0];
 
       if (expandOrCollapseIndex.hasChanged && expandOrCollapseIndex.direction === 'column') {

@@ -31,12 +31,9 @@ export default function supernova() {
         }
       }, [dataModel, rect, constraints]);
 
-      useEffect(
-        () => () => {
+      useEffect(() => () => {
           teardown(element);
-        },
-        []
-      );
+        }, []);
     },
   };
 }

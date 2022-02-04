@@ -32,6 +32,8 @@ export const StickyPivotTable = ({
   const topGridRef = useRef<VariableSizeGrid>(null);
   const leftGridRef = useRef<VariableSizeGrid>(null);
   const dataGridRef = useRef<VariableSizeGrid>(null);
+  const { size } = dataModel.pivotData;
+
   const onScroll = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
       topGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: 0 });
@@ -45,7 +47,8 @@ export const StickyPivotTable = ({
       dataGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: event.currentTarget.scrollTop });
     }
   };
-  const columnWidth = getColumnWidth(rect, dataModel.pivotData.size.totalColumns);
+
+  const columnWidth = getColumnWidth(rect, size.totalColumns);
 
   const columnWidthCallback = useCallback(() => columnWidth, [columnWidth]);
 
@@ -55,28 +58,28 @@ export const StickyPivotTable = ({
     columnWidth,
   });
 
-  const leftGridWidth = columnWidth * dataModel.pivotData.size.left.x;
-  const headerGridWidth = columnWidth * dataModel.pivotData.size.headers.x;
+  const leftGridWidth = columnWidth * size.left.x;
+  const headerGridWidth = columnWidth * size.headers.x;
   const topGridWidth = rect.width - leftGridWidth;
   const dataGridWidth = rect.width - leftGridWidth;
 
-  const headerGridHeight = DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.headers.y;
+  const headerGridHeight = DEFAULT_ROW_HEIGHT * size.headers.y;
   const leftGridHeight = rect.height - headerGridHeight;
-  const topGridHeight = DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.top.y;
+  const topGridHeight = DEFAULT_ROW_HEIGHT * size.top.y;
   const dataGridHeight = rect.height - headerGridHeight;
 
   return (
     <ScrollableContainer rect={rect} onScroll={onScroll} constraints={constraints} >
       <FullSizeContainer
-        width={columnWidth * dataModel.pivotData.size.totalColumns}
-        height={DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.totalRows}
+        width={columnWidth * size.totalColumns}
+        height={DEFAULT_ROW_HEIGHT * size.totalRows}
       >
         <StickyContainer
           rect={rect}
-          leftColumnsWidth={columnWidth * dataModel.pivotData.size.left.x}
-          rightColumnsWidth={columnWidth * dataModel.pivotData.size.data.x}
-          topRowsHeight={DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.top.y}
-          bottomRowsHeight={DEFAULT_ROW_HEIGHT * dataModel.pivotData.size.data.y}
+          leftColumnsWidth={columnWidth * size.left.x}
+          rightColumnsWidth={columnWidth * size.data.x}
+          topRowsHeight={DEFAULT_ROW_HEIGHT * size.top.y}
+          bottomRowsHeight={DEFAULT_ROW_HEIGHT * size.data.y}
         >
           <HeaderGrid
             dataModel={dataModel}
