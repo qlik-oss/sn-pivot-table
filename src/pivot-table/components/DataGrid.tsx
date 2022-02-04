@@ -49,9 +49,9 @@ const DataGrid = ({
     visibleColumnStopIndex,
     visibleRowStopIndex
   }: GridOnItemsRenderedProps) => {
-    if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.stickyData.data[0].length - 1) {
+    if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.pivotData.data[0].length - 1) {
       dataModel.fetchNextPage(true);
-    } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.stickyData.data.length - 1) {
+    } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.pivotData.data.length - 1) {
       dataModel.fetchNextPage(false);
     }
   }, [dataModel]);
@@ -60,15 +60,15 @@ const DataGrid = ({
     <VariableSizeGrid
       ref={dataGridRef}
       style={gridStyle}
-      columnCount={dataModel.stickyData.data.length}
+      columnCount={dataModel.pivotData.data.length}
       columnWidth={columnWidthCallback}
       height={height}
-      rowCount={dataModel.stickyData.data[0].length}
+      rowCount={dataModel.pivotData.data[0].length}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
         dataModel,
-        matrix: dataModel.stickyData.data,
+        matrix: dataModel.pivotData.data,
       }}
       onItemsRendered={onItemsRendered}
     >

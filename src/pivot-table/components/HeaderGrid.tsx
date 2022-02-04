@@ -53,15 +53,15 @@ const HeaderGrid = ({
     <VariableSizeGrid
       ref={headerGridRef}
       style={gridStyle}
-      columnCount={dataModel.stickyData.nbrLeftColumns}
+      columnCount={dataModel.pivotData.size.headers.x}
       columnWidth={columnWidthCallback}
       height={height}
-      rowCount={dataModel.stickyData.headers[0].length}
+      rowCount={dataModel.pivotData.size.headers.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
         dataModel,
-        matrix: dataModel.stickyData.headers,
+        matrix: dataModel.pivotData.headers,
         isHeader: true
       }}
     >

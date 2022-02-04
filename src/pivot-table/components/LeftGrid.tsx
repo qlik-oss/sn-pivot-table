@@ -57,16 +57,16 @@ const LeftGrid = ({
     <VariableSizeGrid
       ref={leftGridRef}
       style={gridStyle}
-      columnCount={dataModel.stickyData.nbrLeftColumns}
+      columnCount={dataModel.pivotData.size.left.x}
       columnWidth={columnWidthCallback}
       height={height}
-      rowCount={dataModel.stickyData.left[0].length}
+      rowCount={dataModel.pivotData.size.left.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
         dataModel,
         constraints,
-        matrix: dataModel.stickyData.left,
+        matrix: dataModel.pivotData.left,
         isLeftColumn: true
       }}
     >

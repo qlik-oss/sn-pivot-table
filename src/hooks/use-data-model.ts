@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from '@nebula.js/stardust';
-import toMatrix, { toData } from '../pivot-table/handle-data';
+import toData from '../pivot-table/handle-data';
 import { Layout, NxPageArea } from "../types/QIX";
 import { DataModel, FetchNextPage, Model } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
@@ -30,7 +30,6 @@ const getNextColumn = (qArea: NxPageArea, lastExpandPos = 0) => {
 
 export default function useDataModel(layout: Layout, model: Model): DataModel {
   const [pivotData, setPivotData] = useState();
-  const [stickyData, setStickyData] = useState();
   const [loading, setLoading] = useState(false);
   const [qArea, setArea] = useState(layout?.qHyperCube.qPivotDataPages[0].qArea);
   const [hasMoreRows, setHasMoreRows] = useState(false);
@@ -48,6 +47,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
 
   useEffect(async () => {
     if (layout) {
+      console.debug('LAYOUT', layout)
       let pivotPage = layout.qHyperCube.qPivotDataPages[0];
 
       if (expandOrCollapseIndex.hasChanged && expandOrCollapseIndex.direction === 'column') {
@@ -62,15 +62,13 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
         });
       }
 
-      const matrix = toMatrix(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
-      setPivotData(matrix);
       setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
       setArea(pivotPage.qArea);
       setDimInfo(layout.qHyperCube.qDimensionInfo);
       setSize(layout.qHyperCube.qSize);
       setNoOfLeftDims(layout.qHyperCube.qNoOfLeftDims);
-      setStickyData(toData(pivotPage, layout.qHyperCube.qDimensionInfo));
+      setPivotData(toData(pivotPage, layout.qHyperCube.qDimensionInfo));
     }
   }, [layout]);
 
@@ -88,13 +86,12 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
           : getNextColumn(qArea)
         ]
       });
-      const matrix = toMatrix(pivotPage, qDimInfo, qNoOfLeftDims);
-      setPivotData(matrix);
+
       setArea(pivotPage.qArea);
       setLoading(false);
       setHasMoreRows(pivotPage.qArea.qHeight < qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < qSize.qcx);
-      setStickyData(toData(pivotPage, qDimInfo));
+      setPivotData(toData(pivotPage, qDimInfo));
     } catch (error) {
       console.log('ERROR', error);
       setLoading(false);
@@ -102,7 +99,6 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
   }, [qArea, model, qDimInfo, qSize, qNoOfLeftDims]);
 
   const dataModel: DataModel = useMemo(() => ({
-    pivotData,
     fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
@@ -110,16 +106,15 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
     collapseTop,
     expandLeft,
     expandTop,
-    stickyData
-  }),[pivotData,
-    fetchNextPage,
+    pivotData
+  }),[fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
     collapseLeft,
     collapseTop,
     expandLeft,
     expandTop,
-    stickyData
+    pivotData
   ]);
 
   return dataModel;

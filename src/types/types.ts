@@ -26,9 +26,13 @@ export interface Rect {
   height: number;
 }
 
+export interface Point {
+  x: number;
+  y: number;
+}
+
 export interface DataModel {
   pivotData: PivotData;
-  stickyData: StickyData;
   fetchNextPage: FetchNextPage;
   hasMoreColumns: boolean;
   hasMoreRows: boolean;
@@ -54,25 +58,17 @@ export interface Cell {
 
 export type CellValue = NxPivotValuePoint | NxPivotDimensionCell | string | null | undefined;
 
-export type Matrix = Array<Cell[]>;
-
 export interface PivotData {
-  matrix: Matrix;
-  leftMatrix: Matrix,
-  topMatrix: Matrix,
-  nbrTopRows: number;
-  nbrLeftColumns: number;
-}
-
-export interface StickyData {
   left: Cell[][],
   top: Cell[][],
   data: Cell[][],
   headers: Cell[][],
-  nbrTopRows: number;
-  nbrLeftColumns: number;
   size: {
-    columns: number;
-    rows: number;
+    headers: Point;
+    top: Point;
+    left: Point;
+    data: Point;
+    totalColumns: number;
+    totalRows: number;
   }
 }

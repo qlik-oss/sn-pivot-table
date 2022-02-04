@@ -57,16 +57,16 @@ const TopGrid = ({
     <VariableSizeGrid
       ref={topGridRef}
       style={gridStyle}
-      columnCount={dataModel.stickyData.top.length}
+      columnCount={dataModel.pivotData.top.length}
       columnWidth={columnWidthCallback}
       height={height}
-      rowCount={dataModel.stickyData.top[0].length}
+      rowCount={dataModel.pivotData.top[0].length}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
         dataModel,
         constraints,
-        matrix: dataModel.stickyData.top,
+        matrix: dataModel.pivotData.top,
         isHeader: true
       }}
     >
