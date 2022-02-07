@@ -1,7 +1,6 @@
 import React from 'react';
-import { ItemData, TYPE } from '../../types/types';
+import { Cell, ItemData, TYPE } from '../../types/types';
 import DimensionCell from './DimensionCell';
-import MeasureCell from './MeasureCell';
 import DimensionTitleCell from './DimensionTitleCell';
 import EmptyHeaderCell from './EmptyHeaderCell';
 import EmptyCell from './EmptyCell';
@@ -16,7 +15,7 @@ interface GridCallbackProps {
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
   const { matrix, isLeftColumn = false, isHeader = false } = data;
-  const cell = matrix[columnIndex][rowIndex];
+  const cell = matrix[columnIndex][rowIndex] as Cell;
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 
   if (cell.type === TYPE.DIMENSION) {
@@ -28,13 +27,6 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
       style={style}
       isLeftColumn={isLeftColumn}
     />;
-  }
-
-  if (cell.type === TYPE.MEASURE) {
-    return <MeasureCell
-      cell={cell}
-      style={style}
-    />
   }
 
   if (cell.type === TYPE.LABEL) {

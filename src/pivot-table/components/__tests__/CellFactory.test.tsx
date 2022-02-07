@@ -2,16 +2,14 @@ import React from 'react';
 import { render } from '@testing-library/react'
 import CellFactory from '../CellFactory';
 import { Cell, DataModel, ItemData, TYPE } from '../../../types/types';
-import { NxPivotDimensionCell, NxPivotValuePoint } from '../../../types/QIX';
+import { NxPivotDimensionCell } from '../../../types/QIX';
 import DimensionCell from '../DimensionCell';
 import DimensionTitleCell from '../DimensionTitleCell';
-import MeasureCell from '../MeasureCell';
 import EmptyHeaderCell from '../EmptyHeaderCell';
 import EmptyCell from '../EmptyCell';
 
 jest.mock('../DimensionCell');
 jest.mock('../DimensionTitleCell');
-jest.mock('../MeasureCell');
 jest.mock('../EmptyHeaderCell');
 jest.mock('../EmptyCell');
 
@@ -44,11 +42,11 @@ describe('CellFactory', () => {
 
     dataModel = {
       pivotData: {
-        data: [
+        data: [],
+        left: [
           [cell, cell, cell],
           [cell, cell, cell]
         ],
-        left: [],
         top: [],
         headers: [],
         size: {
@@ -71,7 +69,7 @@ describe('CellFactory', () => {
 
     data = {
       dataModel,
-      matrix: dataModel.pivotData.data,
+      matrix: dataModel.pivotData.left,
       isLeftColumn: false,
       isHeader: false,
       constraints
@@ -111,17 +109,6 @@ describe('CellFactory', () => {
     render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 
     expect(mockDimensionTitleCell).toHaveBeenCalledWith({ style, cell }, {});
-  });
-
-  test('should render measure cell', () => {
-    const mockMeasureCell = MeasureCell as jest.MockedFunction<typeof MeasureCell>;
-    mockMeasureCell.mockReturnValue(<div />);
-    cell.value = { qText, qNum: 1 } as NxPivotValuePoint;
-    cell.type = TYPE.MEASURE;
-
-    render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
-
-    expect(mockMeasureCell).toHaveBeenCalledWith({ style, cell }, {});
   });
 
   test('should render empty header cell', () => {

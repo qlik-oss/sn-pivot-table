@@ -1,6 +1,5 @@
 import { NxDimensionInfo, NxPivotPage } from "../../types/QIX";
 import { Cell, PivotData } from "../../types/types";
-import extractData from "./extract-data";
 import extractHeaders from "./extract-headers";
 import extractLeft from "./extract-left";
 import extractTop from "./extract-top";
@@ -14,7 +13,7 @@ export default function createData(dataPage: NxPivotPage, qDimensionInfo: NxDime
 
   const left = extractLeft(qLeft, qArea);
   const top = extractTop(qTop, qArea);
-  const data = extractData(qData);
+  const data = qData;
   const headers = extractHeaders(qDimensionInfo, getRowCount(top), getColumnCount(left));
   const pivotData: PivotData = {
     left,
@@ -35,11 +34,11 @@ export default function createData(dataPage: NxPivotPage, qDimensionInfo: NxDime
         y: getRowCount(left)
       },
       data: {
-        x: getColumnCount(data),
-        y: getRowCount(data)
+        x: qArea.qWidth,
+        y: qArea.qHeight
       },
-      totalRows: getRowCount(top) + getRowCount(data),
-      totalColumns: getColumnCount(left) + getColumnCount(data),
+      totalRows: getRowCount(top) + qArea.qHeight,
+      totalColumns: getColumnCount(left) + qArea.qWidth,
     }
   };
 

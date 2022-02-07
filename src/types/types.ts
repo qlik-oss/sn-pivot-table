@@ -45,7 +45,7 @@ export interface DataModel {
 export interface ItemData {
   constraints?: Stardust.Constraints;
   dataModel: DataModel;
-  matrix: Cell[][];
+  matrix: Cell[][] | NxPivotValuePoint[][];
   isLeftColumn?: boolean;
   isHeader?: boolean;
 }
@@ -61,7 +61,7 @@ export type CellValue = NxPivotValuePoint | NxPivotDimensionCell | string | null
 export interface PivotData {
   left: Cell[][],
   top: Cell[][],
-  data: Cell[][],
+  data: NxPivotValuePoint[][],
   headers: Cell[][],
   size: {
     headers: Point;

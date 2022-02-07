@@ -33,11 +33,11 @@ describe('DimensionCell', () => {
 
     dataModel = {
       pivotData: {
-        data: [
+        data: [],
+        left: [
           [cell, cell, cell],
           [cell, cell, cell]
         ],
-        left: [],
         top: [],
         headers: [],
         size: {
@@ -65,7 +65,7 @@ describe('DimensionCell', () => {
 
     data = {
       dataModel,
-      matrix: dataModel.pivotData.data,
+      matrix: dataModel.pivotData.left,
       isLeftColumn: false,
       isHeader: false,
       constraints

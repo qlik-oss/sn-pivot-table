@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useLayoutEffect } from "react";
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel } from "../../types/types";
-import CellFactory from "./CellFactory";
+import DataCell from './DataCell';
 // import useDebug from '../../hooks/use-debug';
 
 interface DataGridProps {
@@ -27,7 +27,7 @@ const DataGrid = ({
     return null;
   }
 
-  const MemoizedCellFactory = memo(CellFactory, areEqual);
+  const MemoizedDataCell = memo(DataCell, areEqual);
   // useDebug('DataGrid', {
   //   dataModel,
   //   dataGridRef,
@@ -76,7 +76,7 @@ const DataGrid = ({
       }}
       onItemsRendered={onItemsRendered}
     >
-      {MemoizedCellFactory}
+      {MemoizedDataCell}
     </VariableSizeGrid>
   )
 }
