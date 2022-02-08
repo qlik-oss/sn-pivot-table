@@ -39,6 +39,7 @@ overrides:
       import/no-extraneous-dependencies: 0
       semi: 2
       quotes: [2, 'single']
+      react/jsx-indent-props: 2
 
   # Unit test files
   - files:
