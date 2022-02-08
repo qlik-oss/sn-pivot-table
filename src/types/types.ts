@@ -1,4 +1,4 @@
-import { NxPageArea, NxPivotDimensionCell, NxPivotPage, NxPivotValuePoint } from "./QIX";
+import { NxPageArea, NxPivotDimensionCell, NxPivotPage, NxPivotValuePoint } from './QIX';
 
 type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => Promise<void>;
 

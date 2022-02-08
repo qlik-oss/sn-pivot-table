@@ -1,5 +1,5 @@
-import { NxDimensionInfo } from "../../types/QIX";
-import { CellValue } from "../../types/types";
+import { NxDimensionInfo } from '../../types/QIX';
+import { CellValue } from '../../types/types';
 
 const extractHeaders = (qDim: NxDimensionInfo[], rowCount: number, colCount: number): CellValue[][] => {
   const ary: CellValue[][] = [];

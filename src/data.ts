@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { GenericObjectLayout, NxDimension, NxMeasure } from "./types/QIX";
+import { GenericObjectLayout, NxDimension, NxMeasure } from './types/QIX';
 
 const updateNbrLeftDims = (definition: GenericObjectLayout) => {
   if (definition.qHyperCubeDef.qDimensions.length <= 2) {
@@ -17,7 +17,7 @@ const updateInterColumnSortOrder = (def: GenericObjectLayout) => {
     def.qHyperCubeDef.qInterColumnSortOrder.sort().splice(dimCount, measureCount, -1);
   }
   console.log('qInterColumnSortOrder', def.qHyperCubeDef.qInterColumnSortOrder);
-}
+};
 
 export default {
   targets: [

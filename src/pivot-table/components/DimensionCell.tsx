@@ -50,7 +50,7 @@ const createOnExpand = ({ dataModel, isLeftColumn, rowIndex, colIndex, constrain
 
   return isLeftColumn
     ? () => dataModel.expandLeft(rowIndex, colIndex)
-    : () => dataModel.expandTop(rowIndex, colIndex)
+    : () => dataModel.expandTop(rowIndex, colIndex);
 };
 
 const createOnCollapse = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints }: OnExpandOrCollapseProps) => {
@@ -80,10 +80,10 @@ const DimensionCell = ({
   let cellIcon = null;
 
   if (qCanExpand) {
-    cellIcon = <AddCircleOutlineSharpIcon fontSize="small" data-testid={testIdExpandIcon} />
+    cellIcon = <AddCircleOutlineSharpIcon fontSize="small" data-testid={testIdExpandIcon} />;
     onClickHandler = createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints });
   } else if (qCanCollapse) {
-    cellIcon = <RemoveCircleOutlineSharpIcon fontSize="small" data-testid={testIdCollapseIcon} />
+    cellIcon = <RemoveCircleOutlineSharpIcon fontSize="small" data-testid={testIdCollapseIcon} />;
     onClickHandler = createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints });
   }
 

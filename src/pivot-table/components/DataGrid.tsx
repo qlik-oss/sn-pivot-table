@@ -1,6 +1,6 @@
-import React, { memo, useCallback, useLayoutEffect } from "react";
+import React, { memo, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
-import { DataModel } from "../../types/types";
+import { DataModel } from '../../types/types';
 import DataCell from './DataCell';
 // import useDebug from '../../hooks/use-debug';
 
@@ -78,7 +78,7 @@ const DataGrid = ({
     >
       {MemoizedDataCell}
     </VariableSizeGrid>
-  )
-}
+  );
+};
 
 export default DataGrid;

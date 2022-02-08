@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react';
 import DimensionTitleCell, { testId } from '../DimensionTitleCell';
 import { CellValue } from '../../../types/types';
 
@@ -15,6 +15,6 @@ test('should render',  () => {
 
   render(<DimensionTitleCell cell={cell} style={style} />);
 
-  expect(screen.getByText(cell)).toBeInTheDocument()
+  expect(screen.getByText(cell)).toBeInTheDocument();
   expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);
 });

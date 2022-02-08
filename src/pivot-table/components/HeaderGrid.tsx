@@ -1,9 +1,9 @@
-import React, { memo, useLayoutEffect, useRef } from "react";
+import React, { memo, useLayoutEffect, useRef } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { DataModel } from "../../types/types";
-import CellFactory from "./CellFactory";
+import { DataModel } from '../../types/types';
+import CellFactory from './CellFactory';
 // import useDebug from '../../hooks/use-debug';
-import { gridBorderStyle } from "./shared-styles";
+import { gridBorderStyle } from './shared-styles';
 
 interface HeaderGridProps {
   dataModel: DataModel;
@@ -71,7 +71,7 @@ const HeaderGrid = ({
     >
       {MemoizedCellFactory}
     </VariableSizeGrid>
-  )
-}
+  );
+};
 
 export default HeaderGrid;

@@ -1,8 +1,8 @@
-import { NxDimensionInfo, NxPivotPage } from "../../types/QIX";
-import { CellValue, PivotData } from "../../types/types";
-import extractHeaders from "./extract-headers";
-import extractLeft from "./extract-left";
-import extractTop from "./extract-top";
+import { NxDimensionInfo, NxPivotPage } from '../../types/QIX';
+import { CellValue, PivotData } from '../../types/types';
+import extractHeaders from './extract-headers';
+import extractLeft from './extract-left';
+import extractTop from './extract-top';
 
 const getColumnCount = (matrix: CellValue[][]): number => matrix.length;
 
