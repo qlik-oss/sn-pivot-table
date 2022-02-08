@@ -1,12 +1,12 @@
 import React from 'react';
 import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
 import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
-import { Cell, ItemData, DataModel } from '../../types/types';
+import { CellValue, ItemData, DataModel } from '../../types/types';
 import { NxPivotDimensionCell } from '../../types/QIX';
 import { borderStyle, textStyle } from './shared-styles';
 
 export interface DimensionCellProps {
-  cell: Cell;
+  cell: CellValue;
   rowIndex: number;
   colIndex: number;
   style: React.CSSProperties;
@@ -65,13 +65,13 @@ const createOnCollapse = ({ dataModel, isLeftColumn, rowIndex, colIndex, constra
 
 const DimensionCell = ({
   cell,
-  rowIndex = 0,
-  colIndex = 0,
+  rowIndex,
+  colIndex,
   style,
-  isLeftColumn = false,
+  isLeftColumn,
   data
 }: DimensionCellProps): JSX.Element => {
-  const { qText, qCanCollapse, qCanExpand } = (cell.value as NxPivotDimensionCell);
+  const { qText, qCanCollapse, qCanExpand } = cell as NxPivotDimensionCell;
   const {
     constraints = { active: false, passive: false, select: false },
     dataModel

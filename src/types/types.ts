@@ -1,12 +1,5 @@
 import { NxPageArea, NxPivotDimensionCell, NxPivotPage, NxPivotValuePoint } from "./QIX";
 
-export enum TYPE {
-  LABEL = 'LABEL',
-  DIMENSION = 'DIMENSION',
-  MEASURE = 'MEASURE',
-  EMPTY = 'EMPTY',
-};
-
 type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => Promise<void>;
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
@@ -45,24 +38,18 @@ export interface DataModel {
 export interface ItemData {
   constraints?: Stardust.Constraints;
   dataModel: DataModel;
-  matrix: Cell[][] | NxPivotValuePoint[][];
+  matrix: CellValue[][] | NxPivotValuePoint[][];
   isLeftColumn?: boolean;
   isHeader?: boolean;
 }
 
-export interface Cell {
-  key: number | string;
-  type: string;
-  value: CellValue;
-}
-
-export type CellValue = NxPivotValuePoint | NxPivotDimensionCell | string | null | undefined;
+export type CellValue = NxPivotDimensionCell | string | null;
 
 export interface PivotData {
-  left: Cell[][],
-  top: Cell[][],
+  left: CellValue[][],
+  top: CellValue[][],
   data: NxPivotValuePoint[][],
-  headers: Cell[][],
+  headers: CellValue[][],
   size: {
     headers: Point;
     top: Point;

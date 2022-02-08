@@ -1,12 +1,12 @@
 import { NxDimensionInfo, NxPivotPage } from "../../types/QIX";
-import { Cell, PivotData } from "../../types/types";
+import { CellValue, PivotData } from "../../types/types";
 import extractHeaders from "./extract-headers";
 import extractLeft from "./extract-left";
 import extractTop from "./extract-top";
 
-const getColumnCount = (matrix: Cell[][]): number => matrix.length;
+const getColumnCount = (matrix: CellValue[][]): number => matrix.length;
 
-const getRowCount = (matrix: Cell[][]): number => matrix[0]?.length || 0;
+const getRowCount = (matrix: CellValue[][]): number => matrix[0]?.length || 0;
 
 export default function createData(dataPage: NxPivotPage, qDimensionInfo: NxDimensionInfo[]): PivotData {
   const { qLeft, qArea, qTop, qData } = dataPage;

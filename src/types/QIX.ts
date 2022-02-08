@@ -50,14 +50,14 @@ export interface NxPivotDimensionCell {
   qText: string;
   qElemNo: number;
   qValue: number | string;
-  qCanExpand: boolean;
-  qCanCollapse: boolean;
+  qCanExpand?: boolean;
+  qCanCollapse?: boolean;
   qType: NxDimCellType;
   qUp: number;
   qDown: number;
   qSubNodes: Array<NxPivotDimensionCell>;
-  qAttrExps: NxAttributeExpressionValues;
-  qAttrDims: NxAttributeDimValues;
+  qAttrExps?: NxAttributeExpressionValues;
+  qAttrDims?: NxAttributeDimValues;
 }
 
 // https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FNxPivotPage
