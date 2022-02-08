@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from '@nebula.js/stardust';
-import toMatrix from '../pivot-table/handle-data';
+import createData from '../pivot-table/data';
 import { Layout, NxPageArea } from "../types/QIX";
 import { DataModel, FetchNextPage, Model } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
@@ -61,14 +61,13 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
         });
       }
 
-      const matrix = toMatrix(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims);
-      setPivotData(matrix);
       setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
       setArea(pivotPage.qArea);
       setDimInfo(layout.qHyperCube.qDimensionInfo);
       setSize(layout.qHyperCube.qSize);
       setNoOfLeftDims(layout.qHyperCube.qNoOfLeftDims);
+      setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo));
     }
   }, [layout]);
 
@@ -86,12 +85,12 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
           : getNextColumn(qArea)
         ]
       });
-      const matrix = toMatrix(pivotPage, qDimInfo, qNoOfLeftDims);
-      setPivotData(matrix);
+
       setArea(pivotPage.qArea);
       setLoading(false);
       setHasMoreRows(pivotPage.qArea.qHeight < qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < qSize.qcx);
+      setPivotData(createData(pivotPage, qDimInfo));
     } catch (error) {
       console.log('ERROR', error);
       setLoading(false);
@@ -99,7 +98,6 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
   }, [qArea, model, qDimInfo, qSize, qNoOfLeftDims]);
 
   const dataModel: DataModel = useMemo(() => ({
-    pivotData,
     fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
@@ -107,14 +105,16 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
     collapseTop,
     expandLeft,
     expandTop,
-  }),[pivotData,
-    fetchNextPage,
+    pivotData
+  }),[fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
     collapseLeft,
     collapseTop,
     expandLeft,
-    expandTop]);
+    expandTop,
+    pivotData
+  ]);
 
   return dataModel;
 }

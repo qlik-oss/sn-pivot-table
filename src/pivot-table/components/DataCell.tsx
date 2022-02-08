@@ -1,11 +1,13 @@
 import React from 'react';
 import { NxPivotValuePoint } from '../../types/QIX';
-import { Cell } from '../../types/types';
+import { ItemData } from '../../types/types';
 import { borderStyle, textStyle } from './shared-styles';
 
 export interface MeasureCellProps {
-  cell: Cell;
+  columnIndex: number;
+  rowIndex: number;
   style: React.CSSProperties;
+  data: ItemData;
 }
 
 const numericStyle: React.CSSProperties = {
@@ -33,8 +35,8 @@ const containerStyle: React.CSSProperties = {
 
 export const testId = 'measure-cell';
 
-const MeasureCell = ({ cell, style }: MeasureCellProps): JSX.Element => {
-  const { qNum, qText } = (cell.value as NxPivotValuePoint);
+const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element => {
+  const { qNum, qText } = data.matrix[rowIndex][columnIndex] as NxPivotValuePoint;
 
   return (
     <div style={{...style, ...containerStyle}} data-testid={testId}>

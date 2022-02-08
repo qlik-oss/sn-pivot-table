@@ -1,7 +1,6 @@
 import React from 'react';
-import { ItemData, TYPE } from '../../types/types';
+import { Cell, ItemData, TYPE } from '../../types/types';
 import DimensionCell from './DimensionCell';
-import MeasureCell from './MeasureCell';
 import DimensionTitleCell from './DimensionTitleCell';
 import EmptyHeaderCell from './EmptyHeaderCell';
 import EmptyCell from './EmptyCell';
@@ -15,35 +14,26 @@ interface GridCallbackProps {
 }
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
-  const { pivotData } = data;
-  const cell = pivotData.matrix[columnIndex][rowIndex];
+  const { matrix, isLeftColumn = false, isHeader = false } = data;
+  const cell = matrix[columnIndex][rowIndex] as Cell;
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 
   if (cell.type === TYPE.DIMENSION) {
-    const isLeftColumn = rowIndex >= pivotData.nbrTopRows;
-
     return <DimensionCell
       cell={cell}
       data={data}
-      rowIndex={isLeftColumn ? rowIndex - pivotData.nbrTopRows : rowIndex}
-      colIndex={isLeftColumn ? columnIndex : columnIndex - pivotData.nbrLeftColumns}
+      rowIndex={rowIndex}
+      colIndex={columnIndex}
       style={style}
       isLeftColumn={isLeftColumn}
     />;
-  }
-
-  if (cell.type === TYPE.MEASURE) {
-    return <MeasureCell
-      cell={cell}
-      style={style}
-    />
   }
 
   if (cell.type === TYPE.LABEL) {
     return <DimensionTitleCell cell={cell} style={style} />
   }
 
-  if (cell.type === TYPE.EMPTY && rowIndex < pivotData.nbrTopRows) {
+  if (cell.type === TYPE.EMPTY && isHeader) {
     return <EmptyHeaderCell style={style} />
   }
 

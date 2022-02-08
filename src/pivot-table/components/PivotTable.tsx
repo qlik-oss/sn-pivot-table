@@ -1,8 +1,14 @@
-import React, { useEffect, useRef, memo } from 'react';
-import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
+import React, { useRef, useCallback } from 'react';
+import { VariableSizeGrid } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
-import CellFactory from './CellFactory';
 // import useDebug from '../../hooks/use-debug';
+import StickyContainer from './StickyContainer';
+import ScrollableContainer from './ScrollableContainer';
+import FullSizeContainer from './FullSizeContainer';
+import HeaderGrid from './HeaderGrid';
+import TopGrid from './TopGrid';
+import LeftGrid from './LeftGrid';
+import DataGrid from './DataGrid';
 
 export interface PivotTableProps {
   rect: Rect;
@@ -10,82 +16,109 @@ export interface PivotTableProps {
   dataModel: DataModel;
 }
 
-const DEFAULT_COLUMN_WIDTH = 100;
+const MIN_COLUMN_WIDTH = 100;
 
-const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(DEFAULT_COLUMN_WIDTH, (rect.width-15) / columnCount)
+const DEFAULT_ROW_HEIGHT = 28;
 
-export const PivotTable = ({
+const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(MIN_COLUMN_WIDTH, rect.width / columnCount);
+
+const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
+
+export const StickyPivotTable = ({
   rect,
   constraints,
   dataModel
 }: PivotTableProps): JSX.Element => {
-  const gridRef = useRef<VariableSizeGrid>(null);
-  const MemoizedCellFactory = memo(CellFactory, areEqual);
-  const { pivotData, hasMoreColumns, hasMoreRows } = dataModel;
+  const topGridRef = useRef<VariableSizeGrid>(null);
+  const leftGridRef = useRef<VariableSizeGrid>(null);
+  const dataGridRef = useRef<VariableSizeGrid>(null);
+  const { size } = dataModel.pivotData;
 
-  // useDebug('PivotTable', {
-  //   rect,
-  //   hasMoreColumns,
-  //   hasMoreRows,
-  //   constraints,
-  //   pivotData,
-  //   fetchNextPage: dataModel.fetchNextPage,
-  //   collapseLeft: dataModel.collapseLeft,
-  //   collapseTop: dataModel.collapseTop,
-  //   expandLeft: dataModel.expandLeft,
-  //   expandTop: dataModel.expandTop,
-  // });
-
-  useEffect(() => {
-    if (pivotData) {
-      if (gridRef.current) {
-        gridRef.current.resetAfterColumnIndex(0);
-      }
+  const onScroll = (event: React.SyntheticEvent) => {
+    if (topGridRef.current) {
+      topGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: 0 });
     }
-  }, [pivotData]);
 
-  useEffect(() => {
-    if (gridRef.current) {
-      gridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
+    if (leftGridRef.current) {
+      leftGridRef.current.scrollTo({ scrollLeft: 0, scrollTop: event.currentTarget.scrollTop });
     }
-  }, [rect.width, rect.height]);
 
-  const onItemsRendered = ({
-    visibleColumnStopIndex,
-    visibleRowStopIndex
-  }: GridOnItemsRenderedProps) => {
-    if (hasMoreRows && visibleRowStopIndex >= pivotData.matrix[0].length - 1) {
-      dataModel.fetchNextPage(true);
-    } else if (hasMoreColumns && visibleColumnStopIndex >= pivotData.matrix.length - 1) {
-      dataModel.fetchNextPage(false);
+    if (dataGridRef.current) {
+      dataGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: event.currentTarget.scrollTop });
     }
   };
 
-  // const columnWidth = (index: number) => index < pivotData.nbrLeftColumns ?
-  //     Math.min(layout.qHyperCube.qDimensionInfo[index].qApprMaxGlyphCount * 8, 250) // TODO use a better hard-coded value then 8
-  //     : 100
+  const columnWidth = getColumnWidth(rect, size.totalColumns);
+
+  const columnWidthCallback = useCallback(() => columnWidth, [columnWidth]);
+
+  // useDebug('PivotTable', {
+  //   rect,
+  //   dataModel,
+  //   columnWidth,
+  // });
+
+  const leftGridWidth = columnWidth * size.left.x;
+  const headerGridWidth = columnWidth * size.headers.x;
+  const topGridWidth = rect.width - leftGridWidth;
+  const dataGridWidth = rect.width - leftGridWidth;
+
+  const headerGridHeight = DEFAULT_ROW_HEIGHT * size.headers.y;
+  const leftGridHeight = rect.height - headerGridHeight;
+  const topGridHeight = DEFAULT_ROW_HEIGHT * size.top.y;
+  const dataGridHeight = rect.height - headerGridHeight;
 
   return (
-    <VariableSizeGrid
-      ref={gridRef}
-      style={{ overflow: constraints.active ? 'hidden' : 'auto' }}
-      columnCount={pivotData?.matrix.length}
-      columnWidth={() => getColumnWidth(rect, pivotData.matrix.length)}
-      height={rect.height}
-      rowCount={pivotData?.matrix.length > 0 ? pivotData.matrix[0]?.length : 0}
-      rowHeight={(index: number) => index < pivotData.nbrTopRows ? 28 : 28 }
-      width={rect.width}
-      itemData={{
-        dataModel,
-        pivotData,
-        constraints,
-      }}
-      onItemsRendered={onItemsRendered}
-      overscanRowCount={10}
-      overscanColumnsCount={10}
-    >
-      {MemoizedCellFactory}
-    </VariableSizeGrid>
-  );
-}
+    <ScrollableContainer rect={rect} onScroll={onScroll} constraints={constraints} >
+      <FullSizeContainer
+        width={columnWidth * size.totalColumns}
+        height={DEFAULT_ROW_HEIGHT * size.totalRows}
+      >
+        <StickyContainer
+          rect={rect}
+          leftColumnsWidth={columnWidth * size.left.x}
+          rightColumnsWidth={columnWidth * size.data.x}
+          topRowsHeight={DEFAULT_ROW_HEIGHT * size.top.y}
+          bottomRowsHeight={DEFAULT_ROW_HEIGHT * size.data.y}
+        >
+          <HeaderGrid
+            dataModel={dataModel}
+            columnWidthCallback={columnWidthCallback}
+            rowHightCallback={rowHightCallback}
+            width={headerGridWidth}
+            height={headerGridHeight}
+          />
 
+          <TopGrid
+            dataModel={dataModel}
+            constraints={constraints}
+            topGridRef={topGridRef}
+            columnWidthCallback={columnWidthCallback}
+            rowHightCallback={rowHightCallback}
+            width={topGridWidth}
+            height={topGridHeight}
+          />
+
+          <LeftGrid
+            dataModel={dataModel}
+            constraints={constraints}
+            leftGridRef={leftGridRef}
+            columnWidthCallback={columnWidthCallback}
+            rowHightCallback={rowHightCallback}
+            width={leftGridWidth}
+            height={leftGridHeight}
+          />
+
+          <DataGrid
+            dataModel={dataModel}
+            dataGridRef={dataGridRef}
+            columnWidthCallback={columnWidthCallback}
+            rowHightCallback={rowHightCallback}
+            width={dataGridWidth}
+            height={dataGridHeight}
+          />
+        </StickyContainer>
+      </FullSizeContainer>
+    </ScrollableContainer>
+  );
+};

@@ -26,6 +26,11 @@ export interface Rect {
   height: number;
 }
 
+export interface Point {
+  x: number;
+  y: number;
+}
+
 export interface DataModel {
   pivotData: PivotData;
   fetchNextPage: FetchNextPage;
@@ -38,9 +43,11 @@ export interface DataModel {
 }
 
 export interface ItemData {
-  pivotData: PivotData;
-  constraints: Stardust.Constraints;
+  constraints?: Stardust.Constraints;
   dataModel: DataModel;
+  matrix: Cell[][] | NxPivotValuePoint[][];
+  isLeftColumn?: boolean;
+  isHeader?: boolean;
 }
 
 export interface Cell {
@@ -51,12 +58,17 @@ export interface Cell {
 
 export type CellValue = NxPivotValuePoint | NxPivotDimensionCell | string | null | undefined;
 
-export type Matrix = Array<Cell[]>;
-
 export interface PivotData {
-  matrix: Matrix;
-  leftMatrix: Matrix,
-  topMatrix: Matrix,
-  nbrTopRows: number;
-  nbrLeftColumns: number;
+  left: Cell[][],
+  top: Cell[][],
+  data: NxPivotValuePoint[][],
+  headers: Cell[][],
+  size: {
+    headers: Point;
+    top: Point;
+    left: Point;
+    data: Point;
+    totalColumns: number;
+    totalRows: number;
+  }
 }

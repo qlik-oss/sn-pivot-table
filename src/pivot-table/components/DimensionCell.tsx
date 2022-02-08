@@ -73,7 +73,7 @@ const DimensionCell = ({
 }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand } = (cell.value as NxPivotDimensionCell);
   const {
-    constraints,
+    constraints = { active: false, passive: false, select: false },
     dataModel
   } = data;
   let onClickHandler: (() => void) | undefined;
