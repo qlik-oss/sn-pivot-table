@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react'
 import CellFactory from '../CellFactory';
-import { Cell, DataModel, ItemData, TYPE } from '../../../types/types';
+import { CellValue, DataModel, ItemData } from '../../../types/types';
 import { NxPivotDimensionCell } from '../../../types/QIX';
 import DimensionCell from '../DimensionCell';
 import DimensionTitleCell from '../DimensionTitleCell';
@@ -25,7 +25,7 @@ describe('CellFactory', () => {
   let constraints: Stardust.Constraints;
   let dataModel: DataModel;
   let data: ItemData;
-  let cell: Cell;
+  let cell: CellValue;
 
   beforeEach(() => {
     constraints = {
@@ -34,19 +34,10 @@ describe('CellFactory', () => {
       select: false,
     };
 
-    cell = {
-      key: 1,
-      type: TYPE.EMPTY,
-      value: null
-    };
-
     dataModel = {
       pivotData: {
         data: [],
-        left: [
-          [cell, cell, cell],
-          [cell, cell, cell]
-        ],
+        left: [],
         top: [],
         headers: [],
         size: {
@@ -69,7 +60,7 @@ describe('CellFactory', () => {
 
     data = {
       dataModel,
-      matrix: dataModel.pivotData.left,
+      matrix: [[]],
       isLeftColumn: false,
       isHeader: false,
       constraints
@@ -79,32 +70,32 @@ describe('CellFactory', () => {
   test('should render dimension cell - left column', () => {
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
-    cell.value = { qText, qCanCollapse: false, qCanExpand: false } as NxPivotDimensionCell;
-    cell.type = TYPE.DIMENSION;
+    cell = { qText, qCanCollapse: false, qCanExpand: false } as CellValue;
+    data.matrix[0][0] = cell;
     data.isLeftColumn = true;
 
-    render(<CellFactory columnIndex={0} rowIndex={1} style={style} data={data} />);
+    render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 
-    expect(mockDimensionCell).toHaveBeenCalledWith({ style, cell, data, rowIndex: 1, colIndex: 0, isLeftColumn: true }, {});
+    expect(mockDimensionCell).toHaveBeenCalledWith({ style, cell, data, rowIndex: 0, colIndex: 0, isLeftColumn: true }, {});
   });
 
   test('should render dimension cell - top row', () => {
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
-    cell.value = { qText, qCanCollapse: false, qCanExpand: false } as NxPivotDimensionCell;
-    cell.type = TYPE.DIMENSION;
+    cell = { qText, qCanCollapse: false, qCanExpand: false } as NxPivotDimensionCell;
+    data.matrix[0][0] = cell;
     data.isLeftColumn = false;
 
-    render(<CellFactory columnIndex={1} rowIndex={2} style={style} data={data} />);
+    render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 
-    expect(mockDimensionCell).toHaveBeenCalledWith({ style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false }, {});
+    expect(mockDimensionCell).toHaveBeenCalledWith({ style, cell, data, rowIndex: 0, colIndex: 0, isLeftColumn: false }, {});
   });
 
   test('should render dimension title cell', () => {
     const mockDimensionTitleCell = DimensionTitleCell as jest.MockedFunction<typeof DimensionTitleCell>;
     mockDimensionTitleCell.mockReturnValue(<div />);
-    cell.value = 'title';
-    cell.type = TYPE.LABEL;
+    cell = 'title';
+    data.matrix[0][0] = cell;
 
     render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 
@@ -115,7 +106,8 @@ describe('CellFactory', () => {
     const mockEmptyHeaderCell = EmptyHeaderCell as jest.MockedFunction<typeof EmptyHeaderCell>;
     mockEmptyHeaderCell.mockReturnValue(<div />);
     data.isHeader = true;
-    cell.type = TYPE.EMPTY;
+    cell = null
+    data.matrix[0][0] = cell;
 
     render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 
@@ -125,7 +117,8 @@ describe('CellFactory', () => {
   test('should render empty cell', () => {
     const mockEmptyCell = EmptyCell as jest.MockedFunction<typeof EmptyCell>;
     mockEmptyCell.mockReturnValue(<div />);
-    cell.type = TYPE.EMPTY;
+    cell = null;
+    data.matrix[0][0] = cell;
 
     render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 

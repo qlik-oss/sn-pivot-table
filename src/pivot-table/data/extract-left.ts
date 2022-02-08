@@ -1,23 +1,21 @@
 import { NxDimCellType, NxPageArea, NxPivotDimensionCell } from "../../types/QIX";
-import { Cell } from "../../types/types";
-import createCell from './cell';
+import { CellValue } from "../../types/types";
 
-const extractLeft = (qLeft: NxPivotDimensionCell[], qArea: NxPageArea): Cell[][] => {
+const extractLeft = (qLeft: NxPivotDimensionCell[], qArea: NxPageArea): CellValue[][] => {
   if (!qLeft.length) {
     return [];
   }
 
-  const mapToInitRowValue = (value: undefined, i: number) => createCell(value, `null-${0}-${i}`);
   let rowIdx = 0;
 
-  function extract(nodes: NxPivotDimensionCell[], matrix: Cell[][] = [], colIdx = 0): Cell[][] {
+  function extract(nodes: NxPivotDimensionCell[], matrix: CellValue[][] = [], colIdx = 0): CellValue[][] {
     if (!Array.isArray(matrix[colIdx])) {
-      matrix[colIdx] = Array.from({ length: qArea.qHeight }, mapToInitRowValue);  // eslint-disable-line no-param-reassign
+      matrix[colIdx] = Array.from({ length: qArea.qHeight }, () => null);  // eslint-disable-line no-param-reassign
     }
 
-    return nodes.reduce((innerMatrix: Cell[][], node) => {
+    return nodes.reduce((innerMatrix: CellValue[][], node) => {
       if (node.qType !== NxDimCellType.NX_DIM_CELL_TOTAL) {
-        innerMatrix[colIdx][rowIdx] = createCell(node, `${node.qType}-${colIdx}-${rowIdx}-${node.qElemNo}`); // eslint-disable-line no-param-reassign
+        innerMatrix[colIdx][rowIdx] = node; // eslint-disable-line no-param-reassign
         rowIdx += node.qCanCollapse ? 0 : 1;
       }
 
