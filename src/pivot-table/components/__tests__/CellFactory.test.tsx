@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react'
+import { render } from '@testing-library/react';
 import CellFactory from '../CellFactory';
 import { CellValue, DataModel, ItemData } from '../../../types/types';
 import { NxPivotDimensionCell } from '../../../types/QIX';
@@ -106,7 +106,7 @@ describe('CellFactory', () => {
     const mockEmptyHeaderCell = EmptyHeaderCell as jest.MockedFunction<typeof EmptyHeaderCell>;
     mockEmptyHeaderCell.mockReturnValue(<div />);
     data.isHeader = true;
-    cell = null
+    cell = null;
     data.matrix[0][0] = cell;
 
     render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);

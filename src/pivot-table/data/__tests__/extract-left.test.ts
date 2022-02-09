@@ -1,5 +1,5 @@
-import { NxDimCellType, NxPageArea, NxPivotDimensionCell } from "../../../types/QIX";
-import extractLeft from "../extract-left";
+import { NxDimCellType, NxPageArea, NxPivotDimensionCell } from '../../../types/QIX';
+import extractLeft from '../extract-left';
 
 function createNode(qElemNo: number): NxPivotDimensionCell {
   return {

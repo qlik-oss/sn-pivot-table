@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from '../DimensionCell';
 import { CellValue, DataModel, ItemData } from '../../../types/types';
 import { NxPivotDimensionCell } from '../../../types/QIX';
@@ -88,7 +88,7 @@ describe('DimensionCell', () => {
       isLeftColumn={false}
     />);
 
-    expect(screen.getByText(qText)).toBeInTheDocument()
+    expect(screen.getByText(qText)).toBeInTheDocument();
     expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);
   });
 

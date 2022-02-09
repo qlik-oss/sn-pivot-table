@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from '@nebula.js/stardust';
 import createData from '../pivot-table/data';
-import { Layout, NxPageArea } from "../types/QIX";
+import { Layout, NxPageArea } from '../types/QIX';
 import { DataModel, FetchNextPage, Model } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
 
@@ -51,13 +51,13 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
 
       if (expandOrCollapseIndex.hasChanged && expandOrCollapseIndex.direction === 'column') {
         [pivotPage] = await model.getHyperCubePivotData({
-          "qPath": "/qHyperCubeDef",
-          "qPages": [getNextColumn(layout.qHyperCube.qPivotDataPages[0].qArea, expandOrCollapseIndex.colIndex)]
+          qPath: '/qHyperCubeDef',
+          qPages: [getNextColumn(layout.qHyperCube.qPivotDataPages[0].qArea, expandOrCollapseIndex.colIndex)]
         });
       } else if (expandOrCollapseIndex.hasChanged && expandOrCollapseIndex.direction === 'row') {
         [pivotPage] = await model.getHyperCubePivotData({
-          "qPath": "/qHyperCubeDef",
-          "qPages": [getNextRow(layout.qHyperCube.qPivotDataPages[0].qArea, expandOrCollapseIndex.rowIndex)]
+          qPath: '/qHyperCubeDef',
+          qPages: [getNextRow(layout.qHyperCube.qPivotDataPages[0].qArea, expandOrCollapseIndex.rowIndex)]
         });
       }
 
@@ -79,8 +79,8 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
 
     try {
       const [pivotPage] = await model.getHyperCubePivotData({
-        "qPath": "/qHyperCubeDef",
-        "qPages": [isRow
+        'qPath': '/qHyperCubeDef',
+        'qPages': [isRow
           ? getNextRow(qArea)
           : getNextColumn(qArea)
         ]

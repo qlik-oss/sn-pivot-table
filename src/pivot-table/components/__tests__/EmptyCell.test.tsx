@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react';
 import EmptyCell, { testId } from '../EmptyCell';
 
 test('should render',  () => {
@@ -14,6 +14,6 @@ test('should render',  () => {
   render(<EmptyCell style={style} />);
 
   const elm = screen.getByTestId(testId);
-  expect(elm).toBeInTheDocument()
+  expect(elm).toBeInTheDocument();
   expect(elm).toHaveStyle(style as Record<string, unknown>);
 });

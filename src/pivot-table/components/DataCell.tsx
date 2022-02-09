@@ -44,7 +44,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
         <div style={textStyle}>{qText}</div>
       </div>
     </div>
-  )
+  );
 };
 
 export default MeasureCell;

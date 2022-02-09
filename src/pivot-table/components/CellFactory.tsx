@@ -19,7 +19,7 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 
   if (typeof cell === 'string') {
-    return <DimensionTitleCell cell={cell} style={style} />
+    return <DimensionTitleCell cell={cell} style={style} />;
   }
 
   if (cell !== null) {
@@ -34,10 +34,10 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
   }
 
   if (cell === null && isHeader) {
-    return <EmptyHeaderCell style={style} />
+    return <EmptyHeaderCell style={style} />;
   }
 
-  return <EmptyCell style={style} />
-}
+  return <EmptyCell style={style} />;
+};
 
 export default CellFactory;

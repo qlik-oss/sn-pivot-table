@@ -15,6 +15,8 @@ plugins:
 rules:
   import/no-extraneous-dependencies: 0
   no-use-before-define: 0
+  semi: 2
+  quotes: [2, 'single']
 overrides:
   - files:
     - src/**/*.tsx
@@ -36,9 +38,9 @@ overrides:
       - prettier
     rules:
       import/no-extraneous-dependencies: 0
-  - files:
-    - src/**/*.jsx
-    - src/**/*.js
+      semi: 2
+      quotes: [2, 'single']
+      react/jsx-indent-props: 2
 
   # Unit test files
   - files:

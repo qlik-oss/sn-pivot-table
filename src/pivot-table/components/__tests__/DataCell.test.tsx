@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react';
 import DataCell, { testId } from '../DataCell';
 import { NxPivotValuePoint } from '../../../types/QIX';
 import { ItemData } from '../../../types/types';
@@ -30,7 +30,7 @@ describe('DataCell', () => {
   test('should render',  () => {
     render(<DataCell data={data} style={style} columnIndex={0} rowIndex={0} />);
 
-    expect(screen.getByText(cell.qText)).toBeInTheDocument()
+    expect(screen.getByText(cell.qText)).toBeInTheDocument();
     expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);
   });
 
@@ -40,7 +40,7 @@ describe('DataCell', () => {
 
     render(<DataCell data={data} style={style} columnIndex={0} rowIndex={0} />);
 
-    expect(screen.getByText(cell.qText)).toBeInTheDocument()
+    expect(screen.getByText(cell.qText)).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0])
       .toHaveStyle({ justifyContent: 'center', backgroundColor: '#f2f2f2' } as Record<string, unknown>);
   });

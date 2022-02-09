@@ -1,5 +1,5 @@
-import { NxPageArea, NxPivotDimensionCell } from "../../types/QIX";
-import { CellValue } from "../../types/types";
+import { NxPageArea, NxPivotDimensionCell } from '../../types/QIX';
+import { CellValue } from '../../types/types';
 
 const extractTop = (qTop: NxPivotDimensionCell[], qArea: NxPageArea): CellValue[][] => {
   let colIdx = 0;

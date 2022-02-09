@@ -64,7 +64,7 @@ export default function useExpandOrCollapser(model: Model): ExpandOrCollapserRes
       expanded: true,
       hasChanged: prev?.rowIndex !== rowIndex || prev?.colIndex !== colIndex || prev?.expanded !== true,
     }));
-  }, [model])
+  }, [model]);
 
   return {
     collapseLeft,
@@ -72,5 +72,5 @@ export default function useExpandOrCollapser(model: Model): ExpandOrCollapserRes
     expandLeft,
     expandTop,
     expandOrCollapseIndex
-  }
+  };
 }
