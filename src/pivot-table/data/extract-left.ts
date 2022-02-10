@@ -1,18 +1,17 @@
-import { NxDimCellType, NxPageArea, NxPivotDimensionCell } from '../../types/QIX';
+import { NxDimCellType, NxPivotDimensionCell } from '../../types/QIX';
 import { CellValue } from '../../types/types';
 
-const extractLeft = (qLeft: NxPivotDimensionCell[], qArea: NxPageArea): CellValue[][] => {
+const extractLeft = (qLeft: NxPivotDimensionCell[], rowCount: number, columnCount: number): CellValue[][] => {
   if (!qLeft.length) {
     return [];
   }
 
   let rowIdx = 0;
+  const nullMatrix = Array(columnCount)
+    .fill(null)
+    .map(() => Array(rowCount).fill(null));
 
   function extract(nodes: NxPivotDimensionCell[], matrix: CellValue[][] = [], colIdx = 0): CellValue[][] {
-    if (!Array.isArray(matrix[colIdx])) {
-      matrix[colIdx] = Array.from({ length: qArea.qHeight }, () => null);  // eslint-disable-line no-param-reassign
-    }
-
     return nodes.reduce((innerMatrix: CellValue[][], node) => {
       if (node.qType !== NxDimCellType.NX_DIM_CELL_TOTAL) {
         innerMatrix[colIdx][rowIdx] = node; // eslint-disable-line no-param-reassign
@@ -27,7 +26,7 @@ const extractLeft = (qLeft: NxPivotDimensionCell[], qArea: NxPageArea): CellValu
     }, matrix);
   }
 
-  return extract(qLeft);
+  return extract(qLeft, nullMatrix);
 };
 
 export default extractLeft;

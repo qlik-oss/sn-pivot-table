@@ -1,26 +1,17 @@
-import { NxPageArea, NxPivotDimensionCell } from '../../types/QIX';
+import { NxPivotDimensionCell } from '../../types/QIX';
 import { CellValue } from '../../types/types';
 
-const extractTop = (qTop: NxPivotDimensionCell[], qArea: NxPageArea): CellValue[][] => {
+const extractTop = (qTop: NxPivotDimensionCell[], columnCount: number, rowCount: number): CellValue[][] => {
   let colIdx = 0;
   if (!qTop.length) {
     return [];
   }
 
+  const nullMatrix = Array(columnCount)
+    .fill(null)
+    .map(() => Array(rowCount).fill(null));
+
   function extract(nodes: NxPivotDimensionCell[], matrix: CellValue[][] = [], topRowIdx = 0): CellValue[][] {
-    if (!matrix.length) {
-      matrix.push(...Array(qArea.qWidth)
-        .fill(null)
-        .map(() => [null])
-      );
-    }
-
-    if (Array.isArray(matrix[colIdx+1]) && matrix[colIdx+1].length - 1 < topRowIdx) {
-      matrix.forEach((col) => {
-        col.push(null);
-      });
-    }
-
     return nodes.reduce((mtrx: CellValue[][], node: NxPivotDimensionCell, currIdx: number) => {
       colIdx += currIdx === 0 ? 0 : 1;
       mtrx[colIdx][topRowIdx] = node; // eslint-disable-line no-param-reassign
@@ -33,7 +24,7 @@ const extractTop = (qTop: NxPivotDimensionCell[], qArea: NxPageArea): CellValue[
     }, matrix);
   };
 
-  return extract(qTop);
+  return extract(qTop, nullMatrix);
 };
 
 export default extractTop;

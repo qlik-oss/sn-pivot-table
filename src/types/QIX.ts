@@ -72,6 +72,7 @@ export interface NxPivotPage {
 export interface NxDimensionInfo {
   qFallbackTitle: string;
   qApprMaxGlyphCount: number;
+  qCardinalities: NxCardinalities;
 }
 
 export interface NxMeasureInfo {
@@ -109,4 +110,10 @@ export interface NxDimension {
 
 export interface NxMeasure {
   qLibraryId?: string;
+}
+
+export interface NxCardinalities {
+  qCardinal: number;
+  qHypercubeCardinal: number;
+  qAllValuesCardinal: number;
 }

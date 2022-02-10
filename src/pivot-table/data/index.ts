@@ -8,17 +8,17 @@ const getColumnCount = (matrix: CellValue[][]): number => matrix.length;
 
 const getRowCount = (matrix: CellValue[][]): number => matrix[0]?.length || 0;
 
-export default function createData(dataPage: NxPivotPage, qDimensionInfo: NxDimensionInfo[]): PivotData {
+export default function createData(dataPage: NxPivotPage, qDimensionInfo: NxDimensionInfo[], leftDimCount: number): PivotData {
   const { qLeft, qArea, qTop, qData } = dataPage;
-
-  const left = extractLeft(qLeft, qArea);
-  const top = extractTop(qTop, qArea);
-  const data = qData;
+  const leftColumnCount = qDimensionInfo.slice(0, leftDimCount).filter(dim => dim.qCardinalities.qHypercubeCardinal > 0).length;
+  const topRowCount = qDimensionInfo.slice(leftDimCount).filter(dim => dim.qCardinalities.qHypercubeCardinal > 0).length;
+  const left = extractLeft(qLeft, qArea.qHeight, leftColumnCount);
+  const top = extractTop(qTop, qArea.qWidth, topRowCount);
   const headers = extractHeaders(qDimensionInfo, getRowCount(top), getColumnCount(left));
   const pivotData: PivotData = {
     left,
     top,
-    data,
+    data: qData,
     headers,
     size: {
       headers: {

@@ -23,9 +23,6 @@ function createPivotPage(): NxPivotPage {
 
 const dimInfo: NxDimensionInfo[] = [];
 
-// const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
-// mockDimensionCell.mockReturnValue(<div />);
-
 describe('createData', () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -40,7 +37,7 @@ describe('createData', () => {
     mockedExtractLeft.mockReturnValue(left);
     const pivotPage = createPivotPage();
 
-    const data = createData(pivotPage, dimInfo);
+    const data = createData(pivotPage, dimInfo, 0);
 
     expect(data.left).toEqual(left);
     expect(data.size.left.x).toBe(1);
@@ -52,7 +49,7 @@ describe('createData', () => {
     mockedExtractTop.mockReturnValue(top);
     const pivotPage = createPivotPage();
 
-    const data = createData(pivotPage, dimInfo);
+    const data = createData(pivotPage, dimInfo, 0);
 
     expect(data.top).toEqual(top);
     expect(data.size.top.x).toBe(1);
@@ -64,7 +61,7 @@ describe('createData', () => {
     mockedExtractHeaders.mockReturnValue(headers);
     const pivotPage = createPivotPage();
 
-    const data = createData(pivotPage, dimInfo);
+    const data = createData(pivotPage, dimInfo, 0);
 
     expect(data.headers).toEqual(headers);
     expect(data.size.headers.x).toBe(1);
@@ -77,7 +74,7 @@ describe('createData', () => {
     pivotPage.qArea.qHeight = 2;
     pivotPage.qData = [[]];
 
-    const data = createData(pivotPage, dimInfo);
+    const data = createData(pivotPage, dimInfo, 0);
 
     expect(data.data).toEqual(pivotPage.qData);
     expect(data.size.data.x).toBe(pivotPage.qArea.qWidth);
@@ -93,7 +90,7 @@ describe('createData', () => {
     const left = [['a', 'b']];
     mockedExtractLeft.mockReturnValue(left);
 
-    const data = createData(pivotPage, dimInfo);
+    const data = createData(pivotPage, dimInfo, 0);
 
     expect(data.size.totalColumns).toBe(2);
     expect(data.size.totalRows).toBe(4);
