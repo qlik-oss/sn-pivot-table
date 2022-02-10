@@ -67,7 +67,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       setDimInfo(layout.qHyperCube.qDimensionInfo);
       setSize(layout.qHyperCube.qSize);
       setNoOfLeftDims(layout.qHyperCube.qNoOfLeftDims);
-      setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo));
+      setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qNoOfLeftDims));
     }
   }, [layout]);
 
@@ -90,7 +90,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       setLoading(false);
       setHasMoreRows(pivotPage.qArea.qHeight < qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < qSize.qcx);
-      setPivotData(createData(pivotPage, qDimInfo));
+      setPivotData(createData(pivotPage, qDimInfo, qNoOfLeftDims));
     } catch (error) {
       console.log('ERROR', error);
       setLoading(false);

@@ -1,4 +1,4 @@
-import { NxDimCellType, NxPageArea, NxPivotDimensionCell } from '../../../types/QIX';
+import { NxDimCellType, NxPivotDimensionCell } from '../../../types/QIX';
 import extractTop from '../extract-top';
 
 function createNode(qElemNo: number): NxPivotDimensionCell {
@@ -15,30 +15,26 @@ function createNode(qElemNo: number): NxPivotDimensionCell {
   };
 }
 
-function createArea(qWidth: number): NxPageArea {
-  return { qWidth } as NxPageArea;
-}
-
-describe('extractLeft', () => {
+describe('extractTop', () => {
   test('should handle empty qTop array', () => {
     const qTop: NxPivotDimensionCell[] = [];
 
-    const top = extractTop(qTop, { qWidth: 0 } as NxPageArea);
+    const top = extractTop(qTop, 1, 1);
 
     expect(top).toHaveLength(0);
   });
 
   test('should extract top data with no nodes expanded', () => {
     const colCount = 3;
+    const rowCount = 1;
     const qTop = Array.from({ length: colCount}, (_, idx: number) => createNode(idx));
-    const qArea = createArea(colCount);
 
-    const top = extractTop(qTop, qArea);
+    const top = extractTop(qTop, colCount, rowCount);
 
     expect(top).toHaveLength(colCount);
-    expect(top[0]).toHaveLength(1);
-    expect(top[1]).toHaveLength(1);
-    expect(top[2]).toHaveLength(1);
+    expect(top[0]).toHaveLength(rowCount);
+    expect(top[1]).toHaveLength(rowCount);
+    expect(top[2]).toHaveLength(rowCount);
     expect(top[0][0]).toMatchObject({ qElemNo: 0 });
     expect(top[1][0]).toMatchObject({ qElemNo: 1 });
     expect(top[2][0]).toMatchObject({ qElemNo: 2 });
@@ -46,18 +42,18 @@ describe('extractLeft', () => {
 
   test('should extract top data with first node expanded', () => {
     const colCount = 3;
+    const rowCount = 2;
     const subNodesCount = 2;
     const qTop = Array.from({ length: colCount}, (_, idx: number) => createNode(idx));
-    const qArea = createArea(colCount);
     const subNodes = Array.from({ length: subNodesCount}, (_, idx: number) => createNode(idx));
     qTop[0].qSubNodes = subNodes;
     qTop[0].qCanCollapse = true;
-    qArea.qWidth = colCount + subNodesCount - 1;
+    const totalColCount = colCount + subNodesCount - 1;
 
-    const top = extractTop(qTop, qArea);
+    const top = extractTop(qTop, totalColCount, rowCount);
 
-    expect(top).toHaveLength(qArea.qWidth);
-    expect(top[0]).toHaveLength(2);
+    expect(top).toHaveLength(totalColCount);
+    expect(top[0]).toHaveLength(rowCount);
     expect(top[0][0]).toMatchObject({ qElemNo: 0 });
     expect(top[1][0]).toBe(null);
     expect(top[2][0]).toMatchObject({ qElemNo: 1 });
@@ -71,21 +67,21 @@ describe('extractLeft', () => {
 
   test('should extract top data when data tree has a depth of 2', () => {
     const colCount = 3;
+    const rowCount = 3;
     const subNodesCount = 2;
     const qTop = Array.from({ length: colCount}, (_, idx: number) => createNode(idx));
-    const qArea = createArea(colCount);
     const subNodes = Array.from({ length: subNodesCount}, (_, idx: number) => createNode(idx));
     const subSubNodes = Array.from({ length: subNodesCount}, (_, idx: number) => createNode(idx));
     subNodes[1].qSubNodes = subSubNodes;
     subNodes[1].qCanCollapse = true;
     qTop[2].qSubNodes = subNodes;
     qTop[2].qCanCollapse = true;
-    qArea.qWidth = colCount + (subNodesCount - 1) + (subNodesCount - 1);
+    const totalColCount = colCount + (subNodesCount - 1) + (subNodesCount - 1);
 
-    const top = extractTop(qTop, qArea);
+    const top = extractTop(qTop, totalColCount, rowCount);
 
-    expect(top).toHaveLength(qArea.qWidth);
-    expect(top[0]).toHaveLength(3);
+    expect(top).toHaveLength(totalColCount);
+    expect(top[0]).toHaveLength(rowCount);
     expect(top[0][0]).toMatchObject({ qElemNo: 0 });
     expect(top[1][0]).toMatchObject({ qElemNo: 1 });
     expect(top[2][0]).toMatchObject({ qElemNo: 2 });
