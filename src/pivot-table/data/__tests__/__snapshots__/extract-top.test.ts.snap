@@ -1,0 +1,239 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`extractTop should extract top data when data tree has a depth of 2 1`] = `
+Array [
+  Array [
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [],
+              "qType": "E",
+            },
+          ],
+          "qType": "E",
+        },
+      ],
+      "qType": "N",
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [],
+          "qType": "E",
+        },
+      ],
+      "qType": "E",
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "E",
+    },
+  ],
+  Array [
+    Object {
+      "qElemNo": 1,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [],
+              "qType": "E",
+            },
+          ],
+          "qType": "E",
+        },
+      ],
+      "qType": "N",
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [],
+          "qType": "E",
+        },
+      ],
+      "qType": "E",
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "E",
+    },
+  ],
+  Array [
+    Object {
+      "qElemNo": 2,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [],
+              "qType": "E",
+            },
+          ],
+          "qType": "N",
+        },
+        Object {
+          "qElemNo": 1,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [],
+              "qType": "N",
+            },
+            Object {
+              "qElemNo": 1,
+              "qSubNodes": Array [],
+              "qType": "N",
+            },
+          ],
+          "qType": "N",
+        },
+      ],
+      "qType": "N",
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [],
+          "qType": "E",
+        },
+      ],
+      "qType": "N",
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "E",
+    },
+  ],
+  Array [
+    null,
+    Object {
+      "qElemNo": 1,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [],
+          "qType": "N",
+        },
+        Object {
+          "qElemNo": 1,
+          "qSubNodes": Array [],
+          "qType": "N",
+        },
+      ],
+      "qType": "N",
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+  ],
+  Array [
+    null,
+    null,
+    Object {
+      "qElemNo": 1,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+  ],
+]
+`;
+
+exports[`extractTop should extract top data with first node expanded 1`] = `
+Array [
+  Array [
+    Object {
+      "qCanCollapse": true,
+      "qElemNo": 0,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [],
+          "qType": "N",
+        },
+        Object {
+          "qElemNo": 1,
+          "qSubNodes": Array [],
+          "qType": "N",
+        },
+      ],
+      "qType": "N",
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+  ],
+  Array [
+    null,
+    Object {
+      "qElemNo": 1,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+  ],
+  Array [
+    Object {
+      "qElemNo": 1,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+    null,
+  ],
+  Array [
+    Object {
+      "qElemNo": 2,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+    null,
+  ],
+]
+`;
+
+exports[`extractTop should extract top data with no nodes expanded 1`] = `
+Array [
+  Array [
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+  ],
+  Array [
+    Object {
+      "qElemNo": 1,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+  ],
+  Array [
+    Object {
+      "qElemNo": 2,
+      "qSubNodes": Array [],
+      "qType": "N",
+    },
+  ],
+]
+`;

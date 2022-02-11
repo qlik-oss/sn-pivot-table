@@ -4,14 +4,8 @@ function createNode(qElemNo: number, qType: NxDimCellType): NxPivotDimensionCell
   return {
     qType,
     qElemNo,
-    qCanCollapse: false,
-    qCanExpand: false,
     qSubNodes: [],
-    qText: '',
-    qValue: '',
-    qUp: 0,
-    qDown: 0,
-  };
+  } as unknown as NxPivotDimensionCell;
 }
 
 export default function createNodes(count: number, type: NxDimCellType): NxPivotDimensionCell[] {

@@ -16,10 +16,11 @@ const extractLeft = (qLeft: NxPivotDimensionCell[], rowCount: number): CellValue
   function extract(nodes: NxPivotDimensionCell[], colIdx = 0) {
     nodes.forEach(node => {
       matrix[colIdx][rowIdx] = node; // eslint-disable-line no-param-reassign
-      rowIdx += node.qCanCollapse ? 0 : 1;
 
-      if (node.qCanCollapse) {
+      if (node.qSubNodes.length) {
         extract(node.qSubNodes, colIdx + 1);
+      } else {
+        rowIdx += 1;
       }
     });
   }
