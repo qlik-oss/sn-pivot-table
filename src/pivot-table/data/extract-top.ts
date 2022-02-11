@@ -9,24 +9,24 @@ const extractTop = (qTop: NxPivotDimensionCell[], columnCount: number): CellValu
 
   let colIdx = 0;
   const rowCount = estimateCount(qTop);
-  const nullMatrix = Array(columnCount)
+  const matrix = Array(columnCount)
     .fill(null)
     .map(() => Array(rowCount).fill(null));
 
-  function extract(nodes: NxPivotDimensionCell[], matrix: CellValue[][] = [], topRowIdx = 0): CellValue[][] {
-    return nodes.reduce((mtrx: CellValue[][], node: NxPivotDimensionCell, currIdx: number) => {
+  function extract(nodes: NxPivotDimensionCell[], topRowIdx = 0) {
+    nodes.forEach((node, currIdx) => {
       colIdx += currIdx === 0 ? 0 : 1;
-      mtrx[colIdx][topRowIdx] = node; // eslint-disable-line no-param-reassign
+      matrix[colIdx][topRowIdx] = node; // eslint-disable-line no-param-reassign
 
       if (node.qSubNodes.length) {
-        return extract(node.qSubNodes, mtrx, topRowIdx + 1);
+        extract(node.qSubNodes, topRowIdx + 1);
       }
-
-      return mtrx;
-    }, matrix);
+    });
   };
 
-  return extract(qTop, nullMatrix);
+  extract(qTop);
+
+  return matrix;
 };
 
 export default extractTop;
