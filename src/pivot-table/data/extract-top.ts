@@ -1,12 +1,14 @@
 import { NxPivotDimensionCell } from '../../types/QIX';
 import { CellValue } from '../../types/types';
+import estimateCount from './estimate-count';
 
-const extractTop = (qTop: NxPivotDimensionCell[], columnCount: number, rowCount: number): CellValue[][] => {
-  let colIdx = 0;
+const extractTop = (qTop: NxPivotDimensionCell[], columnCount: number): CellValue[][] => {
   if (!qTop.length) {
     return [];
   }
 
+  let colIdx = 0;
+  const rowCount = estimateCount(qTop);
   const nullMatrix = Array(columnCount)
     .fill(null)
     .map(() => Array(rowCount).fill(null));
