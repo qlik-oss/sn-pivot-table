@@ -1,0 +1,14 @@
+{
+  "extends": ["qlik-oss"],
+  "circleci": {
+    "ignoreDeps": []
+  },
+  "semanticCommits": true,
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "depTypeList": ["engines"],
+      "enabled": false
+    }
+  ]
+}
