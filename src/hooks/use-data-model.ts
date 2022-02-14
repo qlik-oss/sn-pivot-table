@@ -73,7 +73,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
   usePromise(() => newLayoutHandler(), [newLayoutHandler]);
 
   // To avoid unnecessary rerenders. Only recreate fetchNextPage function if dependencies changes. A crude version of useCallback.
-  const fetchNextPage: FetchNextPage = useMemo(() => async (isRow: boolean) => {
+  const fetchNextPage = useMemo<FetchNextPage>(() => async (isRow: boolean) => {
     if (loading || !model) return;
 
     setLoading(true);

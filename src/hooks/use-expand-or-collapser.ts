@@ -22,7 +22,7 @@ interface ExpandOrCollapserResult {
 export default function useExpandOrCollapser(model: EngineAPI.IGenericObject | undefined): ExpandOrCollapserResult {
   const [expandOrCollapseIndex, setExpandOrCollapseIndex] = useState<ExpandOrCollapseIndex>({ hasChanged: false });
 
-  const collapseLeft: ExpandOrCollapser = useMemo(() => async (rowIndex: number, colIndex: number) => {
+  const collapseLeft = useMemo<ExpandOrCollapser>(() => async (rowIndex: number, colIndex: number) => {
     if (!model) return;
 
     await model.collapseLeft(PATH, rowIndex, colIndex, false);
@@ -36,7 +36,7 @@ export default function useExpandOrCollapser(model: EngineAPI.IGenericObject | u
     }));
   }, [model]);
 
-  const collapseTop: ExpandOrCollapser = useMemo(() => async (rowIndex: number, colIndex: number) => {
+  const collapseTop = useMemo<ExpandOrCollapser>(() => async (rowIndex: number, colIndex: number) => {
     if (!model) return;
 
     await model.collapseTop(PATH, rowIndex, colIndex, false);
@@ -50,7 +50,7 @@ export default function useExpandOrCollapser(model: EngineAPI.IGenericObject | u
     }));
   }, [model]);
 
-  const expandLeft: ExpandOrCollapser = useMemo(() => async (rowIndex: number, colIndex: number) => {
+  const expandLeft = useMemo<ExpandOrCollapser>(() => async (rowIndex: number, colIndex: number) => {
     if (!model) return;
 
     await model.expandLeft(PATH, rowIndex, colIndex, false);
@@ -64,7 +64,7 @@ export default function useExpandOrCollapser(model: EngineAPI.IGenericObject | u
     }));
   }, [model]);
 
-  const expandTop: ExpandOrCollapser = useMemo(() => async (rowIndex: number, colIndex: number) => {
+  const expandTop = useMemo<ExpandOrCollapser>(() => async (rowIndex: number, colIndex: number) => {
     if (!model) return;
 
     await model.expandTop(PATH, rowIndex, colIndex, false);
