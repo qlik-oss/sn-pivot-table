@@ -1,5 +1,5 @@
 import React from 'react';
-import { NxPivotValuePoint } from '../../types/QIX';
+import NxDimCellType from '../../types/QIX';
 import { ItemData } from '../../types/types';
 import { borderStyle, textStyle } from './shared-styles';
 
@@ -36,11 +36,11 @@ const containerStyle: React.CSSProperties = {
 export const testId = 'measure-cell';
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element => {
-  const { qNum, qText } = data.matrix[rowIndex][columnIndex] as NxPivotValuePoint;
+  const { qText, qType } = data.matrix[rowIndex][columnIndex] as EngineAPI.INxPivotValuePoint;
 
   return (
     <div style={{...style, ...containerStyle}} data-testid={testId}>
-      <div style={qNum === 'NaN' ? nilStyle : numericStyle}>
+      <div style={qType === NxDimCellType.NX_DIM_CELL_NULL ? nilStyle : numericStyle}>
         <div style={textStyle}>{qText}</div>
       </div>
     </div>

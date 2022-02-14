@@ -1,8 +1,7 @@
-import { NxPivotDimensionCell } from '../../types/QIX';
 import { CellValue } from '../../types/types';
 import estimateCount from './estimate-count';
 
-const extractLeft = (qLeft: NxPivotDimensionCell[], rowCount: number): CellValue[][] => {
+const extractLeft = (qLeft: EngineAPI.INxPivotDimensionCell[], rowCount: number): CellValue[][] => {
   if (!qLeft.length) {
     return [];
   }
@@ -13,7 +12,7 @@ const extractLeft = (qLeft: NxPivotDimensionCell[], rowCount: number): CellValue
     .fill(null)
     .map(() => Array(rowCount).fill(null));
 
-  function extract(nodes: NxPivotDimensionCell[], colIdx = 0) {
+  function extract(nodes: EngineAPI.INxPivotDimensionCell[], colIdx = 0) {
     nodes.forEach(node => {
       matrix[colIdx][rowIdx] = node; // eslint-disable-line no-param-reassign
 

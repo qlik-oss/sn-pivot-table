@@ -1,8 +1,8 @@
+import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
 import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
 import { CellValue, ItemData, DataModel } from '../../types/types';
-import { NxPivotDimensionCell } from '../../types/QIX';
 import { borderStyle, textStyle } from './shared-styles';
 
 export interface DimensionCellProps {
@@ -18,7 +18,7 @@ interface OnExpandOrCollapseProps {
   rowIndex: number;
   colIndex: number;
   isLeftColumn?: boolean;
-  constraints: Stardust.Constraints;
+  constraints: stardust.Constraints;
   dataModel: DataModel;
 }
 
@@ -71,7 +71,7 @@ const DimensionCell = ({
   isLeftColumn,
   data
 }: DimensionCellProps): JSX.Element => {
-  const { qText, qCanCollapse, qCanExpand } = cell as NxPivotDimensionCell;
+  const { qText, qCanCollapse, qCanExpand } = cell as EngineAPI.INxPivotDimensionCell;
   const {
     constraints = { active: false, passive: false, select: false },
     dataModel

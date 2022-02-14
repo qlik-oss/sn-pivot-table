@@ -1,3 +1,4 @@
+import { stardust } from '@nebula.js/stardust';
 import React, { useRef, useCallback } from 'react';
 import { VariableSizeGrid } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
@@ -12,7 +13,7 @@ import DataGrid from './DataGrid';
 
 export interface PivotTableProps {
   rect: Rect;
-  constraints: Stardust.Constraints;
+  constraints: stardust.Constraints;
   dataModel: DataModel;
 }
 

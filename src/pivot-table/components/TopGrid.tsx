@@ -1,3 +1,4 @@
+import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from '../../types/types';
@@ -12,7 +13,7 @@ interface TopGridProps {
   rowHightCallback: () => number;
   width: number;
   height: number;
-  constraints: Stardust.Constraints;
+  constraints: stardust.Constraints;
 }
 
 const gridStyle: React.CSSProperties = {

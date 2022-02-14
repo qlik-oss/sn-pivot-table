@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DataCell, { testId } from '../DataCell';
-import { NxPivotValuePoint } from '../../../types/QIX';
 import { ItemData } from '../../../types/types';
+import NxDimCellType from '../../../types/QIX';
 
 describe('DataCell', () => {
-  let cell: NxPivotValuePoint;
+  let cell: EngineAPI.INxPivotValuePoint;
   let data: ItemData;
 
   const style: React.CSSProperties = {
@@ -20,7 +20,8 @@ describe('DataCell', () => {
     cell = {
       qText: 'value',
       qNum: 1,
-    } as NxPivotValuePoint;
+      qType: NxDimCellType.NX_DIM_CELL_NORMAL
+    } as EngineAPI.INxPivotValuePoint;
 
     data = {
       matrix: [[cell]]
@@ -36,7 +37,7 @@ describe('DataCell', () => {
 
   test('should render null value',  () => {
     cell.qText = '-';
-    cell.qNum = 'NaN';
+    cell.qType = NxDimCellType.NX_DIM_CELL_NULL;
 
     render(<DataCell data={data} style={style} columnIndex={0} rowIndex={0} />);
 

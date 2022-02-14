@@ -1,8 +1,9 @@
+import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import { Rect } from '../../types/types';
 
 interface ScrollableContainerProps {
-  constraints: Stardust.Constraints;
+  constraints: stardust.Constraints;
   rect: Rect;
   children: JSX.Element;
   onScroll: (e: React.SyntheticEvent) => void;

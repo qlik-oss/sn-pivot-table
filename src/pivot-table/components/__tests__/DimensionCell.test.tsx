@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { stardust } from '@nebula.js/stardust';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from '../DimensionCell';
 import { CellValue, DataModel, ItemData } from '../../../types/types';
-import { NxPivotDimensionCell } from '../../../types/QIX';
 
 describe('DimensionCell', () => {
-  let constraints: Stardust.Constraints;
+  let constraints: stardust.Constraints;
   let dataModel: DataModel;
   let data: ItemData;
   let cell: CellValue;
@@ -55,7 +55,8 @@ describe('DimensionCell', () => {
       collapseLeft: () => {},
       collapseTop: () => {},
       expandLeft: () => {},
-      expandTop: () => {}
+      expandTop: () => {},
+      hasData: true,
     };
 
     expandLeftSpy = jest.spyOn(dataModel, 'expandLeft');
@@ -75,7 +76,7 @@ describe('DimensionCell', () => {
       qText,
       qCanExpand: false,
       qCanCollapse: false,
-    } as NxPivotDimensionCell;
+    } as EngineAPI.INxPivotDimensionCell;
   });
 
   test('should render', () => {
@@ -93,8 +94,8 @@ describe('DimensionCell', () => {
   });
 
   test('should not render expand or collapse icon if cell is not expandable or collapseable', () => {
-    (cell as NxPivotDimensionCell).qCanExpand = false;
-    (cell as NxPivotDimensionCell).qCanCollapse = false;
+    (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = false;
+    (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = false;
 
     render(<DimensionCell
       cell={cell}
@@ -111,7 +112,7 @@ describe('DimensionCell', () => {
 
   describe('left column interactions', () => {
     test('should be possible to expand left column', () => {
-      (cell as NxPivotDimensionCell).qCanExpand = true;
+      (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
 
       render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
@@ -122,8 +123,8 @@ describe('DimensionCell', () => {
     });
 
     test('should not be possible to expand left column when active constraint is true', () => {
-      (cell as NxPivotDimensionCell).qCanExpand = true;
-      (data.constraints as Stardust.Constraints).active = true;
+      (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
+      (data.constraints as stardust.Constraints).active = true;
 
       render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
@@ -134,7 +135,7 @@ describe('DimensionCell', () => {
     });
 
     test('should be possible to collapse left column', () => {
-      (cell as NxPivotDimensionCell).qCanCollapse = true;
+      (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
 
       render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
@@ -145,8 +146,8 @@ describe('DimensionCell', () => {
     });
 
     test('should be not possible to collapse left column when active constraint is true', () => {
-      (cell as NxPivotDimensionCell).qCanCollapse = true;
-      (data.constraints as Stardust.Constraints).active = true;
+      (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+      (data.constraints as stardust.Constraints).active = true;
 
       render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
@@ -159,7 +160,7 @@ describe('DimensionCell', () => {
 
   describe('top row interactions', () => {
     test('should be possible to expand top row', () => {
-      (cell as NxPivotDimensionCell).qCanExpand = true;
+      (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
 
       render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
@@ -170,8 +171,8 @@ describe('DimensionCell', () => {
     });
 
     test('should not be possible to expand top row when active constraint is true', () => {
-      (cell as NxPivotDimensionCell).qCanExpand = true;
-      (data.constraints as Stardust.Constraints).active = true;
+      (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
+      (data.constraints as stardust.Constraints).active = true;
 
       render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
@@ -182,7 +183,7 @@ describe('DimensionCell', () => {
     });
 
     test('should be possible to collapse top row', () => {
-      (cell as NxPivotDimensionCell).qCanCollapse = true;
+      (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
 
       render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
@@ -193,8 +194,8 @@ describe('DimensionCell', () => {
     });
 
     test('should be not possible to collapse top row when active constraint is true', () => {
-      (cell as NxPivotDimensionCell).qCanCollapse = true;
-      (data.constraints as Stardust.Constraints).active = true;
+      (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+      (data.constraints as stardust.Constraints).active = true;
 
       render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 

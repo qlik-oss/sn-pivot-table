@@ -1,8 +1,8 @@
+import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import { render } from '@testing-library/react';
 import CellFactory from '../CellFactory';
 import { CellValue, DataModel, ItemData } from '../../../types/types';
-import { NxPivotDimensionCell } from '../../../types/QIX';
 import DimensionCell from '../DimensionCell';
 import DimensionTitleCell from '../DimensionTitleCell';
 import EmptyHeaderCell from '../EmptyHeaderCell';
@@ -22,7 +22,7 @@ describe('CellFactory', () => {
     height: '150px'
   };
   const qText = 'test value';
-  let constraints: Stardust.Constraints;
+  let constraints: stardust.Constraints;
   let dataModel: DataModel;
   let data: ItemData;
   let cell: CellValue;
@@ -55,7 +55,8 @@ describe('CellFactory', () => {
       collapseLeft: () => {},
       collapseTop: () => {},
       expandLeft: () => {},
-      expandTop: () => {}
+      expandTop: () => {},
+      hasData: true,
     };
 
     data = {
@@ -82,7 +83,7 @@ describe('CellFactory', () => {
   test('should render dimension cell - top row', () => {
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
-    cell = { qText, qCanCollapse: false, qCanExpand: false } as NxPivotDimensionCell;
+    cell = { qText, qCanCollapse: false, qCanExpand: false } as EngineAPI.INxPivotDimensionCell;
     data.matrix[0][0] = cell;
     data.isLeftColumn = false;
 

@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useState } from '@nebula.js/stardust';
+import { useMemo, usePromise, useState } from '@nebula.js/stardust';
 import createData from '../pivot-table/data';
-import { Layout, NxPageArea } from '../types/QIX';
-import { DataModel, FetchNextPage, Model } from '../types/types';
+import { DataModel, FetchNextPage, PivotData } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
 
 const DEFAULT_PAGE_SIZE = 50;
+const DEF_PATH = '/qHyperCubeDef';
+const NOOP_PIVOT_DATA = {} as PivotData;
 
-const getNextRow = (qArea: NxPageArea, lastExpandPos = 0) => {
+const getNextRow = (qArea: EngineAPI.IRect, lastExpandPos = 0) => {
   const { qLeft, qHeight, qWidth } = qArea;
 
   return {
@@ -17,7 +18,7 @@ const getNextRow = (qArea: NxPageArea, lastExpandPos = 0) => {
   };
 };
 
-const getNextColumn = (qArea: NxPageArea, lastExpandPos = 0) => {
+const getNextColumn = (qArea: EngineAPI.IRect, lastExpandPos = 0) => {
   const { qTop, qHeight, qWidth } = qArea;
 
   return {
@@ -28,14 +29,14 @@ const getNextColumn = (qArea: NxPageArea, lastExpandPos = 0) => {
   };
 };
 
-export default function useDataModel(layout: Layout, model: Model): DataModel {
-  const [pivotData, setPivotData] = useState();
+export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, model: EngineAPI.IGenericObject | undefined ): DataModel {
+  const [pivotData, setPivotData] = useState<PivotData>(NOOP_PIVOT_DATA);
   const [loading, setLoading] = useState(false);
   const [qArea, setArea] = useState(layout?.qHyperCube.qPivotDataPages[0].qArea);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
-  const [qDimInfo, setDimInfo] = useState();
-  const [qSize, setSize] = useState();
+  const [qDimInfo, setDimInfo] = useState<EngineAPI.INxDimensionInfo[]>([]);
+  const [qSize, setSize] = useState<EngineAPI.ISize>({ qcx: 0, qcy: 0 });
   const {
     expandOrCollapseIndex,
     collapseLeft,
@@ -44,20 +45,20 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
     expandTop,
   } = useExpandOrCollapser(model);
 
-  useEffect(async () => {
-    if (layout) {
+  const newLayoutHandler = useMemo(() => async () => {
+    if (layout && model) {
       let pivotPage = layout.qHyperCube.qPivotDataPages[0];
 
       if (expandOrCollapseIndex.hasChanged && expandOrCollapseIndex.direction === 'column') {
-        [pivotPage] = await model.getHyperCubePivotData({
-          qPath: '/qHyperCubeDef',
-          qPages: [getNextColumn(layout.qHyperCube.qPivotDataPages[0].qArea, expandOrCollapseIndex.colIndex)]
-        });
+        [pivotPage] = await model.getHyperCubePivotData(
+          DEF_PATH,
+          [getNextColumn(layout.qHyperCube.qPivotDataPages[0].qArea, expandOrCollapseIndex.colIndex)]
+        );
       } else if (expandOrCollapseIndex.hasChanged && expandOrCollapseIndex.direction === 'row') {
-        [pivotPage] = await model.getHyperCubePivotData({
-          qPath: '/qHyperCubeDef',
-          qPages: [getNextRow(layout.qHyperCube.qPivotDataPages[0].qArea, expandOrCollapseIndex.rowIndex)]
-        });
+        [pivotPage] = await model.getHyperCubePivotData(
+          DEF_PATH,
+          [getNextRow(layout.qHyperCube.qPivotDataPages[0].qArea, expandOrCollapseIndex.rowIndex)]
+        );
       }
 
       setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
@@ -67,22 +68,21 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
       setSize(layout.qHyperCube.qSize);
       setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo));
     }
-  }, [layout]);
+  }, [layout, model]);
+
+  usePromise(() => newLayoutHandler(), [newLayoutHandler]);
 
   // To avoid unnecessary rerenders. Only recreate fetchNextPage function if dependencies changes. A crude version of useCallback.
   const fetchNextPage: FetchNextPage = useMemo(() => async (isRow: boolean) => {
-    if (loading) return;
+    if (loading || !model) return;
 
     setLoading(true);
 
     try {
-      const [pivotPage] = await model.getHyperCubePivotData({
-        'qPath': '/qHyperCubeDef',
-        'qPages': [isRow
-          ? getNextRow(qArea)
-          : getNextColumn(qArea)
-        ]
-      });
+      const [pivotPage] = await model.getHyperCubePivotData(DEF_PATH, [isRow
+        ? getNextRow(qArea)
+        : getNextColumn(qArea)
+      ]);
 
       setArea(pivotPage.qArea);
       setLoading(false);
@@ -95,7 +95,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
     }
   }, [qArea, model, qDimInfo, qSize]);
 
-  const dataModel: DataModel = useMemo(() => ({
+  const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
@@ -104,6 +104,7 @@ export default function useDataModel(layout: Layout, model: Model): DataModel {
     expandLeft,
     expandTop,
     pivotData,
+    hasData: pivotData !== NOOP_PIVOT_DATA,
   }),[fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
