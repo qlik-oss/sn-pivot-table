@@ -1,3 +1,5 @@
+import { DEFAULT_PAGE_SIZE } from './constants';
+
 /**
  * @extends {qae.GenericObjectProperties}
  * @entry
@@ -25,8 +27,8 @@ const properties = {
       {
         qTop: 0,
         qLeft: 0,
-        qWidth: 50,
-        qHeight: 50,
+        qWidth: DEFAULT_PAGE_SIZE,
+        qHeight: DEFAULT_PAGE_SIZE,
       },
     ],
     qIndentMode: false,
