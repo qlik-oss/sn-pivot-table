@@ -1,10 +1,10 @@
-import { NxDimCellType, NxPivotDimensionCell } from '../../../types/QIX';
+import NxDimCellType from '../../../types/QIX';
 import extractTop from '../extract-top';
 import createNodes from './test-helper';
 
 describe('extractTop', () => {
   test('should handle empty qTop array', () => {
-    const qTop: NxPivotDimensionCell[] = [];
+    const qTop: EngineAPI.INxPivotDimensionCell[] = [];
 
     const top = extractTop(qTop, 1);
 

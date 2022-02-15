@@ -1,4 +1,3 @@
-import { NxDimensionInfo, NxPivotPage } from '../../../types/QIX';
 import createData from '../index';
 import extractHeaders from '../extract-headers';
 import extractLeft from '../extract-left';
@@ -12,7 +11,7 @@ const mockedExtractHeaders = extractHeaders as jest.MockedFunction<typeof extrac
 const mockedExtractLeft = extractLeft as jest.MockedFunction<typeof extractLeft>;
 const mockedExtractTop = extractTop as jest.MockedFunction<typeof extractTop>;
 
-function createPivotPage(): NxPivotPage {
+function createPivotPage(): EngineAPI.INxPivotPage {
   return {
     qLeft: [],
     qTop: [],
@@ -21,7 +20,7 @@ function createPivotPage(): NxPivotPage {
   };
 }
 
-const dimInfo: NxDimensionInfo[] = [];
+const dimInfo: EngineAPI.INxDimensionInfo[] = [];
 
 describe('createData', () => {
   beforeEach(() => {
@@ -72,7 +71,7 @@ describe('createData', () => {
     const pivotPage = createPivotPage();
     pivotPage.qArea.qWidth = 1;
     pivotPage.qArea.qHeight = 2;
-    pivotPage.qData = [[]];
+    pivotPage.qData = [[]] as unknown as EngineAPI.INxPivotValuePoint[];
 
     const data = createData(pivotPage, dimInfo);
 

@@ -1,6 +1,4 @@
-import { NxPivotDimensionCell } from '../../types/QIX';
-
-const estimateCount = (data: NxPivotDimensionCell[]): number => {
+const estimateCount = (data: EngineAPI.INxPivotDimensionCell[]): number => {
   let count = 1;
   let [node] = data;
 

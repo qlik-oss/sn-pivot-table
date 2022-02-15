@@ -1,7 +1,6 @@
-import { NxDimensionInfo } from '../../types/QIX';
 import { CellValue } from '../../types/types';
 
-const extractHeaders = (qDim: NxDimensionInfo[], rowCount: number, colCount: number): CellValue[][] => {
+const extractHeaders = (qDim: EngineAPI.INxDimensionInfo[], rowCount: number, colCount: number): CellValue[][] => {
   const matrix = Array(colCount)
     .fill(null)
     .map(() => Array(rowCount).fill(null));

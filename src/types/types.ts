@@ -1,18 +1,8 @@
-import { NxPageArea, NxPivotDimensionCell, NxPivotPage, NxPivotValuePoint } from './QIX';
-
-type ExpandFn = (qHyperCubeDef: string, rownNumber: number, column: number, option: boolean) => Promise<void>;
+import { stardust } from '@nebula.js/stardust';
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
 export type FetchNextPage = (isRow: boolean) => void;
-
-export interface Model {
-  expandLeft: ExpandFn
-  collapseLeft: ExpandFn
-  expandTop: ExpandFn
-  collapseTop: ExpandFn
-  getHyperCubePivotData: (param: { qPath: string, qPages: Array<NxPageArea> }) => Promise<NxPivotPage[]>
-}
 
 export interface Rect {
   width: number;
@@ -29,26 +19,27 @@ export interface DataModel {
   fetchNextPage: FetchNextPage;
   hasMoreColumns: boolean;
   hasMoreRows: boolean;
-  collapseLeft: ExpandOrCollapser
-  collapseTop: ExpandOrCollapser
-  expandLeft: ExpandOrCollapser
-  expandTop: ExpandOrCollapser
+  collapseLeft: ExpandOrCollapser;
+  collapseTop: ExpandOrCollapser;
+  expandLeft: ExpandOrCollapser;
+  expandTop: ExpandOrCollapser;
+  hasData: boolean;
 }
 
 export interface ItemData {
-  constraints?: Stardust.Constraints;
+  constraints?: stardust.Constraints;
   dataModel: DataModel;
-  matrix: CellValue[][] | NxPivotValuePoint[][];
+  matrix: CellValue[][] | EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
   isHeader?: boolean;
 }
 
-export type CellValue = NxPivotDimensionCell | string | null;
+export type CellValue = EngineAPI.INxPivotDimensionCell | string | null;
 
 export interface PivotData {
   left: CellValue[][],
   top: CellValue[][],
-  data: NxPivotValuePoint[][],
+  data: EngineAPI.INxPivotValuePoint[][],
   headers: CellValue[][],
   size: {
     headers: Point;

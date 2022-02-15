@@ -1,8 +1,7 @@
-import { NxDimensionInfo } from '../../../types/QIX';
 import extractHeaders from '../extract-headers';
 
-function createDimInfo(length: number): NxDimensionInfo[] {
-  return Array.from({ length }, (_, i: number) => `dim ${i}`).map(t => ({ qFallbackTitle: t } as NxDimensionInfo));
+function createDimInfo(length: number): EngineAPI.INxDimensionInfo[] {
+  return Array.from({ length }, (_, i: number) => `dim ${i}`).map(t => ({ qFallbackTitle: t } as EngineAPI.INxDimensionInfo));
 }
 
 describe('extractHeaders', () => {

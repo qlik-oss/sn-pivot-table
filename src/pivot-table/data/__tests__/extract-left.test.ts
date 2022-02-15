@@ -1,10 +1,10 @@
-import { NxDimCellType, NxPivotDimensionCell } from '../../../types/QIX';
+import NxDimCellType from '../../../types/QIX';
 import extractLeft from '../extract-left';
 import createNodes from './test-helper';
 
 describe('extractLeft', () => {
   test('should handle empty qLeft array', () => {
-    const qLeft: NxPivotDimensionCell[] = [];
+    const qLeft: EngineAPI.INxPivotDimensionCell[] = [];
 
     const left = extractLeft(qLeft, 1);
 

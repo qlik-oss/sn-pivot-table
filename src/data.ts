@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { GenericObjectLayout, NxDimension, NxMeasure } from './types/QIX';
 
-const updateNbrLeftDims = (definition: GenericObjectLayout) => {
+const updateNbrLeftDims = (definition: EngineAPI.IGenericObjectProperties) => {
   if (definition.qHyperCubeDef.qDimensions.length <= 2) {
     definition.qHyperCubeDef.qNoOfLeftDims = definition.qHyperCubeDef.qDimensions.length;
   } else {
@@ -9,7 +8,7 @@ const updateNbrLeftDims = (definition: GenericObjectLayout) => {
   }
 };
 
-const updateInterColumnSortOrder = (def: GenericObjectLayout) => {
+const updateInterColumnSortOrder = (def: EngineAPI.IGenericObjectProperties) => {
   const measureCount = def.qHyperCubeDef.qMeasures.length;
   const dimCount = def.qHyperCubeDef.qDimensions.length;
   def.qHyperCubeDef.qInterColumnSortOrder = Array(dimCount).fill(null).map((nil, i) => i);
@@ -26,12 +25,12 @@ export default {
       dimensions: {
         min: 1,
         max: 15,
-        added(dim: NxDimension, def: GenericObjectLayout): void {
+        added(dim: EngineAPI.INxDimension, def: EngineAPI.IGenericObjectProperties): void {
           updateNbrLeftDims(def);
           updateInterColumnSortOrder(def);
           console.log('DIMENSION ADDED', dim, def);
         },
-        removed(dim: NxDimension, def: GenericObjectLayout): void {
+        removed(dim: EngineAPI.INxDimension, def: EngineAPI.IGenericObjectProperties): void {
           updateNbrLeftDims(def);
           updateInterColumnSortOrder(def);
           console.log('DIMENSION REMOVED', dim, def);
@@ -40,11 +39,11 @@ export default {
       measures: {
         min: 0,
         max: 15,
-        added(dim: NxMeasure, def: GenericObjectLayout): void {
+        added(dim: EngineAPI.INxMeasure, def: EngineAPI.IGenericObjectProperties): void {
           updateInterColumnSortOrder(def);
           console.log('MEASURE ADDED', dim, def);
         },
-        removed(dim: NxMeasure, def: GenericObjectLayout): void {
+        removed(dim: EngineAPI.INxMeasure, def: EngineAPI.IGenericObjectProperties): void {
           updateInterColumnSortOrder(def);
           console.log('MEASURE REMOVED', dim, def);
         }
