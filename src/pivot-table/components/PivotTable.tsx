@@ -71,10 +71,7 @@ export const StickyPivotTable = ({
 
   return (
     <ScrollableContainer rect={rect} onScroll={onScroll} constraints={constraints} >
-      <FullSizeContainer
-        width={columnWidth * size.totalColumns}
-        height={DEFAULT_ROW_HEIGHT * size.totalRows}
-      >
+      <FullSizeContainer width={columnWidth * size.totalColumns} height={DEFAULT_ROW_HEIGHT * size.totalRows}>
         <StickyContainer
           rect={rect}
           leftColumnsWidth={columnWidth * size.left.x}
