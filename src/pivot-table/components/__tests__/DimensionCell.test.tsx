@@ -4,6 +4,9 @@ import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from '../DimensionCell';
 import { CellValue, DataModel, ItemData } from '../../../types/types';
+import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
+
+jest.mock('../../../contexts/SelectionsProvider');
 
 describe('DimensionCell', () => {
   let constraints: stardust.Constraints;
@@ -25,6 +28,9 @@ describe('DimensionCell', () => {
   let collapseTopSpy: jest.SpyInstance;
 
   beforeEach(() => {
+    const mockedSelectionContext = useSelectionsContext as jest.MockedFunction<typeof useSelectionsContext>;
+    mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: false, isLocked: () => false });
+
     constraints = {
       active: false,
       passive: false,
@@ -57,6 +63,7 @@ describe('DimensionCell', () => {
       expandLeft: () => {},
       expandTop: () => {},
       hasData: true,
+      isLocked: () => false,
     };
 
     expandLeftSpy = jest.spyOn(dataModel, 'expandLeft');
@@ -79,7 +86,7 @@ describe('DimensionCell', () => {
     } as EngineAPI.INxPivotDimensionCell;
   });
 
-  test('should render', () => {
+  test.only('should render', () => {
     render(<DimensionCell
       cell={cell}
       data={data}
