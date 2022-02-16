@@ -4,6 +4,7 @@ import { DataModel, FetchNextPage, PivotData } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
 import { DEFAULT_PAGE_SIZE, Q_PATH } from '../constants';
 import useNebulaCallback from './use-nebula-callback';
+import { NxSelectionCellType } from '../types/QIX';
 
 const NOOP_PIVOT_DATA = {} as PivotData;
 
@@ -78,6 +79,18 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     }
   }, [maxAreaWidth, maxAreaHeight, model, qDimInfo, qSize]);
 
+  const isLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
+    if (qType === NxSelectionCellType.NX_CELL_LEFT) {
+      return qDimInfo.slice(0, layout.qHyperCube.qNoOfLeftDims)?.[qCol]?.qLocked;
+    }
+
+    if (qType === NxSelectionCellType.NX_CELL_TOP) {
+      return qDimInfo.slice(layout.qHyperCube.qNoOfLeftDims)?.[qRow]?.qLocked;
+    }
+
+    return false;
+  }, [qDimInfo, layout.qHyperCube.qNoOfLeftDims]);
+
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,
     hasMoreColumns,
@@ -88,6 +101,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandTop,
     pivotData,
     hasData: pivotData !== NOOP_PIVOT_DATA,
+    isLocked
   }),[fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
@@ -96,6 +110,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandLeft,
     expandTop,
     pivotData,
+    isLocked
   ]);
 
   return dataModel;

@@ -24,6 +24,7 @@ export interface DataModel {
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
   hasData: boolean;
+  isLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
 }
 
 export interface ItemData {

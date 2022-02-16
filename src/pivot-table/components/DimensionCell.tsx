@@ -48,13 +48,7 @@ const selectedStyle: React.CSSProperties = {
 };
 
 const disabledSelection: React.CSSProperties = {
-  background: `repeating-linear-gradient(
-    -45deg,
-    #f8f8f8,
-    #f8f8f8 2px,
-    transparent 2px,
-    transparent 4px
-  )`,
+  backgroundImage: 'repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)',
   color: '#bebebe'
 };
 
@@ -109,10 +103,10 @@ const DimensionCell = ({
   } = data;
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellLocked = isLocked(selectionCellType);
+  const isCellLocked = isLocked(selectionCellType) || dataModel?.isLocked(selectionCellType, rowIndex, colIndex);
   const appliedSelectionStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
   const appliedLockedSelectionStyle = isCellLocked ? disabledSelection : {};
-  const onClickHandler = qType === NxDimCellType.NX_DIM_CELL_EMPTY ? undefined : select(selectionCellType, rowIndex, colIndex);
+  const onClickHandler = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY ? undefined : select(selectionCellType, rowIndex, colIndex);
   let cellIcon = null;
 
   if (qCanExpand) {
@@ -120,14 +114,14 @@ const DimensionCell = ({
       fontSize="small"
       data-testid={testIdExpandIcon}
       onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
-      color={isActive ? 'disabled' : undefined}
+      color={isActive ? 'disabled' : 'action'}
     />;
   } else if (qCanCollapse) {
     cellIcon = <RemoveCircleOutlineSharpIcon
       fontSize="small"
       data-testid={testIdCollapseIcon}
       onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
-      color={isActive ? 'disabled' : undefined}
+      color={isActive ? 'disabled' : 'action'}
     />;
   }
 
