@@ -8,14 +8,14 @@ interface SelectionsProviderProps {
   selections: ExtendedSelections;
 }
 
-const NOOP_CONTEXT = {
+const NOOP_SELECTIONS_MODEL = {
   select: () => () => {},
   isSelected: () => false,
   isActive: false,
   isLocked: () => false
 };
 
-const SelectionsContext = createContext<SelectionModel>(NOOP_CONTEXT);
+const SelectionsContext = createContext<SelectionModel>(NOOP_SELECTIONS_MODEL);
 
 export const useSelectionsContext = (): SelectionModel => useContext(SelectionsContext);
 

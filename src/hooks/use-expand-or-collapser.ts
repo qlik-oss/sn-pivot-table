@@ -1,6 +1,6 @@
-import { useMemo } from '@nebula.js/stardust';
 import { Q_PATH } from '../constants';
 import { ExpandOrCollapser } from '../types/types';
+import useNebulaCallback from './use-nebula-callback';
 
 interface ExpandOrCollapserResult {
   collapseLeft: ExpandOrCollapser
@@ -10,25 +10,25 @@ interface ExpandOrCollapserResult {
 }
 
 export default function useExpandOrCollapser(model: EngineAPI.IGenericObject | undefined): ExpandOrCollapserResult {
-  const collapseLeft = useMemo<ExpandOrCollapser>(() => async (rowIndex: number, colIndex: number) => {
+  const collapseLeft = useNebulaCallback<ExpandOrCollapser>(async (rowIndex: number, colIndex: number) => {
     if (!model) return;
 
     await model.collapseLeft(Q_PATH, rowIndex, colIndex, false);
   }, [model]);
 
-  const collapseTop = useMemo<ExpandOrCollapser>(() => async (rowIndex: number, colIndex: number) => {
+  const collapseTop = useNebulaCallback<ExpandOrCollapser>(async (rowIndex: number, colIndex: number) => {
     if (!model) return;
 
     await model.collapseTop(Q_PATH, rowIndex, colIndex, false);
   }, [model]);
 
-  const expandLeft = useMemo<ExpandOrCollapser>(() => async (rowIndex: number, colIndex: number) => {
+  const expandLeft = useNebulaCallback<ExpandOrCollapser>(async (rowIndex: number, colIndex: number) => {
     if (!model) return;
 
     await model.expandLeft(Q_PATH, rowIndex, colIndex, false);
   }, [model]);
 
-  const expandTop = useMemo<ExpandOrCollapser>(() => async (rowIndex: number, colIndex: number) => {
+  const expandTop = useNebulaCallback<ExpandOrCollapser>(async (rowIndex: number, colIndex: number) => {
     if (!model) return;
 
     await model.expandTop(Q_PATH, rowIndex, colIndex, false);

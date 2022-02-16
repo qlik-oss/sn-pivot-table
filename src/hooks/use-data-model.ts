@@ -3,6 +3,7 @@ import createData from '../pivot-table/data';
 import { DataModel, FetchNextPage, PivotData } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
 import { DEFAULT_PAGE_SIZE, Q_PATH } from '../constants';
+import useNebulaCallback from './use-nebula-callback';
 
 const NOOP_PIVOT_DATA = {} as PivotData;
 
@@ -29,7 +30,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandTop,
   } = useExpandOrCollapser(model);
 
-  const newLayoutHandler = useMemo(() => async () => {
+  const newLayoutHandler = useNebulaCallback(async () => {
     if (layout && model) {
       const { qLastExpandedPos, qPivotDataPages } = layout.qHyperCube;
       let pivotPage = qPivotDataPages[0];
@@ -55,8 +56,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
   usePromise(() => newLayoutHandler(), [newLayoutHandler]);
 
-  // To avoid unnecessary rerenders. Only recreate fetchNextPage function if dependencies changes. A crude version of useCallback.
-  const fetchNextPage = useMemo<FetchNextPage>(() => async (isRow: boolean) => {
+  const fetchNextPage = useNebulaCallback<FetchNextPage>(async (isRow: boolean) => {
     if (loading || !model) return;
 
     setLoading(true);
