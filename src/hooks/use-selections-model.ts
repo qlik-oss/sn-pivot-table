@@ -1,11 +1,13 @@
-import { stardust } from '@nebula.js/stardust';
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { Q_PATH } from '../constants';
+import { NxSelectionCellType } from '../types/QIX';
+import { ExtendedSelections } from '../types/types';
 
 export interface SelectionModel {
   select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => void;
   isSelected: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   isActive: boolean;
+  isLocked: (qType: EngineAPI.NxSelectionCellType) => boolean;
 }
 
 export interface SelectedPivotCell {
@@ -14,8 +16,10 @@ export interface SelectedPivotCell {
   qCol: number;
 }
 
-export default function useSelectionsModel(selections: stardust.ObjectSelections): SelectionModel {
+export default function useSelectionsModel(selections: ExtendedSelections): SelectionModel {
   const [selected, setSelected] = useState<SelectedPivotCell[]>([]);
+
+  useEffect(() => console.debug('selected', selected), [selected]);
 
   useEffect(() => {
     const clearSelections = () => setSelected([]);
@@ -23,9 +27,8 @@ export default function useSelectionsModel(selections: stardust.ObjectSelections
     selections.on('canceled', clearSelections);
     selections.on('confirmed', clearSelections);
     selections.on('cleared', clearSelections);
-console.debug('add selection listeners');
+
     return () => {
-      console.debug('remove selection listeners');
       selections.removeListener('deactivated', clearSelections);
       selections.removeListener('canceled', clearSelections);
       selections.removeListener('confirmed', clearSelections);
@@ -33,18 +36,36 @@ console.debug('add selection listeners');
     };
   }, [selections]);
 
+  const isLocked = useCallback(
+    (qType) => {
+      switch (qType) {
+        case NxSelectionCellType.NX_CELL_LEFT:
+          return !!selected.find(cell => cell.qType === NxSelectionCellType.NX_CELL_TOP);
+        case NxSelectionCellType.NX_CELL_TOP:
+          return !!selected.find(cell => cell.qType === NxSelectionCellType.NX_CELL_LEFT);
+        default:
+          return false;
+      }
+    },
+    [selected]
+  );
+
   const select = useCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => {
     if (!selections.isActive()) {
       selections.begin([Q_PATH]);
     }
 
+    if (isLocked(qType)) {
+      return;
+    }
+
     setSelected(prev => {
       const values = [...prev];
-      const idx = values.findIndex(cell => cell.qCol === qCol && cell.qRow === qRow);
+      const idx = values.findIndex(cell => cell.qType === qType && cell.qRow === qRow && cell.qCol === qCol);
       if (idx > -1) {
         values.splice(idx, 1);
       } else {
-        values.push({qType, qCol, qRow});
+        values.push({ qType, qRow, qCol });
       }
 
       selections.select({
@@ -54,7 +75,7 @@ console.debug('add selection listeners');
 
       return values;
     });
-  }, [selections]);
+  }, [selections, isLocked]);
 
   const isSelected = useCallback(
     (qType, qRow, qCol) => !!selected.find(cell => cell.qType === qType && cell.qRow === qRow && cell.qCol === qCol),
@@ -64,11 +85,13 @@ console.debug('add selection listeners');
   const model = useMemo(() => ({
     select,
     isSelected,
-    isActive: selections.isActive()
+    isActive: selections.isActive(),
+    isLocked
   }), [
     select,
     isSelected,
-    selections.isActive()
+    selections.isActive(),
+    isLocked
   ]);
 
   return model;

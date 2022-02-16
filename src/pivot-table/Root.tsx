@@ -3,8 +3,13 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import { PivotTableProps, StickyPivotTable } from './components/PivotTable';
 import SelectionsProvider from '../contexts/SelectionsProvider';
+import { ExtendedSelections } from '../types/types';
 
-export function render(rootElement: Element, props: PivotTableProps): void {
+interface RootProps extends PivotTableProps {
+  selections: ExtendedSelections;
+}
+
+export function render(rootElement: Element, props: RootProps): void {
   ReactDOM.render(
     <React.StrictMode>
       <SelectionsProvider selections={props.selections}>

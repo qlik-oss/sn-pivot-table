@@ -64,7 +64,6 @@ const HeaderGrid = ({
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
-        dataModel,
         matrix: dataModel.pivotData.headers,
         isHeader: true
       }}

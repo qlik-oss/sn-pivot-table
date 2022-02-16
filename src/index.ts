@@ -3,6 +3,7 @@ import properties from './object-properties';
 import data from './data';
 import { render, teardown } from './pivot-table/Root';
 import useDataModel from './hooks/use-data-model';
+import { ExtendedSelections } from './types/types';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova() {
@@ -20,7 +21,7 @@ export default function supernova() {
       const rect = useRect();
       const constraints = useConstraints();
       const dataModel = useDataModel(layout, model);
-      const selections = useSelections();
+      const selections = useSelections() as ExtendedSelections;
 
       useEffect(() => {
         if (dataModel.hasData && rect && constraints && selections) {

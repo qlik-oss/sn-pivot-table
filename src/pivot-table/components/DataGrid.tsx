@@ -71,7 +71,6 @@ const DataGrid = ({
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
-        dataModel,
         matrix: dataModel.pivotData.data,
       }}
       onItemsRendered={onItemsRendered}

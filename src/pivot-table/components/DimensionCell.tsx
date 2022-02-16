@@ -4,7 +4,7 @@ import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp
 import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
 import { CellValue, ItemData, DataModel } from '../../types/types';
 import { borderStyle, textStyle } from './shared-styles';
-import { NxSelectionCellType } from '../../types/QIX';
+import NxDimCellType, { NxSelectionCellType } from '../../types/QIX';
 import { useSelectionsContext } from '../../contexts/SelectionsProvider';
 
 export interface DimensionCellProps {
@@ -21,12 +21,12 @@ interface OnExpandOrCollapseProps {
   colIndex: number;
   isLeftColumn?: boolean;
   constraints: stardust.Constraints;
-  dataModel: DataModel;
+  dataModel: DataModel | undefined;
   isActive: boolean;
 }
 
 const containerStyle: React.CSSProperties = {
-  color: 'rgb(89, 89, 89)',
+  color: '#595959',
 };
 
 const cellStyle: React.CSSProperties = {
@@ -47,12 +47,25 @@ const selectedStyle: React.CSSProperties = {
   color: 'white'
 };
 
+const disabledSelection: React.CSSProperties = {
+  background: `repeating-linear-gradient(
+    -45deg,
+    #f8f8f8,
+    #f8f8f8 2px,
+    transparent 2px,
+    transparent 4px
+  )`,
+  color: '#bebebe'
+};
+
 export const testId = 'dim-cell';
 export const testIdExpandIcon = 'expand-icon';
 export const testIdCollapseIcon = 'collapse-icon';
 
+const NOOP_KEY_HANDLER = () => {};
+
 const createOnExpand = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive }: OnExpandOrCollapseProps) => {
-  if (constraints.active || isActive) {
+  if (constraints.active || isActive || !dataModel) {
     return undefined;
   }
 
@@ -67,7 +80,7 @@ const createOnExpand = ({ dataModel, isLeftColumn, rowIndex, colIndex, constrain
 };
 
 const createOnCollapse = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive }: OnExpandOrCollapseProps) => {
-  if (constraints.active || isActive) {
+  if (constraints.active || isActive || !dataModel) {
     return undefined;
   }
 
@@ -89,14 +102,17 @@ const DimensionCell = ({
   isLeftColumn,
   data
 }: DimensionCellProps): JSX.Element => {
-  const { qText, qCanCollapse, qCanExpand } = cell as EngineAPI.INxPivotDimensionCell;
+  const { qText, qCanCollapse, qCanExpand, qType } = cell as EngineAPI.INxPivotDimensionCell;
   const {
     constraints = { active: false, passive: false, select: false },
     dataModel,
   } = data;
-  const { select, isSelected, isActive } = useSelectionsContext();
+  const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
+  const isCellLocked = isLocked(selectionCellType);
   const appliedSelectionStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
+  const appliedLockedSelectionStyle = isCellLocked ? disabledSelection : {};
+  const onClickHandler = qType === NxDimCellType.NX_DIM_CELL_EMPTY ? undefined : select(selectionCellType, rowIndex, colIndex);
   let cellIcon = null;
 
   if (qCanExpand) {
@@ -116,12 +132,12 @@ const DimensionCell = ({
   }
 
   return (
-    <div style={{ ...style, ...containerStyle, ...appliedSelectionStyle}} data-testid={testId}>
+    <div style={{ ...style, ...containerStyle, ...appliedSelectionStyle, ...appliedLockedSelectionStyle}} data-testid={testId}>
       <div
         style={{ ...cellStyle, ...borderStyle }}
         aria-hidden="true"
-        onClick={select(selectionCellType, rowIndex, colIndex)}
-        onKeyUp={() => {}}
+        onClick={onClickHandler}
+        onKeyUp={NOOP_KEY_HANDLER}
         role="button"
         tabIndex={0}
       >
