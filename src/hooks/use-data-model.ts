@@ -79,7 +79,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     }
   }, [maxAreaWidth, maxAreaHeight, model, qDimInfo, qSize]);
 
-  const isLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
+  const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
     if (qType === NxSelectionCellType.NX_CELL_LEFT) {
       return qDimInfo.slice(0, layout.qHyperCube.qNoOfLeftDims)?.[qCol]?.qLocked;
     }
@@ -101,7 +101,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandTop,
     pivotData,
     hasData: pivotData !== NOOP_PIVOT_DATA,
-    isLocked
+    isDimensionLocked
   }),[fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
@@ -110,7 +110,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandLeft,
     expandTop,
     pivotData,
-    isLocked
+    isDimensionLocked
   ]);
 
   return dataModel;

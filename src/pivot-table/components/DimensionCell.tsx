@@ -47,7 +47,7 @@ const selectedStyle: React.CSSProperties = {
   color: 'white'
 };
 
-const disabledSelection: React.CSSProperties = {
+const lockedFromSelectionStyle: React.CSSProperties = {
   backgroundImage: 'repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)',
   color: '#bebebe'
 };
@@ -103,9 +103,9 @@ const DimensionCell = ({
   } = data;
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellLocked = isLocked(selectionCellType) || dataModel?.isLocked(selectionCellType, rowIndex, colIndex);
-  const appliedSelectionStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
-  const appliedLockedSelectionStyle = isCellLocked ? disabledSelection : {};
+  const isCellLocked = isLocked(selectionCellType) || dataModel?.isDimensionLocked(selectionCellType, rowIndex, colIndex);
+  const appliedSelectedStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
+  const appliedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
   const onClickHandler = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY ? undefined : select(selectionCellType, rowIndex, colIndex);
   let cellIcon = null;
 
@@ -126,7 +126,7 @@ const DimensionCell = ({
   }
 
   return (
-    <div style={{ ...style, ...containerStyle, ...appliedSelectionStyle, ...appliedLockedSelectionStyle}} data-testid={testId}>
+    <div style={{ ...style, ...containerStyle, ...appliedSelectedStyle, ...appliedLockedSelectionStyle}} data-testid={testId}>
       <div
         style={{ ...cellStyle, ...borderStyle }}
         aria-hidden="true"
