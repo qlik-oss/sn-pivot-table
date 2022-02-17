@@ -42,12 +42,12 @@ const dimTextStyle: React.CSSProperties = {
   marginLeft: 4,
 };
 
-const selectedStyle: React.CSSProperties = {
+export const selectedStyle: React.CSSProperties = {
   backgroundColor: 'rgb(0, 152, 69)',
   color: 'white'
 };
 
-const lockedFromSelectionStyle: React.CSSProperties = {
+export const lockedFromSelectionStyle: React.CSSProperties = {
   backgroundImage: 'repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)',
   color: '#bebebe'
 };

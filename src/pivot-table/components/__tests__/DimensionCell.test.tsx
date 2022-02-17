@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
-import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from '../DimensionCell';
+import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, selectedStyle, lockedFromSelectionStyle } from '../DimensionCell';
 import { CellValue, DataModel, ItemData } from '../../../types/types';
 import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
 import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
@@ -29,14 +29,30 @@ describe('DimensionCell', () => {
   let collapseLeftSpy: jest.SpyInstance;
   let collapseTopSpy: jest.SpyInstance;
   let mockedSelectionContext: jest.MockedFunction<() => SelectionModel>;
+  let selectSpy: jest.MockedFunction<() => () => void>;
+  let onClickHandlerSpy: jest.MockedFunction<() => void>;
+  let isSelectedSpy: jest.MockedFunction<() => boolean>;
+  let isLockedSpy: jest.MockedFunction<() => boolean>;
+  let mockedSelectionModel: SelectionModel;
 
   afterEach(() => {
     jest.resetAllMocks();
   });
 
   beforeEach(() => {
+    selectSpy = jest.fn();
+    onClickHandlerSpy = jest.fn();
+    isSelectedSpy = jest.fn();
+    isLockedSpy = jest.fn();
+    selectSpy.mockReturnValue(onClickHandlerSpy);
+    mockedSelectionModel = {
+      select: selectSpy,
+      isSelected: isSelectedSpy,
+      isActive: false,
+      isLocked: isLockedSpy
+    };
     mockedSelectionContext = useSelectionsContext as jest.MockedFunction<typeof useSelectionsContext>;
-    mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: false, isLocked: () => false });
+    mockedSelectionContext.mockReturnValue(mockedSelectionModel);
 
     constraints = {
       active: false,
@@ -202,56 +218,58 @@ describe('DimensionCell', () => {
       test('should select cell', () => {
         const rowIdx = 0;
         const colIdx = 1;
-        const selectHandlerSpy = jest.fn();
-        const onClickHandlerSpy = jest.fn();
-        selectHandlerSpy.mockReturnValue(onClickHandlerSpy);
         (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({ select: selectHandlerSpy, isSelected: () => false, isActive: true, isLocked: () => false });
-
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
         userEvent.click(screen.getByText(qText));
 
-        expect(selectHandlerSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
+        expect(selectSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(1);
+      });
+
+      test('should style selected cell', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
+
+        expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
+        expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
       test('should not be possible to select cell when cell is locked due to selections in top column', () => {
         const rowIdx = 0;
         const colIdx = 1;
-        const selectHandlerSpy = jest.fn();
-        const onClickHandlerSpy = jest.fn();
-        selectHandlerSpy.mockReturnValue(onClickHandlerSpy);
         (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({ select: selectHandlerSpy, isSelected: () => false, isActive: true, isLocked: () => true });
+        isLockedSpy.mockReturnValue(true);
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
         userEvent.click(screen.getByText(qText));
 
-        expect(selectHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
       });
 
       test('should not be possible to select cell when dimension is locked', () => {
         const rowIdx = 0;
         const colIdx = 1;
-        const selectHandlerSpy = jest.fn();
-        const onClickHandlerSpy = jest.fn();
         const isDimensionLockedSpy = jest.fn();
         isDimensionLockedSpy.mockReturnValue(true);
         dataModel.isDimensionLocked = isDimensionLockedSpy;
-        selectHandlerSpy.mockReturnValue(onClickHandlerSpy);
         (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({ select: selectHandlerSpy, isSelected: () => false, isActive: true, isLocked: () => false });
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
         userEvent.click(screen.getByText(qText));
 
         expect(isDimensionLockedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
-        expect(selectHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
       });
     });
   });
@@ -333,56 +351,59 @@ describe('DimensionCell', () => {
       test('should select cell', () => {
         const rowIdx = 0;
         const colIdx = 1;
-        const selectHandlerSpy = jest.fn();
-        const onClickHandlerSpy = jest.fn();
-        selectHandlerSpy.mockReturnValue(onClickHandlerSpy);
         (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({ select: selectHandlerSpy, isSelected: () => false, isActive: true, isLocked: () => false });
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
         userEvent.click(screen.getByText(qText));
 
-        expect(selectHandlerSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
+        expect(selectSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(1);
+      });
+
+      test('should style selected cell', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
+
+        expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
+        expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
       test('should not be possible to select cell when cell is locked due to selections in left column', () => {
         const rowIdx = 0;
         const colIdx = 1;
-        const selectHandlerSpy = jest.fn();
-        const onClickHandlerSpy = jest.fn();
-        selectHandlerSpy.mockReturnValue(onClickHandlerSpy);
         (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({ select: selectHandlerSpy, isSelected: () => false, isActive: true, isLocked: () => true });
+        isLockedSpy.mockReturnValue(true);
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
         userEvent.click(screen.getByText(qText));
 
-        expect(selectHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
       });
 
       test('should not be possible to select cell when dimension is locked', () => {
         const rowIdx = 0;
         const colIdx = 1;
-        const selectHandlerSpy = jest.fn();
-        const onClickHandlerSpy = jest.fn();
         const isDimensionLockedSpy = jest.fn();
         isDimensionLockedSpy.mockReturnValue(true);
         dataModel.isDimensionLocked = isDimensionLockedSpy;
-        selectHandlerSpy.mockReturnValue(onClickHandlerSpy);
         (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({ select: selectHandlerSpy, isSelected: () => false, isActive: true, isLocked: () => false });
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
         userEvent.click(screen.getByText(qText));
 
         expect(isDimensionLockedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
-        expect(selectHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
       });
     });
   });
