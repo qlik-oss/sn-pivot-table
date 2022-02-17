@@ -19,8 +19,6 @@ export interface SelectedPivotCell {
 export default function useSelectionsModel(selections: ExtendedSelections): SelectionModel {
   const [selected, setSelected] = useState<SelectedPivotCell[]>([]);
 
-  useEffect(() => console.debug('selected', selected), [selected]);
-
   useEffect(() => {
     const clearSelections = () => setSelected([]);
     selections.on('deactivated', clearSelections);
