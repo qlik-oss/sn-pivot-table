@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import useDebug from '../hooks/use-debug';
+// import useDebug from '../hooks/use-debug';
 import useSelectionsModel, { SelectionModel } from '../hooks/use-selections-model';
 import { ExtendedSelections } from '../types/types';
 
@@ -21,7 +21,7 @@ export const useSelectionsContext = (): SelectionModel => useContext(SelectionsC
 
 export default function SelectionsProvider({ children, selections }: SelectionsProviderProps): JSX.Element {
   const selectionsModel = useSelectionsModel(selections);
-  useDebug('SelectionsProvider', { ...selectionsModel });
+  // useDebug('SelectionsProvider', { ...selectionsModel });
 
   return (
     <SelectionsContext.Provider value={selectionsModel}>
