@@ -7,11 +7,14 @@ import DimensionCell from '../DimensionCell';
 import DimensionTitleCell from '../DimensionTitleCell';
 import EmptyHeaderCell from '../EmptyHeaderCell';
 import EmptyCell from '../EmptyCell';
+import PseudoDimensionCell from '../PseudoDimensionCell';
+import NxDimCellType from '../../../types/QIX';
 
 jest.mock('../DimensionCell');
 jest.mock('../DimensionTitleCell');
 jest.mock('../EmptyHeaderCell');
 jest.mock('../EmptyCell');
+jest.mock('../PseudoDimensionCell');
 
 describe('CellFactory', () => {
   const style: React.CSSProperties = {
@@ -57,6 +60,7 @@ describe('CellFactory', () => {
       expandLeft: () => {},
       expandTop: () => {},
       hasData: true,
+      isDimensionLocked: () => false,
     };
 
     data = {
@@ -101,6 +105,18 @@ describe('CellFactory', () => {
     render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 
     expect(mockDimensionTitleCell).toHaveBeenCalledWith({ style, cell }, {});
+  });
+
+  test('should render pseudo dimension cell', () => {
+    const mockPseudoDimensionCell = PseudoDimensionCell as jest.MockedFunction<typeof PseudoDimensionCell>;
+    mockPseudoDimensionCell.mockReturnValue(<div />);
+    cell = { qText, qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as EngineAPI.INxPivotDimensionCell;
+    data.matrix[0][0] = cell;
+    data.isLeftColumn = false;
+
+    render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
+
+    expect(mockPseudoDimensionCell).toHaveBeenCalledWith({ style, cell, isLeftColumn: false }, {});
   });
 
   test('should render empty header cell', () => {

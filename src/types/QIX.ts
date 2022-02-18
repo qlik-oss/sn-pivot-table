@@ -11,4 +11,10 @@ enum NxDimCellType {
   NX_DIM_CELL_GENERATED = 'G',
 }
 
+export enum NxSelectionCellType {
+  NX_CELL_DATA = 'D',
+  NX_CELL_TOP = 'T',
+  NX_CELL_LEFT = 'L'
+}
+
 export default NxDimCellType;

@@ -4,6 +4,8 @@ import DimensionCell from './DimensionCell';
 import DimensionTitleCell from './DimensionTitleCell';
 import EmptyHeaderCell from './EmptyHeaderCell';
 import EmptyCell from './EmptyCell';
+import NxDimCellType from '../../types/QIX';
+import PseudoDimensionCell from './PseudoDimensionCell';
 // import useDebug from '../../hooks/use-debug';
 
 interface GridCallbackProps {
@@ -23,6 +25,14 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
   }
 
   if (cell !== null) {
+    if (cell.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
+      return <PseudoDimensionCell
+        cell={cell}
+        style={style}
+        isLeftColumn={isLeftColumn}
+      />;
+    }
+
     return <DimensionCell
       cell={cell}
       data={data}

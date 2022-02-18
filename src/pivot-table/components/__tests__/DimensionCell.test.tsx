@@ -2,8 +2,13 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
-import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from '../DimensionCell';
+import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, selectedStyle, lockedFromSelectionStyle } from '../DimensionCell';
 import { CellValue, DataModel, ItemData } from '../../../types/types';
+import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
+import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
+import { SelectionModel } from '../../../hooks/use-selections-model';
+
+jest.mock('../../../contexts/SelectionsProvider');
 
 describe('DimensionCell', () => {
   let constraints: stardust.Constraints;
@@ -23,8 +28,32 @@ describe('DimensionCell', () => {
   let expandTopSpy: jest.SpyInstance;
   let collapseLeftSpy: jest.SpyInstance;
   let collapseTopSpy: jest.SpyInstance;
+  let mockedSelectionContext: jest.MockedFunction<() => SelectionModel>;
+  let selectSpy: jest.MockedFunction<() => () => void>;
+  let onClickHandlerSpy: jest.MockedFunction<() => void>;
+  let isSelectedSpy: jest.MockedFunction<() => boolean>;
+  let isLockedSpy: jest.MockedFunction<() => boolean>;
+  let mockedSelectionModel: SelectionModel;
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   beforeEach(() => {
+    selectSpy = jest.fn();
+    onClickHandlerSpy = jest.fn();
+    isSelectedSpy = jest.fn();
+    isLockedSpy = jest.fn();
+    selectSpy.mockReturnValue(onClickHandlerSpy);
+    mockedSelectionModel = {
+      select: selectSpy,
+      isSelected: isSelectedSpy,
+      isActive: false,
+      isLocked: isLockedSpy
+    };
+    mockedSelectionContext = useSelectionsContext as jest.MockedFunction<typeof useSelectionsContext>;
+    mockedSelectionContext.mockReturnValue(mockedSelectionModel);
+
     constraints = {
       active: false,
       passive: false,
@@ -57,6 +86,7 @@ describe('DimensionCell', () => {
       expandLeft: () => {},
       expandTop: () => {},
       hasData: true,
+      isDimensionLocked: () => false,
     };
 
     expandLeftSpy = jest.spyOn(dataModel, 'expandLeft');
@@ -76,7 +106,8 @@ describe('DimensionCell', () => {
       qText,
       qCanExpand: false,
       qCanCollapse: false,
-    } as EngineAPI.INxPivotDimensionCell;
+      qType: NxDimCellType.NX_DIM_CELL_NORMAL
+    } as unknown as EngineAPI.INxPivotDimensionCell;
   });
 
   test('should render', () => {
@@ -111,98 +142,269 @@ describe('DimensionCell', () => {
   });
 
   describe('left column interactions', () => {
-    test('should be possible to expand left column', () => {
-      (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
+    describe('expand/collapse', () => {
+      test('should be possible to expand left column', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
 
-      render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
-      expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-      userEvent.click(screen.getByText(qText));
+        expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdExpandIcon));
 
-      expect(expandLeftSpy).toHaveBeenCalledWith(0, 1);
+        expect(expandLeftSpy).toHaveBeenCalledWith(0, 1);
+      });
+
+      test('should not be possible to expand left column when active constraint is true', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
+        (data.constraints as stardust.Constraints).active = true;
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+
+        expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdExpandIcon));
+
+        expect(expandLeftSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test('should not be possible to expand left column when selections is active', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
+        mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: true, isLocked: () => false });
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+
+        expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdExpandIcon));
+
+        expect(expandLeftSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test('should be possible to collapse left column', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+
+        expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+
+        expect(collapseLeftSpy).toHaveBeenCalledWith(0, 1);
+      });
+
+      test('should be not possible to collapse left column when active constraint is true', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        (data.constraints as stardust.Constraints).active = true;
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+
+        expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+
+        expect(collapseLeftSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test('should be not possible to collapse left column when selections is active', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: true, isLocked: () => false });
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+
+        expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+
+        expect(collapseLeftSpy).toHaveBeenCalledTimes(0);
+      });
     });
 
-    test('should not be possible to expand left column when active constraint is true', () => {
-      (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
-      (data.constraints as stardust.Constraints).active = true;
+    describe('selections', () => {
+      test('should select cell', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
-      render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        userEvent.click(screen.getByText(qText));
 
-      expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-      userEvent.click(screen.getByText(qText));
+        expect(selectSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(1);
+      });
 
-      expect(expandLeftSpy).toHaveBeenCalledTimes(0);
-    });
+      test('should style selected cell', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
 
-    test('should be possible to collapse left column', () => {
-      (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
-      render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
+        expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
+      });
 
-      expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-      userEvent.click(screen.getByText(qText));
+      test('should not be possible to select cell when cell is locked due to selections in top column', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        isLockedSpy.mockReturnValue(true);
 
-      expect(collapseLeftSpy).toHaveBeenCalledWith(0, 1);
-    });
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
-    test('should be not possible to collapse left column when active constraint is true', () => {
-      (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
-      (data.constraints as stardust.Constraints).active = true;
+        userEvent.click(screen.getByText(qText));
 
-      render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
+      });
 
-      expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-      userEvent.click(screen.getByText(qText));
+      test('should not be possible to select cell when dimension is locked', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        const isDimensionLockedSpy = jest.fn();
+        isDimensionLockedSpy.mockReturnValue(true);
+        dataModel.isDimensionLocked = isDimensionLockedSpy;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
 
-      expect(collapseLeftSpy).toHaveBeenCalledTimes(0);
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
+
+        userEvent.click(screen.getByText(qText));
+
+        expect(isDimensionLockedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
+      });
     });
   });
 
   describe('top row interactions', () => {
-    test('should be possible to expand top row', () => {
-      (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
+    describe('expand/collapse', () => {
+      test('should be possible to expand top row', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
 
-      render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
-      expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-      userEvent.click(screen.getByText(qText));
+        expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdExpandIcon));
 
-      expect(expandTopSpy).toHaveBeenCalledWith(0, 1);
+        expect(expandTopSpy).toHaveBeenCalledWith(0, 1);
+      });
+
+      test('should not be possible to expand top row when active constraint is true', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
+        (data.constraints as stardust.Constraints).active = true;
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+
+        expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdExpandIcon));
+
+        expect(expandTopSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test('should not be possible to expand top row when selections is active', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
+        mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: true, isLocked: () => false });
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+
+        expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdExpandIcon));
+
+        expect(expandTopSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test('should be possible to collapse top row', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+
+        expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+
+        expect(collapseTopSpy).toHaveBeenCalledWith(0, 1);
+      });
+
+      test('should be not possible to collapse top row when active constraint is true', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        (data.constraints as stardust.Constraints).active = true;
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+
+        expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+
+        expect(collapseTopSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test('should be not possible to collapse top row when selections is active', () => {
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: true, isLocked: () => false });
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+
+        expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
+        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+
+        expect(collapseTopSpy).toHaveBeenCalledTimes(0);
+      });
     });
 
-    test('should not be possible to expand top row when active constraint is true', () => {
-      (cell as EngineAPI.INxPivotDimensionCell).qCanExpand = true;
-      (data.constraints as stardust.Constraints).active = true;
+    describe('selections', () => {
+      test('should select cell', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
 
-      render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
-      expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-      userEvent.click(screen.getByText(qText));
+        userEvent.click(screen.getByText(qText));
 
-      expect(expandTopSpy).toHaveBeenCalledTimes(0);
-    });
+        expect(selectSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(1);
+      });
 
-    test('should be possible to collapse top row', () => {
-      (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+      test('should style selected cell', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
 
-      render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
-      expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-      userEvent.click(screen.getByText(qText));
+        expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
+        expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
+      });
 
-      expect(collapseTopSpy).toHaveBeenCalledWith(0, 1);
-    });
+      test('should not be possible to select cell when cell is locked due to selections in left column', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        isLockedSpy.mockReturnValue(true);
 
-    test('should be not possible to collapse top row when active constraint is true', () => {
-      (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
-      (data.constraints as stardust.Constraints).active = true;
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
-      render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        userEvent.click(screen.getByText(qText));
 
-      expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-      userEvent.click(screen.getByText(qText));
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
+      });
 
-      expect(collapseTopSpy).toHaveBeenCalledTimes(0);
+      test('should not be possible to select cell when dimension is locked', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        const isDimensionLockedSpy = jest.fn();
+        isDimensionLockedSpy.mockReturnValue(true);
+        dataModel.isDimensionLocked = isDimensionLockedSpy;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
+
+        userEvent.click(screen.getByText(qText));
+
+        expect(isDimensionLockedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
+      });
     });
   });
 });

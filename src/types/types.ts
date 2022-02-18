@@ -24,11 +24,12 @@ export interface DataModel {
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
   hasData: boolean;
+  isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
 }
 
 export interface ItemData {
   constraints?: stardust.Constraints;
-  dataModel: DataModel;
+  dataModel?: DataModel;
   matrix: CellValue[][] | EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
   isHeader?: boolean;
@@ -49,4 +50,9 @@ export interface PivotData {
     totalColumns: number;
     totalRows: number;
   }
+}
+
+export interface ExtendedSelections extends stardust.ObjectSelections {
+  on: (name: string, callback: () => void) => void;
+  removeListener: (name: string, callback: () => void) => void;
 }
