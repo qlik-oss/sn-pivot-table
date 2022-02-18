@@ -100,31 +100,53 @@ describe('useSelectionsModel', () => {
     expect(result.current.isSelected(NxSelectionCellType.NX_CELL_LEFT, 0 ,1 )).toBeFalsy();
   });
 
-  test('should lock cells with qType=T', () => {
+  test('should lock cells with qType=T when qType=L is already selected', () => {
     const { result } = renderHook(() => useSelectionsModel(selections));
 
     act(() => {
       result.current.select(NxSelectionCellType.NX_CELL_LEFT, 0, 1)();
     });
 
-    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP)).toBeTruthy();
-    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT)).toBeFalsy();
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy();
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT, 0, 1)).toBeFalsy();
   });
 
-  test('should lock cells with qType=L', () => {
+  test('should lock cells with qType=T and not on the same row', () => {
     const { result } = renderHook(() => useSelectionsModel(selections));
 
     act(() => {
       result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
-    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT)).toBeTruthy();
-    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP)).toBeFalsy();
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy();
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP, 1, 1)).toBeTruthy();
+  });
+
+  test('should lock cells with qType=L when qType=T is already selected', () => {
+    const { result } = renderHook(() => useSelectionsModel(selections));
+
+    act(() => {
+      result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
+    });
+
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT, 0, 1)).toBeTruthy();
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy();
+  });
+
+  test('should lock cells with qType=L and not on the same column', () => {
+    const { result } = renderHook(() => useSelectionsModel(selections));
+
+    act(() => {
+      result.current.select(NxSelectionCellType.NX_CELL_LEFT, 0, 0)();
+    });
+
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT, 0, 0)).toBeFalsy();
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT, 0, 1)).toBeTruthy();
   });
 
   test('should not lock unknown cell type', () => {
     const { result } = renderHook(() => useSelectionsModel(selections));
 
-    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_DATA)).toBeFalsy();
+    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_DATA, 0, 0)).toBeFalsy();
   });
 });

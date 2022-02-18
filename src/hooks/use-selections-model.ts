@@ -7,7 +7,7 @@ export interface SelectionModel {
   select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => void;
   isSelected: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   isActive: boolean;
-  isLocked: (qType: EngineAPI.NxSelectionCellType) => boolean;
+  isLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
 }
 
 export interface SelectedPivotCell {
@@ -35,12 +35,20 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
   }, [selections]);
 
   const isLocked = useCallback(
-    (qType) => {
+    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
       switch (qType) {
         case NxSelectionCellType.NX_CELL_LEFT:
-          return !!selected.find(cell => cell.qType === NxSelectionCellType.NX_CELL_TOP);
+          return !!selected.find(cell => {
+            if (cell.qType === NxSelectionCellType.NX_CELL_TOP) return true;
+            if (cell.qType === NxSelectionCellType.NX_CELL_LEFT && cell.qCol !== qCol) return true;
+            return false;
+          });
         case NxSelectionCellType.NX_CELL_TOP:
-          return !!selected.find(cell => cell.qType === NxSelectionCellType.NX_CELL_LEFT);
+          return !!selected.find(cell => {
+            if (cell.qType === NxSelectionCellType.NX_CELL_LEFT) return true;
+            if (cell.qType === NxSelectionCellType.NX_CELL_TOP && cell.qRow !== qRow) return true;
+            return false;
+          });
         default:
           return false;
       }
@@ -53,7 +61,7 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
       selections.begin([Q_PATH]);
     }
 
-    if (isLocked(qType)) {
+    if (isLocked(qType, qRow, qCol)) {
       return;
     }
 

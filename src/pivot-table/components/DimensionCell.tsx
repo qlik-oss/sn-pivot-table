@@ -103,7 +103,7 @@ const DimensionCell = ({
   } = data;
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellLocked = isLocked(selectionCellType) || dataModel?.isDimensionLocked(selectionCellType, rowIndex, colIndex);
+  const isCellLocked = isLocked(selectionCellType, rowIndex, colIndex) || dataModel?.isDimensionLocked(selectionCellType, rowIndex, colIndex);
   const appliedSelectedStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
   const appliedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
   const onClickHandler = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY ? undefined : select(selectionCellType, rowIndex, colIndex);
