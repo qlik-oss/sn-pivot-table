@@ -43,7 +43,7 @@ const dimTextStyle: React.CSSProperties = {
 };
 
 export const selectedStyle: React.CSSProperties = {
-  backgroundColor: 'rgb(0, 152, 69)',
+  backgroundColor: '#0aaf54',
   color: 'white'
 };
 
