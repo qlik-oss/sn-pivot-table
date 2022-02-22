@@ -1,5 +1,5 @@
 import { stardust } from '@nebula.js/stardust';
-import React, { useRef, useCallback } from 'react';
+import React, { useRef } from 'react';
 import { VariableSizeGrid } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
 // import useDebug from '../../hooks/use-debug';
@@ -10,6 +10,7 @@ import HeaderGrid from './HeaderGrid';
 import TopGrid from './TopGrid';
 import LeftGrid from './LeftGrid';
 import DataGrid from './DataGrid';
+import useColumnWidth from '../../hooks/use-column-width';
 
 export interface PivotTableProps {
   rect: Rect;
@@ -17,11 +18,7 @@ export interface PivotTableProps {
   dataModel: DataModel;
 }
 
-const MIN_COLUMN_WIDTH = 100;
-
 const DEFAULT_ROW_HEIGHT = 28;
-
-const getColumnWidth = (rect: Rect, columnCount: number) => Math.max(MIN_COLUMN_WIDTH, rect.width / columnCount);
 
 const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
 
@@ -33,6 +30,13 @@ export const StickyPivotTable = ({
   const topGridRef = useRef<VariableSizeGrid>(null);
   const leftGridRef = useRef<VariableSizeGrid>(null);
   const dataGridRef = useRef<VariableSizeGrid>(null);
+  const {
+    leftGridWidth,
+    rightGridWidth,
+    getDataColumnWidth,
+    getLeftColumnWidth,
+    getTotalWidth,
+  } = useColumnWidth(dataModel, rect);
   const { size } = dataModel.pivotData;
 
   const onScroll = (event: React.SyntheticEvent) => {
@@ -49,20 +53,10 @@ export const StickyPivotTable = ({
     }
   };
 
-  const columnWidth = getColumnWidth(rect, size.totalColumns);
-
-  const columnWidthCallback = useCallback(() => columnWidth, [columnWidth]);
-
   // useDebug('PivotTable', {
   //   rect,
   //   dataModel,
-  //   columnWidth,
   // });
-
-  const leftGridWidth = columnWidth * size.left.x;
-  const headerGridWidth = columnWidth * size.headers.x;
-  const topGridWidth = rect.width - leftGridWidth;
-  const dataGridWidth = rect.width - leftGridWidth;
 
   const headerGridHeight = DEFAULT_ROW_HEIGHT * size.headers.y;
   const leftGridHeight = rect.height - headerGridHeight;
@@ -71,19 +65,19 @@ export const StickyPivotTable = ({
 
   return (
     <ScrollableContainer rect={rect} onScroll={onScroll} constraints={constraints} >
-      <FullSizeContainer width={columnWidth * size.totalColumns} height={DEFAULT_ROW_HEIGHT * size.totalRows}>
+      <FullSizeContainer width={getTotalWidth()} height={DEFAULT_ROW_HEIGHT * size.totalRows}>
         <StickyContainer
           rect={rect}
-          leftColumnsWidth={columnWidth * size.left.x}
-          rightColumnsWidth={columnWidth * size.data.x}
+          leftColumnsWidth={leftGridWidth}
+          rightColumnsWidth={rightGridWidth}
           topRowsHeight={DEFAULT_ROW_HEIGHT * size.top.y}
           bottomRowsHeight={DEFAULT_ROW_HEIGHT * size.data.y}
         >
           <HeaderGrid
             dataModel={dataModel}
-            columnWidthCallback={columnWidthCallback}
+            columnWidthCallback={getLeftColumnWidth}
             rowHightCallback={rowHightCallback}
-            width={headerGridWidth}
+            width={leftGridWidth}
             height={headerGridHeight}
           />
 
@@ -91,9 +85,9 @@ export const StickyPivotTable = ({
             dataModel={dataModel}
             constraints={constraints}
             topGridRef={topGridRef}
-            columnWidthCallback={columnWidthCallback}
+            columnWidthCallback={getDataColumnWidth}
             rowHightCallback={rowHightCallback}
-            width={topGridWidth}
+            width={rightGridWidth}
             height={topGridHeight}
           />
 
@@ -101,7 +95,7 @@ export const StickyPivotTable = ({
             dataModel={dataModel}
             constraints={constraints}
             leftGridRef={leftGridRef}
-            columnWidthCallback={columnWidthCallback}
+            columnWidthCallback={getLeftColumnWidth}
             rowHightCallback={rowHightCallback}
             width={leftGridWidth}
             height={leftGridHeight}
@@ -110,9 +104,9 @@ export const StickyPivotTable = ({
           <DataGrid
             dataModel={dataModel}
             dataGridRef={dataGridRef}
-            columnWidthCallback={columnWidthCallback}
+            columnWidthCallback={getDataColumnWidth}
             rowHightCallback={rowHightCallback}
-            width={dataGridWidth}
+            width={rightGridWidth}
             height={dataGridHeight}
           />
         </StickyContainer>

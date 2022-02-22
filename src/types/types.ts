@@ -25,6 +25,8 @@ export interface DataModel {
   expandTop: ExpandOrCollapser;
   hasData: boolean;
   isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
+  getDimensionInfo: () => EngineAPI.INxDimensionInfo[];
+  getMeasureInfo: () => EngineAPI.INxMeasureInfo[];
 }
 
 export interface ItemData {

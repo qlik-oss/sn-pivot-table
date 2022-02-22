@@ -9,7 +9,7 @@ import { gridBorderStyle } from './shared-styles';
 interface TopGridProps {
   dataModel: DataModel;
   topGridRef: React.RefObject<VariableSizeGrid>;
-  columnWidthCallback: () => number;
+  columnWidthCallback: (index: number) => number;
   rowHightCallback: () => number;
   width: number;
   height: number;
