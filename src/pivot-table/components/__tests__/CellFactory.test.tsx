@@ -61,6 +61,8 @@ describe('CellFactory', () => {
       expandTop: () => {},
       hasData: true,
       isDimensionLocked: () => false,
+      getDimensionInfo: () => [],
+      getMeasureInfo: () => [],
     };
 
     data = {
