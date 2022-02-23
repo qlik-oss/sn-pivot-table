@@ -25,8 +25,8 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
 
         if (qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
           const pseudoDimensionWidth = getMeasureInfo()
-          .map(qMeasureInfo => qMeasureInfo.qFallbackTitle)
-          .reduce((max, qFallbackTitle) => Math.max(max, measureText(qFallbackTitle)), 0);
+            .map(qMeasureInfo => qMeasureInfo.qFallbackTitle)
+            .reduce((max, qFallbackTitle) => Math.max(max, measureText(qFallbackTitle)), 0);
 
           tmpRatios.push(pseudoDimensionWidth / rect.width);
 

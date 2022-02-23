@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef } from 'react';
 
-interface MeasureTextHook {
+export interface MeasureTextHook {
   estimateWidth: (length: number) => number;
   measureText: (text: string) => number;
 }
