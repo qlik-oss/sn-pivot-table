@@ -62,17 +62,31 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     [leftGridWidth, rect.width]
   );
 
+  const totalDataColumnWidth = useMemo(() => {
+    const totalWidth = getMeasureInfo().reduce((width, qMeasureInfo) => {
+      const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo;
+      return width + Math.max(
+        MIN_COLUMN_WIDTH,
+        estimateWidth(qApprMaxGlyphCount),
+        measureText(qFallbackTitle),
+      );
+    }, 0);
+
+    return totalWidth;
+  }, [getMeasureInfo, estimateWidth, measureText]);
+
   const getDataColumnWidth = useCallback((colIndex: number) => {
     const measureInfoIndex = colIndex % getMeasureInfo().length;
     const { qApprMaxGlyphCount, qFallbackTitle } = getMeasureInfo()[measureInfoIndex];
+    const availableWidth = totalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
 
     return Math.max(
       MIN_COLUMN_WIDTH,
-      rightGridWidth / pivotData.size.data.x,
+      availableWidth / pivotData.size.data.x,
       estimateWidth(qApprMaxGlyphCount),
       measureText(qFallbackTitle),
     );
-  }, [rightGridWidth, pivotData, estimateWidth, measureText, getMeasureInfo]);
+  }, [rightGridWidth, pivotData, totalDataColumnWidth, estimateWidth, measureText, getMeasureInfo]);
 
   const getTotalWidth = useCallback(() => Array
       .from({ length: pivotData.size.data.x }, () => null)

@@ -113,6 +113,33 @@ describe('useColumnWidth', () => {
       expect(result.current.getDataColumnWidth(2)).toBe(190);
     });
 
+    test('should not return data column width based of available right grid width when total data column width is larger than available right grid width', () => {
+      const m0 = { qFallbackTitle: 'm0', qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
+      const m1 = { qFallbackTitle: 'm1', qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
+      const m2 = { qFallbackTitle: 'm2', qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
+      mockedDataModel.getMeasureInfo = () => [m0, m1, m2];
+      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(10);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockImplementation((title) => {
+        switch (title) {
+          case 'm0':
+            return 600;
+          case 'm1':
+            return 200;
+          case 'm2':
+            return 150;
+          default:
+            throw new Error;
+        }
+      });
+      mockedDataModel.pivotData.size.data.x = 3;
+      rect.width = 600;
+
+      const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
+      expect(result.current.getDataColumnWidth(0)).toBe(600);
+      expect(result.current.getDataColumnWidth(1)).toBe(200);
+      expect(result.current.getDataColumnWidth(2)).toBe(150);
+    });
+
     test('should return data column width based of estimated width', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(150);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(10);
