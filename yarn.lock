@@ -1824,14 +1824,14 @@
   dependencies:
     "@babel/runtime" "^7.17.0"
 
-"@mui/material@5.4.2":
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.4.2.tgz#04ea6632d7ca600a2ae528f6f140ef0af9c01434"
-  integrity sha512-jmeLWEO6AA6g7HErhI3MXVGaMZtqDZjDwcHCg24WY954wO38Xn0zJ53VfpFc44ZTJLV9Ejd7ci9fLlG/HmJCeg==
+"@mui/material@5.4.3":
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.4.3.tgz#cc0af7192a856796bd82955c5317722916d02bc1"
+  integrity sha512-E2K402xjz3U09mTgrVYj+vUACeOppV41uEcu9GSkm7QSg4Nzy48WkdaiGL7TRCyH0T8HsonFSMJvCpwyQbD6iw==
   dependencies:
     "@babel/runtime" "^7.17.0"
     "@mui/base" "5.0.0-alpha.69"
-    "@mui/system" "^5.4.2"
+    "@mui/system" "^5.4.3"
     "@mui/types" "^7.1.2"
     "@mui/utils" "^5.4.2"
     "@types/react-transition-group" "^4.4.4"
@@ -1860,10 +1860,10 @@
     "@emotion/cache" "^11.7.1"
     prop-types "^15.7.2"
 
-"@mui/system@^5.4.2":
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.4.2.tgz#8166e406ba4628950bd79cec8159de25d5aef162"
-  integrity sha512-QegBVu6fxUNov1X9bWc1MZUTeV3A5g9PIpli7d0kzkGfq6JzrJWuPlhSPZ+6hlWmWky+bbAXhU65Qz8atWxDGw==
+"@mui/system@^5.4.3":
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.4.3.tgz#3bc2547183b8d09b04df1c835cfeb1259f7ec3fd"
+  integrity sha512-Xz5AVe9JMufJVozMzUv93IRtnLNZnw/Q8k+Mg7Q4oRuwdir0TcYkMVUqAHetVKb3rAouIVCu/cQv0jB8gVeVsQ==
   dependencies:
     "@babel/runtime" "^7.17.0"
     "@mui/private-theming" "^5.4.2"
@@ -1890,10 +1890,10 @@
     prop-types "^15.7.2"
     react-is "^17.0.2"
 
-"@nebula.js/cli-build@2.5.0", "@nebula.js/cli-build@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli-build/-/cli-build-2.5.0.tgz#0a2c9ed650c5539a4e91e280aa5f07ec22e168be"
-  integrity sha512-04OiNf8DbeDmix+e1wZ0w2Usc6FMqQi8QAqVsNPMm84P7Tlx7kcN4FAAWAhszwg/78ZuOPeH/xmVheeEYgJnRw==
+"@nebula.js/cli-build@2.6.1", "@nebula.js/cli-build@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli-build/-/cli-build-2.6.1.tgz#e84faadaa13440a99a0f9159467dfa32296d04e4"
+  integrity sha512-hF+S9obj+PZD9QMfzO8FhLV+z7bLoETvYBhMoJ69Xpk6ScKKLwMpTF2W9uSf3PrngSrhhcCQPKYQiyYw2aS4Dw==
   dependencies:
     "@babel/cli" "7.16.0"
     "@babel/core" "7.16.0"
@@ -1914,25 +1914,25 @@
     rollup-plugin-terser "7.0.2"
     yargs "17.3.0"
 
-"@nebula.js/cli-create@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli-create/-/cli-create-2.5.0.tgz#7b93e1bc9559d6283cf511788ff39b6ab4f5f44e"
-  integrity sha512-H4ymqmss2haNmXQ3xCo2iO/oBYJwNJRW8xbsUlmH8lrzoRJx8Oqlkl+M51RTqnc3rCJ8NN+v1j7oH58TD3YPSA==
+"@nebula.js/cli-create@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli-create/-/cli-create-2.6.1.tgz#a0314702bef78e795f5cd6c423bddc5eef2fe267"
+  integrity sha512-fYrToc+cpSim70BbtiHz/lxY77vNUtQOMK33QHtq5KbrC7JB1xcaP/pWRkrofyBU7PEG49tTjlosEMPcJUbCAg==
   dependencies:
     chalk "4.1.2"
     ejs "3.1.6"
     fs-extra "10.0.0"
     inquirer "8.2.0"
 
-"@nebula.js/cli-sense@2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli-sense/-/cli-sense-2.5.0.tgz#d186829c39fdc335dae24698ca0d1f4b63343727"
-  integrity sha512-cb/nlg5HUneprjonnQ9msMz454F0s8FUDU6WskLbj+/VDIFEnIEseaaArn73jraCwC+Am4iF4s/S1hGQkMPdnQ==
+"@nebula.js/cli-sense@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli-sense/-/cli-sense-2.6.1.tgz#ac1be8f7a8805f0d9b686a32464aadbdf42f6c5e"
+  integrity sha512-XuIRTekwdBzolz/biYbbLe967Yx1ALHrIpyrlLMqZBdtzRjjhlZJsxjTdKCTVwrk/R9F9DqBVwFGQ1Ro/J+9lQ==
   dependencies:
     "@babel/cli" "7.16.0"
     "@babel/core" "7.16.0"
     "@babel/preset-env" "7.16.4"
-    "@nebula.js/stardust" "^2.5.0"
+    "@nebula.js/stardust" "^2.6.1"
     "@rollup/plugin-commonjs" "21.0.1"
     "@rollup/plugin-node-resolve" "13.0.6"
     "@rollup/plugin-replace" "3.0.0"
@@ -1944,12 +1944,12 @@
     rollup-plugin-terser "7.0.2"
     yargs "17.3.0"
 
-"@nebula.js/cli-serve@2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli-serve/-/cli-serve-2.5.0.tgz#dc403ef5fd8c8b1f3d632a238f1db02977114ba9"
-  integrity sha512-cV2YgAB9aTZLYN6YZWDJPPFABg3LvVxHREJ/TgpynIVrkuYw2K/Q+HLcL3I2ufsWnUnFCOZSVGBzmO16pNo2ag==
+"@nebula.js/cli-serve@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli-serve/-/cli-serve-2.6.1.tgz#a35a79b973fabdc7f24dee07e5ef972002067d7c"
+  integrity sha512-sMvCzPBTWxCZD3ul7rDMADnn0kEPzZmKAfwaLJXmaaPzQHeZnHfkR+IBbJ8WF9NnOZv9DSuVKsqpitwkwGCyWw==
   dependencies:
-    "@nebula.js/cli-build" "^2.5.0"
+    "@nebula.js/cli-build" "^2.6.1"
     body-parser "1.19.0"
     chalk "4.1.2"
     chokidar "3.5.2"
@@ -1966,19 +1966,19 @@
     ws "8.3.0"
     yargs "17.3.0"
 
-"@nebula.js/cli@2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli/-/cli-2.5.0.tgz#dfd5b2d6fa3d4315030c681d902d82c20b128951"
-  integrity sha512-Q0VJKaa1YiGc498X9hGx46qEKuKSBFqKIOjmAg/zjqslhoD0qULyTyhQUyWGrnGpgLe6eQ3lfVj//SrMph3z0w==
+"@nebula.js/cli@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli/-/cli-2.6.1.tgz#1f3aa2c715beaeae148a963591ca28b818330ebb"
+  integrity sha512-/i5LSCojKtF+jXa9bhiP/5xd54pfd+u14QhK2zo+AtjnR4BQIDUajjfXeP07Y/uVsthUrkkQpozMSP33pUT8Dg==
   dependencies:
-    "@nebula.js/cli-create" "^2.5.0"
+    "@nebula.js/cli-create" "^2.6.1"
     import-cwd "3.0.0"
     yargs "17.3.0"
 
-"@nebula.js/stardust@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-2.5.0.tgz#df98e713843f27f606d8473f9a88d117ff1035b7"
-  integrity sha512-Bn7/UBoTPF9pCubx/SEqETOy5TDnV1pcJj0o/dw2VF+69DL+H90mMesac0aY6p3i3kM65asRiny0KwhdMFZtBg==
+"@nebula.js/stardust@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-2.6.1.tgz#ef60ff04b1e3e91dd1df3f880a250936b4427d6b"
+  integrity sha512-HdLJSif7rB97Bl1gZAxEA7zuFLIicOgya6NY9UwPOBBSnlcWWhyt648CACPZS6tjC7ToCXQHQMO3rIMR9BkRyw==
   dependencies:
     "@types/qlik-engineapi" "12.67.11"
 
@@ -2057,6 +2057,14 @@
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.3.0.tgz#bc1077fa5897b980fc27e376c4e377882c63e68b"
   integrity sha512-I5FpSvLbtAdwJ+naznv+B4sjXZUcIvLLceYpITAn7wAP8W0wqc5noLdGIp9HGVntNhRWXctwPYrSSFQxtl0FPA==
+  dependencies:
+    "@rollup/pluginutils" "^3.1.0"
+    resolve "^1.17.0"
+
+"@rollup/plugin-typescript@8.3.1":
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.3.1.tgz#b7dc75ed6b4876e260b9e80624fab23bc98e4ac1"
+  integrity sha512-84rExe3ICUBXzqNX48WZV2Jp3OddjTMX97O2Py6D1KJaGSwWp0mDHXj+bCGNJqWHIEKDIT2U0sDjhP4czKi6cA==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     resolve "^1.17.0"
@@ -2252,12 +2260,20 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@*", "@types/jest@27.4.0":
+"@types/jest@*":
   version "27.4.0"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.4.0.tgz#037ab8b872067cae842a320841693080f9cb84ed"
   integrity sha512-gHl8XuC1RZ8H2j5sHv/JqsaxXkDDM9iDOgu0Wp8sjs4u/snb2PVehyWXJPr+ORA0RPpgw231mnutWI1+0hgjIQ==
   dependencies:
     jest-diff "^27.0.0"
+    pretty-format "^27.0.0"
+
+"@types/jest@27.4.1":
+  version "27.4.1"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.4.1.tgz#185cbe2926eaaf9662d340cc02e548ce9e11ab6d"
+  integrity sha512-23iPJADSmicDVrWk+HT58LMJtzLAnB2AgIzplQuq/bSrGaxCrlvRFjGbXmamnnk/mAmCdLStiGqggu28ocUyiw==
+  dependencies:
+    jest-matcher-utils "^27.0.0"
     pretty-format "^27.0.0"
 
 "@types/json-schema@*", "@types/json-schema@^7.0.7", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
@@ -4231,22 +4247,22 @@ eslint-plugin-react-hooks@4.3.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.3.0.tgz#318dbf312e06fab1c835a4abef00121751ac1172"
   integrity sha512-XslZy0LnMn+84NEG9jSGR6eGqaZB3133L8xewQo3fQagbQuGt7a63gf+P1NGKZavEYEC3UXaWEAA/AqDkuN6xA==
 
-eslint-plugin-react@7.28.0:
-  version "7.28.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.28.0.tgz#8f3ff450677571a659ce76efc6d80b6a525adbdf"
-  integrity sha512-IOlFIRHzWfEQQKcAD4iyYDndHwTQiCMcJVJjxempf203jnNLUnW34AXLrV33+nEXoifJE2ZEGmcjKPL8957eSw==
+eslint-plugin-react@7.29.1:
+  version "7.29.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.29.1.tgz#6c40bc83142bb63d132a1b3565e2ea655411f800"
+  integrity sha512-WtzRpHMhsOX05ZrkyaaqmLl2uXGqmYooCfBxftJKlkYdsltiufGgfU7uuoHwR2lBam2Kh/EIVID4aU9e3kbCMA==
   dependencies:
     array-includes "^3.1.4"
     array.prototype.flatmap "^1.2.5"
     doctrine "^2.1.0"
     estraverse "^5.3.0"
     jsx-ast-utils "^2.4.1 || ^3.0.0"
-    minimatch "^3.0.4"
+    minimatch "^3.1.2"
     object.entries "^1.1.5"
     object.fromentries "^2.0.5"
     object.hasown "^1.1.0"
     object.values "^1.1.5"
-    prop-types "^15.7.2"
+    prop-types "^15.8.1"
     resolve "^2.0.0-next.3"
     semver "^6.3.0"
     string.prototype.matchall "^4.0.6"
@@ -5658,7 +5674,7 @@ jest-leak-detector@^27.5.1:
     jest-get-type "^27.5.1"
     pretty-format "^27.5.1"
 
-jest-matcher-utils@^27.5.1:
+jest-matcher-utils@^27.0.0, jest-matcher-utils@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-27.5.1.tgz#9c0cdbda8245bc22d2331729d1091308b40cf8ab"
   integrity sha512-z2uTx/T6LBaCoNWNFWwChLBKYxTMcGBRjAt+2SbP929/Fflb9aa5LGma654Rz8z9HLxsrUaYzxE9T/EFIL/PAw==
@@ -6285,6 +6301,13 @@ minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   integrity sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
+  dependencies:
+    brace-expansion "^1.1.7"
+
+minimatch@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
+  integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
 
@@ -7153,7 +7176,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2:
+prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
