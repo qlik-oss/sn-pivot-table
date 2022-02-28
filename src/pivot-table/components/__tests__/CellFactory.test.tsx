@@ -8,6 +8,7 @@ import DimensionTitleCell from '../DimensionTitleCell';
 import EmptyHeaderCell from '../EmptyHeaderCell';
 import EmptyCell from '../EmptyCell';
 import PseudoDimensionCell from '../PseudoDimensionCell';
+import TotalsCell from '../TotalsCell';
 import NxDimCellType from '../../../types/QIX';
 
 jest.mock('../DimensionCell');
@@ -15,6 +16,7 @@ jest.mock('../DimensionTitleCell');
 jest.mock('../EmptyHeaderCell');
 jest.mock('../EmptyCell');
 jest.mock('../PseudoDimensionCell');
+jest.mock('../TotalsCell');
 
 describe('CellFactory', () => {
   const style: React.CSSProperties = {
@@ -119,6 +121,18 @@ describe('CellFactory', () => {
     render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith({ style, cell, isLeftColumn: false }, {});
+  });
+
+  test('should render totals cell', () => {
+    const mockedTotalsCell = TotalsCell as jest.MockedFunction<typeof TotalsCell>;
+    mockedTotalsCell.mockReturnValue(<div />);
+    cell = { qText, qType: NxDimCellType.NX_DIM_CELL_TOTAL, qElemNo: -1 } as EngineAPI.INxPivotDimensionCell;
+    data.matrix[0][0] = cell;
+    data.isLeftColumn = false;
+
+    render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
+
+    expect(mockedTotalsCell).toHaveBeenCalledWith({ style }, {});
   });
 
   test('should render empty header cell', () => {

@@ -6,6 +6,8 @@ import EmptyHeaderCell from './EmptyHeaderCell';
 import EmptyCell from './EmptyCell';
 import NxDimCellType from '../../types/QIX';
 import PseudoDimensionCell from './PseudoDimensionCell';
+import TotalsCell from './TotalsCell';
+import { TOTALS_CELL } from '../../constants';
 // import useDebug from '../../hooks/use-debug';
 
 interface GridCallbackProps {
@@ -31,6 +33,10 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
         style={style}
         isLeftColumn={isLeftColumn}
       />;
+    }
+
+    if (cell.qType === NxDimCellType.NX_DIM_CELL_TOTAL && cell.qElemNo === TOTALS_CELL) {
+      return <TotalsCell style={style} />;
     }
 
     return <DimensionCell
