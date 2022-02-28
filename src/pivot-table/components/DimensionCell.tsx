@@ -52,6 +52,10 @@ export const lockedFromSelectionStyle: React.CSSProperties = {
   color: '#bebebe'
 };
 
+export const selectableCellStyle: React.CSSProperties = {
+  cursor: 'pointer'
+};
+
 export const testId = 'dim-cell';
 export const testIdExpandIcon = 'expand-icon';
 export const testIdCollapseIcon = 'collapse-icon';
@@ -106,7 +110,9 @@ const DimensionCell = ({
   const isCellLocked = isLocked(selectionCellType, rowIndex, colIndex) || dataModel?.isDimensionLocked(selectionCellType, rowIndex, colIndex);
   const appliedSelectedStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
   const appliedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
-  const onClickHandler = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY ? undefined : select(selectionCellType, rowIndex, colIndex);
+  const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY;
+  const appliedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
+  const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, rowIndex, colIndex);
   let cellIcon = null;
 
   if (qCanExpand) {
@@ -126,7 +132,16 @@ const DimensionCell = ({
   }
 
   return (
-    <div style={{ ...style, ...containerStyle, ...appliedSelectedStyle, ...appliedLockedSelectionStyle}} data-testid={testId}>
+    <div
+      style={{
+        ...style,
+        ...containerStyle,
+        ...appliedSelectedStyle,
+        ...appliedLockedSelectionStyle,
+        ...appliedSelectableCellStyle
+      }}
+      data-testid={testId}
+    >
       <div
         style={{ ...cellStyle, ...borderStyle }}
         aria-hidden="true"
