@@ -87,6 +87,8 @@ describe('DimensionCell', () => {
       expandTop: () => {},
       hasData: true,
       isDimensionLocked: () => false,
+      getDimensionInfo: () => [],
+      getMeasureInfo: () => [],
     };
 
     expandLeftSpy = jest.spyOn(dataModel, 'expandLeft');

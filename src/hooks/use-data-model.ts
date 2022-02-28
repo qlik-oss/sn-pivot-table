@@ -91,6 +91,10 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     return false;
   }, [qDimInfo, layout.qHyperCube.qNoOfLeftDims]);
 
+  const getDimensionInfo = useNebulaCallback(() => qDimInfo, [qDimInfo]);
+
+  const getMeasureInfo = useNebulaCallback(() => layout.qHyperCube.qMeasureInfo, [layout]);
+
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,
     hasMoreColumns,
@@ -101,7 +105,9 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandTop,
     pivotData,
     hasData: pivotData !== NOOP_PIVOT_DATA,
-    isDimensionLocked
+    isDimensionLocked,
+    getDimensionInfo,
+    getMeasureInfo,
   }),[fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
@@ -110,7 +116,9 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandLeft,
     expandTop,
     pivotData,
-    isDimensionLocked
+    isDimensionLocked,
+    getDimensionInfo,
+    getMeasureInfo,
   ]);
 
   return dataModel;

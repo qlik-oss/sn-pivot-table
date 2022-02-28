@@ -7,7 +7,7 @@ import { gridBorderStyle } from './shared-styles';
 
 interface HeaderGridProps {
   dataModel: DataModel;
-  columnWidthCallback: () => number;
+  columnWidthCallback: (index: number) => number;
   height: number;
   rowHightCallback: () => number;
   width: number;

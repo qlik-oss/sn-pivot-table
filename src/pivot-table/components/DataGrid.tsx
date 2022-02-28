@@ -7,7 +7,7 @@ import DataCell from './DataCell';
 interface DataGridProps {
   dataModel: DataModel;
   dataGridRef: React.RefObject<VariableSizeGrid>;
-  columnWidthCallback: () => number;
+  columnWidthCallback: (index: number) => number;
   height: number;
   rowHightCallback: () => number;
   width: number;

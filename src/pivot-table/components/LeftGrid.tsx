@@ -9,7 +9,7 @@ import { gridBorderStyle } from './shared-styles';
 interface LeftGridProps {
   dataModel: DataModel;
   leftGridRef: React.RefObject<VariableSizeGrid>;
-  columnWidthCallback: () => number;
+  columnWidthCallback: (index: number) => number;
   rowHightCallback: () => number;
   width: number;
   height: number;
