@@ -1,7 +1,7 @@
 import React from 'react';
-import NxDimCellType from '../../types/QIX';
-import { ItemData } from '../../types/types';
-import { borderStyle, textStyle } from './shared-styles';
+import NxDimCellType from '../../../types/QIX';
+import { ItemData } from '../../../types/types';
+import { borderStyle, textStyle } from '../shared-styles';
 
 export interface MeasureCellProps {
   columnIndex: number;

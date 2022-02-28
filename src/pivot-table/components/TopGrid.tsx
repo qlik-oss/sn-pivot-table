@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { DataModel } from '../../types/types';
-import CellFactory from './CellFactory';
+import CellFactory from './cells/CellFactory';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
