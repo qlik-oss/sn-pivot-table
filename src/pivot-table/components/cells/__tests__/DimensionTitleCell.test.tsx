@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DimensionTitleCell, { testId } from '../DimensionTitleCell';
-import { CellValue } from '../../../types/types';
+import { CellValue } from '../../../../types/types';
 
 test('should render',  () => {
   const cell: CellValue = 'test value';

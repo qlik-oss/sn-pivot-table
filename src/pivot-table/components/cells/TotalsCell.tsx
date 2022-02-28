@@ -1,5 +1,5 @@
 import React from 'react';
-import { borderStyle, textStyle } from './shared-styles';
+import { borderStyle, textStyle } from '../shared-styles';
 
 interface LabelCellProps {
   style: React.CSSProperties;

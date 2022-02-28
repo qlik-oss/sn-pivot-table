@@ -1,13 +1,13 @@
 import React from 'react';
-import { CellValue, ItemData } from '../../types/types';
+import { CellValue, ItemData } from '../../../types/types';
 import DimensionCell from './DimensionCell';
 import DimensionTitleCell from './DimensionTitleCell';
 import EmptyHeaderCell from './EmptyHeaderCell';
 import EmptyCell from './EmptyCell';
-import NxDimCellType from '../../types/QIX';
+import NxDimCellType from '../../../types/QIX';
 import PseudoDimensionCell from './PseudoDimensionCell';
 import TotalsCell from './TotalsCell';
-import { TOTALS_CELL } from '../../constants';
+import { TOTALS_CELL } from '../../../constants';
 // import useDebug from '../../hooks/use-debug';
 
 interface GridCallbackProps {

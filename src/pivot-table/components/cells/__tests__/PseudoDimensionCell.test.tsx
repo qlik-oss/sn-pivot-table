@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import PseudoDimensionCell, { testId } from '../PseudoDimensionCell';
-import { CellValue } from '../../../types/types';
+import { CellValue } from '../../../../types/types';
 
 test('should render on the top',  () => {
   const cell: CellValue = { qText: 'test' } as EngineAPI.INxPivotDimensionCell;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { borderStyle } from './shared-styles';
+import { borderStyle } from '../shared-styles';
 
 interface EmptyHeaderCellProps {
   style: React.CSSProperties;

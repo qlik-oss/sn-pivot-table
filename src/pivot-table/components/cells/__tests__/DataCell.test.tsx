@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DataCell, { testId } from '../DataCell';
-import { ItemData } from '../../../types/types';
-import NxDimCellType from '../../../types/QIX';
+import { ItemData } from '../../../../types/types';
+import NxDimCellType from '../../../../types/QIX';
 
 describe('DataCell', () => {
   let cell: EngineAPI.INxPivotValuePoint;

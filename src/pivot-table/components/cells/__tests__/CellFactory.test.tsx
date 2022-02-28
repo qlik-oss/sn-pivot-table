@@ -2,14 +2,14 @@ import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import { render } from '@testing-library/react';
 import CellFactory from '../CellFactory';
-import { CellValue, DataModel, ItemData } from '../../../types/types';
+import { CellValue, DataModel, ItemData } from '../../../../types/types';
 import DimensionCell from '../DimensionCell';
 import DimensionTitleCell from '../DimensionTitleCell';
 import EmptyHeaderCell from '../EmptyHeaderCell';
 import EmptyCell from '../EmptyCell';
 import PseudoDimensionCell from '../PseudoDimensionCell';
 import TotalsCell from '../TotalsCell';
-import NxDimCellType from '../../../types/QIX';
+import NxDimCellType from '../../../../types/QIX';
 
 jest.mock('../DimensionCell');
 jest.mock('../DimensionTitleCell');

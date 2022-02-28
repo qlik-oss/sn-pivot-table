@@ -2,10 +2,10 @@ import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
 import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
-import { CellValue, ItemData, DataModel } from '../../types/types';
-import { borderStyle, textStyle } from './shared-styles';
-import NxDimCellType, { NxSelectionCellType } from '../../types/QIX';
-import { useSelectionsContext } from '../../contexts/SelectionsProvider';
+import { CellValue, ItemData, DataModel } from '../../../types/types';
+import { borderStyle, textStyle } from '../shared-styles';
+import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
+import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
 
 export interface DimensionCellProps {
   cell: CellValue;

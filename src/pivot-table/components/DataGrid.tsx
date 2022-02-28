@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel } from '../../types/types';
-import DataCell from './DataCell';
+import DataCell from './cells/DataCell';
 // import useDebug from '../../hooks/use-debug';
 
 interface DataGridProps {
