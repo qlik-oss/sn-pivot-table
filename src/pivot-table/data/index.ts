@@ -7,6 +7,10 @@ const getColumnCount = (matrix: CellValue[][]): number => matrix.length;
 
 const getRowCount = (matrix: CellValue[][]): number => matrix[0]?.length || 0;
 
+const getTopColumnCount = (matrix: CellValue[][]): number => matrix[matrix.length - 1].length || 0;
+
+const getTopRowCount = (matrix: CellValue[][]): number => matrix.length;
+
 export default function createData(
   dataPage: EngineAPI.INxPivotPage,
   qDimensionInfo: EngineAPI.INxDimensionInfo[],
@@ -17,21 +21,23 @@ export default function createData(
     qTop,
     qData } = dataPage;
   const left = extractLeft(qLeft, qArea.qHeight);
-  const top = extractTop(qTop, qArea.qWidth);
-  const headers = extractHeaders(qDimensionInfo, getRowCount(top), getColumnCount(left));
+  const top = extractTop(qTop);
+  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), getColumnCount(left));
+  // const topTree = extractTopTree(qTop);
   const pivotData: PivotData = {
     left,
     top,
     data: qData as unknown as EngineAPI.INxPivotValuePoint[][],
     headers,
+    // topTree,
     size: {
       headers: {
         x: getColumnCount(headers),
         y: getRowCount(headers)
       },
       top: {
-        x: getColumnCount(top),
-        y: getRowCount(top)
+        x: getTopColumnCount(top),
+        y: getTopRowCount(top)
       },
       left: {
         x: getColumnCount(left),
@@ -41,7 +47,7 @@ export default function createData(
         x: qArea.qWidth,
         y: qArea.qHeight
       },
-      totalRows: getRowCount(top) + qArea.qHeight,
+      totalRows: getTopRowCount(top) + qArea.qHeight,
       totalColumns: getColumnCount(left) + qArea.qWidth,
     }
   };

@@ -35,13 +35,14 @@ export interface ItemData {
   matrix: CellValue[][] | EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
   isHeader?: boolean;
+  totalDataColumnWidth?: number;
 }
 
 export type CellValue = EngineAPI.INxPivotDimensionCell | string | null;
 
 export interface PivotData {
   left: CellValue[][],
-  top: CellValue[][],
+  top: EngineAPI.INxPivotDimensionCell[][],
   data: EngineAPI.INxPivotValuePoint[][],
   headers: CellValue[][],
   size: {

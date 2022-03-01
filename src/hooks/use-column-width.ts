@@ -6,6 +6,7 @@ import useMeasureText from './use-measure-text';
 interface ColumnWidthHook {
   leftGridWidth: number;
   rightGridWidth: number;
+  totalDataColumnWidth: number;
   getLeftColumnWidth: (index: number) => number;
   getDataColumnWidth: (index: number) => number;
   getTotalWidth: () => number;
@@ -97,6 +98,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   return {
     leftGridWidth,
     rightGridWidth,
+    totalDataColumnWidth: getMeasureInfo().reduce((width, _, index) => width + getDataColumnWidth(index), 0),
     getLeftColumnWidth,
     getDataColumnWidth,
     getTotalWidth

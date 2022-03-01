@@ -1,21 +1,21 @@
-import { CellValue } from '../../types/types';
-import estimateCount from './estimate-count';
-
-const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[], columnCount: number): CellValue[][] => {
+export const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): EngineAPI.INxPivotDimensionCell[][] => {
   if (!qTop.length) {
     return [];
   }
 
+  const matrix = [] as EngineAPI.INxPivotDimensionCell[][];
   let colIdx = 0;
-  const rowCount = estimateCount(qTop);
-  const matrix = Array(columnCount)
-    .fill(null)
-    .map(() => Array(rowCount).fill(null));
 
   function extract(nodes: EngineAPI.INxPivotDimensionCell[], topRowIdx = 0) {
+    if (!Array.isArray(matrix[topRowIdx])) {
+      matrix[topRowIdx] = [];
+    }
+
     nodes.forEach((node, currIdx) => {
       colIdx += currIdx === 0 ? 0 : 1;
-      matrix[colIdx][topRowIdx] = node; // eslint-disable-line no-param-reassign
+      node.rowIdx = topRowIdx;
+      node.colIdx = colIdx;
+      matrix[topRowIdx].push(node);
 
       if (node.qSubNodes.length) {
         extract(node.qSubNodes, topRowIdx + 1);
