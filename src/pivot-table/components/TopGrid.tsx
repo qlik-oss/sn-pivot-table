@@ -3,7 +3,7 @@ import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 import NxDimCellType from '../../types/QIX';
 
@@ -53,16 +53,16 @@ const TopGrid = ({
   }
 
   const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
-  useDebug('TopGrid', {
-    dataModel,
-    topGridRef,
-    columnWidthCallback,
-    rowHightCallback,
-    width,
-    height,
-    constraints,
-    getScrollLeft
-  });
+  // useDebug('TopGrid', {
+  //   dataModel,
+  //   topGridRef,
+  //   columnWidthCallback,
+  //   rowHightCallback,
+  //   width,
+  //   height,
+  //   constraints,
+  //   getScrollLeft
+  // });
 
   useLayoutEffect(() => {
     if (topGridRef.current) {
@@ -95,7 +95,7 @@ const TopGrid = ({
           }
         }}
         style={topRowIndex === dataModel.pivotData.top.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
-        height={height / dataModel.pivotData.size.top.y}
+        height={rowHightCallback()}
         width={width}
         itemCount={list.length}
         itemSize={getItemSizeCallback(list)}
