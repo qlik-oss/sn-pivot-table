@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DataCell, { testId } from '../DataCell';
-import { ItemData } from '../../../../types/types';
+import { GridItemData } from '../../../../types/types';
 import NxDimCellType from '../../../../types/QIX';
 
 describe('DataCell', () => {
   let cell: EngineAPI.INxPivotValuePoint;
-  let data: ItemData;
+  let data: GridItemData;
 
   const style: React.CSSProperties = {
     position: 'absolute',
@@ -25,7 +25,7 @@ describe('DataCell', () => {
 
     data = {
       matrix: [[cell]]
-    } as ItemData;
+    } as GridItemData;
   });
 
   test('should render',  () => {

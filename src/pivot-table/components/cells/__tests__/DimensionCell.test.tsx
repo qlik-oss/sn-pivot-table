@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, selectedStyle, lockedFromSelectionStyle } from '../DimensionCell';
-import { CellValue, DataModel, ItemData } from '../../../../types/types';
+import { CellValue, DataModel, GridItemData } from '../../../../types/types';
 import { useSelectionsContext } from '../../../../contexts/SelectionsProvider';
 import NxDimCellType, { NxSelectionCellType } from '../../../../types/QIX';
 import { SelectionModel } from '../../../../hooks/use-selections-model';
@@ -13,7 +13,7 @@ jest.mock('../../../../contexts/SelectionsProvider');
 describe('DimensionCell', () => {
   let constraints: stardust.Constraints;
   let dataModel: DataModel;
-  let data: ItemData;
+  let data: GridItemData;
   let cell: CellValue;
   const style: React.CSSProperties = {
     position: 'absolute',

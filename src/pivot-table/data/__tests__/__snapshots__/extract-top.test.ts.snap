@@ -19,25 +19,9 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 0,
+      "y": 0,
     },
-    Object {
-      "qElemNo": 0,
-      "qSubNodes": Array [
-        Object {
-          "qElemNo": 0,
-          "qSubNodes": Array [],
-          "qType": "E",
-        },
-      ],
-      "qType": "E",
-    },
-    Object {
-      "qElemNo": 0,
-      "qSubNodes": Array [],
-      "qType": "E",
-    },
-  ],
-  Array [
     Object {
       "qElemNo": 1,
       "qSubNodes": Array [
@@ -54,25 +38,9 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 1,
+      "y": 0,
     },
-    Object {
-      "qElemNo": 0,
-      "qSubNodes": Array [
-        Object {
-          "qElemNo": 0,
-          "qSubNodes": Array [],
-          "qType": "E",
-        },
-      ],
-      "qType": "E",
-    },
-    Object {
-      "qElemNo": 0,
-      "qSubNodes": Array [],
-      "qType": "E",
-    },
-  ],
-  Array [
     Object {
       "qElemNo": 2,
       "qSubNodes": Array [
@@ -105,6 +73,36 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 2,
+      "y": 0,
+    },
+  ],
+  Array [
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [],
+          "qType": "E",
+        },
+      ],
+      "qType": "E",
+      "x": 0,
+      "y": 1,
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [
+        Object {
+          "qElemNo": 0,
+          "qSubNodes": Array [],
+          "qType": "E",
+        },
+      ],
+      "qType": "E",
+      "x": 1,
+      "y": 1,
     },
     Object {
       "qElemNo": 0,
@@ -116,15 +114,9 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 2,
+      "y": 1,
     },
-    Object {
-      "qElemNo": 0,
-      "qSubNodes": Array [],
-      "qType": "E",
-    },
-  ],
-  Array [
-    null,
     Object {
       "qElemNo": 1,
       "qSubNodes": Array [
@@ -140,20 +132,45 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 3,
+      "y": 1,
+    },
+  ],
+  Array [
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "E",
+      "x": 0,
+      "y": 2,
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "E",
+      "x": 1,
+      "y": 2,
+    },
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "E",
+      "x": 2,
+      "y": 2,
     },
     Object {
       "qElemNo": 0,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 3,
+      "y": 2,
     },
-  ],
-  Array [
-    null,
-    null,
     Object {
       "qElemNo": 1,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 4,
+      "y": 2,
     },
   ],
 ]
@@ -178,36 +195,39 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 0,
+      "y": 0,
     },
-    Object {
-      "qElemNo": 0,
-      "qSubNodes": Array [],
-      "qType": "N",
-    },
-  ],
-  Array [
-    null,
     Object {
       "qElemNo": 1,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 2,
+      "y": 0,
     },
-  ],
-  Array [
-    Object {
-      "qElemNo": 1,
-      "qSubNodes": Array [],
-      "qType": "N",
-    },
-    null,
-  ],
-  Array [
     Object {
       "qElemNo": 2,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 3,
+      "y": 0,
     },
-    null,
+  ],
+  Array [
+    Object {
+      "qElemNo": 0,
+      "qSubNodes": Array [],
+      "qType": "N",
+      "x": 0,
+      "y": 1,
+    },
+    Object {
+      "qElemNo": 1,
+      "qSubNodes": Array [],
+      "qType": "N",
+      "x": 1,
+      "y": 1,
+    },
   ],
 ]
 `;
@@ -219,20 +239,22 @@ Array [
       "qElemNo": 0,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 0,
+      "y": 0,
     },
-  ],
-  Array [
     Object {
       "qElemNo": 1,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 1,
+      "y": 0,
     },
-  ],
-  Array [
     Object {
       "qElemNo": 2,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 2,
+      "y": 0,
     },
   ],
 ]

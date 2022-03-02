@@ -7,7 +7,7 @@ const getColumnCount = (matrix: CellValue[][]): number => matrix.length;
 
 const getRowCount = (matrix: CellValue[][]): number => matrix[0]?.length || 0;
 
-const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1].length || 0;
+const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1]?.length || 0;
 
 const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
