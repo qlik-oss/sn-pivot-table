@@ -1,9 +1,11 @@
-export const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): EngineAPI.INxPivotDimensionCell[][] => {
+import { PivotDimensionCellWithPosition } from '../../types/types';
+
+export const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCellWithPosition[][] => {
   if (!qTop.length) {
     return [];
   }
 
-  const matrix = [] as EngineAPI.INxPivotDimensionCell[][];
+  const matrix = [] as PivotDimensionCellWithPosition[][];
   let colIdx = 0;
 
   function extract(nodes: EngineAPI.INxPivotDimensionCell[], topRowIdx = 0) {
@@ -13,9 +15,12 @@ export const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): EngineAPI.I
 
     nodes.forEach((node, currIdx) => {
       colIdx += currIdx === 0 ? 0 : 1;
-      node.rowIdx = topRowIdx;
-      node.colIdx = colIdx;
-      matrix[topRowIdx].push(node);
+      const nodeWithPosition = {
+        ...node,
+        x: colIdx,
+        y: topRowIdx
+      };
+      matrix[topRowIdx].push(nodeWithPosition);
 
       if (node.qSubNodes.length) {
         extract(node.qSubNodes, topRowIdx + 1);

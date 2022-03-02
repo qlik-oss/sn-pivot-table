@@ -33,16 +33,30 @@ export interface ItemData {
   constraints?: stardust.Constraints;
   dataModel?: DataModel;
   matrix: CellValue[][] | EngineAPI.INxPivotValuePoint[][];
+  list?: PivotDimensionCellWithPosition[];
   isLeftColumn?: boolean;
   isHeader?: boolean;
   totalDataColumnWidth?: number;
 }
 
+export interface ListItemData {
+  constraints?: stardust.Constraints;
+  dataModel?: DataModel;
+  list?: PivotDimensionCellWithPosition[];
+  isLeftColumn?: boolean;
+  totalDataColumnWidth?: number;
+}
+
 export type CellValue = EngineAPI.INxPivotDimensionCell | string | null;
+
+export interface PivotDimensionCellWithPosition extends EngineAPI.INxPivotDimensionCell {
+  x: number;
+  y: number;
+}
 
 export interface PivotData {
   left: CellValue[][],
-  top: EngineAPI.INxPivotDimensionCell[][],
+  top: PivotDimensionCellWithPosition[][],
   data: EngineAPI.INxPivotValuePoint[][],
   headers: CellValue[][],
   size: {

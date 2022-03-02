@@ -1,8 +1,8 @@
 import { stardust } from '@nebula.js/stardust';
-import React, { memo, useLayoutEffect } from 'react';
+import React, { memo, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
-import { DataModel } from '../../types/types';
-import CellFactory from './cells/TopGridCellFactory';
+import { DataModel, ListItemData, PivotDimensionCellWithPosition } from '../../types/types';
+import ListCellFactory from './cells/ListCellFactory';
 import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 import NxDimCellType from '../../types/QIX';
@@ -19,8 +19,11 @@ interface TopGridProps {
   getScrollLeft: () => number;
 }
 
-const gridStyle: React.CSSProperties = {
+const listStyle: React.CSSProperties = {
   overflow: 'hidden',
+};
+
+const bottomListStyle: React.CSSProperties = {
   borderWidth: '0px 0px 1px 0px',
   ...gridBorderStyle
 };
@@ -49,7 +52,7 @@ const TopGrid = ({
     return null;
   }
 
-  const MemoizedCellFactory = memo(CellFactory, areEqual);
+  const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
   useDebug('TopGrid', {
     dataModel,
     topGridRef,
@@ -73,41 +76,38 @@ const TopGrid = ({
     }
   });
 
+  const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (colIndex: number) =>{
+    const cell = list[colIndex];
+    if (cell.qType !== NxDimCellType.NX_DIM_CELL_PSEUDO) {
+      return totalDataColumnWidth * countLeafNodes([cell]);
+    }
+
+    return columnWidthCallback(colIndex);
+  };
+
   return (<div>
     {dataModel.pivotData.top.map((list, topRowIndex) => (
       <VariableSizeList
-        key={topRowIndex}
+        key={list.map(c => c.qElemNo).join(',')}
         ref={r => {
           if (topGridRef.current) {
-            topGridRef.current[topRowIndex] = r as VariableSizeList;
+            topGridRef.current[topRowIndex] = r as VariableSizeList; // eslint-disable-line no-param-reassign
           }
         }}
-        style={gridStyle}
+        style={topRowIndex === dataModel.pivotData.top.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
         height={height / dataModel.pivotData.size.top.y}
         width={width}
         itemCount={list.length}
-        itemSize={(colIndex) =>{
-          const cell = list[colIndex];
-
-          if (cell === null || typeof cell === 'string') return columnWidthCallback(colIndex);
-
-          if (cell.qType !== NxDimCellType.NX_DIM_CELL_PSEUDO) {
-            return totalDataColumnWidth * countLeafNodes([cell]);
-          }
-
-          return columnWidthCallback(colIndex);
-        }
-        }
+        itemSize={getItemSizeCallback(list)}
         layout="horizontal"
         itemData={{
           dataModel,
           constraints,
-          matrix: list,
-          isHeader: true,
+          list,
           totalDataColumnWidth,
         }}
       >
-        {MemoizedCellFactory}
+        {MemoizedListCellFactory}
       </VariableSizeList>
     ))}
   </div>);
