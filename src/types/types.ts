@@ -32,18 +32,16 @@ export interface DataModel {
 export interface ItemData {
   constraints?: stardust.Constraints;
   dataModel?: DataModel;
-  matrix: CellValue[][] | EngineAPI.INxPivotValuePoint[][];
-  list?: PivotDimensionCellWithPosition[];
-  isLeftColumn?: boolean;
-  isHeader?: boolean;
-  totalDataColumnWidth?: number;
 }
 
-export interface ListItemData {
-  constraints?: stardust.Constraints;
-  dataModel?: DataModel;
-  list?: PivotDimensionCellWithPosition[];
+export interface GridItemData extends ItemData {
+  matrix: CellValue[][] | EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
+  isHeader?: boolean;
+}
+
+export interface ListItemData extends ItemData {
+  list: PivotDimensionCellWithPosition[];
   totalDataColumnWidth?: number;
 }
 

@@ -1,7 +1,7 @@
 import { stardust } from '@nebula.js/stardust';
-import React, { memo, useCallback, useLayoutEffect } from 'react';
+import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
-import { DataModel, ListItemData, PivotDimensionCellWithPosition } from '../../types/types';
+import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
 import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';

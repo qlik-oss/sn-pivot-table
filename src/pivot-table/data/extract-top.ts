@@ -1,6 +1,6 @@
 import { PivotDimensionCellWithPosition } from '../../types/types';
 
-export const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCellWithPosition[][] => {
+const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCellWithPosition[][] => {
   if (!qTop.length) {
     return [];
   }

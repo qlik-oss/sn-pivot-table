@@ -1,4 +1,4 @@
-import { CellValue, PivotData } from '../../types/types';
+import { CellValue, PivotData, PivotDimensionCellWithPosition } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeft from './extract-left';
 import extractTop from './extract-top';
@@ -7,9 +7,9 @@ const getColumnCount = (matrix: CellValue[][]): number => matrix.length;
 
 const getRowCount = (matrix: CellValue[][]): number => matrix[0]?.length || 0;
 
-const getTopColumnCount = (matrix: CellValue[][]): number => matrix[matrix.length - 1].length || 0;
+const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1].length || 0;
 
-const getTopRowCount = (matrix: CellValue[][]): number => matrix.length;
+const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
 export default function createData(
   dataPage: EngineAPI.INxPivotPage,
