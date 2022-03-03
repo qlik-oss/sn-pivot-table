@@ -42,7 +42,6 @@ export interface GridItemData extends ItemData {
 
 export interface ListItemData extends ItemData {
   list: PivotDimensionCellWithPosition[];
-  totalDataColumnWidth?: number;
 }
 
 export type CellValue = EngineAPI.INxPivotDimensionCell | string | null;

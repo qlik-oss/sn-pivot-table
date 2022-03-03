@@ -6,7 +6,7 @@ import useMeasureText from './use-measure-text';
 interface ColumnWidthHook {
   leftGridWidth: number;
   rightGridWidth: number;
-  totalDataColumnWidth: number;
+  totalMeasureInfoColumnWidth: number;
   getLeftColumnWidth: (index: number) => number;
   getDataColumnWidth: (index: number) => number;
   getTotalWidth: () => number;
@@ -63,7 +63,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     [leftGridWidth, rect.width]
   );
 
-  const totalDataColumnWidth = useMemo(() => {
+  const preCalcTotalDataColumnWidth = useMemo(() => {
     const totalWidth = getMeasureInfo().reduce((width, qMeasureInfo) => {
       const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo;
       return width + Math.max(
@@ -79,7 +79,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   const getDataColumnWidth = useCallback((colIndex: number) => {
     const measureInfoIndex = colIndex % getMeasureInfo().length;
     const { qApprMaxGlyphCount, qFallbackTitle } = getMeasureInfo()[measureInfoIndex];
-    const availableWidth = totalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
+    const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
 
     return Math.max(
       MIN_COLUMN_WIDTH,
@@ -87,7 +87,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
       estimateWidth(qApprMaxGlyphCount),
       measureText(qFallbackTitle),
     );
-  }, [rightGridWidth, pivotData, totalDataColumnWidth, estimateWidth, measureText, getMeasureInfo]);
+  }, [rightGridWidth, pivotData, preCalcTotalDataColumnWidth, estimateWidth, measureText, getMeasureInfo]);
 
   const getTotalWidth = useCallback(() => Array
       .from({ length: pivotData.size.data.x }, () => null)
@@ -95,10 +95,15 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     [getDataColumnWidth, leftGridWidth, pivotData]
   );
 
+  const totalMeasureInfoColumnWidth = useMemo(
+    () => getMeasureInfo().reduce((width, _, index) => width + getDataColumnWidth(index), 0),
+    [getMeasureInfo, getDataColumnWidth]
+  );
+
   return {
     leftGridWidth,
     rightGridWidth,
-    totalDataColumnWidth: getMeasureInfo().reduce((width, _, index) => width + getDataColumnWidth(index), 0),
+    totalMeasureInfoColumnWidth,
     getLeftColumnWidth,
     getDataColumnWidth,
     getTotalWidth

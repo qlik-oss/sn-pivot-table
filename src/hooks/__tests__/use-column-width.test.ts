@@ -175,4 +175,15 @@ describe('useColumnWidth', () => {
       expect(result.current.getTotalWidth()).toBe(150 + (30 * 100));
     });
   });
+
+  describe('totalMeasureInfoColumnWidth', () => {
+    test('should return total width', () => {
+      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(175);
+      mockedDataModel.pivotData.size.data.x = 30;
+
+      const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
+      expect(result.current.totalMeasureInfoColumnWidth).toBe(175 * 3);
+    });
+  });
 });

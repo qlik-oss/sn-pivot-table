@@ -69,7 +69,6 @@ describe('ListCellFactory', () => {
       dataModel,
       list: [],
       constraints,
-      totalDataColumnWidth: 0
     };
   });
 

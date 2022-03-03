@@ -34,7 +34,7 @@ export const StickyPivotTable = ({
   const {
     leftGridWidth,
     rightGridWidth,
-    totalDataColumnWidth,
+    totalMeasureInfoColumnWidth,
     getDataColumnWidth,
     getLeftColumnWidth,
     getTotalWidth,
@@ -99,7 +99,7 @@ export const StickyPivotTable = ({
             rowHightCallback={rowHightCallback}
             width={rightGridWidth}
             height={topGridHeight}
-            totalDataColumnWidth={totalDataColumnWidth}
+            totalMeasureInfoColumnWidth={totalMeasureInfoColumnWidth}
             getScrollLeft={getScrollLeft}
           />
 

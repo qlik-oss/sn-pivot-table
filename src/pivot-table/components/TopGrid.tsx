@@ -15,7 +15,7 @@ interface TopGridProps {
   width: number;
   height: number;
   constraints: stardust.Constraints;
-  totalDataColumnWidth: number;
+  totalMeasureInfoColumnWidth: number;
   getScrollLeft: () => number;
 }
 
@@ -45,7 +45,7 @@ const TopGrid = ({
   width,
   height,
   constraints,
-  totalDataColumnWidth,
+  totalMeasureInfoColumnWidth,
   getScrollLeft
 }: TopGridProps): JSX.Element | null => {
   if (dataModel.pivotData.size.data.x === 0) {
@@ -61,7 +61,8 @@ const TopGrid = ({
   //   width,
   //   height,
   //   constraints,
-  //   getScrollLeft
+  //   getScrollLeft,
+  //   totalMeasureInfoColumnWidth
   // });
 
   useLayoutEffect(() => {
@@ -79,7 +80,7 @@ const TopGrid = ({
   const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (colIndex: number) =>{
     const cell = list[colIndex];
     if (cell.qType !== NxDimCellType.NX_DIM_CELL_PSEUDO) {
-      return totalDataColumnWidth * countLeafNodes([cell]);
+      return totalMeasureInfoColumnWidth * countLeafNodes([cell]);
     }
 
     return columnWidthCallback(colIndex);
@@ -104,7 +105,6 @@ const TopGrid = ({
           dataModel,
           constraints,
           list,
-          totalDataColumnWidth,
         }}
       >
         {MemoizedListCellFactory}
