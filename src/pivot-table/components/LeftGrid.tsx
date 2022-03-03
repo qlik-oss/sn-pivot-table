@@ -1,7 +1,7 @@
 import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { DataModel } from '../../types/types';
+import { DataModel, GridItemData } from '../../types/types';
 import CellFactory from './cells/CellFactory';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
@@ -73,7 +73,7 @@ const LeftGrid = ({
         constraints,
         matrix: dataModel.pivotData.left,
         isLeftColumn: true
-      }}
+      } as GridItemData}
     >
       {MemoizedCellFactory}
     </VariableSizeGrid>

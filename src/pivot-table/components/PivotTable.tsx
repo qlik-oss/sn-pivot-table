@@ -1,6 +1,6 @@
 import { stardust } from '@nebula.js/stardust';
-import React, { useRef } from 'react';
-import { VariableSizeGrid } from 'react-window';
+import React, { useRef, useCallback } from 'react';
+import { VariableSizeGrid, VariableSizeList } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
 // import useDebug from '../../hooks/use-debug';
 import StickyContainer from './StickyContainer';
@@ -27,12 +27,14 @@ export const StickyPivotTable = ({
   constraints,
   dataModel
 }: PivotTableProps): JSX.Element => {
-  const topGridRef = useRef<VariableSizeGrid>(null);
+  const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeGrid>(null);
   const dataGridRef = useRef<VariableSizeGrid>(null);
+  const currentScrollLeft = useRef<number>(0);
   const {
     leftGridWidth,
     rightGridWidth,
+    totalMeasureInfoColumnWidth,
     getDataColumnWidth,
     getLeftColumnWidth,
     getTotalWidth,
@@ -41,7 +43,7 @@ export const StickyPivotTable = ({
 
   const onScroll = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
-      topGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: 0 });
+      topGridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollLeft));
     }
 
     if (leftGridRef.current) {
@@ -51,7 +53,15 @@ export const StickyPivotTable = ({
     if (dataGridRef.current) {
       dataGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: event.currentTarget.scrollTop });
     }
+
+    if (typeof currentScrollLeft.current !== 'undefined') {
+      // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
+      // Otherwise it will be out-of-sync with the other rows.
+      currentScrollLeft.current = event.currentTarget.scrollLeft;
+    }
   };
+
+  const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
 
   // useDebug('PivotTable', {
   //   rect,
@@ -89,6 +99,8 @@ export const StickyPivotTable = ({
             rowHightCallback={rowHightCallback}
             width={rightGridWidth}
             height={topGridHeight}
+            totalMeasureInfoColumnWidth={totalMeasureInfoColumnWidth}
+            getScrollLeft={getScrollLeft}
           />
 
           <LeftGrid

@@ -8,9 +8,7 @@ interface EmptyCellProps {
 export const testId = 'empty-cell';
 
 const EmptyCell = ({ style }: EmptyCellProps): JSX.Element => (
-  <div style={{ ...style, ...borderStyle }} data-testid={testId} >
-    {null}
-  </div>
+  <div style={{ ...style, ...borderStyle }} data-testid={testId} />
 );
 
 export default EmptyCell;

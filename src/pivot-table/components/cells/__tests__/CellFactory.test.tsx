@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import { render } from '@testing-library/react';
 import CellFactory from '../CellFactory';
-import { CellValue, DataModel, ItemData } from '../../../../types/types';
+import { CellValue, DataModel, GridItemData } from '../../../../types/types';
 import DimensionCell from '../DimensionCell';
 import DimensionTitleCell from '../DimensionTitleCell';
 import EmptyHeaderCell from '../EmptyHeaderCell';
@@ -29,7 +29,7 @@ describe('CellFactory', () => {
   const qText = 'test value';
   let constraints: stardust.Constraints;
   let dataModel: DataModel;
-  let data: ItemData;
+  let data: GridItemData;
   let cell: CellValue;
 
   beforeEach(() => {

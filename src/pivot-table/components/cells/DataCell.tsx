@@ -1,13 +1,13 @@
 import React from 'react';
 import NxDimCellType from '../../../types/QIX';
-import { ItemData } from '../../../types/types';
+import { GridItemData } from '../../../types/types';
 import { borderStyle, textStyle } from '../shared-styles';
 
 export interface MeasureCellProps {
   columnIndex: number;
   rowIndex: number;
   style: React.CSSProperties;
-  data: ItemData;
+  data: GridItemData;
 }
 
 const numericStyle: React.CSSProperties = {

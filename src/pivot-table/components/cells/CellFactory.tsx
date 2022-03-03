@@ -1,5 +1,5 @@
 import React from 'react';
-import { CellValue, ItemData } from '../../../types/types';
+import { CellValue, GridItemData } from '../../../types/types';
 import DimensionCell from './DimensionCell';
 import DimensionTitleCell from './DimensionTitleCell';
 import EmptyHeaderCell from './EmptyHeaderCell';
@@ -14,7 +14,7 @@ interface GridCallbackProps {
   columnIndex: number;
   rowIndex: number;
   style: React.CSSProperties;
-  data: ItemData;
+  data: GridItemData;
 }
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {

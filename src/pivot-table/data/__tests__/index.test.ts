@@ -2,6 +2,7 @@ import createData from '../index';
 import extractHeaders from '../extract-headers';
 import extractLeft from '../extract-left';
 import extractTop from '../extract-top';
+import { PivotDimensionCellWithPosition } from '../../../types/types';
 
 jest.mock('../extract-headers');
 jest.mock('../extract-left');
@@ -44,7 +45,7 @@ describe('createData', () => {
   });
 
   test('should return correct top data', () => {
-    const top = [['a', 'b']];
+    const top = [[{} as PivotDimensionCellWithPosition], [{} as PivotDimensionCellWithPosition]];
     mockedExtractTop.mockReturnValue(top);
     const pivotPage = createPivotPage();
 
@@ -84,7 +85,7 @@ describe('createData', () => {
     const pivotPage = createPivotPage();
     pivotPage.qArea.qWidth = 1;
     pivotPage.qArea.qHeight = 2;
-    const top = [['a', 'b']];
+    const top = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition], [{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
     mockedExtractTop.mockReturnValue(top);
     const left = [['a', 'b']];
     mockedExtractLeft.mockReturnValue(left);

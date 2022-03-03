@@ -6,7 +6,7 @@ describe('extractTop', () => {
   test('should handle empty qTop array', () => {
     const qTop: EngineAPI.INxPivotDimensionCell[] = [];
 
-    const top = extractTop(qTop, 1);
+    const top = extractTop(qTop);
 
     expect(top).toHaveLength(0);
   });
@@ -15,7 +15,7 @@ describe('extractTop', () => {
     const colCount = 3;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTop(qTop, colCount);
+    const top = extractTop(qTop);
 
     expect(top).toMatchSnapshot();
   });
@@ -27,9 +27,8 @@ describe('extractTop', () => {
     const subNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
     qTop[0].qSubNodes = subNodes;
     qTop[0].qCanCollapse = true;
-    const totalColCount = colCount + subNodesCount - 1;
 
-    const top = extractTop(qTop, totalColCount);
+    const top = extractTop(qTop);
 
     expect(top).toMatchSnapshot();
   });
@@ -48,9 +47,7 @@ describe('extractTop', () => {
     qTop[2].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
     qTop[2].qSubNodes[1].qSubNodes = createNodes(2, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const totalColCount = colCount + (subNodesCount - 1) + (subNodesCount - 1);
-
-    const top = extractTop(qTop, totalColCount);
+    const top = extractTop(qTop);
 
     expect(top).toMatchSnapshot();
   });

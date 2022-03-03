@@ -1,6 +1,6 @@
 import React, { memo, useLayoutEffect, useRef } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { DataModel } from '../../types/types';
+import { DataModel, GridItemData } from '../../types/types';
 import CellFactory from './cells/CellFactory';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
@@ -66,7 +66,7 @@ const HeaderGrid = ({
       itemData={{
         matrix: dataModel.pivotData.headers,
         isHeader: true
-      }}
+      } as GridItemData}
     >
       {MemoizedCellFactory}
     </VariableSizeGrid>
