@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import TotalsCell, { label, testId } from '../TotalsCell';
+import TotalsCell, { testId } from '../TotalsCell';
 
 test('should render',  () => {
   const style: React.CSSProperties = {
@@ -10,9 +10,10 @@ test('should render',  () => {
     width: '100px',
     height: '150px'
   };
+  const cell = { qText: 'test' } as EngineAPI.INxPivotDimensionCell;
 
-  render(<TotalsCell style={style} />);
+  render(<TotalsCell cell={cell} style={style} />);
 
-  expect(screen.getByText(label)).toBeInTheDocument();
+  expect(screen.getByText(cell.qText)).toBeInTheDocument();
   expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);
 });

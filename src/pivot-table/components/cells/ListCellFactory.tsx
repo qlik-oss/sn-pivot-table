@@ -28,7 +28,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   }
 
   if (cell.qType === NxDimCellType.NX_DIM_CELL_TOTAL && cell.qElemNo === TOTALS_CELL) {
-    return <TotalsCell style={style} />;
+    return <TotalsCell cell={cell} style={style} />;
   }
 
   if (cell.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {

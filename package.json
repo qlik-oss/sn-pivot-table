@@ -24,7 +24,7 @@
     "build": "nebula build",
     "lint": "eslint src/",
     "start": "nebula serve",
-    "sense": "nebula sense --ext src/ext.js --meta src/meta.json",
+    "sense": "nebula sense --meta src/meta.json",
     "types:check": "tsc --noEmit",
     "test": "jest"
   },

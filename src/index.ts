@@ -1,19 +1,21 @@
-import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections } from '@nebula.js/stardust';
-import properties from './object-properties';
-import data from './data';
+import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections, stardust } from '@nebula.js/stardust';
+import initialProperties from './qae/initial-properties';
+import data from './qae/data-definition';
+import ext from './ext';
 import { render, teardown } from './pivot-table/Root';
 import useDataModel from './hooks/use-data-model';
 import { ExtendedSelections } from './types/types';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function supernova() {
+export default function supernova(env: stardust.Galaxy) {
   return {
     qae: {
       properties: {
-        initial: properties,
+        initial: initialProperties,
       },
       data,
     },
+    ext: ext(env),
     component() {
       const element = useElement();
       const layout = useStaleLayout() as EngineAPI.IGenericHyperCubeLayout;
