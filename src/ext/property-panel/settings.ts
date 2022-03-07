@@ -35,7 +35,7 @@ export default function create({ flags: { isEnabled } }: stardust.Galaxy): Recor
               showTotalsAbove: {
                 ref: 'qHyperCubeDef.qShowTotalsAbove',
                 type: 'boolean',
-                translation: 'qShowTotalsAbove', // TODO translate
+                translation: 'properties.pivot.qShowTotalsAbove', // TODO translate
                 defaultValue: false,
                 show(properties: EngineAPI.IGenericHyperCubeProperties): boolean {
                   return properties.qHyperCubeDef?.qDimensions?.some(qDim => qDim.qOtherTotalSpec?.qTotalMode === 'TOTAL_EXPR');

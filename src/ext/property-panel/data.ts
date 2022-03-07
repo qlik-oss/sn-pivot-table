@@ -1,10 +1,14 @@
+interface Args {
+  properties: EngineAPI.IGenericHyperCubeProperties;
+}
+
 const TOTAL_MODE_OFF = 'TOTAL_OFF';
 const TOTAL_MODE_EXPR = 'TOTAL_EXPR';
 
 function isTotalsVisible(
   itemData: EngineAPI.IHyperCubeDimensionDef,
   _: unknown,
-  args: { properties: EngineAPI.IGenericHyperCubeProperties }
+  args: Args
 ): boolean {
   // always visible if qIndentMode is not enabled
   if (!args.properties.qHyperCubeDef.qIndentMode) {
@@ -38,7 +42,6 @@ const data = {
       ref: 'qHyperCubeDef.qDimensions',
       disabledRef: 'qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qDimensions',
       min: 1,
-      // itemTitleRef: "",
       allowAdd: true,
       allowRemove: true,
       allowMove: true,
@@ -98,11 +101,23 @@ const data = {
           ref: 'qTotalLabel',
           translation: 'properties.totals.label',
           defaultValue: (): string => 'Object.Table.Totals', // TODO translate,
-          show(itemData: EngineAPI.IHyperCubeDimensionDef, handler: unknown, args: { properties: EngineAPI.IGenericHyperCubeProperties }): boolean {
+          show(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown, args: Args): boolean {
             return itemData.qOtherTotalSpec?.qTotalMode !== TOTAL_MODE_OFF
-              && isTotalsVisible(itemData, handler, args);
+              && isTotalsVisible(itemData, _, args);
           },
         },
+        visibilityCondition: {
+          type: 'string',
+          component: 'expression',
+          ref: 'qCalcCondition.qCond',
+          expression: 'optional',
+          expressionType: 'ValueExpr',
+          translation: 'Object.Table.Columns.VisibilityCondition',
+          defaultValue: { qv: '' },
+          isExpression(val: string | undefined): boolean {
+            return typeof val === 'string' && val.trim().length > 0;
+          },
+        }
       },
     },
     measures: {
