@@ -18,16 +18,12 @@ export default {
         },
       },
       measures: {
-        min: 0,
+        min: 1,
         max: 15,
         description(): string {
           return 'Visualizations.Descriptions.Values'; // TODO translate
         },
       },
-      testing: {
-        min: 0,
-        max: 1,
-      }
     },
   ],
 };
