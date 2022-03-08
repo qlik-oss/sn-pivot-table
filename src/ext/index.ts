@@ -1,7 +1,6 @@
-import { stardust } from '@nebula.js/stardust';
 import propertyPanelDefinition from './property-panel';
 
-export default function ext(env: stardust.Galaxy): Record<string, unknown> {
+export default function ext(): Record<string, unknown> {
   return {
     support: {
       snapshot: false,
@@ -11,6 +10,6 @@ export default function ext(env: stardust.Galaxy): Record<string, unknown> {
       viewData: true,
     },
     usePropertyHandler: 'pivot-data',
-    definition: propertyPanelDefinition(env),
+    definition: propertyPanelDefinition(),
   };
 }

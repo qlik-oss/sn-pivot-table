@@ -1,4 +1,3 @@
-import { stardust } from '@nebula.js/stardust';
 import data from './data';
 import addons from './addons';
 import sorting from './sorting';
@@ -10,15 +9,15 @@ interface PropertyPanelDefinition {
   items: Record<string, Record<string, unknown>>;
 }
 
-export default function create(env: stardust.Galaxy): PropertyPanelDefinition {
+export default function create(): PropertyPanelDefinition {
   return {
     type: 'items',
     component: 'accordion',
     items: {
       data,
-      sorting: sorting(env),
+      sorting,
       addons,
-      settings: settings(env),
+      settings,
     }
   };
 };
