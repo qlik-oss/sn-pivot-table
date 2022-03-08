@@ -1,6 +1,7 @@
 import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections } from '@nebula.js/stardust';
-import properties from './object-properties';
-import data from './data';
+import initialProperties from './qae/initial-properties';
+import data from './qae/data-definition';
+import ext from './ext';
 import { render, teardown } from './pivot-table/Root';
 import useDataModel from './hooks/use-data-model';
 import { ExtendedSelections } from './types/types';
@@ -10,10 +11,11 @@ export default function supernova() {
   return {
     qae: {
       properties: {
-        initial: properties,
+        initial: initialProperties,
       },
       data,
     },
+    ext: ext(),
     component() {
       const element = useElement();
       const layout = useStaleLayout() as EngineAPI.IGenericHyperCubeLayout;

@@ -9,3 +9,4 @@ node_modules/
 dist/
 sn-pivot-table-ext/
 coverage/
+example/

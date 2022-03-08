@@ -102,7 +102,7 @@ describe('ListCellFactory', () => {
 
     render(<ListCellFactory index={0} style={style} data={data} />);
 
-    expect(mockedTotalsCell).toHaveBeenCalledWith({ style }, {});
+    expect(mockedTotalsCell).toHaveBeenCalledWith({ cell, style }, {});
   });
 
   test('should render empty cell', () => {

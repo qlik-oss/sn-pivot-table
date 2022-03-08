@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE_SIZE } from './constants';
+import { DEFAULT_PAGE_SIZE } from '../constants';
 
 /**
  * @extends {qae.GenericObjectProperties}

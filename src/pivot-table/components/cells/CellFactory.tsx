@@ -36,7 +36,7 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
     }
 
     if (cell.qType === NxDimCellType.NX_DIM_CELL_TOTAL && cell.qElemNo === TOTALS_CELL) {
-      return <TotalsCell style={style} />;
+      return <TotalsCell cell={cell} style={style} />;
     }
 
     return <DimensionCell
