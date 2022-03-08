@@ -241,6 +241,21 @@ describe('DimensionCell', () => {
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
+      test('should not be possible to select cell when constraints is active', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (data.constraints as stardust.Constraints).active = true;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
+
+        userEvent.click(screen.getByText(qText));
+
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+      });
+
       test('should not be possible to select cell when cell is locked due to selections in top column', () => {
         const rowIdx = 0;
         const colIdx = 1;
@@ -373,6 +388,21 @@ describe('DimensionCell', () => {
 
         expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
+      });
+
+      test('should not be possible to select cell when constraints is active', () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        (data.constraints as stardust.Constraints).active = true;
+        (cell as EngineAPI.INxPivotDimensionCell).qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
+
+        render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
+
+        userEvent.click(screen.getByText(qText));
+
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
       });
 
       test('should not be possible to select cell when cell is locked due to selections in left column', () => {
