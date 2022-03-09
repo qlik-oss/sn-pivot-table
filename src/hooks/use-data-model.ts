@@ -51,7 +51,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
       setDimInfo(layout.qHyperCube.qDimensionInfo);
       setSize(layout.qHyperCube.qSize);
-      setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo));
+      setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qMeasureInfo));
     }
   }, [layout, model]);
 
@@ -72,7 +72,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       setLoading(false);
       setHasMoreRows(pivotPage.qArea.qHeight < qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < qSize.qcx);
-      setPivotData(createData(pivotPage, qDimInfo));
+      setPivotData(createData(pivotPage, qDimInfo, layout.qHyperCube.qMeasureInfo));
     } catch (error) {
       console.log('ERROR', error);
       setLoading(false);

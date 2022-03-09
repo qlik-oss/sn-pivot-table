@@ -5,17 +5,15 @@ import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
-import NxDimCellType from '../../types/QIX';
 
 interface TopGridProps {
   dataModel: DataModel;
   topGridRef: React.RefObject<VariableSizeList[]>;
-  columnWidthCallback: (index: number) => number;
+  getMeasureInfoWidth: (index: number) => number;
   rowHightCallback: () => number;
   width: number;
   height: number;
   constraints: stardust.Constraints;
-  totalMeasureInfoColumnWidth: number;
   getScrollLeft: () => number;
 }
 
@@ -28,24 +26,24 @@ const bottomListStyle: React.CSSProperties = {
   ...gridBorderStyle
 };
 
-const countLeafNodes = (root: EngineAPI.INxPivotDimensionCell[], start = 0): number => root.reduce((count, cell) => {
-  const ary = cell.qSubNodes.filter(c => c.qType !== NxDimCellType.NX_DIM_CELL_PSEUDO);
-  if (ary.length) {
-    return countLeafNodes(ary, count);
+const getLeafNodes = (root: EngineAPI.INxPivotDimensionCell[], nodes: EngineAPI.INxPivotDimensionCell[]): EngineAPI.INxPivotDimensionCell[] => root.reduce((ary: EngineAPI.INxPivotDimensionCell[], cell) => {
+  if (cell.qSubNodes.length) {
+    return getLeafNodes(cell.qSubNodes, ary);
   }
 
-  return count + 1;
-}, start);
+  ary.push(cell);
+
+  return ary;
+}, nodes);
 
 const TopGrid = ({
   dataModel,
   topGridRef,
-  columnWidthCallback,
+  getMeasureInfoWidth,
   rowHightCallback,
   width,
   height,
   constraints,
-  totalMeasureInfoColumnWidth,
   getScrollLeft
 }: TopGridProps): JSX.Element | null => {
   if (dataModel.pivotData.size.data.x === 0) {
@@ -79,11 +77,15 @@ const TopGrid = ({
 
   const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (colIndex: number) =>{
     const cell = list[colIndex];
-    if (cell.qType !== NxDimCellType.NX_DIM_CELL_PSEUDO) {
-      return totalMeasureInfoColumnWidth * countLeafNodes([cell]);
+    if (cell.qSubNodes.length) {
+      const leftNodes = getLeafNodes([cell], []);
+
+      return leftNodes.reduce((size, _, index) =>
+        size + getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x + index]),
+        0);
     }
 
-    return columnWidthCallback(colIndex);
+    return getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x]);
   };
 
   return (<div>

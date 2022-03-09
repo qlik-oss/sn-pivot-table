@@ -7,7 +7,7 @@ import DataCell from './cells/DataCell';
 interface DataGridProps {
   dataModel: DataModel;
   dataGridRef: React.RefObject<VariableSizeGrid>;
-  columnWidthCallback: (index: number) => number;
+  getMeasureInfoWidth: (index: number) => number;
   height: number;
   rowHightCallback: () => number;
   width: number;
@@ -18,7 +18,7 @@ const gridStyle: React.CSSProperties = { overflow: 'hidden' };
 const DataGrid = ({
   dataModel,
   dataGridRef,
-  columnWidthCallback,
+  getMeasureInfoWidth,
   height,
   rowHightCallback,
   width,
@@ -31,7 +31,7 @@ const DataGrid = ({
   // useDebug('DataGrid', {
   //   dataModel,
   //   dataGridRef,
-  //   columnWidthCallback,
+  //   getMeasureInfoWidth,
   //   height,
   //   rowHightCallback,
   //   width,
@@ -60,12 +60,16 @@ const DataGrid = ({
     }
   }, [dataModel]);
 
+  const getColumnWidth = useCallback(
+    (index) => getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[index]),
+    [getMeasureInfoWidth, dataModel]);
+
   return (
     <VariableSizeGrid
       ref={dataGridRef}
       style={gridStyle}
       columnCount={dataModel.pivotData.size.data.x}
-      columnWidth={columnWidthCallback}
+      columnWidth={getColumnWidth}
       height={height}
       rowCount={dataModel.pivotData.size.data.y}
       rowHeight={rowHightCallback}

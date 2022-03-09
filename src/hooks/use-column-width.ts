@@ -9,6 +9,7 @@ interface ColumnWidthHook {
   totalMeasureInfoColumnWidth: number;
   getLeftColumnWidth: (index: number) => number;
   getDataColumnWidth: (index: number) => number;
+  getMeasureInfoWidth: (index: number) => number;
   getTotalWidth: () => number;
 }
 
@@ -76,8 +77,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     return totalWidth;
   }, [getMeasureInfo, estimateWidth, measureText]);
 
-  const getDataColumnWidth = useCallback((colIndex: number) => {
-    const measureInfoIndex = colIndex % getMeasureInfo().length;
+  const getMeasureInfoWidth = useCallback((measureInfoIndex: number) => {
     const { qApprMaxGlyphCount, qFallbackTitle } = getMeasureInfo()[measureInfoIndex];
     const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
 
@@ -88,6 +88,11 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
       measureText(qFallbackTitle),
     );
   }, [rightGridWidth, pivotData, preCalcTotalDataColumnWidth, estimateWidth, measureText, getMeasureInfo]);
+
+  const getDataColumnWidth = useCallback((colIndex: number) => {
+    const measureInfoIndex = colIndex % getMeasureInfo().length;
+    return getMeasureInfoWidth(measureInfoIndex);
+  }, [getMeasureInfoWidth, getMeasureInfo]);
 
   const getTotalWidth = useCallback(() => Array
       .from({ length: pivotData.size.data.x }, () => null)
@@ -106,6 +111,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     totalMeasureInfoColumnWidth,
     getLeftColumnWidth,
     getDataColumnWidth,
+    getMeasureInfoWidth,
     getTotalWidth
   };
 }
