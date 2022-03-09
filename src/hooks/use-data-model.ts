@@ -21,6 +21,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
   const [qDimInfo, setDimInfo] = useState<EngineAPI.INxDimensionInfo[]>([]);
+  const [qMeasInfo, setMeasInfo] = useState<EngineAPI.INxMeasureInfo[]>([]);
   const [qSize, setSize] = useState<EngineAPI.ISize>({ qcx: 0, qcy: 0 });
   const [maxAreaWidth, setMaxAreaWidth] = useState(DEFAULT_PAGE_SIZE);
   const [maxAreaHeight, setMaxAreaHeight] = useState(DEFAULT_PAGE_SIZE);
@@ -50,6 +51,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
       setDimInfo(layout.qHyperCube.qDimensionInfo);
+      setMeasInfo(layout.qHyperCube.qMeasureInfo);
       setSize(layout.qHyperCube.qSize);
       setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qMeasureInfo));
     }
@@ -72,12 +74,12 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       setLoading(false);
       setHasMoreRows(pivotPage.qArea.qHeight < qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < qSize.qcx);
-      setPivotData(createData(pivotPage, qDimInfo, layout.qHyperCube.qMeasureInfo));
+      setPivotData(createData(pivotPage, qDimInfo, qMeasInfo));
     } catch (error) {
       console.log('ERROR', error);
       setLoading(false);
     }
-  }, [maxAreaWidth, maxAreaHeight, model, qDimInfo, qSize]);
+  }, [maxAreaWidth, maxAreaHeight, model, qDimInfo, qMeasInfo, qSize]);
 
   const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
     if (qType === NxSelectionCellType.NX_CELL_LEFT) {
@@ -93,7 +95,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
   const getDimensionInfo = useNebulaCallback(() => qDimInfo, [qDimInfo]);
 
-  const getMeasureInfo = useNebulaCallback(() => layout.qHyperCube.qMeasureInfo, [layout]);
+  const getMeasureInfo = useNebulaCallback(() => qMeasInfo, [qMeasInfo]);
 
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,
