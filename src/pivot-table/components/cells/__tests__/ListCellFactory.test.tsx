@@ -43,6 +43,7 @@ describe('ListCellFactory', () => {
         left: [],
         top: [],
         headers: [],
+        measureInfoIndexMap: [],
         size: {
           data: { x: 0, y: 0 },
           headers: { x: 0, y: 0 },
