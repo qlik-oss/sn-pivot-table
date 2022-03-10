@@ -34,9 +34,8 @@ export const StickyPivotTable = ({
   const {
     leftGridWidth,
     rightGridWidth,
-    totalMeasureInfoColumnWidth,
-    getDataColumnWidth,
     getLeftColumnWidth,
+    getMeasureInfoWidth,
     getTotalWidth,
   } = useColumnWidth(dataModel, rect);
   const { size } = dataModel.pivotData;
@@ -95,11 +94,10 @@ export const StickyPivotTable = ({
             dataModel={dataModel}
             constraints={constraints}
             topGridRef={topGridRef}
-            columnWidthCallback={getDataColumnWidth}
+            getMeasureInfoWidth={getMeasureInfoWidth}
             rowHightCallback={rowHightCallback}
             width={rightGridWidth}
             height={topGridHeight}
-            totalMeasureInfoColumnWidth={totalMeasureInfoColumnWidth}
             getScrollLeft={getScrollLeft}
           />
 
@@ -116,7 +114,7 @@ export const StickyPivotTable = ({
           <DataGrid
             dataModel={dataModel}
             dataGridRef={dataGridRef}
-            columnWidthCallback={getDataColumnWidth}
+            getMeasureInfoWidth={getMeasureInfoWidth}
             rowHightCallback={rowHightCallback}
             width={rightGridWidth}
             height={dataGridHeight}

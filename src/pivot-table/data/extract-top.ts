@@ -8,7 +8,7 @@ const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCell
   const matrix = [] as PivotDimensionCellWithPosition[][];
   let colIdx = 0;
 
-  function extract(nodes: EngineAPI.INxPivotDimensionCell[], topRowIdx = 0) {
+  function extract(parent: PivotDimensionCellWithPosition | null, nodes: EngineAPI.INxPivotDimensionCell[], topRowIdx = 0) {
     if (!Array.isArray(matrix[topRowIdx])) {
       matrix[topRowIdx] = [];
     }
@@ -18,17 +18,18 @@ const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCell
       const nodeWithPosition = {
         ...node,
         x: colIdx,
-        y: topRowIdx
+        y: topRowIdx,
+        parent
       };
       matrix[topRowIdx].push(nodeWithPosition);
 
       if (node.qSubNodes.length) {
-        extract(node.qSubNodes, topRowIdx + 1);
+        extract(nodeWithPosition, node.qSubNodes, topRowIdx + 1);
       }
     });
   };
 
-  extract(qTop);
+  extract(null, qTop);
 
   return matrix;
 };

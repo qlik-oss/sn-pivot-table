@@ -49,6 +49,7 @@ export type CellValue = EngineAPI.INxPivotDimensionCell | string | null;
 export interface PivotDimensionCellWithPosition extends EngineAPI.INxPivotDimensionCell {
   x: number;
   y: number;
+  parent: PivotDimensionCellWithPosition | null;
 }
 
 export interface PivotData {
@@ -56,6 +57,7 @@ export interface PivotData {
   top: PivotDimensionCellWithPosition[][],
   data: EngineAPI.INxPivotValuePoint[][],
   headers: CellValue[][],
+  measureInfoIndexMap: number[];
   size: {
     headers: Point;
     top: Point;
