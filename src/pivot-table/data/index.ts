@@ -79,6 +79,6 @@ export default function createData(
       totalColumns: getColumnCount(left) + qArea.qWidth,
     }
   };
-console.debug(pivotData);
+
   return pivotData;
 }
