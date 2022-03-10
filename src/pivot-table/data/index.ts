@@ -32,17 +32,25 @@ export const findParentPseudoDimension = (cell: PivotDimensionCellWithPosition):
 
 export default function createData(
   dataPage: EngineAPI.INxPivotPage,
-  qDimensionInfo: EngineAPI.INxDimensionInfo[],
-  qMeasureInfo: EngineAPI.INxMeasureInfo[],
+  qHyperCube: EngineAPI.IHyperCube,
   ): PivotData {
   const {
     qLeft,
     qArea,
     qTop,
     qData } = dataPage;
+  const {
+    qDimensionInfo,
+    qMeasureInfo,
+    qEffectiveInterColumnSortOrder,
+  } = qHyperCube;
   const left = extractLeft(qLeft, qArea.qHeight);
   const top = extractTop(qTop);
-  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), getColumnCount(left));
+  const dimensionInfoIndexMap = left.map((column, index) => {
+    if (column[0] === null) return qEffectiveInterColumnSortOrder[index];
+    if ((column[0] as EngineAPI.INxPivotDimensionCell).qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return -1;
+    return qEffectiveInterColumnSortOrder[index];
+  });
   const measureInfoIndexMap = (top[top.length - 1] || []).map(cell => {
     const { qText } = findParentPseudoDimension(cell) || {};
     const idx = qMeasureInfo.findIndex(measureInfo => measureInfo.qFallbackTitle ===  qText);
@@ -52,12 +60,15 @@ export default function createData(
 
     return idx;
   });
+  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), dimensionInfoIndexMap);
+
   const pivotData: PivotData = {
     left,
     top,
     data: qData as unknown as EngineAPI.INxPivotValuePoint[][],
     headers,
     measureInfoIndexMap,
+    dimensionInfoIndexMap,
     size: {
       headers: {
         x: getColumnCount(headers),

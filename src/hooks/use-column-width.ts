@@ -27,8 +27,8 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
 
   const leftColumnWidthsRatios = useMemo(() => {
     const ratios = pivotData.left
-      .reduce<number[]>((tmpRatios, cells, index) => {
-        const { qType } = (cells[0] as EngineAPI.INxPivotDimensionCell);
+      .reduce<number[]>((tmpRatios, column, index) => {
+        const { qType } = (column[0] as EngineAPI.INxPivotDimensionCell);
 
         if (qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
           const pseudoDimensionWidth = getMeasureInfo()
@@ -40,7 +40,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
           return tmpRatios;
         }
 
-        const w = estimateWidth(getDimensionInfo()[index].qApprMaxGlyphCount);
+        const w = estimateWidth(getDimensionInfo()[pivotData.dimensionInfoIndexMap[index]].qApprMaxGlyphCount);
         tmpRatios.push(w / rect.width);
 
         return tmpRatios;

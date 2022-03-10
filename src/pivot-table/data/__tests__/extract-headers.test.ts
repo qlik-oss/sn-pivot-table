@@ -7,7 +7,7 @@ function createDimInfo(length: number): EngineAPI.INxDimensionInfo[] {
 describe('extractHeaders', () => {
   test('should extract headers with row count 1 and column count 1', () => {
     const nbrOfLeftDims = 1;
-    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 1, nbrOfLeftDims);
+    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 1, nbrOfLeftDims, -1);
 
     expect(headers).toHaveLength(1);
     expect(headers[0]).toHaveLength(1);
@@ -16,7 +16,7 @@ describe('extractHeaders', () => {
 
   test('should extract headers with row count 1 and column count 2', () => {
     const nbrOfLeftDims = 2;
-    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 1, nbrOfLeftDims);
+    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 1, nbrOfLeftDims, -1);
 
     expect(headers).toHaveLength(2);
     expect(headers[0]).toHaveLength(1);
@@ -24,9 +24,29 @@ describe('extractHeaders', () => {
     expect(headers[1][0]).toBe('dim 1');
   });
 
+  test('should extract headers with row count 1 and column count 2 and a pseudo dimension on first column', () => {
+    const nbrOfLeftDims = 2;
+    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 1, nbrOfLeftDims, 0);
+
+    expect(headers).toHaveLength(2);
+    expect(headers[0]).toHaveLength(1);
+    expect(headers[0][0]).toBe('');
+    expect(headers[1][0]).toBe('dim 0');
+  });
+
+  test('should extract headers with row count 1 and column count 2 and a pseudo dimension on last column', () => {
+    const nbrOfLeftDims = 2;
+    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 1, nbrOfLeftDims, 1);
+
+    expect(headers).toHaveLength(2);
+    expect(headers[0]).toHaveLength(1);
+    expect(headers[0][0]).toBe('dim 0');
+    expect(headers[1][0]).toBe('');
+  });
+
   test('should extract headers with row count 2 and column count 1', () => {
     const nbrOfLeftDims = 1;
-    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 2, nbrOfLeftDims);
+    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 2, nbrOfLeftDims, -1);
 
     expect(headers).toHaveLength(1);
     expect(headers[0]).toHaveLength(2);
@@ -36,7 +56,7 @@ describe('extractHeaders', () => {
 
   test('should extract headers with row count 2 and column count 2', () => {
     const nbrOfLeftDims = 2;
-    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 2, nbrOfLeftDims);
+    const headers = extractHeaders(createDimInfo(nbrOfLeftDims), 2, nbrOfLeftDims, -1);
 
     expect(headers).toHaveLength(2);
     expect(headers[0]).toHaveLength(2);

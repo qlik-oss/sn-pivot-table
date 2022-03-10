@@ -58,6 +58,7 @@ export interface PivotData {
   data: EngineAPI.INxPivotValuePoint[][],
   headers: CellValue[][],
   measureInfoIndexMap: number[];
+  dimensionInfoIndexMap: number[];
   size: {
     headers: Point;
     top: Point;
