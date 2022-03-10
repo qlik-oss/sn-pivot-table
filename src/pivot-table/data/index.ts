@@ -12,10 +12,10 @@ const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number =
 
 const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
-const findParentPseudoDimension = (cell: PivotDimensionCellWithPosition): PivotDimensionCellWithPosition | null => {
+export const findParentPseudoDimension = (cell: PivotDimensionCellWithPosition): PivotDimensionCellWithPosition | null => {
   if (cell.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return cell;
 
-  let { parent } = cell ?? { parent: null };
+  let { parent } = cell;
 
   if (!parent) return parent;
 
@@ -47,7 +47,7 @@ export default function createData(
     const { qText } = findParentPseudoDimension(cell) || {};
     const idx = qMeasureInfo.findIndex(measureInfo => measureInfo.qFallbackTitle ===  qText);
     if (idx === -1) {
-      return 0;
+      return 0; // Fallback solution when there is only a single measure, as in no pseudo dimenions.
     };
 
     return idx;
@@ -58,7 +58,6 @@ export default function createData(
     data: qData as unknown as EngineAPI.INxPivotValuePoint[][],
     headers,
     measureInfoIndexMap,
-    // topTree,
     size: {
       headers: {
         x: getColumnCount(headers),
@@ -80,6 +79,6 @@ export default function createData(
       totalColumns: getColumnCount(left) + qArea.qWidth,
     }
   };
-
+console.debug(pivotData);
   return pivotData;
 }
