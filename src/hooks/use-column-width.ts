@@ -39,7 +39,12 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
           return tmpRatios;
         }
 
-        const w = estimateWidth(getDimensionInfo()[dimIndex].qApprMaxGlyphCount);
+        const { qFallbackTitle, qApprMaxGlyphCount } = getDimensionInfo()[dimIndex];
+        const w = Math.max(
+          measureText(qFallbackTitle),
+          estimateWidth(qApprMaxGlyphCount)
+        );
+        // const w = estimateWidth(getDimensionInfo()[dimIndex].qApprMaxGlyphCount);
         tmpRatios.push(w / rect.width);
 
         return tmpRatios;

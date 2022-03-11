@@ -44,8 +44,18 @@ describe('useColumnWidth', () => {
   });
 
   describe('grid width', () => {
-    test('should return left and right grid widths with only dimension cells', () => {
+    test('should return left and right grid widths with only dimension cells and glyph size > then text size', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(25);
+
+      const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
+      expect(result.current.leftGridWidth).toBe(150);
+      expect(result.current.rightGridWidth).toBe(50);
+    });
+
+    test('should return left and right grid widths with only dimension cells and glyph size < then text size', () => {
+      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(25);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
       const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
       expect(result.current.leftGridWidth).toBe(150);
@@ -71,6 +81,7 @@ describe('useColumnWidth', () => {
 
     test('left grid can not take more space then 75% of the total width available', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
       const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
       expect(result.current.leftGridWidth).toBe(rect.width * 0.75);
@@ -83,6 +94,7 @@ describe('useColumnWidth', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(25);
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(50);
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(75);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(5);
 
       const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
       expect(result.current.getLeftColumnWidth(0)).toBe(25);
@@ -130,7 +142,7 @@ describe('useColumnWidth', () => {
           case 'm2':
             return 150;
           default:
-            throw new Error;
+            return 10;
         }
       });
       mockedDataModel.pivotData.size.data.x = 3;
