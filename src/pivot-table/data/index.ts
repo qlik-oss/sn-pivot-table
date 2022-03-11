@@ -1,12 +1,13 @@
+import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import NxDimCellType from '../../types/QIX';
-import { CellValue, PivotData, PivotDimensionCellWithPosition } from '../../types/types';
+import { PivotData, PivotDimensionCellWithPosition } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeft from './extract-left';
 import extractTop from './extract-top';
 
-const getColumnCount = (matrix: CellValue[][]): number => matrix.length;
+const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
-const getRowCount = (matrix: CellValue[][]): number => matrix[0]?.length || 0;
+const getRowCount = (matrix: unknown[][]): number => matrix[0]?.length || 0;
 
 const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1]?.length || 0;
 
@@ -48,7 +49,7 @@ export default function createData(
   const top = extractTop(qTop);
   const dimensionInfoIndexMap = left.map((column, index) => {
     if (column[0] === null) return qEffectiveInterColumnSortOrder[index];
-    if ((column[0] as EngineAPI.INxPivotDimensionCell).qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return -1;
+    if (column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
     return qEffectiveInterColumnSortOrder[index];
   });
   const measureInfoIndexMap = (top[top.length - 1] || []).map(cell => {

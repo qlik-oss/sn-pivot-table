@@ -22,8 +22,9 @@ function createPivotPage(): EngineAPI.INxPivotPage {
   };
 }
 
-let dimInfo: EngineAPI.INxDimensionInfo[] = [];
-let measInfo: EngineAPI.INxMeasureInfo[] = [];
+let qDimensionInfo: EngineAPI.INxDimensionInfo[] = [];
+let qMeasureInfo: EngineAPI.INxMeasureInfo[] = [];
+let qHyperCube = {} as EngineAPI.IHyperCube;
 
 describe('createData', () => {
   beforeEach(() => {
@@ -33,16 +34,21 @@ describe('createData', () => {
     mockedExtractLeft.mockReturnValue([]);
     mockedExtractTop.mockReturnValue([]);
 
-    dimInfo = [];
-    measInfo = [];
+    qDimensionInfo = [];
+    qMeasureInfo = [];
+    qHyperCube = {
+      qDimensionInfo,
+      qMeasureInfo,
+      qEffectiveInterColumnSortOrder: [0],
+    } as EngineAPI.IHyperCube;
   });
 
   test('should return correct left data', () => {
-    const left = [['a', 'b']];
+    const left = [[null, null]];
     mockedExtractLeft.mockReturnValue(left);
     const pivotPage = createPivotPage();
 
-    const data = createData(pivotPage, dimInfo, measInfo);
+    const data = createData(pivotPage, qHyperCube);
 
     expect(data.left).toEqual(left);
     expect(data.size.left.x).toBe(1);
@@ -54,7 +60,7 @@ describe('createData', () => {
     mockedExtractTop.mockReturnValue(top);
     const pivotPage = createPivotPage();
 
-    const data = createData(pivotPage, dimInfo, measInfo);
+    const data = createData(pivotPage, qHyperCube);
 
     expect(data.top).toEqual(top);
     expect(data.size.top.x).toBe(1);
@@ -66,7 +72,7 @@ describe('createData', () => {
     mockedExtractHeaders.mockReturnValue(headers);
     const pivotPage = createPivotPage();
 
-    const data = createData(pivotPage, dimInfo, measInfo);
+    const data = createData(pivotPage, qHyperCube);
 
     expect(data.headers).toEqual(headers);
     expect(data.size.headers.x).toBe(1);
@@ -79,7 +85,7 @@ describe('createData', () => {
     pivotPage.qArea.qHeight = 2;
     pivotPage.qData = [[]] as unknown as EngineAPI.INxPivotValuePoint[];
 
-    const data = createData(pivotPage, dimInfo, measInfo);
+    const data = createData(pivotPage, qHyperCube);
 
     expect(data.data).toEqual(pivotPage.qData);
     expect(data.size.data.x).toBe(pivotPage.qArea.qWidth);
@@ -92,17 +98,17 @@ describe('createData', () => {
     pivotPage.qArea.qHeight = 2;
     const top = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition], [{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
     mockedExtractTop.mockReturnValue(top);
-    const left = [['a', 'b']];
+    const left = [[null, null]];
     mockedExtractLeft.mockReturnValue(left);
 
-    const data = createData(pivotPage, dimInfo, measInfo);
+    const data = createData(pivotPage, qHyperCube);
 
     expect(data.size.totalColumns).toBe(2);
     expect(data.size.totalRows).toBe(4);
   });
 
   test('should return measureInfoIndexMap', () => {
-    measInfo = [
+    qHyperCube.qMeasureInfo = [
       { qFallbackTitle: 'm0' } as EngineAPI.INxMeasureInfo,
       { qFallbackTitle: 'm1' } as EngineAPI.INxMeasureInfo
     ];
@@ -115,14 +121,14 @@ describe('createData', () => {
     mockedExtractTop.mockReturnValue(top);
     const pivotPage = createPivotPage();
 
-    const data = createData(pivotPage, dimInfo, measInfo);
+    const data = createData(pivotPage, qHyperCube);
 
     expect(data.measureInfoIndexMap).toHaveLength(2);
     expect(data.measureInfoIndexMap).toEqual(expect.arrayContaining([0, 1]));
   });
 
   test('measureInfoIndexMap should handle when there is no pseudo dimensions', () => {
-    measInfo = [
+    qHyperCube.qMeasureInfo = [
       { qFallbackTitle: 'm0' } as EngineAPI.INxMeasureInfo,
       { qFallbackTitle: 'm1' } as EngineAPI.INxMeasureInfo
     ];
@@ -135,7 +141,7 @@ describe('createData', () => {
     mockedExtractTop.mockReturnValue(top);
     const pivotPage = createPivotPage();
 
-    const data = createData(pivotPage, dimInfo, measInfo);
+    const data = createData(pivotPage, qHyperCube);
 
     expect(data.measureInfoIndexMap).toHaveLength(2);
     expect(data.measureInfoIndexMap).toEqual(expect.arrayContaining([0, 0]));

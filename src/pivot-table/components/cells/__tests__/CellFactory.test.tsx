@@ -4,16 +4,12 @@ import { render } from '@testing-library/react';
 import CellFactory from '../CellFactory';
 import { CellValue, DataModel, GridItemData } from '../../../../types/types';
 import DimensionCell from '../DimensionCell';
-import DimensionTitleCell from '../DimensionTitleCell';
-import EmptyHeaderCell from '../EmptyHeaderCell';
 import EmptyCell from '../EmptyCell';
 import PseudoDimensionCell from '../PseudoDimensionCell';
 import TotalsCell from '../TotalsCell';
 import NxDimCellType from '../../../../types/QIX';
 
 jest.mock('../DimensionCell');
-jest.mock('../DimensionTitleCell');
-jest.mock('../EmptyHeaderCell');
 jest.mock('../EmptyCell');
 jest.mock('../PseudoDimensionCell');
 jest.mock('../TotalsCell');
@@ -46,6 +42,7 @@ describe('CellFactory', () => {
         top: [],
         headers: [],
         measureInfoIndexMap: [],
+        dimensionInfoIndexMap: [],
         size: {
           data: { x: 0, y: 0 },
           headers: { x: 0, y: 0 },
@@ -72,7 +69,6 @@ describe('CellFactory', () => {
       dataModel,
       matrix: [[]],
       isLeftColumn: false,
-      isHeader: false,
       constraints
     };
   });
@@ -101,17 +97,6 @@ describe('CellFactory', () => {
     expect(mockDimensionCell).toHaveBeenCalledWith({ style, cell, data, rowIndex: 0, colIndex: 0, isLeftColumn: false }, {});
   });
 
-  test('should render dimension title cell', () => {
-    const mockDimensionTitleCell = DimensionTitleCell as jest.MockedFunction<typeof DimensionTitleCell>;
-    mockDimensionTitleCell.mockReturnValue(<div />);
-    cell = 'title';
-    data.matrix[0][0] = cell;
-
-    render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
-
-    expect(mockDimensionTitleCell).toHaveBeenCalledWith({ style, cell }, {});
-  });
-
   test('should render pseudo dimension cell', () => {
     const mockPseudoDimensionCell = PseudoDimensionCell as jest.MockedFunction<typeof PseudoDimensionCell>;
     mockPseudoDimensionCell.mockReturnValue(<div />);
@@ -134,18 +119,6 @@ describe('CellFactory', () => {
     render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
 
     expect(mockedTotalsCell).toHaveBeenCalledWith({ cell, style }, {});
-  });
-
-  test('should render empty header cell', () => {
-    const mockEmptyHeaderCell = EmptyHeaderCell as jest.MockedFunction<typeof EmptyHeaderCell>;
-    mockEmptyHeaderCell.mockReturnValue(<div />);
-    data.isHeader = true;
-    cell = null;
-    data.matrix[0][0] = cell;
-
-    render(<CellFactory columnIndex={0} rowIndex={0} style={style} data={data} />);
-
-    expect(mockEmptyHeaderCell).toHaveBeenCalledWith({ style }, {});
   });
 
   test('should render empty cell', () => {

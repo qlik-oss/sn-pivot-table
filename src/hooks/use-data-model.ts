@@ -20,10 +20,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
   const [loading, setLoading] = useState(false);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
-  // const [qDimInfo, setDimInfo] = useState<EngineAPI.INxDimensionInfo[]>([]);
-  // const [qMeasInfo, setMeasInfo] = useState<EngineAPI.INxMeasureInfo[]>([]);
   const [qHyperCube, setHyperCube] = useState<EngineAPI.IHyperCube>({} as EngineAPI.IHyperCube);
-  // const [qSize, setSize] = useState<EngineAPI.ISize>({ qcx: 0, qcy: 0 });
   const [maxAreaWidth, setMaxAreaWidth] = useState(DEFAULT_PAGE_SIZE);
   const [maxAreaHeight, setMaxAreaHeight] = useState(DEFAULT_PAGE_SIZE);
   const {
@@ -51,9 +48,6 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
       setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
-      // setDimInfo(layout.qHyperCube.qDimensionInfo);
-      // setMeasInfo(layout.qHyperCube.qMeasureInfo);
-      // setSize(layout.qHyperCube.qSize);
       setHyperCube(layout.qHyperCube);
       setPivotData(createData(pivotPage, layout.qHyperCube));
     }

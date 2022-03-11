@@ -10,8 +10,6 @@ import TotalsCell from '../TotalsCell';
 import NxDimCellType from '../../../../types/QIX';
 
 jest.mock('../DimensionCell');
-jest.mock('../DimensionTitleCell');
-jest.mock('../EmptyHeaderCell');
 jest.mock('../EmptyCell');
 jest.mock('../PseudoDimensionCell');
 jest.mock('../TotalsCell');
@@ -44,6 +42,7 @@ describe('ListCellFactory', () => {
         top: [],
         headers: [],
         measureInfoIndexMap: [],
+        dimensionInfoIndexMap: [],
         size: {
           data: { x: 0, y: 0 },
           headers: { x: 0, y: 0 },

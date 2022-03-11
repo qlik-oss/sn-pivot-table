@@ -37,14 +37,13 @@ export interface ItemData {
 export interface GridItemData extends ItemData {
   matrix: CellValue[][] | EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
-  isHeader?: boolean;
 }
 
 export interface ListItemData extends ItemData {
   list: PivotDimensionCellWithPosition[];
 }
 
-export type CellValue = EngineAPI.INxPivotDimensionCell | string | null;
+export type CellValue = EngineAPI.INxPivotDimensionCell | null;
 
 export interface PivotDimensionCellWithPosition extends EngineAPI.INxPivotDimensionCell {
   x: number;
@@ -56,7 +55,7 @@ export interface PivotData {
   left: CellValue[][],
   top: PivotDimensionCellWithPosition[][],
   data: EngineAPI.INxPivotValuePoint[][],
-  headers: CellValue[][],
+  headers: (null | string)[][],
   measureInfoIndexMap: number[];
   dimensionInfoIndexMap: number[];
   size: {

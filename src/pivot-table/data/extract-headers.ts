@@ -1,12 +1,12 @@
-import { CellValue } from '../../types/types';
+import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 
-const extractHeaders = (qDim: EngineAPI.INxDimensionInfo[], rowCount: number, dimensionInfoIndex: number[]): CellValue[][] => {
+const extractHeaders = (qDim: EngineAPI.INxDimensionInfo[], rowCount: number, dimensionInfoIndex: number[]): (null|string)[][] => {
   const matrix = Array(dimensionInfoIndex.length)
     .fill(null)
     .map(() => Array(rowCount).fill(null));
 
     dimensionInfoIndex.forEach((dimIndex, colIdx) => {
-    if (dimIndex === -1) {
+    if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       matrix[colIdx][rowCount - 1] = '';
     } else {
       matrix[colIdx][rowCount - 1] = qDim[dimIndex].qFallbackTitle;
