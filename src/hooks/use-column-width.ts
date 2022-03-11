@@ -28,15 +28,14 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
 
   const leftColumnWidthsRatios = useMemo(() => {
     const ratios = pivotData.dimensionInfoIndexMap
-      .reduce<number[]>((tmpRatios, dimIndex) => {
+      .map((dimIndex) => {
         if (dimIndex === PSEUDO_DIMENSION_INDEX) {
-          const pseudoDimensionWidth = getMeasureInfo()
-            .map(qMeasureInfo => qMeasureInfo.qFallbackTitle)
-            .reduce((max, qFallbackTitle) => Math.max(max, measureText(qFallbackTitle)), 0);
+          const pseudoDimensionWidth = Math.max(
+            ...getMeasureInfo()
+            .map(qMeasureInfo => measureText(qMeasureInfo.qFallbackTitle))
+          );
 
-          tmpRatios.push(pseudoDimensionWidth / rect.width);
-
-          return tmpRatios;
+          return pseudoDimensionWidth / rect.width;
         }
 
         const { qFallbackTitle, qApprMaxGlyphCount } = getDimensionInfo()[dimIndex];
@@ -44,11 +43,8 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
           measureText(qFallbackTitle),
           estimateWidth(qApprMaxGlyphCount)
         );
-        // const w = estimateWidth(getDimensionInfo()[dimIndex].qApprMaxGlyphCount);
-        tmpRatios.push(w / rect.width);
-
-        return tmpRatios;
-      }, []);
+        return w / rect.width;
+      });
 
     const sumOfRatios = ratios.reduce((sum, r) => sum + r, 0);
     if (sumOfRatios < MAX_RATIO_OF_TOTAL_WIDTH) return ratios;
