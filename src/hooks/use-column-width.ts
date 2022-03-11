@@ -22,7 +22,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   const { getDimensionInfo, getMeasureInfo, pivotData } = dataModel;
 
   const hasPseudoDimOnLeft = useMemo(
-    () => pivotData.left.some(column => column[0] !== null && (column[0] as EngineAPI.INxPivotDimensionCell).qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
+    () => pivotData.left.some(column => column[0] !== null && column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
     [pivotData]
   );
 
