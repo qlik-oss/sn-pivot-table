@@ -7256,6 +7256,18 @@ puppeteer@12.0.1:
     unbzip2-stream "1.4.3"
     ws "8.2.3"
 
+qlik-modifiers@0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/qlik-modifiers/-/qlik-modifiers-0.5.1.tgz#df81fe57e24fc88f7271e91bc23ab960144667a4"
+  integrity sha512-jQXt3oH7UwO5mhwUf0fHiUMRNutb1Fsq2jjN4NQ5Q0ZvBzhjrJPGcIpMMIcU4tmrYabkXS/GaVMA3Oa38jzpsw==
+
+qlik-object-conversion@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/qlik-object-conversion/-/qlik-object-conversion-0.8.0.tgz#80be46f0f164bc61375c220ff9ac2499c3f39c0e"
+  integrity sha512-GvCrnT5HjWVWq4j+tZ7ORg+FlagXAAkqlpYXUzafmVDvhyu86EMOAW/ynyAnOUxSnj35ktWsHOeo5Eax49hvVw==
+  dependencies:
+    qlik-modifiers "0.5.1"
+
 qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
