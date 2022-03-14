@@ -70,6 +70,7 @@ describe('DimensionCell', () => {
         top: [],
         headers: [],
         measureInfoIndexMap: [],
+        dimensionInfoIndexMap: [],
         size: {
           data: { x: 0, y: 0 },
           headers: { x: 0, y: 0 },
@@ -101,7 +102,6 @@ describe('DimensionCell', () => {
       dataModel,
       matrix: dataModel.pivotData.left,
       isLeftColumn: false,
-      isHeader: false,
       constraints
     };
 

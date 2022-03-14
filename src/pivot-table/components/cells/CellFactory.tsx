@@ -1,8 +1,6 @@
 import React from 'react';
 import { CellValue, GridItemData } from '../../../types/types';
 import DimensionCell from './DimensionCell';
-import DimensionTitleCell from './DimensionTitleCell';
-import EmptyHeaderCell from './EmptyHeaderCell';
 import EmptyCell from './EmptyCell';
 import NxDimCellType from '../../../types/QIX';
 import PseudoDimensionCell from './PseudoDimensionCell';
@@ -18,13 +16,9 @@ interface GridCallbackProps {
 }
 
 const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
-  const { matrix, isLeftColumn = false, isHeader = false } = data;
+  const { matrix, isLeftColumn = false } = data;
   const cell = matrix[columnIndex][rowIndex] as CellValue;
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
-
-  if (typeof cell === 'string') {
-    return <DimensionTitleCell cell={cell} style={style} />;
-  }
 
   if (cell !== null) {
     if (cell.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
@@ -47,10 +41,6 @@ const CellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps):
       style={style}
       isLeftColumn={isLeftColumn}
     />;
-  }
-
-  if (cell === null && isHeader) {
-    return <EmptyHeaderCell style={style} />;
   }
 
   return <EmptyCell style={style} />;

@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { PSEUDO_DIMENSION_INDEX } from '../constants';
 import NxDimCellType from '../types/QIX';
 import { DataModel, Rect } from '../types/types';
 import useMeasureText from './use-measure-text';
@@ -21,30 +22,29 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   const { getDimensionInfo, getMeasureInfo, pivotData } = dataModel;
 
   const hasPseudoDimOnLeft = useMemo(
-    () => pivotData.left.some(column => column[0] !== null && (column[0] as EngineAPI.INxPivotDimensionCell).qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
+    () => pivotData.left.some(column => column[0] !== null && column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
     [pivotData]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
-    const ratios = pivotData.left
-      .reduce<number[]>((tmpRatios, cells, index) => {
-        const { qType } = (cells[0] as EngineAPI.INxPivotDimensionCell);
+    const ratios = pivotData.dimensionInfoIndexMap
+      .map((dimIndex) => {
+        if (dimIndex === PSEUDO_DIMENSION_INDEX) {
+          const pseudoDimensionWidth = Math.max(
+            ...getMeasureInfo()
+            .map(qMeasureInfo => measureText(qMeasureInfo.qFallbackTitle))
+          );
 
-        if (qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
-          const pseudoDimensionWidth = getMeasureInfo()
-            .map(qMeasureInfo => qMeasureInfo.qFallbackTitle)
-            .reduce((max, qFallbackTitle) => Math.max(max, measureText(qFallbackTitle)), 0);
-
-          tmpRatios.push(pseudoDimensionWidth / rect.width);
-
-          return tmpRatios;
+          return pseudoDimensionWidth / rect.width;
         }
 
-        const w = estimateWidth(getDimensionInfo()[index].qApprMaxGlyphCount);
-        tmpRatios.push(w / rect.width);
-
-        return tmpRatios;
-      }, []);
+        const { qFallbackTitle, qApprMaxGlyphCount } = getDimensionInfo()[dimIndex];
+        const w = Math.max(
+          measureText(qFallbackTitle),
+          estimateWidth(qApprMaxGlyphCount)
+        );
+        return w / rect.width;
+      });
 
     const sumOfRatios = ratios.reduce((sum, r) => sum + r, 0);
     if (sumOfRatios < MAX_RATIO_OF_TOTAL_WIDTH) return ratios;

@@ -1,7 +1,7 @@
 import React, { memo, useLayoutEffect, useRef } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { DataModel, GridItemData } from '../../types/types';
-import CellFactory from './cells/CellFactory';
+import { DataModel } from '../../types/types';
+import DimensionTitleCell from './cells/DimensionTitleCell';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
@@ -13,10 +13,33 @@ interface HeaderGridProps {
   width: number;
 }
 
+interface GridCallbackProps {
+  columnIndex: number;
+  rowIndex: number;
+  style: React.CSSProperties;
+  data: {
+    matrix: (string | null)[][]
+  };
+}
+
+interface HeaderItemData {
+  matrix: (string | null)[][];
+}
+
 const gridStyle: React.CSSProperties = {
   overflow: 'hidden',
   borderWidth: '0px 1px 1px 0px',
   ...gridBorderStyle
+};
+
+const HeaderCellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
+  const cell = data.matrix[columnIndex][rowIndex];
+
+  if (typeof cell === 'string') {
+    return <DimensionTitleCell cell={cell} style={style} />;
+  }
+
+  return null;
 };
 
 const HeaderGrid = ({
@@ -31,7 +54,7 @@ const HeaderGrid = ({
   }
 
   const headerGridRef = useRef<VariableSizeGrid>(null);
-  const MemoizedCellFactory = memo(CellFactory, areEqual);
+  const MemoizedCellFactory = memo(HeaderCellFactory, areEqual);
   // useDebug('HeaderGrid', {
   //   dataModel,
   //   headerGridRef,
@@ -65,8 +88,7 @@ const HeaderGrid = ({
       width={width}
       itemData={{
         matrix: dataModel.pivotData.headers,
-        isHeader: true
-      } as GridItemData}
+      } as HeaderItemData}
     >
       {MemoizedCellFactory}
     </VariableSizeGrid>

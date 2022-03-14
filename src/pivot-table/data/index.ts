@@ -1,12 +1,13 @@
+import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import NxDimCellType from '../../types/QIX';
-import { CellValue, PivotData, PivotDimensionCellWithPosition } from '../../types/types';
+import { PivotData, PivotDimensionCellWithPosition } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeft from './extract-left';
 import extractTop from './extract-top';
 
-const getColumnCount = (matrix: CellValue[][]): number => matrix.length;
+const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
-const getRowCount = (matrix: CellValue[][]): number => matrix[0]?.length || 0;
+const getRowCount = (matrix: unknown[][]): number => matrix[0]?.length || 0;
 
 const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1]?.length || 0;
 
@@ -32,17 +33,25 @@ export const findParentPseudoDimension = (cell: PivotDimensionCellWithPosition):
 
 export default function createData(
   dataPage: EngineAPI.INxPivotPage,
-  qDimensionInfo: EngineAPI.INxDimensionInfo[],
-  qMeasureInfo: EngineAPI.INxMeasureInfo[],
+  qHyperCube: EngineAPI.IHyperCube,
   ): PivotData {
   const {
     qLeft,
     qArea,
     qTop,
     qData } = dataPage;
+  const {
+    qDimensionInfo,
+    qMeasureInfo,
+    qEffectiveInterColumnSortOrder,
+  } = qHyperCube;
   const left = extractLeft(qLeft, qArea.qHeight);
   const top = extractTop(qTop);
-  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), getColumnCount(left));
+  const dimensionInfoIndexMap = left.map((column, index) => {
+    if (column[0] === null) return qEffectiveInterColumnSortOrder[index];
+    if (column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
+    return qEffectiveInterColumnSortOrder[index];
+  });
   const measureInfoIndexMap = (top[top.length - 1] || []).map(cell => {
     const { qText } = findParentPseudoDimension(cell) || {};
     const idx = qMeasureInfo.findIndex(measureInfo => measureInfo.qFallbackTitle ===  qText);
@@ -52,12 +61,15 @@ export default function createData(
 
     return idx;
   });
+  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), dimensionInfoIndexMap);
+
   const pivotData: PivotData = {
     left,
     top,
     data: qData as unknown as EngineAPI.INxPivotValuePoint[][],
     headers,
     measureInfoIndexMap,
+    dimensionInfoIndexMap,
     size: {
       headers: {
         x: getColumnCount(headers),

@@ -1,10 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DimensionTitleCell, { testId } from '../DimensionTitleCell';
-import { CellValue } from '../../../../types/types';
 
 test('should render',  () => {
-  const cell: CellValue = 'test value';
+  const cell = 'test value';
   const style: React.CSSProperties = {
     position: 'absolute',
     left: '25px',

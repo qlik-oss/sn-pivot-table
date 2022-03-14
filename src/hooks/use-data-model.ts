@@ -20,9 +20,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
   const [loading, setLoading] = useState(false);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
-  const [qDimInfo, setDimInfo] = useState<EngineAPI.INxDimensionInfo[]>([]);
-  const [qMeasInfo, setMeasInfo] = useState<EngineAPI.INxMeasureInfo[]>([]);
-  const [qSize, setSize] = useState<EngineAPI.ISize>({ qcx: 0, qcy: 0 });
+  const [qHyperCube, setHyperCube] = useState<EngineAPI.IHyperCube>({} as EngineAPI.IHyperCube);
   const [maxAreaWidth, setMaxAreaWidth] = useState(DEFAULT_PAGE_SIZE);
   const [maxAreaHeight, setMaxAreaHeight] = useState(DEFAULT_PAGE_SIZE);
   const {
@@ -50,10 +48,8 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
       setHasMoreRows(pivotPage.qArea.qHeight < layout.qHyperCube.qSize.qcy);
       setHasMoreColumns(pivotPage.qArea.qWidth < layout.qHyperCube.qSize.qcx);
-      setDimInfo(layout.qHyperCube.qDimensionInfo);
-      setMeasInfo(layout.qHyperCube.qMeasureInfo);
-      setSize(layout.qHyperCube.qSize);
-      setPivotData(createData(pivotPage, layout.qHyperCube.qDimensionInfo, layout.qHyperCube.qMeasureInfo));
+      setHyperCube(layout.qHyperCube);
+      setPivotData(createData(pivotPage, layout.qHyperCube));
     }
   }, [layout, model]);
 
@@ -72,30 +68,30 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       setMaxAreaWidth(prev => Math.max(prev, width));
       setMaxAreaHeight(prev => Math.max(prev, height));
       setLoading(false);
-      setHasMoreRows(pivotPage.qArea.qHeight < qSize.qcy);
-      setHasMoreColumns(pivotPage.qArea.qWidth < qSize.qcx);
-      setPivotData(createData(pivotPage, qDimInfo, qMeasInfo));
+      setHasMoreRows(pivotPage.qArea.qHeight < qHyperCube.qSize.qcy);
+      setHasMoreColumns(pivotPage.qArea.qWidth < qHyperCube.qSize.qcx);
+      setPivotData(createData(pivotPage, qHyperCube));
     } catch (error) {
       console.log('ERROR', error);
       setLoading(false);
     }
-  }, [maxAreaWidth, maxAreaHeight, model, qDimInfo, qMeasInfo, qSize]);
+  }, [maxAreaWidth, maxAreaHeight, model, qHyperCube]);
 
   const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
     if (qType === NxSelectionCellType.NX_CELL_LEFT) {
-      return qDimInfo.slice(0, layout.qHyperCube.qNoOfLeftDims)?.[qCol]?.qLocked;
+      return qHyperCube.qDimensionInfo.slice(0, qHyperCube.qNoOfLeftDims)?.[qCol]?.qLocked;
     }
 
     if (qType === NxSelectionCellType.NX_CELL_TOP) {
-      return qDimInfo.slice(layout.qHyperCube.qNoOfLeftDims)?.[qRow]?.qLocked;
+      return qHyperCube.qDimensionInfo.slice(qHyperCube.qNoOfLeftDims)?.[qRow]?.qLocked;
     }
 
     return false;
-  }, [qDimInfo, layout.qHyperCube.qNoOfLeftDims]);
+  }, [qHyperCube]);
 
-  const getDimensionInfo = useNebulaCallback(() => qDimInfo, [qDimInfo]);
+  const getDimensionInfo = useNebulaCallback(() => qHyperCube.qDimensionInfo, [qHyperCube]);
 
-  const getMeasureInfo = useNebulaCallback(() => qMeasInfo, [qMeasInfo]);
+  const getMeasureInfo = useNebulaCallback(() => qHyperCube.qMeasureInfo, [qHyperCube]);
 
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,
