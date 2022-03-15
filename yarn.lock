@@ -7256,6 +7256,11 @@ puppeteer@12.0.1:
     unbzip2-stream "1.4.3"
     ws "8.2.3"
 
+qlik-chart-modules@0.32.0:
+  version "0.32.0"
+  resolved "https://registry.yarnpkg.com/qlik-chart-modules/-/qlik-chart-modules-0.32.0.tgz#436b60e0a7e3c0a60baf4114b2baf4d6cb64d0f5"
+  integrity sha512-nSBmBDeGvMypMxcSq3shbxxj6G16rE+AjJxxr1R+6vKAyKfp09eX3330tV1FV9kx6YFjz63UZKVAqt2ZmaBW7Q==
+
 qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
