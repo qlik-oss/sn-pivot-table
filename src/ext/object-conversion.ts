@@ -119,7 +119,7 @@ export function importProperties(
       conversion.unquarantineProperty(propTree.qProperty, 'noOfLeftDims');
     }
   }
-
+console.debug('importProperties', propTree);
   return propTree;
 }
 
@@ -145,6 +145,7 @@ export function exportProperties(propertyTree: PropTree, hyperCubePath: string):
 
   // Save pivot sort order
   setValue(expFormat, 'properties.qLayoutExclude.quarantine.pivotInterColSortOrder', pivotSortOrder);
+  console.debug('pivotInterColSortOrder', expFormat.properties.qLayoutExclude.quarantine.pivotInterColSortOrder);
   // save number of left dims
   conversion.quarantineProperty(expFormat, 'properties.qHyperCubeDef.qNoOfLeftDims', 'noOfLeftDims');
   delete expFormat.properties.qHyperCubeDef.qNoOfLeftDims;
@@ -163,6 +164,6 @@ export function exportProperties(propertyTree: PropTree, hyperCubePath: string):
       interColSortOrder.push(i);
     }
   }
-
+  console.debug('exportProperties', expFormat);
   return expFormat;
 }
