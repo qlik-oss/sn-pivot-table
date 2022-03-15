@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef } from 'react';
+import { memoize } from 'qlik-chart-modules';
 
 export interface MeasureTextHook {
   estimateWidth: (length: number) => number;
@@ -24,17 +25,23 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
     context.current.font = `${fontSize} ${fontFamily}`;
   }, [context.current, fontSize, fontFamily]);
 
-  const estimateWidth = useCallback((length: number) => {
-    if (context.current === null) return 0;
+  const memoizedMeasureText = useMemo<(t: string) => ({ width: number })>(() => {
+    if (context.current === null) return null;
 
-    return Math.max(context.current.measureText(MAGIC_DEFAULT_CHAR).width * length, 100);
+    return memoize(context.current.measureText.bind(context.current));
   }, [context.current]);
+
+  const estimateWidth = useCallback((length: number) => {
+    if (context.current === null || memoizedMeasureText === null) return 0;
+
+    return memoizedMeasureText(MAGIC_DEFAULT_CHAR).width * length;
+  }, [context.current, memoizedMeasureText]);
 
   const measureText = useCallback((text: string) => {
-    if (context.current === null) return 0;
+    if (context.current === null || memoizedMeasureText === null) return 0;
 
-    return context.current.measureText(text).width + LEEWAY_WIDTH;
-  }, [context.current]);
+    return memoizedMeasureText(text).width + LEEWAY_WIDTH;
+  }, [context.current, memoizedMeasureText]);
 
   return { estimateWidth, measureText };
 }

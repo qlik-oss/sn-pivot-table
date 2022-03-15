@@ -26,8 +26,8 @@ export default function supernova() {
       const selections = useSelections() as ExtendedSelections;
 
       useEffect(() => {
-        if (dataModel.hasData && rect && constraints && selections) {
-          console.debug('render', { layout, selections, constraints, dataModel });
+        if (dataModel.hasData && rect?.width && rect?.height && constraints && selections) {
+          console.debug('render', { layout, selections, constraints, dataModel, rect });
           render(element, {
             rect,
             constraints,
@@ -35,7 +35,7 @@ export default function supernova() {
             selections
           });
         }
-      }, [dataModel, rect, constraints, selections]);
+      }, [dataModel, rect?.width, rect?.height, constraints, selections]);
 
       useEffect(() => () => {
           teardown(element);
