@@ -1,8 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import useMeasureText from '../use-measure-text';
 
-// jest.mock('../use-data-model');
-
 describe('useMeasureText', () => {
   let measureTextMock: jest.Mock<{ width: number }>;
 
