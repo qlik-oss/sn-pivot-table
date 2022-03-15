@@ -120,12 +120,6 @@ export function importProperties(
     }
   }
 
-  // dimensions.forEach((d) => {
-  //   if (d.qOtherTotalSpec && !d.qOtherTotalSpec.qTotalMode) {
-  //     d.qOtherTotalSpec.qTotalMode = 'TOTAL_EXPR'; // will probably never happen since engine always sends qTotalMode
-  //   }
-  // });
-console.debug('importProperties', propTree);
   return propTree;
 }
 
@@ -169,6 +163,6 @@ export function exportProperties(propertyTree: PropTree, hyperCubePath: string):
       interColSortOrder.push(i);
     }
   }
-console.debug('exportProperties', expFormat);
+
   return expFormat;
 }
