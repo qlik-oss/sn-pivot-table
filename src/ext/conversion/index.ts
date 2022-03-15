@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign, no-plusplus */
 import conversion from 'qlik-object-conversion';
-import dataDefinition from '../qae/data-definition';
+import { setValue } from 'qlik-chart-modules';
+import dataDefinition from '../../qae/data-definition';
+import totalMode from './total-mode';
 
 interface ExportFormat {
   data: unknown[];
@@ -11,29 +13,6 @@ interface PropTree {
   qChildren: unknown[];
   qProperty: EngineAPI.IGenericHyperCubeProperties;
 }
-
-const setValue = (data: Record<string, unknown>, reference: string, value: unknown) => {
-  if (!reference) {
-    return;
-  }
-  const steps = reference.split('.');
-  let dataContainer = data;
-  const dataName = steps[steps.length - 1];
-  let i;
-
-  for (i = 0; i < steps.length - 1; ++i) {
-    if (dataContainer[steps[i]] == null) {
-      dataContainer[steps[i]] = Number.isNaN(+steps[i + 1]) ? {} : [];
-    }
-    dataContainer = dataContainer[steps[i]] as Record<string, unknown>;
-  }
-
-  if (typeof value !== 'undefined') {
-    dataContainer[dataName] = value;
-  } else {
-    delete dataContainer[dataName];
-  }
-};
 
 export function importProperties(
   exportFormat: ExportFormat,
@@ -57,7 +36,7 @@ export function importProperties(
   if (numDimensions + numMeasures === interColSortOrder.length) {
     // Save hypercube sort order
     setValue(
-      propTree as unknown as Record<string, unknown>,
+      propTree,
       'qProperty.qLayoutExclude.quarantine.interColSortOrder',
       interColSortOrder.concat()
     );
@@ -119,7 +98,10 @@ export function importProperties(
       conversion.unquarantineProperty(propTree.qProperty, 'noOfLeftDims');
     }
   }
-console.debug('importProperties', propTree);
+
+  conversion.conditionalShow.unquarantine(propTree.qProperty);
+  totalMode.unquarantine(propTree.qProperty);
+
   return propTree;
 }
 
@@ -145,9 +127,8 @@ export function exportProperties(propertyTree: PropTree, hyperCubePath: string):
 
   // Save pivot sort order
   setValue(expFormat, 'properties.qLayoutExclude.quarantine.pivotInterColSortOrder', pivotSortOrder);
-  console.debug('pivotInterColSortOrder', expFormat.properties.qLayoutExclude.quarantine.pivotInterColSortOrder);
   // save number of left dims
-  conversion.quarantineProperty(expFormat, 'properties.qHyperCubeDef.qNoOfLeftDims', 'noOfLeftDims');
+  conversion.quarantineProperty(expFormat.properties, 'qHyperCubeDef.qNoOfLeftDims', 'noOfLeftDims');
   delete expFormat.properties.qHyperCubeDef.qNoOfLeftDims;
 
   const hypercubeInterColSortOrder = expFormat?.properties?.qLayoutExclude?.quarantine?.interColSortOrder as number[] | undefined;
@@ -164,6 +145,9 @@ export function exportProperties(propertyTree: PropTree, hyperCubePath: string):
       interColSortOrder.push(i);
     }
   }
-  console.debug('exportProperties', expFormat);
+
+  conversion.conditionalShow.quarantine(expFormat.properties);
+  totalMode.quarantine(expFormat.properties);
+
   return expFormat;
 }

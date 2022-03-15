@@ -1,5 +1,5 @@
 import propertyPanelDefinition from './property-panel';
-import { importProperties, exportProperties } from './object-conversion';
+import { importProperties, exportProperties } from './conversion';
 
 export default function ext(): Record<string, unknown> {
   return {

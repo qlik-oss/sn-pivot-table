@@ -22,7 +22,6 @@ const properties = {
     qSuppressZero: false,
     /** @type {boolean} */
     qShowTotalsAbove: false,
-    qNoOfLeftDims: 0,
     qInitialDataFetch: [
       {
         qTop: 0,
