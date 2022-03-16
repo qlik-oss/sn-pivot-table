@@ -2,7 +2,6 @@ import conversion from 'qlik-object-conversion';
 
 const arrayPath = 'qHyperCubeDef.qDimensions';
 const arrayName = 'dimensions';
-
 const itemPath = 'qOtherTotalSpec.qTotalMode';
 const quarantineName = 'totalMode';
 
