@@ -28,7 +28,7 @@ export const StickyPivotTable = ({
   dataModel
 }: PivotTableProps): JSX.Element => {
   const topGridRef = useRef<VariableSizeList[]>([]);
-  const left2GridRef = useRef<VariableSizeList[]>([]);
+  const leftGridRef = useRef<VariableSizeList[]>([]);
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
@@ -46,8 +46,8 @@ export const StickyPivotTable = ({
       topGridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollLeft));
     }
 
-    if (left2GridRef.current) {
-      left2GridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollTop));
+    if (leftGridRef.current) {
+      leftGridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollTop));
     }
 
     if (dataGridRef.current) {
@@ -112,7 +112,7 @@ export const StickyPivotTable = ({
           <LeftGrid
             dataModel={dataModel}
             constraints={constraints}
-            leftGridRef={left2GridRef}
+            leftGridRef={leftGridRef}
             getLeftColumnWidth={getLeftColumnWidth}
             width={leftGridWidth}
             height={leftGridHeight}
