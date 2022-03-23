@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import NxDimCellType from '../../types/QIX';
 import { DataModel, PivotDimensionCellWithPosition, Rect } from '../../types/types';
-import useColumnWidth from '../use-column-width';
+import useColumnWidth, { EXPAND_ICON_WIDTH } from '../use-column-width';
 import useMeasureText, { MeasureTextHook } from '../use-measure-text';
 
 jest.mock('../use-measure-text');
@@ -21,6 +21,7 @@ describe('useColumnWidth', () => {
     mockedDataModel = {
       getDimensionInfo: () => [dimInfo, dimInfo, dimInfo],
       getMeasureInfo: () => [meaInfo, meaInfo, meaInfo],
+      getNoLeftDims: () => 3,
       pivotData: {
         left: [[cell], [cell], [cell]],
         dimensionInfoIndexMap: [0, 1, 2],
@@ -45,12 +46,13 @@ describe('useColumnWidth', () => {
 
   describe('grid width', () => {
     test('should return left and right grid widths with only dimension cells and glyph size > then text size', () => {
+      rect.width = 290;
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(25);
 
       const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
-      expect(result.current.leftGridWidth).toBe(150);
-      expect(result.current.rightGridWidth).toBe(50);
+      expect(result.current.leftGridWidth).toBe(((50 + EXPAND_ICON_WIDTH) * 2) + 50);
+      expect(result.current.rightGridWidth).toBe(80);
     });
 
     test('should return left and right grid widths with only dimension cells and glyph size < then text size', () => {
@@ -75,8 +77,8 @@ describe('useColumnWidth', () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(35);
 
       const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
-      expect(result.current.leftGridWidth).toBe(135);
-      expect(result.current.rightGridWidth).toBe(65);
+      expect(result.current.leftGridWidth).toBe(150);
+      expect(result.current.rightGridWidth).toBe(50);
     });
 
     test('left grid can not take more space then 75% of the total width available', () => {
@@ -91,14 +93,15 @@ describe('useColumnWidth', () => {
 
   describe('getLeftColumnWidth', () => {
     test('should return left column width', () => {
+      rect.width = 500;
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(25);
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(50);
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(75);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(5);
 
       const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
-      expect(result.current.getLeftColumnWidth(0)).toBe(25);
-      expect(result.current.getLeftColumnWidth(1)).toBe(50);
+      expect(result.current.getLeftColumnWidth(0)).toBe(25 + EXPAND_ICON_WIDTH);
+      expect(result.current.getLeftColumnWidth(1)).toBe(50 + EXPAND_ICON_WIDTH);
       expect(result.current.getLeftColumnWidth(2)).toBe(75);
     });
   });
@@ -122,9 +125,9 @@ describe('useColumnWidth', () => {
       rect.width = 600;
 
       const { result } = renderHook(() => useColumnWidth(mockedDataModel, rect));
-      expect(result.current.getDataColumnWidth(0)).toBe(190);
-      expect(result.current.getDataColumnWidth(1)).toBe(190);
-      expect(result.current.getDataColumnWidth(2)).toBe(190);
+      expect(result.current.getDataColumnWidth(0)).toBe(170);
+      expect(result.current.getDataColumnWidth(1)).toBe(170);
+      expect(result.current.getDataColumnWidth(2)).toBe(170);
     });
 
     test('should not return data column width based of available right grid width when total data column width is larger than available right grid width', () => {
