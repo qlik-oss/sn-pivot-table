@@ -19,7 +19,6 @@ const ScrollableContainer = ({ rect, children, onScroll, constraints }: Scrollab
       borderWidth: '1px',
       borderColor: 'rgb(230, 230, 230)',
       borderStyle: 'solid',
-      boxSizing: 'border-box',
     }}
     onScroll={onScroll}
   >
