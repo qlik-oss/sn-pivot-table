@@ -14,6 +14,7 @@ interface ColumnWidthHook {
   getTotalWidth: () => number;
 }
 
+export const EXPAND_ICON_WIDTH = 30;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 
@@ -39,8 +40,8 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
         }
 
         const { qFallbackTitle, qApprMaxGlyphCount } = getDimensionInfo()[dimIndex];
-        const hasChildNodes = index < getNoLeftDims() - 1;
-        const collapseExpandIconSize = hasChildNodes ? 30 : 0;
+        const hasChildNodes = index < getNoLeftDims() - 1; // -1 as the last column can not be expanded or collapsed
+        const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
         const w = Math.max(
           measureText(qFallbackTitle),
           estimateWidth(qApprMaxGlyphCount) + collapseExpandIconSize
