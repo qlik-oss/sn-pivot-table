@@ -14,12 +14,13 @@ interface ColumnWidthHook {
   getTotalWidth: () => number;
 }
 
+export const EXPAND_ICON_WIDTH = 30;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 
 export default function useColumnWidth(dataModel: DataModel, rect: Rect): ColumnWidthHook {
   const { estimateWidth, measureText } = useMeasureText('13px', '"Source Sans Pro", sans-serif'); // TODO Hard-coded...
-  const { getDimensionInfo, getMeasureInfo, pivotData } = dataModel;
+  const { getDimensionInfo, getMeasureInfo, pivotData, getNoLeftDims } = dataModel;
 
   const hasPseudoDimOnLeft = useMemo(
     () => pivotData.left.some(column => column[0] !== null && column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
@@ -28,7 +29,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
 
   const leftColumnWidthsRatios = useMemo(() => {
     const ratios = pivotData.dimensionInfoIndexMap
-      .map((dimIndex) => {
+      .map((dimIndex, index) => {
         if (dimIndex === PSEUDO_DIMENSION_INDEX) {
           const pseudoDimensionWidth = Math.max(
             ...getMeasureInfo()
@@ -39,9 +40,11 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
         }
 
         const { qFallbackTitle, qApprMaxGlyphCount } = getDimensionInfo()[dimIndex];
+        const hasChildNodes = index < getNoLeftDims() - 1; // -1 as the last column can not be expanded or collapsed
+        const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
         const w = Math.max(
           measureText(qFallbackTitle),
-          estimateWidth(qApprMaxGlyphCount)
+          estimateWidth(qApprMaxGlyphCount) + collapseExpandIconSize
         );
         return w / rect.width;
       });

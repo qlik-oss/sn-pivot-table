@@ -63,6 +63,7 @@ describe('ListCellFactory', () => {
       isDimensionLocked: () => false,
       getDimensionInfo: () => [],
       getMeasureInfo: () => [],
+      getNoLeftDims: () => 3,
     };
 
     data = {
