@@ -8,6 +8,7 @@ interface FullSizeContainerProps {
 
 const FullSizeContainer = ({ width, height, children }: FullSizeContainerProps): JSX.Element => (
   <div
+    data-testid="full-size-container"
     style={{
       display: 'block',
       width,

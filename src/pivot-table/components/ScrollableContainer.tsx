@@ -11,6 +11,7 @@ interface ScrollableContainerProps {
 
 const ScrollableContainer = ({ rect, children, onScroll, constraints }: ScrollableContainerProps): JSX.Element => (
   <div
+    data-testid="scrollable-container"
     style={{
       overflow: constraints.active ? 'hidden' : 'auto',
       width: rect.width,

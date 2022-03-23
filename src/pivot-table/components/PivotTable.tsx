@@ -28,9 +28,10 @@ export const StickyPivotTable = ({
   dataModel
 }: PivotTableProps): JSX.Element => {
   const topGridRef = useRef<VariableSizeList[]>([]);
-  const leftGridRef = useRef<VariableSizeGrid>(null);
+  const left2GridRef = useRef<VariableSizeList[]>([]);
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const currentScrollLeft = useRef<number>(0);
+  const currentScrollTop = useRef<number>(0);
   const {
     leftGridWidth,
     rightGridWidth,
@@ -45,8 +46,8 @@ export const StickyPivotTable = ({
       topGridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollLeft));
     }
 
-    if (leftGridRef.current) {
-      leftGridRef.current.scrollTo({ scrollLeft: 0, scrollTop: event.currentTarget.scrollTop });
+    if (left2GridRef.current) {
+      left2GridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollTop));
     }
 
     if (dataGridRef.current) {
@@ -58,9 +59,16 @@ export const StickyPivotTable = ({
       // Otherwise it will be out-of-sync with the other rows.
       currentScrollLeft.current = event.currentTarget.scrollLeft;
     }
+
+    if (typeof currentScrollTop.current !== 'undefined') {
+      // Set scrollTop here so that when a left grid is expanded with a new column, scroll that row to scrollTop position.
+      // Otherwise it will be out-of-sync with the other columns.
+      currentScrollTop.current = event.currentTarget.scrollTop;
+    }
   };
 
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
+  const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
   // useDebug('PivotTable', {
   //   rect,
@@ -104,11 +112,11 @@ export const StickyPivotTable = ({
           <LeftGrid
             dataModel={dataModel}
             constraints={constraints}
-            leftGridRef={leftGridRef}
-            columnWidthCallback={getLeftColumnWidth}
-            rowHightCallback={rowHightCallback}
+            leftGridRef={left2GridRef}
+            getLeftColumnWidth={getLeftColumnWidth}
             width={leftGridWidth}
             height={leftGridHeight}
+            getScrollTop={getScrollTop}
           />
 
           <DataGrid
