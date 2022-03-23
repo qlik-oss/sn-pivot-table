@@ -3,6 +3,9 @@ import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
+import getItemKey from './helpers/get-item-key';
+import getLeafNodes from './helpers/get-leaf-nodes';
+import setListRef from './helpers/set-list-ref';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
@@ -25,16 +28,6 @@ const bottomListStyle: React.CSSProperties = {
   borderWidth: '0px 0px 1px 0px',
   ...gridBorderStyle
 };
-
-const getLeafNodes = (root: EngineAPI.INxPivotDimensionCell[], nodes: EngineAPI.INxPivotDimensionCell[]): EngineAPI.INxPivotDimensionCell[] => root.reduce((ary: EngineAPI.INxPivotDimensionCell[], cell) => {
-  if (cell.qSubNodes.length) {
-    return getLeafNodes(cell.qSubNodes, ary);
-  }
-
-  ary.push(cell);
-
-  return ary;
-}, nodes);
 
 const TopGrid = ({
   dataModel,
@@ -92,11 +85,7 @@ const TopGrid = ({
     {dataModel.pivotData.top.map((list, topRowIndex) => (
       <VariableSizeList
         key={list.map(c => c.qElemNo).join(',')}
-        ref={r => {
-          if (topGridRef.current) {
-            topGridRef.current[topRowIndex] = r as VariableSizeList; // eslint-disable-line no-param-reassign
-          }
-        }}
+        ref={setListRef(topGridRef, topRowIndex)}
         style={topRowIndex === dataModel.pivotData.top.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
         height={rowHightCallback()}
         width={width}
@@ -108,6 +97,7 @@ const TopGrid = ({
           constraints,
           list,
         }}
+        itemKey={getItemKey}
       >
         {MemoizedListCellFactory}
       </VariableSizeList>

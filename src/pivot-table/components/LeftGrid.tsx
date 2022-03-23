@@ -4,6 +4,9 @@ import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
+import getItemKey from './helpers/get-item-key';
+import getLeafNodes from './helpers/get-leaf-nodes';
+import setListRef from './helpers/set-list-ref';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
@@ -28,15 +31,16 @@ const rightListStyle: React.CSSProperties = {
 
 const DEFAULT_ROW_HEIGHT = 28;
 
-const getLeafNodes = (root: EngineAPI.INxPivotDimensionCell[], nodes: EngineAPI.INxPivotDimensionCell[]): EngineAPI.INxPivotDimensionCell[] => root.reduce((ary: EngineAPI.INxPivotDimensionCell[], cell) => {
+const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (rowIndex: number) => {
+  const cell = list[rowIndex];
   if (cell.qSubNodes.length) {
-    return getLeafNodes(cell.qSubNodes, ary);
+    const leftNodes = getLeafNodes([cell], []);
+
+    return leftNodes.length * DEFAULT_ROW_HEIGHT;
   }
 
-  ary.push(cell);
-
-  return ary;
-}, nodes);
+  return DEFAULT_ROW_HEIGHT;
+};
 
 const LeftGrid = ({
   dataModel,
@@ -74,17 +78,6 @@ const LeftGrid = ({
     }
   });
 
-  const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (rowIndex: number) => {
-    const cell = list[rowIndex];
-    if (cell.qSubNodes.length) {
-      const leftNodes = getLeafNodes([cell], []);
-
-      return leftNodes.length * DEFAULT_ROW_HEIGHT;
-    }
-
-    return DEFAULT_ROW_HEIGHT;
-  };
-
   const isLastColumn = (colIndex: number) => colIndex === dataModel.pivotData.left.length - 1;
 
   const getKey = (colIndex: number): string => {
@@ -99,11 +92,7 @@ const LeftGrid = ({
     {dataModel.pivotData.left.map((list, colIndex) => (
       <VariableSizeList
         key={getKey(colIndex)}
-        ref={r => {
-          if (leftGridRef.current) {
-            leftGridRef.current[colIndex] = r as VariableSizeList; // eslint-disable-line no-param-reassign
-          }
-        }}
+        ref={setListRef(leftGridRef, colIndex)}
         style={isLastColumn(colIndex) ? { ...listStyle, ...rightListStyle } : listStyle}
         height={height}
         width={getLeftColumnWidth(colIndex)}
@@ -116,6 +105,7 @@ const LeftGrid = ({
           list,
           isLeftColumn: true,
         }}
+        itemKey={getItemKey}
       >
         {MemoizedListCellFactory}
       </VariableSizeList>
