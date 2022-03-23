@@ -26,7 +26,8 @@ const listStyle: React.CSSProperties = {
 
 const rightListStyle: React.CSSProperties = {
   borderWidth: '0px 1px 0px 0px',
-  ...gridBorderStyle
+  ...gridBorderStyle,
+  boxSizing: 'content-box',
 };
 
 const DEFAULT_ROW_HEIGHT = 28;
