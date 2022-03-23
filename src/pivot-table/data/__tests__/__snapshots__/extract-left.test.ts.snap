@@ -4,6 +4,7 @@ exports[`extractLeft should extract left data when data tree has a depth of 2 1`
 Array [
   Array [
     Object {
+      "parent": null,
       "qElemNo": 0,
       "qSubNodes": Array [
         Object {
@@ -19,8 +20,11 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 0,
+      "y": 0,
     },
     Object {
+      "parent": null,
       "qElemNo": 1,
       "qSubNodes": Array [
         Object {
@@ -36,8 +40,11 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 0,
+      "y": 1,
     },
     Object {
+      "parent": null,
       "qCanCollapse": true,
       "qElemNo": 2,
       "qSubNodes": Array [
@@ -71,12 +78,32 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 0,
+      "y": 2,
     },
-    null,
-    null,
   ],
   Array [
     Object {
+      "parent": Object {
+        "parent": null,
+        "qElemNo": 0,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [
+              Object {
+                "qElemNo": 0,
+                "qSubNodes": Array [],
+                "qType": "E",
+              },
+            ],
+            "qType": "E",
+          },
+        ],
+        "qType": "N",
+        "x": 0,
+        "y": 0,
+      },
       "qElemNo": 0,
       "qSubNodes": Array [
         Object {
@@ -86,8 +113,30 @@ Array [
         },
       ],
       "qType": "E",
+      "x": 1,
+      "y": 0,
     },
     Object {
+      "parent": Object {
+        "parent": null,
+        "qElemNo": 1,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [
+              Object {
+                "qElemNo": 0,
+                "qSubNodes": Array [],
+                "qType": "E",
+              },
+            ],
+            "qType": "E",
+          },
+        ],
+        "qType": "N",
+        "x": 0,
+        "y": 1,
+      },
       "qElemNo": 0,
       "qSubNodes": Array [
         Object {
@@ -97,8 +146,48 @@ Array [
         },
       ],
       "qType": "E",
+      "x": 1,
+      "y": 1,
     },
     Object {
+      "parent": Object {
+        "parent": null,
+        "qCanCollapse": true,
+        "qElemNo": 2,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [
+              Object {
+                "qElemNo": 0,
+                "qSubNodes": Array [],
+                "qType": "E",
+              },
+            ],
+            "qType": "N",
+          },
+          Object {
+            "qCanCollapse": true,
+            "qElemNo": 1,
+            "qSubNodes": Array [
+              Object {
+                "qElemNo": 0,
+                "qSubNodes": Array [],
+                "qType": "N",
+              },
+              Object {
+                "qElemNo": 1,
+                "qSubNodes": Array [],
+                "qType": "N",
+              },
+            ],
+            "qType": "N",
+          },
+        ],
+        "qType": "N",
+        "x": 0,
+        "y": 2,
+      },
       "qElemNo": 0,
       "qSubNodes": Array [
         Object {
@@ -108,8 +197,48 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 1,
+      "y": 2,
     },
     Object {
+      "parent": Object {
+        "parent": null,
+        "qCanCollapse": true,
+        "qElemNo": 2,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [
+              Object {
+                "qElemNo": 0,
+                "qSubNodes": Array [],
+                "qType": "E",
+              },
+            ],
+            "qType": "N",
+          },
+          Object {
+            "qCanCollapse": true,
+            "qElemNo": 1,
+            "qSubNodes": Array [
+              Object {
+                "qElemNo": 0,
+                "qSubNodes": Array [],
+                "qType": "N",
+              },
+              Object {
+                "qElemNo": 1,
+                "qSubNodes": Array [],
+                "qType": "N",
+              },
+            ],
+            "qType": "N",
+          },
+        ],
+        "qType": "N",
+        "x": 0,
+        "y": 2,
+      },
       "qCanCollapse": true,
       "qElemNo": 1,
       "qSubNodes": Array [
@@ -125,34 +254,276 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 1,
+      "y": 3,
     },
-    null,
   ],
   Array [
     Object {
+      "parent": Object {
+        "parent": Object {
+          "parent": null,
+          "qElemNo": 0,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [
+                Object {
+                  "qElemNo": 0,
+                  "qSubNodes": Array [],
+                  "qType": "E",
+                },
+              ],
+              "qType": "E",
+            },
+          ],
+          "qType": "N",
+          "x": 0,
+          "y": 0,
+        },
+        "qElemNo": 0,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [],
+            "qType": "E",
+          },
+        ],
+        "qType": "E",
+        "x": 1,
+        "y": 0,
+      },
       "qElemNo": 0,
       "qSubNodes": Array [],
       "qType": "E",
+      "x": 2,
+      "y": 0,
     },
     Object {
+      "parent": Object {
+        "parent": Object {
+          "parent": null,
+          "qElemNo": 1,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [
+                Object {
+                  "qElemNo": 0,
+                  "qSubNodes": Array [],
+                  "qType": "E",
+                },
+              ],
+              "qType": "E",
+            },
+          ],
+          "qType": "N",
+          "x": 0,
+          "y": 1,
+        },
+        "qElemNo": 0,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [],
+            "qType": "E",
+          },
+        ],
+        "qType": "E",
+        "x": 1,
+        "y": 1,
+      },
       "qElemNo": 0,
       "qSubNodes": Array [],
       "qType": "E",
+      "x": 2,
+      "y": 1,
     },
     Object {
+      "parent": Object {
+        "parent": Object {
+          "parent": null,
+          "qCanCollapse": true,
+          "qElemNo": 2,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [
+                Object {
+                  "qElemNo": 0,
+                  "qSubNodes": Array [],
+                  "qType": "E",
+                },
+              ],
+              "qType": "N",
+            },
+            Object {
+              "qCanCollapse": true,
+              "qElemNo": 1,
+              "qSubNodes": Array [
+                Object {
+                  "qElemNo": 0,
+                  "qSubNodes": Array [],
+                  "qType": "N",
+                },
+                Object {
+                  "qElemNo": 1,
+                  "qSubNodes": Array [],
+                  "qType": "N",
+                },
+              ],
+              "qType": "N",
+            },
+          ],
+          "qType": "N",
+          "x": 0,
+          "y": 2,
+        },
+        "qElemNo": 0,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [],
+            "qType": "E",
+          },
+        ],
+        "qType": "N",
+        "x": 1,
+        "y": 2,
+      },
       "qElemNo": 0,
       "qSubNodes": Array [],
       "qType": "E",
+      "x": 2,
+      "y": 2,
     },
     Object {
+      "parent": Object {
+        "parent": Object {
+          "parent": null,
+          "qCanCollapse": true,
+          "qElemNo": 2,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [
+                Object {
+                  "qElemNo": 0,
+                  "qSubNodes": Array [],
+                  "qType": "E",
+                },
+              ],
+              "qType": "N",
+            },
+            Object {
+              "qCanCollapse": true,
+              "qElemNo": 1,
+              "qSubNodes": Array [
+                Object {
+                  "qElemNo": 0,
+                  "qSubNodes": Array [],
+                  "qType": "N",
+                },
+                Object {
+                  "qElemNo": 1,
+                  "qSubNodes": Array [],
+                  "qType": "N",
+                },
+              ],
+              "qType": "N",
+            },
+          ],
+          "qType": "N",
+          "x": 0,
+          "y": 2,
+        },
+        "qCanCollapse": true,
+        "qElemNo": 1,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [],
+            "qType": "N",
+          },
+          Object {
+            "qElemNo": 1,
+            "qSubNodes": Array [],
+            "qType": "N",
+          },
+        ],
+        "qType": "N",
+        "x": 1,
+        "y": 3,
+      },
       "qElemNo": 0,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 2,
+      "y": 3,
     },
     Object {
+      "parent": Object {
+        "parent": Object {
+          "parent": null,
+          "qCanCollapse": true,
+          "qElemNo": 2,
+          "qSubNodes": Array [
+            Object {
+              "qElemNo": 0,
+              "qSubNodes": Array [
+                Object {
+                  "qElemNo": 0,
+                  "qSubNodes": Array [],
+                  "qType": "E",
+                },
+              ],
+              "qType": "N",
+            },
+            Object {
+              "qCanCollapse": true,
+              "qElemNo": 1,
+              "qSubNodes": Array [
+                Object {
+                  "qElemNo": 0,
+                  "qSubNodes": Array [],
+                  "qType": "N",
+                },
+                Object {
+                  "qElemNo": 1,
+                  "qSubNodes": Array [],
+                  "qType": "N",
+                },
+              ],
+              "qType": "N",
+            },
+          ],
+          "qType": "N",
+          "x": 0,
+          "y": 2,
+        },
+        "qCanCollapse": true,
+        "qElemNo": 1,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [],
+            "qType": "N",
+          },
+          Object {
+            "qElemNo": 1,
+            "qSubNodes": Array [],
+            "qType": "N",
+          },
+        ],
+        "qType": "N",
+        "x": 1,
+        "y": 3,
+      },
       "qElemNo": 1,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 2,
+      "y": 4,
     },
   ],
 ]
@@ -162,6 +533,7 @@ exports[`extractLeft should extract left data with first node expanded 1`] = `
 Array [
   Array [
     Object {
+      "parent": null,
       "qCanCollapse": true,
       "qElemNo": 0,
       "qSubNodes": Array [
@@ -177,32 +549,81 @@ Array [
         },
       ],
       "qType": "N",
+      "x": 0,
+      "y": 0,
     },
-    null,
     Object {
+      "parent": null,
       "qElemNo": 1,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 0,
+      "y": 2,
     },
     Object {
+      "parent": null,
       "qElemNo": 2,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 0,
+      "y": 3,
     },
   ],
   Array [
     Object {
+      "parent": Object {
+        "parent": null,
+        "qCanCollapse": true,
+        "qElemNo": 0,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [],
+            "qType": "N",
+          },
+          Object {
+            "qElemNo": 1,
+            "qSubNodes": Array [],
+            "qType": "N",
+          },
+        ],
+        "qType": "N",
+        "x": 0,
+        "y": 0,
+      },
       "qElemNo": 0,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 1,
+      "y": 0,
     },
     Object {
+      "parent": Object {
+        "parent": null,
+        "qCanCollapse": true,
+        "qElemNo": 0,
+        "qSubNodes": Array [
+          Object {
+            "qElemNo": 0,
+            "qSubNodes": Array [],
+            "qType": "N",
+          },
+          Object {
+            "qElemNo": 1,
+            "qSubNodes": Array [],
+            "qType": "N",
+          },
+        ],
+        "qType": "N",
+        "x": 0,
+        "y": 0,
+      },
       "qElemNo": 1,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 1,
+      "y": 1,
     },
-    null,
-    null,
   ],
 ]
 `;
@@ -211,19 +632,28 @@ exports[`extractLeft should extract left data with no nodes expanded 1`] = `
 Array [
   Array [
     Object {
+      "parent": null,
       "qElemNo": 0,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 0,
+      "y": 0,
     },
     Object {
+      "parent": null,
       "qElemNo": 1,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 0,
+      "y": 1,
     },
     Object {
+      "parent": null,
       "qElemNo": 2,
       "qSubNodes": Array [],
       "qType": "N",
+      "x": 0,
+      "y": 2,
     },
   ],
 ]

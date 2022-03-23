@@ -6,7 +6,7 @@ describe('extractLeft', () => {
   test('should handle empty qLeft array', () => {
     const qLeft: EngineAPI.INxPivotDimensionCell[] = [];
 
-    const left = extractLeft(qLeft, 1);
+    const left = extractLeft(qLeft);
 
     expect(left).toHaveLength(0);
   });
@@ -14,7 +14,7 @@ describe('extractLeft', () => {
   test('should extract left data with no nodes expanded', () => {
     const rowCount = 3;
     const qLeft = createNodes(rowCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    const left = extractLeft(qLeft, rowCount);
+    const left = extractLeft(qLeft);
 
     expect(left).toMatchSnapshot();
   });
@@ -26,8 +26,7 @@ describe('extractLeft', () => {
     const subNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
     qLeft[0].qSubNodes = subNodes;
     qLeft[0].qCanCollapse = true;
-    const totalRowCount = rowCount + subNodesCount - 1;
-    const left = extractLeft(qLeft, totalRowCount);
+    const left = extractLeft(qLeft);
 
     expect(left).toMatchSnapshot();
   });
@@ -49,8 +48,7 @@ describe('extractLeft', () => {
     qLeft[2].qSubNodes[1].qSubNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);;
     qLeft[2].qSubNodes[1].qCanCollapse = true;
 
-    const totalRowCount = rowCount + (subNodesCount - 1) + (subNodesCount - 1);
-    const left = extractLeft(qLeft, totalRowCount);
+    const left = extractLeft(qLeft);
 
     expect(left).toMatchSnapshot();
   });
