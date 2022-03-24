@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { PivotTableProps, StickyPivotTable } from './components/PivotTable';
-import SelectionsProvider from '../contexts/SelectionsProvider';
+import SelectionsProvider from './contexts/SelectionsProvider';
 import { ExtendedSelections } from '../types/types';
 
 interface RootProps extends PivotTableProps {
