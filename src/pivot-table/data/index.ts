@@ -35,6 +35,72 @@ export const findParentPseudoDimension = (cell: PivotDimensionCellWithPosition):
   return parent;
 };
 
+const createMeasureInfoIndexMap = (top: PivotDimensionCellWithPosition[][], qMeasureInfo: EngineAPI.INxMeasureInfo[]) => (top[top.length - 1] || []).map(cell => {
+  const { qText } = findParentPseudoDimension(cell) || {};
+  const idx = qMeasureInfo.findIndex(measureInfo => measureInfo.qFallbackTitle ===  qText);
+  if (idx === -1) {
+    return 0; // Fallback solution when there is only a single measure, as in no pseudo dimenions.
+  };
+
+  return idx;
+});
+
+export const appendData = (pivotData: PivotData, dataPage: EngineAPI.INxPivotPage): void => {
+  const {
+    qLeft,
+    qTop,
+    qData
+  } = dataPage;
+  // console.log('newDAtaPage', dataPage);
+  const left = extractLeft(qLeft);
+  // const top = extractTop(qTop);
+  console.log('newLeft', left);
+  pivotData.left.forEach((column, index) => {
+    column.push(...left[index].slice(1));
+  });
+
+  // pivotData.top.forEach((row, index) => {
+  //   row.push(...top[index]);
+  // });
+
+  pivotData.data.push(...(qData as unknown as EngineAPI.INxPivotValuePoint[][]));
+
+  console.log('appendData', pivotData);
+};
+
+export const appendTopData = (pivotData: PivotData, dataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube): PivotData => {
+  const {
+    qTop,
+    qData,
+    qArea,
+  } = dataPage;
+  // console.log('newDAtaPage', dataPage);
+  const top = extractTop(qTop);
+  console.log('newTop', qTop);
+  pivotData.top.forEach((row, index) => {
+    row.push(...top[index].slice(top[index][0].qUp === 0 ? 0 : 1));
+  });
+console.log('data length', pivotData.data[0].length);
+  pivotData.data.forEach((row, index) => {
+    row.push(...(qData as unknown as EngineAPI.INxPivotValuePoint[][])[index]);
+  });
+
+  pivotData.size.data.x = qArea.qLeft + qArea.qWidth;
+  pivotData.size.data.y = qArea.qTop + qArea.qHeight;
+  pivotData.size.top.x = getTopColumnCount(pivotData.top);
+  pivotData.size.top.y = getTopRowCount(pivotData.top);
+  pivotData.size.totalRows = pivotData.size.top.y + pivotData.size.data.y;
+  pivotData.size.totalColumns = getLeftColumnCount(pivotData.left) + pivotData.size.data.x;
+
+  const measureInfoIndexMap = createMeasureInfoIndexMap(top, qHyperCube.qMeasureInfo);
+
+  pivotData.measureInfoIndexMap.push(...measureInfoIndexMap);
+
+  console.log('appendData', pivotData);
+
+  return pivotData;
+};
+
 export default function createData(
   dataPage: EngineAPI.INxPivotPage,
   qHyperCube: EngineAPI.IHyperCube,
@@ -70,7 +136,7 @@ export default function createData(
   const pivotData: PivotData = {
     left,
     top,
-    data: qData as unknown as EngineAPI.INxPivotValuePoint[][],
+    data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])],
     headers,
     measureInfoIndexMap,
     dimensionInfoIndexMap,
@@ -92,7 +158,7 @@ export default function createData(
         y: qArea.qHeight
       },
       totalRows: getTopRowCount(top) + qArea.qHeight,
-      totalColumns: getColumnCount(left) + qArea.qWidth,
+      totalColumns: getLeftColumnCount(left) + qArea.qWidth,
     }
   };
 
