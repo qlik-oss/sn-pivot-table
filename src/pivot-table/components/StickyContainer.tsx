@@ -22,6 +22,7 @@ const StickyContainer = (
   StickyContainerProps
 ): JSX.Element => (
   <div
+    data-testid="sticky-container"
     style={{
       display: 'grid',
       position: 'sticky',

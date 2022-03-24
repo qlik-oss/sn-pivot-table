@@ -14,8 +14,8 @@ interface ListCallbackProps {
   data: ListItemData;
 }
 
-const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
-  const { list } = data;
+const ListCellFactory = ({ index, style, data}: ListCallbackProps): JSX.Element | null => {
+  const { list, isLeftColumn = false  } = data;
   const cell = list[index];
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 
@@ -23,7 +23,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     return <PseudoDimensionCell
       cell={cell}
       style={style}
-      isLeftColumn={false}
+      isLeftColumn={isLeftColumn}
     />;
   }
 
@@ -41,7 +41,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     rowIndex={cell.y}
     colIndex={cell.x}
     style={style}
-    isLeftColumn={false}
+    isLeftColumn={isLeftColumn}
   />;
 };
 

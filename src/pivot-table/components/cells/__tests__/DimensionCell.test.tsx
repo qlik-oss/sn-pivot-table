@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, selectedStyle, lockedFromSelectionStyle } from '../DimensionCell';
-import { CellValue, DataModel, GridItemData } from '../../../../types/types';
+import { DataModel, GridItemData, PivotDimensionCellWithPosition } from '../../../../types/types';
 import { useSelectionsContext } from '../../../../contexts/SelectionsProvider';
 import NxDimCellType, { NxSelectionCellType } from '../../../../types/QIX';
 import { SelectionModel } from '../../../../hooks/use-selections-model';
@@ -14,7 +14,7 @@ describe('DimensionCell', () => {
   let constraints: stardust.Constraints;
   let dataModel: DataModel;
   let data: GridItemData;
-  let cell: CellValue;
+  let cell: PivotDimensionCellWithPosition;
   const style: React.CSSProperties = {
     position: 'absolute',
     left: '25px',
@@ -111,7 +111,7 @@ describe('DimensionCell', () => {
       qCanExpand: false,
       qCanCollapse: false,
       qType: NxDimCellType.NX_DIM_CELL_NORMAL
-    } as unknown as EngineAPI.INxPivotDimensionCell;
+    } as unknown as PivotDimensionCellWithPosition;
   });
 
   test('should render', () => {

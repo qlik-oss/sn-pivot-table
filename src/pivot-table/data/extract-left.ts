@@ -1,30 +1,35 @@
-import { CellValue } from '../../types/types';
-import estimateCount from './estimate-count';
+import { PivotDimensionCellWithPosition } from '../../types/types';
 
-const extractLeft = (qLeft: EngineAPI.INxPivotDimensionCell[], rowCount: number): CellValue[][] => {
+const extractLeft = (qLeft: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCellWithPosition[][] => {
   if (!qLeft.length) {
     return [];
   }
 
   let rowIdx = 0;
-  const columnCount = estimateCount(qLeft);
-  const matrix = Array(columnCount)
-    .fill(null)
-    .map(() => Array(rowCount).fill(null));
+  const matrix = [] as PivotDimensionCellWithPosition[][];
 
-  function extract(nodes: EngineAPI.INxPivotDimensionCell[], colIdx = 0) {
-    nodes.forEach(node => {
-      matrix[colIdx][rowIdx] = node; // eslint-disable-line no-param-reassign
+  function extract(parent: PivotDimensionCellWithPosition | null, nodes: EngineAPI.INxPivotDimensionCell[], colIdx = 0) {
+    if (!Array.isArray(matrix[colIdx])) {
+      matrix[colIdx] = [];
+    }
+
+    nodes.forEach((node, currIdx) => {
+      rowIdx += currIdx === 0 ? 0 : 1;
+      const nodeWithPosition = {
+        ...node,
+        x: colIdx,
+        y: rowIdx,
+        parent
+      };
+      matrix[colIdx].push(nodeWithPosition);
 
       if (node.qSubNodes.length) {
-        extract(node.qSubNodes, colIdx + 1);
-      } else {
-        rowIdx += 1;
+        extract(nodeWithPosition, node.qSubNodes, colIdx + 1);
       }
     });
   }
 
-  extract(qLeft);
+  extract(null, qLeft);
 
   return matrix;
 };

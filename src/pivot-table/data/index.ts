@@ -13,6 +13,10 @@ const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number =
 
 const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
+const getLeftRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1]?.length || 0;
+
+const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
+
 export const findParentPseudoDimension = (cell: PivotDimensionCellWithPosition): PivotDimensionCellWithPosition | null => {
   if (cell.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return cell;
 
@@ -45,7 +49,7 @@ export default function createData(
     qMeasureInfo,
     qEffectiveInterColumnSortOrder,
   } = qHyperCube;
-  const left = extractLeft(qLeft, qArea.qHeight);
+  const left = extractLeft(qLeft);
   const top = extractTop(qTop);
   const dimensionInfoIndexMap = left.map((column, index) => {
     if (column[0] === null) return qEffectiveInterColumnSortOrder[index];
@@ -80,8 +84,8 @@ export default function createData(
         y: getTopRowCount(top)
       },
       left: {
-        x: getColumnCount(left),
-        y: getRowCount(left)
+        x: getLeftColumnCount(left),
+        y: getLeftRowCount(left)
       },
       data: {
         x: qArea.qWidth,

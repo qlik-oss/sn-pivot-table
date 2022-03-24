@@ -33,7 +33,6 @@ const cellStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  height: '100%'
 };
 
 const dimTextStyle: React.CSSProperties = {
@@ -138,18 +137,17 @@ const DimensionCell = ({
         ...containerStyle,
         ...appliedSelectedStyle,
         ...appliedLockedSelectionStyle,
-        ...appliedSelectableCellStyle
+        ...appliedSelectableCellStyle,
+        ...borderStyle
       }}
+      aria-hidden="true"
+      onClick={onClickHandler}
+      onKeyUp={NOOP_KEY_HANDLER}
+      role="button"
+      tabIndex={0}
       data-testid={testId}
     >
-      <div
-        style={{ ...cellStyle, ...borderStyle }}
-        aria-hidden="true"
-        onClick={onClickHandler}
-        onKeyUp={NOOP_KEY_HANDLER}
-        role="button"
-        tabIndex={0}
-      >
+      <div style={{ ...cellStyle }} >
         {cellIcon}
         <div style={dimTextStyle}>{qText}</div>
       </div>

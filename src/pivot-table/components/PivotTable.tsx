@@ -28,9 +28,10 @@ export const StickyPivotTable = ({
   dataModel
 }: PivotTableProps): JSX.Element => {
   const topGridRef = useRef<VariableSizeList[]>([]);
-  const leftGridRef = useRef<VariableSizeGrid>(null);
+  const leftGridRef = useRef<VariableSizeList[]>([]);
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const currentScrollLeft = useRef<number>(0);
+  const currentScrollTop = useRef<number>(0);
   const {
     leftGridWidth,
     rightGridWidth,
@@ -46,7 +47,7 @@ export const StickyPivotTable = ({
     }
 
     if (leftGridRef.current) {
-      leftGridRef.current.scrollTo({ scrollLeft: 0, scrollTop: event.currentTarget.scrollTop });
+      leftGridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollTop));
     }
 
     if (dataGridRef.current) {
@@ -58,9 +59,16 @@ export const StickyPivotTable = ({
       // Otherwise it will be out-of-sync with the other rows.
       currentScrollLeft.current = event.currentTarget.scrollLeft;
     }
+
+    if (typeof currentScrollTop.current !== 'undefined') {
+      // Set scrollTop here so that when a left grid is expanded with a new column, scroll that row to scrollTop position.
+      // Otherwise it will be out-of-sync with the other columns.
+      currentScrollTop.current = event.currentTarget.scrollTop;
+    }
   };
 
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
+  const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
   // useDebug('PivotTable', {
   //   rect,
@@ -105,10 +113,10 @@ export const StickyPivotTable = ({
             dataModel={dataModel}
             constraints={constraints}
             leftGridRef={leftGridRef}
-            columnWidthCallback={getLeftColumnWidth}
-            rowHightCallback={rowHightCallback}
+            getLeftColumnWidth={getLeftColumnWidth}
             width={leftGridWidth}
             height={leftGridHeight}
+            getScrollTop={getScrollTop}
           />
 
           <DataGrid

@@ -44,7 +44,7 @@ describe('createData', () => {
   });
 
   test('should return correct left data', () => {
-    const left = [[null, null]];
+    const left = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
     mockedExtractLeft.mockReturnValue(left);
     const pivotPage = createPivotPage();
 
@@ -98,7 +98,7 @@ describe('createData', () => {
     pivotPage.qArea.qHeight = 2;
     const top = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition], [{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
     mockedExtractTop.mockReturnValue(top);
-    const left = [[null, null]];
+    const left = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
     mockedExtractLeft.mockReturnValue(left);
 
     const data = createData(pivotPage, qHyperCube);

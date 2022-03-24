@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import NxDimCellType from '../../types/QIX';
-import { DataModel, Rect } from '../../types/types';
+import { DataModel, PivotDimensionCellWithPosition, Rect } from '../../types/types';
 import useColumnWidth, { EXPAND_ICON_WIDTH } from '../use-column-width';
 import useMeasureText, { MeasureTextHook } from '../use-measure-text';
 
@@ -65,8 +65,8 @@ describe('useColumnWidth', () => {
     });
 
     test('should return left and right grid width with dimension and pseudo dimension cells', () => {
-      const cell = { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as EngineAPI.INxPivotDimensionCell;
-      const pCell = { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as EngineAPI.INxPivotDimensionCell;
+      const cell = { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition;
+      const pCell = { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as PivotDimensionCellWithPosition;
       const dimInfo = { qApprMaxGlyphCount: 1 } as EngineAPI.INxDimensionInfo;
       const meaInfo = { qFallbackTitle: 1 } as unknown as EngineAPI.INxMeasureInfo;
       mockedDataModel.pivotData.left = [[cell], [pCell], [cell]];
