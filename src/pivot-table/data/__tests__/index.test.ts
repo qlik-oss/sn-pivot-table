@@ -47,23 +47,25 @@ describe('createData', () => {
     const left = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
     mockedExtractLeft.mockReturnValue(left);
     const pivotPage = createPivotPage();
+    pivotPage.qArea.qHeight = 123;
 
     const data = createData(pivotPage, qHyperCube);
 
     expect(data.left).toEqual(left);
     expect(data.size.left.x).toBe(1);
-    expect(data.size.left.y).toBe(2);
+    expect(data.size.left.y).toBe(pivotPage.qArea.qHeight);
   });
 
   test('should return correct top data', () => {
     const top = [[{} as PivotDimensionCellWithPosition], [{} as PivotDimensionCellWithPosition]];
     mockedExtractTop.mockReturnValue(top);
     const pivotPage = createPivotPage();
+    pivotPage.qArea.qWidth = 123;
 
     const data = createData(pivotPage, qHyperCube);
 
     expect(data.top).toEqual(top);
-    expect(data.size.top.x).toBe(1);
+    expect(data.size.top.x).toBe(pivotPage.qArea.qWidth);
     expect(data.size.top.y).toBe(2);
   });
 

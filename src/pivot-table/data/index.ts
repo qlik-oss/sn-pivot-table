@@ -9,11 +9,7 @@ const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
 const getRowCount = (matrix: unknown[][]): number => matrix[0]?.length || 0;
 
-const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1]?.length || 0;
-
 const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
-
-const getLeftRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1]?.length || 0;
 
 const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
@@ -80,19 +76,19 @@ export default function createData(
         y: getRowCount(headers)
       },
       top: {
-        x: getTopColumnCount(top),
+        x: qArea.qWidth,
         y: getTopRowCount(top)
       },
       left: {
         x: getLeftColumnCount(left),
-        y: getLeftRowCount(left)
+        y: qArea.qHeight
       },
       data: {
         x: qArea.qWidth,
         y: qArea.qHeight
       },
       totalRows: getTopRowCount(top) + qArea.qHeight,
-      totalColumns: getColumnCount(left) + qArea.qWidth,
+      totalColumns: getLeftColumnCount(left) + qArea.qWidth,
     }
   };
 
