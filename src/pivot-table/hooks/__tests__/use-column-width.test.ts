@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
-import NxDimCellType from '../../types/QIX';
-import { DataModel, PivotDimensionCellWithPosition, Rect } from '../../types/types';
+import NxDimCellType from '../../../types/QIX';
+import { DataModel, PivotDimensionCellWithPosition, Rect } from '../../../types/types';
 import useColumnWidth, { EXPAND_ICON_WIDTH } from '../use-column-width';
 import useMeasureText, { MeasureTextHook } from '../use-measure-text';
 

@@ -5,7 +5,7 @@ import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlin
 import { CellValue, ItemData, DataModel } from '../../../types/types';
 import { borderStyle, textStyle } from '../shared-styles';
 import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
-import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
+import { useSelectionsContext } from '../../contexts/SelectionsProvider';
 
 export interface DimensionCellProps {
   cell: CellValue;
