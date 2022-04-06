@@ -4,6 +4,9 @@ import { PivotData, PivotDimensionCellWithPosition } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeft from './extract-left';
 import extractTop from './extract-top';
+import appendLeafCount from './helpers/append-leaf-count';
+import createMeasureInfoIndexMap from './helpers/create-measure-info-index-map';
+import findParentPseudoDimension from './helpers/find-parent-pseudo-dimension';
 
 const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
@@ -12,34 +15,6 @@ const getRowCount = (matrix: unknown[][]): number => matrix[0]?.length || 0;
 const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
 const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
-
-export const findParentPseudoDimension = (cell: PivotDimensionCellWithPosition): PivotDimensionCellWithPosition | null => {
-  if (cell.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return cell;
-
-  let { parent } = cell;
-
-  if (!parent) return parent;
-
-  while (parent.qType !== NxDimCellType.NX_DIM_CELL_PSEUDO) {
-    if (parent.parent) {
-      parent = parent.parent;
-    } else {
-      return null;
-    }
-  }
-
-  return parent;
-};
-
-const createMeasureInfoIndexMap = (top: PivotDimensionCellWithPosition[][], qMeasureInfo: EngineAPI.INxMeasureInfo[]) => (top[top.length - 1] || []).map(cell => {
-  const { qText } = findParentPseudoDimension(cell) || {};
-  const idx = qMeasureInfo.findIndex(measureInfo => measureInfo.qFallbackTitle ===  qText);
-  if (idx === -1) {
-    return 0; // Fallback solution when there is only a single measure, as in no pseudo dimenions.
-  };
-
-  return idx;
-});
 
 export const appendData = (pivotData: PivotData, dataPage: EngineAPI.INxPivotPage): void => {
   const {
@@ -62,30 +37,6 @@ export const appendData = (pivotData: PivotData, dataPage: EngineAPI.INxPivotPag
   pivotData.data.push(...(qData as unknown as EngineAPI.INxPivotValuePoint[][]));
 
   console.log('appendData', pivotData);
-};
-
-const isParentNode = (leafCell: PivotDimensionCellWithPosition, possibleParent: PivotDimensionCellWithPosition): boolean => {
-  if (leafCell.qElemNo === possibleParent.qElemNo && leafCell.y === possibleParent.y) return false;
-
-  let { parent: parentCell } = leafCell;
-  while (parentCell) {
-    if (parentCell.qElemNo === possibleParent.qElemNo && parentCell.y === possibleParent.y) return true;
-    if (!parentCell.parent) return false;
-    parentCell = parentCell.parent;
-  }
-
-  return false;
-};
-
-const appendLeafCount = (matrix: PivotDimensionCellWithPosition[][], leafCells: PivotDimensionCellWithPosition[]): void => {
-  matrix.forEach((rowOrColumn) => {
-    rowOrColumn.forEach(cell => {
-      if (cell.qSubNodes.length) {
-        const leafNodes = leafCells.filter(leafCell => isParentNode(leafCell, cell));
-        cell.leafCount = leafNodes.length; // eslint-disable-line no-param-reassign
-      }
-    });
-  });
 };
 
 export const appendTopData = (pivotData: PivotData, newDataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube): PivotData => {

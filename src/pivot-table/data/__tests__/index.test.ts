@@ -1,9 +1,10 @@
-import createData, { findParentPseudoDimension } from '../index';
+import createData from '../index';
 import extractHeaders from '../extract-headers';
 import extractLeft from '../extract-left';
 import extractTop from '../extract-top';
 import { PivotDimensionCellWithPosition } from '../../../types/types';
 import NxDimCellType from '../../../types/QIX';
+import findParentPseudoDimension from '../helpers/find-parent-pseudo-dimension';
 
 jest.mock('../extract-headers');
 jest.mock('../extract-left');
