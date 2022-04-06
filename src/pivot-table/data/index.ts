@@ -95,7 +95,9 @@ console.log('data length', pivotData.data[0].length);
   const measureInfoIndexMap = createMeasureInfoIndexMap(top, qHyperCube.qMeasureInfo);
 
   pivotData.measureInfoIndexMap.push(...measureInfoIndexMap);
-
+if (pivotData.measureInfoIndexMap.length !== pivotData.data[0].length) {
+  console.warn('miss-matching length', pivotData.measureInfoIndexMap.length, pivotData.data[0].length, pivotData.top[pivotData.top.length - 1].length);
+}
   console.log('appendData', pivotData);
 
   return pivotData;
