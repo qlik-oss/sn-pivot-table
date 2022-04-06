@@ -19,7 +19,8 @@ const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCell
         ...node,
         x: colIdx,
         y: topRowIdx,
-        parent
+        parent,
+        leafCount: 0,
       };
       matrix[topRowIdx].push(nodeWithPosition);
 

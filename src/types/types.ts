@@ -51,6 +51,7 @@ export interface PivotDimensionCellWithPosition extends EngineAPI.INxPivotDimens
   x: number;
   y: number;
   parent: PivotDimensionCellWithPosition | null;
+  leafCount: number;
 }
 
 export interface PivotData {

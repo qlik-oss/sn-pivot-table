@@ -19,7 +19,8 @@ const extractLeft = (qLeft: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCe
         ...node,
         x: colIdx,
         y: rowIdx,
-        parent
+        parent,
+        leafCount: 0,
       };
       matrix[colIdx].push(nodeWithPosition);
 
