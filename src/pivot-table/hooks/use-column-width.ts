@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
-import { PSEUDO_DIMENSION_INDEX } from '../constants';
-import NxDimCellType from '../types/QIX';
-import { DataModel, Rect } from '../types/types';
+import { PSEUDO_DIMENSION_INDEX } from '../../constants';
+import NxDimCellType from '../../types/QIX';
+import { DataModel, Rect } from '../../types/types';
 import useMeasureText from './use-measure-text';
 
 interface ColumnWidthHook {
@@ -28,7 +28,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
-    const ratios = pivotData.dimensionInfoIndexMap
+    const ratios = pivotData.leftDimensionInfoIndexMap
       .map((dimIndex, index) => {
         if (dimIndex === PSEUDO_DIMENSION_INDEX) {
           const pseudoDimensionWidth = Math.max(

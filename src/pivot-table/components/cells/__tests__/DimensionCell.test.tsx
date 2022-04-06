@@ -4,11 +4,11 @@ import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, selectedStyle, lockedFromSelectionStyle } from '../DimensionCell';
 import { DataModel, GridItemData, PivotDimensionCellWithPosition } from '../../../../types/types';
-import { useSelectionsContext } from '../../../../contexts/SelectionsProvider';
+import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
 import NxDimCellType, { NxSelectionCellType } from '../../../../types/QIX';
-import { SelectionModel } from '../../../../hooks/use-selections-model';
+import { SelectionModel } from '../../../hooks/use-selections-model';
 
-jest.mock('../../../../contexts/SelectionsProvider');
+jest.mock('../../../contexts/SelectionsProvider');
 
 describe('DimensionCell', () => {
   let constraints: stardust.Constraints;
@@ -70,7 +70,8 @@ describe('DimensionCell', () => {
         top: [],
         headers: [],
         measureInfoIndexMap: [],
-        dimensionInfoIndexMap: [],
+        leftDimensionInfoIndexMap: [],
+        topDimensionInfoIndexMap: [],
         size: {
           data: { x: 0, y: 0 },
           headers: { x: 0, y: 0 },

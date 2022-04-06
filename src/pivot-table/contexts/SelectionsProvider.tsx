@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 // import useDebug from '../hooks/use-debug';
 import useSelectionsModel, { SelectionModel } from '../hooks/use-selections-model';
-import { ExtendedSelections } from '../types/types';
+import { ExtendedSelections } from '../../types/types';
 
 interface SelectionsProviderProps {
   children: JSX.Element | JSX.Element[],

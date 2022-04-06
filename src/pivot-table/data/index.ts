@@ -9,11 +9,7 @@ const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
 const getRowCount = (matrix: unknown[][]): number => matrix[0]?.length || 0;
 
-const getTopColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1]?.length || 0;
-
 const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
-
-const getLeftRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix[matrix.length - 1]?.length || 0;
 
 const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
@@ -116,13 +112,18 @@ export default function createData(
     qDimensionInfo,
     qMeasureInfo,
     qEffectiveInterColumnSortOrder,
+    qNoOfLeftDims,
   } = qHyperCube;
   const left = extractLeft(qLeft);
   const top = extractTop(qTop);
-  const dimensionInfoIndexMap = left.map((column, index) => {
-    if (column[0] === null) return qEffectiveInterColumnSortOrder[index];
+  const leftDimensionInfoIndexMap = left.map((column, index) => {
     if (column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
     return qEffectiveInterColumnSortOrder[index];
+  });
+  const topDimensionInfoIndexMap = top.map((row, index) => {
+    const topIndex = index + qNoOfLeftDims;
+    if (row[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
+    return qEffectiveInterColumnSortOrder[topIndex];
   });
   const measureInfoIndexMap = (top[top.length - 1] || []).map(cell => {
     const { qText } = findParentPseudoDimension(cell) || {};
@@ -133,7 +134,7 @@ export default function createData(
 
     return idx;
   });
-  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), dimensionInfoIndexMap);
+  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), leftDimensionInfoIndexMap);
 
   const pivotData: PivotData = {
     left,
@@ -141,19 +142,20 @@ export default function createData(
     data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])],
     headers,
     measureInfoIndexMap,
-    dimensionInfoIndexMap,
+    leftDimensionInfoIndexMap,
+    topDimensionInfoIndexMap,
     size: {
       headers: {
         x: getColumnCount(headers),
         y: getRowCount(headers)
       },
       top: {
-        x: getTopColumnCount(top),
+        x: qArea.qWidth,
         y: getTopRowCount(top)
       },
       left: {
         x: getLeftColumnCount(left),
-        y: getLeftRowCount(left)
+        y: qArea.qHeight
       },
       data: {
         x: qArea.qWidth,

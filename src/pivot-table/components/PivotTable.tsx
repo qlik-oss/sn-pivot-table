@@ -10,7 +10,7 @@ import HeaderGrid from './HeaderGrid';
 import TopGrid from './TopGrid';
 import LeftGrid from './LeftGrid';
 import DataGrid from './DataGrid';
-import useColumnWidth from '../../hooks/use-column-width';
+import useColumnWidth from '../hooks/use-column-width';
 
 export interface PivotTableProps {
   rect: Rect;
