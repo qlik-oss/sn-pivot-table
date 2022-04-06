@@ -59,7 +59,7 @@ export interface PivotData {
   data: EngineAPI.INxPivotValuePoint[][],
   headers: (null | string)[][],
   measureInfoIndexMap: number[];
-  dimensionInfoIndexMap: number[];
+  leftDimensionInfoIndexMap: number[];
   topDimensionInfoIndexMap: number[];
   size: {
     headers: Point;

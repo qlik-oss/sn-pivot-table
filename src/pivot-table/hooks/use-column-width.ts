@@ -28,7 +28,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
-    const ratios = pivotData.dimensionInfoIndexMap
+    const ratios = pivotData.leftDimensionInfoIndexMap
       .map((dimIndex, index) => {
         if (dimIndex === PSEUDO_DIMENSION_INDEX) {
           const pseudoDimensionWidth = Math.max(

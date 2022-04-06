@@ -48,7 +48,7 @@ export default function createData(
   } = qHyperCube;
   const left = extractLeft(qLeft);
   const top = extractTop(qTop);
-  const dimensionInfoIndexMap = left.map((column, index) => {
+  const leftDimensionInfoIndexMap = left.map((column, index) => {
     if (column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
     return qEffectiveInterColumnSortOrder[index];
   });
@@ -66,7 +66,7 @@ export default function createData(
 
     return idx;
   });
-  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), dimensionInfoIndexMap);
+  const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), leftDimensionInfoIndexMap);
 
   const pivotData: PivotData = {
     left,
@@ -74,7 +74,7 @@ export default function createData(
     data: qData as unknown as EngineAPI.INxPivotValuePoint[][],
     headers,
     measureInfoIndexMap,
-    dimensionInfoIndexMap,
+    leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap,
     size: {
       headers: {

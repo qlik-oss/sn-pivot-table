@@ -70,7 +70,8 @@ describe('DimensionCell', () => {
         top: [],
         headers: [],
         measureInfoIndexMap: [],
-        dimensionInfoIndexMap: [],
+        leftDimensionInfoIndexMap: [],
+        topDimensionInfoIndexMap: [],
         size: {
           data: { x: 0, y: 0 },
           headers: { x: 0, y: 0 },
