@@ -82,11 +82,11 @@ const LeftGrid = ({
   const isLastColumn = (colIndex: number) => colIndex === dataModel.pivotData.left.length - 1;
 
   const getKey = (colIndex: number): string => {
-    const dimIndex = dataModel.pivotData.dimensionInfoIndexMap[colIndex];
+    const dimIndex = dataModel.pivotData.leftDimensionInfoIndexMap[colIndex];
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       return '-1';
     }
-    return dataModel.getDimensionInfo()[dimIndex].qFallbackTitle;
+    return `${dataModel.getDimensionInfo()[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
   return (<div style={{ display: 'flex' }}>

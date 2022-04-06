@@ -24,7 +24,7 @@ describe('useColumnWidth', () => {
       getNoLeftDims: () => 3,
       pivotData: {
         left: [[cell], [cell], [cell]],
-        dimensionInfoIndexMap: [0, 1, 2],
+        leftDimensionInfoIndexMap: [0, 1, 2],
         size: {
           data: {
             x: 3
@@ -70,7 +70,7 @@ describe('useColumnWidth', () => {
       const dimInfo = { qApprMaxGlyphCount: 1 } as EngineAPI.INxDimensionInfo;
       const meaInfo = { qFallbackTitle: 1 } as unknown as EngineAPI.INxMeasureInfo;
       mockedDataModel.pivotData.left = [[cell], [pCell], [cell]];
-      mockedDataModel.pivotData.dimensionInfoIndexMap = [0, -1, 1];
+      mockedDataModel.pivotData.leftDimensionInfoIndexMap = [0, -1, 1];
       mockedDataModel.getDimensionInfo = () => [dimInfo, dimInfo, dimInfo];
       mockedDataModel.getMeasureInfo = () => [meaInfo];
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
