@@ -64,39 +64,77 @@ export const appendData = (pivotData: PivotData, dataPage: EngineAPI.INxPivotPag
   console.log('appendData', pivotData);
 };
 
-export const appendTopData = (pivotData: PivotData, dataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube): PivotData => {
+export const appendTopData = (pivotData: PivotData, newDataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube): PivotData => {
   const {
     qTop,
     qData,
     qArea,
-  } = dataPage;
-  // console.log('newDAtaPage', dataPage);
+  } = newDataPage;
   const top = extractTop(qTop);
-  console.log('newTop', qTop);
-  pivotData.top.forEach((row, index) => {
-    row.push(...top[index].slice(top[index][0].qUp === 0 ? 0 : 1));
-  });
-console.log('data length', pivotData.data[0].length);
-  pivotData.data.forEach((row, index) => {
-    row.push(...(qData as unknown as EngineAPI.INxPivotValuePoint[][])[index]);
-  });
 
-  pivotData.size.data.x = qArea.qLeft + qArea.qWidth;
-  pivotData.size.data.y = qArea.qTop + qArea.qHeight;
-  pivotData.size.top.x = getTopColumnCount(pivotData.top);
-  pivotData.size.top.y = getTopRowCount(pivotData.top);
-  pivotData.size.totalRows = pivotData.size.top.y + pivotData.size.data.y;
-  pivotData.size.totalColumns = getLeftColumnCount(pivotData.left) + pivotData.size.data.x;
+  const newTop = pivotData.top.map((row, index) => [...row, ...top[index].slice(top[index][0].qUp === 0 ? 0 : 1)]);
 
-  const measureInfoIndexMap = createMeasureInfoIndexMap(top, qHyperCube.qMeasureInfo);
+  const newData = pivotData.data.map((row, index) =>
+    // row.push(...(qData as unknown as EngineAPI.INxPivotValuePoint[][])[index]);
+     [...row, ...(qData as unknown as EngineAPI.INxPivotValuePoint[][])[index]]
+  );
 
-  pivotData.measureInfoIndexMap.push(...measureInfoIndexMap);
+  const measureInfoIndexMap = [...pivotData.measureInfoIndexMap, ...createMeasureInfoIndexMap(top, qHyperCube.qMeasureInfo)];
+
+  // pivotData.measureInfoIndexMap.push(...measureInfoIndexMap);
+
+  const newPivotData: PivotData = {
+    headers: pivotData.headers,
+    left: pivotData.left,
+    top: newTop,
+    data: newData,
+    measureInfoIndexMap,
+    leftDimensionInfoIndexMap: pivotData.leftDimensionInfoIndexMap,
+    topDimensionInfoIndexMap: pivotData.topDimensionInfoIndexMap,
+    size: {
+      headers: {
+        x: pivotData.size.headers.x,
+        y: pivotData.size.headers.y,
+      },
+      top: {
+        x: qArea.qLeft + qArea.qWidth,
+        y: getTopRowCount(newTop)
+      },
+      left: {
+        x: pivotData.size.left.x,
+        y: pivotData.size.left.y
+      },
+      data: {
+        x: qArea.qLeft + qArea.qWidth,
+        y: qArea.qTop + qArea.qHeight
+      },
+      totalRows: getTopRowCount(newTop) + qArea.qTop + qArea.qHeight,
+      totalColumns: getLeftColumnCount(pivotData.left) + qArea.qLeft + qArea.qWidth,
+    }
+  };
+  // console.log('newDAtaPage', dataPage);
+
+
+  // pivotData.data.forEach((row, index) => {
+  //   row.push(...(qData as unknown as EngineAPI.INxPivotValuePoint[][])[index]);
+  // });
+
+
+
+  // pivotData.size.data.x = qArea.qLeft + qArea.qWidth;
+  // pivotData.size.data.y = qArea.qTop + qArea.qHeight;
+  // pivotData.size.top.x = qArea.qLeft + qArea.qWidth;
+  // pivotData.size.top.y = getTopRowCount(pivotData.top);
+  // pivotData.size.totalRows = pivotData.size.top.y + pivotData.size.data.y;
+  // pivotData.size.totalColumns = getLeftColumnCount(pivotData.left) + pivotData.size.data.x;
+
+
 if (pivotData.measureInfoIndexMap.length !== pivotData.data[0].length) {
   console.warn('miss-matching length', pivotData.measureInfoIndexMap.length, pivotData.data[0].length, pivotData.top[pivotData.top.length - 1].length);
 }
-  console.log('appendData', pivotData);
+  console.log('newPivotData', newPivotData);
 
-  return pivotData;
+  return newPivotData;
 };
 
 export default function createData(

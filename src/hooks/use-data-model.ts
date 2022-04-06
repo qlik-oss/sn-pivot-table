@@ -77,7 +77,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     try {
       const width = isRow ? maxAreaWidth : maxAreaWidth + DEFAULT_PAGE_SIZE;
       const height = isRow ? maxAreaHeight + DEFAULT_PAGE_SIZE : maxAreaHeight;
-      const [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [getNextArea(width, height)]);
+      // const [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [getNextArea(width, height)]);
       const nextArea = getNextPage(qArea.qLeft + qArea.qWidth, qArea.qTop + qArea.qHeight);
       const [newPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
       console.log('data length in model', pivotData.data[0].length);
@@ -93,12 +93,12 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       setMaxAreaWidth(prev => Math.max(prev, width));
       setMaxAreaHeight(prev => Math.max(prev, height));
       ref.loading = false;
-      setHasMoreRows(pivotPage.qArea.qHeight < qHyperCube.qSize.qcy);
-      setHasMoreColumns(pivotPage.qArea.qWidth < qHyperCube.qSize.qcx);
+      setHasMoreRows(newPivotPage.qArea.qHeight < qHyperCube.qSize.qcy);
+      setHasMoreColumns(newPivotPage.qArea.qWidth < qHyperCube.qSize.qcx);
       // setPivotData(createData(pivotPage, qHyperCube));
       setPivotData(newPivotData);
     } catch (error) {
-      console.log('ERROR', error);
+      console.error(error);
       ref.loading = false;
     }
   }, 500), [maxAreaWidth, maxAreaHeight, model, qHyperCube]);

@@ -7,6 +7,7 @@ import ListCellFactory from './cells/ListCellFactory';
 import getItemKey from './helpers/get-item-key';
 import getLeafNodes from './helpers/get-leaf-nodes';
 import setListRef from './helpers/set-list-ref';
+import isParentNode from './helpers/is-parent-node';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
@@ -71,13 +72,26 @@ const TopGrid = ({
 
   const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (colIndex: number) =>{
     const cell = list[colIndex];
-    if (cell.qSubNodes.length) {
-      const leftNodes = getLeafNodes([cell], []);
 
-      return leftNodes.reduce((size, _, index) =>
-        size + getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x + index]),
-        0);
+    if (cell.qSubNodes.length) {
+      const lastTopRow = dataModel.pivotData.top[dataModel.pivotData.top.length - 1];
+      const leftNodes = lastTopRow.filter(leafCell => isParentNode(leafCell, cell));
+
+      if (leftNodes.length) {
+        console.debug('cell', cell.qText, leftNodes.length);
+        // console.debug('leaft nodes', ln.length);
+        return leftNodes.reduce((size, _, index) =>
+          size + getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x + index]),
+          0);
+      }
     }
+
+    // if (cell.qSubNodes.length) {
+    //   const leftNodes = getLeafNodes([cell], []);
+    //   return leftNodes.reduce((size, _, index) =>
+    //     size + getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x + index]),
+    //     0);
+    // }
 
     return getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x]);
   };
