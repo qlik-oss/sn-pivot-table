@@ -86,7 +86,7 @@ const LeftGrid = ({
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       return '-1';
     }
-    return dataModel.getDimensionInfo()[dimIndex].qFallbackTitle;
+    return `${dataModel.getDimensionInfo()[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
   return (<div style={{ display: 'flex' }}>

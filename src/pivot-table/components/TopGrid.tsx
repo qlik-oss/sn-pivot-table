@@ -1,6 +1,7 @@
 import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
+import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
 import getItemKey from './helpers/get-item-key';
@@ -81,10 +82,18 @@ const TopGrid = ({
     return getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x]);
   };
 
+  const getKey = (rowIndex: number): string => {
+    const dimIndex = dataModel.pivotData.topDimensionInfoIndexMap[rowIndex];
+    if (dimIndex === PSEUDO_DIMENSION_INDEX) {
+      return '-1';
+    }
+    return `${dataModel.getDimensionInfo()[dimIndex].qFallbackTitle}-${dimIndex}`;
+  };
+
   return (<div>
     {dataModel.pivotData.top.map((list, topRowIndex) => (
       <VariableSizeList
-        key={list.map(c => c.qElemNo).join(',')}
+        key={getKey(topRowIndex)}
         ref={setListRef(topGridRef, topRowIndex)}
         style={topRowIndex === dataModel.pivotData.top.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
         height={rowHightCallback()}

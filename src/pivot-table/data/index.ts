@@ -44,13 +44,18 @@ export default function createData(
     qDimensionInfo,
     qMeasureInfo,
     qEffectiveInterColumnSortOrder,
+    qNoOfLeftDims,
   } = qHyperCube;
   const left = extractLeft(qLeft);
   const top = extractTop(qTop);
   const dimensionInfoIndexMap = left.map((column, index) => {
-    if (column[0] === null) return qEffectiveInterColumnSortOrder[index];
     if (column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
     return qEffectiveInterColumnSortOrder[index];
+  });
+  const topDimensionInfoIndexMap = top.map((row, index) => {
+    const topIndex = index + qNoOfLeftDims;
+    if (row[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
+    return qEffectiveInterColumnSortOrder[topIndex];
   });
   const measureInfoIndexMap = (top[top.length - 1] || []).map(cell => {
     const { qText } = findParentPseudoDimension(cell) || {};
@@ -70,6 +75,7 @@ export default function createData(
     headers,
     measureInfoIndexMap,
     dimensionInfoIndexMap,
+    topDimensionInfoIndexMap,
     size: {
       headers: {
         x: getColumnCount(headers),

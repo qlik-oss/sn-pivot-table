@@ -60,6 +60,7 @@ export interface PivotData {
   headers: (null | string)[][],
   measureInfoIndexMap: number[];
   dimensionInfoIndexMap: number[];
+  topDimensionInfoIndexMap: number[];
   size: {
     headers: Point;
     top: Point;
