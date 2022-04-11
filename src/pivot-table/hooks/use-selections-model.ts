@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { Q_PATH } from '../../constants';
 import { NxSelectionCellType } from '../../types/QIX';
-import { ExtendedSelections } from '../../types/types';
+import { DataModel, ExtendedSelections } from '../../types/types';
 
 export interface SelectionModel {
   select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => void;
@@ -16,20 +16,25 @@ export interface SelectedPivotCell {
   qCol: number;
 }
 
-export default function useSelectionsModel(selections: ExtendedSelections): SelectionModel {
+export default function useSelectionsModel(selections: ExtendedSelections, dataModel: DataModel
+  ): SelectionModel {
   const [selected, setSelected] = useState<SelectedPivotCell[]>([]);
 
   useEffect(() => {
     const clearSelections = () => setSelected([]);
+    const confirmOrCancelSelections = () => {
+      setSelected([]);
+      dataModel.resetArea();
+    };
     selections.on('deactivated', clearSelections);
-    selections.on('canceled', clearSelections);
-    selections.on('confirmed', clearSelections);
+    selections.on('canceled', confirmOrCancelSelections);
+    selections.on('confirmed', confirmOrCancelSelections);
     selections.on('cleared', clearSelections);
 
     return () => {
       selections.removeListener('deactivated', clearSelections);
-      selections.removeListener('canceled', clearSelections);
-      selections.removeListener('confirmed', clearSelections);
+      selections.removeListener('canceled', confirmOrCancelSelections);
+      selections.removeListener('confirmed', confirmOrCancelSelections);
       selections.removeListener('cleared', clearSelections);
     };
   }, [selections]);

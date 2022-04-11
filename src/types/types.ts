@@ -28,6 +28,7 @@ export interface DataModel {
   getDimensionInfo: () => EngineAPI.INxDimensionInfo[];
   getMeasureInfo: () => EngineAPI.INxMeasureInfo[];
   getNoLeftDims: () => number;
+  resetArea: () => void;
 }
 
 export interface ItemData {
@@ -51,10 +52,13 @@ export interface PivotDimensionCellWithPosition extends EngineAPI.INxPivotDimens
   x: number;
   y: number;
   parent: PivotDimensionCellWithPosition | null;
+  root: PivotDimensionCellWithPosition | null;
   leafCount: number;
+  incrementLeafCount: () => void;
 }
 
 export interface PivotData {
+  qDataPages: EngineAPI.INxPivotPage[],
   left: PivotDimensionCellWithPosition[][],
   top: PivotDimensionCellWithPosition[][],
   data: EngineAPI.INxPivotValuePoint[][],

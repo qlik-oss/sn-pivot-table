@@ -1,6 +1,6 @@
 import { useMemo, usePromise, useState, useEffect } from '@nebula.js/stardust';
-import { throttler } from 'qlik-chart-modules';
-import createData, { appendData, appendTopData } from '../pivot-table/data';
+// import { throttler } from 'qlik-chart-modules';
+import createData, { appendTopData } from '../pivot-table/data';
 import { DataModel, FetchNextPage, PivotData } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
 import { DEFAULT_PAGE_SIZE, Q_PATH } from '../constants';
@@ -39,7 +39,16 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandTop,
   } = useExpandOrCollapser(model);
 
-  useEffect(() => console.log('new qArea', qArea), [qArea]);
+  useEffect(() => console.debug('new qArea', qArea), [qArea]);
+
+  const resetArea = useNebulaCallback(() => {
+    setArea({
+      qLeft: 0,
+      qTop: 0,
+      qWidth: DEFAULT_PAGE_SIZE,
+      qHeight: DEFAULT_PAGE_SIZE,
+    });
+  }, []);
 
   const newLayoutHandler = useNebulaCallback(async () => {
     if (layout && model) {
@@ -67,7 +76,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
   usePromise(() => newLayoutHandler(), [newLayoutHandler]);
 
-  const fetchNextPage = useNebulaCallback<FetchNextPage>(throttler(async (isRow: boolean) => {
+  const fetchNextPage = useNebulaCallback<FetchNextPage>(async (isRow: boolean) => {
     if (loading || !model) return;
     if (isRow && !hasMoreRows) return;
     if (!isRow && !hasMoreColumns) return;
@@ -81,7 +90,8 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       const nextArea = getNextPage(qArea.qLeft + qArea.qWidth, qArea.qTop + qArea.qHeight);
       const [newPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
       const newPivotData = appendTopData({ ...pivotData }, newPivotPage, qHyperCube);
-      // const [test1] = await model.getHyperCubePivotData(Q_PATH, [{ qLeft: 0, qTop: 0, qWidth: 50, qHeight: 50 }]);
+      console.debug('newPivotPage', newPivotPage);
+      // const [test1] = await model.getHyperCubePivotData(Q_PATH, [{ qLeft: 50, qTop: 0, qWidth: qHyperCube.qPivotDataPages[0].qTop[1].qDown + 1, qHeight: 50 }]);
       // const [test2] = await model.getHyperCubePivotData(Q_PATH, [{ qLeft: 50, qTop: 0, qWidth: 50, qHeight: 50 }]);
       // const [test3] = await model.getHyperCubePivotData(Q_PATH, [{ qLeft: 100, qTop: 0, qWidth: 50, qHeight: 50 }]);
       // console.log('test1', test1);
@@ -99,7 +109,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       console.error(error);
       setLoading(false);
     }
-  }, 150), [maxAreaWidth, maxAreaHeight, model, qHyperCube]);
+  }, [maxAreaWidth, maxAreaHeight, model, qHyperCube, loading]);
 
   const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
     if (qType === NxSelectionCellType.NX_CELL_LEFT) {
@@ -132,7 +142,8 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     isDimensionLocked,
     getDimensionInfo,
     getMeasureInfo,
-    getNoLeftDims
+    getNoLeftDims,
+    resetArea
   }),[fetchNextPage,
     hasMoreColumns,
     hasMoreRows,
@@ -144,7 +155,8 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     isDimensionLocked,
     getDimensionInfo,
     getMeasureInfo,
-    getNoLeftDims
+    getNoLeftDims,
+    resetArea
   ]);
 
   return dataModel;
