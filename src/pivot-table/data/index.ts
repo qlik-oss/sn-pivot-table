@@ -1,11 +1,9 @@
-import { PSEUDO_DIMENSION_INDEX } from '../../constants';
-import NxDimCellType from '../../types/QIX';
 import { PivotData, PivotDimensionCellWithPosition } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeft from './extract-left';
 import extractTop from './extract-top';
 import createMeasureInfoIndexMap from './helpers/create-measure-info-index-map';
-import findParentPseudoDimension from './helpers/find-parent-pseudo-dimension';
+import dimensionInfoToIndexMap from './helpers/dimension-info-to-index-map';
 
 const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
@@ -30,6 +28,7 @@ export const appendTopData = (prevPivotData: PivotData, nextDataPage: EngineAPI.
 
     // lastPrevCell.qDown > 0 means that the cell has more subnodes that can be paged
     if (lastPrevCell.qDown > 0 && lastPrevCell.qElemNo === firstNextCell.qElemNo) {
+      // Note that qSubNodes will be out-of-sync last prev cell is replaced with first next cell
       firstNextCell.leafCount += lastPrevCell.leafCount; // Include leaft count from previous page
       prevAndNextRow.push(...prevRow.slice(0, -1));
     } else {
@@ -79,7 +78,7 @@ export const appendTopData = (prevPivotData: PivotData, nextDataPage: EngineAPI.
 if (prevPivotData.measureInfoIndexMap.length !== prevPivotData.data[0].length) {
   console.warn('miss-matching length', prevPivotData.measureInfoIndexMap.length, prevPivotData.data[0].length, prevPivotData.top[prevPivotData.top.length - 1].length);
 }
-  console.debug('newPivotData', nextPivotData);
+  console.debug('nextPivotData', nextPivotData);
 
   return nextPivotData;
 };
@@ -101,24 +100,9 @@ export default function createData(
   } = qHyperCube;
   const left = extractLeft(qLeft);
   const top = extractTop(qTop, qArea);
-  const leftDimensionInfoIndexMap = left.map((column, index) => {
-    if (column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
-    return qEffectiveInterColumnSortOrder[index];
-  });
-  const topDimensionInfoIndexMap = top.map((row, index) => {
-    const topIndex = index + qNoOfLeftDims;
-    if (row[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
-    return qEffectiveInterColumnSortOrder[topIndex];
-  });
-  const measureInfoIndexMap = (top[top.length - 1] || []).map(cell => {
-    const { qText } = findParentPseudoDimension(cell) || {};
-    const idx = qMeasureInfo.findIndex(measureInfo => measureInfo.qFallbackTitle ===  qText);
-    if (idx === -1) {
-      return 0; // Fallback solution when there is only a single measure, as in no pseudo dimenions.
-    };
-
-    return idx;
-  });
+  const leftDimensionInfoIndexMap = left.map(dimensionInfoToIndexMap(0, qEffectiveInterColumnSortOrder));
+  const topDimensionInfoIndexMap = top.map(dimensionInfoToIndexMap(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
+  const measureInfoIndexMap = createMeasureInfoIndexMap(top, qMeasureInfo);
   const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), leftDimensionInfoIndexMap);
 
   const pivotData: PivotData = {
