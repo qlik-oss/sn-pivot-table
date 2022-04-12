@@ -15,6 +15,22 @@ interface DataGridProps {
 
 const gridStyle: React.CSSProperties = { overflow: 'hidden' };
 
+const isMissingData = (
+  data: EngineAPI.INxPivotValuePoint[][],
+  visibleColumnStartIndex: number,
+  visibleColumnStopIndex: number,
+  visibleRowStartIndex: number,
+  visibleRowStopIndex: number
+) => {
+  for (let rowIndex = visibleRowStartIndex; rowIndex <= visibleRowStopIndex; rowIndex++) {
+    for (let colIndex = visibleColumnStartIndex; colIndex <= visibleColumnStopIndex; colIndex++) {
+      if (!data[rowIndex][colIndex]) return true;
+    }
+  }
+
+  return false;
+};
+
 const DataGrid = ({
   dataModel,
   dataGridRef,
@@ -50,18 +66,37 @@ const DataGrid = ({
   }, [width, height]);
 
   const onItemsRendered = useCallback(({
+    overscanColumnStartIndex,
+    overscanColumnStopIndex,
+    overscanRowStartIndex,
+    overscanRowStopIndex,
+    // visibleColumnStartIndex,
     visibleColumnStopIndex,
+    // visibleRowStartIndex,
     visibleRowStopIndex
   }: GridOnItemsRenderedProps) => {
     if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.pivotData.size.data.y - 1) {
-      dataModel.fetchNextPage(true);
+      dataModel.fetchNextPage(true, overscanColumnStartIndex);
     } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.pivotData.size.data.x - 1) {
-      dataModel.fetchNextPage(false);
+      dataModel.fetchNextPage(false, overscanRowStartIndex);
+    } else if (isMissingData(
+        dataModel.pivotData.data,
+        overscanColumnStartIndex,
+        overscanColumnStopIndex,
+        overscanRowStartIndex,
+        overscanRowStopIndex)
+    ) {
+      dataModel.fetchMoreData(
+        overscanColumnStartIndex,
+        overscanRowStartIndex,
+        overscanColumnStopIndex - overscanColumnStartIndex,
+        overscanRowStopIndex - overscanRowStartIndex
+      );
     }
   }, [dataModel]);
 
   const getColumnWidth = useCallback(
-    (index) => getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[index]),
+    (index) => getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(index)),
     [getMeasureInfoWidth, dataModel]);
 
   return (

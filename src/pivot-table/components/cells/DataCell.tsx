@@ -35,8 +35,10 @@ const containerStyle: React.CSSProperties = {
 
 export const testId = 'measure-cell';
 
-const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element => {
-  const { qText, qType } = data.matrix[rowIndex][columnIndex] as EngineAPI.INxPivotValuePoint;
+const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
+  const cell = data.matrix[rowIndex]?.[columnIndex] as EngineAPI.INxPivotValuePoint;
+  if (!cell) return null;
+  const { qText, qType } = cell;
 
   return (
     <div style={{...style, ...containerStyle}} data-testid={testId}>

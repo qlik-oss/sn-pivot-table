@@ -73,14 +73,14 @@ const TopGrid = ({
     if (cell.leafCount > 0) {
       let size = 0;
       for (let index = 0; index < cell.leafCount; index++) { // eslint-disable-line no-plusplus
-        const measureInfoIndex = dataModel.pivotData.measureInfoIndexMap[cell.x + index];
+        const measureInfoIndex = dataModel.getMeasureInfoIndexFromCellIndex(cell.x + index);
         size += getMeasureInfoWidth(measureInfoIndex);
       }
 
       return size;
     }
 
-    return getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x]);
+    return getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(cell.x));
   };
 
   const getKey = (rowIndex: number): string => {

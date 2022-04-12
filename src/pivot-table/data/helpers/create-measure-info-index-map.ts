@@ -11,4 +11,14 @@ const createMeasureInfoIndexMap = (matrix: PivotDimensionCellWithPosition[][], q
   return idx;
 });
 
+export const getMeasureInfoIndexFromCell = (cell: PivotDimensionCellWithPosition, qMeasureInfo: EngineAPI.INxMeasureInfo[]): number => {
+  const { qText } = findParentPseudoDimension(cell) || {};
+  const idx = qMeasureInfo.findIndex(measureInfo => measureInfo.qFallbackTitle ===  qText);
+  if (idx === -1) {
+    return 0; // Fallback solution when there is only a single measure, as in no pseudo dimenions.
+  };
+
+  return idx;
+};
+
 export default createMeasureInfoIndexMap;

@@ -2,7 +2,9 @@ import { stardust } from '@nebula.js/stardust';
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
-export type FetchNextPage = (isRow: boolean) => void;
+export type FetchNextPage = (isRow: boolean, startIndex: number) => void;
+
+export type FetchMoreData = (left: number, top: number, width: number, height: number) => void;
 
 export interface Rect {
   width: number;
@@ -17,6 +19,7 @@ export interface Point {
 export interface DataModel {
   pivotData: PivotData;
   fetchNextPage: FetchNextPage;
+  fetchMoreData: FetchMoreData;
   hasMoreColumns: boolean;
   hasMoreRows: boolean;
   collapseLeft: ExpandOrCollapser;
@@ -29,6 +32,7 @@ export interface DataModel {
   getMeasureInfo: () => EngineAPI.INxMeasureInfo[];
   getNoLeftDims: () => number;
   resetArea: () => void;
+  getMeasureInfoIndexFromCellIndex: (index: number) => number;
 }
 
 export interface ItemData {

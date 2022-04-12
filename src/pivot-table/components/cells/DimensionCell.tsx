@@ -147,7 +147,7 @@ const DimensionCell = ({
       tabIndex={0}
       data-testid={testId}
     >
-      <div style={{ ...cellStyle }} >
+      <div title={`${qText} - x:${colIndex}, y:${rowIndex}`} style={{ ...cellStyle }} >
         {cellIcon}
         <div style={dimTextStyle}>{qText}</div>
       </div>

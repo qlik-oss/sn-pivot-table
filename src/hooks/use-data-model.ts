@@ -1,9 +1,9 @@
 import { useMemo, usePromise, useState, useEffect } from '@nebula.js/stardust';
-// import { throttler } from 'qlik-chart-modules';
-import createData, { appendTopData } from '../pivot-table/data';
-import { DataModel, FetchNextPage, PivotData } from '../types/types';
+import { debouncer } from 'qlik-chart-modules';
+import createData, { appendLeftData, appendTopData, appendData } from '../pivot-table/data';
+import { DataModel, FetchMoreData, FetchNextPage, PivotData } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
-import { DEFAULT_PAGE_SIZE, Q_PATH } from '../constants';
+import { DEFAULT_PAGE_SIZE, PSEUDO_DIMENSION_INDEX, Q_PATH } from '../constants';
 import useNebulaCallback from './use-nebula-callback';
 import { NxSelectionCellType } from '../types/QIX';
 
@@ -16,9 +16,9 @@ const getNextArea = (qWidth: number, qHeight: number) => ({
   qHeight
 });
 
-const getNextPage = (qWidth: number, qHeight: number) => ({
-  qLeft: qWidth,
-  qTop: 0,
+const getNextPage = (qLeft: number, qTop: number) => ({
+  qLeft,
+  qTop,
   qWidth: DEFAULT_PAGE_SIZE,
   qHeight: DEFAULT_PAGE_SIZE
 });
@@ -40,6 +40,8 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
   } = useExpandOrCollapser(model);
 
   useEffect(() => console.debug('new qArea', qArea), [qArea]);
+
+
 
   const resetArea = useNebulaCallback(() => {
     setArea({
@@ -76,7 +78,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
   usePromise(() => newLayoutHandler(), [newLayoutHandler]);
 
-  const fetchNextPage = useNebulaCallback<FetchNextPage>(async (isRow: boolean) => {
+  const fetchNextPage = useNebulaCallback<FetchNextPage>(async (isRow: boolean, startIndex: number) => {
     if (loading || !model) return;
     if (isRow && !hasMoreRows) return;
     if (!isRow && !hasMoreColumns) return;
@@ -86,30 +88,57 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     try {
       const width = isRow ? maxAreaWidth : maxAreaWidth + DEFAULT_PAGE_SIZE;
       const height = isRow ? maxAreaHeight + DEFAULT_PAGE_SIZE : maxAreaHeight;
-      // const [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [getNextArea(width, height)]);
-      const nextArea = getNextPage(qArea.qLeft + qArea.qWidth, qArea.qTop + qArea.qHeight);
-      const [newPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-      const newPivotData = appendTopData({ ...pivotData }, newPivotPage, qHyperCube);
-      console.debug('newPivotPage', newPivotPage);
-      // const [test1] = await model.getHyperCubePivotData(Q_PATH, [{ qLeft: 50, qTop: 0, qWidth: qHyperCube.qPivotDataPages[0].qTop[1].qDown + 1, qHeight: 50 }]);
-      // const [test2] = await model.getHyperCubePivotData(Q_PATH, [{ qLeft: 50, qTop: 0, qWidth: 50, qHeight: 50 }]);
-      // const [test3] = await model.getHyperCubePivotData(Q_PATH, [{ qLeft: 100, qTop: 0, qWidth: 50, qHeight: 50 }]);
-      // console.log('test1', test1);
-      // console.log('test2', test2);
-      // console.log('test3', test3);
-      setArea(newPivotPage.qArea);
+      let nextPivotPage;
+      let nextPivotData;
+      if (isRow) {
+        console.debug('startIndex', startIndex);
+        const nextArea = getNextPage(startIndex, qArea.qHeight + qArea.qTop);
+        [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
+        nextPivotData = appendLeftData({ ...pivotData }, nextPivotPage);
+      } else {
+        console.debug('startIndex', startIndex);
+        const nextArea = getNextPage(qArea.qLeft + qArea.qWidth, startIndex);
+        [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
+        nextPivotData = appendTopData({ ...pivotData }, nextPivotPage, qHyperCube);
+      }
+      console.debug('nextPivotPage', nextPivotPage);
+      setArea(nextPivotPage.qArea);
       setMaxAreaWidth(prev => Math.max(prev, width));
       setMaxAreaHeight(prev => Math.max(prev, height));
       setLoading(false);
-      setHasMoreRows(newPivotPage.qArea.qTop + newPivotPage.qArea.qHeight < qHyperCube.qSize.qcy);
-      setHasMoreColumns(newPivotPage.qArea.qLeft + newPivotPage.qArea.qWidth < qHyperCube.qSize.qcx);
-      // setPivotData(createData(pivotPage, qHyperCube));
-      setPivotData(newPivotData);
+      setHasMoreRows(nextPivotPage.qArea.qTop + nextPivotPage.qArea.qHeight < qHyperCube.qSize.qcy);
+      setHasMoreColumns(nextPivotPage.qArea.qLeft + nextPivotPage.qArea.qWidth < qHyperCube.qSize.qcx);
+      setPivotData(nextPivotData);
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   }, [maxAreaWidth, maxAreaHeight, model, qHyperCube, loading]);
+
+  const fetchMoreData = useNebulaCallback<FetchMoreData>(debouncer(async (left: number, top: number, width: number, height: number) => {
+    if (loading || !model) return;
+
+    setLoading(true);
+
+    try {
+      // const width = isRow ? maxAreaWidth : maxAreaWidth + DEFAULT_PAGE_SIZE;
+      // const height = isRow ? maxAreaHeight + DEFAULT_PAGE_SIZE : maxAreaHeight;
+      const nextArea = {
+        qLeft: left,
+        qTop: top,
+        qWidth: width,
+        qHeight: height
+      };
+      const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
+      const nextPivotData = appendData({ ...pivotData }, nextPivotPage);
+      console.debug('fetchMoreData', nextArea);
+      setLoading(false);
+      setPivotData(nextPivotData);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  }, 250), [model, qHyperCube, loading]);
 
   const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
     if (qType === NxSelectionCellType.NX_CELL_LEFT) {
@@ -129,8 +158,19 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
   const getNoLeftDims = useNebulaCallback(() => qHyperCube.qNoOfLeftDims, [qHyperCube]);
 
+  const getMeasureInfoIndexFromCellIndex = useNebulaCallback((index: number) => {
+    const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;
+    const pIndex = qEffectiveInterColumnSortOrder.findIndex((num) => num === PSEUDO_DIMENSION_INDEX);
+    if (pIndex < qNoOfLeftDims) {
+      return 0;
+    }
+
+    return index % qMeasureInfo.length;
+  }, [qHyperCube]);
+
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,
+    fetchMoreData,
     hasMoreColumns,
     hasMoreRows,
     collapseLeft,
@@ -143,8 +183,10 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     getDimensionInfo,
     getMeasureInfo,
     getNoLeftDims,
-    resetArea
+    resetArea,
+    getMeasureInfoIndexFromCellIndex
   }),[fetchNextPage,
+    fetchMoreData,
     hasMoreColumns,
     hasMoreRows,
     collapseLeft,
@@ -156,7 +198,8 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     getDimensionInfo,
     getMeasureInfo,
     getNoLeftDims,
-    resetArea
+    resetArea,
+    getMeasureInfoIndexFromCellIndex
   ]);
 
   return dataModel;

@@ -2,8 +2,8 @@ import { PivotData, PivotDimensionCellWithPosition } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeft from './extract-left';
 import extractTop from './extract-top';
-import createMeasureInfoIndexMap from './helpers/create-measure-info-index-map';
-import dimensionInfoToIndexMap from './helpers/dimension-info-to-index-map';
+import getMeasureInfoIndexMap from './helpers/create-measure-info-index-map';
+import createDimInfoToIndexMapCallback from './helpers/dimension-info-to-index-map';
 
 const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
@@ -13,7 +13,25 @@ const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => m
 
 const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
-export const appendTopData = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube): PivotData => {
+const createNewDataGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotValuePoint[][], nextData: EngineAPI.INxPivotValuePoint[][]) => {
+  const data = [...prevData];
+  nextData.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      if (!Array.isArray(data[qArea.qTop + rowIndex])) {
+        data[qArea.qTop + rowIndex] = [];
+      }
+      data[qArea.qTop + rowIndex][qArea.qLeft + colIndex] = cell;
+    });
+  });
+
+  return data;
+};
+
+export const appendTopData = (
+  prevPivotData: PivotData,
+  nextDataPage: EngineAPI.INxPivotPage,
+  qHyperCube: EngineAPI.IHyperCube
+): PivotData => {
   const {
     qTop,
     qData,
@@ -28,9 +46,9 @@ export const appendTopData = (prevPivotData: PivotData, nextDataPage: EngineAPI.
 
     // lastPrevCell.qDown > 0 means that the cell has more subnodes that can be paged
     if (lastPrevCell.qDown > 0 && lastPrevCell.qElemNo === firstNextCell.qElemNo) {
-      // Note that qSubNodes will be out-of-sync last prev cell is replaced with first next cell
+      // Note that qSubNodes will be out-of-sync when last prev cell is replaced with first next cell
       firstNextCell.leafCount += lastPrevCell.leafCount; // Include leaft count from previous page
-      prevAndNextRow.push(...prevRow.slice(0, -1));
+      prevAndNextRow.push(...prevRow.slice(0, -1)); // Slice to remove duplicate cell
     } else {
       prevAndNextRow.push(...prevRow);
     }
@@ -39,10 +57,9 @@ export const appendTopData = (prevPivotData: PivotData, nextDataPage: EngineAPI.
     return prevAndNextRow;
   });
 
-  const nextqData = (qData as unknown as EngineAPI.INxPivotValuePoint[][]);
-  const nextData = prevPivotData.data.map((row, rowIndex) => [...row, ...nextqData[rowIndex]]);
+  const nextData = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
 
-  const measureInfoIndexMap = [...prevPivotData.measureInfoIndexMap, ...createMeasureInfoIndexMap(extractedTop, qHyperCube.qMeasureInfo)];
+  const measureInfoIndexMap = [...prevPivotData.measureInfoIndexMap, ...getMeasureInfoIndexMap(extractedTop, qHyperCube.qMeasureInfo)];
 
   const nextPivotData: PivotData = {
     qDataPages: [...prevPivotData.qDataPages, nextDataPage],
@@ -75,12 +92,84 @@ export const appendTopData = (prevPivotData: PivotData, nextDataPage: EngineAPI.
     }
   };
 
-if (prevPivotData.measureInfoIndexMap.length !== prevPivotData.data[0].length) {
-  console.warn('miss-matching length', prevPivotData.measureInfoIndexMap.length, prevPivotData.data[0].length, prevPivotData.top[prevPivotData.top.length - 1].length);
-}
   console.debug('nextPivotData', nextPivotData);
 
   return nextPivotData;
+};
+
+export const appendLeftData = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage): PivotData => {
+  const {
+    qLeft,
+    qData,
+    qArea,
+  } = nextDataPage;
+  const extractedLeft = extractLeft(qLeft, qArea);
+  const nextLeft = prevPivotData.left.map((prevCol, colIndex) => {
+    const prevAndNextColumn = [];
+    const nextColumn = extractedLeft[colIndex];
+    const lastPrevCell = prevCol[prevCol.length - 1];
+    const firstNextCell = nextColumn[0];
+
+    // lastPrevCell.qDown > 0 means that the cell has more subnodes that can be paged
+    if (lastPrevCell.qDown > 0 && lastPrevCell.qElemNo === firstNextCell.qElemNo) {
+      // Note that qSubNodes will be out-of-sync when last prev cell is replaced with first next cell
+      firstNextCell.leafCount += lastPrevCell.leafCount; // Include leaft count from previous page
+      prevAndNextColumn.push(...prevCol.slice(0, -1)); // Slice to remove duplicate cell
+    } else {
+      prevAndNextColumn.push(...prevCol);
+    }
+
+    prevAndNextColumn.push(...nextColumn);
+
+    return prevAndNextColumn;
+  });
+
+  const nextData = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
+
+  const nextPivotData: PivotData = {
+    qDataPages: [...prevPivotData.qDataPages, nextDataPage],
+    headers: prevPivotData.headers,
+    left: nextLeft,
+    top: prevPivotData.top,
+    data: nextData,
+    measureInfoIndexMap: prevPivotData.measureInfoIndexMap,
+    leftDimensionInfoIndexMap: prevPivotData.leftDimensionInfoIndexMap,
+    topDimensionInfoIndexMap: prevPivotData.topDimensionInfoIndexMap,
+    size: {
+      headers: {
+        x: prevPivotData.size.headers.x,
+        y: prevPivotData.size.headers.y,
+      },
+      top: prevPivotData.size.top,
+      left: {
+        x: getLeftColumnCount(nextLeft),
+        y: qArea.qTop + qArea.qHeight
+      },
+      data: {
+        x: qArea.qLeft + qArea.qWidth,
+        y: qArea.qTop + qArea.qHeight
+      },
+      totalRows: getTopRowCount(prevPivotData.top) + qArea.qTop + qArea.qHeight,
+      totalColumns: getLeftColumnCount(nextLeft) + qArea.qLeft + qArea.qWidth,
+    }
+  };
+
+  console.debug('nextPivotData', nextPivotData);
+
+  return nextPivotData;
+};
+
+export const appendData = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage): PivotData => {
+  const {
+    qData,
+    qArea,
+  } = nextDataPage;
+  const data = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
+  return {
+    ...prevPivotData,
+    qDataPages: [...prevPivotData.qDataPages, nextDataPage],
+    data
+  };
 };
 
 export default function createData(
@@ -98,11 +187,11 @@ export default function createData(
     qEffectiveInterColumnSortOrder,
     qNoOfLeftDims,
   } = qHyperCube;
-  const left = extractLeft(qLeft);
+  const left = extractLeft(qLeft, qArea);
   const top = extractTop(qTop, qArea);
-  const leftDimensionInfoIndexMap = left.map(dimensionInfoToIndexMap(0, qEffectiveInterColumnSortOrder));
-  const topDimensionInfoIndexMap = top.map(dimensionInfoToIndexMap(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
-  const measureInfoIndexMap = createMeasureInfoIndexMap(top, qMeasureInfo);
+  const leftDimensionInfoIndexMap = left.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
+  const topDimensionInfoIndexMap = top.map(createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
+  const measureInfoIndexMap = getMeasureInfoIndexMap(top, qMeasureInfo);
   const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), leftDimensionInfoIndexMap);
 
   const pivotData: PivotData = {

@@ -40,7 +40,7 @@ const extractTop = (
       matrix[topRowIdx].push(nodeWithPosition);
 
       if (node.qSubNodes.length) {
-        recursiveExtract(root || nodeWithPosition ,nodeWithPosition, node.qSubNodes, topRowIdx + 1);
+        recursiveExtract(root || nodeWithPosition, nodeWithPosition, node.qSubNodes, topRowIdx + 1);
       } else {
         // This is a leaf node, increase leaf count on all nodes above it
         nodeWithPosition?.parent?.incrementLeafCount();
