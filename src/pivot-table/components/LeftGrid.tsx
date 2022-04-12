@@ -5,7 +5,6 @@ import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
 import getItemKey from './helpers/get-item-key';
-import getLeafNodes from './helpers/get-leaf-nodes';
 import setListRef from './helpers/set-list-ref';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
@@ -34,10 +33,8 @@ const DEFAULT_ROW_HEIGHT = 28;
 
 const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (rowIndex: number) => {
   const cell = list[rowIndex];
-  if (cell.qSubNodes.length) {
-    const leftNodes = getLeafNodes([cell], []);
-
-    return leftNodes.length * DEFAULT_ROW_HEIGHT;
+  if (cell.leafCount) {
+    return cell.leafCount * DEFAULT_ROW_HEIGHT;
   }
 
   return DEFAULT_ROW_HEIGHT;
