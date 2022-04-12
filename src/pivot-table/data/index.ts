@@ -2,7 +2,6 @@ import { PivotData, PivotDimensionCellWithPosition } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeft from './extract-left';
 import extractTop from './extract-top';
-import getMeasureInfoIndexMap from './helpers/create-measure-info-index-map';
 import createDimInfoToIndexMapCallback from './helpers/dimension-info-to-index-map';
 
 const getColumnCount = (matrix: unknown[][]): number => matrix.length;
@@ -30,7 +29,6 @@ const createNewDataGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotV
 export const appendTopData = (
   prevPivotData: PivotData,
   nextDataPage: EngineAPI.INxPivotPage,
-  qHyperCube: EngineAPI.IHyperCube
 ): PivotData => {
   const {
     qTop,
@@ -47,7 +45,7 @@ export const appendTopData = (
     // lastPrevCell.qDown > 0 means that the cell has more subnodes that can be paged
     if (lastPrevCell.qDown > 0 && lastPrevCell.qElemNo === firstNextCell.qElemNo) {
       // Note that qSubNodes will be out-of-sync when last prev cell is replaced with first next cell
-      firstNextCell.leafCount += lastPrevCell.leafCount; // Include leaft count from previous page
+      firstNextCell.leafCount += lastPrevCell.leafCount; // Include leaf count from previous page
       prevAndNextRow.push(...prevRow.slice(0, -1)); // Slice to remove duplicate cell
     } else {
       prevAndNextRow.push(...prevRow);
@@ -59,15 +57,12 @@ export const appendTopData = (
 
   const nextData = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
 
-  const measureInfoIndexMap = [...prevPivotData.measureInfoIndexMap, ...getMeasureInfoIndexMap(extractedTop, qHyperCube.qMeasureInfo)];
-
   const nextPivotData: PivotData = {
     qDataPages: [...prevPivotData.qDataPages, nextDataPage],
     headers: prevPivotData.headers,
     left: prevPivotData.left,
     top: nextTop,
     data: nextData,
-    measureInfoIndexMap,
     leftDimensionInfoIndexMap: prevPivotData.leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap: prevPivotData.topDimensionInfoIndexMap,
     size: {
@@ -79,15 +74,12 @@ export const appendTopData = (
         x: qArea.qLeft + qArea.qWidth,
         y: getTopRowCount(nextTop)
       },
-      left: {
-        x: prevPivotData.size.left.x,
-        y: prevPivotData.size.left.y
-      },
+      left: prevPivotData.size.left,
       data: {
-        x: qArea.qLeft + qArea.qWidth,
-        y: qArea.qTop + qArea.qHeight
+        x: Math.max(...nextData.map(row => row.length)),
+        y: nextData.length,
       },
-      totalRows: getTopRowCount(nextTop) + qArea.qTop + qArea.qHeight,
+      totalRows: getTopRowCount(nextTop) + prevPivotData.size.left.y,
       totalColumns: getLeftColumnCount(prevPivotData.left) + qArea.qLeft + qArea.qWidth,
     }
   };
@@ -132,7 +124,6 @@ export const appendLeftData = (prevPivotData: PivotData, nextDataPage: EngineAPI
     left: nextLeft,
     top: prevPivotData.top,
     data: nextData,
-    measureInfoIndexMap: prevPivotData.measureInfoIndexMap,
     leftDimensionInfoIndexMap: prevPivotData.leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap: prevPivotData.topDimensionInfoIndexMap,
     size: {
@@ -146,11 +137,11 @@ export const appendLeftData = (prevPivotData: PivotData, nextDataPage: EngineAPI
         y: qArea.qTop + qArea.qHeight
       },
       data: {
-        x: qArea.qLeft + qArea.qWidth,
-        y: qArea.qTop + qArea.qHeight
+        x: Math.max(...nextData.map(row => row.length)),
+        y: nextData.length,
       },
       totalRows: getTopRowCount(prevPivotData.top) + qArea.qTop + qArea.qHeight,
-      totalColumns: getLeftColumnCount(nextLeft) + qArea.qLeft + qArea.qWidth,
+      totalColumns: getLeftColumnCount(nextLeft) + prevPivotData.size.top.x,
     }
   };
 
@@ -183,7 +174,6 @@ export default function createData(
     qData } = dataPage;
   const {
     qDimensionInfo,
-    qMeasureInfo,
     qEffectiveInterColumnSortOrder,
     qNoOfLeftDims,
   } = qHyperCube;
@@ -191,7 +181,6 @@ export default function createData(
   const top = extractTop(qTop, qArea);
   const leftDimensionInfoIndexMap = left.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
   const topDimensionInfoIndexMap = top.map(createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
-  const measureInfoIndexMap = getMeasureInfoIndexMap(top, qMeasureInfo);
   const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), leftDimensionInfoIndexMap);
 
   const pivotData: PivotData = {
@@ -200,7 +189,6 @@ export default function createData(
     top,
     data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])],
     headers,
-    measureInfoIndexMap,
     leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap,
     size: {

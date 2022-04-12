@@ -24,7 +24,9 @@ const isMissingData = (
 ) => {
   for (let rowIndex = visibleRowStartIndex; rowIndex <= visibleRowStopIndex; rowIndex++) {
     for (let colIndex = visibleColumnStartIndex; colIndex <= visibleColumnStopIndex; colIndex++) {
-      if (!data[rowIndex][colIndex]) return true;
+      if (!data[rowIndex][colIndex]){
+        return true;
+      }
     }
   }
 
@@ -79,18 +81,12 @@ const DataGrid = ({
       dataModel.fetchNextPage(true, overscanColumnStartIndex);
     } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.pivotData.size.data.x - 1) {
       dataModel.fetchNextPage(false, overscanRowStartIndex);
-    } else if (isMissingData(
-        dataModel.pivotData.data,
-        overscanColumnStartIndex,
-        overscanColumnStopIndex,
-        overscanRowStartIndex,
-        overscanRowStopIndex)
-    ) {
+    } else if (isMissingData(dataModel.pivotData.data, overscanColumnStartIndex, overscanColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex)) {
       dataModel.fetchMoreData(
         overscanColumnStartIndex,
         overscanRowStartIndex,
-        overscanColumnStopIndex - overscanColumnStartIndex,
-        overscanRowStopIndex - overscanRowStartIndex
+        overscanColumnStopIndex - overscanColumnStartIndex + 1,
+        overscanRowStopIndex - overscanRowStartIndex + 1
       );
     }
   }, [dataModel]);

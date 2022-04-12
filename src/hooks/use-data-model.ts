@@ -41,7 +41,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
   useEffect(() => console.debug('new qArea', qArea), [qArea]);
 
-
+  useEffect(() => console.debug('maxAreaHeight, maxAreaWidth', maxAreaHeight, maxAreaWidth), [maxAreaHeight, maxAreaWidth]);
 
   const resetArea = useNebulaCallback(() => {
     setArea({
@@ -58,8 +58,8 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       let pivotPage = qPivotDataPages[0];
 
       if (qLastExpandedPos) {
-        const width = (qLastExpandedPos?.qx || 0) + DEFAULT_PAGE_SIZE;
-        const height = (qLastExpandedPos?.qy || 0) + DEFAULT_PAGE_SIZE;
+        const width = Math.min((qLastExpandedPos?.qx || 0) + DEFAULT_PAGE_SIZE, layout.qHyperCube.qSize.qcx);
+        const height = Math.min((qLastExpandedPos?.qy || 0) + DEFAULT_PAGE_SIZE, layout.qHyperCube.qSize.qcy);
         const area = getNextArea(Math.max(maxAreaWidth, width), Math.max(maxAreaHeight, height));
 
         [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [area]);
@@ -86,28 +86,24 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     setLoading(true);
 
     try {
-      const width = isRow ? maxAreaWidth : maxAreaWidth + DEFAULT_PAGE_SIZE;
-      const height = isRow ? maxAreaHeight + DEFAULT_PAGE_SIZE : maxAreaHeight;
-      let nextPivotPage;
-      let nextPivotData;
+      let nextPivotPage: EngineAPI.INxPivotPage;
+      let nextPivotData: PivotData;
       if (isRow) {
-        console.debug('startIndex', startIndex);
         const nextArea = getNextPage(startIndex, qArea.qHeight + qArea.qTop);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
         nextPivotData = appendLeftData({ ...pivotData }, nextPivotPage);
+        setHasMoreRows(nextPivotPage.qArea.qTop + nextPivotPage.qArea.qHeight < qHyperCube.qSize.qcy);
       } else {
-        console.debug('startIndex', startIndex);
         const nextArea = getNextPage(qArea.qLeft + qArea.qWidth, startIndex);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-        nextPivotData = appendTopData({ ...pivotData }, nextPivotPage, qHyperCube);
+        nextPivotData = appendTopData({ ...pivotData }, nextPivotPage);
+        setHasMoreColumns(nextPivotPage.qArea.qLeft + nextPivotPage.qArea.qWidth < qHyperCube.qSize.qcx);
       }
       console.debug('nextPivotPage', nextPivotPage);
       setArea(nextPivotPage.qArea);
-      setMaxAreaWidth(prev => Math.max(prev, width));
-      setMaxAreaHeight(prev => Math.max(prev, height));
+      setMaxAreaWidth(prev => Math.min(Math.max(prev, nextPivotPage.qArea.qLeft + nextPivotPage.qArea.qWidth), qHyperCube.qSize.qcx));
+      setMaxAreaHeight(prev => Math.min(Math.max(prev, nextPivotPage.qArea.qTop + nextPivotPage.qArea.qHeight), qHyperCube.qSize.qcy));
       setLoading(false);
-      setHasMoreRows(nextPivotPage.qArea.qTop + nextPivotPage.qArea.qHeight < qHyperCube.qSize.qcy);
-      setHasMoreColumns(nextPivotPage.qArea.qLeft + nextPivotPage.qArea.qWidth < qHyperCube.qSize.qcx);
       setPivotData(nextPivotData);
     } catch (error) {
       console.error(error);
@@ -121,13 +117,11 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     setLoading(true);
 
     try {
-      // const width = isRow ? maxAreaWidth : maxAreaWidth + DEFAULT_PAGE_SIZE;
-      // const height = isRow ? maxAreaHeight + DEFAULT_PAGE_SIZE : maxAreaHeight;
       const nextArea = {
         qLeft: left,
         qTop: top,
-        qWidth: width,
-        qHeight: height
+        qWidth: Math.min(width, maxAreaWidth - left),
+        qHeight: Math.min(height, maxAreaHeight - top)
       };
       const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
       const nextPivotData = appendData({ ...pivotData }, nextPivotPage);
@@ -138,7 +132,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       console.error(error);
       setLoading(false);
     }
-  }, 250), [model, qHyperCube, loading]);
+  }, 100), [model, qHyperCube, loading]);
 
   const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
     if (qType === NxSelectionCellType.NX_CELL_LEFT) {
