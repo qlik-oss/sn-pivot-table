@@ -1,5 +1,4 @@
-import { useMemo, usePromise, useState, useEffect } from '@nebula.js/stardust';
-import { debouncer } from 'qlik-chart-modules';
+import { useMemo, usePromise, useState } from '@nebula.js/stardust';
 import createData, { appendLeftData, appendTopData, appendData } from '../pivot-table/data';
 import { DataModel, FetchMoreData, FetchNextPage, PivotData } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
@@ -29,7 +28,6 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
   const [qHyperCube, setHyperCube] = useState<EngineAPI.IHyperCube>({} as EngineAPI.IHyperCube);
-  const [qArea, setArea] = useState<EngineAPI.IRect>(layout.qHyperCube?.qPivotDataPages[0]?.qArea);
   const [shouldResetScroll, setShouldResetScroll] = useState(false); // TODO Call it someting else use some service for it?
   const {
     collapseLeft,
@@ -37,15 +35,6 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     expandLeft,
     expandTop,
   } = useExpandOrCollapser(model);
-
-  const resetArea = useNebulaCallback(() => {
-    setArea({
-      qLeft: 0,
-      qTop: 0,
-      qWidth: DEFAULT_PAGE_SIZE,
-      qHeight: DEFAULT_PAGE_SIZE,
-    });
-  }, []);
 
   const newLayoutHandler = useNebulaCallback(async () => {
     if (layout && model) {
@@ -60,12 +49,10 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
         [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [area]);
         console.debug('newLayoutHandler', 'pivotPage', pivotPage, width, height);
-        setArea(pivotPage.qArea);
         setShouldResetScroll(false);
       } else {
         // Layout was recieved because of a property change or selection change (confirmed or cancelled)
         setShouldResetScroll(true);
-        setArea(pivotPage.qArea);
       }
 
       const nextPivotData = createData(pivotPage, layout.qHyperCube);
@@ -100,7 +87,6 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
         setHasMoreColumns(nextPivotData.size.data.x < qHyperCube.qSize.qcx);
       }
       // console.debug('nextPivotPage', nextPivotPage);
-      setArea(nextPivotPage.qArea);
       setLoading(false);
       setShouldResetScroll(false);
       setPivotData(nextPivotData);
@@ -176,7 +162,6 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     getDimensionInfo,
     getMeasureInfo,
     getNoLeftDims,
-    resetArea,
     getMeasureInfoIndexFromCellIndex,
     shouldResetScroll,
   }),[fetchNextPage,
@@ -192,7 +177,6 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     getDimensionInfo,
     getMeasureInfo,
     getNoLeftDims,
-    resetArea,
     getMeasureInfoIndexFromCellIndex,
     shouldResetScroll,
   ]);

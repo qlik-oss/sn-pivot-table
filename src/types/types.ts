@@ -31,7 +31,6 @@ export interface DataModel {
   getDimensionInfo: () => EngineAPI.INxDimensionInfo[];
   getMeasureInfo: () => EngineAPI.INxMeasureInfo[];
   getNoLeftDims: () => number;
-  resetArea: () => void;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
   shouldResetScroll: boolean;
 }

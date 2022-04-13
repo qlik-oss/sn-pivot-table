@@ -12,7 +12,7 @@ interface RootProps extends PivotTableProps {
 export function render(rootElement: Element, props: RootProps): void {
   ReactDOM.render(
     <React.StrictMode>
-      <SelectionsProvider selections={props.selections} dataModel={props.dataModel}>
+      <SelectionsProvider selections={props.selections}>
         <StickyPivotTable {...props} />
       </SelectionsProvider>
     </React.StrictMode>
