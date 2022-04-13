@@ -6,7 +6,7 @@ import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
 import getItemKey from './helpers/get-item-key';
 import setListRef from './helpers/set-list-ref';
-// import useDebug from '../../hooks/use-debug';
+// import useDebug from '../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
 interface LeftGridProps {

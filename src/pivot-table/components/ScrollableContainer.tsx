@@ -7,25 +7,28 @@ interface ScrollableContainerProps {
   rect: Rect;
   children: JSX.Element;
   onScroll: (e: React.SyntheticEvent) => void;
-  forwardRef: React.MutableRefObject<HTMLDivElement | undefined>;
 }
 
-const ScrollableContainer = ({ rect, children, onScroll, constraints, forwardRef }: ScrollableContainerProps): JSX.Element => (
-  <div
-    ref={forwardRef}
-    data-testid="scrollable-container"
-    style={{
-      overflow: constraints.active ? 'hidden' : 'auto',
-      width: rect.width,
-      height: rect.height,
-      borderWidth: '1px',
-      borderColor: 'rgb(230, 230, 230)',
-      borderStyle: 'solid',
-    }}
-    onScroll={onScroll}
-  >
-    {children}
-  </div>
-);
+const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyRef<HTMLDivElement>): JSX.Element => {
+  const { rect, children, onScroll, constraints } = props;
 
-export default ScrollableContainer;
+  return (
+    <div
+      ref={ref}
+      data-testid="scrollable-container"
+      style={{
+        overflow: constraints.active ? 'hidden' : 'auto',
+        width: rect.width,
+        height: rect.height,
+        borderWidth: '1px',
+        borderColor: 'rgb(230, 230, 230)',
+        borderStyle: 'solid',
+      }}
+      onScroll={onScroll}
+    >
+      {children}
+    </div>
+  );
+};
+
+export default React.forwardRef(ScrollableContainer);

@@ -27,7 +27,7 @@ export const StickyPivotTable = ({
   constraints,
   dataModel
 }: PivotTableProps): JSX.Element => {
-  const scrollableContainerRef = useRef<HTMLDivElement>();
+  const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeList[]>([]);
   const dataGridRef = useRef<VariableSizeGrid>(null);
@@ -44,7 +44,6 @@ export const StickyPivotTable = ({
 
   useLayoutEffect(() => {
     if (dataModel.shouldResetScroll && scrollableContainerRef.current) {
-      console.debug('RESET SCROLL POS');
       scrollableContainerRef.current.scrollLeft = 0;
       scrollableContainerRef.current.scrollTop = 0;
     }
@@ -90,7 +89,7 @@ export const StickyPivotTable = ({
   const dataGridHeight = rect.height - headerGridHeight;
 
   return (
-    <ScrollableContainer forwardRef={scrollableContainerRef} rect={rect} onScroll={onScroll} constraints={constraints} >
+    <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScroll} constraints={constraints} >
       <FullSizeContainer width={getTotalWidth()} height={DEFAULT_ROW_HEIGHT * size.totalRows}>
         <StickyContainer
           rect={rect}

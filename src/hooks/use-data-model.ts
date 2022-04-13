@@ -81,7 +81,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
         nextPivotData = appendLeftData({ ...pivotData }, nextPivotPage);
         setHasMoreRows(nextPivotData.size.data.y < qHyperCube.qSize.qcy);
       } else {
-        const nextArea = getNextPage(pivotData.size.data.x, startIndex); // TODO should I data size? Or try columnsLoaded in a ref instead?
+        const nextArea = getNextPage(pivotData.size.data.x, startIndex);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
         nextPivotData = appendTopData({ ...pivotData }, nextPivotPage);
         setHasMoreColumns(nextPivotData.size.data.x < qHyperCube.qSize.qcx);
