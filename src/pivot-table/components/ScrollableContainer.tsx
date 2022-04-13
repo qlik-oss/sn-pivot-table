@@ -7,10 +7,12 @@ interface ScrollableContainerProps {
   rect: Rect;
   children: JSX.Element;
   onScroll: (e: React.SyntheticEvent) => void;
+  forwardRef: React.MutableRefObject<HTMLDivElement | undefined>;
 }
 
-const ScrollableContainer = ({ rect, children, onScroll, constraints }: ScrollableContainerProps): JSX.Element => (
+const ScrollableContainer = ({ rect, children, onScroll, constraints, forwardRef }: ScrollableContainerProps): JSX.Element => (
   <div
+    ref={forwardRef}
     data-testid="scrollable-container"
     style={{
       overflow: constraints.active ? 'hidden' : 'auto',

@@ -56,6 +56,8 @@ export const appendTopData = (
   });
 
   const nextData = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
+  const width = Math.max(...nextData.map(row => row.length));
+  const height = nextData.length;
 
   const nextPivotData: PivotData = {
     qDataPages: [...prevPivotData.qDataPages, nextDataPage],
@@ -66,25 +68,20 @@ export const appendTopData = (
     leftDimensionInfoIndexMap: prevPivotData.leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap: prevPivotData.topDimensionInfoIndexMap,
     size: {
-      headers: {
-        x: prevPivotData.size.headers.x,
-        y: prevPivotData.size.headers.y,
-      },
+      headers: prevPivotData.size.headers,
       top: {
-        x: qArea.qLeft + qArea.qWidth,
+        x: width,
         y: getTopRowCount(nextTop)
       },
       left: prevPivotData.size.left,
       data: {
-        x: Math.max(...nextData.map(row => row.length)),
-        y: nextData.length,
+        x: width,
+        y: height,
       },
-      totalRows: getTopRowCount(nextTop) + prevPivotData.size.left.y,
-      totalColumns: getLeftColumnCount(prevPivotData.left) + qArea.qLeft + qArea.qWidth,
+      totalRows: getTopRowCount(nextTop) + height,
+      totalColumns: getLeftColumnCount(prevPivotData.left) + width,
     }
   };
-
-  console.debug('nextPivotData', nextPivotData);
 
   return nextPivotData;
 };
@@ -117,6 +114,8 @@ export const appendLeftData = (prevPivotData: PivotData, nextDataPage: EngineAPI
   });
 
   const nextData = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
+  const width = Math.max(...nextData.map(row => row.length));
+  const height = nextData.length;
 
   const nextPivotData: PivotData = {
     qDataPages: [...prevPivotData.qDataPages, nextDataPage],
@@ -127,25 +126,20 @@ export const appendLeftData = (prevPivotData: PivotData, nextDataPage: EngineAPI
     leftDimensionInfoIndexMap: prevPivotData.leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap: prevPivotData.topDimensionInfoIndexMap,
     size: {
-      headers: {
-        x: prevPivotData.size.headers.x,
-        y: prevPivotData.size.headers.y,
-      },
+      headers: prevPivotData.size.headers,
       top: prevPivotData.size.top,
       left: {
         x: getLeftColumnCount(nextLeft),
-        y: qArea.qTop + qArea.qHeight
+        y: height
       },
       data: {
-        x: Math.max(...nextData.map(row => row.length)),
-        y: nextData.length,
+        x: width,
+        y: height,
       },
-      totalRows: getTopRowCount(prevPivotData.top) + qArea.qTop + qArea.qHeight,
-      totalColumns: getLeftColumnCount(nextLeft) + prevPivotData.size.top.x,
+      totalRows: getTopRowCount(prevPivotData.top) + height,
+      totalColumns: getLeftColumnCount(nextLeft) + width,
     }
   };
-
-  console.debug('nextPivotData', nextPivotData);
 
   return nextPivotData;
 };
@@ -182,6 +176,8 @@ export default function createData(
   const leftDimensionInfoIndexMap = left.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
   const topDimensionInfoIndexMap = top.map(createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
   const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), leftDimensionInfoIndexMap);
+  const width = Math.max(...(qData as unknown as EngineAPI.INxPivotValuePoint[][]).map(row => row.length));
+  const height = qData.length;
 
   const pivotData: PivotData = {
     qDataPages: [dataPage],
@@ -197,19 +193,19 @@ export default function createData(
         y: getRowCount(headers)
       },
       top: {
-        x: qArea.qWidth,
+        x: width,
         y: getTopRowCount(top)
       },
       left: {
         x: getLeftColumnCount(left),
-        y: qArea.qHeight
+        y: height
       },
       data: {
-        x: qArea.qWidth,
-        y: qArea.qHeight
+        x: width,
+        y: height
       },
-      totalRows: getTopRowCount(top) + qArea.qHeight,
-      totalColumns: getLeftColumnCount(left) + qArea.qWidth,
+      totalRows: getTopRowCount(top) + height,
+      totalColumns: getLeftColumnCount(left) + width,
     }
   };
 

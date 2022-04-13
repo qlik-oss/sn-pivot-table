@@ -1,5 +1,5 @@
 import { stardust } from '@nebula.js/stardust';
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
 import { DataModel, Rect } from '../../types/types';
 // import useDebug from '../../hooks/use-debug';
@@ -27,6 +27,7 @@ export const StickyPivotTable = ({
   constraints,
   dataModel
 }: PivotTableProps): JSX.Element => {
+  const scrollableContainerRef = useRef<HTMLDivElement>();
   const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeList[]>([]);
   const dataGridRef = useRef<VariableSizeGrid>(null);
@@ -40,6 +41,14 @@ export const StickyPivotTable = ({
     getTotalWidth,
   } = useColumnWidth(dataModel, rect);
   const { size } = dataModel.pivotData;
+
+  useLayoutEffect(() => {
+    if (dataModel.shouldResetScroll && scrollableContainerRef.current) {
+      console.debug('RESET SCROLL POS');
+      scrollableContainerRef.current.scrollLeft = 0;
+      scrollableContainerRef.current.scrollTop = 0;
+    }
+  });
 
   const onScroll = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
@@ -81,7 +90,7 @@ export const StickyPivotTable = ({
   const dataGridHeight = rect.height - headerGridHeight;
 
   return (
-    <ScrollableContainer rect={rect} onScroll={onScroll} constraints={constraints} >
+    <ScrollableContainer forwardRef={scrollableContainerRef} rect={rect} onScroll={onScroll} constraints={constraints} >
       <FullSizeContainer width={getTotalWidth()} height={DEFAULT_ROW_HEIGHT * size.totalRows}>
         <StickyContainer
           rect={rect}

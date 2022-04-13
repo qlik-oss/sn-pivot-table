@@ -33,6 +33,7 @@ export interface DataModel {
   getNoLeftDims: () => number;
   resetArea: () => void;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
+  shouldResetScroll: boolean;
 }
 
 export interface ItemData {
