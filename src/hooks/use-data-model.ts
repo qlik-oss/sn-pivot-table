@@ -56,7 +56,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       if (qLastExpandedPos) {
         const width = Math.min((qLastExpandedPos?.qx || 0) + DEFAULT_PAGE_SIZE, layout.qHyperCube.qSize.qcx);
         const height = Math.min((qLastExpandedPos?.qy || 0) + DEFAULT_PAGE_SIZE, layout.qHyperCube.qSize.qcy);
-        const area = getNextArea(width,height);
+        const area = getNextArea(width, height);
 
         [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [area]);
         console.debug('newLayoutHandler', 'pivotPage', pivotPage, width, height);
@@ -92,12 +92,12 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
         const nextArea = getNextPage(startIndex, pivotData.size.data.y);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
         nextPivotData = appendLeftData({ ...pivotData }, nextPivotPage);
-        setHasMoreRows(nextPivotPage.qArea.qTop + nextPivotPage.qArea.qHeight < qHyperCube.qSize.qcy);
+        setHasMoreRows(nextPivotData.size.data.y < qHyperCube.qSize.qcy);
       } else {
         const nextArea = getNextPage(pivotData.size.data.x, startIndex); // TODO should I data size? Or try columnsLoaded in a ref instead?
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
         nextPivotData = appendTopData({ ...pivotData }, nextPivotPage);
-        setHasMoreColumns(nextPivotPage.qArea.qLeft + nextPivotPage.qArea.qWidth < qHyperCube.qSize.qcx);
+        setHasMoreColumns(nextPivotData.size.data.x < qHyperCube.qSize.qcx);
       }
       // console.debug('nextPivotPage', nextPivotPage);
       setArea(nextPivotPage.qArea);
@@ -110,7 +110,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
     }
   }, [model, qHyperCube, loading, pivotData]);
 
-  const fetchMoreData = useNebulaCallback<FetchMoreData>(debouncer(async (left: number, top: number, width: number, height: number) => {
+  const fetchMoreData = useNebulaCallback<FetchMoreData>(async (left: number, top: number, width: number, height: number) => {
     if (loading || !model) return;
 
     setLoading(true);
@@ -131,7 +131,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       console.error(error);
       setLoading(false);
     }
-  }, 100), [model, qHyperCube, loading, pivotData]);
+  }, [model, qHyperCube, loading, pivotData]);
 
   const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
     if (qType === NxSelectionCellType.NX_CELL_LEFT) {
@@ -160,8 +160,6 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
 
     return index % qMeasureInfo.length;
   }, [qHyperCube]);
-
-  // const hasExpandPosition = useMemo(() => !!qHyperCube.qLastExpandedPos, [qHyperCube]);
 
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,

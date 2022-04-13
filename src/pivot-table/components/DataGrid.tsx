@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
+import { debouncer } from 'qlik-chart-modules';
 import { DataModel, GridItemData } from '../../types/types';
 import DataCell from './cells/DataCell';
 // import useDebug from '../../hooks/use-debug';
@@ -67,7 +68,7 @@ const DataGrid = ({
     }
   }, [width, height]);
 
-  const onItemsRendered = useCallback(({
+  const onItemsRendered = useCallback(debouncer(({
     overscanColumnStartIndex,
     overscanColumnStopIndex,
     overscanRowStartIndex,
@@ -89,7 +90,7 @@ const DataGrid = ({
         overscanRowStopIndex - overscanRowStartIndex + 1
       );
     }
-  }, [dataModel]);
+  }, 100), [dataModel]);
 
   const getColumnWidth = useCallback(
     (index) => getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(index)),
