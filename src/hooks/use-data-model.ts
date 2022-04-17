@@ -78,12 +78,12 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       if (isRow) {
         const nextArea = getNextPage(startIndex, pivotData.size.data.y);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-        nextPivotData = appendLeftData({ ...pivotData }, nextPivotPage);
+        nextPivotData = appendLeftData(pivotData, nextPivotPage);
         setHasMoreRows(nextPivotData.size.data.y < qHyperCube.qSize.qcy);
       } else {
         const nextArea = getNextPage(pivotData.size.data.x, startIndex);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-        nextPivotData = appendTopData({ ...pivotData }, nextPivotPage);
+        nextPivotData = appendTopData(pivotData, nextPivotPage);
         setHasMoreColumns(nextPivotData.size.data.x < qHyperCube.qSize.qcx);
       }
       // console.debug('nextPivotPage', nextPivotPage);
@@ -109,7 +109,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
         qHeight: Math.min(height, pivotData.size.data.y - top)
       };
       const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-      const nextPivotData = appendData({ ...pivotData }, nextPivotPage);
+      const nextPivotData = appendData(pivotData, nextPivotPage);
       // console.debug('fetchMoreData', nextArea);
       setLoading(false);
       setPivotData(nextPivotData);
