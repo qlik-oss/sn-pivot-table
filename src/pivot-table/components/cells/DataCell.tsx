@@ -41,7 +41,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const { qText, qType } = cell;
 
   return (
-    <div title={`${columnIndex}:${rowIndex}`} style={{...style, ...containerStyle}} data-testid={testId}>
+    <div title={`${qText} ${columnIndex}:${rowIndex}`} style={{...style, ...containerStyle}} data-testid={testId}>
       <div style={qType === NxDimCellType.NX_DIM_CELL_NULL ? nilStyle : numericStyle}>
         <div style={textStyle}>{qText}</div>
       </div>
