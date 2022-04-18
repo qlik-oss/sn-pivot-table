@@ -12,9 +12,8 @@ const extractLeftGrid = (
   }
 
   let rowIdx = 0;
-  // const matrix = [] as PivotDimensionCellWithPosition[][];
 
-  function extract(
+  function recursiveExtract(
     root: PivotDimensionCellWithPosition | null,
     parent: PivotDimensionCellWithPosition | null,
     nodes: EngineAPI.INxPivotDimensionCell[],
@@ -46,7 +45,7 @@ const extractLeftGrid = (
       grid[colIdx][y] = nodeWithPosition;
 
       if (node.qSubNodes.length) {
-        extract(root || nodeWithPosition, nodeWithPosition, node.qSubNodes, colIdx + 1);
+        recursiveExtract(root || nodeWithPosition, nodeWithPosition, node.qSubNodes, colIdx + 1);
       } else if (nodeFromPrevPage?.qUp !== node.qUp && nodeFromPrevPage?.qDown !== node.qDown) { // Check if node this is a new page for the node
         // This is a leaf node, increase leaf count on all nodes above it
         nodeWithPosition?.parent?.incrementLeafCount();
@@ -54,7 +53,7 @@ const extractLeftGrid = (
     });
   }
 
-  extract(null, null, qLeft);
+  recursiveExtract(null, null, qLeft);
 
   return grid;
 };
