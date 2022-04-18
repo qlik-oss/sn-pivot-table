@@ -1,5 +1,5 @@
 import { useMemo, usePromise, useState } from '@nebula.js/stardust';
-import createData, { appendLeftData, appendTopData, appendData } from '../pivot-table/data';
+import createData, { addDataToGrid, addToGrid } from '../pivot-table/data';
 import { DataModel, FetchMoreData, FetchNextPage, PivotData } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
 import { DEFAULT_PAGE_SIZE, PSEUDO_DIMENSION_INDEX, Q_PATH } from '../constants';
@@ -78,12 +78,12 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
       if (isRow) {
         const nextArea = getNextPage(startIndex, pivotData.size.data.y);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-        nextPivotData = appendLeftData(pivotData, nextPivotPage);
+        nextPivotData = addToGrid(pivotData, nextPivotPage);
         setHasMoreRows(nextPivotData.size.data.y < qHyperCube.qSize.qcy);
       } else {
         const nextArea = getNextPage(pivotData.size.data.x, startIndex);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-        nextPivotData = appendTopData(pivotData, nextPivotPage);
+        nextPivotData = addToGrid(pivotData, nextPivotPage);
         setHasMoreColumns(nextPivotData.size.data.x < qHyperCube.qSize.qcx);
       }
       // console.debug('nextPivotPage', nextPivotPage);
@@ -109,7 +109,7 @@ export default function useDataModel(layout: EngineAPI.IGenericHyperCubeLayout, 
         qHeight: Math.min(height, pivotData.size.data.y - top)
       };
       const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-      const nextPivotData = appendData(pivotData, nextPivotPage);
+      const nextPivotData = addDataToGrid(pivotData, nextPivotPage);
       // console.debug('fetchMoreData', nextArea);
       setLoading(false);
       setPivotData(nextPivotData);

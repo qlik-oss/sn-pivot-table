@@ -64,7 +64,9 @@ export interface PivotDimensionCellWithPosition extends EngineAPI.INxPivotDimens
 export interface PivotData {
   qDataPages: EngineAPI.INxPivotPage[],
   left: PivotDimensionCellWithPosition[][],
+  leftGrid: PivotDimensionCellWithPosition[][],
   top: PivotDimensionCellWithPosition[][],
+  topGrid: PivotDimensionCellWithPosition[][],
   data: EngineAPI.INxPivotValuePoint[][],
   headers: (null | string)[][],
   // measureInfoIndexMap: number[];

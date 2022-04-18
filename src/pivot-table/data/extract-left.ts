@@ -1,6 +1,9 @@
+/* eslint-disable no-param-reassign */
+
 import { PivotDimensionCellWithPosition } from '../../types/types';
 
-const extractLeft = (
+const extractLeftGrid = (
+  grid: PivotDimensionCellWithPosition[][],
   qLeft: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage
 ): PivotDimensionCellWithPosition[][] => {
@@ -9,7 +12,7 @@ const extractLeft = (
   }
 
   let rowIdx = 0;
-  const matrix = [] as PivotDimensionCellWithPosition[][];
+  // const matrix = [] as PivotDimensionCellWithPosition[][];
 
   function extract(
     root: PivotDimensionCellWithPosition | null,
@@ -17,20 +20,21 @@ const extractLeft = (
     nodes: EngineAPI.INxPivotDimensionCell[],
     colIdx = 0
   ) {
-    if (!Array.isArray(matrix[colIdx])) {
-      matrix[colIdx] = [];
+    if (!Array.isArray(grid[colIdx])) {
+      grid[colIdx] = [];
     }
 
     nodes.forEach((node, currIdx) => {
       rowIdx += currIdx === 0 ? 0 : 1;
-
+      const y = qArea.qTop + rowIdx - node.qUp; // Start position + current page position - previous tail size,
+      const nodeFromPrevPage = grid[colIdx][y];
       const nodeWithPosition = {
         ...node,
         x: colIdx,
-        y: qArea.qTop + rowIdx - node.qUp, // Start position + current page position - previous tail size,
+        y,
         parent,
         root,
-        leafCount: 0,
+        leafCount:nodeFromPrevPage?.leafCount ?? 0, // Append leafcount from previous page
         incrementLeafCount() {
           this.leafCount += 1;
           if (parent) {
@@ -38,11 +42,12 @@ const extractLeft = (
           }
         },
       };
-      matrix[colIdx].push(nodeWithPosition);
+
+      grid[colIdx][y] = nodeWithPosition;
 
       if (node.qSubNodes.length) {
         extract(root || nodeWithPosition, nodeWithPosition, node.qSubNodes, colIdx + 1);
-      } else {
+      } else if (nodeFromPrevPage?.qUp !== node.qUp && nodeFromPrevPage?.qDown !== node.qDown) { // Check if node this is a new page for the node
         // This is a leaf node, increase leaf count on all nodes above it
         nodeWithPosition?.parent?.incrementLeafCount();
       }
@@ -51,7 +56,7 @@ const extractLeft = (
 
   extract(null, null, qLeft);
 
-  return matrix;
+  return grid;
 };
 
-export default extractLeft;
+export default extractLeftGrid;
