@@ -13,7 +13,7 @@ const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => m
 const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
 const createNewDataGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotValuePoint[][], nextData: EngineAPI.INxPivotValuePoint[][]) => {
-  const data = prevData.map(row => [...row]);
+  const data = [...prevData];
   nextData.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       if (!Array.isArray(data[qArea.qTop + rowIndex])) {
@@ -115,7 +115,7 @@ export default function createData(
     leftGrid,
     top,
     topGrid,
-    data: (qData as unknown as EngineAPI.INxPivotValuePoint[][]).map(row => [...row]),
+    data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])],
     headers,
     leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap,
