@@ -1,7 +1,6 @@
 /*  eslint-disable no-param-reassign */
 import React, { memo, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
-import { debouncer } from 'qlik-chart-modules';
 import { DataModel, GridItemData, ScrollService } from '../../types/types';
 import DataCell from './cells/DataCell';
 // import useDebug from '../../hooks/use-debug';
