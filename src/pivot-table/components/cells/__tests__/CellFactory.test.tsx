@@ -8,6 +8,7 @@ import EmptyCell from '../EmptyCell';
 import PseudoDimensionCell from '../PseudoDimensionCell';
 import TotalsCell from '../TotalsCell';
 import NxDimCellType from '../../../../types/QIX';
+import dataModelMock from './__mocks__/data-model-mock';
 
 jest.mock('../DimensionCell');
 jest.mock('../EmptyCell');
@@ -35,37 +36,7 @@ describe('CellFactory', () => {
       select: false,
     };
 
-    dataModel = {
-      pivotData: {
-        data: [],
-        left: [],
-        top: [],
-        headers: [],
-        measureInfoIndexMap: [],
-        leftDimensionInfoIndexMap: [],
-        topDimensionInfoIndexMap: [],
-        size: {
-          data: { x: 0, y: 0 },
-          headers: { x: 0, y: 0 },
-          left: { x: 0, y: 0 },
-          top: { x: 0, y: 0 },
-          totalRows: 0,
-          totalColumns: 0
-        }
-      },
-      fetchNextPage: () => {},
-      hasMoreColumns: false,
-      hasMoreRows: false,
-      collapseLeft: () => {},
-      collapseTop: () => {},
-      expandLeft: () => {},
-      expandTop: () => {},
-      hasData: true,
-      isDimensionLocked: () => false,
-      getDimensionInfo: () => [],
-      getMeasureInfo: () => [],
-      getNoLeftDims: () => 3,
-    };
+    dataModel = dataModelMock();
 
     data = {
       dataModel,

@@ -68,7 +68,6 @@ export interface PivotData {
   topGrid: PivotDimensionCellWithPosition[][],
   data: EngineAPI.INxPivotValuePoint[][],
   headers: (null | string)[][],
-  // measureInfoIndexMap: number[];
   leftDimensionInfoIndexMap: number[];
   topDimensionInfoIndexMap: number[];
   size: {
