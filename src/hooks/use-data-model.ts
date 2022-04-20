@@ -1,5 +1,6 @@
 /*  eslint-disable no-param-reassign */
 import { useMemo, usePromise, useState } from '@nebula.js/stardust';
+import { debouncer } from 'qlik-chart-modules';
 import createData, { addDataPage, addPage } from '../pivot-table/data';
 import { DataModel, FetchMoreData, FetchNextPage, PivotData, ScrollService } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
@@ -160,7 +161,7 @@ export default function useDataModel(
     }
   }, [model, qHyperCube, loading, pivotData, scrollService]);
 
-  const fetchMoreData = useNebulaCallback<FetchMoreData>(async (left: number, top: number, width: number, height: number) => {
+  const fetchMoreData = useNebulaCallback<FetchMoreData>(debouncer(async (left: number, top: number, width: number, height: number) => {
     if (loading || !model) return;
 
     setLoading(true);
@@ -172,6 +173,7 @@ export default function useDataModel(
         qWidth: Math.min(width, pivotData.size.data.x - left),
         qHeight: Math.min(height, pivotData.size.data.y - top)
       };
+
       const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
       const nextPivotData = addDataPage(pivotData, nextPivotPage);
       setLoading(false);
@@ -180,7 +182,7 @@ export default function useDataModel(
       console.error(error);
       setLoading(false);
     }
-  }, [model, qHyperCube, loading, pivotData]);
+  }, 150), [model, qHyperCube, loading, pivotData]);
 
   const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
     if (qType === NxSelectionCellType.NX_CELL_LEFT) {

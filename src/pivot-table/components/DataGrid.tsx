@@ -73,7 +73,7 @@ const DataGrid = ({
     }
   }, [width, height]);
 
-  const onItemsRendered = useCallback(debouncer(({
+  const onItemsRendered = useCallback(({
     overscanColumnStartIndex,
     overscanColumnStopIndex,
     overscanRowStartIndex,
@@ -100,7 +100,7 @@ const DataGrid = ({
     scrollService.scrollTopPosition = visibleRowStartIndex;
     scrollService.scrollWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
     scrollService.scrollHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
-  }, 100), [dataModel]);
+  }, [dataModel]);
 
   const getColumnWidth = useCallback(
     (index) => getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(index)),
