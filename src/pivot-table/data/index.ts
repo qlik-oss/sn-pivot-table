@@ -13,7 +13,7 @@ const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => m
 const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
 const createNewDataGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotValuePoint[][], nextData: EngineAPI.INxPivotValuePoint[][]) => {
-  const data = [...prevData];
+  const data = prevData.map(row => [...row]);
   nextData.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       if (!Array.isArray(data[qArea.qTop + rowIndex])) {
@@ -26,7 +26,7 @@ const createNewDataGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotV
   return data;
 };
 
-export const addToGrid = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage): PivotData => {
+export const addPage = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage): PivotData => {
   const {
     qLeft,
     qTop,
@@ -38,7 +38,7 @@ export const addToGrid = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxP
   const topGrid = extractTopGrid(prevPivotData.topGrid, qTop, qArea);
   const nextTop = topGrid.map(row => row.filter(cell => typeof cell !== 'undefined'));
   const nextData = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
-  const width = Math.max(...nextData.map(row => row.length));
+  const width = Math.max(...Array.from(nextData, row => row?.length || 0)); // Safe guard against empty values
   const height = nextData.length;
 
   const nextPivotData: PivotData = {
@@ -71,7 +71,7 @@ export const addToGrid = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxP
   return nextPivotData;
 };
 
-export const addDataToGrid = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage): PivotData => {
+export const addDataPage = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage): PivotData => {
   const {
     qData,
     qArea,
@@ -106,7 +106,7 @@ export default function createData(
   const leftDimensionInfoIndexMap = left.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
   const topDimensionInfoIndexMap = top.map(createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
   const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), leftDimensionInfoIndexMap);
-  const width = Math.max(...(qData as unknown as EngineAPI.INxPivotValuePoint[][]).map(row => row.length));
+  const width = Math.max(...Array.from((qData as unknown as EngineAPI.INxPivotValuePoint[][]), row => row?.length || 0)); // Safe guard against empty values
   const height = qData.length;
 
   const pivotData: PivotData = {
@@ -115,7 +115,7 @@ export default function createData(
     leftGrid,
     top,
     topGrid,
-    data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])],
+    data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])].map(row => [...row]),
     headers,
     leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap,

@@ -32,7 +32,6 @@ export interface DataModel {
   getMeasureInfo: () => EngineAPI.INxMeasureInfo[];
   getNoLeftDims: () => number;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
-  shouldResetScroll: boolean;
 }
 
 export interface ItemData {
@@ -85,4 +84,12 @@ export interface PivotData {
 export interface ExtendedSelections extends stardust.ObjectSelections {
   on: (name: string, callback: () => void) => void;
   removeListener: (name: string, callback: () => void) => void;
+}
+
+export interface ScrollService {
+  shouldResetScroll: boolean;
+  scrollLeftPosition: number;
+  scrollTopPosition: number;
+  scrollWidth: number;
+  scrollHeight: number;
 }

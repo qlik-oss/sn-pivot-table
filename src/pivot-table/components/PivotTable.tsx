@@ -1,8 +1,8 @@
 import { stardust } from '@nebula.js/stardust';
 import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
-import { DataModel, Rect } from '../../types/types';
-// import useDebug from '../../hooks/use-debug';
+import { DataModel, Rect, ScrollService } from '../../types/types';
+// import useDebug from '../hooks/use-debug';
 import StickyContainer from './StickyContainer';
 import ScrollableContainer from './ScrollableContainer';
 import FullSizeContainer from './FullSizeContainer';
@@ -16,6 +16,7 @@ export interface PivotTableProps {
   rect: Rect;
   constraints: stardust.Constraints;
   dataModel: DataModel;
+  scrollService: ScrollService;
 }
 
 const DEFAULT_ROW_HEIGHT = 28;
@@ -25,7 +26,8 @@ const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
 export const StickyPivotTable = ({
   rect,
   constraints,
-  dataModel
+  dataModel,
+  scrollService
 }: PivotTableProps): JSX.Element => {
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
@@ -43,7 +45,7 @@ export const StickyPivotTable = ({
   const { size } = dataModel.pivotData;
 
   useLayoutEffect(() => {
-    if (dataModel.shouldResetScroll && scrollableContainerRef.current) {
+    if (scrollService.shouldResetScroll && scrollableContainerRef.current) {
       scrollableContainerRef.current.scrollLeft = 0;
       scrollableContainerRef.current.scrollTop = 0;
     }
@@ -80,7 +82,9 @@ export const StickyPivotTable = ({
 
   // useDebug('PivotTable', {
   //   rect,
+  //   constraints,
   //   dataModel,
+  //   scrollService
   // });
 
   const headerGridHeight = DEFAULT_ROW_HEIGHT * size.headers.y;
@@ -134,6 +138,7 @@ export const StickyPivotTable = ({
             rowHightCallback={rowHightCallback}
             width={rightGridWidth}
             height={dataGridHeight}
+            scrollService={scrollService}
           />
         </StickyContainer>
       </FullSizeContainer>
