@@ -5,7 +5,7 @@ import createNodes from './test-helper';
 
 describe('extractTop', () => {
   const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
-  const grid = [[]] as PivotDimensionCellWithPosition[][];
+  const grid = [] as PivotDimensionCellWithPosition[][];
 
 
   test('should handle empty qTop array', () => {

@@ -39,7 +39,7 @@ const TopGrid = ({
   constraints,
   getScrollLeft
 }: TopGridProps): JSX.Element | null => {
-  if (dataModel.pivotData.size.data.x === 0) {
+  if (dataModel.pivotData.size.top.y === 0) {
     return null;
   }
 

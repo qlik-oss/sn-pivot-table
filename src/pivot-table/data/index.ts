@@ -99,9 +99,9 @@ export default function createData(
     qEffectiveInterColumnSortOrder,
     qNoOfLeftDims,
   } = qHyperCube;
-  const leftGrid = extractLeftGrid([[]], qLeft, qArea);
+  const leftGrid = extractLeftGrid([], qLeft, qArea);
   const left = leftGrid.map(col => col.filter(cell => typeof cell !== 'undefined'));
-  const topGrid = extractTopGrid([[]], qTop, qArea);
+  const topGrid = extractTopGrid([], qTop, qArea);
   const top = topGrid.map(row => row.filter(cell => typeof cell !== 'undefined'));
   const leftDimensionInfoIndexMap = left.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
   const topDimensionInfoIndexMap = top.map(createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder));

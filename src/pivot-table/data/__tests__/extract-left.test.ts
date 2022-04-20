@@ -5,7 +5,7 @@ import createNodes from './test-helper';
 
 describe('extractLeftGrid', () => {
   const qArea = { qTop: 1 } as EngineAPI.INxDataAreaPage;
-  const grid = [[]] as PivotDimensionCellWithPosition[][];
+  const grid = [] as PivotDimensionCellWithPosition[][];
 
   test('should handle empty qLeft array', () => {
     const qLeft: EngineAPI.INxPivotDimensionCell[] = [];

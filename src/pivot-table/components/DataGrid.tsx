@@ -1,5 +1,6 @@
 /*  eslint-disable no-param-reassign */
 import React, { memo, useCallback, useLayoutEffect } from 'react';
+import { debouncer } from 'qlik-chart-modules';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel, GridItemData, ScrollService } from '../../types/types';
 import DataCell from './cells/DataCell';
@@ -72,6 +73,38 @@ const DataGrid = ({
     }
   }, [width, height]);
 
+  const debouncedFetchMoreData = debouncer((
+    overscanColumnStartIndex: number,
+    overscanColumnStopIndex: number,
+    overscanRowStartIndex: number,
+    overscanRowStopIndex: number
+  ) => {
+    if (overscanColumnStartIndex > dataModel.pivotData.size.data.x) {
+      return;
+    }
+
+    if (overscanRowStartIndex > dataModel.pivotData.size.data.y) {
+      return;
+    }
+
+    const shouldFetchData = isMissingData(
+      dataModel.pivotData.data,
+      overscanColumnStartIndex,
+      overscanColumnStopIndex,
+      overscanRowStartIndex,
+      overscanRowStopIndex
+    );
+    if (shouldFetchData) {
+      dataModel.fetchMoreData(
+        overscanColumnStartIndex,
+        overscanRowStartIndex,
+        overscanColumnStopIndex - overscanColumnStartIndex + 1,
+        overscanRowStopIndex - overscanRowStartIndex + 1
+      );
+    }
+  }, 150);
+
+
   const onItemsRendered = useCallback(({
     overscanColumnStartIndex,
     overscanColumnStopIndex,
@@ -82,23 +115,22 @@ const DataGrid = ({
     visibleRowStartIndex,
     visibleRowStopIndex
   }: GridOnItemsRenderedProps) => {
-    if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.pivotData.size.data.y - OFF_VIEW_THRESHOLD) {
-      dataModel.fetchNextPage(true, overscanColumnStartIndex);
-    } else if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.pivotData.size.data.x - OFF_VIEW_THRESHOLD) {
-      dataModel.fetchNextPage(false, overscanRowStartIndex);
-    } else if (isMissingData(dataModel.pivotData.data, overscanColumnStartIndex, overscanColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex)) {
-      dataModel.fetchMoreData(
-        overscanColumnStartIndex,
-        overscanRowStartIndex,
-        overscanColumnStopIndex - overscanColumnStartIndex + 1,
-        overscanRowStopIndex - overscanRowStartIndex + 1
-      );
-    }
-
     scrollService.scrollLeftPosition = visibleColumnStartIndex;
     scrollService.scrollTopPosition = visibleRowStartIndex;
     scrollService.scrollWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
     scrollService.scrollHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
+
+    if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.pivotData.size.data.y - OFF_VIEW_THRESHOLD) {
+      dataModel.fetchNextPage(true, overscanColumnStartIndex);
+      return;
+    }
+
+    if (dataModel.hasMoreColumns && visibleColumnStopIndex >= dataModel.pivotData.size.data.x - OFF_VIEW_THRESHOLD) {
+      dataModel.fetchNextPage(false, overscanRowStartIndex);
+      return;
+    }
+
+    debouncedFetchMoreData(overscanColumnStartIndex, overscanColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex);
   }, [dataModel]);
 
   const getColumnWidth = useCallback(

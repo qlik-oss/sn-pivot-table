@@ -9,7 +9,7 @@ const extractLeftGrid = (
   qArea: EngineAPI.INxDataAreaPage
 ): PivotDimensionCellWithPosition[][] => {
   if (!qLeft.length) {
-    return [];
+    return grid;
   }
 
   let rowIdx = 0;
