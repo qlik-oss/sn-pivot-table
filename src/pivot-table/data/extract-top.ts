@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { PivotDimensionCellWithPosition } from '../../types/types';
+import createNode from './helpers/create-node';
 
 const extractTopGrid = (
   grid: PivotDimensionCellWithPosition[][],
@@ -26,29 +27,14 @@ const extractTopGrid = (
     nodes.forEach((node, currIdx) => {
       colIdx += currIdx === 0 ? 0 : 1;
       const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous tail size
-      const nodeFromPrevPage = grid[topRowIdx][x];
-      const nodeWithPosition = {
-        ...node,
-        x,
-        y: topRowIdx,
-        parent,
-        root,
-        leafCount: nodeFromPrevPage?.leafCount ?? 0, // Append leafcount from previous page
-        incrementLeafCount() {
-          this.leafCount += 1;
-          if (parent) {
-            parent.incrementLeafCount();
-          }
-        },
-      };
+      const nodeWithPosition = createNode(node, parent, root, x, topRowIdx);
 
       grid[topRowIdx][x] = nodeWithPosition;
 
       if (node.qSubNodes.length) {
         recursiveExtract(root || nodeWithPosition, nodeWithPosition, node.qSubNodes, topRowIdx + 1);
-      } else if (nodeFromPrevPage?.qUp !== node.qUp && nodeFromPrevPage?.qDown !== node.qDown) { // Check if node this is a new page for the node
-        // This is a leaf node, increase leaf count on all nodes above it
-        nodeWithPosition?.parent?.incrementLeafCount();
+      } else {
+        nodeWithPosition.parent?.incrementLeafCount();
       }
     });
   };
