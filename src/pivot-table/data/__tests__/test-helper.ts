@@ -5,6 +5,8 @@ function createNode(qElemNo: number, qType: NxDimCellType): EngineAPI.INxPivotDi
     qType,
     qElemNo,
     qSubNodes: [],
+    qUp: 1,
+    qDown: 2,
   } as unknown as EngineAPI.INxPivotDimensionCell;
 }
 
