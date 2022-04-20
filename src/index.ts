@@ -5,7 +5,7 @@ import ext from './ext';
 import { render, teardown } from './pivot-table/Root';
 import useDataModel from './hooks/use-data-model';
 import { ExtendedSelections } from './types/types';
-import createScrollService from './services/scroll-service';
+import useViewService from './hooks/use-view-service';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova() {
@@ -23,22 +23,22 @@ export default function supernova() {
       const model = useModel();
       const rect = useRect();
       const constraints = useConstraints();
-      const scrollService = createScrollService();
-      const dataModel = useDataModel(layout, model, scrollService);
+      const viewService = useViewService();
+      const dataModel = useDataModel(layout, model, viewService);
       const selections = useSelections() as ExtendedSelections;
 
       useEffect(() => {
-        if (dataModel.hasData && rect?.width && rect?.height && constraints && selections && scrollService) {
-          console.debug('render', { layout, selections, constraints, dataModel, rect, model, scrollService });
+        if (dataModel.hasData && rect?.width && rect?.height && constraints && selections && viewService) {
+          console.debug('render', { layout, selections, constraints, dataModel, rect, model, viewService });
           render(element, {
             rect,
             constraints,
             dataModel,
             selections,
-            scrollService
+            viewService
           });
         }
-      }, [dataModel, rect?.width, rect?.height, constraints, selections, scrollService]);
+      }, [dataModel, rect?.width, rect?.height, constraints, selections, viewService]);
 
       useEffect(() => () => {
           teardown(element);

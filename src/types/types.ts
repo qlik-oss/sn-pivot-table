@@ -85,10 +85,10 @@ export interface ExtendedSelections extends stardust.ObjectSelections {
   removeListener: (name: string, callback: () => void) => void;
 }
 
-export interface ScrollService {
+export interface ViewService {
   shouldResetScroll: boolean;
-  scrollLeftPosition: number;
-  scrollTopPosition: number;
-  scrollWidth: number;
-  scrollHeight: number;
+  gridColumnStartIndex: number;
+  gridRowStartIndex: number;
+  gridWidth: number;
+  gridHeight: number;
 }

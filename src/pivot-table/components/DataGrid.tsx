@@ -2,7 +2,7 @@
 import React, { memo, useCallback, useLayoutEffect } from 'react';
 import { debouncer } from 'qlik-chart-modules';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
-import { DataModel, GridItemData, ScrollService } from '../../types/types';
+import { DataModel, GridItemData, ViewService } from '../../types/types';
 import DataCell from './cells/DataCell';
 // import useDebug from '../../hooks/use-debug';
 
@@ -13,7 +13,7 @@ interface DataGridProps {
   height: number;
   rowHightCallback: () => number;
   width: number;
-  scrollService: ScrollService;
+  viewService: ViewService;
 }
 
 const OFF_VIEW_THRESHOLD = 1;
@@ -45,7 +45,7 @@ const DataGrid = ({
   height,
   rowHightCallback,
   width,
-  scrollService,
+  viewService,
 }: DataGridProps): JSX.Element | null => {
   if (dataModel.pivotData.size.data.x === 0) {
     return null;
@@ -115,10 +115,10 @@ const DataGrid = ({
     visibleRowStartIndex,
     visibleRowStopIndex
   }: GridOnItemsRenderedProps) => {
-    scrollService.scrollLeftPosition = visibleColumnStartIndex;
-    scrollService.scrollTopPosition = visibleRowStartIndex;
-    scrollService.scrollWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
-    scrollService.scrollHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
+    viewService.gridColumnStartIndex = visibleColumnStartIndex;
+    viewService.gridRowStartIndex = visibleRowStartIndex;
+    viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
+    viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
     if (dataModel.hasMoreRows && visibleRowStopIndex >= dataModel.pivotData.size.data.y - OFF_VIEW_THRESHOLD) {
       dataModel.fetchNextPage(true, overscanColumnStartIndex);
