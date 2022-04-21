@@ -59,10 +59,11 @@ const DataGrid = ({
   //   height,
   //   rowHightCallback,
   //   width,
+  //   viewService
   // });
 
   useLayoutEffect(() => {
-    if (dataGridRef.current) {
+    if (dataGridRef.current && viewService.shouldResetScroll) {
       dataGridRef.current.resetAfterColumnIndex(0);
     }
   }, [dataModel]);
