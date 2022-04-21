@@ -1,13 +1,13 @@
 import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
-import { PSEUDO_DIMENSION_INDEX } from '../../constants';
-import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
-import ListCellFactory from './cells/ListCellFactory';
-import getItemKey from './helpers/get-item-key';
-import setListRef from './helpers/set-list-ref';
+import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
+import { DataModel, PivotDimensionCellWithPosition } from '../../../types/types';
+import ListCellFactory from '../cells/ListCellFactory';
+import getItemKey from '../helpers/get-item-key';
+import setListRef from '../helpers/set-list-ref';
 // import useDebug from '../hooks/use-debug';
-import { gridBorderStyle } from './shared-styles';
+import { gridBorderStyle } from '../shared-styles';
 
 interface TopGridProps {
   dataModel: DataModel;

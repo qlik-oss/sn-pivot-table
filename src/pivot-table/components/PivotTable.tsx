@@ -3,13 +3,13 @@ import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
 import { DataModel, Rect, ViewService } from '../../types/types';
 // import useDebug from '../hooks/use-debug';
-import StickyContainer from './StickyContainer';
-import ScrollableContainer from './ScrollableContainer';
-import FullSizeContainer from './FullSizeContainer';
-import HeaderGrid from './HeaderGrid';
-import TopGrid from './TopGrid';
-import LeftGrid from './LeftGrid';
-import DataGrid from './DataGrid';
+import StickyContainer from './containers/StickyContainer';
+import ScrollableContainer from './containers/ScrollableContainer';
+import FullSizeContainer from './containers/FullSizeContainer';
+import HeaderGrid from './grids/HeaderGrid';
+import TopGrid from './grids/TopGrid';
+import LeftGrid from './grids/LeftGrid';
+import DataGrid from './grids/DataGrid';
 import useColumnWidth from '../hooks/use-column-width';
 
 export interface PivotTableProps {

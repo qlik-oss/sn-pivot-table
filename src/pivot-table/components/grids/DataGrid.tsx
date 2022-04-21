@@ -2,8 +2,8 @@
 import React, { memo, useCallback, useLayoutEffect } from 'react';
 import { debouncer } from 'qlik-chart-modules';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
-import { DataModel, GridItemData, ViewService } from '../../types/types';
-import DataCell from './cells/DataCell';
+import { DataModel, GridItemData, ViewService } from '../../../types/types';
+import DataCell from '../cells/DataCell';
 // import useDebug from '../../hooks/use-debug';
 
 interface DataGridProps {
@@ -29,7 +29,7 @@ const isMissingData = (
 ) => {
   for (let rowIndex = visibleRowStartIndex; rowIndex <= visibleRowStopIndex; rowIndex++) {
     for (let colIndex = visibleColumnStartIndex; colIndex <= visibleColumnStopIndex; colIndex++) {
-      if (!data[rowIndex][colIndex]){
+      if (!data[rowIndex]?.[colIndex]){
         return true;
       }
     }
