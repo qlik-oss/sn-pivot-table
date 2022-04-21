@@ -35,10 +35,19 @@ const cellStyle: React.CSSProperties = {
   alignItems: 'center',
 };
 
+const stickyCell: React.CSSProperties = {
+  width: 'fit-content',
+  maxWidth: '100%',
+  position: 'sticky',
+  left: 4,
+  top: 4,
+};
+
 const dimTextStyle: React.CSSProperties = {
   ...textStyle,
   fontWeight: 'bold',
   marginLeft: 4,
+
 };
 
 export const selectedStyle: React.CSSProperties = {
@@ -132,6 +141,7 @@ const DimensionCell = ({
 
   return (
     <div
+      title={`${qText} - ${colIndex}:${rowIndex}`}
       style={{
         ...style,
         ...containerStyle,
@@ -147,7 +157,7 @@ const DimensionCell = ({
       tabIndex={0}
       data-testid={testId}
     >
-      <div title={`${qText} - ${colIndex}:${rowIndex}`} style={{ ...cellStyle }} >
+      <div style={{ ...cellStyle, ...stickyCell }} >
         {cellIcon}
         <div style={dimTextStyle}>{qText}</div>
       </div>
