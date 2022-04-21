@@ -1,9 +1,12 @@
 import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
+import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
-// import useDebug from '../../hooks/use-debug';
+import getItemKey from './helpers/get-item-key';
+import setListRef from './helpers/set-list-ref';
+// import useDebug from '../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
 interface TopGridProps {
@@ -26,16 +29,6 @@ const bottomListStyle: React.CSSProperties = {
   ...gridBorderStyle
 };
 
-const getLeafNodes = (root: EngineAPI.INxPivotDimensionCell[], nodes: EngineAPI.INxPivotDimensionCell[]): EngineAPI.INxPivotDimensionCell[] => root.reduce((ary: EngineAPI.INxPivotDimensionCell[], cell) => {
-  if (cell.qSubNodes.length) {
-    return getLeafNodes(cell.qSubNodes, ary);
-  }
-
-  ary.push(cell);
-
-  return ary;
-}, nodes);
-
 const TopGrid = ({
   dataModel,
   topGridRef,
@@ -46,7 +39,7 @@ const TopGrid = ({
   constraints,
   getScrollLeft
 }: TopGridProps): JSX.Element | null => {
-  if (dataModel.pivotData.size.data.x === 0) {
+  if (dataModel.pivotData.size.top.y === 0) {
     return null;
   }
 
@@ -54,13 +47,12 @@ const TopGrid = ({
   // useDebug('TopGrid', {
   //   dataModel,
   //   topGridRef,
-  //   columnWidthCallback,
+  //   getMeasureInfoWidth,
   //   rowHightCallback,
   //   width,
   //   height,
   //   constraints,
-  //   getScrollLeft,
-  //   totalMeasureInfoColumnWidth
+  //   getScrollLeft
   // });
 
   useLayoutEffect(() => {
@@ -77,26 +69,32 @@ const TopGrid = ({
 
   const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (colIndex: number) =>{
     const cell = list[colIndex];
-    if (cell.qSubNodes.length) {
-      const leftNodes = getLeafNodes([cell], []);
+    if (cell.leafCount > 0) {
+      let size = 0;
+      for (let index = 0; index < cell.leafCount; index++) { // eslint-disable-line no-plusplus
+        const measureInfoIndex = dataModel.getMeasureInfoIndexFromCellIndex(cell.x + index);
+        size += getMeasureInfoWidth(measureInfoIndex);
+      }
 
-      return leftNodes.reduce((size, _, index) =>
-        size + getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x + index]),
-        0);
+      return size;
     }
 
-    return getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x]);
+    return getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(cell.x));
+  };
+
+  const getKey = (rowIndex: number): string => {
+    const dimIndex = dataModel.pivotData.topDimensionInfoIndexMap[rowIndex];
+    if (dimIndex === PSEUDO_DIMENSION_INDEX) {
+      return '-1';
+    }
+    return `${dataModel.getDimensionInfo()[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
   return (<div>
     {dataModel.pivotData.top.map((list, topRowIndex) => (
       <VariableSizeList
-        key={list.map(c => c.qElemNo).join(',')}
-        ref={r => {
-          if (topGridRef.current) {
-            topGridRef.current[topRowIndex] = r as VariableSizeList; // eslint-disable-line no-param-reassign
-          }
-        }}
+        key={getKey(topRowIndex)}
+        ref={setListRef(topGridRef, topRowIndex)}
         style={topRowIndex === dataModel.pivotData.top.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
         height={rowHightCallback()}
         width={width}
@@ -108,6 +106,7 @@ const TopGrid = ({
           constraints,
           list,
         }}
+        itemKey={getItemKey}
       >
         {MemoizedListCellFactory}
       </VariableSizeList>

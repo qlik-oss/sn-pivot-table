@@ -3,18 +3,19 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, selectedStyle, lockedFromSelectionStyle } from '../DimensionCell';
-import { CellValue, DataModel, GridItemData } from '../../../../types/types';
-import { useSelectionsContext } from '../../../../contexts/SelectionsProvider';
+import { DataModel, GridItemData, PivotDimensionCellWithPosition } from '../../../../types/types';
+import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
 import NxDimCellType, { NxSelectionCellType } from '../../../../types/QIX';
-import { SelectionModel } from '../../../../hooks/use-selections-model';
+import { SelectionModel } from '../../../hooks/use-selections-model';
+import dataModelMock from './__mocks__/data-model-mock';
 
-jest.mock('../../../../contexts/SelectionsProvider');
+jest.mock('../../../contexts/SelectionsProvider');
 
 describe('DimensionCell', () => {
   let constraints: stardust.Constraints;
   let dataModel: DataModel;
   let data: GridItemData;
-  let cell: CellValue;
+  let cell: PivotDimensionCellWithPosition;
   const style: React.CSSProperties = {
     position: 'absolute',
     left: '25px',
@@ -60,38 +61,7 @@ describe('DimensionCell', () => {
       select: false,
     };
 
-    dataModel = {
-      pivotData: {
-        data: [],
-        left: [
-          [cell, cell, cell],
-          [cell, cell, cell]
-        ],
-        top: [],
-        headers: [],
-        measureInfoIndexMap: [],
-        dimensionInfoIndexMap: [],
-        size: {
-          data: { x: 0, y: 0 },
-          headers: { x: 0, y: 0 },
-          left: { x: 0, y: 0 },
-          top: { x: 0, y: 0 },
-          totalRows: 0,
-          totalColumns: 0
-        }
-      },
-      fetchNextPage: () => {},
-      hasMoreColumns: false,
-      hasMoreRows: false,
-      collapseLeft: () => {},
-      collapseTop: () => {},
-      expandLeft: () => {},
-      expandTop: () => {},
-      hasData: true,
-      isDimensionLocked: () => false,
-      getDimensionInfo: () => [],
-      getMeasureInfo: () => [],
-    };
+    dataModel = dataModelMock();
 
     expandLeftSpy = jest.spyOn(dataModel, 'expandLeft');
     expandTopSpy = jest.spyOn(dataModel, 'expandTop');
@@ -110,7 +80,7 @@ describe('DimensionCell', () => {
       qCanExpand: false,
       qCanCollapse: false,
       qType: NxDimCellType.NX_DIM_CELL_NORMAL
-    } as unknown as EngineAPI.INxPivotDimensionCell;
+    } as unknown as PivotDimensionCellWithPosition;
   });
 
   test('should render', () => {

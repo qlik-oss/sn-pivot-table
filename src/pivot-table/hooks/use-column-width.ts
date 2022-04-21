@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
-import { PSEUDO_DIMENSION_INDEX } from '../constants';
-import NxDimCellType from '../types/QIX';
-import { DataModel, Rect } from '../types/types';
+import { PSEUDO_DIMENSION_INDEX } from '../../constants';
+import NxDimCellType from '../../types/QIX';
+import { DataModel, Rect } from '../../types/types';
 import useMeasureText from './use-measure-text';
 
 interface ColumnWidthHook {
@@ -14,21 +14,22 @@ interface ColumnWidthHook {
   getTotalWidth: () => number;
 }
 
+export const EXPAND_ICON_WIDTH = 30;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 
 export default function useColumnWidth(dataModel: DataModel, rect: Rect): ColumnWidthHook {
   const { estimateWidth, measureText } = useMeasureText('13px', '"Source Sans Pro", sans-serif'); // TODO Hard-coded...
-  const { getDimensionInfo, getMeasureInfo, pivotData } = dataModel;
+  const { getDimensionInfo, getMeasureInfo, pivotData, getNoLeftDims } = dataModel;
 
   const hasPseudoDimOnLeft = useMemo(
     () => pivotData.left.some(column => column[0] !== null && column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
-    [pivotData]
+    [pivotData.left]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
-    const ratios = pivotData.dimensionInfoIndexMap
-      .map((dimIndex) => {
+    const ratios = pivotData.leftDimensionInfoIndexMap
+      .map((dimIndex, index) => {
         if (dimIndex === PSEUDO_DIMENSION_INDEX) {
           const pseudoDimensionWidth = Math.max(
             ...getMeasureInfo()
@@ -39,9 +40,11 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
         }
 
         const { qFallbackTitle, qApprMaxGlyphCount } = getDimensionInfo()[dimIndex];
+        const hasChildNodes = index < getNoLeftDims() - 1; // -1 as the last column can not be expanded or collapsed
+        const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
         const w = Math.max(
           measureText(qFallbackTitle),
-          estimateWidth(qApprMaxGlyphCount)
+          estimateWidth(qApprMaxGlyphCount) + collapseExpandIconSize
         );
         return w / rect.width;
       });
@@ -52,7 +55,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     const multiplier = MAX_RATIO_OF_TOTAL_WIDTH / sumOfRatios;
     return ratios.map(r => r * multiplier);
 
-  }, [estimateWidth, measureText, pivotData, getDimensionInfo, rect, getMeasureInfo]);
+  }, [estimateWidth, measureText, pivotData.leftDimensionInfoIndexMap, getDimensionInfo, rect.width, getMeasureInfo]);
 
   const getLeftColumnWidth = useCallback(
     (index) => leftColumnWidthsRatios[index] * rect.width,
@@ -61,7 +64,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
 
   const leftGridWidth = useMemo(
     () => pivotData.left.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
-    [pivotData, getLeftColumnWidth]
+    [pivotData.left, getLeftColumnWidth]
   );
 
   const rightGridWidth = useMemo(
@@ -100,7 +103,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     }
 
     return getWidth(measureInfoIndex);
-  }, [rightGridWidth, pivotData, preCalcTotalDataColumnWidth, estimateWidth, measureText, getMeasureInfo, hasPseudoDimOnLeft]);
+  }, [rightGridWidth, pivotData.size.data.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, getMeasureInfo, hasPseudoDimOnLeft]);
 
   const getDataColumnWidth = useCallback((colIndex: number) => {
     const measureInfoIndex = colIndex % getMeasureInfo().length;
@@ -110,7 +113,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   const getTotalWidth = useCallback(() => Array
       .from({ length: pivotData.size.data.x }, () => null)
       .reduce((width, _, index) => width + getDataColumnWidth(index), leftGridWidth),
-    [getDataColumnWidth, leftGridWidth, pivotData]
+    [getDataColumnWidth, leftGridWidth, pivotData.size.data.x]
   );
 
   const totalMeasureInfoColumnWidth = useMemo(

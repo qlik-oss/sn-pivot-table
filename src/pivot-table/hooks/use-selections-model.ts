@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
-import { Q_PATH } from '../constants';
-import { NxSelectionCellType } from '../types/QIX';
-import { ExtendedSelections } from '../types/types';
+import { Q_PATH } from '../../constants';
+import { NxSelectionCellType } from '../../types/QIX';
+import { ExtendedSelections } from '../../types/types';
 
 export interface SelectionModel {
   select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => void;
@@ -21,15 +21,16 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
 
   useEffect(() => {
     const clearSelections = () => setSelected([]);
+    const confirmOrCancelSelections = () => setSelected([]);
     selections.on('deactivated', clearSelections);
-    selections.on('canceled', clearSelections);
-    selections.on('confirmed', clearSelections);
+    selections.on('canceled', confirmOrCancelSelections);
+    selections.on('confirmed', confirmOrCancelSelections);
     selections.on('cleared', clearSelections);
 
     return () => {
       selections.removeListener('deactivated', clearSelections);
-      selections.removeListener('canceled', clearSelections);
-      selections.removeListener('confirmed', clearSelections);
+      selections.removeListener('canceled', confirmOrCancelSelections);
+      selections.removeListener('confirmed', confirmOrCancelSelections);
       selections.removeListener('cleared', clearSelections);
     };
   }, [selections]);

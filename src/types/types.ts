@@ -2,7 +2,9 @@ import { stardust } from '@nebula.js/stardust';
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
-export type FetchNextPage = (isRow: boolean) => void;
+export type FetchNextPage = (isRow: boolean, startIndex: number) => void;
+
+export type FetchMoreData = (left: number, top: number, width: number, height: number) => void;
 
 export interface Rect {
   width: number;
@@ -17,6 +19,7 @@ export interface Point {
 export interface DataModel {
   pivotData: PivotData;
   fetchNextPage: FetchNextPage;
+  fetchMoreData: FetchMoreData;
   hasMoreColumns: boolean;
   hasMoreRows: boolean;
   collapseLeft: ExpandOrCollapser;
@@ -27,6 +30,8 @@ export interface DataModel {
   isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   getDimensionInfo: () => EngineAPI.INxDimensionInfo[];
   getMeasureInfo: () => EngineAPI.INxMeasureInfo[];
+  getNoLeftDims: () => number;
+  getMeasureInfoIndexFromCellIndex: (index: number) => number;
 }
 
 export interface ItemData {
@@ -41,6 +46,7 @@ export interface GridItemData extends ItemData {
 
 export interface ListItemData extends ItemData {
   list: PivotDimensionCellWithPosition[];
+  isLeftColumn?: boolean;
 }
 
 export type CellValue = EngineAPI.INxPivotDimensionCell | null;
@@ -49,15 +55,21 @@ export interface PivotDimensionCellWithPosition extends EngineAPI.INxPivotDimens
   x: number;
   y: number;
   parent: PivotDimensionCellWithPosition | null;
+  root: PivotDimensionCellWithPosition | null;
+  leafCount: number;
+  incrementLeafCount: () => void;
 }
 
 export interface PivotData {
-  left: CellValue[][],
+  qDataPages: EngineAPI.INxPivotPage[],
+  left: PivotDimensionCellWithPosition[][],
+  leftGrid: PivotDimensionCellWithPosition[][],
   top: PivotDimensionCellWithPosition[][],
+  topGrid: PivotDimensionCellWithPosition[][],
   data: EngineAPI.INxPivotValuePoint[][],
   headers: (null | string)[][],
-  measureInfoIndexMap: number[];
-  dimensionInfoIndexMap: number[];
+  leftDimensionInfoIndexMap: number[];
+  topDimensionInfoIndexMap: number[];
   size: {
     headers: Point;
     top: Point;
@@ -71,4 +83,12 @@ export interface PivotData {
 export interface ExtendedSelections extends stardust.ObjectSelections {
   on: (name: string, callback: () => void) => void;
   removeListener: (name: string, callback: () => void) => void;
+}
+
+export interface ViewService {
+  shouldResetScroll: boolean;
+  gridColumnStartIndex: number;
+  gridRowStartIndex: number;
+  gridWidth: number;
+  gridHeight: number;
 }
