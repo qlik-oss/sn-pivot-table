@@ -7,6 +7,7 @@ import { DataModel, GridItemData, PivotDimensionCellWithPosition } from '../../.
 import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
 import NxDimCellType, { NxSelectionCellType } from '../../../../types/QIX';
 import { SelectionModel } from '../../../hooks/use-selections-model';
+import dataModelMock from './__mocks__/data-model-mock';
 
 jest.mock('../../../contexts/SelectionsProvider');
 
@@ -60,40 +61,7 @@ describe('DimensionCell', () => {
       select: false,
     };
 
-    dataModel = {
-      pivotData: {
-        data: [],
-        left: [
-          [cell, cell, cell],
-          [cell, cell, cell]
-        ],
-        top: [],
-        headers: [],
-        measureInfoIndexMap: [],
-        leftDimensionInfoIndexMap: [],
-        topDimensionInfoIndexMap: [],
-        size: {
-          data: { x: 0, y: 0 },
-          headers: { x: 0, y: 0 },
-          left: { x: 0, y: 0 },
-          top: { x: 0, y: 0 },
-          totalRows: 0,
-          totalColumns: 0
-        }
-      },
-      fetchNextPage: () => {},
-      hasMoreColumns: false,
-      hasMoreRows: false,
-      collapseLeft: () => {},
-      collapseTop: () => {},
-      expandLeft: () => {},
-      expandTop: () => {},
-      hasData: true,
-      isDimensionLocked: () => false,
-      getDimensionInfo: () => [],
-      getMeasureInfo: () => [],
-      getNoLeftDims: () => 3,
-    };
+    dataModel = dataModelMock();
 
     expandLeftSpy = jest.spyOn(dataModel, 'expandLeft');
     expandTopSpy = jest.spyOn(dataModel, 'expandTop');

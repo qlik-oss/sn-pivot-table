@@ -21,15 +21,16 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
 
   useEffect(() => {
     const clearSelections = () => setSelected([]);
+    const confirmOrCancelSelections = () => setSelected([]);
     selections.on('deactivated', clearSelections);
-    selections.on('canceled', clearSelections);
-    selections.on('confirmed', clearSelections);
+    selections.on('canceled', confirmOrCancelSelections);
+    selections.on('confirmed', confirmOrCancelSelections);
     selections.on('cleared', clearSelections);
 
     return () => {
       selections.removeListener('deactivated', clearSelections);
-      selections.removeListener('canceled', clearSelections);
-      selections.removeListener('confirmed', clearSelections);
+      selections.removeListener('canceled', confirmOrCancelSelections);
+      selections.removeListener('confirmed', confirmOrCancelSelections);
       selections.removeListener('cleared', clearSelections);
     };
   }, [selections]);

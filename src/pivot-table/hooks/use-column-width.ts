@@ -24,7 +24,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
 
   const hasPseudoDimOnLeft = useMemo(
     () => pivotData.left.some(column => column[0] !== null && column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
-    [pivotData]
+    [pivotData.left]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
@@ -55,7 +55,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     const multiplier = MAX_RATIO_OF_TOTAL_WIDTH / sumOfRatios;
     return ratios.map(r => r * multiplier);
 
-  }, [estimateWidth, measureText, pivotData, getDimensionInfo, rect, getMeasureInfo]);
+  }, [estimateWidth, measureText, pivotData.leftDimensionInfoIndexMap, getDimensionInfo, rect.width, getMeasureInfo]);
 
   const getLeftColumnWidth = useCallback(
     (index) => leftColumnWidthsRatios[index] * rect.width,
@@ -64,7 +64,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
 
   const leftGridWidth = useMemo(
     () => pivotData.left.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
-    [pivotData, getLeftColumnWidth]
+    [pivotData.left, getLeftColumnWidth]
   );
 
   const rightGridWidth = useMemo(
@@ -103,7 +103,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     }
 
     return getWidth(measureInfoIndex);
-  }, [rightGridWidth, pivotData, preCalcTotalDataColumnWidth, estimateWidth, measureText, getMeasureInfo, hasPseudoDimOnLeft]);
+  }, [rightGridWidth, pivotData.size.data.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, getMeasureInfo, hasPseudoDimOnLeft]);
 
   const getDataColumnWidth = useCallback((colIndex: number) => {
     const measureInfoIndex = colIndex % getMeasureInfo().length;
@@ -113,7 +113,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   const getTotalWidth = useCallback(() => Array
       .from({ length: pivotData.size.data.x }, () => null)
       .reduce((width, _, index) => width + getDataColumnWidth(index), leftGridWidth),
-    [getDataColumnWidth, leftGridWidth, pivotData]
+    [getDataColumnWidth, leftGridWidth, pivotData.size.data.x]
   );
 
   const totalMeasureInfoColumnWidth = useMemo(

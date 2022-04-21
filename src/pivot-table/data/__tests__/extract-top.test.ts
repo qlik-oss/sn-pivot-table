@@ -1,12 +1,17 @@
 import NxDimCellType from '../../../types/QIX';
-import extractTop from '../extract-top';
+import { PivotDimensionCellWithPosition } from '../../../types/types';
+import extractTopGrid from '../extract-top';
 import createNodes from './test-helper';
 
 describe('extractTop', () => {
+  const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
+  const grid = [] as PivotDimensionCellWithPosition[][];
+
+
   test('should handle empty qTop array', () => {
     const qTop: EngineAPI.INxPivotDimensionCell[] = [];
 
-    const top = extractTop(qTop);
+    const top = extractTopGrid(grid, qTop, qArea);
 
     expect(top).toHaveLength(0);
   });
@@ -15,7 +20,7 @@ describe('extractTop', () => {
     const colCount = 3;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTop(qTop);
+    const top = extractTopGrid(grid, qTop, qArea);
 
     expect(top).toMatchSnapshot();
   });
@@ -28,7 +33,7 @@ describe('extractTop', () => {
     qTop[0].qSubNodes = subNodes;
     qTop[0].qCanCollapse = true;
 
-    const top = extractTop(qTop);
+    const top = extractTopGrid(grid, qTop, qArea);
 
     expect(top).toMatchSnapshot();
   });
@@ -47,7 +52,7 @@ describe('extractTop', () => {
     qTop[2].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
     qTop[2].qSubNodes[1].qSubNodes = createNodes(2, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTop(qTop);
+    const top = extractTopGrid(grid, qTop, qArea);
 
     expect(top).toMatchSnapshot();
   });

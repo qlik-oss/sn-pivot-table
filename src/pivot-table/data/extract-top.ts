@@ -1,37 +1,47 @@
-import { PivotDimensionCellWithPosition } from '../../types/types';
+/* eslint-disable no-param-reassign */
 
-const extractTop = (qTop: EngineAPI.INxPivotDimensionCell[]): PivotDimensionCellWithPosition[][] => {
+import { PivotDimensionCellWithPosition } from '../../types/types';
+import createNode from './helpers/create-node';
+
+const extractTopGrid = (
+  grid: PivotDimensionCellWithPosition[][],
+  qTop: EngineAPI.INxPivotDimensionCell[],
+  qArea: EngineAPI.INxDataAreaPage
+): PivotDimensionCellWithPosition[][] => {
   if (!qTop.length) {
-    return [];
+    return grid;
   }
 
-  const matrix = [] as PivotDimensionCellWithPosition[][];
   let colIdx = 0;
 
-  function extract(parent: PivotDimensionCellWithPosition | null, nodes: EngineAPI.INxPivotDimensionCell[], topRowIdx = 0) {
-    if (!Array.isArray(matrix[topRowIdx])) {
-      matrix[topRowIdx] = [];
+  function recursiveExtract(
+    root: PivotDimensionCellWithPosition | null,
+    parent: PivotDimensionCellWithPosition | null,
+    nodes: EngineAPI.INxPivotDimensionCell[],
+    topRowIdx = 0
+  ): void {
+    if (!Array.isArray(grid[topRowIdx])) {
+      grid[topRowIdx] = [];
     }
 
     nodes.forEach((node, currIdx) => {
       colIdx += currIdx === 0 ? 0 : 1;
-      const nodeWithPosition = {
-        ...node,
-        x: colIdx,
-        y: topRowIdx,
-        parent
-      };
-      matrix[topRowIdx].push(nodeWithPosition);
+      const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous tail size
+      const nodeWithPosition = createNode(node, parent, root, x, topRowIdx);
+
+      grid[topRowIdx][x] = nodeWithPosition;
 
       if (node.qSubNodes.length) {
-        extract(nodeWithPosition, node.qSubNodes, topRowIdx + 1);
+        recursiveExtract(root || nodeWithPosition, nodeWithPosition, node.qSubNodes, topRowIdx + 1);
+      } else {
+        nodeWithPosition.parent?.incrementLeafCount();
       }
     });
   };
 
-  extract(null, qTop);
+  recursiveExtract(null, null, qTop);
 
-  return matrix;
+  return grid;
 };
 
-export default extractTop;
+export default extractTopGrid;

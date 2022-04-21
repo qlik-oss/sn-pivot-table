@@ -1,9 +1,8 @@
-import { PSEUDO_DIMENSION_INDEX } from '../../constants';
-import NxDimCellType from '../../types/QIX';
 import { PivotData, PivotDimensionCellWithPosition } from '../../types/types';
 import extractHeaders from './extract-headers';
-import extractLeft from './extract-left';
-import extractTop from './extract-top';
+import extractLeftGrid from './extract-left';
+import extractTopGrid from './extract-top';
+import createDimInfoToIndexMapCallback from './helpers/dimension-info-to-index-map';
 
 const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
@@ -13,22 +12,77 @@ const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => m
 
 const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
 
-export const findParentPseudoDimension = (cell: PivotDimensionCellWithPosition): PivotDimensionCellWithPosition | null => {
-  if (cell.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return cell;
+const createNewDataGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotValuePoint[][], nextData: EngineAPI.INxPivotValuePoint[][]) => {
+  const data = prevData.map(row => [...row]);
+  nextData.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      if (!Array.isArray(data[qArea.qTop + rowIndex])) {
+        data[qArea.qTop + rowIndex] = [];
+      }
+      data[qArea.qTop + rowIndex][qArea.qLeft + colIndex] = cell;
+    });
+  });
 
-  let { parent } = cell;
+  return data;
+};
 
-  if (!parent) return parent;
+export const addPage = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage): PivotData => {
+  const {
+    qLeft,
+    qTop,
+    qData,
+    qArea,
+  } = nextDataPage;
+  const leftGrid = extractLeftGrid(prevPivotData.leftGrid, qLeft, qArea);
+  const nextLeft = leftGrid.map(col => col.filter(cell => typeof cell !== 'undefined'));
+  const topGrid = extractTopGrid(prevPivotData.topGrid, qTop, qArea);
+  const nextTop = topGrid.map(row => row.filter(cell => typeof cell !== 'undefined'));
+  const nextData = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
+  const width = Math.max(...Array.from(nextData, row => row?.length || 0)); // Safe guard against empty values
+  const height = nextData.length;
 
-  while (parent.qType !== NxDimCellType.NX_DIM_CELL_PSEUDO) {
-    if (parent.parent) {
-      parent = parent.parent;
-    } else {
-      return null;
+  const nextPivotData: PivotData = {
+    ...prevPivotData,
+    qDataPages: [...prevPivotData.qDataPages, nextDataPage],
+    left: nextLeft,
+    leftGrid,
+    top: nextTop,
+    topGrid,
+    data: nextData,
+    size: {
+      headers: prevPivotData.size.headers,
+      top: {
+        x: width,
+        y: getTopRowCount(nextTop)
+      },
+      left: {
+        x: getLeftColumnCount(nextLeft),
+        y: height
+      },
+      data: {
+        x: width,
+        y: height,
+      },
+      totalRows: getTopRowCount(nextTop) + height,
+      totalColumns: getLeftColumnCount(nextLeft) + width,
     }
-  }
+  };
 
-  return parent;
+  return nextPivotData;
+};
+
+export const addDataPage = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPivotPage): PivotData => {
+  const {
+    qData,
+    qArea,
+  } = nextDataPage;
+  const data = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
+
+  return {
+    ...prevPivotData,
+    qDataPages: [...prevPivotData.qDataPages, nextDataPage],
+    data
+  };
 };
 
 export default function createData(
@@ -42,38 +96,27 @@ export default function createData(
     qData } = dataPage;
   const {
     qDimensionInfo,
-    qMeasureInfo,
     qEffectiveInterColumnSortOrder,
     qNoOfLeftDims,
   } = qHyperCube;
-  const left = extractLeft(qLeft);
-  const top = extractTop(qTop);
-  const leftDimensionInfoIndexMap = left.map((column, index) => {
-    if (column[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
-    return qEffectiveInterColumnSortOrder[index];
-  });
-  const topDimensionInfoIndexMap = top.map((row, index) => {
-    const topIndex = index + qNoOfLeftDims;
-    if (row[0].qType === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
-    return qEffectiveInterColumnSortOrder[topIndex];
-  });
-  const measureInfoIndexMap = (top[top.length - 1] || []).map(cell => {
-    const { qText } = findParentPseudoDimension(cell) || {};
-    const idx = qMeasureInfo.findIndex(measureInfo => measureInfo.qFallbackTitle ===  qText);
-    if (idx === -1) {
-      return 0; // Fallback solution when there is only a single measure, as in no pseudo dimenions.
-    };
-
-    return idx;
-  });
+  const leftGrid = extractLeftGrid([], qLeft, qArea);
+  const left = leftGrid.map(col => col.filter(cell => typeof cell !== 'undefined'));
+  const topGrid = extractTopGrid([], qTop, qArea);
+  const top = topGrid.map(row => row.filter(cell => typeof cell !== 'undefined'));
+  const leftDimensionInfoIndexMap = left.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
+  const topDimensionInfoIndexMap = top.map(createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
   const headers = extractHeaders(qDimensionInfo, getTopRowCount(top), leftDimensionInfoIndexMap);
+  const width = Math.max(...Array.from((qData as unknown as EngineAPI.INxPivotValuePoint[][]), row => row?.length || 0)); // Safe guard against empty values
+  const height = qData.length;
 
   const pivotData: PivotData = {
+    qDataPages: [dataPage], // TODO remove as it just used for debugging
     left,
+    leftGrid,
     top,
-    data: qData as unknown as EngineAPI.INxPivotValuePoint[][],
+    topGrid,
+    data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])].map(row => [...row]),
     headers,
-    measureInfoIndexMap,
     leftDimensionInfoIndexMap,
     topDimensionInfoIndexMap,
     size: {
@@ -82,19 +125,19 @@ export default function createData(
         y: getRowCount(headers)
       },
       top: {
-        x: qArea.qWidth,
+        x: width,
         y: getTopRowCount(top)
       },
       left: {
         x: getLeftColumnCount(left),
-        y: qArea.qHeight
+        y: height
       },
       data: {
-        x: qArea.qWidth,
-        y: qArea.qHeight
+        x: width,
+        y: height
       },
-      totalRows: getTopRowCount(top) + qArea.qHeight,
-      totalColumns: getLeftColumnCount(left) + qArea.qWidth,
+      totalRows: getTopRowCount(top) + height,
+      totalColumns: getLeftColumnCount(left) + width,
     }
   };
 

@@ -5,9 +5,8 @@ import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import { DataModel, PivotDimensionCellWithPosition } from '../../types/types';
 import ListCellFactory from './cells/ListCellFactory';
 import getItemKey from './helpers/get-item-key';
-import getLeafNodes from './helpers/get-leaf-nodes';
 import setListRef from './helpers/set-list-ref';
-// import useDebug from '../../hooks/use-debug';
+// import useDebug from '../hooks/use-debug';
 import { gridBorderStyle } from './shared-styles';
 
 interface TopGridProps {
@@ -40,7 +39,7 @@ const TopGrid = ({
   constraints,
   getScrollLeft
 }: TopGridProps): JSX.Element | null => {
-  if (dataModel.pivotData.size.data.x === 0) {
+  if (dataModel.pivotData.size.top.y === 0) {
     return null;
   }
 
@@ -48,13 +47,12 @@ const TopGrid = ({
   // useDebug('TopGrid', {
   //   dataModel,
   //   topGridRef,
-  //   columnWidthCallback,
+  //   getMeasureInfoWidth,
   //   rowHightCallback,
   //   width,
   //   height,
   //   constraints,
-  //   getScrollLeft,
-  //   totalMeasureInfoColumnWidth
+  //   getScrollLeft
   // });
 
   useLayoutEffect(() => {
@@ -71,15 +69,17 @@ const TopGrid = ({
 
   const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (colIndex: number) =>{
     const cell = list[colIndex];
-    if (cell.qSubNodes.length) {
-      const leftNodes = getLeafNodes([cell], []);
+    if (cell.leafCount > 0) {
+      let size = 0;
+      for (let index = 0; index < cell.leafCount; index++) { // eslint-disable-line no-plusplus
+        const measureInfoIndex = dataModel.getMeasureInfoIndexFromCellIndex(cell.x + index);
+        size += getMeasureInfoWidth(measureInfoIndex);
+      }
 
-      return leftNodes.reduce((size, _, index) =>
-        size + getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x + index]),
-        0);
+      return size;
     }
 
-    return getMeasureInfoWidth(dataModel.pivotData.measureInfoIndexMap[cell.x]);
+    return getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(cell.x));
   };
 
   const getKey = (rowIndex: number): string => {

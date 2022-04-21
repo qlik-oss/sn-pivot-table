@@ -1,4 +1,4 @@
-import createData, { findParentPseudoDimension } from '../index';
+import createData from '../index';
 import extractHeaders from '../extract-headers';
 import extractLeft from '../extract-left';
 import extractTop from '../extract-top';
@@ -22,51 +22,56 @@ function createPivotPage(): EngineAPI.INxPivotPage {
   };
 }
 
+const EMPTY_GRID = [[]];
+const TOP = [
+  [
+    { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition,
+    { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition
+  ]
+];
+const LEFT = [
+  [
+    { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition,
+    { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition
+  ]
+];
 let qDimensionInfo: EngineAPI.INxDimensionInfo[] = [];
-let qMeasureInfo: EngineAPI.INxMeasureInfo[] = [];
 let qHyperCube = {} as EngineAPI.IHyperCube;
 
 describe('createData', () => {
   beforeEach(() => {
     jest.resetAllMocks();
 
-    mockedExtractHeaders.mockReturnValue([]);
-    mockedExtractLeft.mockReturnValue([]);
-    mockedExtractTop.mockReturnValue([]);
+    mockedExtractHeaders.mockReturnValue(EMPTY_GRID);
+    mockedExtractLeft.mockReturnValue(LEFT);
+    mockedExtractTop.mockReturnValue(TOP);
 
     qDimensionInfo = [];
-    qMeasureInfo = [];
     qHyperCube = {
       qDimensionInfo,
-      qMeasureInfo,
+      qNoOfLeftDims: 0,
       qEffectiveInterColumnSortOrder: [0],
     } as EngineAPI.IHyperCube;
   });
 
   test('should return correct left data', () => {
-    const left = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
-    mockedExtractLeft.mockReturnValue(left);
+    mockedExtractLeft.mockReturnValue(LEFT);
+    mockedExtractTop.mockReturnValue(TOP);
     const pivotPage = createPivotPage();
-    pivotPage.qArea.qHeight = 123;
-
     const data = createData(pivotPage, qHyperCube);
 
-    expect(data.left).toEqual(left);
-    expect(data.size.left.x).toBe(1);
-    expect(data.size.left.y).toBe(pivotPage.qArea.qHeight);
+    expect(data.left).toEqual(LEFT);
+    expect(data.leftGrid).toEqual(LEFT);
   });
 
   test('should return correct top data', () => {
-    const top = [[{} as PivotDimensionCellWithPosition], [{} as PivotDimensionCellWithPosition]];
-    mockedExtractTop.mockReturnValue(top);
+    mockedExtractLeft.mockReturnValue(LEFT);
+    mockedExtractTop.mockReturnValue(TOP);
     const pivotPage = createPivotPage();
-    pivotPage.qArea.qWidth = 123;
-
     const data = createData(pivotPage, qHyperCube);
 
-    expect(data.top).toEqual(top);
-    expect(data.size.top.x).toBe(pivotPage.qArea.qWidth);
-    expect(data.size.top.y).toBe(2);
+    expect(data.top).toEqual(TOP);
+    expect(data.topGrid).toEqual(TOP);
   });
 
   test('should return correct headers data', () => {
@@ -83,105 +88,28 @@ describe('createData', () => {
 
   test('should return correct data', () => {
     const pivotPage = createPivotPage();
-    pivotPage.qArea.qWidth = 1;
-    pivotPage.qArea.qHeight = 2;
-    pivotPage.qData = [[]] as unknown as EngineAPI.INxPivotValuePoint[];
+    pivotPage.qData = [
+      [{}],
+      [{}, {}, {}]
+    ] as unknown as EngineAPI.INxPivotValuePoint[];
 
     const data = createData(pivotPage, qHyperCube);
 
     expect(data.data).toEqual(pivotPage.qData);
-    expect(data.size.data.x).toBe(pivotPage.qArea.qWidth);
-    expect(data.size.data.y).toBe(pivotPage.qArea.qHeight);
+    expect(data.size.data.x).toBe(3);
+    expect(data.size.data.y).toBe(2);
   });
 
   test('should return correct total row and column count', () => {
     const pivotPage = createPivotPage();
-    pivotPage.qArea.qWidth = 1;
-    pivotPage.qArea.qHeight = 2;
-    const top = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition], [{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
-    mockedExtractTop.mockReturnValue(top);
-    const left = [[{} as PivotDimensionCellWithPosition, {} as PivotDimensionCellWithPosition]];
-    mockedExtractLeft.mockReturnValue(left);
+    pivotPage.qData = [
+      [{}],
+      [{}, {}, {}]
+    ] as unknown as EngineAPI.INxPivotValuePoint[];
 
     const data = createData(pivotPage, qHyperCube);
 
-    expect(data.size.totalColumns).toBe(2);
-    expect(data.size.totalRows).toBe(4);
-  });
-
-  test('should return measureInfoIndexMap', () => {
-    qHyperCube.qMeasureInfo = [
-      { qFallbackTitle: 'm0' } as EngineAPI.INxMeasureInfo,
-      { qFallbackTitle: 'm1' } as EngineAPI.INxMeasureInfo
-    ];
-    const top = [
-      [
-        { qText: 'm0', qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as PivotDimensionCellWithPosition,
-        { qText: 'm1', qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as PivotDimensionCellWithPosition
-      ]
-    ];
-    mockedExtractTop.mockReturnValue(top);
-    const pivotPage = createPivotPage();
-
-    const data = createData(pivotPage, qHyperCube);
-
-    expect(data.measureInfoIndexMap).toHaveLength(2);
-    expect(data.measureInfoIndexMap).toEqual(expect.arrayContaining([0, 1]));
-  });
-
-  test('measureInfoIndexMap should handle when there is no pseudo dimensions', () => {
-    qHyperCube.qMeasureInfo = [
-      { qFallbackTitle: 'm0' } as EngineAPI.INxMeasureInfo,
-      { qFallbackTitle: 'm1' } as EngineAPI.INxMeasureInfo
-    ];
-    const top = [
-      [
-        { qText: 'm0', qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition,
-        { qText: 'm1', qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition
-      ]
-    ];
-    mockedExtractTop.mockReturnValue(top);
-    const pivotPage = createPivotPage();
-
-    const data = createData(pivotPage, qHyperCube);
-
-    expect(data.measureInfoIndexMap).toHaveLength(2);
-    expect(data.measureInfoIndexMap).toEqual(expect.arrayContaining([0, 0]));
-  });
-});
-
-describe('findParentPseudoDimension', () => {
-  test('should return cell if it is a pseudo dimension cell', () => {
-    const cell = { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as PivotDimensionCellWithPosition;
-    const pseudoDimCell = findParentPseudoDimension(cell);
-    expect(pseudoDimCell).toBe(cell);
-  });
-
-  test('should return cell parent is a pseudo dimension cell', () => {
-    const parent = { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as PivotDimensionCellWithPosition;
-    const cell = { qType: NxDimCellType.NX_DIM_CELL_NORMAL, parent } as PivotDimensionCellWithPosition;
-    const pseudoDimCell = findParentPseudoDimension(cell);
-    expect(pseudoDimCell).toBe(parent);
-  });
-
-  test('should return cell parents parent is a pseudo dimension cell', () => {
-    const parentParent = { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as PivotDimensionCellWithPosition;
-    const parent = { qType: NxDimCellType.NX_DIM_CELL_NORMAL, parent: parentParent } as PivotDimensionCellWithPosition;
-    const cell = { qType: NxDimCellType.NX_DIM_CELL_NORMAL, parent } as PivotDimensionCellWithPosition;
-    const pseudoDimCell = findParentPseudoDimension(cell);
-    expect(pseudoDimCell).toBe(parentParent);
-  });
-
-  test('should return return null when cell has no parent', () => {
-    const cell = { qType: NxDimCellType.NX_DIM_CELL_NORMAL, parent: null } as PivotDimensionCellWithPosition;
-    const pseudoDimCell = findParentPseudoDimension(cell);
-    expect(pseudoDimCell).toBe(null);
-  });
-
-  test('should return return null when no cell is a pseudo dimension', () => {
-    const parent = { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition;
-    const cell = { qType: NxDimCellType.NX_DIM_CELL_NORMAL, parent } as PivotDimensionCellWithPosition;
-    const pseudoDimCell = findParentPseudoDimension(cell);
-    expect(pseudoDimCell).toBe(null);
+    expect(data.size.totalColumns).toBe(4);
+    expect(data.size.totalRows).toBe(3);
   });
 });
