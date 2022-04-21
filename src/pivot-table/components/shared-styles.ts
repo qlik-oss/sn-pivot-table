@@ -15,7 +15,7 @@ const textStyle: React.CSSProperties = {
   textOverflow: 'ellipsis',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
-  color: '#595959'
+  color: 'inherit'
 };
 
 const gridBorderStyle: React.CSSProperties = {
