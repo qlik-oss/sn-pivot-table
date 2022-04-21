@@ -10,7 +10,7 @@ export default {
       path: '/qHyperCubeDef',
       dimensions: {
         min: 1,
-        max: 15,
+        max: 1000,
         description(_: unknown, __: unknown, config: Config): string {
           const translationProperty =
             config && config.type === 'rows' ? 'Visualizations.Descriptions.Row' : 'Visualizations.Descriptions.Column';
@@ -19,7 +19,7 @@ export default {
       },
       measures: {
         min: 1,
-        max: 15,
+        max: 1000,
         description(): string {
           return 'Visualizations.Descriptions.Values'; // TODO translate
         },

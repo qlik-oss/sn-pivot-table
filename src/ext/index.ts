@@ -1,4 +1,5 @@
 import propertyPanelDefinition from './property-panel';
+import { importProperties, exportProperties } from './conversion';
 
 export default function ext(): Record<string, unknown> {
   return {
@@ -11,5 +12,7 @@ export default function ext(): Record<string, unknown> {
     },
     usePropertyHandler: 'pivot-data',
     definition: propertyPanelDefinition(),
+    importProperties,
+    exportProperties,
   };
 }
