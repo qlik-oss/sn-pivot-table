@@ -11,11 +11,11 @@ const NOOP_PIVOT_DATA = {} as PivotData;
 
 const MAX_GRID_SIZE = 10000;
 
-const getPagesToTheTop = (scrollService: ViewService, maxHeight: number): EngineAPI.IRect[] => {
-  const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = scrollService;
+const getPagesToTheTop = (viewService: ViewService, maxHeight: number): EngineAPI.IRect[] => {
+  const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
   const pages = [] as EngineAPI.IRect[];
 
-  if (gridWidth === 0 && gridHeight === 0) {
+  if (!gridWidth && !gridHeight) { // handle zero size and when viewService has not yet been initialized
     return pages;
   }
 
@@ -40,11 +40,11 @@ const getPagesToTheTop = (scrollService: ViewService, maxHeight: number): Engine
   return pages;
 };
 
-const getPagesToTheLeft = (scrollService: ViewService, maxWidth: number): EngineAPI.IRect[] => {
-  const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = scrollService;
+const getPagesToTheLeft = (viewService: ViewService, maxWidth: number): EngineAPI.IRect[] => {
+  const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
   const pages = [] as EngineAPI.IRect[];
 
-  if (gridWidth === 0 && gridHeight === 0) {
+  if (!gridWidth && !gridHeight) { // handle zero size and when viewService has not yet been initialized
     return pages;
   }
 
