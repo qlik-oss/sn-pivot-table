@@ -2,13 +2,13 @@ import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
 import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
-import { CellValue, ItemData, DataModel } from '../../../types/types';
+import { ItemData, DataModel, Cell } from '../../../types/types';
 import { borderStyle, textStyle } from '../shared-styles';
 import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
 import { useSelectionsContext } from '../../contexts/SelectionsProvider';
 
 export interface DimensionCellProps {
-  cell: CellValue;
+  cell: Cell;
   rowIndex: number;
   colIndex: number;
   style: React.CSSProperties;
@@ -108,7 +108,7 @@ const DimensionCell = ({
   isLeftColumn,
   data
 }: DimensionCellProps): JSX.Element => {
-  const { qText, qCanCollapse, qCanExpand, qType } = cell as EngineAPI.INxPivotDimensionCell;
+  const { qText, qCanCollapse, qCanExpand, qType } = cell.ref;
   const {
     constraints = { active: false, passive: false, select: false },
     dataModel,

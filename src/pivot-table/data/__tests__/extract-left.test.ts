@@ -1,11 +1,11 @@
 import NxDimCellType from '../../../types/QIX';
-import { PivotDimensionCellWithPosition } from '../../../types/types';
+import { Cell } from '../../../types/types';
 import extractLeftGrid from '../extract-left';
 import createNodes from './test-helper';
 
 describe('extractLeftGrid', () => {
   const qArea = { qTop: 1 } as EngineAPI.INxDataAreaPage;
-  const grid = [] as PivotDimensionCellWithPosition[][];
+  const grid = [] as Cell[][];
 
   test('should handle empty qLeft array', () => {
     const qLeft: EngineAPI.INxPivotDimensionCell[] = [];

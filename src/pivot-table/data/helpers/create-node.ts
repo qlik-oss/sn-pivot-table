@@ -1,13 +1,13 @@
-import { PivotDimensionCellWithPosition } from '../../../types/types';
+import { Cell } from '../../../types/types';
 
 const createNode = (
   node: EngineAPI.INxPivotDimensionCell,
-  parent: PivotDimensionCellWithPosition | null,
-  root: PivotDimensionCellWithPosition | null,
+  parent: Cell | null,
+  root: Cell | null,
   x: number,
   y: number,
-): PivotDimensionCellWithPosition => ({
-  ...node,
+): Cell => ({
+  ref: node,
   x,
   y,
   parent,

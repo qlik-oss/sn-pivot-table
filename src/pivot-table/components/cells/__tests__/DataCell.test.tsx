@@ -24,7 +24,7 @@ describe('DataCell', () => {
     } as EngineAPI.INxPivotValuePoint;
 
     data = {
-      matrix: [[cell]]
+      grid: [[cell]]
     } as GridItemData;
   });
 

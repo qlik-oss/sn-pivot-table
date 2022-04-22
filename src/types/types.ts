@@ -40,32 +40,31 @@ export interface ItemData {
 }
 
 export interface GridItemData extends ItemData {
-  matrix: CellValue[][] | EngineAPI.INxPivotValuePoint[][];
+  grid: EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
 }
 
 export interface ListItemData extends ItemData {
-  list: PivotDimensionCellWithPosition[];
+  list: Cell[];
   isLeftColumn?: boolean;
 }
 
-export type CellValue = EngineAPI.INxPivotDimensionCell | null;
-
-export interface PivotDimensionCellWithPosition extends EngineAPI.INxPivotDimensionCell {
+export interface Cell {
+  ref: EngineAPI.INxPivotDimensionCell;
   x: number;
   y: number;
-  parent: PivotDimensionCellWithPosition | null;
-  root: PivotDimensionCellWithPosition | null;
+  parent: Cell | null;
+  root: Cell | null;
   leafCount: number;
   incrementLeafCount: () => void;
 }
 
 export interface PivotData {
   qDataPages: EngineAPI.INxPivotPage[],
-  left: PivotDimensionCellWithPosition[][],
-  leftGrid: PivotDimensionCellWithPosition[][],
-  top: PivotDimensionCellWithPosition[][],
-  topGrid: PivotDimensionCellWithPosition[][],
+  left: Cell[][],
+  leftGrid: Cell[][],
+  top: Cell[][],
+  topGrid: Cell[][],
   data: EngineAPI.INxPivotValuePoint[][],
   headers: (null | string)[][],
   leftDimensionInfoIndexMap: number[];

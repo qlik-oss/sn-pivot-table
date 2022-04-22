@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import { render } from '@testing-library/react';
 import ListCellFactory from '../ListCellFactory';
-import { DataModel, ListItemData, PivotDimensionCellWithPosition } from '../../../../types/types';
+import { DataModel, Cell, ListItemData } from '../../../../types/types';
 import DimensionCell from '../DimensionCell';
 import EmptyCell from '../EmptyCell';
 import PseudoDimensionCell from '../PseudoDimensionCell';
@@ -27,7 +27,7 @@ describe('ListCellFactory', () => {
   let constraints: stardust.Constraints;
   let dataModel: DataModel;
   let data: ListItemData;
-  let cell: PivotDimensionCellWithPosition;
+  let cell: Cell;
 
   beforeEach(() => {
     constraints = {
@@ -48,7 +48,7 @@ describe('ListCellFactory', () => {
   test('should render dimension cell', () => {
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
-    cell = { qText, qCanCollapse: false, qCanExpand: false, x: 1, y: 2 } as PivotDimensionCellWithPosition;
+    cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
     data.list[0] = cell;
 
     render(<ListCellFactory index={0} style={style} data={data} />);
@@ -59,7 +59,7 @@ describe('ListCellFactory', () => {
   test('should render pseudo dimension cell', () => {
     const mockPseudoDimensionCell = PseudoDimensionCell as jest.MockedFunction<typeof PseudoDimensionCell>;
     mockPseudoDimensionCell.mockReturnValue(<div />);
-    cell = { qText, qType: NxDimCellType.NX_DIM_CELL_PSEUDO } as PivotDimensionCellWithPosition;
+    cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_PSEUDO } } as Cell;
     data.list[0] = cell;
 
     render(<ListCellFactory index={0} style={style} data={data} />);
@@ -70,7 +70,7 @@ describe('ListCellFactory', () => {
   test('should render totals cell', () => {
     const mockedTotalsCell = TotalsCell as jest.MockedFunction<typeof TotalsCell>;
     mockedTotalsCell.mockReturnValue(<div />);
-    cell = { qText, qType: NxDimCellType.NX_DIM_CELL_TOTAL, qElemNo: -1 } as PivotDimensionCellWithPosition;
+    cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_TOTAL, qElemNo: -1 } } as Cell;
     data.list[0] = cell;
 
     render(<ListCellFactory index={0} style={style} data={data} />);
@@ -81,7 +81,7 @@ describe('ListCellFactory', () => {
   test('should render empty cell', () => {
     const mockEmptyCell = EmptyCell as jest.MockedFunction<typeof EmptyCell>;
     mockEmptyCell.mockReturnValue(<div />);
-    cell = { qText, qType: NxDimCellType.NX_DIM_CELL_EMPTY } as PivotDimensionCellWithPosition;;
+    cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_EMPTY } } as Cell;
     data.list[0] = cell;
 
     render(<ListCellFactory index={0} style={style} data={data} />);

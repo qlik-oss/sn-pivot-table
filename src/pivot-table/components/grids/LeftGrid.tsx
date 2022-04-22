@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
-import { DataModel, PivotDimensionCellWithPosition } from '../../../types/types';
+import { DataModel, Cell } from '../../../types/types';
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
@@ -36,7 +36,7 @@ const rightListStyle: React.CSSProperties = {
 
 const DEFAULT_ROW_HEIGHT = 28;
 
-const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (rowIndex: number) => {
+const getItemSizeCallback = (list: Cell[]) => (rowIndex: number) => {
   const cell = list[rowIndex];
   if (cell.leafCount) {
     return cell.leafCount * DEFAULT_ROW_HEIGHT;
