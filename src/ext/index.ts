@@ -1,7 +1,8 @@
 import propertyPanelDefinition from './property-panel';
 import { importProperties, exportProperties } from './conversion';
+import { Galaxy } from '../types/types';
 
-export default function ext(): Record<string, unknown> {
+export default function ext(env: Galaxy): Record<string, unknown> {
   return {
     support: {
       snapshot: false,
@@ -11,7 +12,7 @@ export default function ext(): Record<string, unknown> {
       viewData: true,
     },
     usePropertyHandler: 'pivot-data',
-    definition: propertyPanelDefinition(),
+    definition: propertyPanelDefinition(env),
     importProperties,
     exportProperties,
   };

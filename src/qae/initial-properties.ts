@@ -21,7 +21,7 @@ const properties = {
     /** @type {boolean} */
     qSuppressZero: false,
     /** @type {boolean} */
-    qShowTotalsAbove: false,
+    qShowTotalsAbove: true,
     qInitialDataFetch: [
       {
         qTop: 0,

@@ -32,8 +32,8 @@ const settings = {
             showTotalsAbove: {
               ref: 'qHyperCubeDef.qShowTotalsAbove',
               type: 'boolean',
-              translation: 'properties.pivot.qShowTotalsAbove', // TODO translate
-              defaultValue: false,
+              translation: 'properties.showTotalsAbove',
+              defaultValue: true,
               show(properties: EngineAPI.IGenericHyperCubeProperties): boolean {
                 return properties.qHyperCubeDef?.qDimensions?.some(qDim => qDim.qOtherTotalSpec?.qTotalMode === 'TOTAL_EXPR');
               },
