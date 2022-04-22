@@ -1,9 +1,9 @@
 import React from 'react';
-import { CellValue } from '../../../types/types';
+import { Cell } from '../../../types/types';
 import { borderStyle, textStyle } from '../shared-styles';
 
 interface LabelCellProps {
-  cell: CellValue;
+  cell: Cell;
   style: React.CSSProperties;
   isLeftColumn: boolean;
 }
@@ -27,7 +27,7 @@ export const testId = 'pseudo-dimension-cell';
 
 const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element => (
   <div style={{ ...style, ...borderStyle, ...(isLeftColumn ? leftContainerStyle : topContainerStyle) }} data-testid={testId}>
-    <div style={labelTextStyle}>{(cell as EngineAPI.INxPivotDimensionCell).qText}</div>
+    <div style={labelTextStyle}>{cell.ref.qText}</div>
   </div>
 );
 

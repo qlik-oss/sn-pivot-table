@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
 
-import { PivotDimensionCellWithPosition } from '../../types/types';
-import createNode from './helpers/create-node';
+import { Cell } from '../../types/types';
+import createCell from './helpers/create-cell';
 
 const extractTopGrid = (
-  grid: PivotDimensionCellWithPosition[][],
+  grid: Cell[][],
   qTop: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage
-): PivotDimensionCellWithPosition[][] => {
+): Cell[][] => {
   if (!qTop.length) {
     return grid;
   }
@@ -15,26 +15,26 @@ const extractTopGrid = (
   let colIdx = 0;
 
   function recursiveExtract(
-    root: PivotDimensionCellWithPosition | null,
-    parent: PivotDimensionCellWithPosition | null,
+    root: Cell | null,
+    parent: Cell | null,
     nodes: EngineAPI.INxPivotDimensionCell[],
-    topRowIdx = 0
+    rowIdx = 0
   ): void {
-    if (!Array.isArray(grid[topRowIdx])) {
-      grid[topRowIdx] = [];
+    if (!Array.isArray(grid[rowIdx])) {
+      grid[rowIdx] = [];
     }
 
-    nodes.forEach((node, currIdx) => {
-      colIdx += currIdx === 0 ? 0 : 1;
+    nodes.forEach((node, currColIdx) => {
+      colIdx += currColIdx === 0 ? 0 : 1;
       const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous tail size
-      const nodeWithPosition = createNode(node, parent, root, x, topRowIdx);
+      const cell = createCell(node, parent, root, x, rowIdx);
 
-      grid[topRowIdx][x] = nodeWithPosition;
+      grid[rowIdx][x] = cell;
 
       if (node.qSubNodes.length) {
-        recursiveExtract(root || nodeWithPosition, nodeWithPosition, node.qSubNodes, topRowIdx + 1);
+        recursiveExtract(root || cell, cell, node.qSubNodes, rowIdx + 1);
       } else {
-        nodeWithPosition.parent?.incrementLeafCount();
+        cell.parent?.incrementLeafCount();
       }
     });
   };

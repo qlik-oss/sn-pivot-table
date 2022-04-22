@@ -2,7 +2,7 @@ import createData from '../index';
 import extractHeaders from '../extract-headers';
 import extractLeft from '../extract-left';
 import extractTop from '../extract-top';
-import { PivotDimensionCellWithPosition } from '../../../types/types';
+import { Cell } from '../../../types/types';
 import NxDimCellType from '../../../types/QIX';
 
 jest.mock('../extract-headers');
@@ -22,18 +22,13 @@ function createPivotPage(): EngineAPI.INxPivotPage {
   };
 }
 
+const CELL = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
 const EMPTY_GRID = [[]];
 const TOP = [
-  [
-    { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition,
-    { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition
-  ]
+  [CELL, CELL]
 ];
 const LEFT = [
-  [
-    { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition,
-    { qType: NxDimCellType.NX_DIM_CELL_NORMAL } as PivotDimensionCellWithPosition
-  ]
+  [CELL, CELL]
 ];
 let qDimensionInfo: EngineAPI.INxDimensionInfo[] = [];
 let qHyperCube = {} as EngineAPI.IHyperCube;

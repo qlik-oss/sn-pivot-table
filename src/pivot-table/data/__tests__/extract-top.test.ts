@@ -1,11 +1,11 @@
 import NxDimCellType from '../../../types/QIX';
-import { PivotDimensionCellWithPosition } from '../../../types/types';
+import { Cell } from '../../../types/types';
 import extractTopGrid from '../extract-top';
 import createNodes from './test-helper';
 
 describe('extractTop', () => {
   const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
-  const grid = [] as PivotDimensionCellWithPosition[][];
+  const grid = [] as Cell[][];
 
 
   test('should handle empty qTop array', () => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import PseudoDimensionCell, { testId } from '../PseudoDimensionCell';
-import { CellValue } from '../../../../types/types';
+import { Cell } from '../../../../types/types';
 
 test('should render on the top',  () => {
-  const cell: CellValue = { qText: 'test' } as EngineAPI.INxPivotDimensionCell;
+  const cell = { ref: { qText: 'test' } } as Cell;
   const style: React.CSSProperties = {
     position: 'absolute',
     left: '25px',
@@ -24,7 +24,7 @@ test('should render on the top',  () => {
 
 
 test('should render on the left',  () => {
-  const cell: CellValue = { qText: 'test' } as EngineAPI.INxPivotDimensionCell;
+  const cell = { ref: { qText: 'test' } } as Cell;
   const style: React.CSSProperties = {
     position: 'absolute',
     left: '25px',

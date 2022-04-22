@@ -1,4 +1,4 @@
-import { PivotData, PivotDimensionCellWithPosition } from '../../types/types';
+import { PivotData, Cell } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeftGrid from './extract-left';
 import extractTopGrid from './extract-top';
@@ -8,9 +8,9 @@ const getColumnCount = (matrix: unknown[][]): number => matrix.length;
 
 const getRowCount = (matrix: unknown[][]): number => matrix[0]?.length || 0;
 
-const getTopRowCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
+const getTopRowCount = (matrix: Cell[][]): number => matrix.length;
 
-const getLeftColumnCount = (matrix: PivotDimensionCellWithPosition[][]): number => matrix.length;
+const getLeftColumnCount = (matrix: Cell[][]): number => matrix.length;
 
 const createNewDataGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotValuePoint[][], nextData: EngineAPI.INxPivotValuePoint[][]) => {
   const data = prevData.map(row => [...row]);

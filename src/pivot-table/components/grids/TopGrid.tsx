@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect, useMemo } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
-import { DataModel, PivotDimensionCellWithPosition } from '../../../types/types';
+import { DataModel, Cell } from '../../../types/types';
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
@@ -72,7 +72,7 @@ const TopGrid = ({
     [getMeasureInfoWidth, dataModel.getMeasureInfo]
   );
 
-  const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (colIndex: number) =>{
+  const getItemSizeCallback = (list: Cell[]) => (colIndex: number) =>{
     const cell = list[colIndex];
     if (cell.leafCount > 0) {
       const measureInfoCount = dataModel.getMeasureInfo().length;

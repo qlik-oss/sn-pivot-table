@@ -36,7 +36,7 @@ const containerStyle: React.CSSProperties = {
 export const testId = 'measure-cell';
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
-  const cell = data.matrix[rowIndex]?.[columnIndex] as EngineAPI.INxPivotValuePoint;
+  const cell = data.grid[rowIndex]?.[columnIndex];
   if (!cell) return null;
   const { qText, qType } = cell;
 
