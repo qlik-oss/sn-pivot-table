@@ -63,8 +63,8 @@ const DataGrid = ({
   // });
 
   useLayoutEffect(() => {
-    if (dataGridRef.current && viewService.shouldResetScroll) {
-      dataGridRef.current.resetAfterColumnIndex(0);
+    if (dataGridRef.current) {
+      dataGridRef.current.resetAfterColumnIndex(0); // Needs to be re-computed every time the data changes
     }
   }, [dataModel]);
 
@@ -136,7 +136,8 @@ const DataGrid = ({
 
   const getColumnWidth = useCallback(
     (index) => getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(index)),
-    [getMeasureInfoWidth, dataModel]);
+    [getMeasureInfoWidth, dataModel.getMeasureInfoIndexFromCellIndex]
+  );
 
   return (
     <VariableSizeGrid
