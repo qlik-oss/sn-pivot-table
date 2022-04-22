@@ -91,3 +91,9 @@ export interface ViewService {
   gridWidth: number;
   gridHeight: number;
 }
+
+export interface Galaxy {
+  translator: {
+    get: (str: string) => string
+  }
+}

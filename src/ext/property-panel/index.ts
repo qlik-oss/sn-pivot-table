@@ -1,7 +1,8 @@
-import data from './data';
+import createData from './data';
 import addons from './addons';
 import sorting from './sorting';
 import settings from './settings';
+import { Galaxy } from '../../types/types';
 
 interface PropertyPanelDefinition {
   type: 'items';
@@ -9,12 +10,12 @@ interface PropertyPanelDefinition {
   items: Record<string, Record<string, unknown>>;
 }
 
-export default function create(): PropertyPanelDefinition {
+export default function create(env: Galaxy): PropertyPanelDefinition {
   return {
     type: 'items',
     component: 'accordion',
     items: {
-      data,
+      data: createData(env),
       sorting,
       addons,
       settings,

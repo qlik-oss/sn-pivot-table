@@ -4,11 +4,12 @@ import data from './qae/data-definition';
 import ext from './ext';
 import { render, teardown } from './pivot-table/Root';
 import useDataModel from './hooks/use-data-model';
-import { ExtendedSelections } from './types/types';
+import { ExtendedSelections, Galaxy } from './types/types';
 import useViewService from './hooks/use-view-service';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function supernova() {
+export default function supernova(env: Galaxy) {
+  console.log(env);
   return {
     qae: {
       properties: {
@@ -16,7 +17,7 @@ export default function supernova() {
       },
       data,
     },
-    ext: ext(),
+    ext: ext(env),
     component() {
       const element = useElement();
       const layout = useStaleLayout() as EngineAPI.IGenericHyperCubeLayout;

@@ -1,6 +1,12 @@
-import data, { Args } from '../data';
+import createData, { Args } from '../data';
 
 describe('data', () => {
+  let data: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  beforeEach(() => {
+    data = createData({ translator: { get: str => str } });
+  });
+
   describe('dimensions', () => {
     describe('libraryId', () => {
       test('should show when qLibraryId exists', () => {

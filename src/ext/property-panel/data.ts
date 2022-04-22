@@ -1,3 +1,5 @@
+import { Galaxy } from '../../types/types';
+
 export interface Args {
   properties: EngineAPI.IGenericHyperCubeProperties;
 }
@@ -28,138 +30,145 @@ function isTotalsVisible(
   return idx === 0 || idx >= noOfLeftDims;
 }
 
-const data = {
-  type: 'items',
-  component: 'pivot-data',
-  translation: 'properties.data',
-  addTranslation: 'Properties.AddData',
-  items: {
-    dimensions: {
-      type: 'array',
-      component: 'dimensions',
-      translation: 'Common.Dimensions',
-      alternativeTranslation: 'properties.alternative.dimensions',
-      ref: 'qHyperCubeDef.qDimensions',
-      disabledRef: 'qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qDimensions',
-      min: 1,
-      allowAdd: true,
-      allowRemove: true,
-      allowMove: true,
-      addTranslation: 'properties.dimensions.add',
-      grouped: true,
-      items: {
-        libraryId: {
-          type: 'string',
-          component: 'library-item',
-          libraryItemType: 'dimension',
-          ref: 'qLibraryId',
-          translation: 'Common.Dimension',
-          show: (itemData: EngineAPI.IHyperCubeDimensionDef): boolean => !!itemData.qLibraryId,
-        },
-        inlineDimension: {
-          component: 'inline-dimension',
-          show: (itemData: EngineAPI.IHyperCubeDimensionDef): boolean => !itemData.qLibraryId,
-        },
-        autoSort: {
-          ref: 'qDef.autoSort',
-          type: 'boolean',
-          defaultValue: true,
-          show: false,
-        },
-        cId: {
-          ref: 'qDef.cId',
-          type: 'string',
-          show: false,
-        },
-        nullSuppression: {
-          type: 'boolean',
-          ref: 'qNullSuppression',
-          defaultValue: false,
-          translation: 'properties.dimensions.showNull',
-          inverted: true,
-        },
-        totalMode: {
-          type: 'string',
-          component: 'switch',
-          translation: 'properties.showTotals',
-          ref: 'qOtherTotalSpec.qTotalMode',
-          defaultValue: TOTAL_MODE_OFF,
-          trueOption: {
-            value: TOTAL_MODE_EXPR,
-            translation: 'properties.on',
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const createData = (env: Galaxy): Record<string, any> => {
+  const { translator } = env;
+
+  const data = {
+    type: 'items',
+    component: 'pivot-data',
+    translation: 'properties.data',
+    addTranslation: 'Properties.AddData',
+    items: {
+      dimensions: {
+        type: 'array',
+        component: 'dimensions',
+        translation: 'Common.Dimensions',
+        alternativeTranslation: 'properties.alternative.dimensions',
+        ref: 'qHyperCubeDef.qDimensions',
+        disabledRef: 'qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qDimensions',
+        min: 1,
+        allowAdd: true,
+        allowRemove: true,
+        allowMove: true,
+        addTranslation: 'properties.dimensions.add',
+        grouped: true,
+        items: {
+          libraryId: {
+            type: 'string',
+            component: 'library-item',
+            libraryItemType: 'dimension',
+            ref: 'qLibraryId',
+            translation: 'Common.Dimension',
+            show: (itemData: EngineAPI.IHyperCubeDimensionDef): boolean => !!itemData.qLibraryId,
           },
-          falseOption: {
-            value: TOTAL_MODE_OFF,
-            translation: 'properties.off',
+          inlineDimension: {
+            component: 'inline-dimension',
+            show: (itemData: EngineAPI.IHyperCubeDimensionDef): boolean => !itemData.qLibraryId,
           },
-          show: isTotalsVisible,
+          autoSort: {
+            ref: 'qDef.autoSort',
+            type: 'boolean',
+            defaultValue: true,
+            show: false,
+          },
+          cId: {
+            ref: 'qDef.cId',
+            type: 'string',
+            show: false,
+          },
+          nullSuppression: {
+            type: 'boolean',
+            ref: 'qNullSuppression',
+            defaultValue: false,
+            translation: 'properties.dimensions.showNull',
+            inverted: true,
+          },
+          totalMode: {
+            type: 'string',
+            component: 'switch',
+            translation: 'properties.showTotals',
+            ref: 'qOtherTotalSpec.qTotalMode',
+            defaultValue: TOTAL_MODE_OFF,
+            trueOption: {
+              value: TOTAL_MODE_EXPR,
+              translation: 'properties.on',
+            },
+            falseOption: {
+              value: TOTAL_MODE_OFF,
+              translation: 'properties.off',
+            },
+            show: isTotalsVisible,
+          },
+          totalsLabel: {
+            type: 'string',
+            component: 'expression',
+            expressionType: 'StringExpr',
+            ref: 'qTotalLabel',
+            translation: 'properties.totals.label',
+            defaultValue: () => translator.get('Object.Table.Totals'),
+            show(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown, args: Args): boolean {
+              return itemData.qOtherTotalSpec?.qTotalMode !== TOTAL_MODE_OFF
+                && isTotalsVisible(itemData, _, args);
+            },
+          },
+          visibilityCondition: {
+            type: 'string',
+            component: 'expression',
+            ref: 'qCalcCondition.qCond',
+            expression: 'optional',
+            expressionType: 'ValueExpr',
+            translation: 'Object.Table.Columns.VisibilityCondition',
+            defaultValue: { qv: '' },
+            isExpression(val: string | undefined): boolean {
+              return typeof val === 'string' && val.trim().length > 0;
+            },
+          }
         },
-        totalsLabel: {
-          type: 'string',
-          component: 'expression',
-          expressionType: 'StringExpr',
-          ref: 'qTotalLabel',
-          translation: 'properties.totals.label',
-          defaultValue: (): string => 'Object.Table.Totals', // TODO translate,
-          show(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown, args: Args): boolean {
-            return itemData.qOtherTotalSpec?.qTotalMode !== TOTAL_MODE_OFF
-              && isTotalsVisible(itemData, _, args);
-          },
-        },
-        visibilityCondition: {
-          type: 'string',
-          component: 'expression',
-          ref: 'qCalcCondition.qCond',
-          expression: 'optional',
-          expressionType: 'ValueExpr',
-          translation: 'Object.Table.Columns.VisibilityCondition',
-          defaultValue: { qv: '' },
-          isExpression(val: string | undefined): boolean {
-            return typeof val === 'string' && val.trim().length > 0;
-          },
-        }
       },
-    },
-    measures: {
-      type: 'array',
-      component: 'measures',
-      translation: 'Common.Measures',
-      ref: 'qHyperCubeDef.qMeasures',
-      disabledRef: 'qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qMeasures',
-      min: 1,
-      allowAdd: true,
-      allowRemove: true,
-      allowMove: true,
-      addTranslation: 'properties.measures.add',
-      grouped: true,
-      items: {
-        libraryId: {
-          type: 'string',
-          component: 'library-item',
-          libraryItemType: 'measure',
-          ref: 'qLibraryId',
-          translation: 'Common.Measure',
-          show: (itemData: EngineAPI.IHyperCubeMeasureDef): boolean => !!itemData.qLibraryId,
+      measures: {
+        type: 'array',
+        component: 'measures',
+        translation: 'Common.Measures',
+        ref: 'qHyperCubeDef.qMeasures',
+        disabledRef: 'qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qMeasures',
+        min: 1,
+        allowAdd: true,
+        allowRemove: true,
+        allowMove: true,
+        addTranslation: 'properties.measures.add',
+        grouped: true,
+        items: {
+          libraryId: {
+            type: 'string',
+            component: 'library-item',
+            libraryItemType: 'measure',
+            ref: 'qLibraryId',
+            translation: 'Common.Measure',
+            show: (itemData: EngineAPI.IHyperCubeMeasureDef): boolean => !!itemData.qLibraryId,
+          },
+          inlineMeasure: {
+            component: 'inline-measure',
+            show: (itemData: EngineAPI.IHyperCubeMeasureDef): boolean => !itemData.qLibraryId,
+          },
+          autoSort: {
+            ref: 'qDef.autoSort',
+            type: 'boolean',
+            defaultValue: true,
+            show: false,
+          },
+          cId: {
+            ref: 'qDef.cId',
+            type: 'string',
+            show: false,
+          },
+          // numberFormatting: TODO
         },
-        inlineMeasure: {
-          component: 'inline-measure',
-          show: (itemData: EngineAPI.IHyperCubeMeasureDef): boolean => !itemData.qLibraryId,
-        },
-        autoSort: {
-          ref: 'qDef.autoSort',
-          type: 'boolean',
-          defaultValue: true,
-          show: false,
-        },
-        cId: {
-          ref: 'qDef.cId',
-          type: 'string',
-          show: false,
-        },
-        // numberFormatting: TODO
-      },
+      }
     }
-  }
+  };
+
+  return data;
 };
 
-export default data;
+export default createData;
