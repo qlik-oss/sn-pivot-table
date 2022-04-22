@@ -1,12 +1,12 @@
 import { stardust } from '@nebula.js/stardust';
-import React, { memo, useLayoutEffect } from 'react';
+import React, { memo, useLayoutEffect, useMemo } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
 import { DataModel, PivotDimensionCellWithPosition } from '../../../types/types';
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
-// import useDebug from '../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from '../shared-styles';
 
 interface TopGridProps {
@@ -67,16 +67,16 @@ const TopGrid = ({
     }
   });
 
+  const allMeasuresWidth = useMemo(
+    () => dataModel.getMeasureInfo().reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
+    [getMeasureInfoWidth, dataModel.getMeasureInfo]
+  );
+
   const getItemSizeCallback = (list: PivotDimensionCellWithPosition[]) => (colIndex: number) =>{
     const cell = list[colIndex];
     if (cell.leafCount > 0) {
-      let size = 0;
-      for (let index = 0; index < cell.leafCount; index++) { // eslint-disable-line no-plusplus
-        const measureInfoIndex = dataModel.getMeasureInfoIndexFromCellIndex(cell.x + index);
-        size += getMeasureInfoWidth(measureInfoIndex);
-      }
-
-      return size;
+      const measureInfoCount = dataModel.getMeasureInfo().length;
+      return (cell.leafCount / measureInfoCount) * allMeasuresWidth;
     }
 
     return getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(cell.x));

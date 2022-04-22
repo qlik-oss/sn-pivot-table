@@ -29,7 +29,7 @@ export default function supernova() {
 
       useEffect(() => {
         if (dataModel.hasData && rect?.width && rect?.height && constraints && selections && viewService) {
-          console.debug('render', { layout, selections, constraints, dataModel, rect, model, viewService });
+          console.debug('render', { layout: { ...layout }, selections, constraints, dataModel, rect, model, viewService });
           render(element, {
             rect,
             constraints,
