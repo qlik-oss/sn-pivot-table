@@ -19,6 +19,11 @@ interface LeftGridProps {
   getScrollTop: () => number;
 }
 
+const containerStyle: React.CSSProperties = {
+  display: 'flex',
+  height: 'fit-content'
+};
+
 const listStyle: React.CSSProperties = {
   overflow: 'hidden',
 };
@@ -86,7 +91,7 @@ const LeftGrid = ({
     return `${dataModel.getDimensionInfo()[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
-  return (<div style={{ display: 'flex' }}>
+  return (<div style={containerStyle}>
     {dataModel.pivotData.left.map((list, colIndex) => (
       <VariableSizeList
         key={getKey(colIndex)}
