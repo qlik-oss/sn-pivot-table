@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { Cell } from '../../types/types';
-import createNode from './helpers/create-node';
+import createCell from './helpers/create-cell';
 
 const extractLeftGrid = (
   grid: Cell[][],
@@ -17,24 +17,24 @@ const extractLeftGrid = (
   function recursiveExtract(
     root: Cell | null,
     parent: Cell | null,
-    dimensionCells: EngineAPI.INxPivotDimensionCell[],
+    nodes: EngineAPI.INxPivotDimensionCell[],
     colIdx = 0
   ) {
     if (!Array.isArray(grid[colIdx])) {
       grid[colIdx] = [];
     }
 
-    dimensionCells.forEach((cell, currIdx) => {
-      rowIdx += currIdx === 0 ? 0 : 1;
-      const y = qArea.qTop + rowIdx - cell.qUp; // Start position + current page position - previous tail size,
-      const gridNode = createNode(cell, parent, root, colIdx, y);
+    nodes.forEach((node, currRowIdx) => {
+      rowIdx += currRowIdx === 0 ? 0 : 1;
+      const y = qArea.qTop + rowIdx - node.qUp; // Start position + current page position - previous tail size,
+      const cell = createCell(node, parent, root, colIdx, y);
 
-      grid[colIdx][y] = gridNode;
+      grid[colIdx][y] = cell;
 
-      if (cell.qSubNodes.length) {
-        recursiveExtract(root || gridNode, gridNode, cell.qSubNodes, colIdx + 1);
+      if (node.qSubNodes.length) {
+        recursiveExtract(root || cell, cell, node.qSubNodes, colIdx + 1);
       } else {
-        gridNode.parent?.incrementLeafCount();
+        cell.parent?.incrementLeafCount();
       }
     });
   }

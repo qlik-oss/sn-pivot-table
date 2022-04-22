@@ -1,6 +1,6 @@
 import { Cell } from '../../../types/types';
 
-const createNode = (
+const createCell = (
   node: EngineAPI.INxPivotDimensionCell,
   parent: Cell | null,
   root: Cell | null,
@@ -21,4 +21,4 @@ const createNode = (
   },
 });
 
-export default createNode;
+export default createCell;
