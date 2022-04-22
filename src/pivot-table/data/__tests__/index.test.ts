@@ -22,13 +22,13 @@ function createPivotPage(): EngineAPI.INxPivotPage {
   };
 }
 
-const GRID_NODE = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
+const CELL = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
 const EMPTY_GRID = [[]];
 const TOP = [
-  [GRID_NODE, GRID_NODE]
+  [CELL, CELL]
 ];
 const LEFT = [
-  [GRID_NODE, GRID_NODE]
+  [CELL, CELL]
 ];
 let qDimensionInfo: EngineAPI.INxDimensionInfo[] = [];
 let qHyperCube = {} as EngineAPI.IHyperCube;
