@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import NxDimCellType from '../../types/QIX';
-import { DataModel, Rect } from '../../types/types';
+import { DataModel, LayoutService, Rect } from '../../types/types';
 import useMeasureText from './use-measure-text';
 
 interface ColumnWidthHook {
@@ -18,9 +18,10 @@ export const EXPAND_ICON_WIDTH = 30;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 
-export default function useColumnWidth(dataModel: DataModel, rect: Rect): ColumnWidthHook {
+export default function useColumnWidth(layoutService: LayoutService, dataModel: DataModel, rect: Rect): ColumnWidthHook {
   const { estimateWidth, measureText } = useMeasureText('13px', '"Source Sans Pro", sans-serif'); // TODO Hard-coded...
-  const { getDimensionInfo, getMeasureInfo, pivotData, getNoLeftDims } = dataModel;
+  const { pivotData } = dataModel;
+  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
     () => pivotData.left.some(column => column[0] !== null && column[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
@@ -32,15 +33,15 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
       .map((dimIndex, index) => {
         if (dimIndex === PSEUDO_DIMENSION_INDEX) {
           const pseudoDimensionWidth = Math.max(
-            ...getMeasureInfo()
-            .map(qMeasureInfo => measureText(qMeasureInfo.qFallbackTitle))
+            ...qMeasureInfo
+            .map(m => measureText(m.qFallbackTitle))
           );
 
           return pseudoDimensionWidth / rect.width;
         }
 
-        const { qFallbackTitle, qApprMaxGlyphCount } = getDimensionInfo()[dimIndex];
-        const hasChildNodes = index < getNoLeftDims() - 1; // -1 as the last column can not be expanded or collapsed
+        const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo[dimIndex];
+        const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
         const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
         const w = Math.max(
           measureText(qFallbackTitle),
@@ -55,7 +56,7 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     const multiplier = MAX_RATIO_OF_TOTAL_WIDTH / sumOfRatios;
     return ratios.map(r => r * multiplier);
 
-  }, [estimateWidth, measureText, pivotData.leftDimensionInfoIndexMap, getDimensionInfo, rect.width, getMeasureInfo]);
+  }, [estimateWidth, measureText, pivotData.leftDimensionInfoIndexMap, rect.width, qDimensionInfo, qMeasureInfo, qNoOfLeftDims]);
 
   const getLeftColumnWidth = useCallback(
     (index) => leftColumnWidthsRatios[index] * rect.width,
@@ -73,21 +74,18 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   );
 
   const preCalcTotalDataColumnWidth = useMemo(() => {
-    const totalWidth = getMeasureInfo().reduce((width, qMeasureInfo) => {
-      const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo;
-      return width + Math.max(
-        MIN_COLUMN_WIDTH,
-        estimateWidth(qApprMaxGlyphCount),
-        measureText(qFallbackTitle),
-      );
-    }, 0);
+    const totalWidth = qMeasureInfo.reduce((width, { qApprMaxGlyphCount, qFallbackTitle }) => width + Math.max(
+      MIN_COLUMN_WIDTH,
+      estimateWidth(qApprMaxGlyphCount),
+      measureText(qFallbackTitle),
+    ), 0);
 
     return totalWidth;
-  }, [getMeasureInfo, estimateWidth, measureText]);
+  }, [qMeasureInfo, estimateWidth, measureText]);
 
   const getMeasureInfoWidth = useCallback((measureInfoIndex: number) => {
     const getWidth = (index: number) => {
-      const { qApprMaxGlyphCount, qFallbackTitle } = getMeasureInfo()[index];
+      const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo[index];
       const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
 
       return Math.max(
@@ -99,16 +97,16 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
     };
 
     if (hasPseudoDimOnLeft) {
-      return Math.max(...getMeasureInfo().map((info, index) => getWidth(index)));
+      return Math.max(...qMeasureInfo.map((m, index) => getWidth(index)));
     }
 
     return getWidth(measureInfoIndex);
-  }, [rightGridWidth, pivotData.size.data.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, getMeasureInfo, hasPseudoDimOnLeft]);
+  }, [rightGridWidth, pivotData.size.data.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, qMeasureInfo, hasPseudoDimOnLeft]);
 
   const getDataColumnWidth = useCallback((colIndex: number) => {
-    const measureInfoIndex = colIndex % getMeasureInfo().length;
+    const measureInfoIndex = colIndex % qMeasureInfo.length;
     return getMeasureInfoWidth(measureInfoIndex);
-  }, [getMeasureInfoWidth, getMeasureInfo]);
+  }, [getMeasureInfoWidth, qMeasureInfo]);
 
   const getTotalWidth = useCallback(() => Array
       .from({ length: pivotData.size.data.x }, () => null)
@@ -117,8 +115,8 @@ export default function useColumnWidth(dataModel: DataModel, rect: Rect): Column
   );
 
   const totalMeasureInfoColumnWidth = useMemo(
-    () => getMeasureInfo().reduce((width, _, index) => width + getDataColumnWidth(index), 0),
-    [getMeasureInfo, getDataColumnWidth]
+    () => qMeasureInfo.reduce((width, _, index) => width + getDataColumnWidth(index), 0),
+    [qMeasureInfo, getDataColumnWidth]
   );
 
   return {

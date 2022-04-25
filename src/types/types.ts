@@ -1,4 +1,5 @@
 import { stardust } from '@nebula.js/stardust';
+import { PivotLayout } from './QIX';
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -27,17 +28,12 @@ export interface DataModel {
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
   hasData: boolean;
-  isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
-  getDimensionInfo: () => EngineAPI.INxDimensionInfo[];
-  getMeasureInfo: () => EngineAPI.INxMeasureInfo[];
-  getNoLeftDims: () => number;
-  getMeasureInfoIndexFromCellIndex: (index: number) => number;
-  getNullValueText: () => string;
 }
 
 export interface ItemData {
   constraints?: stardust.Constraints;
   dataModel?: DataModel;
+  layoutService: LayoutService;
 }
 
 export interface GridItemData extends ItemData {
@@ -91,6 +87,13 @@ export interface ViewService {
   gridRowStartIndex: number;
   gridWidth: number;
   gridHeight: number;
+}
+
+export interface LayoutService {
+  layout: PivotLayout,
+  isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
+  getMeasureInfoIndexFromCellIndex: (index: number) => number;
+  getNullValueText: () => string;
 }
 
 export interface Galaxy {

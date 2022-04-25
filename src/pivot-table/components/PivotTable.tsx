@@ -1,7 +1,7 @@
 import { stardust } from '@nebula.js/stardust';
 import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
-import { DataModel, Rect, ViewService } from '../../types/types';
+import { DataModel, LayoutService, Rect, ViewService } from '../../types/types';
 // import useDebug from '../hooks/use-debug';
 import StickyContainer from './containers/StickyContainer';
 import ScrollableContainer from './containers/ScrollableContainer';
@@ -17,6 +17,7 @@ export interface PivotTableProps {
   constraints: stardust.Constraints;
   dataModel: DataModel;
   viewService: ViewService;
+  layoutService: LayoutService;
 }
 
 const DEFAULT_ROW_HEIGHT = 28;
@@ -27,7 +28,8 @@ export const StickyPivotTable = ({
   rect,
   constraints,
   dataModel,
-  viewService
+  viewService,
+  layoutService
 }: PivotTableProps): JSX.Element => {
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
@@ -41,7 +43,7 @@ export const StickyPivotTable = ({
     getLeftColumnWidth,
     getMeasureInfoWidth,
     getTotalWidth,
-  } = useColumnWidth(dataModel, rect);
+  } = useColumnWidth(layoutService, dataModel, rect);
   const { size } = dataModel.pivotData;
 
   useLayoutEffect(() => {
@@ -84,7 +86,8 @@ export const StickyPivotTable = ({
   //   rect,
   //   constraints,
   //   dataModel,
-  //   scrollService
+  //   viewService,
+  //   layoutService
   // });
 
   const headerGridHeight = DEFAULT_ROW_HEIGHT * size.headers.y;
@@ -119,6 +122,7 @@ export const StickyPivotTable = ({
             width={rightGridWidth}
             height={topGridHeight}
             getScrollLeft={getScrollLeft}
+            layoutService={layoutService}
           />
 
           <LeftGrid
@@ -129,6 +133,7 @@ export const StickyPivotTable = ({
             width={leftGridWidth}
             height={leftGridHeight}
             getScrollTop={getScrollTop}
+            layoutService={layoutService}
           />
 
           <DataGrid
@@ -139,6 +144,7 @@ export const StickyPivotTable = ({
             width={rightGridWidth}
             height={dataGridHeight}
             viewService={viewService}
+            layoutService={layoutService}
           />
         </StickyContainer>
       </FullSizeContainer>

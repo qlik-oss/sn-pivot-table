@@ -29,12 +29,6 @@ const dataModelMock = (): DataModel => ({
   expandLeft: () => {},
   expandTop: () => {},
   hasData: true,
-  isDimensionLocked: () => false,
-  getDimensionInfo: () => [],
-  getMeasureInfo: () => [],
-  getNoLeftDims: () => 3,
-  getMeasureInfoIndexFromCellIndex: (i) => i,
-  getNullValueText: () => '-',
 });
 
 export default dataModelMock;

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, selectedStyle, lockedFromSelectionStyle } from '../DimensionCell';
-import { DataModel, GridItemData, Cell } from '../../../../types/types';
+import { DataModel, GridItemData, Cell, LayoutService } from '../../../../types/types';
 import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
 import NxDimCellType, { NxSelectionCellType } from '../../../../types/QIX';
 import { SelectionModel } from '../../../hooks/use-selections-model';
@@ -35,6 +35,7 @@ describe('DimensionCell', () => {
   let isSelectedSpy: jest.MockedFunction<() => boolean>;
   let isLockedSpy: jest.MockedFunction<() => boolean>;
   let mockedSelectionModel: SelectionModel;
+  let layoutService: LayoutService;
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -63,12 +64,17 @@ describe('DimensionCell', () => {
 
     dataModel = dataModelMock();
 
+    layoutService = {
+      isDimensionLocked: jest.fn().mockReturnValue(false),
+    } as unknown as LayoutService;
+
     expandLeftSpy = jest.spyOn(dataModel, 'expandLeft');
     expandTopSpy = jest.spyOn(dataModel, 'expandTop');
     collapseLeftSpy = jest.spyOn(dataModel, 'collapseLeft');
     collapseTopSpy = jest.spyOn(dataModel, 'collapseTop');
 
     data = {
+      layoutService,
       dataModel,
       grid: dataModel.pivotData.data,
       isLeftColumn: false,
@@ -247,16 +253,14 @@ describe('DimensionCell', () => {
       test('should not be possible to select cell when dimension is locked', () => {
         const rowIdx = 0;
         const colIdx = 1;
-        const isDimensionLockedSpy = jest.fn();
-        isDimensionLockedSpy.mockReturnValue(true);
-        dataModel.isDimensionLocked = isDimensionLockedSpy;
+        (layoutService.isDimensionLocked as jest.Mock<unknown, unknown[]>).mockReturnValue(true);
         cell.ref.qCanCollapse = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
         userEvent.click(screen.getByText(qText));
 
-        expect(isDimensionLockedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
+        expect(layoutService.isDimensionLocked).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
         expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
@@ -396,16 +400,14 @@ describe('DimensionCell', () => {
       test('should not be possible to select cell when dimension is locked', () => {
         const rowIdx = 0;
         const colIdx = 1;
-        const isDimensionLockedSpy = jest.fn();
-        isDimensionLockedSpy.mockReturnValue(true);
-        dataModel.isDimensionLocked = isDimensionLockedSpy;
+        (layoutService.isDimensionLocked as jest.Mock<unknown, unknown[]>).mockReturnValue(true);
         cell.ref.qCanCollapse = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
         userEvent.click(screen.getByText(qText));
 
-        expect(isDimensionLockedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
+        expect(layoutService.isDimensionLocked).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
         expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);

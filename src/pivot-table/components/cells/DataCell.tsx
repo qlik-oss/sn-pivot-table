@@ -36,16 +36,16 @@ const containerStyle: React.CSSProperties = {
 export const testId = 'measure-cell';
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
-  const { grid, dataModel } = data;
+  const { grid, layoutService } = data;
   const cell = grid[rowIndex]?.[columnIndex];
 
-  if (!cell || !dataModel) {
+  if (!cell) {
     return null;
   }
 
   const { qText, qType } = cell;
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
-  const text = isNull ? dataModel.getNullValueText() : qText;
+  const text = isNull ? layoutService.getNullValueText() : qText;
   const isNumeric = !Number.isNaN(+text);
   const cellStyle = {
     ...(isNull ? nilStyle : numericStyle),

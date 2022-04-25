@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DataCell, { testId } from '../DataCell';
-import { DataModel, GridItemData } from '../../../../types/types';
+import { GridItemData, LayoutService } from '../../../../types/types';
 import NxDimCellType from '../../../../types/QIX';
 
 describe('DataCell', () => {
   let cell: EngineAPI.INxPivotValuePoint;
   let data: GridItemData;
-  let dataModel: DataModel;
+  let layoutService: LayoutService;
 
   const style: React.CSSProperties = {
     position: 'absolute',
@@ -24,13 +24,14 @@ describe('DataCell', () => {
       qType: NxDimCellType.NX_DIM_CELL_NORMAL
     } as EngineAPI.INxPivotValuePoint;
 
-    dataModel = {
+
+    layoutService = {
       getNullValueText: () => '-'
-    } as DataModel;
+    } as LayoutService;
 
     data = {
       grid: [[cell]],
-      dataModel,
+      layoutService,
     } as GridItemData;
   });
 
@@ -46,7 +47,7 @@ describe('DataCell', () => {
 
     render(<DataCell data={data} style={style} columnIndex={0} rowIndex={0} />);
 
-    expect(screen.getByText(dataModel.getNullValueText())).toBeInTheDocument();
+    expect(screen.getByText(layoutService.getNullValueText())).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0])
       .toHaveStyle({ justifyContent: 'center', backgroundColor: '#f2f2f2' } as Record<string, unknown>);
   });
