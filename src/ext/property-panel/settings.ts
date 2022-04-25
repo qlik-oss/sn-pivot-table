@@ -26,7 +26,7 @@ const settings = {
             nullValueText: {
               ref: 'nullValueRepresentation.text',
               type: 'string',
-              translation: 'Null value representation',
+              translation: 'properties.pivot.nullValueText',
               defaultValue: '-',
             },
             alwaysFullyExpanded: {
@@ -38,7 +38,7 @@ const settings = {
             showTotalsAbove: {
               ref: 'qHyperCubeDef.qShowTotalsAbove',
               type: 'boolean',
-              translation: 'properties.showTotalsAbove',
+              translation: 'properties.pivot.showTotalsAbove',
               defaultValue: true,
               show(properties: EngineAPI.IGenericHyperCubeProperties): boolean {
                 return properties.qHyperCubeDef?.qDimensions?.some(qDim => qDim.qOtherTotalSpec?.qTotalMode === 'TOTAL_EXPR');
