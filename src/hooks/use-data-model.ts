@@ -3,9 +3,8 @@ import { useMemo, usePromise, useState } from '@nebula.js/stardust';
 import createData, { addDataPage, addPage } from '../pivot-table/data';
 import { DataModel, FetchMoreData, FetchNextPage, LayoutService, PivotData, ViewService } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
-import { DEFAULT_PAGE_SIZE, PSEUDO_DIMENSION_INDEX, Q_PATH } from '../constants';
+import { DEFAULT_PAGE_SIZE, Q_PATH } from '../constants';
 import useNebulaCallback from './use-nebula-callback';
-import { NxSelectionCellType, PivotLayout } from '../types/QIX';
 
 const NOOP_PIVOT_DATA = {} as PivotData;
 
@@ -85,7 +84,6 @@ export default function useDataModel(
   const [pivotData, setPivotData] = useState<PivotData>(NOOP_PIVOT_DATA);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
-  // const [qHyperCube, setHyperCube] = useState<EngineAPI.IHyperCube>({} as EngineAPI.IHyperCube);
   const {
     collapseLeft,
     collapseTop,
