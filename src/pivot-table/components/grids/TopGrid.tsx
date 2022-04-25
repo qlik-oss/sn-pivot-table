@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect, useMemo } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
-import { DataModel, Cell } from '../../../types/types';
+import { DataModel, Cell, LayoutService } from '../../../types/types';
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
@@ -18,6 +18,7 @@ interface TopGridProps {
   height: number;
   constraints: stardust.Constraints;
   getScrollLeft: () => number;
+  layoutService: LayoutService;
 }
 
 const listStyle: React.CSSProperties = {
@@ -37,13 +38,17 @@ const TopGrid = ({
   width,
   height,
   constraints,
-  getScrollLeft
+  getScrollLeft,
+  layoutService
 }: TopGridProps): JSX.Element | null => {
   if (dataModel.pivotData.size.top.y === 0) {
     return null;
   }
 
   const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
+
+  const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
+
   // useDebug('TopGrid', {
   //   dataModel,
   //   topGridRef,
@@ -68,18 +73,18 @@ const TopGrid = ({
   });
 
   const allMeasuresWidth = useMemo(
-    () => dataModel.getMeasureInfo().reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
-    [getMeasureInfoWidth, dataModel.getMeasureInfo]
+    () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
+    [getMeasureInfoWidth, qMeasureInfo]
   );
 
   const getItemSizeCallback = (list: Cell[]) => (colIndex: number) =>{
     const cell = list[colIndex];
     if (cell.leafCount > 0) {
-      const measureInfoCount = dataModel.getMeasureInfo().length;
+      const measureInfoCount = qMeasureInfo.length;
       return (cell.leafCount / measureInfoCount) * allMeasuresWidth;
     }
 
-    return getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(cell.x));
+    return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell.x));
   };
 
   const getKey = (rowIndex: number): string => {
@@ -87,7 +92,7 @@ const TopGrid = ({
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       return '-1';
     }
-    return `${dataModel.getDimensionInfo()[dimIndex].qFallbackTitle}-${dimIndex}`;
+    return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
   return (<div>
@@ -102,6 +107,7 @@ const TopGrid = ({
         itemSize={getItemSizeCallback(list)}
         layout="horizontal"
         itemData={{
+          layoutService,
           dataModel,
           constraints,
           list,

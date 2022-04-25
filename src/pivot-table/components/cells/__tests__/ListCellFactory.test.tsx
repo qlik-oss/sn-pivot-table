@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React from 'react';
 import { render } from '@testing-library/react';
 import ListCellFactory from '../ListCellFactory';
-import { DataModel, Cell, ListItemData } from '../../../../types/types';
+import { DataModel, Cell, ListItemData, LayoutService } from '../../../../types/types';
 import DimensionCell from '../DimensionCell';
 import EmptyCell from '../EmptyCell';
 import PseudoDimensionCell from '../PseudoDimensionCell';
@@ -28,6 +28,7 @@ describe('ListCellFactory', () => {
   let dataModel: DataModel;
   let data: ListItemData;
   let cell: Cell;
+  let layoutService: LayoutService;
 
   beforeEach(() => {
     constraints = {
@@ -38,7 +39,10 @@ describe('ListCellFactory', () => {
 
     dataModel = dataModelMock();
 
+    layoutService = {} as LayoutService;
+
     data = {
+      layoutService,
       dataModel,
       list: [],
       constraints,

@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
-import { DataModel, Cell } from '../../../types/types';
+import { DataModel, Cell, LayoutService } from '../../../types/types';
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
@@ -17,6 +17,7 @@ interface LeftGridProps {
   height: number;
   constraints: stardust.Constraints;
   getScrollTop: () => number;
+  layoutService: LayoutService;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -52,13 +53,17 @@ const LeftGrid = ({
   width,
   height,
   constraints,
-  getScrollTop
+  getScrollTop,
+  layoutService,
 }: LeftGridProps): JSX.Element | null => {
   if (dataModel.pivotData.size.left.x === 0) {
     return null;
   }
 
   const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
+
+  const { qDimensionInfo } = layoutService.layout.qHyperCube;
+
   // useDebug('LeftGrid', {
   //   dataModel,
   //   leftGridRef,
@@ -88,7 +93,7 @@ const LeftGrid = ({
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       return '-1';
     }
-    return `${dataModel.getDimensionInfo()[dimIndex].qFallbackTitle}-${dimIndex}`;
+    return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
   return (<div style={containerStyle}>
@@ -103,6 +108,7 @@ const LeftGrid = ({
         itemSize={getItemSizeCallback(list)}
         layout="vertical"
         itemData={{
+          layoutService,
           dataModel,
           constraints,
           list,

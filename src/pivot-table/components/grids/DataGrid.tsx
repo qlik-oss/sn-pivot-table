@@ -2,7 +2,7 @@
 import React, { memo, useCallback, useLayoutEffect } from 'react';
 import { debouncer } from 'qlik-chart-modules';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
-import { DataModel, GridItemData, ViewService } from '../../../types/types';
+import { DataModel, GridItemData, LayoutService, ViewService } from '../../../types/types';
 import DataCell from '../cells/DataCell';
 // import useDebug from '../../hooks/use-debug';
 
@@ -14,6 +14,7 @@ interface DataGridProps {
   rowHightCallback: () => number;
   width: number;
   viewService: ViewService;
+  layoutService: LayoutService;
 }
 
 const OFF_VIEW_THRESHOLD = 1;
@@ -46,6 +47,7 @@ const DataGrid = ({
   rowHightCallback,
   width,
   viewService,
+  layoutService,
 }: DataGridProps): JSX.Element | null => {
   if (dataModel.pivotData.size.data.x === 0) {
     return null;
@@ -135,8 +137,8 @@ const DataGrid = ({
   }, [dataModel]);
 
   const getColumnWidth = useCallback(
-    (index) => getMeasureInfoWidth(dataModel.getMeasureInfoIndexFromCellIndex(index)),
-    [getMeasureInfoWidth, dataModel.getMeasureInfoIndexFromCellIndex]
+    (index) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
+    [getMeasureInfoWidth, layoutService.getMeasureInfoIndexFromCellIndex]
   );
 
   return (
@@ -150,6 +152,7 @@ const DataGrid = ({
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
+        layoutService,
         grid: dataModel.pivotData.data,
         dataModel
       } as GridItemData}

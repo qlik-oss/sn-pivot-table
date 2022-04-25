@@ -1,11 +1,10 @@
 /*  eslint-disable no-param-reassign */
 import { useMemo, usePromise, useState } from '@nebula.js/stardust';
 import createData, { addDataPage, addPage } from '../pivot-table/data';
-import { DataModel, FetchMoreData, FetchNextPage, PivotData, ViewService } from '../types/types';
+import { DataModel, FetchMoreData, FetchNextPage, LayoutService, PivotData, ViewService } from '../types/types';
 import useExpandOrCollapser from './use-expand-or-collapser';
-import { DEFAULT_PAGE_SIZE, PSEUDO_DIMENSION_INDEX, Q_PATH } from '../constants';
+import { DEFAULT_PAGE_SIZE, Q_PATH } from '../constants';
 import useNebulaCallback from './use-nebula-callback';
-import { NxSelectionCellType, PivotLayout } from '../types/QIX';
 
 const NOOP_PIVOT_DATA = {} as PivotData;
 
@@ -77,7 +76,7 @@ const getNextPage = (qLeft: number, qTop: number) => ({
 });
 
 export default function useDataModel(
-  layout: PivotLayout,
+  layoutService: LayoutService,
   model: EngineAPI.IGenericObject | undefined,
   viewService: ViewService
 ): DataModel {
@@ -85,19 +84,19 @@ export default function useDataModel(
   const [pivotData, setPivotData] = useState<PivotData>(NOOP_PIVOT_DATA);
   const [hasMoreRows, setHasMoreRows] = useState(false);
   const [hasMoreColumns, setHasMoreColumns] = useState(false);
-  const [qHyperCube, setHyperCube] = useState<EngineAPI.IHyperCube>({} as EngineAPI.IHyperCube);
   const {
     collapseLeft,
     collapseTop,
     expandLeft,
     expandTop,
   } = useExpandOrCollapser(model);
+  const { qHyperCube } = layoutService.layout;
+  const { qLastExpandedPos, qPivotDataPages, qSize } = qHyperCube;
 
   const newLayoutHandler = useNebulaCallback(async () => {
-    if (layout && model) {
-      const { qLastExpandedPos, qPivotDataPages, qSize } = layout.qHyperCube;
-      const pivotPage = qPivotDataPages[0];
-      let nextPivotData = createData(pivotPage, layout.qHyperCube);
+    if (model) {
+      const [pivotPage] = qPivotDataPages;
+      let nextPivotData = createData(pivotPage, qHyperCube);
 
       if (qLastExpandedPos) {
         const pages = [
@@ -120,12 +119,12 @@ export default function useDataModel(
         viewService.shouldResetScroll = true;
       }
 
-      setHasMoreRows(nextPivotData.size.data.y < layout.qHyperCube.qSize.qcy);
-      setHasMoreColumns(nextPivotData.size.data.x < layout.qHyperCube.qSize.qcx);
-      setHyperCube(layout.qHyperCube);
+      setHasMoreRows(nextPivotData.size.data.y < qSize.qcy);
+      setHasMoreColumns(nextPivotData.size.data.x < qSize.qcx);
+      // setHyperCube(layout.qHyperCube);
       setPivotData(nextPivotData);
     }
-  }, [layout, model, viewService]);
+  }, [qHyperCube, qLastExpandedPos, qPivotDataPages, qSize, model, viewService]);
 
   usePromise(() => newLayoutHandler(), [newLayoutHandler]);
 
@@ -143,12 +142,12 @@ export default function useDataModel(
         const nextArea = getNextPage(startIndex, pivotData.size.data.y);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
         nextPivotData = addPage(pivotData, nextPivotPage);
-        setHasMoreRows(nextPivotData.size.data.y < qHyperCube.qSize.qcy);
+        setHasMoreRows(nextPivotData.size.data.y < qSize.qcy);
       } else {
         const nextArea = getNextPage(pivotData.size.data.x, startIndex);
         [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
         nextPivotData = addPage(pivotData, nextPivotPage);
-        setHasMoreColumns(nextPivotData.size.data.x < qHyperCube.qSize.qcx);
+        setHasMoreColumns(nextPivotData.size.data.x < qSize.qcx);
       }
 
       setLoading(false);
@@ -158,7 +157,7 @@ export default function useDataModel(
       console.error(error);
       setLoading(false);
     }
-  }, [model, qHyperCube, loading, pivotData, viewService]);
+  }, [model, qSize.qcy, qSize.qcx, loading, pivotData, viewService]);
 
   const fetchMoreData = useNebulaCallback<FetchMoreData>(async (left: number, top: number, width: number, height: number) => {
     if (loading || !model) return;
@@ -181,37 +180,7 @@ export default function useDataModel(
       console.error(error);
       setLoading(false);
     }
-  }, [model, qHyperCube, loading, pivotData]);
-
-  const isDimensionLocked = useNebulaCallback((qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
-    if (qType === NxSelectionCellType.NX_CELL_LEFT) {
-      return qHyperCube.qDimensionInfo.slice(0, qHyperCube.qNoOfLeftDims)?.[qCol]?.qLocked;
-    }
-
-    if (qType === NxSelectionCellType.NX_CELL_TOP) {
-      return qHyperCube.qDimensionInfo.slice(qHyperCube.qNoOfLeftDims)?.[qRow]?.qLocked;
-    }
-
-    return false;
-  }, [qHyperCube]);
-
-  const getDimensionInfo = useNebulaCallback(() => qHyperCube.qDimensionInfo, [qHyperCube]);
-
-  const getMeasureInfo = useNebulaCallback(() => qHyperCube.qMeasureInfo, [qHyperCube]);
-
-  const getNoLeftDims = useNebulaCallback(() => qHyperCube.qNoOfLeftDims, [qHyperCube]);
-
-  const getNullValueText = useNebulaCallback(() => layout?.nullValueRepresentation?.text ?? '-', [layout]);
-
-  const getMeasureInfoIndexFromCellIndex = useNebulaCallback((index: number) => {
-    const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;
-    const pIndex = qEffectiveInterColumnSortOrder.findIndex((num) => num === PSEUDO_DIMENSION_INDEX);
-    if (pIndex < qNoOfLeftDims) {
-      return 0;
-    }
-
-    return index % qMeasureInfo.length;
-  }, [qHyperCube]);
+  }, [model, loading, pivotData]);
 
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,
@@ -224,12 +193,6 @@ export default function useDataModel(
     expandTop,
     pivotData,
     hasData: pivotData !== NOOP_PIVOT_DATA,
-    isDimensionLocked,
-    getDimensionInfo,
-    getMeasureInfo,
-    getNoLeftDims,
-    getMeasureInfoIndexFromCellIndex,
-    getNullValueText,
   }),[fetchNextPage,
     fetchMoreData,
     hasMoreColumns,
@@ -239,12 +202,6 @@ export default function useDataModel(
     expandLeft,
     expandTop,
     pivotData,
-    isDimensionLocked,
-    getDimensionInfo,
-    getMeasureInfo,
-    getNoLeftDims,
-    getMeasureInfoIndexFromCellIndex,
-    getNullValueText,
   ]);
 
   return dataModel;
