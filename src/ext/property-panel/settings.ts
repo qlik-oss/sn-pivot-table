@@ -23,6 +23,12 @@ const settings = {
         rowStyle: {
           type: 'items',
           items: {
+            nullValueText: {
+              ref: 'nullValueRepresentation.text',
+              type: 'string',
+              translation: 'properties.pivot.nullValueText',
+              defaultValue: '-',
+            },
             alwaysFullyExpanded: {
               ref: 'qHyperCubeDef.qAlwaysFullyExpanded',
               type: 'boolean',
@@ -32,7 +38,7 @@ const settings = {
             showTotalsAbove: {
               ref: 'qHyperCubeDef.qShowTotalsAbove',
               type: 'boolean',
-              translation: 'properties.showTotalsAbove',
+              translation: 'properties.pivot.showTotalsAbove',
               defaultValue: true,
               show(properties: EngineAPI.IGenericHyperCubeProperties): boolean {
                 return properties.qHyperCubeDef?.qDimensions?.some(qDim => qDim.qOtherTotalSpec?.qTotalMode === 'TOTAL_EXPR');

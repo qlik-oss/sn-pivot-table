@@ -17,4 +17,10 @@ export enum NxSelectionCellType {
   NX_CELL_LEFT = 'L'
 }
 
+export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
+  nullValueRepresentation?: {
+    text?: string;
+  };
+}
+
 export default NxDimCellType;

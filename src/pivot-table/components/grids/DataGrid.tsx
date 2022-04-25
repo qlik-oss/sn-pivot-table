@@ -151,6 +151,7 @@ const DataGrid = ({
       width={width}
       itemData={{
         grid: dataModel.pivotData.data,
+        dataModel
       } as GridItemData}
       onItemsRendered={onItemsRendered}
     >
