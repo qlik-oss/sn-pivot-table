@@ -34,7 +34,7 @@ const dataModelMock = (): DataModel => ({
   getMeasureInfo: () => [],
   getNoLeftDims: () => 3,
   getMeasureInfoIndexFromCellIndex: (i) => i,
-  getNullValueRepresentation: () => '-',
+  getNullValueText: () => '-',
 });
 
 export default dataModelMock;

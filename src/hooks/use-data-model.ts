@@ -201,7 +201,7 @@ export default function useDataModel(
 
   const getNoLeftDims = useNebulaCallback(() => qHyperCube.qNoOfLeftDims, [qHyperCube]);
 
-  const getNullValueRepresentation = useNebulaCallback(() => layout?.nullValueRepresentation?.text ?? '-', [layout]);
+  const getNullValueText = useNebulaCallback(() => layout?.nullValueRepresentation?.text ?? '-', [layout]);
 
   const getMeasureInfoIndexFromCellIndex = useNebulaCallback((index: number) => {
     const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;
@@ -229,7 +229,7 @@ export default function useDataModel(
     getMeasureInfo,
     getNoLeftDims,
     getMeasureInfoIndexFromCellIndex,
-    getNullValueRepresentation,
+    getNullValueText,
   }),[fetchNextPage,
     fetchMoreData,
     hasMoreColumns,
@@ -244,7 +244,7 @@ export default function useDataModel(
     getMeasureInfo,
     getNoLeftDims,
     getMeasureInfoIndexFromCellIndex,
-    getNullValueRepresentation,
+    getNullValueText,
   ]);
 
   return dataModel;

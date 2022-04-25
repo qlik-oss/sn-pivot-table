@@ -32,7 +32,7 @@ export interface DataModel {
   getMeasureInfo: () => EngineAPI.INxMeasureInfo[];
   getNoLeftDims: () => number;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
-  getNullValueRepresentation: () => string;
+  getNullValueText: () => string;
 }
 
 export interface ItemData {

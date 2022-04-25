@@ -25,7 +25,7 @@ describe('DataCell', () => {
     } as EngineAPI.INxPivotValuePoint;
 
     dataModel = {
-      getNullValueRepresentation: () => '-'
+      getNullValueText: () => '-'
     } as DataModel;
 
     data = {
@@ -46,7 +46,7 @@ describe('DataCell', () => {
 
     render(<DataCell data={data} style={style} columnIndex={0} rowIndex={0} />);
 
-    expect(screen.getByText(dataModel.getNullValueRepresentation())).toBeInTheDocument();
+    expect(screen.getByText(dataModel.getNullValueText())).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0])
       .toHaveStyle({ justifyContent: 'center', backgroundColor: '#f2f2f2' } as Record<string, unknown>);
   });

@@ -45,17 +45,18 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
 
   const { qText, qType } = cell;
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
-  const text = isNull ? dataModel.getNullValueRepresentation() : qText;
+  const text = isNull ? dataModel.getNullValueText() : qText;
   const isNumeric = !Number.isNaN(+text);
   const cellStyle = {
     ...(isNull ? nilStyle : numericStyle),
-    ...textStyle,
     justifyContent: isNumeric ? 'flex-end' : 'center',
   };
 
   return (
     <div title={`${text} ${columnIndex}:${rowIndex}`} style={{...style, ...containerStyle}} data-testid={testId}>
-      <div style={cellStyle}>{text}</div>
+      <div style={cellStyle}>
+        <span style={textStyle}>{text}</span>
+      </div>
     </div>
   );
 };

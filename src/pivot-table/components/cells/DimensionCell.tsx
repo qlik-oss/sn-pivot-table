@@ -126,7 +126,7 @@ const DimensionCell = ({
   const appliedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
   const appliedNullStyle = isNull ? nullStyle : {};
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, rowIndex, colIndex);
-  const text = isNull ? dataModel?.getNullValueRepresentation() : qText;
+  const text = isNull ? dataModel?.getNullValueText() : qText;
   let cellIcon = null;
 
   if (qCanExpand) {
