@@ -180,7 +180,7 @@ export default function useDataModel(
       console.error(error);
       setLoading(false);
     }
-  }, [model, qHyperCube, loading, pivotData]);
+  }, [model, loading, pivotData]);
 
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,
