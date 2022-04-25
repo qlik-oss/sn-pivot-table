@@ -29,11 +29,11 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
     },
     isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
       if (qType === NxSelectionCellType.NX_CELL_LEFT) {
-        return leftDimensions[qCol]?.qLocked;
+        return !!leftDimensions[qCol]?.qLocked;
       }
 
       if (qType === NxSelectionCellType.NX_CELL_TOP) {
-        return topDimensions[qRow]?.qLocked;
+        return !!topDimensions[qRow]?.qLocked;
       }
 
       return false;
