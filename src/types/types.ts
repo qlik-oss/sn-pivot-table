@@ -27,7 +27,6 @@ export interface DataModel {
   collapseTop: ExpandOrCollapser;
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
-  hasData: boolean;
 }
 
 export interface ItemData {
@@ -94,6 +93,14 @@ export interface LayoutService {
   isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
   getNullValueText: () => string;
+}
+
+export interface DataService {
+  addPage: (nextDataPage: EngineAPI.INxPivotPage) => void;
+  addDataPage: (nextDataPage: EngineAPI.INxPivotPage) => void;
+  hasMoreRows: () => boolean;
+  hasMoreColumns: () => boolean;
+  getData: () => PivotData;
 }
 
 export interface Galaxy {

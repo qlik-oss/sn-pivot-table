@@ -8,6 +8,7 @@ import { ExtendedSelections, Galaxy } from './types/types';
 import useViewService from './hooks/use-view-service';
 import { PivotLayout } from './types/QIX';
 import useLayoutService from './hooks/use-layout-service';
+import useDataService from './hooks/use-data-service';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {
@@ -27,12 +28,13 @@ export default function supernova(env: Galaxy) {
       const constraints = useConstraints();
       const viewService = useViewService();
       const layoutService = useLayoutService(layout);
-      const dataModel = useDataModel(layoutService, model, viewService);
+      const dataService = useDataService(layout);
+      const dataModel = useDataModel(model, layoutService, dataService, viewService);
       const selections = useSelections() as ExtendedSelections;
 
       useEffect(() => {
-        if (dataModel.hasData && rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
-          console.debug('render', { selections, constraints, dataModel, rect, model, viewService, layoutService });
+        if (rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
+          console.debug('render', { selections, constraints, dataModel, rect, model, viewService, layoutService, dataService });
           render(element, {
             rect,
             constraints,
@@ -42,7 +44,7 @@ export default function supernova(env: Galaxy) {
             layoutService
           });
         }
-      }, [dataModel, rect?.width, rect?.height, constraints, selections, viewService, layoutService]);
+      }, [dataModel, rect?.width, rect?.height, constraints, selections, viewService, layoutService, dataService]);
 
       useEffect(() => () => {
           teardown(element);
