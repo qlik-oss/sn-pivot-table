@@ -5,7 +5,7 @@ import { DataModel, FetchMoreData, FetchNextPage, PivotData, ViewService } from 
 import useExpandOrCollapser from './use-expand-or-collapser';
 import { DEFAULT_PAGE_SIZE, PSEUDO_DIMENSION_INDEX, Q_PATH } from '../constants';
 import useNebulaCallback from './use-nebula-callback';
-import { NxSelectionCellType } from '../types/QIX';
+import { NxSelectionCellType, PivotLayout } from '../types/QIX';
 
 const NOOP_PIVOT_DATA = {} as PivotData;
 
@@ -77,7 +77,7 @@ const getNextPage = (qLeft: number, qTop: number) => ({
 });
 
 export default function useDataModel(
-  layout: EngineAPI.IGenericHyperCubeLayout,
+  layout: PivotLayout,
   model: EngineAPI.IGenericObject | undefined,
   viewService: ViewService
 ): DataModel {
@@ -201,6 +201,8 @@ export default function useDataModel(
 
   const getNoLeftDims = useNebulaCallback(() => qHyperCube.qNoOfLeftDims, [qHyperCube]);
 
+  const getNullValueRepresentation = useNebulaCallback(() => layout?.nullValueRepresentation?.text ?? '-', [layout]);
+
   const getMeasureInfoIndexFromCellIndex = useNebulaCallback((index: number) => {
     const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;
     const pIndex = qEffectiveInterColumnSortOrder.findIndex((num) => num === PSEUDO_DIMENSION_INDEX);
@@ -227,6 +229,7 @@ export default function useDataModel(
     getMeasureInfo,
     getNoLeftDims,
     getMeasureInfoIndexFromCellIndex,
+    getNullValueRepresentation,
   }),[fetchNextPage,
     fetchMoreData,
     hasMoreColumns,
@@ -241,6 +244,7 @@ export default function useDataModel(
     getMeasureInfo,
     getNoLeftDims,
     getMeasureInfoIndexFromCellIndex,
+    getNullValueRepresentation,
   ]);
 
   return dataModel;

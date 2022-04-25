@@ -14,20 +14,20 @@ const numericStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'flex-end',
   height: '100%',
   ...borderStyle
 };
+
 const nilStyle: React.CSSProperties = {
   alignItems: 'center',
   backgroundColor: '#f2f2f2',
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'center',
   height: '100%',
   backgroundClip: 'padding-box',
   ...borderStyle
 };
+
 const containerStyle: React.CSSProperties = {
   color: 'rgb(89, 89, 89)',
   justifyContent: 'center',
@@ -36,15 +36,26 @@ const containerStyle: React.CSSProperties = {
 export const testId = 'measure-cell';
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
-  const cell = data.grid[rowIndex]?.[columnIndex];
-  if (!cell) return null;
+  const { grid, dataModel } = data;
+  const cell = grid[rowIndex]?.[columnIndex];
+
+  if (!cell || !dataModel) {
+    return null;
+  }
+
   const { qText, qType } = cell;
+  const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
+  const text = isNull ? dataModel.getNullValueRepresentation() : qText;
+  const isNumeric = !Number.isNaN(+text);
+  const cellStyle = {
+    ...(isNull ? nilStyle : numericStyle),
+    ...textStyle,
+    justifyContent: isNumeric ? 'flex-end' : 'center',
+  };
 
   return (
-    <div title={`${qText} ${columnIndex}:${rowIndex}`} style={{...style, ...containerStyle}} data-testid={testId}>
-      <div style={qType === NxDimCellType.NX_DIM_CELL_NULL ? nilStyle : numericStyle}>
-        <div style={textStyle}>{qText}</div>
-      </div>
+    <div title={`${text} ${columnIndex}:${rowIndex}`} style={{...style, ...containerStyle}} data-testid={testId}>
+      <div style={cellStyle}>{text}</div>
     </div>
   );
 };

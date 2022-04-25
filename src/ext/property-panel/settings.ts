@@ -23,6 +23,12 @@ const settings = {
         rowStyle: {
           type: 'items',
           items: {
+            nullValueText: {
+              ref: 'nullValueRepresentation.text',
+              type: 'string',
+              translation: 'Null value representation',
+              defaultValue: '-',
+            },
             alwaysFullyExpanded: {
               ref: 'qHyperCubeDef.qAlwaysFullyExpanded',
               type: 'boolean',

@@ -47,7 +47,10 @@ const dimTextStyle: React.CSSProperties = {
   ...textStyle,
   fontWeight: 'bold',
   marginLeft: 4,
+};
 
+const nullStyle: React.CSSProperties = {
+  backgroundColor: '#f2f2f2',
 };
 
 export const selectedStyle: React.CSSProperties = {
@@ -114,13 +117,16 @@ const DimensionCell = ({
     dataModel,
   } = data;
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
+  const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
   const isCellLocked = isLocked(selectionCellType, rowIndex, colIndex) || dataModel?.isDimensionLocked(selectionCellType, rowIndex, colIndex);
   const appliedSelectedStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
   const appliedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
-  const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active;
+  const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active || isNull;
   const appliedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
+  const appliedNullStyle = isNull ? nullStyle : {};
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, rowIndex, colIndex);
+  const text = isNull ? dataModel?.getNullValueRepresentation() : qText;
   let cellIcon = null;
 
   if (qCanExpand) {
@@ -141,14 +147,15 @@ const DimensionCell = ({
 
   return (
     <div
-      title={`${qText} - ${colIndex}:${rowIndex}`}
+      title={`${text} - ${colIndex}:${rowIndex}`}
       style={{
         ...style,
         ...containerStyle,
         ...appliedSelectedStyle,
         ...appliedLockedSelectionStyle,
         ...appliedSelectableCellStyle,
-        ...borderStyle
+        ...borderStyle,
+        ...appliedNullStyle
       }}
       aria-hidden="true"
       onClick={onClickHandler}
@@ -159,7 +166,7 @@ const DimensionCell = ({
     >
       <div style={{ ...cellStyle, ...stickyCell }} >
         {cellIcon}
-        <div style={dimTextStyle}>{qText}</div>
+        <div style={dimTextStyle}>{text}</div>
       </div>
     </div>
   );

@@ -1,12 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DataCell, { testId } from '../DataCell';
-import { GridItemData } from '../../../../types/types';
+import { DataModel, GridItemData } from '../../../../types/types';
 import NxDimCellType from '../../../../types/QIX';
 
 describe('DataCell', () => {
   let cell: EngineAPI.INxPivotValuePoint;
   let data: GridItemData;
+  let dataModel: DataModel;
 
   const style: React.CSSProperties = {
     position: 'absolute',
@@ -23,8 +24,13 @@ describe('DataCell', () => {
       qType: NxDimCellType.NX_DIM_CELL_NORMAL
     } as EngineAPI.INxPivotValuePoint;
 
+    dataModel = {
+      getNullValueRepresentation: () => '-'
+    } as DataModel;
+
     data = {
-      grid: [[cell]]
+      grid: [[cell]],
+      dataModel,
     } as GridItemData;
   });
 
@@ -36,12 +42,11 @@ describe('DataCell', () => {
   });
 
   test('should render null value',  () => {
-    cell.qText = '-';
     cell.qType = NxDimCellType.NX_DIM_CELL_NULL;
 
     render(<DataCell data={data} style={style} columnIndex={0} rowIndex={0} />);
 
-    expect(screen.getByText(cell.qText)).toBeInTheDocument();
+    expect(screen.getByText(dataModel.getNullValueRepresentation())).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0])
       .toHaveStyle({ justifyContent: 'center', backgroundColor: '#f2f2f2' } as Record<string, unknown>);
   });

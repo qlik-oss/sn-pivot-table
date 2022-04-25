@@ -6,10 +6,10 @@ import { render, teardown } from './pivot-table/Root';
 import useDataModel from './hooks/use-data-model';
 import { ExtendedSelections, Galaxy } from './types/types';
 import useViewService from './hooks/use-view-service';
+import { PivotLayout } from './types/QIX';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {
-  console.log(env);
   return {
     qae: {
       properties: {
@@ -20,7 +20,7 @@ export default function supernova(env: Galaxy) {
     ext: ext(env),
     component() {
       const element = useElement();
-      const layout = useStaleLayout() as EngineAPI.IGenericHyperCubeLayout;
+      const layout = useStaleLayout() as PivotLayout;
       const model = useModel();
       const rect = useRect();
       const constraints = useConstraints();
