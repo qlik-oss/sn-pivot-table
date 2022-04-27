@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import NxDimCellType from '../../types/QIX';
-import { DataModel, LayoutService, Rect } from '../../types/types';
+import { DataModel, DataService, LayoutService, Rect } from '../../types/types';
 import useMeasureText from './use-measure-text';
 
 interface ColumnWidthHook {
@@ -18,18 +18,18 @@ export const EXPAND_ICON_WIDTH = 30;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 
-export default function useColumnWidth(layoutService: LayoutService, dataModel: DataModel, rect: Rect): ColumnWidthHook {
+export default function useColumnWidth(layoutService: LayoutService, dataService: DataService, rect: Rect): ColumnWidthHook {
   const { estimateWidth, measureText } = useMeasureText('13px', '"Source Sans Pro", sans-serif'); // TODO Hard-coded...
-  const { pivotData } = dataModel;
+  const { data } = dataService;
   const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
-    () => pivotData.left.some(column => column[0] !== null && column[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
-    [pivotData.left]
+    () => data.left.some(column => column[0] !== null && column[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO),
+    [data.left]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
-    const ratios = pivotData.leftDimensionInfoIndexMap
+    const ratios = data.leftDimensionInfoIndexMap
       .map((dimIndex, index) => {
         if (dimIndex === PSEUDO_DIMENSION_INDEX) {
           const pseudoDimensionWidth = Math.max(
@@ -56,7 +56,7 @@ export default function useColumnWidth(layoutService: LayoutService, dataModel: 
     const multiplier = MAX_RATIO_OF_TOTAL_WIDTH / sumOfRatios;
     return ratios.map(r => r * multiplier);
 
-  }, [estimateWidth, measureText, pivotData.leftDimensionInfoIndexMap, rect.width, qDimensionInfo, qMeasureInfo, qNoOfLeftDims]);
+  }, [estimateWidth, measureText, data.leftDimensionInfoIndexMap, rect.width, qDimensionInfo, qMeasureInfo, qNoOfLeftDims]);
 
   const getLeftColumnWidth = useCallback(
     (index) => leftColumnWidthsRatios[index] * rect.width,
@@ -64,8 +64,8 @@ export default function useColumnWidth(layoutService: LayoutService, dataModel: 
   );
 
   const leftGridWidth = useMemo(
-    () => pivotData.left.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
-    [pivotData.left, getLeftColumnWidth]
+    () => data.left.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
+    [data.left, getLeftColumnWidth]
   );
 
   const rightGridWidth = useMemo(
@@ -90,7 +90,7 @@ export default function useColumnWidth(layoutService: LayoutService, dataModel: 
 
       return Math.max(
         MIN_COLUMN_WIDTH,
-        availableWidth / pivotData.size.data.x,
+        availableWidth / data.size.data.x,
         estimateWidth(qApprMaxGlyphCount),
         measureText(qFallbackTitle),
       );
@@ -101,7 +101,7 @@ export default function useColumnWidth(layoutService: LayoutService, dataModel: 
     }
 
     return getWidth(measureInfoIndex);
-  }, [rightGridWidth, pivotData.size.data.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, qMeasureInfo, hasPseudoDimOnLeft]);
+  }, [rightGridWidth, data.size.data.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, qMeasureInfo, hasPseudoDimOnLeft]);
 
   const getDataColumnWidth = useCallback((colIndex: number) => {
     const measureInfoIndex = colIndex % qMeasureInfo.length;
@@ -109,9 +109,9 @@ export default function useColumnWidth(layoutService: LayoutService, dataModel: 
   }, [getMeasureInfoWidth, qMeasureInfo]);
 
   const getTotalWidth = useCallback(() => Array
-      .from({ length: pivotData.size.data.x }, () => null)
+      .from({ length: data.size.data.x }, () => null)
       .reduce((width, _, index) => width + getDataColumnWidth(index), leftGridWidth),
-    [getDataColumnWidth, leftGridWidth, pivotData.size.data.x]
+    [getDataColumnWidth, leftGridWidth, data.size.data.x]
   );
 
   const totalMeasureInfoColumnWidth = useMemo(

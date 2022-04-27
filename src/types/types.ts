@@ -18,11 +18,8 @@ export interface Point {
 }
 
 export interface DataModel {
-  pivotData: PivotData;
   fetchNextPage: FetchNextPage;
   fetchMoreData: FetchMoreData;
-  hasMoreColumns: boolean;
-  hasMoreRows: boolean;
   collapseLeft: ExpandOrCollapser;
   collapseTop: ExpandOrCollapser;
   expandLeft: ExpandOrCollapser;
@@ -55,6 +52,15 @@ export interface Cell {
   incrementLeafCount: () => void;
 }
 
+export interface PivotDataSize {
+  headers: Point;
+  top: Point;
+  left: Point;
+  data: Point;
+  totalColumns: number;
+  totalRows: number;
+}
+
 export interface PivotData {
   qDataPages: EngineAPI.INxPivotPage[],
   left: Cell[][],
@@ -65,14 +71,7 @@ export interface PivotData {
   headers: (null | string)[][],
   leftDimensionInfoIndexMap: number[];
   topDimensionInfoIndexMap: number[];
-  size: {
-    headers: Point;
-    top: Point;
-    left: Point;
-    data: Point;
-    totalColumns: number;
-    totalRows: number;
-  }
+  size: PivotDataSize;
 }
 
 export interface ExtendedSelections extends stardust.ObjectSelections {
@@ -98,9 +97,10 @@ export interface LayoutService {
 export interface DataService {
   addPage: (nextDataPage: EngineAPI.INxPivotPage) => void;
   addDataPage: (nextDataPage: EngineAPI.INxPivotPage) => void;
-  hasMoreRows: () => boolean;
-  hasMoreColumns: () => boolean;
-  getData: () => PivotData;
+  hasMoreRows: boolean;
+  hasMoreColumns: boolean;
+  data: PivotData;
+  size: PivotDataSize;
 }
 
 export interface Galaxy {

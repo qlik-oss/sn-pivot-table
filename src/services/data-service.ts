@@ -11,9 +11,18 @@ const createDataService = (qHyperCube: EngineAPI.IHyperCube): DataService => {
     addDataPage: (nextDataPage: EngineAPI.INxPivotPage) => {
       data = addDataPage(data, nextDataPage);
     },
-    hasMoreRows: () => data.size.data.y < qHyperCube.qSize.qcy,
-    hasMoreColumns: () => data.size.data.x < qHyperCube.qSize.qcx,
-    getData: () => data,
+    get hasMoreRows() {
+      return data.size.data.y < qHyperCube.qSize.qcy;
+    },
+    get hasMoreColumns() {
+      return data.size.data.x < qHyperCube.qSize.qcx;
+    },
+    get data() {
+      return data;
+    },
+    get size() {
+      return data.size;
+    },
   };
 };
 

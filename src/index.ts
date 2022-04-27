@@ -28,23 +28,24 @@ export default function supernova(env: Galaxy) {
       const constraints = useConstraints();
       const viewService = useViewService();
       const layoutService = useLayoutService(layout);
-      const dataService = useDataService(layout);
+      const { dataService, isLoading } = useDataService(model, layoutService, viewService);
       const dataModel = useDataModel(model, layoutService, dataService, viewService);
       const selections = useSelections() as ExtendedSelections;
 
       useEffect(() => {
-        if (rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
-          console.debug('render', { selections, constraints, dataModel, rect, model, viewService, layoutService, dataService });
+        if (!isLoading && rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
+          console.debug('render', { selections, constraints, dataModel, rect, model, viewService, layoutService, dataService, isLoading });
           render(element, {
             rect,
             constraints,
             dataModel,
             selections,
             viewService,
-            layoutService
+            layoutService,
+            dataService,
           });
         }
-      }, [dataModel, rect?.width, rect?.height, constraints, selections, viewService, layoutService, dataService]);
+      }, [dataModel, rect?.width, rect?.height, constraints, selections, viewService, layoutService, dataService, isLoading]);
 
       useEffect(() => () => {
           teardown(element);

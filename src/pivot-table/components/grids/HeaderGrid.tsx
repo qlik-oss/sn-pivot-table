@@ -1,16 +1,16 @@
 import React, { memo, useLayoutEffect, useRef } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { DataModel } from '../../../types/types';
+import { DataService } from '../../../types/types';
 import DimensionTitleCell from '../cells/DimensionTitleCell';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from '../shared-styles';
 
 interface HeaderGridProps {
-  dataModel: DataModel;
   columnWidthCallback: (index: number) => number;
   height: number;
   rowHightCallback: () => number;
   width: number;
+  dataService: DataService;
 }
 
 interface GridCallbackProps {
@@ -43,13 +43,13 @@ const HeaderCellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackP
 };
 
 const HeaderGrid = ({
-  dataModel,
   columnWidthCallback,
   height,
   rowHightCallback,
   width,
+  dataService,
 }: HeaderGridProps): JSX.Element | null => {
-  if (dataModel.pivotData.size.headers.x === 0) {
+  if (dataService.size.headers.x === 0) {
     return null;
   }
 
@@ -68,7 +68,7 @@ const HeaderGrid = ({
     if (headerGridRef.current) {
       headerGridRef.current.resetAfterColumnIndex(0);
     }
-  }, [dataModel]);
+  }, [dataService]);
 
   useLayoutEffect(() => {
     if (headerGridRef.current) {
@@ -80,14 +80,14 @@ const HeaderGrid = ({
     <VariableSizeGrid
       ref={headerGridRef}
       style={gridStyle}
-      columnCount={dataModel.pivotData.size.headers.x}
+      columnCount={dataService.size.headers.x}
       columnWidth={columnWidthCallback}
       height={height}
-      rowCount={dataModel.pivotData.size.headers.y}
+      rowCount={dataService.size.headers.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
-        matrix: dataModel.pivotData.headers,
+        matrix: dataService.data.headers,
       } as HeaderItemData}
     >
       {MemoizedCellFactory}
