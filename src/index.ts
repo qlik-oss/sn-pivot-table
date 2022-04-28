@@ -28,10 +28,10 @@ export default function supernova(env: Galaxy) {
       const constraints = useConstraints();
       const viewService = useViewService();
       const layoutService = useLayoutService(layout);
-      const { dataService, isLoading } = useDataService(model, layoutService, viewService);
-      const dataModel = useDataModel(model, layoutService, dataService, viewService);
+      const { dataService, isLoading, setNextPivotPage } = useDataService(model, layoutService, viewService);
+      const dataModel = useDataModel(model, setNextPivotPage, dataService, viewService);
       const selections = useSelections() as ExtendedSelections;
-
+console.debug('COMPONENT');
       useEffect(() => {
         if (!isLoading && rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
           console.debug('render', { selections, constraints, dataModel, rect, model, viewService, layoutService, dataService, isLoading });
@@ -45,7 +45,18 @@ export default function supernova(env: Galaxy) {
             dataService,
           });
         }
-      }, [dataModel, rect?.width, rect?.height, constraints, selections, viewService, layoutService, dataService, isLoading]);
+      }, [
+        dataModel,
+        rect?.width,
+        rect?.height,
+        constraints,
+        selections,
+        viewService,
+        layoutService,
+        dataService,
+        isLoading,
+        dataService.data,
+      ]);
 
       useEffect(() => () => {
           teardown(element);

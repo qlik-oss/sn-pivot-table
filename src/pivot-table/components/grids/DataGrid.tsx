@@ -116,7 +116,6 @@ const DataGrid = ({
     layoutService,
     data,
     size,
-    data: dataService.data.data,
   });
 
   useLayoutEffect(() => {

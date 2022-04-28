@@ -14,11 +14,11 @@ const getNextPage = (qLeft: number, qTop: number) => ({
 
 export default function useDataModel(
   model: EngineAPI.IGenericObject | undefined,
-  layoutService: LayoutService,
+  setNextPivotPage: (page: EngineAPI.INxPivotPage) => void,
   dataService: DataService,
   viewService: ViewService
 ): DataModel {
-  const [loading, setLoading] = useState<boolean>(false);
+  const ref = useMemo(() => ({ isLoading: false }), []);
   const {
     collapseLeft,
     collapseTop,
@@ -27,35 +27,35 @@ export default function useDataModel(
   } = useExpandOrCollapser(model);
 
   const fetchNextPage = useNebulaCallback<FetchNextPage>(async (isRow: boolean, startIndex: number) => {
-    if (loading || !model) return;
+    if (ref.isLoading || !model) return;
     if (isRow && !dataService.hasMoreRows) return;
     if (!isRow && !dataService.hasMoreColumns) return;
 
-    setLoading(true);
+    ref.isLoading = true;
 
     try {
       if (isRow) {
         const nextArea = getNextPage(startIndex, dataService.size.data.y);
         const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-        dataService.addPage(nextPivotPage);
+        setNextPivotPage(nextPivotPage);
       } else {
         const nextArea = getNextPage(dataService.size.data.x, startIndex);
         const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-        dataService.addPage(nextPivotPage);
+        setNextPivotPage(nextPivotPage);
       }
 
-      setLoading(false);
+      ref.isLoading = false;
       viewService.shouldResetScroll = false;
     } catch (error) {
       console.error(error);
-      setLoading(false);
+      ref.isLoading = false;
     }
-  }, [model, loading, viewService, dataService]);
+  }, [model, ref, viewService, dataService]);
 
   const fetchMoreData = useNebulaCallback<FetchMoreData>(async (left: number, top: number, width: number, height: number) => {
-    if (loading || !model) return;
+    if (ref.isLoading || !model) return;
 
-    setLoading(true);
+    ref.isLoading = true;
 
     try {
       const nextArea = {
@@ -65,14 +65,14 @@ export default function useDataModel(
         qHeight: Math.min(height, dataService.size.data.y - top)
       };
 
-      const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
-      dataService.addDataPage(nextPivotPage);
-      setLoading(false);
+      const [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [nextArea]);
+      setNextPivotPage(pivotPage);
+      ref.isLoading = false;
     } catch (error) {
       console.error(error);
-      setLoading(false);
+      ref.isLoading = false;
     }
-  }, [model, loading, dataService]);
+  }, [model, ref, dataService]);
 
   const dataModel = useMemo<DataModel>(() => ({
     fetchNextPage,

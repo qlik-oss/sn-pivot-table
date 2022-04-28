@@ -1,5 +1,5 @@
 /*  eslint-disable no-param-reassign */
-import { useMemo, usePromise } from '@nebula.js/stardust';
+import { useMemo, usePromise, useState, useEffect } from '@nebula.js/stardust';
 import { Q_PATH } from '../constants';
 import createDataService from '../services/data-service';
 import { DataService, LayoutService, ViewService } from '../types/types';
@@ -7,6 +7,7 @@ import { DataService, LayoutService, ViewService } from '../types/types';
 interface UseDataService {
   dataService: DataService;
   isLoading: boolean;
+  setNextPivotPage: (page: EngineAPI.INxPivotPage) => void;
 }
 
 const MAX_GRID_SIZE = 10000;
@@ -78,6 +79,13 @@ const useDataService = (
   const { qLastExpandedPos, qSize } = qHyperCube;
   const ref = useMemo(() => ({ isLoading: true }), [layoutService]);
   const dataService = useMemo(() => createDataService(qHyperCube), [layoutService]);
+  const [nextPivotPage, setNextPivotPage] = useState<EngineAPI.INxPivotPage | null>(null);
+
+  useMemo(() => {
+    if (nextPivotPage) {
+      dataService.addPage(nextPivotPage);
+    }
+  }, [nextPivotPage]);
 
   usePromise(async () => {
     if (model) {
@@ -88,8 +96,8 @@ const useDataService = (
           ...getPagesToTheTop(viewService, qSize.qcy)
         ];
         const fetchPageQueries = pages.map(async (page) => {
-          const [nextPivotPage] = await model.getHyperCubePivotData(Q_PATH, [page]);
-          dataService.addPage(nextPivotPage);
+          const [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [page]);
+          dataService.addPage(pivotPage);
         });
         await Promise.all(fetchPageQueries)
           .catch(e => {
@@ -108,6 +116,7 @@ const useDataService = (
 
   return {
     dataService,
+    setNextPivotPage,
     isLoading: ref.isLoading
   };
 };
