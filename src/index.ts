@@ -31,7 +31,7 @@ export default function supernova(env: Galaxy) {
       const { dataService, isLoading, setNextPivotPage } = useDataService(model, layoutService, viewService);
       const dataModel = useDataModel(model, setNextPivotPage, dataService, viewService);
       const selections = useSelections() as ExtendedSelections;
-console.debug('COMPONENT');
+
       useEffect(() => {
         if (!isLoading && rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
           console.debug('render', { selections, constraints, dataModel, rect, model, viewService, layoutService, dataService, isLoading });
@@ -55,7 +55,7 @@ console.debug('COMPONENT');
         layoutService,
         dataService,
         isLoading,
-        dataService.data,
+        dataService.data, // This state is needed to trigger re-renders when a new page is loaded from the data model. It's bit of a hack and should be fixed.
       ]);
 
       useEffect(() => () => {

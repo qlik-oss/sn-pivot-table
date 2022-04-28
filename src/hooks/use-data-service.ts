@@ -77,8 +77,11 @@ const useDataService = (
 ): UseDataService => {
   const { qHyperCube } = layoutService.layout;
   const { qLastExpandedPos, qSize } = qHyperCube;
+  // Need to keep track of loading state to prevent double renders when a new layout is recieved, ex after expanding or collapesing.
+  // A double render would cause the scroll position to be lost
   const ref = useMemo(() => ({ isLoading: true }), [layoutService]);
   const dataService = useMemo(() => createDataService(qHyperCube), [layoutService]);
+  // This state is needed to trigger re-renders when a new page is loaded from the data model. It's bit of a hack and should be fixed.
   const [nextPivotPage, setNextPivotPage] = useState<EngineAPI.INxPivotPage | null>(null);
 
   useMemo(() => {
