@@ -1,5 +1,5 @@
 /*  eslint-disable no-param-reassign */
-import { useMemo, usePromise, useState, useEffect } from '@nebula.js/stardust';
+import { useMemo, usePromise, useState } from '@nebula.js/stardust';
 import { Q_PATH } from '../constants';
 import createDataService from '../services/data-service';
 import { DataService, LayoutService, ViewService } from '../types/types';
@@ -12,11 +12,20 @@ interface UseDataService {
 
 const MAX_GRID_SIZE = 10000;
 
+const safeGuardGridSize = (viewService: ViewService):boolean => {
+  const { gridWidth, gridHeight } = viewService;
+  if (!gridWidth) return true;
+  if (!gridHeight) return true;
+  if (gridWidth < 0) return true;
+  if (gridHeight < 0) return true;
+  return false;
+};
+
 const getPagesToTheTop = (viewService: ViewService, maxHeight: number): EngineAPI.IRect[] => {
   const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
   const pages = [] as EngineAPI.IRect[];
 
-  if (!gridWidth && !gridHeight) { // handle zero size and when viewService has not yet been initialized
+  if (safeGuardGridSize(viewService)) { // handle zero size and when viewService has not yet been initialized
     return pages;
   }
 
@@ -45,7 +54,7 @@ const getPagesToTheLeft = (viewService: ViewService, maxWidth: number): EngineAP
   const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
   const pages = [] as EngineAPI.IRect[];
 
-  if (!gridWidth && !gridHeight) { // handle zero size and when viewService has not yet been initialized
+  if (safeGuardGridSize(viewService)) { // handle zero size and when viewService has not yet been initialized
     return pages;
   }
 
