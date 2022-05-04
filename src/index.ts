@@ -3,12 +3,12 @@ import initialProperties from './qae/initial-properties';
 import data from './qae/data-definition';
 import ext from './ext';
 import { render, teardown } from './pivot-table/Root';
-import useDataModel from './hooks/use-data-model';
+// import useDataModel from './hooks/use-data-model';
 import { ExtendedSelections, Galaxy } from './types/types';
 import useViewService from './hooks/use-view-service';
 import { PivotLayout } from './types/QIX';
 import useLayoutService from './hooks/use-layout-service';
-import useDataService from './hooks/use-data-service';
+import useLoadDataPages from './hooks/use-load-data-pages';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {
@@ -28,34 +28,32 @@ export default function supernova(env: Galaxy) {
       const constraints = useConstraints();
       const viewService = useViewService();
       const layoutService = useLayoutService(layout);
-      const { dataService, isLoading, setNextPivotPage } = useDataService(model, layoutService, viewService);
-      const dataModel = useDataModel(model, setNextPivotPage, dataService, viewService);
+      const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
       const selections = useSelections() as ExtendedSelections;
 
       useEffect(() => {
-        if (!isLoading && rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
-          console.debug('render', { selections, constraints, dataModel, rect, model, viewService, layoutService, dataService, isLoading });
+        if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
+          console.debug('render', { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, isLoading });
           render(element, {
+            model,
             rect,
             constraints,
-            dataModel,
             selections,
             viewService,
             layoutService,
-            dataService,
+            qPivotDataPages
           });
         }
       }, [
-        dataModel,
+        model,
         rect?.width,
         rect?.height,
         constraints,
         selections,
         viewService,
         layoutService,
-        dataService,
         isLoading,
-        dataService.data, // This state is needed to trigger re-renders when a new page is loaded from the data model. It's bit of a hack and should be fixed.
+        qPivotDataPages,
       ]);
 
       useEffect(() => () => {

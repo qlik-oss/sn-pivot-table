@@ -1,4 +1,4 @@
-import { PivotData, Cell } from '../../types/types';
+import { PivotData, Cell, Point, TopDimensionData } from '../../types/types';
 import extractHeaders from './extract-headers';
 import extractLeftGrid from './extract-left';
 import extractTopGrid from './extract-top';
@@ -40,6 +40,10 @@ export const addPage = (prevPivotData: PivotData, nextDataPage: EngineAPI.INxPiv
   const nextData = createNewDataGrid(qArea, prevPivotData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
   const width = Math.max(...Array.from(nextData, row => row?.length || 0)); // Safe guard against empty values
   const height = nextData.length;
+
+  if ((qArea.qWidth + qArea.qLeft) !== width) {
+    console.warn('width failure', qArea.qWidth + qArea.qLeft, width);
+  }
 
   const nextPivotData: PivotData = {
     ...prevPivotData,

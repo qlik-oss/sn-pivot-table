@@ -1,8 +1,8 @@
 /*  eslint-disable no-param-reassign */
-import React, { memo, useCallback, useLayoutEffect } from 'react';
+import React, { memo, useCallback, useLayoutEffect, useMemo } from 'react';
 import { debouncer } from 'qlik-chart-modules';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
-import { DataModel, DataService, GridItemData, LayoutService, Point, ViewService } from '../../../types/types';
+import { DataModel, GridItemData, LayoutService, MeasureData, Point, ViewService } from '../../../types/types';
 import DataCell from '../cells/DataCell';
 import useDebug from '../../hooks/use-debug';
 
@@ -15,15 +15,14 @@ interface DataGridProps {
   width: number;
   viewService: ViewService;
   layoutService: LayoutService;
-  dataService: DataService;
-  data: EngineAPI.INxPivotValuePoint[][];
-  size: Point;
+  measureData: MeasureData;
+  hasMoreRows: boolean;
+  hasMoreColumns: boolean;
 }
 
 type FetchModeData = (
   dataModel: DataModel,
-  data: EngineAPI.INxPivotValuePoint[][],
-  size: Point,
+  measureData: MeasureData,
   overscanColumnStartIndex: number,
   overscanColumnStopIndex: number,
   overscanRowStartIndex: number,
@@ -54,23 +53,22 @@ const isMissingData = (
 
 const debouncedFetchMoreData: FetchModeData = debouncer((
   dataModel: DataModel,
-  data: EngineAPI.INxPivotValuePoint[][],
-  size: Point,
+  measureData: MeasureData,
   overscanColumnStartIndex: number,
   overscanColumnStopIndex: number,
   overscanRowStartIndex: number,
   overscanRowStopIndex: number
 ) => {
-  if (overscanColumnStartIndex > size.x) {
+  if (overscanColumnStartIndex > measureData.size.x) {
     return;
   }
 
-  if (overscanRowStartIndex > size.y) {
+  if (overscanRowStartIndex > measureData.size.y) {
     return;
   }
 
   const shouldFetchData = isMissingData(
-    data,
+    measureData.data,
     overscanColumnStartIndex,
     overscanColumnStopIndex,
     overscanRowStartIndex,
@@ -95,11 +93,11 @@ const DataGrid = ({
   width,
   viewService,
   layoutService,
-  dataService,
-  data,
-  size,
+  measureData,
+  hasMoreRows,
+  hasMoreColumns,
 }: DataGridProps): JSX.Element | null => {
-  if (size.x === 0) {
+  if (measureData.size.x === 0) {
     return null;
   }
 
@@ -112,23 +110,23 @@ const DataGrid = ({
     rowHightCallback,
     width,
     viewService,
-    dataService,
     layoutService,
-    data,
-    size,
+    measureData,
+    hasMoreRows,
+    hasMoreColumns
   });
 
   useLayoutEffect(() => {
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterColumnIndex(0); // Needs to be re-computed every time the data changes
     }
-  }, [dataModel, dataService.data.data]);
+  }, [dataModel, measureData]);
 
   useLayoutEffect(() => {
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }
-  }, [width, height, dataService.data.data]);
+  }, [width, height, measureData]);
 
   const onItemsRendered = useCallback(({
     overscanColumnStartIndex,
@@ -145,26 +143,25 @@ const DataGrid = ({
     viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
     viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
-    if (dataService.hasMoreRows && visibleRowStopIndex >= size.y - OFF_VIEW_THRESHOLD) {
+    if (hasMoreRows && visibleRowStopIndex >= measureData.size.y - OFF_VIEW_THRESHOLD) {
       dataModel.fetchNextPage(true, overscanColumnStartIndex);
       return;
     }
 
-    if (dataService.hasMoreColumns && visibleColumnStopIndex >= size.x - OFF_VIEW_THRESHOLD) {
+    if (hasMoreColumns && visibleColumnStopIndex >= measureData.size.x - OFF_VIEW_THRESHOLD) {
       dataModel.fetchNextPage(false, overscanRowStartIndex);
       return;
     }
 
     debouncedFetchMoreData(
       dataModel,
-      data,
-      size,
+      measureData,
       overscanColumnStartIndex,
       overscanColumnStopIndex,
       overscanRowStartIndex,
       overscanRowStopIndex
     );
-  }, [dataModel, dataService, data, size.x, size.y]);
+  }, [dataModel, measureData]);
 
   const getColumnWidth = useCallback(
     (index) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
@@ -175,15 +172,15 @@ const DataGrid = ({
     <VariableSizeGrid
       ref={dataGridRef}
       style={gridStyle}
-      columnCount={size.x}
+      columnCount={measureData.size.x}
       columnWidth={getColumnWidth}
       height={height}
-      rowCount={size.y}
+      rowCount={measureData.size.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
         layoutService,
-        grid: data,
+        grid: measureData.data,
         dataModel
       } as GridItemData}
       onItemsRendered={onItemsRendered}
@@ -193,4 +190,4 @@ const DataGrid = ({
   );
 };
 
-export default DataGrid;
+export default memo(DataGrid);

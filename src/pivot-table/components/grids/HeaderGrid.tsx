@@ -1,6 +1,6 @@
 import React, { memo, useLayoutEffect, useRef } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
-import { DataService } from '../../../types/types';
+import { HeadersData } from '../../../types/types';
 import DimensionTitleCell from '../cells/DimensionTitleCell';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from '../shared-styles';
@@ -10,7 +10,7 @@ interface HeaderGridProps {
   height: number;
   rowHightCallback: () => number;
   width: number;
-  dataService: DataService;
+  headersData: HeadersData;
 }
 
 interface GridCallbackProps {
@@ -47,9 +47,9 @@ const HeaderGrid = ({
   height,
   rowHightCallback,
   width,
-  dataService,
+  headersData,
 }: HeaderGridProps): JSX.Element | null => {
-  if (dataService.size.headers.x === 0) {
+  if (headersData.size.x === 0) {
     return null;
   }
 
@@ -68,7 +68,7 @@ const HeaderGrid = ({
     if (headerGridRef.current) {
       headerGridRef.current.resetAfterColumnIndex(0);
     }
-  }, [dataService]);
+  }, [headersData]);
 
   useLayoutEffect(() => {
     if (headerGridRef.current) {
@@ -80,14 +80,14 @@ const HeaderGrid = ({
     <VariableSizeGrid
       ref={headerGridRef}
       style={gridStyle}
-      columnCount={dataService.size.headers.x}
+      columnCount={headersData.size.x}
       columnWidth={columnWidthCallback}
       height={height}
-      rowCount={dataService.size.headers.y}
+      rowCount={headersData.size.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={{
-        matrix: dataService.data.headers,
+        matrix: headersData.data,
       } as HeaderItemData}
     >
       {MemoizedCellFactory}
@@ -95,4 +95,4 @@ const HeaderGrid = ({
   );
 };
 
-export default HeaderGrid;
+export default memo(HeaderGrid);

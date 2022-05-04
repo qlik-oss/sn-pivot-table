@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect, useMemo } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
-import { DataModel, Cell, LayoutService, DataService, Point } from '../../../types/types';
+import { DataModel, Cell, LayoutService, TopDimensionData } from '../../../types/types';
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
@@ -19,9 +19,7 @@ interface TopGridProps {
   constraints: stardust.Constraints;
   getScrollLeft: () => number;
   layoutService: LayoutService;
-  dataService: DataService;
-  data: Cell[][];
-  size: Point;
+  topDimensionData: TopDimensionData;
 }
 
 const listStyle: React.CSSProperties = {
@@ -43,11 +41,9 @@ const TopGrid = ({
   constraints,
   getScrollLeft,
   layoutService,
-  dataService,
-  data,
-  size,
+  topDimensionData,
 }: TopGridProps): JSX.Element | null => {
-  if (size.y === 0) {
+  if (topDimensionData.size.y === 0) {
     return null;
   }
 
@@ -65,16 +61,14 @@ const TopGrid = ({
     constraints,
     getScrollLeft,
     layoutService,
-    dataService,
-    data,
-    size,
+    topDimensionData,
   });
 
   useLayoutEffect(() => {
     if (topGridRef.current) {
       topGridRef.current.forEach(list => list?.resetAfterIndex(0));
     }
-  }, [dataModel, width, height, data]);
+  }, [dataModel, width, height, topDimensionData]);
 
   useLayoutEffect(() => {
     if (topGridRef.current) {
@@ -98,7 +92,7 @@ const TopGrid = ({
   };
 
   const getKey = (rowIndex: number): string => {
-    const dimIndex = dataService.data.topDimensionInfoIndexMap[rowIndex];
+    const dimIndex = topDimensionData.dimensionInfoIndexMap[rowIndex];
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       return '-1';
     }
@@ -106,11 +100,11 @@ const TopGrid = ({
   };
 
   return (<div>
-    {data.map((list, topRowIndex) => (
+    {topDimensionData.data.map((list, topRowIndex) => (
       <VariableSizeList
         key={getKey(topRowIndex)}
         ref={setListRef(topGridRef, topRowIndex)}
-        style={topRowIndex === data.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
+        style={topRowIndex === topDimensionData.data.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
         height={rowHightCallback()}
         width={width}
         itemCount={list.length}
@@ -130,4 +124,4 @@ const TopGrid = ({
   </div>);
 };
 
-export default TopGrid;
+export default memo(TopGrid);

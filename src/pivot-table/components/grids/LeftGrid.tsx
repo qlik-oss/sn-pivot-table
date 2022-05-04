@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
-import { DataModel, Cell, LayoutService, DataService, Point } from '../../../types/types';
+import { DataModel, Cell, LayoutService, DataService, Point, LeftDimensionData } from '../../../types/types';
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
@@ -18,9 +18,7 @@ interface LeftGridProps {
   constraints: stardust.Constraints;
   getScrollTop: () => number;
   layoutService: LayoutService;
-  dataService: DataService;
-  data: Cell[][];
-  size: Point;
+  leftDimensionData: LeftDimensionData;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -58,11 +56,9 @@ const LeftGrid = ({
   constraints,
   getScrollTop,
   layoutService,
-  dataService,
-  data,
-  size,
+  leftDimensionData
 }: LeftGridProps): JSX.Element | null => {
-  if (size.x === 0) {
+  if (leftDimensionData.size.x === 0) {
     return null;
   }
 
@@ -79,16 +75,14 @@ const LeftGrid = ({
     constraints,
     getScrollTop,
     layoutService,
-    dataService,
-    data,
-    size,
+    leftDimensionData
   });
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {
       leftGridRef.current.forEach(list => list?.resetAfterIndex(0));
     }
-  }, [dataModel, width, height, data]);
+  }, [dataModel, width, height, leftDimensionData]);
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {
@@ -96,10 +90,10 @@ const LeftGrid = ({
     }
   });
 
-  const isLastColumn = (colIndex: number) => colIndex === data.length - 1;
+  const isLastColumn = (colIndex: number) => colIndex === leftDimensionData.data.length - 1;
 
   const getKey = (colIndex: number): string => {
-    const dimIndex = dataService.data.leftDimensionInfoIndexMap[colIndex];
+    const dimIndex = leftDimensionData.dimensionInfoIndexMap[colIndex];
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       return '-1';
     }
@@ -107,7 +101,7 @@ const LeftGrid = ({
   };
 
   return (<div style={containerStyle}>
-    {data.map((list, colIndex) => (
+    {leftDimensionData.data.map((list, colIndex) => (
       <VariableSizeList
         key={getKey(colIndex)}
         ref={setListRef(leftGridRef, colIndex)}
@@ -132,4 +126,4 @@ const LeftGrid = ({
   </div>);
 };
 
-export default LeftGrid;
+export default memo(LeftGrid);

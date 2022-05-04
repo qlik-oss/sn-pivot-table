@@ -74,13 +74,47 @@ export interface PivotData {
   size: PivotDataSize;
 }
 
+export interface TopDimensionData {
+  data: Cell[][];
+  grid: Cell[][];
+  dimensionInfoIndexMap: number[];
+  size: Point;
+}
+
+export interface LeftDimensionData {
+  data: Cell[][];
+  grid: Cell[][];
+  dimensionInfoIndexMap: number[];
+  size: Point;
+}
+
+export interface HeadersData {
+  data: (null | string)[][];
+  size: Point;
+}
+
+export interface MeasureData {
+  data: EngineAPI.INxPivotValuePoint[][];
+  size: Point;
+}
+
+export interface Data {
+  headersData: HeadersData;
+  measureData: MeasureData;
+  topDimensionData: TopDimensionData;
+  leftDimensionData: LeftDimensionData;
+  hasMoreRows: boolean;
+  hasMoreColumns: boolean;
+  nextPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
+  moreDataHandler: (nextPage: EngineAPI.INxPivotPage) => void;
+}
+
 export interface ExtendedSelections extends stardust.ObjectSelections {
   on: (name: string, callback: () => void) => void;
   removeListener: (name: string, callback: () => void) => void;
 }
 
 export interface ViewService {
-  shouldResetScroll: boolean;
   gridColumnStartIndex: number;
   gridRowStartIndex: number;
   gridWidth: number;

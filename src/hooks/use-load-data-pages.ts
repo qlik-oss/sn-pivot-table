@@ -1,13 +1,11 @@
 /*  eslint-disable no-param-reassign */
 import { useMemo, usePromise, useState } from '@nebula.js/stardust';
 import { Q_PATH } from '../constants';
-import createDataService from '../services/data-service';
-import { DataService, LayoutService, ViewService } from '../types/types';
+import { LayoutService, ViewService } from '../types/types';
 
-interface UseDataService {
-  dataService: DataService;
+interface UseLoadDataPages {
   isLoading: boolean;
-  setNextPivotPage: (page: EngineAPI.INxPivotPage) => void;
+  qPivotDataPages: EngineAPI.INxPivotPage[];
 }
 
 const MAX_GRID_SIZE = 10000;
@@ -79,25 +77,18 @@ const getPagesToTheLeft = (viewService: ViewService, maxWidth: number): EngineAP
   return pages;
 };
 
-const useDataService = (
+const useLoadDataPages = (
   model: EngineAPI.IGenericObject | undefined,
   layoutService: LayoutService,
   viewService: ViewService
-): UseDataService => {
+): UseLoadDataPages => {
   const { qHyperCube } = layoutService.layout;
   const { qLastExpandedPos, qSize } = qHyperCube;
   // Need to keep track of loading state to prevent double renders when a new layout is recieved, ex after expanding or collapesing.
   // A double render would cause the scroll position to be lost
   const ref = useMemo(() => ({ isLoading: true }), [layoutService]);
-  const dataService = useMemo(() => createDataService(qHyperCube), [layoutService]);
-  // This state is needed to trigger re-renders when a new page is loaded from the data model. It's bit of a hack and should be fixed.
-  const [nextPivotPage, setNextPivotPage] = useState<EngineAPI.INxPivotPage | null>(null);
-
-  useMemo(() => {
-    if (nextPivotPage) {
-      dataService.addPage(nextPivotPage);
-    }
-  }, [nextPivotPage]);
+  const [qPivotDataPages, setDataPages] = useState<EngineAPI.INxPivotPage[]>([]);
+  // ref.shouldResetScroll = false;
 
   usePromise(async () => {
     if (model) {
@@ -107,26 +98,26 @@ const useDataService = (
           ...getPagesToTheLeft(viewService, qSize.qcx),
           ...getPagesToTheTop(viewService, qSize.qcy)
         ];
-        const fetchPageQueries = pages.map(async (page) => {
-          const [pivotPage] = await model.getHyperCubePivotData(Q_PATH, [page]);
-          dataService.addPage(pivotPage);
-        });
-        await Promise.all(fetchPageQueries)
-          .catch(e => {
-            // TODO handle error
-            console.error(e);
-          });
+
+        try {
+          const pivotPages = await model.getHyperCubePivotData(Q_PATH, pages);
+          setDataPages(pivotPages);
+        } catch (error) {
+          // TODO handle error
+          console.error(error);
+        }
+      } else {
+        setDataPages([]);
       }
     }
 
     ref.isLoading = false;
-  }, [qLastExpandedPos, qSize, model, viewService, dataService]);
+  }, [qLastExpandedPos, qSize, model, viewService]);
 
   return {
-    dataService,
-    setNextPivotPage,
-    isLoading: ref.isLoading
+    qPivotDataPages,
+    isLoading: ref.isLoading,
   };
 };
 
-export default useDataService;
+export default useLoadDataPages;
