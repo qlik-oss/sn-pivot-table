@@ -1,6 +1,6 @@
 /*  eslint-disable no-param-reassign */
 import { useMemo, usePromise, useState } from '@nebula.js/stardust';
-import { Q_PATH } from '../constants';
+import { DEFAULT_PAGE_SIZE, Q_PATH } from '../constants';
 import { LayoutService, ViewService } from '../types/types';
 
 interface UseLoadDataPages {
@@ -77,6 +77,14 @@ const getPagesToTheLeft = (viewService: ViewService, maxWidth: number): EngineAP
   return pages;
 };
 
+const shouldFetchAdditionalData = (qLastExpandedPos: EngineAPI.INxCellPosition | undefined) => {
+  if (!qLastExpandedPos) {
+    return false;
+  }
+
+  return qLastExpandedPos.qx >= DEFAULT_PAGE_SIZE || qLastExpandedPos.qy >= DEFAULT_PAGE_SIZE;
+};
+
 const useLoadDataPages = (
   model: EngineAPI.IGenericObject | undefined,
   layoutService: LayoutService,
@@ -93,12 +101,12 @@ const useLoadDataPages = (
   usePromise(async () => {
     if (model) {
       // If a cell have been expanded. Fetch data to the last scrolled position.
-      if (qLastExpandedPos) {
+      if (shouldFetchAdditionalData(qLastExpandedPos)) {
         const pages = [
           ...getPagesToTheLeft(viewService, qSize.qcx),
           ...getPagesToTheTop(viewService, qSize.qcy)
         ];
-
+console.debug('fetching pages', pages, { ...viewService });
         try {
           const pivotPages = await model.getHyperCubePivotData(Q_PATH, pages);
           setDataPages(pivotPages);

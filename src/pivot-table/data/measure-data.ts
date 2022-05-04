@@ -19,6 +19,8 @@ export const addPageToMeasureData = (prevData: MeasureData, nextDataPage: Engine
     qData,
     qArea,
   } = nextDataPage;
+  if (!qData.length) return prevData;
+
   const data = createNewGrid(qArea, prevData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
 
   return {

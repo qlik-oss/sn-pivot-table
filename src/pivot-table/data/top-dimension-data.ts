@@ -7,6 +7,8 @@ export const addPageToTopDimensionData = (prevData: TopDimensionData, nextDataPa
     qTop,
     qArea,
   } = nextDataPage;
+  if (!qTop.length) return prevData;
+
   const nextGrid = extractTopGrid(prevData.grid, qTop, qArea);
   const nextData = nextGrid.map(row => row.filter(cell => typeof cell !== 'undefined'));
   const width = Math.max(prevData.size.x, qArea.qWidth + qArea.qLeft);
