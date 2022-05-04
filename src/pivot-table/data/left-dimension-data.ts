@@ -1,8 +1,6 @@
-import { Cell, LeftDimensionData } from '../../types/types';
+import { LeftDimensionData } from '../../types/types';
 import extractLeftGrid from './extract-left';
 import createDimInfoToIndexMapCallback from './helpers/dimension-info-to-index-map';
-
-const getTopRowCount = (matrix: Cell[][]): number => matrix.length;
 
 export const addPageToLeftDimensionData = (prevData: LeftDimensionData, nextDataPage: EngineAPI.INxPivotPage): LeftDimensionData => {
   const {

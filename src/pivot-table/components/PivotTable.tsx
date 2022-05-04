@@ -1,5 +1,5 @@
 import { stardust } from '@nebula.js/stardust';
-import React, { useRef, useCallback, useLayoutEffect, useMemo } from 'react';
+import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
 import { LayoutService, Rect, ViewService } from '../../types/types';
 import useDebug from '../hooks/use-debug';

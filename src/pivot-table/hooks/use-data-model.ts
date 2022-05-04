@@ -1,5 +1,5 @@
 /*  eslint-disable no-param-reassign */
-import { useMemo, useCallback, useEffect, useState } from 'react';
+import { useMemo, useCallback } from 'react';
 import { DataModel, ExpandOrCollapser, FetchMoreData, FetchNextPage, Point, ViewService } from '../../types/types';
 import { DEFAULT_PAGE_SIZE, Q_PATH } from '../../constants';
 

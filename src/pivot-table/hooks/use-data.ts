@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { MeasureData, TopDimensionData, Data, HeadersData, LeftDimensionData } from '../../types/types';
 import { addPageToTopDimensionData, createTopDimensionData } from '../data/top-dimension-data';
 import { addPageToMeasureData, createMeasureData } from '../data/measure-data';

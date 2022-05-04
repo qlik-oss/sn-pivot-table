@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { memo, useLayoutEffect } from 'react';
 import { VariableSizeList, areEqual } from 'react-window';
 import { PSEUDO_DIMENSION_INDEX } from '../../../constants';
-import { DataModel, Cell, LayoutService, DataService, Point, LeftDimensionData } from '../../../types/types';
+import { DataModel, Cell, LayoutService, LeftDimensionData } from '../../../types/types';
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';

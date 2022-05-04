@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import NxDimCellType from '../../types/QIX';
-import { DataModel, DataService, LayoutService, LeftDimensionData, MeasureData, Rect } from '../../types/types';
+import { LayoutService, LeftDimensionData, MeasureData, Rect } from '../../types/types';
 import useMeasureText from './use-measure-text';
 
 interface ColumnWidthHook {
