@@ -4,7 +4,7 @@ import { debouncer } from 'qlik-chart-modules';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from '../../../types/types';
 import DataCell from '../cells/DataCell';
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 
 interface DataGridProps {
   dataModel: DataModel;
@@ -102,19 +102,20 @@ const DataGrid = ({
   }
 
   const MemoizedDataCell = memo(DataCell, areEqual);
-  useDebug('DataGrid', {
-    dataModel,
-    dataGridRef,
-    getMeasureInfoWidth,
-    height,
-    rowHightCallback,
-    width,
-    viewService,
-    layoutService,
-    measureData,
-    hasMoreRows,
-    hasMoreColumns
-  });
+
+  // useDebug('DataGrid', {
+  //   dataModel,
+  //   dataGridRef,
+  //   getMeasureInfoWidth,
+  //   height,
+  //   rowHightCallback,
+  //   width,
+  //   viewService,
+  //   layoutService,
+  //   measureData,
+  //   hasMoreRows,
+  //   hasMoreColumns
+  // });
 
   useLayoutEffect(() => {
     if (dataGridRef.current) {

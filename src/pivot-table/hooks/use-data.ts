@@ -56,14 +56,14 @@ const useData = (
 
   useMemo(() => {
     if (!nextPage) return;
-    setMeasureData(prev => addPageToMeasureData(prev as MeasureData, nextPage));
+    setMeasureData(prev => addPageToMeasureData(prev, nextPage));
     setTopDimensionData(prev => addPageToTopDimensionData(prev, nextPage));
     setLeftDimensionData(prev => addPageToLeftDimensionData(prev, nextPage));
   }, [nextPage]);
 
   useMemo(() => {
     if (!moreDataPage) return;
-    setMeasureData(prev => addPageToMeasureData(prev as MeasureData, moreDataPage));
+    setMeasureData(prev => addPageToMeasureData(prev, moreDataPage));
   }, [moreDataPage]);
 
   const headersData = useMemo<HeadersData>(
@@ -80,17 +80,6 @@ const useData = (
     () => measureData.size.x < qHyperCube.qSize.qcx,
     [measureData.size.x, qHyperCube.qSize.qcx]
   );
-
-  // useEffect(() => console.debug('measureData changed'), [measureData]);
-
-  // useEffect(() => console.debug('topDimensionData changed'), [topDimensionData]);
-
-  // useEffect(() => console.debug('leftDimensionData changed'), [leftDimensionData]);
-
-  // useEffect(() => console.debug('headersData changed'), [headersData]);
-
-  // useEffect(() => console.debug('qPivotDataPages changed'), [qPivotDataPages]);
-  // useEffect(() => console.debug('qHyperCube changed'), [qHyperCube]);
 
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
     setNextPage(page);

@@ -96,7 +96,6 @@ const useLoadDataPages = (
   // A double render would cause the scroll position to be lost
   const ref = useMemo(() => ({ isLoading: true }), [layoutService]);
   const [qPivotDataPages, setDataPages] = useState<EngineAPI.INxPivotPage[]>([]);
-  // ref.shouldResetScroll = false;
 
   usePromise(async () => {
     if (model) {

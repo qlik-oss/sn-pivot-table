@@ -6,7 +6,7 @@ import { DataModel, Cell, LayoutService, TopDimensionData } from '../../../types
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from '../shared-styles';
 
 interface TopGridProps {
@@ -51,18 +51,18 @@ const TopGrid = ({
 
   const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
 
-  useDebug('TopGrid', {
-    dataModel,
-    topGridRef,
-    getMeasureInfoWidth,
-    rowHightCallback,
-    width,
-    height,
-    constraints,
-    getScrollLeft,
-    layoutService,
-    topDimensionData,
-  });
+  // useDebug('TopGrid', {
+  //   dataModel,
+  //   topGridRef,
+  //   getMeasureInfoWidth,
+  //   rowHightCallback,
+  //   width,
+  //   height,
+  //   constraints,
+  //   getScrollLeft,
+  //   layoutService,
+  //   topDimensionData,
+  // });
 
   useLayoutEffect(() => {
     if (topGridRef.current) {

@@ -6,7 +6,7 @@ import { DataModel, Cell, LayoutService, LeftDimensionData } from '../../../type
 import ListCellFactory from '../cells/ListCellFactory';
 import getItemKey from '../helpers/get-item-key';
 import setListRef from '../helpers/set-list-ref';
-import useDebug from '../../hooks/use-debug';
+// import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from '../shared-styles';
 
 interface LeftGridProps {
@@ -66,17 +66,17 @@ const LeftGrid = ({
 
   const { qDimensionInfo } = layoutService.layout.qHyperCube;
 
-  useDebug('LeftGrid', {
-    dataModel,
-    leftGridRef,
-    getLeftColumnWidth,
-    width,
-    height,
-    constraints,
-    getScrollTop,
-    layoutService,
-    leftDimensionData
-  });
+  // useDebug('LeftGrid', {
+  //   dataModel,
+  //   leftGridRef,
+  //   getLeftColumnWidth,
+  //   width,
+  //   height,
+  //   constraints,
+  //   getScrollTop,
+  //   layoutService,
+  //   leftDimensionData
+  // });
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {
