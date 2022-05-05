@@ -1,7 +1,7 @@
 import { MeasureData } from '../../types/types';
 
 const createNewGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotValuePoint[][], nextData: EngineAPI.INxPivotValuePoint[][]) => {
-  const data = prevData.map(row => [...row]);
+  const data = [...prevData];
   nextData.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       if (!Array.isArray(data[qArea.qTop + rowIndex])) {

@@ -13,7 +13,7 @@ export const addPageToLeftDimensionData = (prevData: LeftDimensionData, nextData
   const data = grid.map(col => col.filter(cell => typeof cell !== 'undefined'));
   const height = Math.max(prevData.size.y, qArea.qHeight + qArea.qTop);
 
-  const nextLeftDimensionData: LeftDimensionData = {
+  return {
     ...prevData,
     data,
     grid,
@@ -22,8 +22,6 @@ export const addPageToLeftDimensionData = (prevData: LeftDimensionData, nextData
       y: height
     }
   };
-
-  return nextLeftDimensionData;
 };
 
 export const createLeftDimensionData = (
@@ -41,7 +39,7 @@ export const createLeftDimensionData = (
   const data = grid.map(col => col.filter(cell => typeof cell !== 'undefined'));
   const dimensionInfoIndexMap = data.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
 
-  const leftDimensionData: LeftDimensionData = {
+  return {
     data,
     grid,
     dimensionInfoIndexMap,
@@ -49,7 +47,5 @@ export const createLeftDimensionData = (
       x: data.length,
       y: qArea.qHeight + qArea.qTop
       },
-    };
-
-    return leftDimensionData;
+  };
 };

@@ -106,7 +106,7 @@ const useLoadDataPages = (
           ...getPagesToTheLeft(viewService, qSize.qcx),
           ...getPagesToTheTop(viewService, qSize.qcy)
         ];
-console.debug('fetching pages', pages, { ...viewService });
+
         try {
           const pivotPages = await model.getHyperCubePivotData(Q_PATH, pages);
           setDataPages(pivotPages);

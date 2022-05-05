@@ -13,7 +13,7 @@ export const addPageToTopDimensionData = (prevData: TopDimensionData, nextDataPa
   const nextData = nextGrid.map(row => row.filter(cell => typeof cell !== 'undefined'));
   const width = Math.max(prevData.size.x, qArea.qWidth + qArea.qLeft);
 
-  const nextTopData: TopDimensionData = {
+  return {
     ...prevData,
     data: nextData,
     grid: nextGrid,
@@ -22,8 +22,6 @@ export const addPageToTopDimensionData = (prevData: TopDimensionData, nextDataPa
       y: nextData.length
     }
   };
-
-  return nextTopData;
 };
 
 export const createTopDimensionData = (
@@ -42,7 +40,7 @@ export const createTopDimensionData = (
   const data = grid.map(row => row.filter(cell => typeof cell !== 'undefined'));
   const dimensionInfoIndexMap = data.map(createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
 
-  const topDimensionData: TopDimensionData = {
+  return {
     data,
     grid,
     dimensionInfoIndexMap,
@@ -50,7 +48,5 @@ export const createTopDimensionData = (
       x: qArea.qWidth + qArea.qLeft,
       y: data.length
       },
-    };
-
-    return topDimensionData;
+  };
 };
