@@ -12,8 +12,7 @@
   "files": [
     "dist",
     "sn-pivot-table-ext",
-    "sn-pivot-table.js",
-    "sn-pivot-table.qext"
+    "api-specifications"
   ],
   "engines": {
     "node": ">=8"
@@ -26,7 +25,8 @@
     "start": "nebula serve",
     "sense": "nebula sense --sourcemap true --meta src/meta.json",
     "types:check": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "spec": "scriptappy-from-jsdoc -c ./scriptappy.config.js"
   },
   "devDependencies": {
     "@babel/core": "7.17.10",
@@ -72,6 +72,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-window": "1.8.7",
+    "scriptappy-from-jsdoc": "0.7.0",
     "tslib": "2.4.0",
     "typescript": "4.6.4"
   },

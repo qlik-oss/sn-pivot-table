@@ -1,19 +1,23 @@
-import { DEFAULT_PAGE_SIZE } from '../constants';
-
 /**
- * @extends {qae.GenericObjectProperties}
+ * @extends {GenericObjectProperties}
  * @entry
  */
 const properties = {
   /**
-   * @extends {qae.HyperCubeDef}
+   * Current version of this generic object definition
+   * @type {string}
+   * @default
+   */
+   version: process.env.PACKAGE_VERSION,
+  /**
+   * @extends {HyperCubeDef}
    */
   qHyperCubeDef: {
     /** @type {boolean} */
     qAlwaysFullyExpanded: false,
-    /** @type {DimensionProperties[]} */
+    /** @type {NxDimension[]} */
     qDimensions: [],
-    /** @type {MeasureProperties[]} */
+    /** @type {NxMeasure[]} */
     qMeasures: [],
     qMode: 'P',
     /** @type {boolean} */
@@ -26,8 +30,8 @@ const properties = {
       {
         qTop: 0,
         qLeft: 0,
-        qWidth: DEFAULT_PAGE_SIZE,
-        qHeight: DEFAULT_PAGE_SIZE,
+        qWidth: 50,
+        qHeight: 50,
       },
     ],
     qIndentMode: false,
@@ -39,19 +43,30 @@ const properties = {
   showTitles: true,
   /**
    * Visualization title
-   * @type {string=}
+   * @type {(string|StringExpression)=}
    */
   title: '',
   /**
    * Visualization subtitle
-   * @type {string=}
+   * @type {(string|StringExpression)=}
    */
   subtitle: '',
   /**
-   * Holds general styling
-   * @type {Styling[]}
+   * Visualization footnote
+   * @type {(string|StringExpression)=}
    */
   footnote: '',
+  /**
+   * Null value properties
+   * @type {object=}
+   */
+  nullValueRepresentation: {
+    /**
+     * Null value text
+     * @type {string=}
+     */
+    text: '-'
+  },
 };
 
 export default properties;
