@@ -9,21 +9,32 @@
     "nebula",
     "stardust"
   ],
+  "bugs": {
+    "url": "https://github.com/qlik-oss/sn-pivot-table/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qlik-oss/sn-pivot-table.git"
+  },
   "files": [
+    "api-specifications",
+    "core",
     "dist",
-    "sn-pivot-table-ext",
-    "api-specifications"
+    "sn-pivot-table-ext"
   ],
   "engines": {
     "node": ">=8"
   },
   "main": "dist/sn-pivot-table.js",
-  "module": "dist/sn-pivot-table.esm.js",
+  "module": "core/esm/index.js",
   "scripts": {
-    "build": "nebula build",
+    "build": "node ./scripts/build.js --core --ext",
+    "build:dev": "node ./scripts/build.js --core --mode development",
+    "build:watch": "node ./scripts/build.js --mode development -w",
+    "copy:ext": "node ./scripts/copy-ext.js",
     "lint": "eslint src/",
     "start": "nebula serve",
-    "sense": "nebula sense --sourcemap true --meta src/meta.json",
+    "sense": "nebula sense",
     "types:check": "tsc --noEmit",
     "test": "jest",
     "spec": "scriptappy-from-jsdoc -c ./scriptappy.config.js"
