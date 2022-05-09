@@ -72,6 +72,15 @@ jobs:
           name: Types
           command: yarn run types:check
 
+  spec:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Build API specification
+          command: yarn run spec
+
 workflows:
   version: 2
   build-all:
@@ -87,5 +96,8 @@ workflows:
           requires:
             - build
       - types:
+          requires:
+            - install
+      - spec:
           requires:
             - install

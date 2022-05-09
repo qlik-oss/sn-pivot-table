@@ -1,0 +1,130 @@
+{
+  "scriptappy": "1.0.0",
+  "info": {
+    "name": "sn-pivot-table:properties",
+    "description": "Pivot Table generic object definition",
+    "version": "0.0.0",
+    "license": "MIT",
+    "stability": "experimental",
+    "x-qlik-visibility": "private"
+  },
+  "entries": {
+    "properties": {
+      "extends": [
+        {
+          "type": "GenericObjectProperties"
+        }
+      ],
+      "kind": "object",
+      "entries": {
+        "footnote": {
+          "description": "Visualization footnote",
+          "optional": true,
+          "defaultValue": "",
+          "kind": "union",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "StringExpression"
+            }
+          ],
+          "type": "any"
+        },
+        "nullValueRepresentation": {
+          "description": "Null value properties",
+          "optional": true,
+          "kind": "object",
+          "entries": {
+            "text": {
+              "description": "Null value text",
+              "optional": true,
+              "defaultValue": "-",
+              "type": "string"
+            }
+          }
+        },
+        "qHyperCubeDef": {
+          "extends": [
+            {
+              "type": "HyperCubeDef"
+            }
+          ],
+          "kind": "object",
+          "entries": {
+            "qAlwaysFullyExpanded": {
+              "defaultValue": false,
+              "type": "boolean"
+            },
+            "qDimensions": {
+              "kind": "array",
+              "items": {
+                "type": "NxDimension"
+              }
+            },
+            "qMeasures": {
+              "kind": "array",
+              "items": {
+                "type": "NxMeasure"
+              }
+            },
+            "qShowTotalsAbove": {
+              "defaultValue": true,
+              "type": "boolean"
+            },
+            "qSuppressMissing": {
+              "defaultValue": true,
+              "type": "boolean"
+            },
+            "qSuppressZero": {
+              "defaultValue": false,
+              "type": "boolean"
+            }
+          }
+        },
+        "showTitles": {
+          "description": "Show title for the visualization",
+          "optional": true,
+          "defaultValue": true,
+          "type": "boolean"
+        },
+        "subtitle": {
+          "description": "Visualization subtitle",
+          "optional": true,
+          "defaultValue": "",
+          "kind": "union",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "StringExpression"
+            }
+          ],
+          "type": "any"
+        },
+        "title": {
+          "description": "Visualization title",
+          "optional": true,
+          "defaultValue": "",
+          "kind": "union",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "StringExpression"
+            }
+          ],
+          "type": "any"
+        },
+        "version": {
+          "description": "Current version of this generic object definition",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "definitions": {}
+}
