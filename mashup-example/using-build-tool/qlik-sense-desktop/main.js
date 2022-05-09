@@ -12,13 +12,44 @@ import './style.css';
   nuked.render({
     element: document.querySelector('.object'),
     type: 'pivot-table',
-    fields: ['Sales Quantity', '=Sum([Sales Quantity])'],
+    properties: {
+      qHyperCubeDef: {
+        qDimensions: [
+          {
+            qLibraryId: 'jgxpDbw',
+          },
+          {
+            qDef: {
+              qGrouping: 'N',
+              qFieldDefs: [
+                'SegmentGroup'
+              ],
+            },
+          }
+        ],
+        qMeasures: [
+          {
+            qLibraryId: 'VjxMHP',
+          }
+        ],
+        qInitialDataFetch: [
+          {
+            qLeft: 0,
+            qTop: 0,
+            qWidth: 50,
+            qHeight: 50
+          }
+        ],
+        qMode: 'P',
+        qNoOfLeftDims: 1,
+      }
+    },
   });
 
   // create another session object
   nuked.render({
     element: document.querySelectorAll('.object')[1],
     type: 'pivot-table',
-    fields: ['Sales Price', '=Sum([Sales Quantity]*[Sales Price])'],
+    fields: ['Region', 'SegmentGroup', '=Budget'],
   });
 })();
