@@ -131,7 +131,7 @@ export const StickyPivotTable = ({
   const headerGridHeight = DEFAULT_ROW_HEIGHT * headersData.size.y;
   const leftGridHeight = rect.height - headerGridHeight;
   const topGridHeight = DEFAULT_ROW_HEIGHT * topDimensionData.size.y;
-  const dataGridHeight = rect.height - headerGridHeight;
+  const dataGridHeight = rect.height - topGridHeight;
 
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints} >
