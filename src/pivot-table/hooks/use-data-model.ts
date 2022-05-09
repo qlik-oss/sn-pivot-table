@@ -11,7 +11,7 @@ const getNextPage = (qLeft: number, qTop: number) => ({
 });
 
 interface UseDataModelProps {
-  model: EngineAPI.IGenericObject | undefined;
+  model: EngineAPI.IGenericObject;
   nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
   moreDataHandler: (page: EngineAPI.INxPivotPage) => void;
   hasMoreRows: boolean;
@@ -32,31 +32,23 @@ export default function useDataModel({
   const ref = useMemo(() => ({ isLoading: false }), []);
 
   const collapseLeft = useCallback<ExpandOrCollapser>(async (rowIndex: number, colIndex: number) => {
-    if (!model) return;
-
     await model.collapseLeft(Q_PATH, rowIndex, colIndex, false);
   }, [model]);
 
   const collapseTop = useCallback<ExpandOrCollapser>(async (rowIndex: number, colIndex: number) => {
-    if (!model) return;
-
     await model.collapseTop(Q_PATH, rowIndex, colIndex, false);
   }, [model]);
 
   const expandLeft = useCallback<ExpandOrCollapser>(async (rowIndex: number, colIndex: number) => {
-    if (!model) return;
-
     await model.expandLeft(Q_PATH, rowIndex, colIndex, false);
   }, [model]);
 
   const expandTop = useCallback<ExpandOrCollapser>(async (rowIndex: number, colIndex: number) => {
-    if (!model) return;
-
     await model.expandTop(Q_PATH, rowIndex, colIndex, false);
   }, [model]);
 
   const fetchNextPage = useCallback<FetchNextPage>(async (isRow: boolean, startIndex: number) => {
-    if (ref.isLoading || !model) return;
+    if (ref.isLoading) return;
     if (isRow && !hasMoreRows) return;
     if (!isRow && !hasMoreColumns) return;
 
@@ -81,7 +73,7 @@ export default function useDataModel({
   }, [model, ref, viewService, size.x, size.y, hasMoreRows, hasMoreColumns]);
 
   const fetchMoreData = useCallback<FetchMoreData>(async (left: number, top: number, width: number, height: number) => {
-    if (ref.isLoading || !model) return;
+    if (ref.isLoading) return;
 
     ref.isLoading = true;
 

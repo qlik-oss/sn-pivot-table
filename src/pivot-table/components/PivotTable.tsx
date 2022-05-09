@@ -20,7 +20,7 @@ export interface PivotTableProps {
   viewService: ViewService;
   layoutService: LayoutService;
   qPivotDataPages: EngineAPI.INxPivotPage[];
-  model: EngineAPI.IGenericObject | undefined,
+  model: EngineAPI.IGenericObject,
 }
 
 const DEFAULT_ROW_HEIGHT = 28;
