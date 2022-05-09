@@ -1,15 +1,15 @@
-import { HeadersData, LeftDimensionData, TopDimensionData } from '../../types/types';
+import { HeadersData } from '../../types/types';
 import extractHeaders from './extract-headers';
 
 const createHeadersData = (
   qHyperCube: EngineAPI.IHyperCube,
-  topDimensionData: TopDimensionData,
-  leftDimensionData: LeftDimensionData,
+  rowCount: number,
+  dimensionInfoIndexMap: number[],
 ): HeadersData => {
   const {
     qDimensionInfo,
   } = qHyperCube;
-  const data = extractHeaders(qDimensionInfo, topDimensionData.size.y, leftDimensionData.dimensionInfoIndexMap);
+  const data = extractHeaders(qDimensionInfo, rowCount, dimensionInfoIndexMap);
 
   return {
     data,

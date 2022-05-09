@@ -67,7 +67,7 @@ const useData = (
   }, [moreDataPage]);
 
   const headersData = useMemo<HeadersData>(
-    () => createHeadersData(qHyperCube, topDimensionData, leftDimensionData),
+    () => createHeadersData(qHyperCube, topDimensionData.size.y, leftDimensionData.dimensionInfoIndexMap),
     [qHyperCube, topDimensionData.size.y, ...leftDimensionData.dimensionInfoIndexMap]
   );
 
