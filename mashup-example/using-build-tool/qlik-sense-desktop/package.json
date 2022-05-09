@@ -1,0 +1,23 @@
+{
+  "name": "pivot-table-qlik-sense-desktop-mashup",
+  "private": true,
+  "version": "0.1.0",
+  "author": "QlikTech International AB",
+  "keywords": [
+    "qlik",
+    "nebula"
+  ],
+  "scripts": {
+    "dev": "vite --force",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@nebula.js/sn-pivot-table": "0.0.0",
+    "@nebula.js/stardust": "2.10.0",
+    "enigma.js": "2.9.0"
+  },
+  "devDependencies": {
+    "vite": "2.9.7"
+  }
+}
