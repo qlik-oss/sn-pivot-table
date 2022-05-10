@@ -2,7 +2,7 @@ import { stardust } from '@nebula.js/stardust';
 import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
 import { LayoutService, Rect, ViewService } from '../../types/types';
-import useDebug from '../hooks/use-debug';
+// import useDebug from '../hooks/use-debug';
 import StickyContainer from './containers/StickyContainer';
 import ScrollableContainer from './containers/ScrollableContainer';
 import FullSizeContainer from './containers/FullSizeContainer';
@@ -110,23 +110,23 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  useDebug('PivotTable', {
-    model,
-    rect,
-    constraints,
-    viewService,
-    layoutService,
-    qPivotDataPages,
-    dataModel,
-    headersData,
-    measureData,
-    topDimensionData,
-    leftDimensionData,
-    hasMoreRows,
-    hasMoreColumns,
-    nextPageHandler,
-    moreDataHandler
-  });
+  // useDebug('PivotTable', {
+  //   model,
+  //   rect,
+  //   constraints,
+  //   viewService,
+  //   layoutService,
+  //   qPivotDataPages,
+  //   dataModel,
+  //   headersData,
+  //   measureData,
+  //   topDimensionData,
+  //   leftDimensionData,
+  //   hasMoreRows,
+  //   hasMoreColumns,
+  //   nextPageHandler,
+  //   moreDataHandler
+  // });
 
   const headerGridHeight = DEFAULT_ROW_HEIGHT * headersData.size.y;
   const leftGridHeight = rect.height - headerGridHeight;
