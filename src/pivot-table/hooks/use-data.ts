@@ -68,7 +68,7 @@ const useData = (
 
   const headersData = useMemo<HeadersData>(
     () => createHeadersData(qHyperCube, topDimensionData.size.y, leftDimensionData.dimensionInfoIndexMap),
-    [qHyperCube, topDimensionData.size.y, ...leftDimensionData.dimensionInfoIndexMap]
+    [qHyperCube, topDimensionData.size.y, leftDimensionData.dimensionInfoIndexMap]
   );
 
   const hasMoreRows = useMemo<boolean>(

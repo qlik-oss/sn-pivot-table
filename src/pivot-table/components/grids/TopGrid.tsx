@@ -44,7 +44,8 @@ const TopGrid = ({
   topDimensionData,
 }: TopGridProps): JSX.Element | null => {
   if (topDimensionData.size.y === 0) {
-    return null;
+    // An empty top grid needs to occupy space to properly render headers given there is no top data
+    return <div style={{ width, height, ...bottomListStyle }} />;
   }
 
   const MemoizedListCellFactory = memo(ListCellFactory, areEqual);

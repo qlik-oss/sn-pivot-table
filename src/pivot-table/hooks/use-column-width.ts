@@ -64,7 +64,7 @@ export default function useColumnWidth(
 
   const getLeftColumnWidth = useCallback(
     (index) => leftColumnWidthsRatios[index] * rect.width,
-    [leftColumnWidthsRatios, rect]
+    [leftColumnWidthsRatios, rect.width]
   );
 
   const leftGridWidth = useMemo(
