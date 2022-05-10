@@ -46,7 +46,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const { qText, qType } = cell;
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const text = isNull ? layoutService.getNullValueText() : qText;
-  const isNumeric = !Number.isNaN(+text);
+  const isNumeric = isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
     ...(isNull ? nilStyle : numericStyle),
     justifyContent: isNumeric ? 'flex-end' : 'center',

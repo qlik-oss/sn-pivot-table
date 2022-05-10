@@ -18,16 +18,12 @@ export interface Point {
 }
 
 export interface DataModel {
-  pivotData: PivotData;
   fetchNextPage: FetchNextPage;
   fetchMoreData: FetchMoreData;
-  hasMoreColumns: boolean;
-  hasMoreRows: boolean;
   collapseLeft: ExpandOrCollapser;
   collapseTop: ExpandOrCollapser;
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
-  hasData: boolean;
 }
 
 export interface ItemData {
@@ -56,6 +52,15 @@ export interface Cell {
   incrementLeafCount: () => void;
 }
 
+export interface PivotDataSize {
+  headers: Point;
+  top: Point;
+  left: Point;
+  data: Point;
+  totalColumns: number;
+  totalRows: number;
+}
+
 export interface PivotData {
   qDataPages: EngineAPI.INxPivotPage[],
   left: Cell[][],
@@ -66,14 +71,42 @@ export interface PivotData {
   headers: (null | string)[][],
   leftDimensionInfoIndexMap: number[];
   topDimensionInfoIndexMap: number[];
-  size: {
-    headers: Point;
-    top: Point;
-    left: Point;
-    data: Point;
-    totalColumns: number;
-    totalRows: number;
-  }
+  size: PivotDataSize;
+}
+
+export interface TopDimensionData {
+  data: Cell[][];
+  grid: Cell[][];
+  dimensionInfoIndexMap: number[];
+  size: Point;
+}
+
+export interface LeftDimensionData {
+  data: Cell[][];
+  grid: Cell[][];
+  dimensionInfoIndexMap: number[];
+  size: Point;
+}
+
+export interface HeadersData {
+  data: (null | string)[][];
+  size: Point;
+}
+
+export interface MeasureData {
+  data: EngineAPI.INxPivotValuePoint[][];
+  size: Point;
+}
+
+export interface Data {
+  headersData: HeadersData;
+  measureData: MeasureData;
+  topDimensionData: TopDimensionData;
+  leftDimensionData: LeftDimensionData;
+  hasMoreRows: boolean;
+  hasMoreColumns: boolean;
+  nextPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
+  moreDataHandler: (nextPage: EngineAPI.INxPivotPage) => void;
 }
 
 export interface ExtendedSelections extends stardust.ObjectSelections {
@@ -82,7 +115,6 @@ export interface ExtendedSelections extends stardust.ObjectSelections {
 }
 
 export interface ViewService {
-  shouldResetScroll: boolean;
   gridColumnStartIndex: number;
   gridRowStartIndex: number;
   gridWidth: number;
@@ -94,6 +126,15 @@ export interface LayoutService {
   isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
   getNullValueText: () => string;
+}
+
+export interface DataService {
+  addPage: (nextDataPage: EngineAPI.INxPivotPage) => void;
+  addDataPage: (nextDataPage: EngineAPI.INxPivotPage) => void;
+  hasMoreRows: boolean;
+  hasMoreColumns: boolean;
+  data: PivotData;
+  size: PivotDataSize;
 }
 
 export interface Galaxy {

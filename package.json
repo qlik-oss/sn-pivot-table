@@ -33,7 +33,7 @@
     "build:watch": "node ./scripts/build.js --mode development -w",
     "copy:ext": "node ./scripts/copy-ext.js",
     "lint": "eslint src/",
-    "start": "nebula serve",
+    "start": "nebula serve  --type sn-pivot-table",
     "sense": "nebula sense",
     "types:check": "tsc --noEmit",
     "test": "jest",

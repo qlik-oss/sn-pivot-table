@@ -1,7 +1,7 @@
 import { stardust } from '@nebula.js/stardust';
 import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
-import { DataModel, LayoutService, Rect, ViewService } from '../../types/types';
+import { LayoutService, Rect, ViewService } from '../../types/types';
 // import useDebug from '../hooks/use-debug';
 import StickyContainer from './containers/StickyContainer';
 import ScrollableContainer from './containers/ScrollableContainer';
@@ -11,13 +11,16 @@ import TopGrid from './grids/TopGrid';
 import LeftGrid from './grids/LeftGrid';
 import DataGrid from './grids/DataGrid';
 import useColumnWidth from '../hooks/use-column-width';
+import useDataModel from '../hooks/use-data-model';
+import useData from '../hooks/use-data';
 
 export interface PivotTableProps {
   rect: Rect;
   constraints: stardust.Constraints;
-  dataModel: DataModel;
   viewService: ViewService;
   layoutService: LayoutService;
+  qPivotDataPages: EngineAPI.INxPivotPage[];
+  model: EngineAPI.IGenericObject,
 }
 
 const DEFAULT_ROW_HEIGHT = 28;
@@ -25,35 +28,60 @@ const DEFAULT_ROW_HEIGHT = 28;
 const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
 
 export const StickyPivotTable = ({
+  model,
   rect,
   constraints,
-  dataModel,
   viewService,
-  layoutService
+  layoutService,
+  qPivotDataPages,
 }: PivotTableProps): JSX.Element => {
+  const { qHyperCube } = layoutService.layout;
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeList[]>([]);
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
+
+  const {
+    headersData,
+    measureData,
+    topDimensionData,
+    leftDimensionData,
+    hasMoreRows,
+    hasMoreColumns,
+    nextPageHandler,
+    moreDataHandler
+  } = useData(qPivotDataPages, qHyperCube);
+
+  const dataModel = useDataModel({
+    model,
+    nextPageHandler,
+    moreDataHandler,
+    hasMoreRows,
+    hasMoreColumns,
+    viewService,
+    size: measureData.size
+  });
+
   const {
     leftGridWidth,
     rightGridWidth,
     getLeftColumnWidth,
     getMeasureInfoWidth,
     getTotalWidth,
-  } = useColumnWidth(layoutService, dataModel, rect);
-  const { size } = dataModel.pivotData;
+  } = useColumnWidth(layoutService, rect, leftDimensionData, measureData);
 
   useLayoutEffect(() => {
-    if (viewService.shouldResetScroll && scrollableContainerRef.current) {
-      scrollableContainerRef.current.scrollLeft = 0;
-      scrollableContainerRef.current.scrollTop = 0;
+    if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
+      if (scrollableContainerRef.current) {
+        scrollableContainerRef.current.scrollLeft = 0;
+        scrollableContainerRef.current.scrollTop = 0;
+      }
     }
-  });
+  }, [layoutService]);
 
-  const onScroll = (event: React.SyntheticEvent) => {
+  const onScrollHandler = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
       topGridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollLeft));
     }
@@ -83,34 +111,45 @@ export const StickyPivotTable = ({
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
   // useDebug('PivotTable', {
+  //   model,
   //   rect,
   //   constraints,
-  //   dataModel,
   //   viewService,
-  //   layoutService
+  //   layoutService,
+  //   qPivotDataPages,
+  //   dataModel,
+  //   headersData,
+  //   measureData,
+  //   topDimensionData,
+  //   leftDimensionData,
+  //   hasMoreRows,
+  //   hasMoreColumns,
+  //   nextPageHandler,
+  //   moreDataHandler
   // });
 
-  const headerGridHeight = DEFAULT_ROW_HEIGHT * size.headers.y;
+  const headerGridHeight = DEFAULT_ROW_HEIGHT * headersData.size.y;
   const leftGridHeight = rect.height - headerGridHeight;
-  const topGridHeight = DEFAULT_ROW_HEIGHT * size.top.y;
-  const dataGridHeight = rect.height - headerGridHeight;
+   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
+  const topGridHeight = DEFAULT_ROW_HEIGHT * Math.max(topDimensionData.size.y, 1);
+  const dataGridHeight = rect.height - topGridHeight;
 
   return (
-    <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScroll} constraints={constraints} >
-      <FullSizeContainer width={getTotalWidth()} height={DEFAULT_ROW_HEIGHT * size.totalRows}>
+    <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints} >
+      <FullSizeContainer width={getTotalWidth()} height={DEFAULT_ROW_HEIGHT * (measureData.size.y + topDimensionData.size.y)}>
         <StickyContainer
           rect={rect}
           leftColumnsWidth={leftGridWidth}
           rightColumnsWidth={rightGridWidth}
-          topRowsHeight={DEFAULT_ROW_HEIGHT * size.top.y}
-          bottomRowsHeight={DEFAULT_ROW_HEIGHT * size.data.y}
+          topRowsHeight={topGridHeight}
+          bottomRowsHeight={dataGridHeight}
         >
           <HeaderGrid
-            dataModel={dataModel}
             columnWidthCallback={getLeftColumnWidth}
             rowHightCallback={rowHightCallback}
             width={leftGridWidth}
             height={headerGridHeight}
+            headersData={headersData}
           />
 
           <TopGrid
@@ -123,6 +162,7 @@ export const StickyPivotTable = ({
             height={topGridHeight}
             getScrollLeft={getScrollLeft}
             layoutService={layoutService}
+            topDimensionData={topDimensionData}
           />
 
           <LeftGrid
@@ -134,6 +174,7 @@ export const StickyPivotTable = ({
             height={leftGridHeight}
             getScrollTop={getScrollTop}
             layoutService={layoutService}
+            leftDimensionData={leftDimensionData}
           />
 
           <DataGrid
@@ -145,9 +186,13 @@ export const StickyPivotTable = ({
             height={dataGridHeight}
             viewService={viewService}
             layoutService={layoutService}
+            measureData={measureData}
+            hasMoreRows={hasMoreRows}
+            hasMoreColumns={hasMoreColumns}
           />
         </StickyContainer>
       </FullSizeContainer>
     </ScrollableContainer>
   );
 };
+
