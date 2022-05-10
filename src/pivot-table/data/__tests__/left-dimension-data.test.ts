@@ -8,9 +8,6 @@ const mockedExtractLeft = extractLeftGrid as jest.MockedFunction<typeof extractL
 
 describe('left dimension data', () => {
   const CELL = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
-  const LEFT = [
-    [CELL, CELL]
-  ];
   const qHyperCube = {
     qEffectiveInterColumnSortOrder: [0],
   } as EngineAPI.IHyperCube;
@@ -27,24 +24,16 @@ describe('left dimension data', () => {
   });
 
   describe('create', () => {
-    test('should return correct left data', () => {
-      mockedExtractLeft.mockReturnValue(LEFT);
-      const data = createLeftDimensionData(dataPage, qHyperCube);
-
-      expect(data.data).toEqual(LEFT);
-      expect(data.grid).toEqual(LEFT);
-      expect(data.dimensionInfoIndexMap).toEqual([0]);
-      expect(data.size.x).toEqual(1);
-      expect(data.size.y).toEqual(dataPage.qArea.qHeight + dataPage.qArea.qTop);
-    });
-
-    test('should filter undefined values from the grid', () => {
+    test('should return correct data', () => {
       const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(mockedReturnValue);
       const data = createLeftDimensionData(dataPage, qHyperCube);
 
       expect(data.data).toEqual([[CELL, CELL]]);
       expect(data.grid).toEqual(mockedReturnValue);
+      expect(data.dimensionInfoIndexMap).toEqual([0]);
+      expect(data.size.x).toEqual(1);
+      expect(data.size.y).toEqual(dataPage.qArea.qHeight + dataPage.qArea.qTop);
     });
   });
 
