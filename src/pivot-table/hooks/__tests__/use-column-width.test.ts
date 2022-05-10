@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import NxDimCellType from '../../../types/QIX';
-import { DataModel, Cell, Rect, LayoutService } from '../../../types/types';
+import { Cell, Rect, LayoutService, LeftDimensionData, MeasureData } from '../../../types/types';
 import useColumnWidth, { EXPAND_ICON_WIDTH } from '../use-column-width';
 import useMeasureText, { MeasureTextHook } from '../use-measure-text';
 
@@ -9,7 +9,8 @@ jest.mock('../use-measure-text');
 describe('useColumnWidth', () => {
   let rect: Rect;
   let mockedUseMeasureText: jest.MockedFunction<(size: string, fam: string) => MeasureTextHook>;
-  let mockedDataModel: DataModel;
+  let leftDimensionData: LeftDimensionData;
+  let measureData: MeasureData;
   let mockedMeasureText: MeasureTextHook;
   let layoutService: LayoutService;
 
@@ -21,17 +22,15 @@ describe('useColumnWidth', () => {
     const meaInfo = { qFallbackTitle: 1, qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
     rect = { width: 200, height: 100 };
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
-    mockedDataModel = {
-      pivotData: {
-        left: [[cell], [cell], [cell]],
-        leftDimensionInfoIndexMap: [0, 1, 2],
-        size: {
-          data: {
-            x: 3
-          }
-        }
+    leftDimensionData = {
+      data: [[cell], [cell], [cell]],
+      dimensionInfoIndexMap: [0, 1, 2],
+    } as LeftDimensionData;
+    measureData = {
+      size: {
+        x: 3
       }
-    } as unknown as DataModel;
+    } as MeasureData;
 
     layoutService = {
       layout: {
@@ -60,7 +59,7 @@ describe('useColumnWidth', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(25);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.leftGridWidth).toBe(((50 + EXPAND_ICON_WIDTH) * 2) + 50);
       expect(result.current.rightGridWidth).toBe(80);
     });
@@ -69,7 +68,7 @@ describe('useColumnWidth', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(25);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.leftGridWidth).toBe(150);
       expect(result.current.rightGridWidth).toBe(50);
     });
@@ -79,15 +78,15 @@ describe('useColumnWidth', () => {
       const pCell = { ref: { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } } as Cell;
       const dimInfo = { qApprMaxGlyphCount: 1 } as EngineAPI.INxDimensionInfo;
       const meaInfo = { qFallbackTitle: 1 } as unknown as EngineAPI.INxMeasureInfo;
-      mockedDataModel.pivotData.left = [[cell], [pCell], [cell]];
-      mockedDataModel.pivotData.leftDimensionInfoIndexMap = [0, -1, 1];
+      leftDimensionData.data = [[cell], [pCell], [cell]];
+      leftDimensionData.dimensionInfoIndexMap = [0, -1, 1];
       layoutService.layout.qHyperCube.qDimensionInfo = [dimInfo, dimInfo, dimInfo];
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo];
 
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(35);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.leftGridWidth).toBe(150);
       expect(result.current.rightGridWidth).toBe(50);
     });
@@ -96,7 +95,7 @@ describe('useColumnWidth', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.leftGridWidth).toBe(rect.width * 0.75);
       expect(result.current.rightGridWidth).toBe(rect.width * 0.25);
     });
@@ -110,7 +109,7 @@ describe('useColumnWidth', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(75);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(5);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.getLeftColumnWidth(0)).toBe(25 + EXPAND_ICON_WIDTH);
       expect(result.current.getLeftColumnWidth(1)).toBe(50 + EXPAND_ICON_WIDTH);
       expect(result.current.getLeftColumnWidth(2)).toBe(75);
@@ -121,9 +120,9 @@ describe('useColumnWidth', () => {
     test('should return minimum data column width of 100', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
-      mockedDataModel.pivotData.size.data.x = 3;
+      measureData.size.x = 3;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.getDataColumnWidth(0)).toBe(100);
       expect(result.current.getDataColumnWidth(1)).toBe(100);
       expect(result.current.getDataColumnWidth(2)).toBe(100);
@@ -132,10 +131,10 @@ describe('useColumnWidth', () => {
     test('should return data column width based of available right grid width', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(10);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(10);
-      mockedDataModel.pivotData.size.data.x = 3;
+      measureData.size.x = 3;
       rect.width = 600;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.getDataColumnWidth(0)).toBe(170);
       expect(result.current.getDataColumnWidth(1)).toBe(170);
       expect(result.current.getDataColumnWidth(2)).toBe(170);
@@ -159,10 +158,10 @@ describe('useColumnWidth', () => {
             return 10;
         }
       });
-      mockedDataModel.pivotData.size.data.x = 3;
+      measureData.size.x = 3;
       rect.width = 600;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.getDataColumnWidth(0)).toBe(600);
       expect(result.current.getDataColumnWidth(1)).toBe(200);
       expect(result.current.getDataColumnWidth(2)).toBe(150);
@@ -171,10 +170,10 @@ describe('useColumnWidth', () => {
     test('should return data column width based of estimated width', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(150);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(10);
-      mockedDataModel.pivotData.size.data.x = 3;
+      measureData.size.x = 3;
       rect.width = 600;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.getDataColumnWidth(0)).toBe(150);
       expect(result.current.getDataColumnWidth(1)).toBe(150);
       expect(result.current.getDataColumnWidth(2)).toBe(150);
@@ -183,10 +182,10 @@ describe('useColumnWidth', () => {
     test('should return data column width based of measured title width', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(250);
-      mockedDataModel.pivotData.size.data.x = 3;
+      measureData.size.x = 3;
       rect.width = 600;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.getDataColumnWidth(0)).toBe(250);
       expect(result.current.getDataColumnWidth(1)).toBe(250);
       expect(result.current.getDataColumnWidth(2)).toBe(250);
@@ -197,9 +196,9 @@ describe('useColumnWidth', () => {
     test('should return total width', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(100);
-      mockedDataModel.pivotData.size.data.x = 30;
+      measureData.size.x = 30;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.getTotalWidth()).toBe(150 + (30 * 100));
     });
   });
@@ -208,9 +207,9 @@ describe('useColumnWidth', () => {
     test('should return total width', () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(175);
-      mockedDataModel.pivotData.size.data.x = 30;
+      measureData.size.x = 30;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, mockedDataModel, rect));
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.totalMeasureInfoColumnWidth).toBe(175 * 3);
     });
   });
