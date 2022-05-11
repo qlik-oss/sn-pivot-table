@@ -11,3 +11,6 @@ sn-pivot-table-ext/
 coverage/
 example/
 core/esm/
+test/rendering/artifacts
+test/rendering/test-report
+test/rendering/state.json
