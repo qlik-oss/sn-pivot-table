@@ -31,7 +31,7 @@ const bottomListStyle: React.CSSProperties = {
   ...gridBorderStyle
 };
 
-const TopGrid = ({
+function TopGrid({
   dataModel,
   topGridRef,
   getMeasureInfoWidth,
@@ -42,7 +42,7 @@ const TopGrid = ({
   getScrollLeft,
   layoutService,
   topDimensionData,
-}: TopGridProps): JSX.Element | null => {
+}: TopGridProps): JSX.Element | null {
   if (topDimensionData.size.y === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
     return <div style={{ width, height, ...bottomListStyle }} />;

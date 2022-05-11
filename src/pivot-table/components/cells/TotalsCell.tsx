@@ -14,10 +14,10 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = 'totals-cell';
 
-const TotalsCell = ({ cell, style }: LabelCellProps): JSX.Element => (
-  <div style={{ ...style, ...borderStyle }} data-testid={testId}>
-    <div style={labelTextStyle}>{cell.ref.qText}</div>
-  </div>
-);
-
-export default TotalsCell;
+export default function TotalsCell({ cell, style }: LabelCellProps): JSX.Element {
+  return (
+    <div style={{ ...style, ...borderStyle }} data-testid={testId}>
+      <div style={labelTextStyle}>{cell.ref.qText}</div>
+    </div>
+  );
+}
