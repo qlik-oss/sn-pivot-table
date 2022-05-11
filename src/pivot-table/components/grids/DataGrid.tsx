@@ -84,7 +84,7 @@ const debouncedFetchMoreData: FetchModeData = debouncer((
   }
 }, 150);
 
-const DataGrid = ({
+function DataGrid({
   dataModel,
   dataGridRef,
   getMeasureInfoWidth,
@@ -96,7 +96,7 @@ const DataGrid = ({
   measureData,
   hasMoreRows,
   hasMoreColumns,
-}: DataGridProps): JSX.Element | null => {
+}: DataGridProps): JSX.Element | null {
   if (measureData.size.x === 0) {
     return null;
   }

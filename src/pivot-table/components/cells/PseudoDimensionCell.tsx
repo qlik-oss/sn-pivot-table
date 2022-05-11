@@ -25,10 +25,10 @@ const leftContainerStyle: React.CSSProperties = {
 
 export const testId = 'pseudo-dimension-cell';
 
-const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element => (
-  <div style={{ ...style, ...borderStyle, ...(isLeftColumn ? leftContainerStyle : topContainerStyle) }} data-testid={testId}>
-    <div style={labelTextStyle}>{cell.ref.qText}</div>
-  </div>
-);
-
-export default PseudoDimensionCell;
+export default function PseudoDimensionCell({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element {
+  return (
+    <div style={{ ...style, ...borderStyle, ...(isLeftColumn ? leftContainerStyle : topContainerStyle) }} data-testid={testId}>
+      <div style={labelTextStyle}>{cell.ref.qText}</div>
+    </div>
+  );
+}

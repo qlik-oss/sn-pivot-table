@@ -14,7 +14,7 @@ interface ListCallbackProps {
   data: ListItemData;
 }
 
-const ListCellFactory = ({ index, style, data}: ListCallbackProps): JSX.Element | null => {
+export default function ListCellFactory({ index, style, data}: ListCallbackProps): JSX.Element | null {
   const { list, isLeftColumn = false  } = data;
   const cell = list[index];
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
@@ -43,6 +43,4 @@ const ListCellFactory = ({ index, style, data}: ListCallbackProps): JSX.Element 
     style={style}
     isLeftColumn={isLeftColumn}
   />;
-};
-
-export default ListCellFactory;
+}

@@ -47,7 +47,7 @@ const getItemSizeCallback = (list: Cell[]) => (rowIndex: number) => {
   return DEFAULT_ROW_HEIGHT;
 };
 
-const LeftGrid = ({
+function LeftGrid({
   dataModel,
   leftGridRef,
   getLeftColumnWidth,
@@ -57,7 +57,7 @@ const LeftGrid = ({
   getScrollTop,
   layoutService,
   leftDimensionData
-}: LeftGridProps): JSX.Element | null => {
+}: LeftGridProps): JSX.Element | null {
   if (leftDimensionData.size.x === 0) {
     return null;
   }

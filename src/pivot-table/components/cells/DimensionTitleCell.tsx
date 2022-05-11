@@ -14,10 +14,10 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = 'title-cell';
 
-const DimensionTitleCell = ({ cell, style }: LabelCellProps): JSX.Element => (
-  <div title={cell as string} style={{ ...style, ...borderStyle }} data-testid={testId}>
-    <div style={labelTextStyle}>{cell as string}</div>
-  </div>
-);
-
-export default DimensionTitleCell;
+export default function DimensionTitleCell({ cell, style }: LabelCellProps): JSX.Element {
+  return (
+    <div title={cell as string} style={{ ...style, ...borderStyle }} data-testid={testId}>
+      <div style={labelTextStyle}>{cell as string}</div>
+    </div>
+  );
+}

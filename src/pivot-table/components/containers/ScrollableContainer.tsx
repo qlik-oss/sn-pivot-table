@@ -9,7 +9,7 @@ interface ScrollableContainerProps {
   onScroll: (e: React.SyntheticEvent) => void;
 }
 
-const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyRef<HTMLDivElement>): JSX.Element => {
+function ScrollableContainer(props: ScrollableContainerProps, ref: React.LegacyRef<HTMLDivElement>): JSX.Element {
   const { rect, children, onScroll, constraints } = props;
 
   return (
@@ -29,6 +29,6 @@ const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyR
       {children}
     </div>
   );
-};
+}
 
 export default React.forwardRef(ScrollableContainer);

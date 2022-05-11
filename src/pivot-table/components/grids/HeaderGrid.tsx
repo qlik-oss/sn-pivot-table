@@ -32,7 +32,7 @@ const gridStyle: React.CSSProperties = {
   ...gridBorderStyle
 };
 
-const HeaderCellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
+function HeaderCellFactory({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null {
   const cell = data.matrix[columnIndex][rowIndex];
 
   if (typeof cell === 'string') {
@@ -42,13 +42,13 @@ const HeaderCellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackP
   return null;
 };
 
-const HeaderGrid = ({
+function HeaderGrid({
   columnWidthCallback,
   height,
   rowHightCallback,
   width,
   headersData,
-}: HeaderGridProps): JSX.Element | null => {
+}: HeaderGridProps): JSX.Element | null {
   if (headersData.size.x === 0) {
     return null;
   }
