@@ -63,6 +63,21 @@ jobs:
           name: Unit tests
           command: yarn run test
 
+  rendering-tests:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Rendering tests
+          command: yarn run test:rendering
+      - store_artifacts:
+          path: test/rendering/render.mjs-snapshots
+      - store_artifacts:
+          path: test/rendering/artifacts
+      - store_artifacts:
+          path: test/rendering/test-report
+
   types:
     <<: *defaults
     steps:
@@ -90,6 +105,9 @@ workflows:
           requires:
             - install
       - unit-tests:
+          requires:
+            - build
+      - rendering-tests:
           requires:
             - build
       - lint:
