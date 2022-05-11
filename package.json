@@ -36,7 +36,7 @@
     "start": "nebula serve  --type sn-pivot-table",
     "sense": "nebula sense",
     "types:check": "tsc --noEmit",
-    "test": "jest",
+    "test:unit": "jest",
     "test:rendering": "playwright test",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",

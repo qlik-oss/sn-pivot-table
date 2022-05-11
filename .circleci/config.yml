@@ -61,7 +61,7 @@ jobs:
           at: ~/project
       - run:
           name: Unit tests
-          command: yarn run test
+          command: yarn run test:unit
 
   rendering-tests:
     <<: *defaults
