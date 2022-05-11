@@ -65,6 +65,8 @@ jobs:
 
   rendering-tests:
     <<: *defaults
+    docker:
+      - image: mcr.microsoft.com/playwright:focal
     steps:
       - attach_workspace:
           at: ~/project
