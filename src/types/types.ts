@@ -139,6 +139,11 @@ export interface DataService {
 
 export interface Galaxy {
   translator: {
-    get: (str: string) => string
-  }
+    get: (str: string) => string;
+  };
+  anything: {
+    sense: {
+      isUnsupportedFeature: (f: string) => boolean;
+    };
+  };
 }

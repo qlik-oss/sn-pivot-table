@@ -4,7 +4,10 @@ describe('data', () => {
   let data: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   beforeEach(() => {
-    data = createData({ translator: { get: str => str } });
+    data = createData({
+      translator: { get: (str) => str },
+      anything: { sense: { isUnsupportedFeature: () => false } },
+    });
   });
 
   describe('dimensions', () => {
@@ -43,6 +46,38 @@ describe('data', () => {
 
       test('should not evaluate as an expression when string is undefined', () => {
         expect(data.items.dimensions.items.visibilityCondition.isExpression(undefined)).toBe(false);
+      });
+    });
+
+
+    describe('Unsupported Feature on DQ mode:', () => { 
+      let itemData: EngineAPI.IHyperCubeDimensionDef;
+      let args: {
+        properties: {
+          qHyperCubeDef: {
+            qIndentMode: boolean;
+          };
+        };
+      };
+
+      beforeEach(() => {
+        itemData = { qOtherTotalSpec: { qTotalMode: 'TOTAL_EXPR' } } as EngineAPI.IHyperCubeDimensionDef;
+        args = {
+          properties: {
+            qHyperCubeDef: {
+              qIndentMode: false,
+            },
+          },
+        } as Args;
+      });
+
+      test('should not show totalMode and totalsLabel when feature is not supported', () => {
+        data = createData({
+          translator: { get: (str) => str },
+          anything: { sense: { isUnsupportedFeature: (f) => f === 'totals' } },
+        });
+        expect(data.items.dimensions.items.totalMode.show).toBe(false);
+        expect(data.items.dimensions.items.totalsLabel.show(itemData, null, args)).toBe(false);
       });
     });
 
