@@ -32,7 +32,7 @@ function isTotalsVisible(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createData = (env: Galaxy): Record<string, any> => {
-  const { translator } = env;
+  const { translator, anything } = env;
 
   const data = {
     type: 'items',
@@ -98,7 +98,7 @@ const createData = (env: Galaxy): Record<string, any> => {
               value: TOTAL_MODE_OFF,
               translation: 'properties.off',
             },
-            show: isTotalsVisible,
+            show: anything.sense?.isUnsupportedFeature?.('totals') ? false : isTotalsVisible,
           },
           totalsLabel: {
             type: 'string',
@@ -108,8 +108,11 @@ const createData = (env: Galaxy): Record<string, any> => {
             translation: 'properties.totals.label',
             defaultValue: () => translator.get('Object.Table.Totals'),
             show(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown, args: Args): boolean {
-              return itemData.qOtherTotalSpec?.qTotalMode !== TOTAL_MODE_OFF
-                && isTotalsVisible(itemData, _, args);
+              return (
+                !anything.sense?.isUnsupportedFeature?.('totals') &&
+                itemData.qOtherTotalSpec?.qTotalMode !== TOTAL_MODE_OFF &&
+                isTotalsVisible(itemData, _, args)
+              );
             },
           },
           visibilityCondition: {
