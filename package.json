@@ -40,7 +40,10 @@
     "test:rendering": "playwright test",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",
-    "spec": "scriptappy-from-jsdoc -c ./scriptappy.config.js"
+    "spec": "scriptappy-from-jsdoc -c ./scriptappy.config.js",
+    "prepare": "husky install",
+    "preversion": "yarn build",
+    "version": "yarn spec && git add api-specifications"
   },
   "devDependencies": {
     "@babel/core": "7.17.10",
@@ -79,6 +82,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.29.4",
     "eslint-plugin-react-hooks": "4.5.0",
+    "husky": "8.0.1",
     "jest": "28.1.0",
     "jest-environment-jsdom": "28.1.0",
     "prettier": "2.6.2",
