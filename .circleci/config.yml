@@ -71,6 +71,9 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
+          name: Install playwright
+          command: npx playwright install
+      - run:
           name: Rendering tests
           command: yarn run test:rendering
       - store_artifacts:
