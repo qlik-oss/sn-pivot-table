@@ -13,7 +13,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nebula.js/sn-pivot-table": "0.0.0",
     "@nebula.js/stardust": "2.10.0",
     "enigma.js": "2.9.0"
   },
