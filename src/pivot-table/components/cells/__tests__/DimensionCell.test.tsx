@@ -122,85 +122,85 @@ describe('DimensionCell', () => {
 
   describe('left column interactions', () => {
     describe('expand/collapse', () => {
-      test('should be possible to expand left column', () => {
+      test('should be possible to expand left column', async () => {
         cell.ref.qCanExpand = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdExpandIcon));
+        await userEvent.click(screen.getByTestId(testIdExpandIcon));
 
         expect(expandLeftSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test('should not be possible to expand left column when active constraint is true', () => {
+      test('should not be possible to expand left column when active constraint is true', async () => {
         cell.ref.qCanExpand = true;
         (data.constraints as stardust.Constraints).active = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdExpandIcon));
+        await userEvent.click(screen.getByTestId(testIdExpandIcon));
 
         expect(expandLeftSpy).toHaveBeenCalledTimes(0);
       });
 
-      test('should not be possible to expand left column when selections is active', () => {
+      test('should not be possible to expand left column when selections is active', async () => {
         cell.ref.qCanExpand = true;
         mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: true, isLocked: () => false });
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdExpandIcon));
+        await userEvent.click(screen.getByTestId(testIdExpandIcon));
 
         expect(expandLeftSpy).toHaveBeenCalledTimes(0);
       });
 
-      test('should be possible to collapse left column', () => {
+      test('should be possible to collapse left column', async () => {
         cell.ref.qCanCollapse = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+        await userEvent.click(screen.getByTestId(testIdCollapseIcon));
 
         expect(collapseLeftSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test('should be not possible to collapse left column when active constraint is true', () => {
+      test('should be not possible to collapse left column when active constraint is true', async () => {
         cell.ref.qCanCollapse = true;
         (data.constraints as stardust.Constraints).active = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+        await userEvent.click(screen.getByTestId(testIdCollapseIcon));
 
         expect(collapseLeftSpy).toHaveBeenCalledTimes(0);
       });
 
-      test('should be not possible to collapse left column when selections is active', () => {
+      test('should be not possible to collapse left column when selections is active', async () => {
         cell.ref.qCanCollapse = true;
         mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: true, isLocked: () => false });
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+        await userEvent.click(screen.getByTestId(testIdCollapseIcon));
 
         expect(collapseLeftSpy).toHaveBeenCalledTimes(0);
       });
     });
 
     describe('selections', () => {
-      test('should select cell', () => {
+      test('should select cell', async () => {
         const rowIdx = 0;
         const colIdx = 1;
         cell.ref.qCanCollapse = true;
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
-        userEvent.click(screen.getByText(qText));
+        await userEvent.click(screen.getByText(qText));
 
         expect(selectSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(1);
@@ -218,7 +218,7 @@ describe('DimensionCell', () => {
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
-      test('should not be possible to select cell when constraints is active', () => {
+      test('should not be possible to select cell when constraints is active', async () => {
         const rowIdx = 0;
         const colIdx = 1;
         (data.constraints as stardust.Constraints).active = true;
@@ -227,13 +227,13 @@ describe('DimensionCell', () => {
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
-        userEvent.click(screen.getByText(qText));
+        await userEvent.click(screen.getByText(qText));
 
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
       });
 
-      test('should not be possible to select cell when cell is locked due to selections in top column', () => {
+      test('should not be possible to select cell when cell is locked due to selections in top column', async () => {
         const rowIdx = 0;
         const colIdx = 1;
         cell.ref.qCanCollapse = true;
@@ -241,14 +241,14 @@ describe('DimensionCell', () => {
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
-        userEvent.click(screen.getByText(qText));
+        await userEvent.click(screen.getByText(qText));
 
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
         expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
       });
 
-      test('should not be possible to select cell when dimension is locked', () => {
+      test('should not be possible to select cell when dimension is locked', async () => {
         const rowIdx = 0;
         const colIdx = 1;
         (layoutService.isDimensionLocked as jest.Mock<unknown, unknown[]>).mockReturnValue(true);
@@ -256,7 +256,7 @@ describe('DimensionCell', () => {
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />);
 
-        userEvent.click(screen.getByText(qText));
+        await userEvent.click(screen.getByText(qText));
 
         expect(layoutService.isDimensionLocked).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
         expect(selectSpy).toHaveBeenCalledTimes(0);
@@ -268,86 +268,86 @@ describe('DimensionCell', () => {
 
   describe('top row interactions', () => {
     describe('expand/collapse', () => {
-      test('should be possible to expand top row', () => {
+      test('should be possible to expand top row', async () => {
         cell.ref.qCanExpand = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdExpandIcon));
+        await userEvent.click(screen.getByTestId(testIdExpandIcon));
 
         expect(expandTopSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test('should not be possible to expand top row when active constraint is true', () => {
+      test('should not be possible to expand top row when active constraint is true', async () => {
         cell.ref.qCanExpand = true;
         (data.constraints as stardust.Constraints).active = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdExpandIcon));
+        await userEvent.click(screen.getByTestId(testIdExpandIcon));
 
         expect(expandTopSpy).toHaveBeenCalledTimes(0);
       });
 
-      test('should not be possible to expand top row when selections is active', () => {
+      test('should not be possible to expand top row when selections is active', async () => {
         cell.ref.qCanExpand = true;
         mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: true, isLocked: () => false });
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdExpandIcon));
+        await userEvent.click(screen.getByTestId(testIdExpandIcon));
 
         expect(expandTopSpy).toHaveBeenCalledTimes(0);
       });
 
-      test('should be possible to collapse top row', () => {
+      test('should be possible to collapse top row', async () => {
         cell.ref.qCanCollapse = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+        await userEvent.click(screen.getByTestId(testIdCollapseIcon));
 
         expect(collapseTopSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test('should be not possible to collapse top row when active constraint is true', () => {
+      test('should be not possible to collapse top row when active constraint is true', async () => {
         cell.ref.qCanCollapse = true;
         (data.constraints as stardust.Constraints).active = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+        await userEvent.click(screen.getByTestId(testIdCollapseIcon));
 
         expect(collapseTopSpy).toHaveBeenCalledTimes(0);
       });
 
-      test('should be not possible to collapse top row when selections is active', () => {
+      test('should be not possible to collapse top row when selections is active', async () => {
         cell.ref.qCanCollapse = true;
         mockedSelectionContext.mockReturnValue({ select: () => () => {}, isSelected: () => false, isActive: true, isLocked: () => false });
 
         render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
-        userEvent.click(screen.getByTestId(testIdCollapseIcon));
+        await userEvent.click(screen.getByTestId(testIdCollapseIcon));
 
         expect(collapseTopSpy).toHaveBeenCalledTimes(0);
       });
     });
 
     describe('selections', () => {
-      test('should select cell', () => {
+      test('should select cell', async () => {
         const rowIdx = 0;
         const colIdx = 1;
         cell.ref.qCanCollapse = true;
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
-        userEvent.click(screen.getByText(qText));
+        await userEvent.click(screen.getByText(qText));
 
         expect(selectSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(1);
@@ -365,7 +365,7 @@ describe('DimensionCell', () => {
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
-      test('should not be possible to select cell when constraints is active', () => {
+      test('should not be possible to select cell when constraints is active', async () => {
         const rowIdx = 0;
         const colIdx = 1;
         (data.constraints as stardust.Constraints).active = true;
@@ -374,13 +374,13 @@ describe('DimensionCell', () => {
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
-        userEvent.click(screen.getByText(qText));
+        await userEvent.click(screen.getByText(qText));
 
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
       });
 
-      test('should not be possible to select cell when cell is locked due to selections in left column', () => {
+      test('should not be possible to select cell when cell is locked due to selections in left column', async () => {
         const rowIdx = 0;
         const colIdx = 1;
         cell.ref.qCanCollapse = true;
@@ -388,14 +388,14 @@ describe('DimensionCell', () => {
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
-        userEvent.click(screen.getByText(qText));
+        await userEvent.click(screen.getByText(qText));
 
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
         expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
       });
 
-      test('should not be possible to select cell when dimension is locked', () => {
+      test('should not be possible to select cell when dimension is locked', async () => {
         const rowIdx = 0;
         const colIdx = 1;
         (layoutService.isDimensionLocked as jest.Mock<unknown, unknown[]>).mockReturnValue(true);
@@ -403,7 +403,7 @@ describe('DimensionCell', () => {
 
         render(<DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn={false} />);
 
-        userEvent.click(screen.getByText(qText));
+        await userEvent.click(screen.getByText(qText));
 
         expect(layoutService.isDimensionLocked).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
         expect(selectSpy).toHaveBeenCalledTimes(0);
