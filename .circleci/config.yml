@@ -92,7 +92,7 @@ jobs:
           name: Types
           command: yarn run types:check
 
-  spec:
+  api-spec:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -100,6 +100,38 @@ jobs:
       - run:
           name: Build API specification
           command: yarn run spec
+
+  publish-dev:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: zip -r "sn-pivot-table-ext.zip" "./sn-pivot-table-ext"
+      - store_artifacts:
+          path: ./sn-pivot-table-ext.zip
+
+  publish:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Setup npm
+          command: |
+            set -eo pipefail
+            # Amend auth token for access to public npm registry for @nebula.js packages
+            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run:
+          name: Publish
+          command: |
+            set -euo pipefail
+            PROJ_VER=v$(cat package.json | jq -r '.version')
+            TAG_NAME=$(git tag --points-at HEAD)
+            if [ "$TAG_NAME" == "$PROJ_VER" ]
+            then
+              echo "Running >> npm publish"
+              npm publish
+            fi
 
 workflows:
   version: 2
@@ -121,6 +153,21 @@ workflows:
       - types:
           requires:
             - install
-      - spec:
+      - api-spec:
           requires:
             - install
+      - publish-dev:
+          requires:
+            - build
+      - publish:
+          requires:
+            - build
+            - unit-tests
+            - rendering-tests
+            - lint
+            - types
+            - api-spec
+          filters:
+            branches:
+              only:
+                - main
