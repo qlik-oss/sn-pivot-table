@@ -1,0 +1,5 @@
+dist
+coverage
+core
+node_modules
+sn-pivot-table-ext
