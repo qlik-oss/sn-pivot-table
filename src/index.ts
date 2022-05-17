@@ -33,7 +33,7 @@ export default function supernova(env: Galaxy) {
 
       useEffect(() => {
         if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
-          console.debug('render', { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, isLoading });
+          // console.debug('render', { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, isLoading });
           render(element, {
             model,
             rect,
