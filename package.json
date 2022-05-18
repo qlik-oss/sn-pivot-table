@@ -9,6 +9,9 @@
     "nebula",
     "stardust"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/qlik-oss/sn-pivot-table/issues"
   },
