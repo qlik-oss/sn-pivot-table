@@ -53,7 +53,7 @@ export default function MeasureCell({ columnIndex, rowIndex, style, data }: Meas
   };
 
   return (
-    <div title={`${text} ${columnIndex}:${rowIndex}`} style={{...style, ...containerStyle}} data-testid={testId}>
+    <div title={text} style={{...style, ...containerStyle}} data-testid={testId}>
       <div style={cellStyle}>
         <span style={textStyle}>{text}</span>
       </div>
