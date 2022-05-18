@@ -1,12 +1,12 @@
 {
   "scriptappy": "1.0.0",
   "info": {
-    "name": "sn-pivot-table:properties",
+    "name": "@nebula.js/sn-pivot-table:properties",
     "description": "Pivot Table generic object definition",
     "version": "0.0.0",
     "license": "MIT",
     "stability": "experimental",
-    "x-qlik-visibility": "private"
+    "x-qlik-visibility": "public"
   },
   "entries": {
     "properties": {
