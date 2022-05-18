@@ -9,9 +9,9 @@ module.exports = {
   api: {
     stability: 'experimental',
     properties: {
-      'x-qlik-visibility': 'private',
+      'x-qlik-visibility': 'public',
     },
-    visibility: 'private',
+    visibility: 'public',
     name: `${pkg.name}:properties`,
     version: pkg.version,
     description: 'Pivot Table generic object definition',
