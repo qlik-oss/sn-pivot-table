@@ -1,5 +1,5 @@
 /*  eslint-disable no-param-reassign */
-import React, { memo, useCallback, useLayoutEffect } from 'react';
+import React, { memo, useCallback, useLayoutEffect, useMemo } from 'react';
 import { debouncer } from 'qlik-chart-modules';
 import { VariableSizeGrid, areEqual, GridOnItemsRenderedProps } from 'react-window';
 import { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from '../../../types/types';
@@ -29,7 +29,7 @@ type FetchModeData = (
   overscanRowStopIndex: number
 ) => void;
 
-const OFF_VIEW_THRESHOLD = 1;
+const EXPONENT = 2;
 
 const gridStyle: React.CSSProperties = { overflow: 'hidden' };
 
@@ -129,6 +129,11 @@ function DataGrid({
     }
   }, [width, height, measureData]);
 
+  // Use a logarithmic value as the threshold should scale with the size of the data. This helps create a smooth scrolling experience where.
+  // It should reduce the risk of the scroll hitting the "end" of the scrollable area before new data have been fetch.
+  const xFetchThreshold = useMemo(() => measureData.size.x - Math.round(Math.log(measureData.size.x) ** EXPONENT), [measureData.size.x]);
+  const yFetchThreshold = useMemo(() => measureData.size.y - Math.round(Math.log(measureData.size.y) ** EXPONENT), [measureData.size.y]);
+
   const onItemsRendered = useCallback(({
     overscanColumnStartIndex,
     overscanColumnStopIndex,
@@ -144,12 +149,12 @@ function DataGrid({
     viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
     viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
-    if (hasMoreRows && visibleRowStopIndex >= measureData.size.y - OFF_VIEW_THRESHOLD) {
+    if (hasMoreRows && visibleRowStopIndex >= yFetchThreshold) {
       dataModel.fetchNextPage(true, overscanColumnStartIndex);
       return;
     }
 
-    if (hasMoreColumns && visibleColumnStopIndex >= measureData.size.x - OFF_VIEW_THRESHOLD) {
+    if (hasMoreColumns && visibleColumnStopIndex >= xFetchThreshold) {
       dataModel.fetchNextPage(false, overscanRowStartIndex);
       return;
     }
@@ -162,7 +167,7 @@ function DataGrid({
       overscanRowStartIndex,
       overscanRowStopIndex
     );
-  }, [dataModel, measureData]);
+  }, [dataModel, measureData, xFetchThreshold, yFetchThreshold]);
 
   const getColumnWidth = useCallback(
     (index) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
