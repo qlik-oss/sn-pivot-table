@@ -148,7 +148,7 @@ export default function DimensionCell({
 
   return (
     <div
-      title={`${text} - ${colIndex}:${rowIndex}`}
+      title={text}
       style={{
         ...style,
         ...containerStyle,
