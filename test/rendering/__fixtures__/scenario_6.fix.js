@@ -4,7 +4,7 @@ export default () => ({
     {
       getLayout: {
         'qInfo': {
-          'qId': 'PpJQFv',
+          'qId': 'YxeTJPs',
           'qType': 'sn-pivot-table'
         },
         'qMeta': {
@@ -18,7 +18,7 @@ export default () => ({
         'qSelectionInfo': {},
         'qHyperCube': {
           'qSize': {
-            'qcx': 1,
+            'qcx': 6,
             'qcy': 9
           },
           'qDimensionInfo': [
@@ -108,7 +108,7 @@ export default () => ({
               'qAttrDimInfo': [],
               'qCardinalities': {
                 'qCardinal': 6,
-                'qHypercubeCardinal': 0,
+                'qHypercubeCardinal': 6,
                 'qAllValuesCardinal': -1
               },
               'autoSort': true,
@@ -118,7 +118,7 @@ export default () => ({
           'qMeasureInfo': [
             {
               'qFallbackTitle': 'Sum(Expression1)',
-              'qApprMaxGlyphCount': 6,
+              'qApprMaxGlyphCount': 5,
               'qCardinal': 0,
               'qSortIndicator': 'D',
               'qNumFormat': {
@@ -128,8 +128,8 @@ export default () => ({
                 'qFmt': '###0',
                 'qDec': '.'
               },
-              'qMin': 27022,
-              'qMax': 145362,
+              'qMin': 7664,
+              'qMax': 78532,
               'qIsAutoFormat': true,
               'qAttrExprInfo': [],
               'qAttrDimInfo': [],
@@ -139,7 +139,7 @@ export default () => ({
             },
             {
               'qFallbackTitle': 'Sum(Expression2)',
-              'qApprMaxGlyphCount': 4,
+              'qApprMaxGlyphCount': 3,
               'qCardinal': 0,
               'qSortIndicator': 'D',
               'qNumFormat': {
@@ -149,8 +149,8 @@ export default () => ({
                 'qFmt': '###0',
                 'qDec': '.'
               },
-              'qMin': 242,
-              'qMax': 1427,
+              'qMin': 45,
+              'qMax': 778,
               'qIsAutoFormat': true,
               'qAttrExprInfo': [],
               'qAttrDimInfo': [],
@@ -170,8 +170,8 @@ export default () => ({
                 'qFmt': '###0.00000',
                 'qDec': '.'
               },
-              'qMin': 54.094440000000006,
-              'qMax': 287.2068199999997,
+              'qMin': 13.497130000000004,
+              'qMax': 156.09608999999998,
               'qIsAutoFormat': true,
               'qAttrExprInfo': [],
               'qAttrDimInfo': [],
@@ -182,8 +182,8 @@ export default () => ({
           ],
           'qEffectiveInterColumnSortOrder': [
             0,
-            1,
-            -1
+            -1,
+            1
           ],
           'qGrandTotalRow': [],
           'qDataPages': [],
@@ -194,7 +194,6 @@ export default () => ({
                   'qText': 'A',
                   'qElemNo': 0,
                   'qValue': 'NaN',
-                  'qCanExpand': true,
                   'qType': 'N',
                   'qUp': 0,
                   'qDown': 0,
@@ -232,7 +231,6 @@ export default () => ({
                   'qText': 'B',
                   'qElemNo': 2,
                   'qValue': 'NaN',
-                  'qCanExpand': true,
                   'qType': 'N',
                   'qUp': 0,
                   'qDown': 0,
@@ -270,7 +268,6 @@ export default () => ({
                   'qText': 'C',
                   'qElemNo': 1,
                   'qValue': 'NaN',
-                  'qCanExpand': true,
                   'qType': 'N',
                   'qUp': 0,
                   'qDown': 0,
@@ -305,68 +302,348 @@ export default () => ({
                   ]
                 }
               ],
-              'qTop': [],
+              'qTop': [
+                {
+                  'qText': 'a',
+                  'qElemNo': 3,
+                  'qValue': 'NaN',
+                  'qType': 'N',
+                  'qUp': 0,
+                  'qDown': 0,
+                  'qSubNodes': []
+                },
+                {
+                  'qText': 'b',
+                  'qElemNo': 0,
+                  'qValue': 'NaN',
+                  'qType': 'N',
+                  'qUp': 0,
+                  'qDown': 0,
+                  'qSubNodes': []
+                },
+                {
+                  'qText': 'c',
+                  'qElemNo': 2,
+                  'qValue': 'NaN',
+                  'qType': 'N',
+                  'qUp': 0,
+                  'qDown': 0,
+                  'qSubNodes': []
+                },
+                {
+                  'qText': 'd',
+                  'qElemNo': 4,
+                  'qValue': 'NaN',
+                  'qType': 'N',
+                  'qUp': 0,
+                  'qDown': 0,
+                  'qSubNodes': []
+                },
+                {
+                  'qText': 'e',
+                  'qElemNo': 1,
+                  'qValue': 'NaN',
+                  'qType': 'N',
+                  'qUp': 0,
+                  'qDown': 0,
+                  'qSubNodes': []
+                },
+                {
+                  'qText': 'f',
+                  'qElemNo': 5,
+                  'qValue': 'NaN',
+                  'qType': 'N',
+                  'qUp': 0,
+                  'qDown': 0,
+                  'qSubNodes': []
+                }
+              ],
               'qData': [
                 [
                   {
-                    'qText': '27022',
-                    'qNum': 27022,
+                    'qText': '7664',
+                    'qNum': 7664,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '19358',
+                    'qNum': 19358,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  }
+                ],
+                [
+                  {
+                    'qText': '45',
+                    'qNum': 45,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '197',
+                    'qNum': 197,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  }
+                ],
+                [
+                  {
+                    'qText': '13.49713',
+                    'qNum': 13.497130000000004,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '40.59731',
+                    'qNum': 40.597310000000014,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  }
+                ],
+                [
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '41139',
+                    'qNum': 41139,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '49173',
+                    'qNum': 49173,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  }
+                ],
+                [
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '395',
+                    'qNum': 395,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '477',
+                    'qNum': 477,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  }
+                ],
+                [
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '76.44357',
+                    'qNum': 76.44356999999998,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '90.56704',
+                    'qNum': 90.56704000000002,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  }
+                ],
+                [
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '66830',
+                    'qNum': 66830,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '78532',
+                    'qNum': 78532,
                     'qType': 'V'
                   }
                 ],
                 [
                   {
-                    'qText': '242',
-                    'qNum': 242,
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
+                  {
+                    'qText': '649',
+                    'qNum': 649,
+                    'qType': 'V'
+                  },
+                  {
+                    'qText': '778',
+                    'qNum': 778,
                     'qType': 'V'
                   }
                 ],
                 [
                   {
-                    'qText': '54.09444',
-                    'qNum': 54.094440000000006,
-                    'qType': 'V'
-                  }
-                ],
-                [
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
                   {
-                    'qText': '90312',
-                    'qNum': 90312,
-                    'qType': 'V'
-                  }
-                ],
-                [
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
                   {
-                    'qText': '872',
-                    'qNum': 872,
-                    'qType': 'V'
-                  }
-                ],
-                [
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
                   {
-                    'qText': '167.01061',
-                    'qNum': 167.01061000000016,
-                    'qType': 'V'
-                  }
-                ],
-                [
+                    'qText': '-',
+                    'qNum': 'NaN',
+                    'qType': 'U'
+                  },
                   {
-                    'qText': '145362',
-                    'qNum': 145362,
+                    'qText': '131.11073',
+                    'qNum': 131.11073000000002,
                     'qType': 'V'
-                  }
-                ],
-                [
+                  },
                   {
-                    'qText': '1427',
-                    'qNum': 1427,
-                    'qType': 'V'
-                  }
-                ],
-                [
-                  {
-                    'qText': '287.20682',
-                    'qNum': 287.2068199999997,
+                    'qText': '156.09609',
+                    'qNum': 156.09608999999998,
                     'qType': 'V'
                   }
                 ]
@@ -374,14 +651,14 @@ export default () => ({
               'qArea': {
                 'qLeft': 0,
                 'qTop': 0,
-                'qWidth': 1,
+                'qWidth': 6,
                 'qHeight': 9
               }
             }
           ],
           'qStackedDataPages': [],
           'qMode': 'P',
-          'qNoOfLeftDims': 3,
+          'qNoOfLeftDims': 2,
           'qTreeNodesOnDim': [],
           'qColumnOrder': []
         },
@@ -389,7 +666,7 @@ export default () => ({
           'sorting': 'auto'
         },
         'showTitles': true,
-        'title': 'Scenario 1',
+        'title': 'Scenario 6',
         'subtitle': '',
         'footnote': '',
         'disableNavMenu': false,

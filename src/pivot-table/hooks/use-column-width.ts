@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { memoize } from 'qlik-chart-modules';
 import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import NxDimCellType from '../../types/QIX';
 import { LayoutService, LeftDimensionData, MeasureData, Rect } from '../../types/types';
@@ -80,17 +81,24 @@ export default function useColumnWidth(
   );
 
   const preCalcTotalDataColumnWidth = useMemo(() => {
-    const totalWidth = qMeasureInfo.reduce((width, { qApprMaxGlyphCount, qFallbackTitle }) => width + Math.max(
+    if (hasPseudoDimOnLeft) {
+      return qMeasureInfo.reduce((currentMaxWidth, { qApprMaxGlyphCount }) => Math.max(
+        currentMaxWidth,
+        MIN_COLUMN_WIDTH,
+        estimateWidth(qApprMaxGlyphCount),
+      ), 0);
+    }
+
+
+    return qMeasureInfo.reduce((width, { qApprMaxGlyphCount, qFallbackTitle }) => width + Math.max(
       MIN_COLUMN_WIDTH,
       estimateWidth(qApprMaxGlyphCount),
       measureText(qFallbackTitle),
     ), 0);
+  }, [qMeasureInfo, estimateWidth, measureText, hasPseudoDimOnLeft]);
 
-    return totalWidth;
-  }, [qMeasureInfo, estimateWidth, measureText]);
-
-  const getMeasureInfoWidth = useCallback((measureInfoIndex: number) => {
-    const getWidth = (index: number) => {
+  const memoizedGetMeasureInfoWidth = useCallback(memoize((measureInfoIndex: number) => {
+    const getWidth = (index: number, includeTitleWidth = true) => {
       const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo[index];
       const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
 
@@ -98,21 +106,21 @@ export default function useColumnWidth(
         MIN_COLUMN_WIDTH,
         availableWidth / measureData.size.x,
         estimateWidth(qApprMaxGlyphCount),
-        measureText(qFallbackTitle),
+        includeTitleWidth ? measureText(qFallbackTitle) : 0,
       );
     };
 
     if (hasPseudoDimOnLeft) {
-      return Math.max(...qMeasureInfo.map((m, index) => getWidth(index)));
+      return Math.max(...qMeasureInfo.map((m, index) => getWidth(index, false)));
     }
 
     return getWidth(measureInfoIndex);
-  }, [rightGridWidth, measureData.size.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, qMeasureInfo, hasPseudoDimOnLeft]);
+  }), [rightGridWidth, measureData.size.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, qMeasureInfo, hasPseudoDimOnLeft]);
 
   const getDataColumnWidth = useCallback((colIndex: number) => {
     const measureInfoIndex = colIndex % qMeasureInfo.length;
-    return getMeasureInfoWidth(measureInfoIndex);
-  }, [getMeasureInfoWidth, qMeasureInfo]);
+    return memoizedGetMeasureInfoWidth(measureInfoIndex);
+  }, [memoizedGetMeasureInfoWidth, qMeasureInfo]);
 
   const getTotalWidth = useCallback(() => Array
       .from({ length: measureData.size.x }, () => null)
@@ -131,7 +139,7 @@ export default function useColumnWidth(
     totalMeasureInfoColumnWidth,
     getLeftColumnWidth,
     getDataColumnWidth,
-    getMeasureInfoWidth,
+    getMeasureInfoWidth: memoizedGetMeasureInfoWidth,
     getTotalWidth
   };
 }
