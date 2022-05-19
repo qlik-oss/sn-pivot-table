@@ -114,6 +114,10 @@ export interface ExtendedSelections extends stardust.ObjectSelections {
   removeListener: (name: string, callback: () => void) => void;
 }
 
+export interface ExtendedTheme extends stardust.Theme {
+  name: () => string;
+}
+
 export interface ViewService {
   gridColumnStartIndex: number;
   gridRowStartIndex: number;
@@ -144,6 +148,7 @@ export interface StyleService {
   content: StyleProperties;
   title: StyleProperties;
   backgroundColor: string;
+  nullColor: string;
 }
 
 export interface Galaxy {

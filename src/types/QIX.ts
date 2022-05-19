@@ -21,6 +21,7 @@ export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
   nullValueRepresentation?: {
     text?: string;
   };
+  title: string;
 }
 
 export default NxDimCellType;

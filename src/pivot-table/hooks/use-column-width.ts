@@ -27,7 +27,8 @@ export default function useColumnWidth(
   measureData: MeasureData,
 ): ColumnWidthHook {
   const styleService = useStyleContext();
-  const { estimateWidth, measureText } = useMeasureText(styleService.content.fontSize, styleService.content.fontFamily);
+  const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(styleService.content.fontSize, styleService.content.fontFamily);
+  const { measureText: measureTextForHeader } = useMeasureText(styleService.header.fontSize, styleService.header.fontFamily);
   const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
@@ -41,7 +42,7 @@ export default function useColumnWidth(
         if (dimIndex === PSEUDO_DIMENSION_INDEX) {
           const pseudoDimensionWidth = Math.max(
             ...qMeasureInfo
-            .map(m => measureText(m.qFallbackTitle))
+            .map(m => measureTextForContent(m.qFallbackTitle))
           );
 
           return pseudoDimensionWidth / rect.width;
@@ -51,8 +52,8 @@ export default function useColumnWidth(
         const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
         const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
         const w = Math.max(
-          measureText(qFallbackTitle),
-          estimateWidth(qApprMaxGlyphCount) + collapseExpandIconSize
+          measureTextForHeader(qFallbackTitle),
+          estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize
         );
         return w / rect.width;
       });
@@ -63,7 +64,7 @@ export default function useColumnWidth(
     const multiplier = MAX_RATIO_OF_TOTAL_WIDTH / sumOfRatios;
     return ratios.map(r => r * multiplier);
 
-  }, [estimateWidth, measureText, leftDimensionData.dimensionInfoIndexMap, rect.width, qDimensionInfo, qMeasureInfo, qNoOfLeftDims]);
+  }, [estimateWidthForContent, measureTextForContent, measureTextForHeader, leftDimensionData.dimensionInfoIndexMap, rect.width, qDimensionInfo, qMeasureInfo, qNoOfLeftDims]);
 
   const getLeftColumnWidth = useCallback(
     (index) => leftColumnWidthsRatios[index] * rect.width,
@@ -85,17 +86,17 @@ export default function useColumnWidth(
       return qMeasureInfo.reduce((currentMaxWidth, { qApprMaxGlyphCount }) => Math.max(
         currentMaxWidth,
         MIN_COLUMN_WIDTH,
-        estimateWidth(qApprMaxGlyphCount),
+        estimateWidthForContent(qApprMaxGlyphCount),
       ), 0);
     }
 
 
     return qMeasureInfo.reduce((width, { qApprMaxGlyphCount, qFallbackTitle }) => width + Math.max(
       MIN_COLUMN_WIDTH,
-      estimateWidth(qApprMaxGlyphCount),
-      measureText(qFallbackTitle),
+      estimateWidthForContent(qApprMaxGlyphCount),
+      measureTextForHeader(qFallbackTitle),
     ), 0);
-  }, [qMeasureInfo, estimateWidth, measureText, hasPseudoDimOnLeft]);
+  }, [qMeasureInfo, estimateWidthForContent, measureTextForHeader, hasPseudoDimOnLeft]);
 
   const memoizedGetMeasureInfoWidth = useCallback(memoize((measureInfoIndex: number) => {
     const getWidth = (index: number, includeTitleWidth = true) => {
@@ -105,8 +106,8 @@ export default function useColumnWidth(
       return Math.max(
         MIN_COLUMN_WIDTH,
         availableWidth / measureData.size.x,
-        estimateWidth(qApprMaxGlyphCount),
-        includeTitleWidth ? measureText(qFallbackTitle) : 0,
+        estimateWidthForContent(qApprMaxGlyphCount),
+        includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0,
       );
     };
 
@@ -115,7 +116,7 @@ export default function useColumnWidth(
     }
 
     return getWidth(measureInfoIndex);
-  }), [rightGridWidth, measureData.size.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, qMeasureInfo, hasPseudoDimOnLeft]);
+  }), [rightGridWidth, measureData.size.x, preCalcTotalDataColumnWidth, estimateWidthForContent, measureTextForHeader, qMeasureInfo, hasPseudoDimOnLeft]);
 
   const getDataColumnWidth = useCallback((colIndex: number) => {
     const measureInfoIndex = colIndex % qMeasureInfo.length;

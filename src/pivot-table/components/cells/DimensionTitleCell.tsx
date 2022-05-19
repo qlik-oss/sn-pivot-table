@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleService } from '../../../types/types';
+import { useStyleContext } from '../../contexts/StyleProvider';
 import { borderStyle, textStyle } from '../shared-styles';
 
 interface LabelCellProps {
   cell: string;
   style: React.CSSProperties;
-  styleService: StyleService;
 }
 
 const labelTextStyle: React.CSSProperties = {
@@ -15,10 +14,12 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = 'title-cell';
 
-export default function DimensionTitleCell({ cell, style, styleService }: LabelCellProps): JSX.Element {
+export default function DimensionTitleCell({ cell, style }: LabelCellProps): JSX.Element {
+  const styleService = useStyleContext();
+
   return (
     <div title={cell as string} style={{ ...style, ...borderStyle }} data-testid={testId}>
-      <div style={{ ...labelTextStyle, ...styleService.title }}>{cell as string}</div>
+      <div style={{ ...labelTextStyle, ...styleService.header }}>{cell as string}</div>
     </div>
   );
 }
