@@ -6,6 +6,7 @@ import { ItemData, DataModel, Cell } from '../../../types/types';
 import { borderStyle, textStyle } from '../shared-styles';
 import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
 import { useSelectionsContext } from '../../contexts/SelectionsProvider';
+import { useStyleContext } from '../../contexts/StyleProvider';
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -117,6 +118,7 @@ export default function DimensionCell({
     dataModel,
     layoutService,
   } = data;
+  const styleService = useStyleContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
@@ -146,6 +148,8 @@ export default function DimensionCell({
     />;
   }
 
+  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
+
   return (
     <div
       title={text}
@@ -167,7 +171,7 @@ export default function DimensionCell({
     >
       <div style={{ ...cellStyle, ...stickyCell }} >
         {cellIcon}
-        <div style={dimTextStyle}>{text}</div>
+        <div style={{ ...dimTextStyle, ...serviceStyle }}>{text}</div>
       </div>
     </div>
   );

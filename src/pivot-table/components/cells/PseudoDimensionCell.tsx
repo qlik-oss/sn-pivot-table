@@ -1,5 +1,6 @@
 import React from 'react';
 import { Cell } from '../../../types/types';
+import { useStyleContext } from '../../contexts/StyleProvider';
 import { borderStyle, textStyle } from '../shared-styles';
 
 interface LabelCellProps {
@@ -7,10 +8,6 @@ interface LabelCellProps {
   style: React.CSSProperties;
   isLeftColumn: boolean;
 }
-
-const labelTextStyle: React.CSSProperties = {
-  ...textStyle,
-};
 
 const topContainerStyle: React.CSSProperties = {
   display: 'flex',
@@ -26,9 +23,13 @@ const leftContainerStyle: React.CSSProperties = {
 export const testId = 'pseudo-dimension-cell';
 
 export default function PseudoDimensionCell({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element {
+  const styleService = useStyleContext();
+  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
+  const containerStyle = isLeftColumn ? leftContainerStyle : topContainerStyle;
+
   return (
-    <div style={{ ...style, ...borderStyle, ...(isLeftColumn ? leftContainerStyle : topContainerStyle) }} data-testid={testId}>
-      <div style={labelTextStyle}>{cell.ref.qText}</div>
+    <div title={cell.ref.qText} style={{ ...style, ...borderStyle, ...containerStyle }} data-testid={testId}>
+      <div style={{ ...textStyle, ...serviceStyle }}>{cell.ref.qText}</div>
     </div>
   );
 }

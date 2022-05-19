@@ -1,4 +1,4 @@
-import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections } from '@nebula.js/stardust';
+import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections, useTheme, useMemo } from '@nebula.js/stardust';
 import initialProperties from './qae/initial-properties';
 import data from './qae/data-definition';
 import ext from './ext';
@@ -9,6 +9,7 @@ import useViewService from './hooks/use-view-service';
 import { PivotLayout } from './types/QIX';
 import useLayoutService from './hooks/use-layout-service';
 import useLoadDataPages from './hooks/use-load-data-pages';
+import createStyleService from './services/style-service';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {
@@ -30,10 +31,12 @@ export default function supernova(env: Galaxy) {
       const layoutService = useLayoutService(layout);
       const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
       const selections = useSelections() as ExtendedSelections;
+      const theme = useTheme();
+      const styleService = useMemo(() => createStyleService(theme), [theme]);
 
       useEffect(() => {
-        if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService) {
-          // console.debug('render', { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, isLoading });
+        if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService && styleService) {
+          console.debug('render', { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, styleService });
           render(element, {
             model,
             rect,
@@ -41,7 +44,8 @@ export default function supernova(env: Galaxy) {
             selections,
             viewService,
             layoutService,
-            qPivotDataPages
+            qPivotDataPages,
+            styleService,
           });
         }
       }, [
@@ -54,6 +58,7 @@ export default function supernova(env: Galaxy) {
         layoutService,
         isLoading,
         qPivotDataPages,
+        styleService,
       ]);
 
       useEffect(() => () => {

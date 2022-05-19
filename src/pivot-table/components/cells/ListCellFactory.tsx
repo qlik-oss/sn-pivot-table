@@ -28,7 +28,11 @@ export default function ListCellFactory({ index, style, data}: ListCallbackProps
   }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_TOTAL && cell.ref.qElemNo === TOTALS_CELL) {
-    return <TotalsCell cell={cell} style={style} />;
+    return <TotalsCell
+      cell={cell}
+      style={style}
+      isLeftColumn={isLeftColumn}
+    />;
   }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {

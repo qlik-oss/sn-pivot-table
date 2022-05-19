@@ -1,6 +1,7 @@
 import React, { memo, useLayoutEffect, useRef } from 'react';
 import { VariableSizeGrid, areEqual } from 'react-window';
 import { HeadersData } from '../../../types/types';
+import { useStyleContext } from '../../contexts/StyleProvider';
 import DimensionTitleCell from '../cells/DimensionTitleCell';
 // import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from '../shared-styles';
@@ -13,17 +14,15 @@ interface HeaderGridProps {
   headersData: HeadersData;
 }
 
+interface HeaderItemData {
+  matrix: (string | null)[][];
+}
+
 interface GridCallbackProps {
   columnIndex: number;
   rowIndex: number;
   style: React.CSSProperties;
-  data: {
-    matrix: (string | null)[][]
-  };
-}
-
-interface HeaderItemData {
-  matrix: (string | null)[][];
+  data: HeaderItemData;
 }
 
 const gridStyle: React.CSSProperties = {
@@ -33,10 +32,11 @@ const gridStyle: React.CSSProperties = {
 };
 
 function HeaderCellFactory({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null {
+  const styleService = useStyleContext();
   const cell = data.matrix[columnIndex][rowIndex];
 
   if (typeof cell === 'string') {
-    return <DimensionTitleCell cell={cell} style={style} />;
+    return <DimensionTitleCell cell={cell} style={style} styleService={styleService} />;
   }
 
   return null;

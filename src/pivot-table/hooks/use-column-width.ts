@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import NxDimCellType from '../../types/QIX';
 import { LayoutService, LeftDimensionData, MeasureData, Rect } from '../../types/types';
+import { useStyleContext } from '../contexts/StyleProvider';
 import useMeasureText from './use-measure-text';
 
 interface ColumnWidthHook {
@@ -24,7 +25,8 @@ export default function useColumnWidth(
   leftDimensionData: LeftDimensionData,
   measureData: MeasureData,
 ): ColumnWidthHook {
-  const { estimateWidth, measureText } = useMeasureText('13px', '"Source Sans Pro", sans-serif'); // TODO Hard-coded...
+  const styleService = useStyleContext();
+  const { estimateWidth, measureText } = useMeasureText(styleService.content.fontSize, styleService.content.fontFamily);
   const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
