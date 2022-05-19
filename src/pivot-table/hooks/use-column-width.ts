@@ -78,17 +78,24 @@ export default function useColumnWidth(
   );
 
   const preCalcTotalDataColumnWidth = useMemo(() => {
-    const totalWidth = qMeasureInfo.reduce((width, { qApprMaxGlyphCount, qFallbackTitle }) => width + Math.max(
+    if (hasPseudoDimOnLeft) {
+      return qMeasureInfo.reduce((currentMaxWidth, { qApprMaxGlyphCount }) => Math.max(
+        currentMaxWidth,
+        MIN_COLUMN_WIDTH,
+        estimateWidth(qApprMaxGlyphCount),
+      ), 0);
+    }
+
+
+    return qMeasureInfo.reduce((width, { qApprMaxGlyphCount, qFallbackTitle }) => width + Math.max(
       MIN_COLUMN_WIDTH,
       estimateWidth(qApprMaxGlyphCount),
       measureText(qFallbackTitle),
     ), 0);
-
-    return totalWidth;
-  }, [qMeasureInfo, estimateWidth, measureText]);
+  }, [qMeasureInfo, estimateWidth, measureText, hasPseudoDimOnLeft]);
 
   const getMeasureInfoWidth = useCallback((measureInfoIndex: number) => {
-    const getWidth = (index: number) => {
+    const getWidth = (index: number, includeTitleWidth = true) => {
       const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo[index];
       const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
 
@@ -96,12 +103,12 @@ export default function useColumnWidth(
         MIN_COLUMN_WIDTH,
         availableWidth / measureData.size.x,
         estimateWidth(qApprMaxGlyphCount),
-        measureText(qFallbackTitle),
+        includeTitleWidth ? measureText(qFallbackTitle) : 0,
       );
     };
 
     if (hasPseudoDimOnLeft) {
-      return Math.max(...qMeasureInfo.map((m, index) => getWidth(index)));
+      return Math.max(...qMeasureInfo.map((m, index) => getWidth(index, false)));
     }
 
     return getWidth(measureInfoIndex);

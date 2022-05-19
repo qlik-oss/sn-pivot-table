@@ -4,7 +4,7 @@ export default () => ({
     {
       getLayout: {
         'qInfo': {
-          'qId': 'FpqJzmh',
+          'qId': 'TKn',
           'qType': 'sn-pivot-table'
         },
         'qMeta': {
@@ -66,7 +66,7 @@ export default () => ({
                 'qAllValuesCardinal': -1
               },
               'autoSort': true,
-              'cId': 'FLESxqV'
+              'cId': 'PnRmN'
             },
             {
               'qFallbackTitle': 'Dim2',
@@ -112,15 +112,15 @@ export default () => ({
                 'qAllValuesCardinal': -1
               },
               'autoSort': true,
-              'cId': 'CmTwr'
+              'cId': 'cCmwNPY'
             }
           ],
           'qMeasureInfo': [
             {
-              'qFallbackTitle': 'Sum([Expression1])',
+              'qFallbackTitle': 'Sum(Expression1)',
               'qApprMaxGlyphCount': 6,
               'qCardinal': 0,
-              'qSortIndicator': 'N',
+              'qSortIndicator': 'D',
               'qNumFormat': {
                 'qType': 'I',
                 'qnDec': 0,
@@ -128,14 +128,14 @@ export default () => ({
                 'qFmt': '###0',
                 'qDec': '.'
               },
-              'qMin': 27661,
-              'qMax': 142271,
+              'qMin': 27022,
+              'qMax': 145362,
               'qIsAutoFormat': true,
               'qAttrExprInfo': [],
               'qAttrDimInfo': [],
               'qTrendLines': [],
               'autoSort': true,
-              'cId': 'BXCmYk'
+              'cId': 'xSSAx'
             }
           ],
           'qEffectiveInterColumnSortOrder': [
@@ -149,7 +149,7 @@ export default () => ({
               'qLeft': [
                 {
                   'qText': 'A',
-                  'qElemNo': 1,
+                  'qElemNo': 0,
                   'qValue': 'NaN',
                   'qCanExpand': true,
                   'qType': 'N',
@@ -168,7 +168,7 @@ export default () => ({
                 },
                 {
                   'qText': 'B',
-                  'qElemNo': 0,
+                  'qElemNo': 2,
                   'qValue': 'NaN',
                   'qCanCollapse': true,
                   'qType': 'N',
@@ -177,7 +177,7 @@ export default () => ({
                   'qSubNodes': [
                     {
                       'qText': 'c',
-                      'qElemNo': 0,
+                      'qElemNo': 2,
                       'qValue': 'NaN',
                       'qType': 'N',
                       'qUp': 0,
@@ -197,7 +197,7 @@ export default () => ({
                 },
                 {
                   'qText': 'C',
-                  'qElemNo': 2,
+                  'qElemNo': 1,
                   'qValue': 'NaN',
                   'qCanExpand': true,
                   'qType': 'N',
@@ -217,7 +217,7 @@ export default () => ({
               ],
               'qTop': [
                 {
-                  'qText': 'Sum([Expression1])',
+                  'qText': 'Sum(Expression1)',
                   'qElemNo': 0,
                   'qValue': 'NaN',
                   'qType': 'P',
@@ -229,29 +229,29 @@ export default () => ({
               'qData': [
                 [
                   {
-                    'qText': '27661',
-                    'qNum': 27661,
+                    'qText': '27022',
+                    'qNum': 27022,
                     'qType': 'V'
                   }
                 ],
                 [
                   {
-                    'qText': '33020',
-                    'qNum': 33020,
+                    'qText': '41139',
+                    'qNum': 41139,
                     'qType': 'V'
                   }
                 ],
                 [
                   {
-                    'qText': '43676',
-                    'qNum': 43676,
+                    'qText': '49173',
+                    'qNum': 49173,
                     'qType': 'V'
                   }
                 ],
                 [
                   {
-                    'qText': '142271',
-                    'qNum': 142271,
+                    'qText': '145362',
+                    'qNum': 145362,
                     'qType': 'V'
                   }
                 ]
@@ -284,7 +284,7 @@ export default () => ({
           'text': '-'
         },
         'visualization': 'sn-pivot-table',
-        'version': '0.0.0',
+        'version': '0.2.0',
         'extensionMeta': {
           'translationKey': '',
           'icon': 'puzzle',
@@ -296,7 +296,7 @@ export default () => ({
           'template': 'sn-pivot-table',
           'iconPath': 'M14.5,9 L13,9 L13,3.3 C13,3.1 12.9,3 12.7,3 L8,3 L8,1.5 C8,0.7 7.3,0 6.5,0 C5.7,0 5,0.7 5,1.5 L5,3 L0.3,3 C0.1,3 0,3.1 0,3.3 L0,9 L1.5,9 C2.3,9 3,9.7 3,10.5 C3,11.3 2.3,12 1.5,12 L0,12 L0,15.7 C0,15.9 0.1,16 0.3,16 L5,16 L5,14.5 C5,13.7 5.7,13 6.5,13 C7.3,13 8,13.7 8,14.5 L8,16 L12.7,16 C12.9,16 13,15.9 13,15.7 L13,12 L14.5,12 C15.3,12 16,11.3 16,10.5 C16,9.7 15.3,9 14.5,9 Z',
           'isThirdParty': true,
-          'version': '0.0.0',
+          'version': '0.2.0',
           'author': 'QlikTech International AB',
           'type': 'visualization',
           'supernova': true
