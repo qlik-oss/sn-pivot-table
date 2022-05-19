@@ -13,6 +13,9 @@ const paths = {
   fixtures: path.resolve(dirname, '__fixtures__'),
 };
 
+// Set a small viewport size to more easily be able to trigger scenarios with "too" long labels
+test.use({ viewport: { width: 720, height: 480 } });
+
 test.describe('sn-pivot-table: Rendering tests', () => {
   let nebulaServer;
   let playwright;

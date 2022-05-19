@@ -4,7 +4,7 @@ export default () => ({
     {
       getLayout: {
         'qInfo': {
-          'qId': 'mkpXCPG',
+          'qId': 'PeyvkDq',
           'qType': 'sn-pivot-table'
         },
         'qMeta': {
@@ -18,8 +18,8 @@ export default () => ({
         'qSelectionInfo': {},
         'qHyperCube': {
           'qSize': {
-            'qcx': 4,
-            'qcy': 1
+            'qcx': 1,
+            'qcy': 6
           },
           'qDimensionInfo': [
             {
@@ -66,58 +66,12 @@ export default () => ({
                 'qAllValuesCardinal': -1
               },
               'autoSort': true,
-              'cId': 'FzJKB'
-            },
-            {
-              'qFallbackTitle': 'Dim2',
-              'qApprMaxGlyphCount': 1,
-              'qCardinal': 6,
-              'qSortIndicator': 'A',
-              'qGroupFallbackTitles': [
-                'Dim2'
-              ],
-              'qGroupPos': 0,
-              'qStateCounts': {
-                'qLocked': 0,
-                'qSelected': 0,
-                'qOption': 6,
-                'qDeselected': 0,
-                'qAlternative': 0,
-                'qExcluded': 0,
-                'qSelectedExcluded': 0,
-                'qLockedExcluded': 0
-              },
-              'qTags': [
-                '$ascii',
-                '$text'
-              ],
-              'qDimensionType': 'D',
-              'qGrouping': 'N',
-              'qNumFormat': {
-                'qType': 'U',
-                'qnDec': 0,
-                'qUseThou': 0
-              },
-              'qIsAutoFormat': true,
-              'qGroupFieldDefs': [
-                'Dim2'
-              ],
-              'qMin': 'NaN',
-              'qMax': 'NaN',
-              'qAttrExprInfo': [],
-              'qAttrDimInfo': [],
-              'qCardinalities': {
-                'qCardinal': 6,
-                'qHypercubeCardinal': 3,
-                'qAllValuesCardinal': -1
-              },
-              'autoSort': true,
-              'cId': 'rshN'
+              'cId': 'BPCmLu'
             }
           ],
           'qMeasureInfo': [
             {
-              'qFallbackTitle': 'Sum(Expression1)',
+              'qFallbackTitle': 'A very long label that is a bit too long 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890',
               'qApprMaxGlyphCount': 6,
               'qCardinal': 0,
               'qSortIndicator': 'D',
@@ -135,32 +89,61 @@ export default () => ({
               'qAttrDimInfo': [],
               'qTrendLines': [],
               'autoSort': true,
-              'cId': 'kHPjrv'
+              'cId': 'PCThM'
+            },
+            {
+              'qFallbackTitle': 'Sum(Expression2)',
+              'qApprMaxGlyphCount': 4,
+              'qCardinal': 0,
+              'qSortIndicator': 'D',
+              'qNumFormat': {
+                'qType': 'I',
+                'qnDec': 0,
+                'qUseThou': 1,
+                'qFmt': '###0',
+                'qDec': '.'
+              },
+              'qMin': 242,
+              'qMax': 1427,
+              'qIsAutoFormat': true,
+              'qAttrExprInfo': [],
+              'qAttrDimInfo': [],
+              'qTrendLines': [],
+              'autoSort': true,
+              'cId': 'XhLFmtF'
             }
           ],
           'qEffectiveInterColumnSortOrder': [
             0,
-            1
+            -1
           ],
           'qGrandTotalRow': [],
           'qDataPages': [],
           'qPivotDataPages': [
             {
-              'qLeft': [],
-              'qTop': [
+              'qLeft': [
                 {
                   'qText': 'A',
                   'qElemNo': 0,
                   'qValue': 'NaN',
-                  'qCanExpand': true,
                   'qType': 'N',
                   'qUp': 0,
                   'qDown': 0,
                   'qSubNodes': [
                     {
-                      'qElemNo': -4,
+                      'qText': 'A very long label that is a bit too long 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890',
+                      'qElemNo': 0,
                       'qValue': 'NaN',
-                      'qType': 'E',
+                      'qType': 'P',
+                      'qUp': 0,
+                      'qDown': 0,
+                      'qSubNodes': []
+                    },
+                    {
+                      'qText': 'Sum(Expression2)',
+                      'qElemNo': 1,
+                      'qValue': 'NaN',
+                      'qType': 'P',
                       'qUp': 0,
                       'qDown': 0,
                       'qSubNodes': []
@@ -171,25 +154,24 @@ export default () => ({
                   'qText': 'B',
                   'qElemNo': 2,
                   'qValue': 'NaN',
-                  'qCanCollapse': true,
                   'qType': 'N',
                   'qUp': 0,
                   'qDown': 0,
                   'qSubNodes': [
                     {
-                      'qText': 'c',
-                      'qElemNo': 2,
+                      'qText': 'A very long label that is a bit too long 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890',
+                      'qElemNo': 0,
                       'qValue': 'NaN',
-                      'qType': 'N',
+                      'qType': 'P',
                       'qUp': 0,
                       'qDown': 0,
                       'qSubNodes': []
                     },
                     {
-                      'qText': 'd',
-                      'qElemNo': 4,
+                      'qText': 'Sum(Expression2)',
+                      'qElemNo': 1,
                       'qValue': 'NaN',
-                      'qType': 'N',
+                      'qType': 'P',
                       'qUp': 0,
                       'qDown': 0,
                       'qSubNodes': []
@@ -200,15 +182,24 @@ export default () => ({
                   'qText': 'C',
                   'qElemNo': 1,
                   'qValue': 'NaN',
-                  'qCanExpand': true,
                   'qType': 'N',
                   'qUp': 0,
                   'qDown': 0,
                   'qSubNodes': [
                     {
-                      'qElemNo': -4,
+                      'qText': 'A very long label that is a bit too long 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890',
+                      'qElemNo': 0,
                       'qValue': 'NaN',
-                      'qType': 'E',
+                      'qType': 'P',
+                      'qUp': 0,
+                      'qDown': 0,
+                      'qSubNodes': []
+                    },
+                    {
+                      'qText': 'Sum(Expression2)',
+                      'qElemNo': 1,
+                      'qValue': 'NaN',
+                      'qType': 'P',
                       'qUp': 0,
                       'qDown': 0,
                       'qSubNodes': []
@@ -216,26 +207,47 @@ export default () => ({
                   ]
                 }
               ],
+              'qTop': [],
               'qData': [
                 [
                   {
                     'qText': '27022',
                     'qNum': 27022,
                     'qType': 'V'
-                  },
+                  }
+                ],
+                [
                   {
-                    'qText': '41139',
-                    'qNum': 41139,
+                    'qText': '242',
+                    'qNum': 242,
                     'qType': 'V'
-                  },
+                  }
+                ],
+                [
                   {
-                    'qText': '49173',
-                    'qNum': 49173,
+                    'qText': '90312',
+                    'qNum': 90312,
                     'qType': 'V'
-                  },
+                  }
+                ],
+                [
+                  {
+                    'qText': '872',
+                    'qNum': 872,
+                    'qType': 'V'
+                  }
+                ],
+                [
                   {
                     'qText': '145362',
                     'qNum': 145362,
+                    'qType': 'V'
+                  }
+                ],
+                [
+                  {
+                    'qText': '1427',
+                    'qNum': 1427,
                     'qType': 'V'
                   }
                 ]
@@ -243,14 +255,14 @@ export default () => ({
               'qArea': {
                 'qLeft': 0,
                 'qTop': 0,
-                'qWidth': 4,
-                'qHeight': 1
+                'qWidth': 1,
+                'qHeight': 6
               }
             }
           ],
           'qStackedDataPages': [],
           'qMode': 'P',
-          'qNoOfLeftDims': 0,
+          'qNoOfLeftDims': 2,
           'qTreeNodesOnDim': [],
           'qColumnOrder': []
         },
@@ -258,7 +270,7 @@ export default () => ({
           'sorting': 'auto'
         },
         'showTitles': true,
-        'title': 'Scenario 5',
+        'title': 'Scenario 10',
         'subtitle': '',
         'footnote': '',
         'disableNavMenu': false,
