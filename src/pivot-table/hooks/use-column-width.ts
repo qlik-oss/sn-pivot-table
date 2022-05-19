@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { memoize } from 'qlik-chart-modules';
 import { PSEUDO_DIMENSION_INDEX } from '../../constants';
 import NxDimCellType from '../../types/QIX';
 import { LayoutService, LeftDimensionData, MeasureData, Rect } from '../../types/types';
@@ -94,7 +95,7 @@ export default function useColumnWidth(
     ), 0);
   }, [qMeasureInfo, estimateWidth, measureText, hasPseudoDimOnLeft]);
 
-  const getMeasureInfoWidth = useCallback((measureInfoIndex: number) => {
+  const memoizedGetMeasureInfoWidth = useCallback(memoize((measureInfoIndex: number) => {
     const getWidth = (index: number, includeTitleWidth = true) => {
       const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo[index];
       const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
@@ -112,12 +113,12 @@ export default function useColumnWidth(
     }
 
     return getWidth(measureInfoIndex);
-  }, [rightGridWidth, measureData.size.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, qMeasureInfo, hasPseudoDimOnLeft]);
+  }), [rightGridWidth, measureData.size.x, preCalcTotalDataColumnWidth, estimateWidth, measureText, qMeasureInfo, hasPseudoDimOnLeft]);
 
   const getDataColumnWidth = useCallback((colIndex: number) => {
     const measureInfoIndex = colIndex % qMeasureInfo.length;
-    return getMeasureInfoWidth(measureInfoIndex);
-  }, [getMeasureInfoWidth, qMeasureInfo]);
+    return memoizedGetMeasureInfoWidth(measureInfoIndex);
+  }, [memoizedGetMeasureInfoWidth, qMeasureInfo]);
 
   const getTotalWidth = useCallback(() => Array
       .from({ length: measureData.size.x }, () => null)
@@ -136,7 +137,7 @@ export default function useColumnWidth(
     totalMeasureInfoColumnWidth,
     getLeftColumnWidth,
     getDataColumnWidth,
-    getMeasureInfoWidth,
+    getMeasureInfoWidth: memoizedGetMeasureInfoWidth,
     getTotalWidth
   };
 }
