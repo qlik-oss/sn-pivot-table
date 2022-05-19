@@ -1,14 +1,17 @@
 import { renderHook } from '@testing-library/react-hooks';
 import NxDimCellType from '../../../types/QIX';
-import { Cell, Rect, LayoutService, LeftDimensionData, MeasureData } from '../../../types/types';
+import { Cell, Rect, LayoutService, LeftDimensionData, MeasureData, StyleService } from '../../../types/types';
 import useColumnWidth, { EXPAND_ICON_WIDTH } from '../use-column-width';
 import useMeasureText, { MeasureTextHook } from '../use-measure-text';
+import { useStyleContext } from '../../contexts/StyleProvider';
 
 jest.mock('../use-measure-text');
+jest.mock('../../contexts/StyleProvider');
 
 describe('useColumnWidth', () => {
   let rect: Rect;
   let mockedUseMeasureText: jest.MockedFunction<(size: string, fam: string) => MeasureTextHook>;
+  let mockedUseStyleContext: jest.MockedFunction<() => StyleService>;
   let leftDimensionData: LeftDimensionData;
   let measureData: MeasureData;
   let mockedMeasureText: MeasureTextHook;
@@ -22,6 +25,7 @@ describe('useColumnWidth', () => {
     const meaInfo = { qFallbackTitle: 1, qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
     rect = { width: 200, height: 100 };
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
+    mockedUseStyleContext = useStyleContext as jest.MockedFunction<typeof useStyleContext>;
     leftDimensionData = {
       data: [[cell], [cell], [cell]],
       dimensionInfoIndexMap: [0, 1, 2],
@@ -47,6 +51,16 @@ describe('useColumnWidth', () => {
       estimateWidth: jest.fn() as jest.MockedFunction<(length: number) => number>
     };
     mockedUseMeasureText.mockReturnValue(mockedMeasureText);
+    mockedUseStyleContext.mockReturnValue({
+      header: {
+        fontSize: 'size',
+        fontFamily: 'font'
+      },
+      content: {
+        fontSize: 'size',
+        fontFamily: 'font'
+      },
+    } as unknown as StyleService);
   });
 
   afterEach(() => {

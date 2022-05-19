@@ -79,7 +79,7 @@ describe('ListCellFactory', () => {
 
     render(<ListCellFactory index={0} style={style} data={data} />);
 
-    expect(mockedTotalsCell).toHaveBeenCalledWith({ cell, style }, {});
+    expect(mockedTotalsCell).toHaveBeenCalledWith({ cell, style, isLeftColumn: false }, {});
   });
 
   test('should render empty cell', () => {
