@@ -14,7 +14,6 @@ const THEME_STYLES = [
   { basePath: 'object.pivotTable', path: 'content', attribute: 'fontFamily', defaultValue: DEFAULT_FONT_FAMILY },
   { basePath: 'object.pivotTable', path: 'content', attribute: 'color', defaultValue: DEFAULT_TEXT_COLOR },
   { basePath: 'object.pivotTable', path: '', attribute: 'backgroundColor', defaultValue: DEFAULT_BACKGROUND_COLOR },
-  { basePath: '', path: 'dataColors', attribute: 'nullColor', defaultValue: DEFAULT_BACKGROUND_COLOR },
 ];
 
 const createStyleService = (theme: stardust.Theme): StyleService => {
@@ -27,7 +26,6 @@ const createStyleService = (theme: stardust.Theme): StyleService => {
       color: DEFAULT_TEXT_COLOR
     },
     backgroundColor: DEFAULT_BACKGROUND_COLOR,
-    nullColor: 'red',
   };
 
   THEME_STYLES.forEach(({ basePath, path, attribute, defaultValue }) => {
@@ -37,9 +35,6 @@ const createStyleService = (theme: stardust.Theme): StyleService => {
       case 'header':
       case 'content':
         styleService[path][attribute] = resolvedValue;
-        break;
-      case 'dataColors':
-        styleService[attribute as 'nullColor'] = resolvedValue;
         break;
       case '':
         styleService[attribute as 'backgroundColor'] = resolvedValue;

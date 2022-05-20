@@ -148,7 +148,6 @@ export interface StyleService {
   content: StyleProperties;
   title: StyleProperties;
   backgroundColor: string;
-  nullColor: string;
 }
 
 export interface Galaxy {

@@ -3,8 +3,7 @@ import initialProperties from './qae/initial-properties';
 import data from './qae/data-definition';
 import ext from './ext';
 import { render, teardown } from './pivot-table/Root';
-// import useDataModel from './hooks/use-data-model';
-import { ExtendedSelections, Galaxy } from './types/types';
+import { ExtendedSelections, ExtendedTheme, Galaxy } from './types/types';
 import useViewService from './hooks/use-view-service';
 import { PivotLayout } from './types/QIX';
 import useLayoutService from './hooks/use-layout-service';
@@ -31,12 +30,12 @@ export default function supernova(env: Galaxy) {
       const layoutService = useLayoutService(layout);
       const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
       const selections = useSelections() as ExtendedSelections;
-      const theme = useTheme();
-      const styleService = useMemo(() => createStyleService(theme), [theme]);
+      const theme = useTheme() as ExtendedTheme;
+      const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
 
       useEffect(() => {
         if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService && styleService) {
-          console.debug('render', { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, styleService });
+          // console.debug(layoutService.layout.title, { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, styleService });
           render(element, {
             model,
             rect,
