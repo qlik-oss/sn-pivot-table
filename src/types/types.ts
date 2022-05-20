@@ -146,7 +146,6 @@ type StyleProperties = Record<string, string>;
 export interface StyleService {
   header: StyleProperties;
   content: StyleProperties;
-  title: StyleProperties;
   backgroundColor: string;
 }
 

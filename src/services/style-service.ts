@@ -1,10 +1,10 @@
 import { stardust } from '@nebula.js/stardust';
 import { StyleService } from '../types/types';
 
-const DEFAULT_FONT_SIZE = '13px';
-const DEFAULT_FONT_FAMILY = '"Source Sans Pro", "Arial", "sans-serif"';
-const DEFAULT_TEXT_COLOR = '#595959';
-const DEFAULT_BACKGROUND_COLOR = 'transparent';
+export const DEFAULT_FONT_SIZE = '13px';
+export const DEFAULT_FONT_FAMILY = '"Source Sans Pro", "Arial", "sans-serif"';
+export const DEFAULT_TEXT_COLOR = '#595959';
+export const DEFAULT_BACKGROUND_COLOR = 'transparent';
 
 const THEME_STYLES = [
   { basePath: 'object.pivotTable', path: 'header', attribute: 'fontSize', defaultValue: DEFAULT_FONT_SIZE },
@@ -20,11 +20,6 @@ const createStyleService = (theme: stardust.Theme): StyleService => {
   const styleService: StyleService = {
     header: {},
     content: {},
-    title: {
-      fontSize: DEFAULT_FONT_SIZE,
-      fontFamily: DEFAULT_FONT_FAMILY,
-      color: DEFAULT_TEXT_COLOR
-    },
     backgroundColor: DEFAULT_BACKGROUND_COLOR,
   };
 
