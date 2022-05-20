@@ -29,7 +29,7 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
     if (context.current === null) return null;
 
     return memoize(context.current.measureText.bind(context.current));
-  }, [context.current]);
+  }, [context.current, fontSize, fontFamily]);
 
   const estimateWidth = useCallback((length: number) => {
     if (context.current === null || memoizedMeasureText === null) return 0;

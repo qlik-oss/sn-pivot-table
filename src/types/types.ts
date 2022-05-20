@@ -114,6 +114,10 @@ export interface ExtendedSelections extends stardust.ObjectSelections {
   removeListener: (name: string, callback: () => void) => void;
 }
 
+export interface ExtendedTheme extends stardust.Theme {
+  name: () => string;
+}
+
 export interface ViewService {
   gridColumnStartIndex: number;
   gridRowStartIndex: number;
@@ -135,6 +139,14 @@ export interface DataService {
   hasMoreColumns: boolean;
   data: PivotData;
   size: PivotDataSize;
+}
+
+type StyleProperties = Record<string, string>;
+
+export interface StyleService {
+  header: StyleProperties;
+  content: StyleProperties;
+  backgroundColor: string;
 }
 
 export interface Galaxy {

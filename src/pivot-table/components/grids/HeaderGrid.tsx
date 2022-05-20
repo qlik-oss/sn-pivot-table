@@ -13,17 +13,15 @@ interface HeaderGridProps {
   headersData: HeadersData;
 }
 
+interface HeaderItemData {
+  matrix: (string | null)[][];
+}
+
 interface GridCallbackProps {
   columnIndex: number;
   rowIndex: number;
   style: React.CSSProperties;
-  data: {
-    matrix: (string | null)[][]
-  };
-}
-
-interface HeaderItemData {
-  matrix: (string | null)[][];
+  data: HeaderItemData;
 }
 
 const gridStyle: React.CSSProperties = {

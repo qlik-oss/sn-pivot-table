@@ -1,6 +1,7 @@
 import React from 'react';
 import NxDimCellType from '../../../types/QIX';
 import { GridItemData } from '../../../types/types';
+import { useStyleContext } from '../../contexts/StyleProvider';
 import { borderStyle, textStyle } from '../shared-styles';
 
 export interface MeasureCellProps {
@@ -36,6 +37,7 @@ const containerStyle: React.CSSProperties = {
 export const testId = 'measure-cell';
 
 export default function MeasureCell({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null {
+  const styleService = useStyleContext();
   const { grid, layoutService } = data;
   const cell = grid[rowIndex]?.[columnIndex];
 
@@ -55,7 +57,7 @@ export default function MeasureCell({ columnIndex, rowIndex, style, data }: Meas
   return (
     <div title={text} style={{...style, ...containerStyle}} data-testid={testId}>
       <div style={cellStyle}>
-        <span style={textStyle}>{text}</span>
+        <span style={{...textStyle, ...styleService.content}}>{text}</span>
       </div>
     </div>
   );

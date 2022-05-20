@@ -1,11 +1,12 @@
 import { stardust } from '@nebula.js/stardust';
 import React from 'react';
-import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
-import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
+import PlusIcon from '../icons/Plus';
+import MinusIcon from '../icons/Minus';
 import { ItemData, DataModel, Cell } from '../../../types/types';
 import { borderStyle, textStyle } from '../shared-styles';
 import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
 import { useSelectionsContext } from '../../contexts/SelectionsProvider';
+import { useStyleContext } from '../../contexts/StyleProvider';
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -117,6 +118,7 @@ export default function DimensionCell({
     dataModel,
     layoutService,
   } = data;
+  const styleService = useStyleContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
@@ -128,21 +130,22 @@ export default function DimensionCell({
   const appliedNullStyle = isNull ? nullStyle : {};
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, rowIndex, colIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
+  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
   let cellIcon = null;
 
   if (qCanExpand) {
-    cellIcon = <AddCircleOutlineSharpIcon
-      fontSize="small"
-      data-testid={testIdExpandIcon}
+    cellIcon = <PlusIcon
+      color={serviceStyle.color}
+      opacity={isActive ? 0.4 : 1.0}
+      testid={testIdExpandIcon}
       onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
-      color={isActive ? 'disabled' : 'action'}
     />;
   } else if (qCanCollapse) {
-    cellIcon = <RemoveCircleOutlineSharpIcon
-      fontSize="small"
-      data-testid={testIdCollapseIcon}
+    cellIcon = <MinusIcon
+      color={serviceStyle.color}
+      opacity={isActive ? 0.4 : 1.0}
+      testid={testIdCollapseIcon}
       onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
-      color={isActive ? 'disabled' : 'action'}
     />;
   }
 
@@ -167,7 +170,7 @@ export default function DimensionCell({
     >
       <div style={{ ...cellStyle, ...stickyCell }} >
         {cellIcon}
-        <div style={dimTextStyle}>{text}</div>
+        <span style={{ ...dimTextStyle, ...serviceStyle }}>{text}</span>
       </div>
     </div>
   );

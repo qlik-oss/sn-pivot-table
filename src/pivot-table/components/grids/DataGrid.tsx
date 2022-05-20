@@ -131,8 +131,8 @@ function DataGrid({
 
   // Use a logarithmic value as the threshold should scale with the size of the data. This helps create a smooth scrolling experience where.
   // It should reduce the risk of the scroll hitting the "end" of the scrollable area before new data have been fetch.
-  const xFetchThreshold = useMemo(() => measureData.size.x - Math.round(Math.log(measureData.size.x) ** EXPONENT), [measureData.size.x]);
-  const yFetchThreshold = useMemo(() => measureData.size.y - Math.round(Math.log(measureData.size.y) ** EXPONENT), [measureData.size.y]);
+  const columnFetchThreshold = useMemo(() => measureData.size.x - Math.round(Math.log(measureData.size.x) ** EXPONENT), [measureData.size.x]);
+  const rowFetchThreshold = useMemo(() => measureData.size.y - Math.round(Math.log(measureData.size.y) ** EXPONENT), [measureData.size.y]);
 
   const onItemsRendered = useCallback(({
     overscanColumnStartIndex,
@@ -149,12 +149,12 @@ function DataGrid({
     viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
     viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
-    if (hasMoreRows && visibleRowStopIndex >= yFetchThreshold) {
+    if (hasMoreRows && visibleRowStopIndex >= rowFetchThreshold) {
       dataModel.fetchNextPage(true, overscanColumnStartIndex);
       return;
     }
 
-    if (hasMoreColumns && visibleColumnStopIndex >= xFetchThreshold) {
+    if (hasMoreColumns && visibleColumnStopIndex >= columnFetchThreshold) {
       dataModel.fetchNextPage(false, overscanRowStartIndex);
       return;
     }
@@ -167,7 +167,7 @@ function DataGrid({
       overscanRowStartIndex,
       overscanRowStopIndex
     );
-  }, [dataModel, measureData, xFetchThreshold, yFetchThreshold]);
+  }, [dataModel, measureData, columnFetchThreshold, rowFetchThreshold]);
 
   const getColumnWidth = useCallback(
     (index) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),

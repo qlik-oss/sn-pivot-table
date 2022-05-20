@@ -10,12 +10,9 @@ const borderStyle: React.CSSProperties = {
 };
 
 const textStyle: React.CSSProperties = {
-  fontFamily: '"Source Sans Pro", sans-serif',
-  fontSize: 13,
   textOverflow: 'ellipsis',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
-  color: 'inherit'
 };
 
 const gridBorderStyle: React.CSSProperties = {
