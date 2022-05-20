@@ -1,7 +1,7 @@
 import { stardust } from '@nebula.js/stardust';
 import React from 'react';
-import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
-import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
+import PlusIcon from '../icons/Plus';
+import MinusIcon from '../icons/Minus';
 import { ItemData, DataModel, Cell } from '../../../types/types';
 import { borderStyle, textStyle } from '../shared-styles';
 import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
@@ -130,25 +130,24 @@ export default function DimensionCell({
   const appliedNullStyle = isNull ? nullStyle : {};
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, rowIndex, colIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
+  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
   let cellIcon = null;
 
   if (qCanExpand) {
-    cellIcon = <AddCircleOutlineSharpIcon
-      fontSize="small"
-      data-testid={testIdExpandIcon}
+    cellIcon = <PlusIcon
+      color={serviceStyle.color}
+      opacity={isActive ? 0.4 : 1.0}
+      testid={testIdExpandIcon}
       onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
-      color={isActive ? 'disabled' : 'action'}
     />;
   } else if (qCanCollapse) {
-    cellIcon = <RemoveCircleOutlineSharpIcon
-      fontSize="small"
-      data-testid={testIdCollapseIcon}
+    cellIcon = <MinusIcon
+      color={serviceStyle.color}
+      opacity={isActive ? 0.4 : 1.0}
+      testid={testIdExpandIcon}
       onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
-      color={isActive ? 'disabled' : 'action'}
     />;
   }
-
-  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
 
   return (
     <div
@@ -171,7 +170,7 @@ export default function DimensionCell({
     >
       <div style={{ ...cellStyle, ...stickyCell }} >
         {cellIcon}
-        <div style={{ ...dimTextStyle, ...serviceStyle }}>{text}</div>
+        <span style={{ ...dimTextStyle, ...serviceStyle }}>{text}</span>
       </div>
     </div>
   );
