@@ -3,13 +3,15 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { stardust } from '@nebula.js/stardust';
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, selectedStyle, lockedFromSelectionStyle } from '../DimensionCell';
-import { DataModel, ItemData, Cell, LayoutService } from '../../../../types/types';
+import { DataModel, ItemData, Cell, LayoutService, StyleService } from '../../../../types/types';
 import { useSelectionsContext } from '../../../contexts/SelectionsProvider';
 import NxDimCellType, { NxSelectionCellType } from '../../../../types/QIX';
 import { SelectionModel } from '../../../hooks/use-selections-model';
 import dataModelMock from './__mocks__/data-model-mock';
+import { useStyleContext } from '../../../contexts/StyleProvider';
 
 jest.mock('../../../contexts/SelectionsProvider');
+jest.mock('../../../contexts/StyleProvider');
 
 describe('DimensionCell', () => {
   let constraints: stardust.Constraints;
@@ -35,6 +37,7 @@ describe('DimensionCell', () => {
   let isSelectedSpy: jest.MockedFunction<() => boolean>;
   let isLockedSpy: jest.MockedFunction<() => boolean>;
   let mockedSelectionModel: SelectionModel;
+  let mockedUseStyleContext: jest.MockedFunction<() => StyleService>;
   let layoutService: LayoutService;
 
   afterEach(() => {
@@ -55,6 +58,18 @@ describe('DimensionCell', () => {
     };
     mockedSelectionContext = useSelectionsContext as jest.MockedFunction<typeof useSelectionsContext>;
     mockedSelectionContext.mockReturnValue(mockedSelectionModel);
+
+    mockedUseStyleContext = useStyleContext as jest.MockedFunction<typeof useStyleContext>;
+    mockedUseStyleContext.mockReturnValue({
+      header: {
+        fontSize: 'size',
+        fontFamily: 'font'
+      },
+      content: {
+        fontSize: 'size',
+        fontFamily: 'font'
+      },
+    } as unknown as StyleService);
 
     constraints = {
       active: false,

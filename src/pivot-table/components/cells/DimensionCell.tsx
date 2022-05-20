@@ -144,7 +144,7 @@ export default function DimensionCell({
     cellIcon = <MinusIcon
       color={serviceStyle.color}
       opacity={isActive ? 0.4 : 1.0}
-      testid={testIdExpandIcon}
+      testid={testIdCollapseIcon}
       onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
     />;
   }
