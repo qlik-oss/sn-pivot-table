@@ -48,6 +48,7 @@ export default function useDataModel({
   }, [model]);
 
   const fetchNextPage = useCallback<FetchNextPage>(async (isRow: boolean, startIndex: number) => {
+    if (!model?.getHyperCubePivotData) return;
     if (ref.isLoading) return;
     if (isRow && !hasMoreRows) return;
     if (!isRow && !hasMoreColumns) return;
@@ -73,6 +74,7 @@ export default function useDataModel({
   }, [model, ref, viewService, size.x, size.y, hasMoreRows, hasMoreColumns]);
 
   const fetchMoreData = useCallback<FetchMoreData>(async (left: number, top: number, width: number, height: number) => {
+    if (!model?.getHyperCubePivotData) return;
     if (ref.isLoading) return;
 
     ref.isLoading = true;

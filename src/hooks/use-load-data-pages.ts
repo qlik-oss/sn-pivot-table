@@ -90,7 +90,7 @@ const useLoadDataPages = (
   layoutService: LayoutService,
   viewService: ViewService
 ): UseLoadDataPages => {
-  const { qHyperCube } = layoutService.layout;
+  const { qHyperCube, snapshotData } = layoutService.layout;
   const { qLastExpandedPos, qSize } = qHyperCube;
   // Need to keep track of loading state to prevent double renders when a new layout is recieved, ex after expanding or collapesing.
   // A double render would cause the scroll position to be lost
@@ -98,7 +98,7 @@ const useLoadDataPages = (
   const [qPivotDataPages, setDataPages] = useState<EngineAPI.INxPivotPage[]>([]);
 
   usePromise(async () => {
-    if (model) {
+    if (model && !snapshotData) {
       // If a cell have been expanded. Fetch data to the last scrolled position.
       if (shouldFetchAdditionalData(qLastExpandedPos)) {
         const pages = [
@@ -119,7 +119,7 @@ const useLoadDataPages = (
     }
 
     ref.isLoading = false;
-  }, [qLastExpandedPos, qSize, model, viewService]);
+  }, [qLastExpandedPos, qSize, model, viewService, snapshotData]);
 
   return {
     qPivotDataPages,

@@ -5,7 +5,8 @@ import { Galaxy } from '../types/types';
 export default function ext(env: Galaxy): Record<string, unknown> {
   return {
     support: {
-      snapshot: false,
+      cssScaling: true,
+      snapshot: true,
       export: true,
       sharing: false,
       exportData: true,

@@ -17,11 +17,41 @@ export enum NxSelectionCellType {
   NX_CELL_LEFT = 'L'
 }
 
+export interface ViewState {
+  gridColumnStartIndex: number;
+  gridRowStartIndex: number;
+  gridWidth: number;
+  gridHeight: number;
+}
+
+type Size = {
+  w: number;
+  h: number;
+};
+
+export interface SnapshotData {
+  content?: {
+    viewState: ViewState;
+  },
+  object: {
+    size: Size
+  }
+}
+
+interface NullValueRepresentation {
+  text?: string;
+}
+
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
-  nullValueRepresentation?: {
-    text?: string;
-  };
+  nullValueRepresentation?: NullValueRepresentation;
   title: string;
+  snapshotData?: SnapshotData
+}
+
+export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
+  nullValueRepresentation?: NullValueRepresentation;
+  title?: string;
+  snapshotData?: SnapshotData
 }
 
 export default NxDimCellType;
