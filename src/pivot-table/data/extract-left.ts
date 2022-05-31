@@ -6,7 +6,8 @@ import createCell from './helpers/create-cell';
 const extractLeftGrid = (
   grid: Cell[][],
   qLeft: EngineAPI.INxPivotDimensionCell[],
-  qArea: EngineAPI.INxDataAreaPage
+  qArea: EngineAPI.INxDataAreaPage,
+  isSnapshot: boolean
 ): Cell[][] => {
   if (!qLeft.length) {
     return grid;
@@ -27,7 +28,7 @@ const extractLeftGrid = (
     nodes.forEach((node, currRowIdx) => {
       rowIdx += currRowIdx === 0 ? 0 : 1;
       const y = qArea.qTop + rowIdx - node.qUp; // Start position + current page position - previous tail size,
-      const cell = createCell(node, parent, root, colIdx, y);
+      const cell = createCell(node, parent, root, colIdx, y, isSnapshot);
 
       grid[colIdx][y] = cell;
 

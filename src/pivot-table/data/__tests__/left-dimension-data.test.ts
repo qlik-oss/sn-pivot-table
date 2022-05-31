@@ -27,7 +27,7 @@ describe('left dimension data', () => {
     test('should return correct data', () => {
       const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(mockedReturnValue);
-      const data = createLeftDimensionData(dataPage, qHyperCube);
+      const data = createLeftDimensionData(dataPage, qHyperCube, false);
 
       expect(data.data).toEqual([[CELL, CELL]]);
       expect(data.grid).toEqual(mockedReturnValue);
@@ -35,13 +35,21 @@ describe('left dimension data', () => {
       expect(data.size.x).toEqual(1);
       expect(data.size.y).toEqual(dataPage.qArea.qHeight + dataPage.qArea.qTop);
     });
+
+    test('should return correct data size in snapshot mode', () => {
+      const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
+      mockedExtractLeft.mockReturnValue(mockedReturnValue);
+      const data = createLeftDimensionData(dataPage, qHyperCube, true);
+
+      expect(data.size.y).toEqual(dataPage.qArea.qHeight);
+    });
   });
 
   describe('add page to', () => {
     test('should add page to data', () => {
       const nextLeft = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(nextLeft);
-      const data = createLeftDimensionData(dataPage, qHyperCube);
+      const data = createLeftDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {
         qLeft: [{}],
         qArea: {
@@ -61,7 +69,7 @@ describe('left dimension data', () => {
     test('should return previous page if qLeft is an empty array', () => {
       const nextLeft = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(nextLeft);
-      const data = createLeftDimensionData(dataPage, qHyperCube);
+      const data = createLeftDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {
         qLeft: [],
         qArea: {
@@ -77,7 +85,7 @@ describe('left dimension data', () => {
     test('should compare height with previous data and return the largest value', () => {
       const nextLeft = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(nextLeft);
-      const data = createLeftDimensionData(dataPage, qHyperCube);
+      const data = createLeftDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {
         qLeft: [{}],
         qArea: {

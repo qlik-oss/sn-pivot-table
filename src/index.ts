@@ -9,6 +9,7 @@ import { PivotLayout } from './types/QIX';
 import useLayoutService from './hooks/use-layout-service';
 import useLoadDataPages from './hooks/use-load-data-pages';
 import createStyleService from './services/style-service';
+import useSnapshot from './hooks/use-snapshot';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {
@@ -24,7 +25,7 @@ export default function supernova(env: Galaxy) {
       const element = useElement();
       const layout = useStaleLayout() as PivotLayout;
       const model = useModel();
-      const rect = useRect();
+      let rect = useRect();
       const constraints = useConstraints();
       const viewService = useViewService();
       const layoutService = useLayoutService(layout);
@@ -32,6 +33,8 @@ export default function supernova(env: Galaxy) {
       const selections = useSelections() as ExtendedSelections;
       const theme = useTheme() as ExtendedTheme;
       const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
+
+      rect = useSnapshot({ layoutService, viewService, rect, model });
 
       useEffect(() => {
         if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService && styleService) {

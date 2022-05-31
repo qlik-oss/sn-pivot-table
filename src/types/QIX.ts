@@ -17,11 +17,34 @@ export enum NxSelectionCellType {
   NX_CELL_LEFT = 'L'
 }
 
+type Size = {
+  w: number;
+  h: number;
+};
+
+export interface SnapshotData {
+  content?: {
+    qPivotDataPages?: EngineAPI.INxPivotPage[];
+  },
+  object: {
+    size: Size
+  }
+}
+
+interface NullValueRepresentation {
+  text?: string;
+}
+
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
-  nullValueRepresentation?: {
-    text?: string;
-  };
+  nullValueRepresentation?: NullValueRepresentation;
   title: string;
+  snapshotData?: SnapshotData
+}
+
+export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
+  nullValueRepresentation?: NullValueRepresentation;
+  title?: string;
+  snapshotData?: SnapshotData
 }
 
 export default NxDimCellType;

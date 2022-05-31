@@ -28,7 +28,7 @@ describe('top dimension data', () => {
     test('should return correct data', () => {
       const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(mockedReturnValue);
-      const data = createTopDimensionData(dataPage, qHyperCube);
+      const data = createTopDimensionData(dataPage, qHyperCube, false);
 
       expect(data.data).toEqual([[CELL, CELL]]);
       expect(data.grid).toEqual(mockedReturnValue);
@@ -36,13 +36,21 @@ describe('top dimension data', () => {
       expect(data.size.x).toEqual(dataPage.qArea.qWidth + dataPage.qArea.qLeft);
       expect(data.size.y).toEqual(1);
     });
+
+    test('should return correct data size in snapshot mode', () => {
+      const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
+      mockedExtractTop.mockReturnValue(mockedReturnValue);
+      const data = createTopDimensionData(dataPage, qHyperCube, true);
+
+      expect(data.size.x).toEqual(dataPage.qArea.qWidth);
+    });
   });
 
   describe('add page to', () => {
     test('should add page to data', () => {
       const nextTop = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(nextTop);
-      const data = createTopDimensionData(dataPage, qHyperCube);
+      const data = createTopDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {
         qTop: [{}],
         qArea: {
@@ -62,7 +70,7 @@ describe('top dimension data', () => {
     test('should return previous page if qLeft is an empty array', () => {
       const nextTop = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(nextTop);
-      const data = createTopDimensionData(dataPage, qHyperCube);
+      const data = createTopDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {
         qTop: [],
         qArea: {
@@ -78,7 +86,7 @@ describe('top dimension data', () => {
     test('should compare width with previous data and return the largest value', () => {
       const nextTop = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(nextTop);
-      const data = createTopDimensionData(dataPage, qHyperCube);
+      const data = createTopDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {
         qTop: [{}],
         qArea: {

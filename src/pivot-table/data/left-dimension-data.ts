@@ -9,7 +9,7 @@ export const addPageToLeftDimensionData = (prevData: LeftDimensionData, nextData
   } = nextDataPage;
   if (!qLeft.length) return prevData;
 
-  const grid = extractLeftGrid(prevData.grid, qLeft, qArea);
+  const grid = extractLeftGrid(prevData.grid, qLeft, qArea, false);
   const data = grid.map(col => col.filter(cell => typeof cell !== 'undefined'));
   const height = Math.max(prevData.size.y, qArea.qHeight + qArea.qTop);
 
@@ -27,15 +27,16 @@ export const addPageToLeftDimensionData = (prevData: LeftDimensionData, nextData
 export const createLeftDimensionData = (
   dataPage: EngineAPI.INxPivotPage,
   qHyperCube: EngineAPI.IHyperCube,
+  isSnapshot: boolean
   ): LeftDimensionData => {
   const {
     qArea,
-    qLeft
+    qLeft,
   } = dataPage;
   const {
     qEffectiveInterColumnSortOrder,
   } = qHyperCube;
-  const grid = extractLeftGrid([], qLeft, qArea);
+  const grid = extractLeftGrid([], qLeft, qArea, isSnapshot);
   const data = grid.map(col => col.filter(cell => typeof cell !== 'undefined'));
   const dimensionInfoIndexMap = data.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
 
@@ -45,7 +46,7 @@ export const createLeftDimensionData = (
     dimensionInfoIndexMap,
     size: {
       x: data.length,
-      y: qArea.qHeight + qArea.qTop
-      },
+      y: isSnapshot ? qArea.qHeight : qArea.qHeight + qArea.qTop
+    },
   };
 };

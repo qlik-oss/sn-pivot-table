@@ -35,7 +35,7 @@ export function StickyPivotTable({
   layoutService,
   qPivotDataPages,
 }: PivotTableProps): JSX.Element {
-  const { qHyperCube } = layoutService.layout;
+  const { qHyperCube, snapshotData } = layoutService.layout;
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeList[]>([]);
@@ -52,7 +52,7 @@ export function StickyPivotTable({
     hasMoreColumns,
     nextPageHandler,
     moreDataHandler
-  } = useData(qPivotDataPages, qHyperCube);
+  } = useData(qPivotDataPages, qHyperCube, snapshotData);
 
   const dataModel = useDataModel({
     model,
