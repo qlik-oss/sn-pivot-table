@@ -133,6 +133,45 @@ jobs:
               npm publish
             fi
 
+  api-governance:
+    machine:
+      image: ubuntu-2004:current
+    working_directory: ~/project
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Create version.txt
+          command: |
+            set -x
+            if [ -n "${CIRCLE_TAG}" ]; then
+              version=${CIRCLE_TAG#v}
+            else
+              version=$(git describe --tags --abbrev=7 --match "v*")
+              version=${version#v}
+            fi
+            echo "$version" > ./version.txt
+            echo "Building $version"
+      - run:
+          name: Prepare API Compliance
+          command: |
+            docker pull ghcr.io/qlik-download/api-compliance
+            docker create -v /specs --name specs alpine:3.4 /bin/true
+            docker cp ./api-specifications/properties.json specs:/specs
+      - run:
+          name: Run API Compliance
+          command: >
+            VER=$(cat ./version.txt)
+            docker run --volumes-from specs
+            -e SPEC_PATHS="9f4d45a7-720d-4eec-b027-1df8fea13ebe@/specs/properties.json"
+            -e COMMIT_SHA="$CIRCLE_SHA1"
+            -e RELEASE_TAG="$VER"
+            -e CREDENTIALS_S3_SECRETKEY="$APICULTURIST_S3"
+            -e CREDENTIALS_GITHUB="$APICULTURIST_GITHUB"
+            -e CREDENTIALS_COLONY="$APICULTURIST_TOKEN"
+            ghcr.io/qlik-download/api-compliance
+
 workflows:
   version: 2
   build-all:
@@ -171,3 +210,12 @@ workflows:
             branches:
               only:
                 - main
+      - api-governance:
+          context: api-compliance
+          filters:
+            branches:
+              # Forked pull requests have CIRCLE_BRANCH set to pull/XXX
+              ignore: /pull\/[0-9]+/
+            tags:
+              only:
+                - /v.*/
