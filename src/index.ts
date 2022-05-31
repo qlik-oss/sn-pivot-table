@@ -1,4 +1,4 @@
-import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections, useTheme, useMemo, onTakeSnapshot } from '@nebula.js/stardust';
+import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections, useTheme, useMemo } from '@nebula.js/stardust';
 import initialProperties from './qae/initial-properties';
 import data from './qae/data-definition';
 import ext from './ext';
@@ -34,11 +34,11 @@ export default function supernova(env: Galaxy) {
       const theme = useTheme() as ExtendedTheme;
       const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
 
-      rect = useSnapshot({ layoutService, viewService, rect });
+      rect = useSnapshot({ layoutService, viewService, rect, model });
 
       useEffect(() => {
         if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService && styleService) {
-          console.debug(layoutService.layout.title, { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, styleService });
+          // console.debug(layoutService.layout.title, { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, styleService });
           render(element, {
             model,
             rect,

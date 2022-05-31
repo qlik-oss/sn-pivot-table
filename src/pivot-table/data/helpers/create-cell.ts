@@ -6,13 +6,14 @@ const createCell = (
   root: Cell | null,
   x: number,
   y: number,
+  isSnapshot: boolean,
 ): Cell => ({
   ref: node,
   x,
   y,
   parent,
   root,
-  leafCount: node.qUp + node.qDown,
+  leafCount: isSnapshot ? 0 : node.qUp + node.qDown,
   incrementLeafCount() {
     this.leafCount += 1;
     if (parent) {

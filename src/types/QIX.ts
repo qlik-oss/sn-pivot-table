@@ -17,13 +17,6 @@ export enum NxSelectionCellType {
   NX_CELL_LEFT = 'L'
 }
 
-export interface ViewState {
-  gridColumnStartIndex: number;
-  gridRowStartIndex: number;
-  gridWidth: number;
-  gridHeight: number;
-}
-
 type Size = {
   w: number;
   h: number;
@@ -31,7 +24,7 @@ type Size = {
 
 export interface SnapshotData {
   content?: {
-    viewState: ViewState;
+    qPivotDataPages?: EngineAPI.INxPivotPage[];
   },
   object: {
     size: Size

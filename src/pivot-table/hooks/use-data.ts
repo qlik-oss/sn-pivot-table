@@ -4,37 +4,40 @@ import { addPageToTopDimensionData, createTopDimensionData } from '../data/top-d
 import { addPageToMeasureData, createMeasureData } from '../data/measure-data';
 import { addPageToLeftDimensionData, createLeftDimensionData } from '../data/left-dimension-data';
 import createHeadersData from '../data/headers-data';
+import { SnapshotData } from '../../types/QIX';
 
 const useData = (
   qPivotDataPages: EngineAPI.INxPivotPage[],
-  qHyperCube: EngineAPI.IHyperCube
+  qHyperCube: EngineAPI.IHyperCube,
+  snapshotData: SnapshotData | undefined,
 ): Data => {
+  const dataPage = snapshotData?.content?.qPivotDataPages?.[0] ?? qHyperCube.qPivotDataPages[0];
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
   const [moreDataPage, setMoreDataPage] = useState<EngineAPI.INxPivotPage | null>(null);
   const deriveMeasureDataFromProps = useCallback(() => {
-      const newData = createMeasureData(qHyperCube.qPivotDataPages[0]);
+      const newData = createMeasureData(dataPage, !!snapshotData);
       // Resolve qPivotDataPages here as well, otherwise there could be double renders
       return qPivotDataPages.reduce((nextData, page) => addPageToMeasureData(nextData, page), newData);
     },
-    [qHyperCube, qPivotDataPages]
+    [dataPage, qPivotDataPages]
   );
 
   const deriveTopDimensionDataFromProps = useCallback(
     () => {
-      const newData = createTopDimensionData(qHyperCube.qPivotDataPages[0], qHyperCube);
+      const newData = createTopDimensionData(dataPage, qHyperCube, !!snapshotData);
       // Resolve qPivotDataPages here as well, otherwise there could be double renders
       return qPivotDataPages.reduce((nextData, page) => addPageToTopDimensionData(nextData, page), newData);
     },
-    [qHyperCube, qPivotDataPages]
+    [dataPage, qPivotDataPages]
   );
 
   const deriveLeftDimensionDataFromProps = useCallback(
     () => {
-      const newData = createLeftDimensionData(qHyperCube.qPivotDataPages[0], qHyperCube);
+      const newData = createLeftDimensionData(dataPage, qHyperCube, !!snapshotData);
       // Resolve qPivotDataPages here as well, otherwise there could be double renders
       return qPivotDataPages.reduce((nextData, page) => addPageToLeftDimensionData(nextData, page), newData);
     },
-    [qHyperCube, qPivotDataPages]
+    [dataPage, qPivotDataPages]
   );
 
 

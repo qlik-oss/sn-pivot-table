@@ -1,5 +1,5 @@
 import { stardust } from '@nebula.js/stardust';
-import { PivotLayout, ViewState } from './QIX';
+import { PivotLayout } from './QIX';
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -118,7 +118,12 @@ export interface ExtendedTheme extends stardust.Theme {
   name: () => string;
 }
 
-export type ViewService = ViewState
+export interface ViewService {
+  gridColumnStartIndex: number;
+  gridRowStartIndex: number;
+  gridWidth: number;
+  gridHeight: number;
+}
 
 export interface LayoutService {
   layout: PivotLayout,

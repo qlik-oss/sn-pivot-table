@@ -32,14 +32,14 @@ export const addPageToMeasureData = (prevData: MeasureData, nextDataPage: Engine
   };
 };
 
-export const createMeasureData = (dataPage: EngineAPI.INxPivotPage): MeasureData => {
+export const createMeasureData = (dataPage: EngineAPI.INxPivotPage, isSnapshot: boolean): MeasureData => {
   const { qData, qArea } = dataPage;
 
   return {
     data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])].map(row => [...row]),
     size: {
-      x: qArea.qWidth + qArea.qLeft,
-      y: qArea.qHeight + qArea.qTop
+      x: isSnapshot ? qArea.qWidth : qArea.qWidth + qArea.qLeft,
+      y: isSnapshot ? qArea.qHeight : qArea.qHeight + qArea.qTop
     }
   };
 };
