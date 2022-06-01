@@ -1,6 +1,6 @@
 import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections, useTheme, useMemo } from '@nebula.js/stardust';
 import initialProperties from './qae/initial-properties';
-import data from './qae/data-definition';
+import createDataDefinition from './qae/data-definition';
 import ext from './ext';
 import { render, teardown } from './pivot-table/Root';
 import { ExtendedSelections, ExtendedTheme, Galaxy } from './types/types';
@@ -18,7 +18,7 @@ export default function supernova(env: Galaxy) {
       properties: {
         initial: initialProperties,
       },
-      data,
+      data: createDataDefinition(env),
     },
     ext: ext(env),
     component() {
