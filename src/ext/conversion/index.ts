@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign, no-plusplus */
 import conversion from 'qlik-object-conversion';
 import { setValue } from 'qlik-chart-modules';
-import dataDefinition from '../../qae/data-definition';
+import createDataDefinition from '../../qae/data-definition';
 import totalMode from './total-mode';
+import { Galaxy } from '../../types/types';
 
 interface ExportFormat {
   data: unknown[];
@@ -14,96 +15,100 @@ interface PropTree {
   qProperty: EngineAPI.IGenericHyperCubeProperties;
 }
 
-export function importProperties(
-  exportFormat: ExportFormat,
-  initialProperties: EngineAPI.IGenericHyperCubeProperties,
-  extension: unknown,
-  hypercubePath: string): PropTree {
-  // Add color attribute expression
-  const propTree = conversion.hypercube.importProperties({
-    exportFormat,
-    initialProperties,
-    dataDefinition: dataDefinition.targets[0],
-    hypercubePath
-  });
-  const dimensions = (propTree.qProperty?.qHyperCubeDef?.qDimensions || []) as EngineAPI.IHyperCubeDimensionDef[];
-  const numDimensions = dimensions.length;
-  const numMeasures = (propTree.qProperty?.qHyperCubeDef?.qMeasures?.length || 0) as number;
-  let interColSortOrder = (propTree.qProperty?.qHyperCubeDef?.qInterColumnSortOrder || []) as number[];
-  let lastPivotSortOrder: number[] | undefined;
-  let restoreNoOfLeftDims = true;
+export function createImportProperties(env: Galaxy) {
+  const dataDefinition = createDataDefinition(env);
 
-  if (numDimensions + numMeasures === interColSortOrder.length) {
-    // Save hypercube sort order
-    setValue(
-      propTree,
-      'qProperty.qLayoutExclude.quarantine.interColSortOrder',
-      interColSortOrder.concat()
-    );
-  }
-  const pivotInterColSortOrder = propTree?.qProperty?.qLayoutExclude?.quarantine?.pivotInterColSortOrder as number[] || undefined;
-  if (pivotInterColSortOrder) {
-    // Restore pivot sort order
-    interColSortOrder = pivotInterColSortOrder;
-    lastPivotSortOrder = [...pivotInterColSortOrder];
-    setValue(propTree, 'qProperty.qHyperCubeDef.qInterColumnSortOrder', interColSortOrder);
-    delete propTree.qProperty.qLayoutExclude.quarantine.pivotInterColSortOrder;
-  } else {
-    // Reset column sort order as a pivot table doesn not allow a custom sorting order
-    interColSortOrder.length = 0;
-  }
+  return (
+    exportFormat: ExportFormat,
+    initialProperties: EngineAPI.IGenericHyperCubeProperties,
+    extension: unknown,
+    hypercubePath: string): PropTree => {
+    // Add color attribute expression
+    const propTree = conversion.hypercube.importProperties({
+      exportFormat,
+      initialProperties,
+      dataDefinition: dataDefinition.targets[0],
+      hypercubePath
+    });
+    const dimensions = (propTree.qProperty?.qHyperCubeDef?.qDimensions || []) as EngineAPI.IHyperCubeDimensionDef[];
+    const numDimensions = dimensions.length;
+    const numMeasures = (propTree.qProperty?.qHyperCubeDef?.qMeasures?.length || 0) as number;
+    let interColSortOrder = (propTree.qProperty?.qHyperCubeDef?.qInterColumnSortOrder || []) as number[];
+    let lastPivotSortOrder: number[] | undefined;
+    let restoreNoOfLeftDims = true;
 
-  const pseudoShift = +(interColSortOrder.indexOf(-1) > -1); // Shift dimensions if pseudoDim already exists
-  const totalSortLength = numDimensions + pseudoShift;
-  if (totalSortLength > interColSortOrder.length) {
-    // inject dimensions that were added since pivotInterColSortOrder was last saved
-    for (let i = interColSortOrder.length; i < totalSortLength; i++) {
-      if (interColSortOrder.indexOf(i) < 0) {
-        interColSortOrder.push(i - pseudoShift);
-      }
+    if (numDimensions + numMeasures === interColSortOrder.length) {
+      // Save hypercube sort order
+      setValue(
+        propTree,
+        'qProperty.qLayoutExclude.quarantine.interColSortOrder',
+        interColSortOrder.concat()
+      );
     }
-  }
-
-  for (let i = interColSortOrder.length - 1; i >= 0; i--) {
-    // remove dimension indices that no longer exist
-    if (interColSortOrder[i] >= numDimensions) {
-      interColSortOrder.splice(i, 1);
+    const pivotInterColSortOrder = propTree?.qProperty?.qLayoutExclude?.quarantine?.pivotInterColSortOrder as number[] || undefined;
+    if (pivotInterColSortOrder) {
+      // Restore pivot sort order
+      interColSortOrder = pivotInterColSortOrder;
+      lastPivotSortOrder = [...pivotInterColSortOrder];
+      setValue(propTree, 'qProperty.qHyperCubeDef.qInterColumnSortOrder', interColSortOrder);
+      delete propTree.qProperty.qLayoutExclude.quarantine.pivotInterColSortOrder;
+    } else {
+      // Reset column sort order as a pivot table doesn not allow a custom sorting order
+      interColSortOrder.length = 0;
     }
-  }
 
-  if (numMeasures > 1 && interColSortOrder.indexOf(-1) < 0) {
-    // add pseudo index if needed
-    interColSortOrder.push(-1);
-  } else if (numMeasures < 2 && interColSortOrder.indexOf(-1) > -1) {
-    // remove pseudo index if not needed
-    interColSortOrder.splice(interColSortOrder.indexOf(-1), 1);
-  }
-
-  const qNoOfLeftDims = propTree?.qProperty?.qHyperCubeDef?.qNoOfLeftDims ?? -1;
-  if (numDimensions > 0 && qNoOfLeftDims === -1) {
-    // set noOfLeftDims if not initiated
-    setValue(propTree, 'qProperty.qHyperCubeDef.qNoOfLeftDims', numDimensions);
-  }
-
-  // restore noOfLeftDims only if interColSortOrder hasn't changed since the last time it was saved
-  if (lastPivotSortOrder && interColSortOrder && lastPivotSortOrder.length === interColSortOrder.length) {
-    for (let i = 0; i < lastPivotSortOrder.length; i++) {
-      if (lastPivotSortOrder[i] !== interColSortOrder[i]) {
-        restoreNoOfLeftDims = false;
-        break;
+    const pseudoShift = +(interColSortOrder.indexOf(-1) > -1); // Shift dimensions if pseudoDim already exists
+    const totalSortLength = numDimensions + pseudoShift;
+    if (totalSortLength > interColSortOrder.length) {
+      // inject dimensions that were added since pivotInterColSortOrder was last saved
+      for (let i = interColSortOrder.length; i < totalSortLength; i++) {
+        if (interColSortOrder.indexOf(i) < 0) {
+          interColSortOrder.push(i - pseudoShift);
+        }
       }
     }
 
-    if (restoreNoOfLeftDims) {
-      conversion.unquarantineProperty(propTree.qProperty, 'noOfLeftDims');
+    for (let i = interColSortOrder.length - 1; i >= 0; i--) {
+      // remove dimension indices that no longer exist
+      if (interColSortOrder[i] >= numDimensions) {
+        interColSortOrder.splice(i, 1);
+      }
     }
-  }
 
-  conversion.conditionalShow.unquarantine(propTree.qProperty);
-  totalMode.unquarantine(propTree.qProperty);
+    if (numMeasures > 1 && interColSortOrder.indexOf(-1) < 0) {
+      // add pseudo index if needed
+      interColSortOrder.push(-1);
+    } else if (numMeasures < 2 && interColSortOrder.indexOf(-1) > -1) {
+      // remove pseudo index if not needed
+      interColSortOrder.splice(interColSortOrder.indexOf(-1), 1);
+    }
 
-  return propTree;
-}
+    const qNoOfLeftDims = propTree?.qProperty?.qHyperCubeDef?.qNoOfLeftDims ?? -1;
+    if (numDimensions > 0 && qNoOfLeftDims === -1) {
+      // set noOfLeftDims if not initiated
+      setValue(propTree, 'qProperty.qHyperCubeDef.qNoOfLeftDims', numDimensions);
+    }
+
+    // restore noOfLeftDims only if interColSortOrder hasn't changed since the last time it was saved
+    if (lastPivotSortOrder && interColSortOrder && lastPivotSortOrder.length === interColSortOrder.length) {
+      for (let i = 0; i < lastPivotSortOrder.length; i++) {
+        if (lastPivotSortOrder[i] !== interColSortOrder[i]) {
+          restoreNoOfLeftDims = false;
+          break;
+        }
+      }
+
+      if (restoreNoOfLeftDims) {
+        conversion.unquarantineProperty(propTree.qProperty, 'noOfLeftDims');
+      }
+    }
+
+    conversion.conditionalShow.unquarantine(propTree.qProperty);
+    totalMode.unquarantine(propTree.qProperty);
+
+    return propTree;
+  };
+};
 
 
 export function exportProperties(propertyTree: PropTree, hyperCubePath: string): ExportFormat {

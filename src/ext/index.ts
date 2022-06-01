@@ -1,5 +1,5 @@
 import propertyPanelDefinition from './property-panel';
-import { importProperties, exportProperties } from './conversion';
+import { createImportProperties, exportProperties } from './conversion';
 import { Galaxy } from '../types/types';
 
 export default function ext(env: Galaxy): Record<string, unknown> {
@@ -16,7 +16,7 @@ export default function ext(env: Galaxy): Record<string, unknown> {
     },
     usePropertyHandler: 'pivot-data',
     definition: propertyPanelDefinition(env),
-    importProperties,
+    importProperties: createImportProperties(env),
     exportProperties,
   };
 }
