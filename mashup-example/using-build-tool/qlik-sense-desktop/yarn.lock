@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@nebula.js/stardust@2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-2.10.0.tgz#eafaa13949a5684b519e0070dbf26386c632818f"
-  integrity sha512-s7QkuvkUdjBAW4IGdkHb/8K17Iqv9COL9BbZVcgsJYcNh857P1jtb1XCFXi4goz+2a3npA1c9uMjVgO4GOeKPg==
+"@nebula.js/stardust@2.11.0":
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-2.11.0.tgz#8781a96847b2bac7e8fd462124a374229dfe7d6a"
+  integrity sha512-W9qJQr1nenxIjIurPm3A1L/gE3QRdA6M+4MEomNICdPIqa36xSovXfwkisQFfu6t1HHGyhTJ6Mi0Hcz1jihKiw==
   dependencies:
     "@types/qlik-engineapi" "12.67.12"
 
