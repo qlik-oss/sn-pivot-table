@@ -165,7 +165,7 @@ jobs:
             VER=$(cat ./version.txt)
 
             docker run --volumes-from specs
-            -e SPEC_PATHS="9f4d45a7-720d-4eec-b027-1df8fea13ebe@/specs/properties.json"
+            -e SPEC_PATHS="e3863ba0-a48d-4034-8a77-1b00ce8a637d@/specs/properties.json"
             -e COMMIT_SHA="$CIRCLE_SHA1"
             -e RELEASE_TAG="$VER"
             -e CREDENTIALS_S3_SECRETKEY="$APICULTURIST_S3"
