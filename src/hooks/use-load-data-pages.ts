@@ -77,12 +77,13 @@ const getPagesToTheLeft = (viewService: ViewService, maxWidth: number): EngineAP
   return pages;
 };
 
-const shouldFetchAdditionalData = (qLastExpandedPos: EngineAPI.INxCellPosition | undefined) => {
+const shouldFetchAdditionalData = (qLastExpandedPos: EngineAPI.INxCellPosition | undefined, viewService: ViewService) => {
   if (!qLastExpandedPos) {
     return false;
   }
 
-  return qLastExpandedPos.qx >= DEFAULT_PAGE_SIZE || qLastExpandedPos.qy >= DEFAULT_PAGE_SIZE;
+  return viewService.gridColumnStartIndex + viewService.gridWidth >= DEFAULT_PAGE_SIZE
+    || viewService.gridRowStartIndex + viewService.gridHeight >= DEFAULT_PAGE_SIZE;
 };
 
 const useLoadDataPages = (
@@ -100,7 +101,7 @@ const useLoadDataPages = (
   usePromise(async () => {
     if (model && !snapshotData) {
       // If a cell have been expanded. Fetch data to the last scrolled position.
-      if (shouldFetchAdditionalData(qLastExpandedPos)) {
+      if (shouldFetchAdditionalData(qLastExpandedPos, viewService)) {
         const pages = [
           ...getPagesToTheLeft(viewService, qSize.qcx),
           ...getPagesToTheTop(viewService, qSize.qcy)
