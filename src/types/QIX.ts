@@ -47,4 +47,6 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
   snapshotData?: SnapshotData
 }
 
+export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined
+
 export default NxDimCellType;

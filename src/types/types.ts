@@ -3,9 +3,9 @@ import { PivotLayout } from './QIX';
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
-export type FetchNextPage = (isRow: boolean, startIndex: number) => void;
+export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
-export type FetchMoreData = (left: number, top: number, width: number, height: number) => void;
+export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<boolean>;
 
 export interface Rect {
   width: number;
