@@ -78,7 +78,7 @@ describe('useData', () => {
 
     mockedCreateHeadersData.mockReturnValue(headersData);
 
-    qPivotDataPages = [{}];
+    qPivotDataPages = [{} as EngineAPI.INxPivotPage];
     qHyperCube = {
       qPivotDataPages: [],
       qSize: { qcx: 10, qcy: 20 }
