@@ -5,7 +5,7 @@ import ext from './ext';
 import { render, teardown } from './pivot-table/Root';
 import { ExtendedSelections, ExtendedTheme, Galaxy } from './types/types';
 import useViewService from './hooks/use-view-service';
-import { PivotLayout } from './types/QIX';
+import { Model, PivotLayout } from './types/QIX';
 import useLayoutService from './hooks/use-layout-service';
 import useLoadDataPages from './hooks/use-load-data-pages';
 import createStyleService from './services/style-service';
@@ -24,7 +24,7 @@ export default function supernova(env: Galaxy) {
     component() {
       const element = useElement();
       const layout = useStaleLayout() as PivotLayout;
-      const model = useModel();
+      const model = useModel() as Model;
       let rect = useRect();
       const constraints = useConstraints();
       const viewService = useViewService();

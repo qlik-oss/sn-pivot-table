@@ -13,6 +13,7 @@ import DataGrid from './grids/DataGrid';
 import useColumnWidth from '../hooks/use-column-width';
 import useDataModel from '../hooks/use-data-model';
 import useData from '../hooks/use-data';
+import { Model } from '../../types/QIX';
 
 export interface PivotTableProps {
   rect: Rect;
@@ -20,7 +21,7 @@ export interface PivotTableProps {
   viewService: ViewService;
   layoutService: LayoutService;
   qPivotDataPages: EngineAPI.INxPivotPage[];
-  model: EngineAPI.IGenericObject,
+  model: Model,
 }
 
 const DEFAULT_ROW_HEIGHT = 28;

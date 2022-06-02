@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { onTakeSnapshot, stardust } from '@nebula.js/stardust';
 import { Q_PATH } from '../constants';
-import { SnapshotLayout } from '../types/QIX';
+import { Model, SnapshotLayout } from '../types/QIX';
 import { LayoutService, ViewService } from '../types/types';
 
 interface UseSnapshotProps {
   layoutService: LayoutService;
   viewService: ViewService;
   rect: stardust.Rect;
-  model: EngineAPI.IGenericObject | undefined;
+  model: Model;
 }
 
 const useSnapshot = ({
@@ -27,8 +27,8 @@ const useSnapshot = ({
     }
 
     if (!copyOfLayout.snapshotData.content) {
-      if (model.getHyperCubePivotData) {
-        const pivotPages = await model.getHyperCubePivotData(Q_PATH, [{
+      if ((model as EngineAPI.IGenericObject)?.getHyperCubePivotData) {
+        const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [{
           qLeft: viewService.gridColumnStartIndex,
           qTop: viewService.gridRowStartIndex,
           qWidth: viewService.gridWidth,
