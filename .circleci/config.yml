@@ -219,6 +219,6 @@ workflows:
               ignore:
                 - /pull\/[0-9]+/
                 - renovate/minor-and-patch
-            # tags:
-            #   only:
-            #     - /v.*/
+            tags:
+              only:
+                - /v.*/
