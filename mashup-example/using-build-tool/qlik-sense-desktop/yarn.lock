@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@nebula.js/stardust@2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-2.12.0.tgz#341a25a258218e4e18798e42772eda3378218280"
-  integrity sha512-8iIEVS6WWfz9IDeD+Z8xPaOysEQoOtfMI40Xb0pjHbwrPwiDICsj5ecEWiOjFXl/EqL8WSCKAFtbMt3QrnosZA==
+"@nebula.js/stardust@2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-2.13.0.tgz#71028476a0c96cab974afb2cc37ee0c1189dc410"
+  integrity sha512-/WyeSWq+4YfgfbCBhbplSkvMZZK7IaHuLMghtWlvJPJ4U+rpT8cn9oaTZ88xGd1D3merkvLFFUaOavj96cywzA==
   dependencies:
     "@types/qlik-engineapi" "12.67.12"
 
@@ -219,10 +219,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-vite@2.9.12:
-  version "2.9.12"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.9.12.tgz#b1d636b0a8ac636afe9d83e3792d4895509a941b"
-  integrity sha512-suxC36dQo9Rq1qMB2qiRorNJtJAdxguu5TMvBHOc/F370KvqAe9t48vYp+/TbPKRNrMh/J55tOUmkuIqstZaew==
+vite@2.9.13:
+  version "2.9.13"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.9.13.tgz#859cb5d4c316c0d8c6ec9866045c0f7858ca6abc"
+  integrity sha512-AsOBAaT0AD7Mhe8DuK+/kE4aWYFMx/i0ZNi98hJclxb4e0OhQcZYUrvLjIaQ8e59Ui7txcvKMiJC1yftqpQoDw==
   dependencies:
     esbuild "^0.14.27"
     postcss "^8.4.13"
