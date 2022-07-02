@@ -13,10 +13,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nebula.js/stardust": "2.12.0",
+    "@nebula.js/stardust": "2.13.0",
     "enigma.js": "2.9.0"
   },
   "devDependencies": {
-    "vite": "2.9.12"
+    "vite": "2.9.13"
   }
 }
