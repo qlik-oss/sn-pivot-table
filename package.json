@@ -45,7 +45,7 @@
     "spec": "scriptappy-from-jsdoc -c ./scriptappy.config.js",
     "prepare": "husky install",
     "preversion": "yarn build",
-    "version": "yarn spec && git add api-specifications"
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && yarn spec && git add api-specifications CHANGELOG.md"
   },
   "devDependencies": {
     "@babel/core": "7.18.13",
@@ -70,6 +70,7 @@
     "@typescript-eslint/eslint-plugin": "5.36.1",
     "@typescript-eslint/parser": "5.36.1",
     "babel-eslint": "10.1.0",
+    "conventional-changelog-cli": "2.2.2",
     "eslint": "8.23.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "17.0.0",
