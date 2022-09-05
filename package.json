@@ -29,7 +29,6 @@
     "node": ">=10"
   },
   "main": "dist/sn-pivot-table.js",
-  "module": "core/esm/index.js",
   "scripts": {
     "build": "node ./scripts/build.js --core --ext",
     "build:dev": "node ./scripts/build.js --core --mode development",
