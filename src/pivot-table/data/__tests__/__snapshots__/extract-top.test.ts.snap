@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`extractTop should extract top data when data tree has a depth of 2 1`] = `
-Array [
-  Array [
-    Object {
+[
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [],
+                "qSubNodes": [],
                 "qType": "E",
                 "qUp": 1,
               },
@@ -34,22 +34,22 @@ Array [
       "x": 0,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [],
+                "qSubNodes": [],
                 "qType": "E",
                 "qUp": 1,
               },
@@ -65,22 +65,22 @@ Array [
       "x": 1,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 6,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 2,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [],
+                "qSubNodes": [],
                 "qType": "E",
                 "qUp": 1,
               },
@@ -88,21 +88,21 @@ Array [
             "qType": "N",
             "qUp": 1,
           },
-          Object {
+          {
             "qDown": 2,
             "qElemNo": 1,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [],
+                "qSubNodes": [],
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [],
+                "qSubNodes": [],
                 "qType": "N",
                 "qUp": 1,
               },
@@ -118,14 +118,14 @@ Array [
       "x": 2,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 2,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -134,26 +134,26 @@ Array [
       "y": 0,
     },
   ],
-  Array [
-    Object {
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 4,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -169,14 +169,14 @@ Array [
         "x": 0,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "E",
             "qUp": 1,
           },
@@ -184,22 +184,22 @@ Array [
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -218,25 +218,25 @@ Array [
       "x": 0,
       "y": 1,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 4,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -252,14 +252,14 @@ Array [
         "x": 1,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "E",
             "qUp": 1,
           },
@@ -267,22 +267,22 @@ Array [
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -301,25 +301,25 @@ Array [
       "x": 1,
       "y": 1,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 4,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -327,21 +327,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -357,14 +357,14 @@ Array [
         "x": 2,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "E",
             "qUp": 1,
           },
@@ -372,22 +372,22 @@ Array [
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -395,21 +395,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -428,25 +428,25 @@ Array [
       "x": 2,
       "y": 1,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 5,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -454,21 +454,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -484,21 +484,21 @@ Array [
         "x": 2,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "N",
             "qUp": 1,
           },
-          Object {
+          {
             "qDown": 2,
             "qElemNo": 1,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "N",
             "qUp": 1,
           },
@@ -506,22 +506,22 @@ Array [
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -529,21 +529,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -563,29 +563,29 @@ Array [
       "y": 1,
     },
   ],
-  Array [
-    Object {
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -601,14 +601,14 @@ Array [
           "x": 0,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "E",
               "qUp": 1,
             },
@@ -616,22 +616,22 @@ Array [
           "qType": "E",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -650,29 +650,29 @@ Array [
         "x": 0,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -691,28 +691,28 @@ Array [
       "x": 0,
       "y": 2,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 1,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -728,14 +728,14 @@ Array [
           "x": 1,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "E",
               "qUp": 1,
             },
@@ -743,22 +743,22 @@ Array [
           "qType": "E",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 1,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -777,29 +777,29 @@ Array [
         "x": 1,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -818,28 +818,28 @@ Array [
       "x": 1,
       "y": 2,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -847,21 +847,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -877,14 +877,14 @@ Array [
           "x": 2,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "E",
               "qUp": 1,
             },
@@ -892,22 +892,22 @@ Array [
           "qType": "N",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -915,21 +915,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -948,29 +948,29 @@ Array [
         "x": 2,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -978,21 +978,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -1011,28 +1011,28 @@ Array [
       "x": 2,
       "y": 2,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 5,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -1040,21 +1040,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -1070,21 +1070,21 @@ Array [
           "x": 2,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
@@ -1092,22 +1092,22 @@ Array [
           "qType": "N",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -1115,21 +1115,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -1148,29 +1148,29 @@ Array [
         "x": 3,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1178,21 +1178,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -1211,28 +1211,28 @@ Array [
       "x": 3,
       "y": 2,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 5,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -1240,21 +1240,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -1270,21 +1270,21 @@ Array [
           "x": 2,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
@@ -1292,22 +1292,22 @@ Array [
           "qType": "N",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -1315,21 +1315,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -1348,29 +1348,29 @@ Array [
         "x": 3,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1378,21 +1378,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -1416,16 +1416,16 @@ Array [
 `;
 
 exports[`extractTop should extract top data when in snapshot mode 1`] = `
-Array [
-  Array [
-    Object {
+[
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -1433,14 +1433,14 @@ Array [
       "x": 0,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -1448,14 +1448,14 @@ Array [
       "x": 1,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 2,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -1463,14 +1463,14 @@ Array [
       "x": 2,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 2,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -1479,26 +1479,26 @@ Array [
       "y": 0,
     },
   ],
-  Array [
-    Object {
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 4,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1514,14 +1514,14 @@ Array [
         "x": 0,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "E",
             "qUp": 1,
           },
@@ -1529,22 +1529,22 @@ Array [
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1563,25 +1563,25 @@ Array [
       "x": 0,
       "y": 1,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 4,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1597,14 +1597,14 @@ Array [
         "x": 1,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "E",
             "qUp": 1,
           },
@@ -1612,22 +1612,22 @@ Array [
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1646,25 +1646,25 @@ Array [
       "x": 1,
       "y": 1,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 4,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1672,21 +1672,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -1702,14 +1702,14 @@ Array [
         "x": 2,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "E",
             "qUp": 1,
           },
@@ -1717,22 +1717,22 @@ Array [
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1740,21 +1740,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -1773,25 +1773,25 @@ Array [
       "x": 2,
       "y": 1,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 5,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1799,21 +1799,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -1829,21 +1829,21 @@ Array [
         "x": 2,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "N",
             "qUp": 1,
           },
-          Object {
+          {
             "qDown": 2,
             "qElemNo": 1,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "N",
             "qUp": 1,
           },
@@ -1851,22 +1851,22 @@ Array [
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -1874,21 +1874,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -1908,29 +1908,29 @@ Array [
       "y": 1,
     },
   ],
-  Array [
-    Object {
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -1946,14 +1946,14 @@ Array [
           "x": 0,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "E",
               "qUp": 1,
             },
@@ -1961,22 +1961,22 @@ Array [
           "qType": "E",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -1995,29 +1995,29 @@ Array [
         "x": 0,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -2036,28 +2036,28 @@ Array [
       "x": 0,
       "y": 2,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 1,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -2073,14 +2073,14 @@ Array [
           "x": 1,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "E",
               "qUp": 1,
             },
@@ -2088,22 +2088,22 @@ Array [
           "qType": "E",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 1,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -2122,29 +2122,29 @@ Array [
         "x": 1,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -2163,28 +2163,28 @@ Array [
       "x": 1,
       "y": 2,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 4,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -2192,21 +2192,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -2222,14 +2222,14 @@ Array [
           "x": 2,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "E",
               "qUp": 1,
             },
@@ -2237,22 +2237,22 @@ Array [
           "qType": "N",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -2260,21 +2260,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -2293,29 +2293,29 @@ Array [
         "x": 2,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "E",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -2323,21 +2323,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -2356,28 +2356,28 @@ Array [
       "x": 2,
       "y": 2,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 5,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -2385,21 +2385,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -2415,21 +2415,21 @@ Array [
           "x": 2,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
@@ -2437,22 +2437,22 @@ Array [
           "qType": "N",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -2460,21 +2460,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -2493,29 +2493,29 @@ Array [
         "x": 3,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -2523,21 +2523,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -2556,28 +2556,28 @@ Array [
       "x": 3,
       "y": 2,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 5,
-        "parent": Object {
+        "parent": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -2585,21 +2585,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -2615,21 +2615,21 @@ Array [
           "x": 2,
           "y": 0,
         },
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 1,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
@@ -2637,22 +2637,22 @@ Array [
           "qType": "N",
           "qUp": 1,
         },
-        "root": Object {
+        "root": {
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
-          "ref": Object {
+          "ref": {
             "qDown": 2,
             "qElemNo": 2,
-            "qSubNodes": Array [
-              Object {
+            "qSubNodes": [
+              {
                 "qDown": 2,
                 "qElemNo": 0,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "E",
                     "qUp": 1,
                   },
@@ -2660,21 +2660,21 @@ Array [
                 "qType": "N",
                 "qUp": 1,
               },
-              Object {
+              {
                 "qDown": 2,
                 "qElemNo": 1,
-                "qSubNodes": Array [
-                  Object {
+                "qSubNodes": [
+                  {
                     "qDown": 2,
                     "qElemNo": 0,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
-                  Object {
+                  {
                     "qDown": 2,
                     "qElemNo": 1,
-                    "qSubNodes": Array [],
+                    "qSubNodes": [],
                     "qType": "N",
                     "qUp": 1,
                   },
@@ -2693,29 +2693,29 @@ Array [
         "x": 3,
         "y": 1,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qDown": 2,
           "qElemNo": 2,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "E",
                   "qUp": 1,
                 },
@@ -2723,21 +2723,21 @@ Array [
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [
-                Object {
+              "qSubNodes": [
+                {
                   "qDown": 2,
                   "qElemNo": 0,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
-                Object {
+                {
                   "qDown": 2,
                   "qElemNo": 1,
-                  "qSubNodes": Array [],
+                  "qSubNodes": [],
                   "qType": "N",
                   "qUp": 1,
                 },
@@ -2761,28 +2761,28 @@ Array [
 `;
 
 exports[`extractTop should extract top data with first node expanded 1`] = `
-Array [
-  Array [
-    Object {
+[
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 5,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qCanCollapse": true,
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [
-          Object {
+        "qSubNodes": [
+          {
             "qDown": 2,
             "qElemNo": 0,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "N",
             "qUp": 1,
           },
-          Object {
+          {
             "qDown": 2,
             "qElemNo": 1,
-            "qSubNodes": Array [],
+            "qSubNodes": [],
             "qType": "N",
             "qUp": 1,
           },
@@ -2794,14 +2794,14 @@ Array [
       "x": 0,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -2809,14 +2809,14 @@ Array [
       "x": 1,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -2824,14 +2824,14 @@ Array [
       "x": 2,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 2,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -2840,30 +2840,30 @@ Array [
       "y": 0,
     },
   ],
-  Array [
-    Object {
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qCanCollapse": true,
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
@@ -2875,33 +2875,33 @@ Array [
         "x": 0,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qCanCollapse": true,
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
@@ -2916,29 +2916,29 @@ Array [
       "x": 0,
       "y": 1,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
-      "parent": Object {
+      "parent": {
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qCanCollapse": true,
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
@@ -2950,33 +2950,33 @@ Array [
         "x": 0,
         "y": 0,
       },
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
-      "root": Object {
+      "root": {
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
-        "ref": Object {
+        "ref": {
           "qCanCollapse": true,
           "qDown": 2,
           "qElemNo": 0,
-          "qSubNodes": Array [
-            Object {
+          "qSubNodes": [
+            {
               "qDown": 2,
               "qElemNo": 0,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
-            Object {
+            {
               "qDown": 2,
               "qElemNo": 1,
-              "qSubNodes": Array [],
+              "qSubNodes": [],
               "qType": "N",
               "qUp": 1,
             },
@@ -2996,16 +2996,16 @@ Array [
 `;
 
 exports[`extractTop should extract top data with no nodes expanded 1`] = `
-Array [
-  Array [
-    Object {
+[
+  [
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 0,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -3013,14 +3013,14 @@ Array [
       "x": 0,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 1,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
@@ -3028,14 +3028,14 @@ Array [
       "x": 1,
       "y": 0,
     },
-    Object {
+    {
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
-      "ref": Object {
+      "ref": {
         "qDown": 2,
         "qElemNo": 2,
-        "qSubNodes": Array [],
+        "qSubNodes": [],
         "qType": "N",
         "qUp": 1,
       },
