@@ -58,7 +58,7 @@
     "@nebula.js/cli-serve": "2.13.0",
     "@playwright/test": "1.25.2",
     "@rollup/plugin-typescript": "8.5.0",
-    "@testing-library/dom": "8.17.1",
+    "@testing-library/dom": "8.18.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "12.1.5",
     "@testing-library/react-hooks": "8.0.1",
