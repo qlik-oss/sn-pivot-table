@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/project
   docker:
-    - image: cimg/node:16.17.0
+    - image: cimg/node:16.17.1
 
 aliases:
   - &restore_yarn_cache
