@@ -3051,25 +3051,25 @@
     fs-extra "10.1.0"
     inquirer "8.2.4"
 
-"@nebula.js/cli-sense@2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli-sense/-/cli-sense-2.13.0.tgz#634024db91571c6c8442462c48f0911c34b2d8a9"
-  integrity sha512-zk1fcq+uN8Wn1hxeokf0Awn9lJlaMRnnz5csWhox2wvGult1pCmQ626C7o1yQ5mBfwg6dzhUwdGt6PnPGDMpHg==
+"@nebula.js/cli-sense@3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli-sense/-/cli-sense-3.0.4.tgz#53ee5c4465911426f5415154461688e0315bda52"
+  integrity sha512-LEpSDyHhXmfHr33XpwuH/v5UGVMvPNe9M05ByOSHv95MKR7GzeooD8mW8n0l23jcAqJcw/BK672p4wtsweGPDA==
   dependencies:
-    "@babel/cli" "7.17.10"
-    "@babel/core" "7.17.10"
-    "@babel/preset-env" "7.17.10"
-    "@nebula.js/stardust" "^2.13.0"
-    "@rollup/plugin-commonjs" "22.0.0"
-    "@rollup/plugin-node-resolve" "13.3.0"
+    "@babel/cli" "7.19.3"
+    "@babel/core" "7.19.3"
+    "@babel/preset-env" "7.19.3"
+    "@nebula.js/stardust" "^3.0.4"
+    "@rollup/plugin-commonjs" "22.0.2"
+    "@rollup/plugin-node-resolve" "14.1.0"
     "@rollup/plugin-replace" "4.0.0"
     extend "3.0.2"
     fs-extra "10.1.0"
     node-event-emitter "0.0.1"
-    rollup "2.72.1"
+    rollup "2.79.1"
     rollup-plugin-babel "4.4.0"
     rollup-plugin-terser "7.0.2"
-    yargs "17.4.1"
+    yargs "17.6.0"
 
 "@nebula.js/cli-serve@2.13.0":
   version "2.13.0"
@@ -3102,10 +3102,10 @@
     import-cwd "3.0.0"
     yargs "17.6.0"
 
-"@nebula.js/stardust@^2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-2.13.0.tgz#71028476a0c96cab974afb2cc37ee0c1189dc410"
-  integrity sha512-/WyeSWq+4YfgfbCBhbplSkvMZZK7IaHuLMghtWlvJPJ4U+rpT8cn9oaTZ88xGd1D3merkvLFFUaOavj96cywzA==
+"@nebula.js/stardust@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-3.0.4.tgz#aabe6ca12b5b7bee3ab437df92e4ab68173621c0"
+  integrity sha512-lBMXkbxVLRC8qKsW4vmyCc4zAAyBthGlcm0z1ZbtwrSQyt53SEtD2vZw/mp5CM5GQZO6mE6bC9ABpAMhUOWRyQ==
   dependencies:
     "@types/qlik-engineapi" "12.67.12"
 
