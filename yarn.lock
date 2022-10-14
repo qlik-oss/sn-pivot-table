@@ -2991,13 +2991,13 @@
     rollup-plugin-terser "7.0.2"
     yargs "17.4.1"
 
-"@nebula.js/cli-create@^2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli-create/-/cli-create-2.13.0.tgz#b45e292453aa8af6f0c882bf698e1a41a34a845e"
-  integrity sha512-1YqZLmJCYwjf++bHClpFCFwpCCiDZrv4WXqwSXmPr02Qao/EZzLp4YZyniHx+KN3MNhOlCRNDejBq2nqR92fug==
+"@nebula.js/cli-create@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli-create/-/cli-create-3.0.4.tgz#858c44c8abd0bb07132465ae2015a8bc5ca2be77"
+  integrity sha512-2v+pl5yQmw0nYIx6oLlZGdUqCmjySaMnEEnlpgpjrc6b60WnmAYVnMAjiQsSpjGfpDjMiu+wRUc0Ig+RHBtf+g==
   dependencies:
     chalk "4.1.2"
-    ejs "3.1.7"
+    ejs "3.1.8"
     fs-extra "10.1.0"
     inquirer "8.2.4"
 
@@ -3043,14 +3043,14 @@
     ws "8.6.0"
     yargs "17.4.1"
 
-"@nebula.js/cli@2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli/-/cli-2.13.0.tgz#356f08f9c8004fd133792f402cc095dcaec2329a"
-  integrity sha512-LhA56j6BOVoab+EbqnlR4N69Ig5I14WwVmI73AHQeAjNX6Ala7BBtX3PE1ogB0v+iBDA8wjGNXDG06g9QtGIAA==
+"@nebula.js/cli@3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli/-/cli-3.0.4.tgz#cbec7aa8b838815a57125033513fd8ba92fda67d"
+  integrity sha512-mE4C5JRPA2vTiafpSIf50C54JmTS0S4iaVDdiASIeE4hGyFMNq9bWiWfDxv7atlwdXSq9fn9FUt+bmH6uUOSUQ==
   dependencies:
-    "@nebula.js/cli-create" "^2.13.0"
+    "@nebula.js/cli-create" "^3.0.4"
     import-cwd "3.0.0"
-    yargs "17.4.1"
+    yargs "17.6.0"
 
 "@nebula.js/stardust@^2.13.0":
   version "2.13.0"
@@ -4811,6 +4811,15 @@ cliui@^7.0.2:
     strip-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
 
+cliui@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/cliui/-/cliui-8.0.1.tgz#0c04b075db02cbfe60dc8e6cf2f5486b1a3608aa"
+  integrity sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==
+  dependencies:
+    string-width "^4.2.0"
+    strip-ansi "^6.0.1"
+    wrap-ansi "^7.0.0"
+
 clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
@@ -5638,10 +5647,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-ejs@3.1.7:
-  version "3.1.7"
-  resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.7.tgz#c544d9c7f715783dd92f0bddcf73a59e6962d006"
-  integrity sha512-BIar7R6abbUxDA3bfXrO4DSgwo8I+fB5/1zgujl3HLLjwd6+9iOnrT+t3grn2qbk9vOgBubXOFwX2m9axoFaGw==
+ejs@3.1.8:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.8.tgz#758d32910c78047585c7ef1f92f9ee041c1c190b"
+  integrity sha512-/sXZeMlhS0ArkfX2Aw780gJzXSMPnKjtspYZv+f3NiKLlubezAHDU5+9xz6gd3/NhG3txQCo6xlglmTS+oTGEQ==
   dependencies:
     jake "^10.8.5"
 
@@ -11956,6 +11965,19 @@ yargs@17.4.1, yargs@^17.3.1:
   integrity sha512-WSZD9jgobAg3ZKuCQZSa3g9QOJeCCqLoLAykiWgmXnDo9EPnn4RPf5qVTtzgOx66o6/oqhcA5tHtJXpG8pMt3g==
   dependencies:
     cliui "^7.0.2"
+    escalade "^3.1.1"
+    get-caller-file "^2.0.5"
+    require-directory "^2.1.1"
+    string-width "^4.2.3"
+    y18n "^5.0.5"
+    yargs-parser "^21.0.0"
+
+yargs@17.6.0:
+  version "17.6.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.0.tgz#e134900fc1f218bc230192bdec06a0a5f973e46c"
+  integrity sha512-8H/wTDqlSwoSnScvV2N/JHfLWOKuh5MVla9hqLjK3nsfyy6Y4kDSYSvkU5YCUEPOSnRXfIyx3Sq+B/IWudTo4g==
+  dependencies:
+    cliui "^8.0.1"
     escalade "^3.1.1"
     get-caller-file "^2.0.5"
     require-directory "^2.1.1"
