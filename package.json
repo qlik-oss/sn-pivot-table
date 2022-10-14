@@ -95,6 +95,6 @@
     "typescript": "4.8.4"
   },
   "peerDependencies": {
-    "@nebula.js/stardust": "2.x"
+    "@nebula.js/stardust": "3.x"
   }
 }
