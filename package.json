@@ -52,7 +52,7 @@
     "@babel/preset-env": "7.19.3",
     "@babel/preset-react": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@nebula.js/cli": "2.13.0",
+    "@nebula.js/cli": "3.0.4",
     "@nebula.js/cli-build": "2.13.0",
     "@nebula.js/cli-sense": "2.13.0",
     "@nebula.js/cli-serve": "2.13.0",
