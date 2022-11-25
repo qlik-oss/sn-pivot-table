@@ -26,7 +26,7 @@
     "sn-pivot-table-ext"
   ],
   "engines": {
-    "node": "^16"
+    "node": ">=16"
   },
   "main": "dist/sn-pivot-table.js",
   "systemjs": "dist/sn-pivot-table.systemjs.js",
