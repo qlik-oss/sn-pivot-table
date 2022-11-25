@@ -26,9 +26,10 @@
     "sn-pivot-table-ext"
   ],
   "engines": {
-    "node": "^16"
+    "node": "^18"
   },
   "main": "dist/sn-pivot-table.js",
+  "systemjs": "dist/sn-pivot-table.systemjs.js",
   "scripts": {
     "build": "node ./scripts/build.js --core --ext",
     "build:dev": "node ./scripts/build.js --core --mode development",
@@ -36,6 +37,7 @@
     "copy:ext": "node ./scripts/copy-ext.js",
     "lint": "eslint src/",
     "start": "nebula serve  --type sn-pivot-table",
+    "start:mfe": "nebula serve --mfe  --type sn-pivot-table",
     "sense": "nebula sense",
     "types:check": "tsc --noEmit",
     "test:unit": "jest --runInBand",
