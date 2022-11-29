@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/project
   docker:
-    - image: cimg/node:16.18.1
+    - image: cimg/node:lts
 
 aliases:
   - &restore_yarn_cache
@@ -67,6 +67,8 @@ jobs:
     <<: *defaults
     docker:
       - image: mcr.microsoft.com/playwright:focal
+    environment:
+      NODE_ENV: development
     steps:
       - attach_workspace:
           at: ~/project
