@@ -3,7 +3,7 @@
   "info": {
     "name": "@nebula.js/sn-pivot-table:properties",
     "description": "Pivot Table generic object definition",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "license": "MIT",
     "stability": "experimental",
     "x-qlik-visibility": "public"

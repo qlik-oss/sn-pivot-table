@@ -1,3 +1,12 @@
+## [1.0.2](https://github.com/qlik-oss/sn-pivot-table/compare/v1.0.1...v1.0.2) (2022-11-30)
+
+
+### Bug Fixes
+
+* remove module from root package.json ([#160](https://github.com/qlik-oss/sn-pivot-table/issues/160)) ([2f39062](https://github.com/qlik-oss/sn-pivot-table/commit/2f390629340fc1547b3a69c503680693de37781d))
+
+
+
 ## [1.0.1](https://github.com/qlik-oss/sn-pivot-table/compare/v1.0.0...v1.0.1) (2022-06-16)
 
 
