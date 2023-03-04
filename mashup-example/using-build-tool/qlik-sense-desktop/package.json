@@ -13,7 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nebula.js/stardust": "3.1.3",
+    "@nebula.js/stardust": "3.2.2",
     "enigma.js": "2.10.0"
   },
   "devDependencies": {
