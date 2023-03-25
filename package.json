@@ -58,7 +58,7 @@
     "@nebula.js/cli-build": "3.3.0",
     "@nebula.js/cli-sense": "3.3.0",
     "@nebula.js/cli-serve": "3.3.0",
-    "@playwright/test": "1.32.0",
+    "@playwright/test": "1.32.1",
     "@rollup/plugin-typescript": "11.0.0",
     "@testing-library/dom": "9.2.0",
     "@testing-library/jest-dom": "5.16.5",
