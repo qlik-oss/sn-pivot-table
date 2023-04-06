@@ -2,9 +2,7 @@ import { useEffect, useMemo } from '@nebula.js/stardust';
 import { createRoot } from 'react-dom/client';
 
 const useReactRoot = (rootElement: HTMLElement) => {
-  const reactRoot = useMemo(() => {
-    return createRoot(rootElement);
-  }, [rootElement]);
+  const reactRoot = useMemo(() => createRoot(rootElement), [rootElement]);
 
   useEffect(() => {
     // Cleanup
