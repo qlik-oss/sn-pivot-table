@@ -2,7 +2,7 @@ import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraint
 import initialProperties from './qae/initial-properties';
 import createDataDefinition from './qae/data-definition';
 import ext from './ext';
-import { render } from './pivot-table/Root';
+import render from './pivot-table/Root';
 import { ExtendedSelections, ExtendedTheme, Galaxy } from './types/types';
 import useViewService from './hooks/use-view-service';
 import { Model, PivotLayout } from './types/QIX';

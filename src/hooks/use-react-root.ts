@@ -4,14 +4,9 @@ import { createRoot } from 'react-dom/client';
 const useReactRoot = (rootElement: HTMLElement) => {
   const reactRoot = useMemo(() => createRoot(rootElement), [rootElement]);
 
-  useEffect(() => {
-    // Cleanup
-    return () => {
-      reactRoot.unmount();
-    }
-  }, [reactRoot]);
+  useEffect(() => () => reactRoot.unmount(), [reactRoot]);
 
   return reactRoot;
-}
+};
 
 export default useReactRoot;
