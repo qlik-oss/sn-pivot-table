@@ -67,7 +67,7 @@ export default function useColumnWidth(
   }, [estimateWidthForContent, measureTextForContent, measureTextForHeader, leftDimensionData.dimensionInfoIndexMap, rect.width, qDimensionInfo, qMeasureInfo, qNoOfLeftDims]);
 
   const getLeftColumnWidth = useCallback(
-    (index) => leftColumnWidthsRatios[index] * rect.width,
+    (index: number) => leftColumnWidthsRatios[index] * rect.width,
     [leftColumnWidthsRatios, rect.width]
   );
 

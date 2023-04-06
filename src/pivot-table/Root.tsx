@@ -5,14 +5,15 @@ import { PivotTableProps, StickyPivotTable } from './components/PivotTable';
 import SelectionsProvider from './contexts/SelectionsProvider';
 import StyleProvider from './contexts/StyleProvider';
 import { ExtendedSelections, StyleService } from '../types/types';
+import { Root } from 'react-dom/client';
 
 interface RootProps extends PivotTableProps {
   selections: ExtendedSelections;
   styleService: StyleService;
 }
 
-export function render(rootElement: Element, props: RootProps): void {
-  ReactDOM.render(
+export function render(reactRoot: Root, props: RootProps): void {
+  reactRoot.render(
     <React.StrictMode>
       <SelectionsProvider selections={props.selections}>
         <StyleProvider styleService={props.styleService}>
@@ -20,9 +21,5 @@ export function render(rootElement: Element, props: RootProps): void {
         </StyleProvider>
       </SelectionsProvider>
     </React.StrictMode>
-  , rootElement);
-}
-
-export function teardown(rootElement: Element): void {
-  ReactDOM.unmountComponentAtNode(rootElement);
+  );
 }
