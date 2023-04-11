@@ -2,7 +2,7 @@
 import { useCallback, useMemo } from "react";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../../constants";
 import { Model } from "../../types/QIX";
-import { DataModel, ExpandOrCollapser, FetchMoreData, FetchNextPage, Point, ViewService } from "../../types/types";
+import { DataModel, ExpandOrCollapser, FetchMoreData, FetchNextPage, Point } from "../../types/types";
 
 const getNextPage = (qLeft: number, qTop: number) => ({
   qLeft,
@@ -18,7 +18,6 @@ interface UseDataModelProps {
   hasMoreRows: boolean;
   hasMoreColumns: boolean;
   size: Point;
-  viewService: ViewService;
 }
 
 export default function useDataModel({
@@ -28,7 +27,6 @@ export default function useDataModel({
   hasMoreRows,
   hasMoreColumns,
   size,
-  viewService,
 }: UseDataModelProps): DataModel {
   const ref = useMemo(() => ({ isLoading: false }), []);
   const genericObjectModel = model as EngineAPI.IGenericObject | undefined;
@@ -89,7 +87,7 @@ export default function useDataModel({
         return false;
       }
     },
-    [genericObjectModel, ref, viewService, size.x, size.y, hasMoreRows, hasMoreColumns]
+    [genericObjectModel, ref, hasMoreRows, hasMoreColumns, size.y, size.x, nextPageHandler]
   );
 
   const fetchMoreData = useCallback<FetchMoreData>(
@@ -117,7 +115,7 @@ export default function useDataModel({
         return false;
       }
     },
-    [genericObjectModel, ref, size.x, size.y]
+    [genericObjectModel, moreDataHandler, ref, size.x, size.y]
   );
 
   const dataModel = useMemo<DataModel>(

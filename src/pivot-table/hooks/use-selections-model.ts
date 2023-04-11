@@ -17,6 +17,7 @@ export interface SelectedPivotCell {
 }
 
 export default function useSelectionsModel(selections: ExtendedSelections): SelectionModel {
+  const isActive = selections.isActive();
   const [selected, setSelected] = useState<SelectedPivotCell[]>([]);
 
   useEffect(() => {
@@ -58,9 +59,9 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
   );
 
   const select = useCallback(
-    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => {
+    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => async () => {
       if (!selections.isActive()) {
-        selections.begin([Q_PATH]);
+        await selections.begin([Q_PATH]);
       }
 
       if (isLocked(qType, qRow, qCol)) {
@@ -76,10 +77,12 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
           values.push({ qType, qRow, qCol });
         }
 
-        selections.select({
-          method: "selectPivotCells",
-          params: [Q_PATH, values],
-        });
+        selections
+          .select({
+            method: "selectPivotCells",
+            params: [Q_PATH, values],
+          })
+          .catch(() => {});
 
         return values;
       });
@@ -97,10 +100,10 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
     () => ({
       select,
       isSelected,
-      isActive: selections.isActive(),
+      isActive,
       isLocked,
     }),
-    [select, isSelected, selections.isActive(), isLocked]
+    [select, isSelected, isActive, isLocked]
   );
 
   return model;

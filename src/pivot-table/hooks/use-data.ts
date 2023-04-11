@@ -18,19 +18,19 @@ const useData = (
     const newData = createMeasureData(dataPage, !!snapshotData);
     // Resolve qPivotDataPages here as well, otherwise there could be double renders
     return qPivotDataPages.reduce((nextData, page) => addPageToMeasureData(nextData, page), newData);
-  }, [dataPage, qPivotDataPages]);
+  }, [dataPage, qPivotDataPages, snapshotData]);
 
   const deriveTopDimensionDataFromProps = useCallback(() => {
     const newData = createTopDimensionData(dataPage, qHyperCube, !!snapshotData);
     // Resolve qPivotDataPages here as well, otherwise there could be double renders
     return qPivotDataPages.reduce((nextData, page) => addPageToTopDimensionData(nextData, page), newData);
-  }, [dataPage, qPivotDataPages]);
+  }, [dataPage, qHyperCube, qPivotDataPages, snapshotData]);
 
   const deriveLeftDimensionDataFromProps = useCallback(() => {
     const newData = createLeftDimensionData(dataPage, qHyperCube, !!snapshotData);
     // Resolve qPivotDataPages here as well, otherwise there could be double renders
     return qPivotDataPages.reduce((nextData, page) => addPageToLeftDimensionData(nextData, page), newData);
-  }, [dataPage, qPivotDataPages]);
+  }, [dataPage, qHyperCube, qPivotDataPages, snapshotData]);
 
   const [measureData, setMeasureData] = useState<MeasureData>(() => deriveMeasureDataFromProps());
   const [topDimensionData, setTopDimensionData] = useState<TopDimensionData>(() => deriveTopDimensionDataFromProps());

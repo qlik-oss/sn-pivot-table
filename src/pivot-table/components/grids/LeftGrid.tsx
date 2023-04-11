@@ -47,7 +47,7 @@ const getItemSizeCallback = (list: Cell[]) => (rowIndex: number) => {
   return DEFAULT_ROW_HEIGHT;
 };
 
-function LeftGrid({
+const LeftGrid = ({
   dataModel,
   leftGridRef,
   getLeftColumnWidth,
@@ -57,32 +57,16 @@ function LeftGrid({
   getScrollTop,
   layoutService,
   leftDimensionData,
-}: LeftGridProps): JSX.Element | null {
-  if (leftDimensionData.size.x === 0) {
-    return null;
-  }
-
+}: LeftGridProps): JSX.Element | null => {
   const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
 
   const { qDimensionInfo } = layoutService.layout.qHyperCube;
-
-  // useDebug('LeftGrid', {
-  //   dataModel,
-  //   leftGridRef,
-  //   getLeftColumnWidth,
-  //   width,
-  //   height,
-  //   constraints,
-  //   getScrollTop,
-  //   layoutService,
-  //   leftDimensionData
-  // });
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {
       leftGridRef.current.forEach((list) => list?.resetAfterIndex(0));
     }
-  }, [dataModel, width, height, leftDimensionData]);
+  }, [dataModel, width, height, leftDimensionData, leftGridRef]);
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {
@@ -99,6 +83,10 @@ function LeftGrid({
     }
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
+
+  if (leftDimensionData.size.x === 0) {
+    return null;
+  }
 
   return (
     <div style={containerStyle}>
@@ -126,6 +114,6 @@ function LeftGrid({
       ))}
     </div>
   );
-}
+};
 
 export default memo(LeftGrid);

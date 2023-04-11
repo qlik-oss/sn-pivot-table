@@ -6,7 +6,6 @@ import { Cell, DataModel, LayoutService, TopDimensionData } from "../../../types
 import ListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import setListRef from "../helpers/set-list-ref";
-// import useDebug from '../../hooks/use-debug';
 import { gridBorderStyle } from "../shared-styles";
 
 interface TopGridProps {
@@ -31,7 +30,7 @@ const bottomListStyle: React.CSSProperties = {
   ...gridBorderStyle,
 };
 
-function TopGrid({
+const TopGrid = ({
   dataModel,
   topGridRef,
   getMeasureInfoWidth,
@@ -42,34 +41,16 @@ function TopGrid({
   getScrollLeft,
   layoutService,
   topDimensionData,
-}: TopGridProps): JSX.Element | null {
-  if (topDimensionData.size.y === 0) {
-    // An empty top grid needs to occupy space to properly render headers given there is no top data
-    return <div style={{ width, height, ...bottomListStyle }} />;
-  }
-
+}: TopGridProps): JSX.Element | null => {
   const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
 
   const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
-
-  // useDebug('TopGrid', {
-  //   dataModel,
-  //   topGridRef,
-  //   getMeasureInfoWidth,
-  //   rowHightCallback,
-  //   width,
-  //   height,
-  //   constraints,
-  //   getScrollLeft,
-  //   layoutService,
-  //   topDimensionData,
-  // });
 
   useLayoutEffect(() => {
     if (topGridRef.current) {
       topGridRef.current.forEach((list) => list?.resetAfterIndex(0));
     }
-  }, [dataModel, width, height, topDimensionData]);
+  }, [dataModel, width, height, topDimensionData, topGridRef]);
 
   useLayoutEffect(() => {
     if (topGridRef.current) {
@@ -100,6 +81,11 @@ function TopGrid({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
+  if (topDimensionData.size.y === 0) {
+    // An empty top grid needs to occupy space to properly render headers given there is no top data
+    return <div style={{ width, height, ...bottomListStyle }} />;
+  }
+
   return (
     <div>
       {topDimensionData.data.map((list, topRowIndex) => (
@@ -125,6 +111,6 @@ function TopGrid({
       ))}
     </div>
   );
-}
+};
 
 export default memo(TopGrid);

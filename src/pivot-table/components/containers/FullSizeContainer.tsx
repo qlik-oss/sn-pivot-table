@@ -4,17 +4,17 @@ interface FullSizeContainerProps {
   children: JSX.Element;
 }
 
-export default function FullSizeContainer({ width, height, children }: FullSizeContainerProps): JSX.Element {
-  return (
-    <div
-      data-testid="full-size-container"
-      style={{
-        display: "block",
-        width,
-        height,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
+const FullSizeContainer = ({ width, height, children }: FullSizeContainerProps): JSX.Element => (
+  <div
+    data-testid="full-size-container"
+    style={{
+      display: "block",
+      width,
+      height,
+    }}
+  >
+    {children}
+  </div>
+);
+
+export default FullSizeContainer;

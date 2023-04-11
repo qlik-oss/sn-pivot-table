@@ -1,6 +1,8 @@
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo, useRef } from "react";
 
+type MeasureText = (text: string) => TextMetrics;
+
 export interface MeasureTextHook {
   estimateWidth: (length: number) => number;
   measureText: (text: string) => number;
@@ -17,19 +19,19 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
     if (context.current === null) {
       context.current = document.createElement("canvas").getContext("2d");
     }
-  }, [context.current]);
+  }, []);
 
   useMemo(() => {
     if (context.current === null) return;
 
     context.current.font = `${fontSize} ${fontFamily}`;
-  }, [context.current, fontSize, fontFamily]);
+  }, [fontSize, fontFamily]);
 
-  const memoizedMeasureText = useMemo<(t: string) => { width: number }>(() => {
+  const memoizedMeasureText = useMemo<MeasureText | null>(() => {
     if (context.current === null) return null;
 
-    return memoize(context.current.measureText.bind(context.current));
-  }, [context.current, fontSize, fontFamily]);
+    return memoize<MeasureText>(context.current.measureText.bind(context.current));
+  }, []);
 
   const estimateWidth = useCallback(
     (length: number) => {
@@ -37,7 +39,7 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
 
       return memoizedMeasureText(MAGIC_DEFAULT_CHAR).width * length;
     },
-    [context.current, memoizedMeasureText]
+    [memoizedMeasureText]
   );
 
   const measureText = useCallback(
@@ -46,7 +48,7 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
 
       return memoizedMeasureText(text).width + LEEWAY_WIDTH;
     },
-    [context.current, memoizedMeasureText]
+    [memoizedMeasureText]
   );
 
   return { estimateWidth, measureText };

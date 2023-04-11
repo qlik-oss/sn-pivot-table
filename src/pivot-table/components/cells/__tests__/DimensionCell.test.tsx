@@ -14,6 +14,7 @@ import DimensionCell, {
   testIdCollapseIcon,
   testIdExpandIcon,
 } from "../DimensionCell";
+// eslint-disable-next-line jest/no-mocks-import
 import dataModelMock from "./__mocks__/data-model-mock";
 
 jest.mock("../../../contexts/SelectionsProvider");

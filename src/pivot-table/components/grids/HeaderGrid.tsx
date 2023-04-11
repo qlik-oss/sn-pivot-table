@@ -30,7 +30,7 @@ const gridStyle: React.CSSProperties = {
   ...gridBorderStyle,
 };
 
-function HeaderCellFactory({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null {
+const HeaderCellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
   const cell = data.matrix[columnIndex][rowIndex];
 
   if (typeof cell === "string") {
@@ -38,29 +38,17 @@ function HeaderCellFactory({ columnIndex, rowIndex, style, data }: GridCallbackP
   }
 
   return null;
-}
+};
 
-function HeaderGrid({
+const HeaderGrid = ({
   columnWidthCallback,
   height,
   rowHightCallback,
   width,
   headersData,
-}: HeaderGridProps): JSX.Element | null {
-  if (headersData.size.x === 0) {
-    return null;
-  }
-
+}: HeaderGridProps): JSX.Element | null => {
   const headerGridRef = useRef<VariableSizeGrid>(null);
   const MemoizedCellFactory = memo(HeaderCellFactory, areEqual);
-  // useDebug('HeaderGrid', {
-  //   dataModel,
-  //   headerGridRef,
-  //   columnWidthCallback,
-  //   height,
-  //   rowHightCallback,
-  //   width,
-  // });
 
   useLayoutEffect(() => {
     if (headerGridRef.current) {
@@ -73,6 +61,10 @@ function HeaderGrid({
       headerGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }
   }, [width, height]);
+
+  if (headersData.size.x === 0) {
+    return null;
+  }
 
   return (
     <VariableSizeGrid
@@ -93,6 +85,6 @@ function HeaderGrid({
       {MemoizedCellFactory}
     </VariableSizeGrid>
   );
-}
+};
 
 export default memo(HeaderGrid);

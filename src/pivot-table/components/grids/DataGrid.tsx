@@ -27,7 +27,7 @@ type FetchModeData = (
   overscanColumnStopIndex: number,
   overscanRowStartIndex: number,
   overscanRowStopIndex: number
-) => void;
+) => Promise<void>;
 
 const EXPONENT = 2;
 
@@ -52,7 +52,7 @@ const isMissingData = (
 };
 
 const debouncedFetchMoreData: FetchModeData = debouncer(
-  (
+  async (
     dataModel: DataModel,
     measureData: MeasureData,
     overscanColumnStartIndex: number,
@@ -75,8 +75,9 @@ const debouncedFetchMoreData: FetchModeData = debouncer(
       overscanRowStartIndex,
       overscanRowStopIndex
     );
+
     if (shouldFetchData) {
-      dataModel.fetchMoreData(
+      await dataModel.fetchMoreData(
         overscanColumnStartIndex,
         overscanRowStartIndex,
         overscanColumnStopIndex - overscanColumnStartIndex + 1,
@@ -87,7 +88,7 @@ const debouncedFetchMoreData: FetchModeData = debouncer(
   150
 );
 
-function DataGrid({
+const DataGrid = ({
   dataModel,
   dataGridRef,
   getMeasureInfoWidth,
@@ -99,38 +100,20 @@ function DataGrid({
   measureData,
   hasMoreRows,
   hasMoreColumns,
-}: DataGridProps): JSX.Element | null {
-  if (measureData.size.x === 0) {
-    return null;
-  }
-
+}: DataGridProps): JSX.Element | null => {
   const MemoizedDataCell = memo(DataCell, areEqual);
-
-  // useDebug('DataGrid', {
-  //   dataModel,
-  //   dataGridRef,
-  //   getMeasureInfoWidth,
-  //   height,
-  //   rowHightCallback,
-  //   width,
-  //   viewService,
-  //   layoutService,
-  //   measureData,
-  //   hasMoreRows,
-  //   hasMoreColumns
-  // });
 
   useLayoutEffect(() => {
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterColumnIndex(0); // Needs to be re-computed every time the data changes
     }
-  }, [dataModel, measureData]);
+  }, [dataGridRef, dataModel, measureData]);
 
   useLayoutEffect(() => {
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }
-  }, [width, height, measureData]);
+  }, [width, height, measureData, dataGridRef]);
 
   // Use a logarithmic value as the threshold should scale with the size of the data. This helps create a smooth scrolling experience where.
   // It should reduce the risk of the scroll hitting the "end" of the scrollable area before new data have been fetch.
@@ -144,7 +127,7 @@ function DataGrid({
   );
 
   const onItemsRendered = useCallback(
-    ({
+    async ({
       overscanColumnStartIndex,
       overscanColumnStopIndex,
       overscanRowStartIndex,
@@ -160,16 +143,16 @@ function DataGrid({
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
       if (hasMoreRows && visibleRowStopIndex >= rowFetchThreshold) {
-        dataModel.fetchNextPage(true, overscanColumnStartIndex);
+        await dataModel.fetchNextPage(true, overscanColumnStartIndex);
         return;
       }
 
       if (hasMoreColumns && visibleColumnStopIndex >= columnFetchThreshold) {
-        dataModel.fetchNextPage(false, overscanRowStartIndex);
+        await dataModel.fetchNextPage(false, overscanRowStartIndex);
         return;
       }
 
-      debouncedFetchMoreData(
+      await debouncedFetchMoreData(
         dataModel,
         measureData,
         overscanColumnStartIndex,
@@ -178,13 +161,17 @@ function DataGrid({
         overscanRowStopIndex
       );
     },
-    [dataModel, measureData, columnFetchThreshold, rowFetchThreshold]
+    [viewService, hasMoreRows, rowFetchThreshold, hasMoreColumns, columnFetchThreshold, dataModel, measureData]
   );
 
   const getColumnWidth = useCallback(
     (index: number) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
-    [getMeasureInfoWidth, layoutService.getMeasureInfoIndexFromCellIndex]
+    [getMeasureInfoWidth, layoutService]
   );
+
+  if (measureData.size.x === 0) {
+    return null;
+  }
 
   return (
     <VariableSizeGrid
@@ -208,6 +195,6 @@ function DataGrid({
       {MemoizedDataCell}
     </VariableSizeGrid>
   );
-}
+};
 
 export default memo(DataGrid);

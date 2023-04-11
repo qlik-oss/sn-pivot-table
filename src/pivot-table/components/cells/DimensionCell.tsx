@@ -118,14 +118,7 @@ const createOnCollapse = ({
   };
 };
 
-export default function DimensionCell({
-  cell,
-  rowIndex,
-  colIndex,
-  style,
-  isLeftColumn,
-  data,
-}: DimensionCellProps): JSX.Element {
+const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand, qType } = cell.ref;
   const { constraints = { active: false, passive: false, select: false }, dataModel, layoutService } = data;
   const styleService = useStyleContext();
@@ -190,4 +183,6 @@ export default function DimensionCell({
       </div>
     </div>
   );
-}
+};
+
+export default DimensionCell;

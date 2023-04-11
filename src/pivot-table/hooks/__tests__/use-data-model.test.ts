@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { Q_PATH } from "../../../constants";
 import { Model } from "../../../types/QIX";
-import { Point, ViewService } from "../../../types/types";
+import { Point } from "../../../types/types";
 import useDataModel from "../use-data-model";
 
 describe("useDataModel", () => {
@@ -9,18 +9,11 @@ describe("useDataModel", () => {
   let nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
   let moreDataHandler: (page: EngineAPI.INxPivotPage) => void;
   let size: Point;
-  let viewService: ViewService;
   let hasMoreRows: boolean;
   let hasMoreColumns: boolean;
 
   beforeEach(() => {
     size = { x: 51, y: 62 };
-    viewService = {
-      gridColumnStartIndex: 0,
-      gridRowStartIndex: 1,
-      gridHeight: 10,
-      gridWidth: 20,
-    };
     hasMoreColumns = true;
     hasMoreRows = true;
     model = {
@@ -41,33 +34,37 @@ describe("useDataModel", () => {
 
   test("collapseLeft should call model.collapseLeft with correct parameters", () => {
     const { result } = renderHook(() =>
-      useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+      useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
     );
     result.current.collapseLeft(1, 2);
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect((model as EngineAPI.IGenericObject).collapseLeft).toHaveBeenCalledWith(Q_PATH, 1, 2, false);
   });
 
   test("collapseTop should call model.collapseTop with correct parameters", () => {
     const { result } = renderHook(() =>
-      useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+      useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
     );
     result.current.collapseTop(1, 2);
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect((model as EngineAPI.IGenericObject).collapseTop).toHaveBeenCalledWith(Q_PATH, 1, 2, false);
   });
 
   test("expandLeft should call model.expandLeft with correct parameters", () => {
     const { result } = renderHook(() =>
-      useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+      useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
     );
     result.current.expandLeft(1, 2);
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect((model as EngineAPI.IGenericObject).expandLeft).toHaveBeenCalledWith(Q_PATH, 1, 2, false);
   });
 
   test("expandTop should call model.expandTop with correct parameters", () => {
     const { result } = renderHook(() =>
-      useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+      useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
     );
     result.current.expandTop(1, 2);
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect((model as EngineAPI.IGenericObject).expandTop).toHaveBeenCalledWith(Q_PATH, 1, 2, false);
   });
 
@@ -82,7 +79,7 @@ describe("useDataModel", () => {
       } as unknown as EngineAPI.IGenericBookmark;
 
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchNextPage(false, 2);
 
@@ -93,7 +90,7 @@ describe("useDataModel", () => {
       model = undefined;
 
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchNextPage(false, 2);
 
@@ -103,7 +100,7 @@ describe("useDataModel", () => {
     test("fetchNextPage should call not getHyperCubePivotData when there is no more row data", async () => {
       hasMoreRows = false;
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchNextPage(true, 2);
 
@@ -113,7 +110,7 @@ describe("useDataModel", () => {
     test("fetchNextPage should call not getHyperCubePivotData when there is no more column data", async () => {
       hasMoreColumns = false;
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchNextPage(false, 2);
 
@@ -122,11 +119,12 @@ describe("useDataModel", () => {
 
     test("fetchNextPage should call getHyperCubePivotData to fetch row data", async () => {
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchNextPage(true, 2);
 
       expect(output).toBeTruthy();
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect((model as EngineAPI.IGenericObject).getHyperCubePivotData).toHaveBeenCalledWith(Q_PATH, [
         {
           qLeft: 2,
@@ -139,11 +137,12 @@ describe("useDataModel", () => {
 
     test("fetchNextPage should call getHyperCubePivotData to fetch column data", async () => {
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchNextPage(false, 2);
 
       expect(output).toBeTruthy();
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect((model as EngineAPI.IGenericObject).getHyperCubePivotData).toHaveBeenCalledWith(Q_PATH, [
         {
           qLeft: size.x,
@@ -158,7 +157,7 @@ describe("useDataModel", () => {
       const genericObjectModel = model as EngineAPI.IGenericObject;
       (genericObjectModel.getHyperCubePivotData as jest.Mock).mockRejectedValue(new Error("testing"));
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchNextPage(false, 2);
 
@@ -177,7 +176,7 @@ describe("useDataModel", () => {
       } as unknown as EngineAPI.IGenericBookmark;
 
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchMoreData(1, 2, 10, 20);
 
@@ -186,11 +185,12 @@ describe("useDataModel", () => {
 
     test("fetchMoreData should call getHyperCubePivotData to fetch more data", async () => {
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchMoreData(1, 2, 10, 20);
 
       expect(output).toBeTruthy();
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect((model as EngineAPI.IGenericObject).getHyperCubePivotData).toHaveBeenCalledWith(Q_PATH, [
         {
           qLeft: 1,
@@ -205,11 +205,12 @@ describe("useDataModel", () => {
       size.x = 50;
       size.y = 60;
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchMoreData(40, 50, 50, 50);
 
       expect(output).toBeTruthy();
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect((model as EngineAPI.IGenericObject).getHyperCubePivotData).toHaveBeenCalledWith(Q_PATH, [
         {
           qLeft: 40,
@@ -224,7 +225,7 @@ describe("useDataModel", () => {
       const genericObjectModel = model as EngineAPI.IGenericObject;
       (genericObjectModel.getHyperCubePivotData as jest.Mock).mockRejectedValue(new Error("testing"));
       const { result } = renderHook(() =>
-        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size, viewService })
+        useDataModel({ model, nextPageHandler, moreDataHandler, hasMoreRows, hasMoreColumns, size })
       );
       const output = await result.current.fetchMoreData(1, 2, 10, 20);
 

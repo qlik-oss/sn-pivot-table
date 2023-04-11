@@ -5,9 +5,9 @@ const extractHeaders = (
   rowCount: number,
   dimensionInfoIndex: number[]
 ): (null | string)[][] => {
-  const matrix = Array(dimensionInfoIndex.length)
+  const matrix: (null | string)[][] = Array(dimensionInfoIndex.length)
     .fill(null)
-    .map(() => Array(rowCount).fill(null));
+    .map(() => Array.from({ length: rowCount }, () => null));
 
   dimensionInfoIndex.forEach((dimIndex, colIdx) => {
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {

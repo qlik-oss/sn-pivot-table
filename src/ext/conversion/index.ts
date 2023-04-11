@@ -1,19 +1,9 @@
 /* eslint-disable no-param-reassign, no-plusplus */
 import { setValue } from "qlik-chart-modules";
-import conversion from "qlik-object-conversion";
+import conversion, { ExportFormat, PropTree } from "qlik-object-conversion";
 import createDataDefinition from "../../qae/data-definition";
 import { Galaxy } from "../../types/types";
 import totalMode from "./total-mode";
-
-interface ExportFormat {
-  data: unknown[];
-  properties: EngineAPI.IGenericHyperCubeProperties;
-}
-
-interface PropTree {
-  qChildren: unknown[];
-  qProperty: EngineAPI.IGenericHyperCubeProperties;
-}
 
 export function createImportProperties(env: Galaxy) {
   const dataDefinition = createDataDefinition(env);
@@ -31,10 +21,10 @@ export function createImportProperties(env: Galaxy) {
       dataDefinition: dataDefinition.targets[0],
       hypercubePath,
     });
-    const dimensions = (propTree.qProperty?.qHyperCubeDef?.qDimensions || []) as EngineAPI.IHyperCubeDimensionDef[];
+    const dimensions = propTree.qProperty?.qHyperCubeDef?.qDimensions || [];
     const numDimensions = dimensions.length;
-    const numMeasures = (propTree.qProperty?.qHyperCubeDef?.qMeasures?.length || 0) as number;
-    let interColSortOrder = (propTree.qProperty?.qHyperCubeDef?.qInterColumnSortOrder || []) as number[];
+    const numMeasures = propTree.qProperty?.qHyperCubeDef?.qMeasures?.length || 0;
+    let interColSortOrder = propTree.qProperty?.qHyperCubeDef?.qInterColumnSortOrder || [];
     let lastPivotSortOrder: number[] | undefined;
     let restoreNoOfLeftDims = true;
 
@@ -42,8 +32,7 @@ export function createImportProperties(env: Galaxy) {
       // Save hypercube sort order
       setValue(propTree, "qProperty.qLayoutExclude.quarantine.interColSortOrder", interColSortOrder.concat());
     }
-    const pivotInterColSortOrder =
-      (propTree?.qProperty?.qLayoutExclude?.quarantine?.pivotInterColSortOrder as number[]) || undefined;
+    const pivotInterColSortOrder = propTree?.qProperty?.qLayoutExclude?.quarantine?.pivotInterColSortOrder || undefined;
     if (pivotInterColSortOrder) {
       // Restore pivot sort order
       interColSortOrder = pivotInterColSortOrder;
@@ -102,14 +91,14 @@ export function createImportProperties(env: Galaxy) {
     }
 
     conversion.conditionalShow.unquarantine(propTree.qProperty);
-    totalMode.unquarantine(propTree.qProperty);
+    totalMode.unquarantine(propTree.qProperty as EngineAPI.IGenericHyperCubeProperties);
 
     return propTree;
   };
 }
 
 export function exportProperties(propertyTree: PropTree, hyperCubePath: string): ExportFormat {
-  const exportSortOrder = (propertyTree?.qProperty?.qHyperCubeDef?.qInterColumnSortOrder ?? []) as number[];
+  const exportSortOrder = propertyTree?.qProperty?.qHyperCubeDef?.qInterColumnSortOrder ?? [];
   const pivotSortOrder = exportSortOrder.slice();
   // Remove the pseudo dim
   const pseudoIdx = exportSortOrder.indexOf(-1);
@@ -133,9 +122,7 @@ export function exportProperties(propertyTree: PropTree, hyperCubePath: string):
   conversion.quarantineProperty(expFormat.properties, "qHyperCubeDef.qNoOfLeftDims", "noOfLeftDims");
   delete expFormat.properties.qHyperCubeDef.qNoOfLeftDims;
 
-  const hypercubeInterColSortOrder = expFormat?.properties?.qLayoutExclude?.quarantine?.interColSortOrder as
-    | number[]
-    | undefined;
+  const hypercubeInterColSortOrder = expFormat?.properties?.qLayoutExclude?.quarantine?.interColSortOrder;
   if (hypercubeInterColSortOrder) {
     // Restore hypercube sort order
     interColSortOrder = hypercubeInterColSortOrder;
@@ -151,7 +138,7 @@ export function exportProperties(propertyTree: PropTree, hyperCubePath: string):
   }
 
   conversion.conditionalShow.quarantine(expFormat.properties);
-  totalMode.quarantine(expFormat.properties);
+  totalMode.quarantine(expFormat.properties as EngineAPI.IGenericHyperCubeProperties);
 
   return expFormat;
 }

@@ -63,6 +63,16 @@
       "@qlik/eslint-config/jest",
       "@qlik/eslint-config/playwright"
     ],
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true,
+          "optionalDependencies": false,
+          "peerDependencies": true
+        }
+      ]
+    },
     "root": true
   },
   "devDependencies": {

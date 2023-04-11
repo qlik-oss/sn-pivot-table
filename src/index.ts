@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   useConstraints,
   useEffect,
@@ -44,6 +45,7 @@ export default function supernova(env: Galaxy) {
       const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
       const selections = useSelections() as ExtendedSelections;
       const theme = useTheme() as ExtendedTheme;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
 
       rect = useSnapshot({ layoutService, viewService, rect, model });
@@ -73,6 +75,7 @@ export default function supernova(env: Galaxy) {
         }
       }, [
         model,
+        rect,
         rect?.width,
         rect?.height,
         constraints,

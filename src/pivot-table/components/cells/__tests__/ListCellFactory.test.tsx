@@ -8,6 +8,7 @@ import EmptyCell from "../EmptyCell";
 import ListCellFactory from "../ListCellFactory";
 import PseudoDimensionCell from "../PseudoDimensionCell";
 import TotalsCell from "../TotalsCell";
+// eslint-disable-next-line jest/no-mocks-import
 import dataModelMock from "./__mocks__/data-model-mock";
 
 jest.mock("../DimensionCell");

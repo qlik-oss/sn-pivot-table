@@ -28,14 +28,14 @@ const DEFAULT_ROW_HEIGHT = 28;
 
 const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
 
-export function StickyPivotTable({
+export const StickyPivotTable = ({
   model,
   rect,
   constraints,
   viewService,
   layoutService,
   qPivotDataPages,
-}: PivotTableProps): JSX.Element {
+}: PivotTableProps): JSX.Element => {
   const { qHyperCube, snapshotData } = layoutService.layout;
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
@@ -61,7 +61,6 @@ export function StickyPivotTable({
     moreDataHandler,
     hasMoreRows,
     hasMoreColumns,
-    viewService,
     size: measureData.size,
   });
 
@@ -200,4 +199,4 @@ export function StickyPivotTable({
       </FullSizeContainer>
     </ScrollableContainer>
   );
-}
+};

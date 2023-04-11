@@ -16,7 +16,7 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = "totals-cell";
 
-export default function TotalsCell({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element {
+const TotalsCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
 
@@ -25,4 +25,6 @@ export default function TotalsCell({ cell, style, isLeftColumn }: LabelCellProps
       <div style={{ ...labelTextStyle, ...serviceStyle }}>{cell.ref.qText}</div>
     </div>
   );
-}
+};
+
+export default TotalsCell;

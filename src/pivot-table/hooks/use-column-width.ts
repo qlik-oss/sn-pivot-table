@@ -108,26 +108,27 @@ export default function useColumnWidth(
     );
   }, [qMeasureInfo, estimateWidthForContent, measureTextForHeader, hasPseudoDimOnLeft]);
 
-  const memoizedGetMeasureInfoWidth = useCallback(
-    memoize((measureInfoIndex: number) => {
-      const getWidth = (index: number, includeTitleWidth = true) => {
-        const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo[index];
-        const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
+  const memoizedGetMeasureInfoWidth = useMemo(
+    () =>
+      memoize((measureInfoIndex: number) => {
+        const getWidth = (index: number, includeTitleWidth = true) => {
+          const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo[index];
+          const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
 
-        return Math.max(
-          MIN_COLUMN_WIDTH,
-          availableWidth / measureData.size.x,
-          estimateWidthForContent(qApprMaxGlyphCount),
-          includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
-        );
-      };
+          return Math.max(
+            MIN_COLUMN_WIDTH,
+            availableWidth / measureData.size.x,
+            estimateWidthForContent(qApprMaxGlyphCount),
+            includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
+          );
+        };
 
-      if (hasPseudoDimOnLeft) {
-        return Math.max(...qMeasureInfo.map((m, index) => getWidth(index, false)));
-      }
+        if (hasPseudoDimOnLeft) {
+          return Math.max(...qMeasureInfo.map((m, index) => getWidth(index, false)));
+        }
 
-      return getWidth(measureInfoIndex);
-    }),
+        return getWidth(measureInfoIndex);
+      }),
     [
       rightGridWidth,
       measureData.size.x,

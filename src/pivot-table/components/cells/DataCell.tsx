@@ -36,7 +36,7 @@ const containerStyle: React.CSSProperties = {
 
 export const testId = "measure-cell";
 
-export default function MeasureCell({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null {
+const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
   const { grid, layoutService } = data;
   const cell = grid[rowIndex]?.[columnIndex];
@@ -61,4 +61,6 @@ export default function MeasureCell({ columnIndex, rowIndex, style, data }: Meas
       </div>
     </div>
   );
-}
+};
+
+export default MeasureCell;

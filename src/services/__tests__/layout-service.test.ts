@@ -81,7 +81,7 @@ describe("createLayoutService", () => {
       expect(service.isDimensionLocked("L", 0, 0)).toEqual(false);
     });
 
-    test("should return false when dimension index does not exist", () => {
+    test("should return false when dimension index does not exist for tyoe L", () => {
       layout.qHyperCube.qDimensionInfo = [];
       const service = create();
       expect(service.isDimensionLocked("L", 0, 0)).toEqual(false);
@@ -99,7 +99,7 @@ describe("createLayoutService", () => {
       expect(service.isDimensionLocked("T", 0, 0)).toEqual(false);
     });
 
-    test("should return false when dimension index does not exist", () => {
+    test("should return false when dimension index does not exist for type T", () => {
       layout.qHyperCube.qDimensionInfo = [];
       const service = create();
       expect(service.isDimensionLocked("T", 0, 0)).toEqual(false);
