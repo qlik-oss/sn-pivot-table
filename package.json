@@ -67,6 +67,7 @@
     "@nebula.js/cli-sense": "3.3.0",
     "@nebula.js/cli-serve": "3.3.0",
     "@playwright/test": "1.32.3",
+    "@qlik/prettier-config": "0.1.0",
     "@rollup/plugin-typescript": "11.1.0",
     "@testing-library/dom": "9.2.0",
     "@testing-library/jest-dom": "5.16.5",
@@ -107,5 +108,6 @@
   },
   "peerDependencies": {
     "@nebula.js/stardust": "3.x"
-  }
+  },
+  "prettier": "@qlik/prettier-config"
 }
