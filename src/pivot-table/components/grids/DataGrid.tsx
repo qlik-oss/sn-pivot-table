@@ -170,7 +170,7 @@ function DataGrid({
   }, [dataModel, measureData, columnFetchThreshold, rowFetchThreshold]);
 
   const getColumnWidth = useCallback(
-    (index) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
+    (index: number) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
     [getMeasureInfoWidth, layoutService.getMeasureInfoIndexFromCellIndex]
   );
 

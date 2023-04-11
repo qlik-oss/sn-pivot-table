@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading  */
-import ReactDOM from 'react-dom';
 import React from 'react';
+import { Root } from 'react-dom/client';
 import { PivotTableProps, StickyPivotTable } from './components/PivotTable';
 import SelectionsProvider from './contexts/SelectionsProvider';
 import StyleProvider from './contexts/StyleProvider';
@@ -11,8 +11,8 @@ interface RootProps extends PivotTableProps {
   styleService: StyleService;
 }
 
-export function render(rootElement: Element, props: RootProps): void {
-  ReactDOM.render(
+export default function render(reactRoot: Root, props: RootProps): void {
+  reactRoot.render(
     <React.StrictMode>
       <SelectionsProvider selections={props.selections}>
         <StyleProvider styleService={props.styleService}>
@@ -20,9 +20,5 @@ export function render(rootElement: Element, props: RootProps): void {
         </StyleProvider>
       </SelectionsProvider>
     </React.StrictMode>
-  , rootElement);
-}
-
-export function teardown(rootElement: Element): void {
-  ReactDOM.unmountComponentAtNode(rootElement);
+  );
 }

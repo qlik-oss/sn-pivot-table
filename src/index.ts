@@ -2,7 +2,7 @@ import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraint
 import initialProperties from './qae/initial-properties';
 import createDataDefinition from './qae/data-definition';
 import ext from './ext';
-import { render, teardown } from './pivot-table/Root';
+import render from './pivot-table/Root';
 import { ExtendedSelections, ExtendedTheme, Galaxy } from './types/types';
 import useViewService from './hooks/use-view-service';
 import { Model, PivotLayout } from './types/QIX';
@@ -10,6 +10,7 @@ import useLayoutService from './hooks/use-layout-service';
 import useLoadDataPages from './hooks/use-load-data-pages';
 import createStyleService from './services/style-service';
 import useSnapshot from './hooks/use-snapshot';
+import useReactRoot from './hooks/use-react-root';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {
@@ -23,6 +24,7 @@ export default function supernova(env: Galaxy) {
     ext: ext(env),
     component() {
       const element = useElement();
+      const reactRoot = useReactRoot(element);
       const layout = useStaleLayout() as PivotLayout;
       const model = useModel() as Model;
       let rect = useRect();
@@ -38,8 +40,8 @@ export default function supernova(env: Galaxy) {
 
       useEffect(() => {
         if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService && styleService) {
-          // console.debug(layoutService.layout.title, { qPivotDataPages, selections, constraints, rect, model, viewService, layoutService, styleService });
-          render(element, {
+
+          render(reactRoot, {
             model,
             rect,
             constraints,
@@ -61,11 +63,8 @@ export default function supernova(env: Galaxy) {
         isLoading,
         qPivotDataPages,
         styleService,
+        reactRoot,
       ]);
-
-      useEffect(() => () => {
-          teardown(element);
-        }, []);
     },
   };
 }

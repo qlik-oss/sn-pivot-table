@@ -85,7 +85,7 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
   }, [selections, isLocked]);
 
   const isSelected = useCallback(
-    (qType, qRow, qCol) => !!selected.find(cell => cell.qType === qType && cell.qRow === qRow && cell.qCol === qCol),
+    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => !!selected.find(cell => cell.qType === qType && cell.qRow === qRow && cell.qCol === qCol),
     [selected]
   );
 
