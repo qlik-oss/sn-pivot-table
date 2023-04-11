@@ -1,17 +1,22 @@
-import { stardust } from '@nebula.js/stardust';
-import createStyleService, { DEFAULT_BACKGROUND_COLOR, DEFAULT_FONT_FAMILY, DEFAULT_FONT_SIZE, DEFAULT_TEXT_COLOR } from '../style-service';
+import { stardust } from "@nebula.js/stardust";
+import createStyleService, {
+  DEFAULT_BACKGROUND_COLOR,
+  DEFAULT_FONT_FAMILY,
+  DEFAULT_FONT_SIZE,
+  DEFAULT_TEXT_COLOR,
+} from "../style-service";
 
-describe('style service', () => {
-  const mockedValue = 'resolved value';
+describe("style service", () => {
+  const mockedValue = "resolved value";
   let themeMock: stardust.Theme;
 
   beforeEach(() => {
     themeMock = {
-      getStyle: () => mockedValue
+      getStyle: () => mockedValue,
     } as unknown as stardust.Theme;
   });
 
-  test('should resolve header style', () => {
+  test("should resolve header style", () => {
     const styleService = createStyleService(themeMock);
 
     expect(styleService.header).toEqual({
@@ -21,7 +26,7 @@ describe('style service', () => {
     });
   });
 
-  test('should resolve default header style', () => {
+  test("should resolve default header style", () => {
     themeMock.getStyle = () => undefined;
     const styleService = createStyleService(themeMock);
 
@@ -32,7 +37,7 @@ describe('style service', () => {
     });
   });
 
-  test('should resolve content style', () => {
+  test("should resolve content style", () => {
     const styleService = createStyleService(themeMock);
 
     expect(styleService.content).toEqual({
@@ -42,7 +47,7 @@ describe('style service', () => {
     });
   });
 
-  test('should resolve default content style', () => {
+  test("should resolve default content style", () => {
     themeMock.getStyle = () => undefined;
     const styleService = createStyleService(themeMock);
 
@@ -53,13 +58,13 @@ describe('style service', () => {
     });
   });
 
-  test('should resolve background color', () => {
+  test("should resolve background color", () => {
     const styleService = createStyleService(themeMock);
 
     expect(styleService.backgroundColor).toEqual(mockedValue);
   });
 
-  test('should resolve default background color', () => {
+  test("should resolve default background color", () => {
     themeMock.getStyle = () => undefined;
     const styleService = createStyleService(themeMock);
 

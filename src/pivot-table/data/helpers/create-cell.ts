@@ -1,4 +1,4 @@
-import { Cell } from '../../../types/types';
+import { Cell } from "../../../types/types";
 
 const createCell = (
   node: EngineAPI.INxPivotDimensionCell,
@@ -6,7 +6,7 @@ const createCell = (
   root: Cell | null,
   x: number,
   y: number,
-  isSnapshot: boolean,
+  isSnapshot: boolean
 ): Cell => ({
   ref: node,
   x,

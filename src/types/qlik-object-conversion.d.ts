@@ -1,1 +1,1 @@
-declare module 'qlik-object-conversion';
+declare module "qlik-object-conversion";

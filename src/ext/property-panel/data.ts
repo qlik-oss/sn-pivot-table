@@ -1,17 +1,13 @@
-import { Galaxy } from '../../types/types';
+import { Galaxy } from "../../types/types";
 
 export interface Args {
   properties: EngineAPI.IGenericHyperCubeProperties;
 }
 
-const TOTAL_MODE_OFF = 'TOTAL_OFF';
-const TOTAL_MODE_EXPR = 'TOTAL_EXPR';
+const TOTAL_MODE_OFF = "TOTAL_OFF";
+const TOTAL_MODE_EXPR = "TOTAL_EXPR";
 
-function isTotalsVisible(
-  itemData: EngineAPI.IHyperCubeDimensionDef,
-  _: unknown,
-  args: Args
-): boolean {
+function isTotalsVisible(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown, args: Args): boolean {
   // always visible if qIndentMode is not enabled
   if (!args.properties.qHyperCubeDef.qIndentMode) {
     return true;
@@ -35,140 +31,140 @@ const createData = (env: Galaxy): Record<string, any> => {
   const { translator, anything } = env;
 
   const data = {
-    type: 'items',
-    component: 'pivot-data',
-    translation: 'properties.data',
-    addTranslation: 'Properties.AddData',
+    type: "items",
+    component: "pivot-data",
+    translation: "properties.data",
+    addTranslation: "Properties.AddData",
     items: {
       dimensions: {
-        type: 'array',
-        component: 'dimensions',
-        translation: 'Common.Dimensions',
-        alternativeTranslation: 'properties.alternative.dimensions',
-        ref: 'qHyperCubeDef.qDimensions',
-        disabledRef: 'qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qDimensions',
+        type: "array",
+        component: "dimensions",
+        translation: "Common.Dimensions",
+        alternativeTranslation: "properties.alternative.dimensions",
+        ref: "qHyperCubeDef.qDimensions",
+        disabledRef: "qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qDimensions",
         min: 1,
         allowAdd: true,
         allowRemove: true,
         allowMove: true,
-        addTranslation: 'properties.dimensions.add',
+        addTranslation: "properties.dimensions.add",
         grouped: true,
         items: {
           libraryId: {
-            type: 'string',
-            component: 'library-item',
-            libraryItemType: 'dimension',
-            ref: 'qLibraryId',
-            translation: 'Common.Dimension',
+            type: "string",
+            component: "library-item",
+            libraryItemType: "dimension",
+            ref: "qLibraryId",
+            translation: "Common.Dimension",
             show: (itemData: EngineAPI.IHyperCubeDimensionDef): boolean => !!itemData.qLibraryId,
           },
           inlineDimension: {
-            component: 'inline-dimension',
+            component: "inline-dimension",
             show: (itemData: EngineAPI.IHyperCubeDimensionDef): boolean => !itemData.qLibraryId,
           },
           autoSort: {
-            ref: 'qDef.autoSort',
-            type: 'boolean',
+            ref: "qDef.autoSort",
+            type: "boolean",
             defaultValue: true,
             show: false,
           },
           cId: {
-            ref: 'qDef.cId',
-            type: 'string',
+            ref: "qDef.cId",
+            type: "string",
             show: false,
           },
           nullSuppression: {
-            type: 'boolean',
-            ref: 'qNullSuppression',
+            type: "boolean",
+            ref: "qNullSuppression",
             defaultValue: false,
-            translation: 'properties.dimensions.showNull',
+            translation: "properties.dimensions.showNull",
             inverted: true,
           },
           totalMode: {
-            type: 'string',
-            component: 'switch',
-            translation: 'properties.showTotals',
-            ref: 'qOtherTotalSpec.qTotalMode',
+            type: "string",
+            component: "switch",
+            translation: "properties.showTotals",
+            ref: "qOtherTotalSpec.qTotalMode",
             defaultValue: TOTAL_MODE_OFF,
             trueOption: {
               value: TOTAL_MODE_EXPR,
-              translation: 'properties.on',
+              translation: "properties.on",
             },
             falseOption: {
               value: TOTAL_MODE_OFF,
-              translation: 'properties.off',
+              translation: "properties.off",
             },
-            show: anything.sense?.isUnsupportedFeature?.('totals') ? false : isTotalsVisible,
+            show: anything.sense?.isUnsupportedFeature?.("totals") ? false : isTotalsVisible,
           },
           totalsLabel: {
-            type: 'string',
-            component: 'expression',
-            expressionType: 'StringExpr',
-            ref: 'qTotalLabel',
-            translation: 'properties.totals.label',
-            defaultValue: () => translator.get('Object.Table.Totals'),
+            type: "string",
+            component: "expression",
+            expressionType: "StringExpr",
+            ref: "qTotalLabel",
+            translation: "properties.totals.label",
+            defaultValue: () => translator.get("Object.Table.Totals"),
             show(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown, args: Args): boolean {
               return (
-                !anything.sense?.isUnsupportedFeature?.('totals') &&
+                !anything.sense?.isUnsupportedFeature?.("totals") &&
                 itemData.qOtherTotalSpec?.qTotalMode !== TOTAL_MODE_OFF &&
                 isTotalsVisible(itemData, _, args)
               );
             },
           },
           visibilityCondition: {
-            type: 'string',
-            component: 'expression',
-            ref: 'qCalcCondition.qCond',
-            expression: 'optional',
-            expressionType: 'ValueExpr',
-            translation: 'Object.Table.Columns.VisibilityCondition',
-            defaultValue: { qv: '' },
+            type: "string",
+            component: "expression",
+            ref: "qCalcCondition.qCond",
+            expression: "optional",
+            expressionType: "ValueExpr",
+            translation: "Object.Table.Columns.VisibilityCondition",
+            defaultValue: { qv: "" },
             isExpression(val: string | undefined): boolean {
-              return typeof val === 'string' && val.trim().length > 0;
+              return typeof val === "string" && val.trim().length > 0;
             },
-          }
+          },
         },
       },
       measures: {
-        type: 'array',
-        component: 'measures',
-        translation: 'Common.Measures',
-        ref: 'qHyperCubeDef.qMeasures',
-        disabledRef: 'qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qMeasures',
+        type: "array",
+        component: "measures",
+        translation: "Common.Measures",
+        ref: "qHyperCubeDef.qMeasures",
+        disabledRef: "qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qMeasures",
         min: 1,
         allowAdd: true,
         allowRemove: true,
         allowMove: true,
-        addTranslation: 'properties.measures.add',
+        addTranslation: "properties.measures.add",
         grouped: true,
         items: {
           libraryId: {
-            type: 'string',
-            component: 'library-item',
-            libraryItemType: 'measure',
-            ref: 'qLibraryId',
-            translation: 'Common.Measure',
+            type: "string",
+            component: "library-item",
+            libraryItemType: "measure",
+            ref: "qLibraryId",
+            translation: "Common.Measure",
             show: (itemData: EngineAPI.IHyperCubeMeasureDef): boolean => !!itemData.qLibraryId,
           },
           inlineMeasure: {
-            component: 'inline-measure',
+            component: "inline-measure",
             show: (itemData: EngineAPI.IHyperCubeMeasureDef): boolean => !itemData.qLibraryId,
           },
           autoSort: {
-            ref: 'qDef.autoSort',
-            type: 'boolean',
+            ref: "qDef.autoSort",
+            type: "boolean",
             defaultValue: true,
             show: false,
           },
           cId: {
-            ref: 'qDef.cId',
-            type: 'string',
+            ref: "qDef.cId",
+            type: "string",
             show: false,
           },
           // numberFormatting: TODO
         },
-      }
-    }
+      },
+    },
   };
 
   return data;

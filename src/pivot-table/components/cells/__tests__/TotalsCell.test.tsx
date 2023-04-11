@@ -1,17 +1,17 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import TotalsCell, { testId } from '../TotalsCell';
-import { Cell } from '../../../../types/types';
+import { render, screen } from "@testing-library/react";
+import React from "react";
+import { Cell } from "../../../../types/types";
+import TotalsCell, { testId } from "../TotalsCell";
 
-test('should render',  () => {
+test("should render", () => {
   const style: React.CSSProperties = {
-    position: 'absolute',
-    left: '25px',
-    top: '35px',
-    width: '100px',
-    height: '150px'
+    position: "absolute",
+    left: "25px",
+    top: "35px",
+    width: "100px",
+    height: "150px",
   };
-  const cell = { ref: { qText: 'test' } } as Cell;
+  const cell = { ref: { qText: "test" } } as Cell;
 
   render(<TotalsCell cell={cell} style={style} isLeftColumn={false} />);
 

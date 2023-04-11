@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
-import { Cell } from '../../types/types';
-import createCell from './helpers/create-cell';
+import { Cell } from "../../types/types";
+import createCell from "./helpers/create-cell";
 
 const extractLeftGrid = (
   grid: Cell[][],

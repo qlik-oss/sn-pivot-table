@@ -1,0 +1,12 @@
+.cache/
+dist/
+.DS_Store
+*.html
+sn-pivot-table-ext
+coverage
+node_modules
+mashup-example
+yarn.lock
+test-report
+api-specifications
+CHANGELOG.md

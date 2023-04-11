@@ -1,19 +1,19 @@
-import { stardust } from '@nebula.js/stardust';
-import React, { useRef, useCallback, useLayoutEffect } from 'react';
-import { VariableSizeGrid, VariableSizeList } from 'react-window';
-import { LayoutService, Rect, ViewService } from '../../types/types';
+import { stardust } from "@nebula.js/stardust";
+import React, { useCallback, useLayoutEffect, useRef } from "react";
+import { VariableSizeGrid, VariableSizeList } from "react-window";
+import { LayoutService, Rect, ViewService } from "../../types/types";
 // import useDebug from '../hooks/use-debug';
-import StickyContainer from './containers/StickyContainer';
-import ScrollableContainer from './containers/ScrollableContainer';
-import FullSizeContainer from './containers/FullSizeContainer';
-import HeaderGrid from './grids/HeaderGrid';
-import TopGrid from './grids/TopGrid';
-import LeftGrid from './grids/LeftGrid';
-import DataGrid from './grids/DataGrid';
-import useColumnWidth from '../hooks/use-column-width';
-import useDataModel from '../hooks/use-data-model';
-import useData from '../hooks/use-data';
-import { Model } from '../../types/QIX';
+import { Model } from "../../types/QIX";
+import useColumnWidth from "../hooks/use-column-width";
+import useData from "../hooks/use-data";
+import useDataModel from "../hooks/use-data-model";
+import FullSizeContainer from "./containers/FullSizeContainer";
+import ScrollableContainer from "./containers/ScrollableContainer";
+import StickyContainer from "./containers/StickyContainer";
+import DataGrid from "./grids/DataGrid";
+import HeaderGrid from "./grids/HeaderGrid";
+import LeftGrid from "./grids/LeftGrid";
+import TopGrid from "./grids/TopGrid";
 
 export interface PivotTableProps {
   rect: Rect;
@@ -21,7 +21,7 @@ export interface PivotTableProps {
   viewService: ViewService;
   layoutService: LayoutService;
   qPivotDataPages: EngineAPI.INxPivotPage[];
-  model: Model,
+  model: Model;
 }
 
 const DEFAULT_ROW_HEIGHT = 28;
@@ -52,7 +52,7 @@ export function StickyPivotTable({
     hasMoreRows,
     hasMoreColumns,
     nextPageHandler,
-    moreDataHandler
+    moreDataHandler,
   } = useData(qPivotDataPages, qHyperCube, snapshotData);
 
   const dataModel = useDataModel({
@@ -62,16 +62,15 @@ export function StickyPivotTable({
     hasMoreRows,
     hasMoreColumns,
     viewService,
-    size: measureData.size
+    size: measureData.size,
   });
 
-  const {
-    leftGridWidth,
-    rightGridWidth,
-    getLeftColumnWidth,
-    getMeasureInfoWidth,
-    getTotalWidth,
-  } = useColumnWidth(layoutService, rect, leftDimensionData, measureData);
+  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
+    layoutService,
+    rect,
+    leftDimensionData,
+    measureData
+  );
 
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
@@ -84,24 +83,27 @@ export function StickyPivotTable({
 
   const onScrollHandler = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
-      topGridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollLeft));
+      topGridRef.current.forEach((list) => list?.scrollTo(event.currentTarget.scrollLeft));
     }
 
     if (leftGridRef.current) {
-      leftGridRef.current.forEach(list => list?.scrollTo(event.currentTarget.scrollTop));
+      leftGridRef.current.forEach((list) => list?.scrollTo(event.currentTarget.scrollTop));
     }
 
     if (dataGridRef.current) {
-      dataGridRef.current.scrollTo({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: event.currentTarget.scrollTop });
+      dataGridRef.current.scrollTo({
+        scrollLeft: event.currentTarget.scrollLeft,
+        scrollTop: event.currentTarget.scrollTop,
+      });
     }
 
-    if (typeof currentScrollLeft.current !== 'undefined') {
+    if (typeof currentScrollLeft.current !== "undefined") {
       // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
       // Otherwise it will be out-of-sync with the other rows.
       currentScrollLeft.current = event.currentTarget.scrollLeft;
     }
 
-    if (typeof currentScrollTop.current !== 'undefined') {
+    if (typeof currentScrollTop.current !== "undefined") {
       // Set scrollTop here so that when a left grid is expanded with a new column, scroll that row to scrollTop position.
       // Otherwise it will be out-of-sync with the other columns.
       currentScrollTop.current = event.currentTarget.scrollTop;
@@ -131,13 +133,16 @@ export function StickyPivotTable({
 
   const headerGridHeight = DEFAULT_ROW_HEIGHT * headersData.size.y;
   const leftGridHeight = rect.height - headerGridHeight;
-   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
+  // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
   const topGridHeight = DEFAULT_ROW_HEIGHT * Math.max(topDimensionData.size.y, 1);
   const dataGridHeight = rect.height - topGridHeight;
 
   return (
-    <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints} >
-      <FullSizeContainer width={getTotalWidth()} height={DEFAULT_ROW_HEIGHT * (measureData.size.y + topDimensionData.size.y)}>
+    <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints}>
+      <FullSizeContainer
+        width={getTotalWidth()}
+        height={DEFAULT_ROW_HEIGHT * (measureData.size.y + topDimensionData.size.y)}
+      >
         <StickyContainer
           rect={rect}
           leftColumnsWidth={leftGridWidth}
@@ -196,4 +201,3 @@ export function StickyPivotTable({
     </ScrollableContainer>
   );
 }
-

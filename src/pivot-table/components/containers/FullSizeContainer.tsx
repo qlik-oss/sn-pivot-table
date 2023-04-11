@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface FullSizeContainerProps {
   width: number;
   height: number;
@@ -11,7 +9,7 @@ export default function FullSizeContainer({ width, height, children }: FullSizeC
     <div
       data-testid="full-size-container"
       style={{
-        display: 'block',
+        display: "block",
         width,
         height,
       }}

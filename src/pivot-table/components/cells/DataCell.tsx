@@ -1,8 +1,8 @@
-import React from 'react';
-import NxDimCellType from '../../../types/QIX';
-import { GridItemData } from '../../../types/types';
-import { useStyleContext } from '../../contexts/StyleProvider';
-import { borderStyle, textStyle } from '../shared-styles';
+import React from "react";
+import NxDimCellType from "../../../types/QIX";
+import { GridItemData } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
+import { borderStyle, textStyle } from "../shared-styles";
 
 export interface MeasureCellProps {
   columnIndex: number;
@@ -12,29 +12,29 @@ export interface MeasureCellProps {
 }
 
 const numericStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  height: '100%',
-  ...borderStyle
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  height: "100%",
+  ...borderStyle,
 };
 
 const nilStyle: React.CSSProperties = {
-  alignItems: 'center',
-  backgroundColor: '#f2f2f2',
-  display: 'flex',
-  flexDirection: 'row',
-  height: '100%',
-  backgroundClip: 'padding-box',
-  ...borderStyle
+  alignItems: "center",
+  backgroundColor: "#f2f2f2",
+  display: "flex",
+  flexDirection: "row",
+  height: "100%",
+  backgroundClip: "padding-box",
+  ...borderStyle,
 };
 
 const containerStyle: React.CSSProperties = {
-  color: 'rgb(89, 89, 89)',
-  justifyContent: 'center',
+  color: "rgb(89, 89, 89)",
+  justifyContent: "center",
 };
 
-export const testId = 'measure-cell';
+export const testId = "measure-cell";
 
 export default function MeasureCell({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null {
   const styleService = useStyleContext();
@@ -51,13 +51,13 @@ export default function MeasureCell({ columnIndex, rowIndex, style, data }: Meas
   const isNumeric = isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
     ...(isNull ? nilStyle : numericStyle),
-    justifyContent: isNumeric ? 'flex-end' : 'center',
+    justifyContent: isNumeric ? "flex-end" : "center",
   };
 
   return (
-    <div title={text} style={{...style, ...containerStyle}} data-testid={testId}>
+    <div title={text} style={{ ...style, ...containerStyle }} data-testid={testId}>
       <div style={cellStyle}>
-        <span style={{...textStyle, ...styleService.content}}>{text}</span>
+        <span style={{ ...textStyle, ...styleService.content }}>{text}</span>
       </div>
     </div>
   );

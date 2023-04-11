@@ -1,29 +1,29 @@
-import { stardust } from '@nebula.js/stardust';
-import React from 'react';
-import { render } from '@testing-library/react';
-import ListCellFactory from '../ListCellFactory';
-import { DataModel, Cell, ListItemData, LayoutService } from '../../../../types/types';
-import DimensionCell from '../DimensionCell';
-import EmptyCell from '../EmptyCell';
-import PseudoDimensionCell from '../PseudoDimensionCell';
-import TotalsCell from '../TotalsCell';
-import NxDimCellType from '../../../../types/QIX';
-import dataModelMock from './__mocks__/data-model-mock';
+import { stardust } from "@nebula.js/stardust";
+import { render } from "@testing-library/react";
+import React from "react";
+import NxDimCellType from "../../../../types/QIX";
+import { Cell, DataModel, LayoutService, ListItemData } from "../../../../types/types";
+import DimensionCell from "../DimensionCell";
+import EmptyCell from "../EmptyCell";
+import ListCellFactory from "../ListCellFactory";
+import PseudoDimensionCell from "../PseudoDimensionCell";
+import TotalsCell from "../TotalsCell";
+import dataModelMock from "./__mocks__/data-model-mock";
 
-jest.mock('../DimensionCell');
-jest.mock('../EmptyCell');
-jest.mock('../PseudoDimensionCell');
-jest.mock('../TotalsCell');
+jest.mock("../DimensionCell");
+jest.mock("../EmptyCell");
+jest.mock("../PseudoDimensionCell");
+jest.mock("../TotalsCell");
 
-describe('ListCellFactory', () => {
+describe("ListCellFactory", () => {
   const style: React.CSSProperties = {
-    position: 'absolute',
-    left: '25px',
-    top: '35px',
-    width: '100px',
-    height: '150px'
+    position: "absolute",
+    left: "25px",
+    top: "35px",
+    width: "100px",
+    height: "150px",
   };
-  const qText = 'test value';
+  const qText = "test value";
   let constraints: stardust.Constraints;
   let dataModel: DataModel;
   let data: ListItemData;
@@ -49,7 +49,7 @@ describe('ListCellFactory', () => {
     };
   });
 
-  test('should render dimension cell', () => {
+  test("should render dimension cell", () => {
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
     cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
@@ -57,10 +57,13 @@ describe('ListCellFactory', () => {
 
     render(<ListCellFactory index={0} style={style} data={data} />);
 
-    expect(mockDimensionCell).toHaveBeenCalledWith({ style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false }, {});
+    expect(mockDimensionCell).toHaveBeenCalledWith(
+      { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false },
+      {}
+    );
   });
 
-  test('should render pseudo dimension cell', () => {
+  test("should render pseudo dimension cell", () => {
     const mockPseudoDimensionCell = PseudoDimensionCell as jest.MockedFunction<typeof PseudoDimensionCell>;
     mockPseudoDimensionCell.mockReturnValue(<div />);
     cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_PSEUDO } } as Cell;
@@ -71,7 +74,7 @@ describe('ListCellFactory', () => {
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith({ style, cell, isLeftColumn: false }, {});
   });
 
-  test('should render totals cell', () => {
+  test("should render totals cell", () => {
     const mockedTotalsCell = TotalsCell as jest.MockedFunction<typeof TotalsCell>;
     mockedTotalsCell.mockReturnValue(<div />);
     cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_TOTAL, qElemNo: -1 } } as Cell;
@@ -82,7 +85,7 @@ describe('ListCellFactory', () => {
     expect(mockedTotalsCell).toHaveBeenCalledWith({ cell, style, isLeftColumn: false }, {});
   });
 
-  test('should render empty cell', () => {
+  test("should render empty cell", () => {
     const mockEmptyCell = EmptyCell as jest.MockedFunction<typeof EmptyCell>;
     mockEmptyCell.mockReturnValue(<div />);
     cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_EMPTY } } as Cell;

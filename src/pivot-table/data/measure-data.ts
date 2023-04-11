@@ -1,6 +1,10 @@
-import { MeasureData } from '../../types/types';
+import { MeasureData } from "../../types/types";
 
-const createNewGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotValuePoint[][], nextData: EngineAPI.INxPivotValuePoint[][]) => {
+const createNewGrid = (
+  qArea: EngineAPI.IRect,
+  prevData: EngineAPI.INxPivotValuePoint[][],
+  nextData: EngineAPI.INxPivotValuePoint[][]
+) => {
   const data = [...prevData];
   nextData.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
@@ -15,10 +19,7 @@ const createNewGrid = (qArea: EngineAPI.IRect, prevData: EngineAPI.INxPivotValue
 };
 
 export const addPageToMeasureData = (prevData: MeasureData, nextDataPage: EngineAPI.INxPivotPage): MeasureData => {
-  const {
-    qData,
-    qArea,
-  } = nextDataPage;
+  const { qData, qArea } = nextDataPage;
   if (!qData.length) return prevData;
 
   const data = createNewGrid(qArea, prevData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
@@ -27,8 +28,8 @@ export const addPageToMeasureData = (prevData: MeasureData, nextDataPage: Engine
     data,
     size: {
       x: Math.max(prevData.size.x, qArea.qWidth + qArea.qLeft),
-      y: Math.max(prevData.size.y, qArea.qHeight + qArea.qTop)
-    }
+      y: Math.max(prevData.size.y, qArea.qHeight + qArea.qTop),
+    },
   };
 };
 
@@ -36,10 +37,10 @@ export const createMeasureData = (dataPage: EngineAPI.INxPivotPage, isSnapshot: 
   const { qData, qArea } = dataPage;
 
   return {
-    data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])].map(row => [...row]),
+    data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])].map((row) => [...row]),
     size: {
       x: isSnapshot ? qArea.qWidth : qArea.qWidth + qArea.qLeft,
-      y: isSnapshot ? qArea.qHeight : qArea.qHeight + qArea.qTop
-    }
+      y: isSnapshot ? qArea.qHeight : qArea.qHeight + qArea.qTop,
+    },
   };
 };

@@ -1,6 +1,6 @@
-import React from 'react';
-import { useStyleContext } from '../../contexts/StyleProvider';
-import { borderStyle, textStyle } from '../shared-styles';
+import React from "react";
+import { useStyleContext } from "../../contexts/StyleProvider";
+import { borderStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: string;
@@ -9,10 +9,10 @@ interface LabelCellProps {
 
 const labelTextStyle: React.CSSProperties = {
   ...textStyle,
-  fontStyle: 'italic'
+  fontStyle: "italic",
 };
 
-export const testId = 'title-cell';
+export const testId = "title-cell";
 
 export default function DimensionTitleCell({ cell, style }: LabelCellProps): JSX.Element {
   const styleService = useStyleContext();

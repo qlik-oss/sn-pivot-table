@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 
-import { Galaxy } from '../types/types';
+import { Galaxy } from "../types/types";
 
 interface Config {
-  type: 'rows'|'columns'
+  type: "rows" | "columns";
 }
 
 export default function createDataDefinition(env: Galaxy) {
@@ -12,13 +12,15 @@ export default function createDataDefinition(env: Galaxy) {
   return {
     targets: [
       {
-        path: '/qHyperCubeDef',
+        path: "/qHyperCubeDef",
         dimensions: {
           min: 1,
           max: 1000,
           description(_: unknown, __: unknown, config: Config): string {
             const translationProperty =
-              config && config.type === 'rows' ? 'Visualizations.Descriptions.Row' : 'Visualizations.Descriptions.Column';
+              config && config.type === "rows"
+                ? "Visualizations.Descriptions.Row"
+                : "Visualizations.Descriptions.Column";
             return translator.get(translationProperty);
           },
         },
@@ -26,10 +28,10 @@ export default function createDataDefinition(env: Galaxy) {
           min: 1,
           max: 1000,
           description(): string {
-            return translator.get('Visualizations.Descriptions.Values');
+            return translator.get("Visualizations.Descriptions.Values");
           },
         },
       },
     ],
   };
-};
+}

@@ -1,9 +1,9 @@
-import React, { memo, useLayoutEffect, useRef } from 'react';
-import { VariableSizeGrid, areEqual } from 'react-window';
-import { HeadersData } from '../../../types/types';
-import DimensionTitleCell from '../cells/DimensionTitleCell';
+import React, { memo, useLayoutEffect, useRef } from "react";
+import { areEqual, VariableSizeGrid } from "react-window";
+import { HeadersData } from "../../../types/types";
+import DimensionTitleCell from "../cells/DimensionTitleCell";
 // import useDebug from '../../hooks/use-debug';
-import { gridBorderStyle } from '../shared-styles';
+import { gridBorderStyle } from "../shared-styles";
 
 interface HeaderGridProps {
   columnWidthCallback: (index: number) => number;
@@ -25,20 +25,20 @@ interface GridCallbackProps {
 }
 
 const gridStyle: React.CSSProperties = {
-  overflow: 'hidden',
-  borderWidth: '0px 1px 1px 0px',
-  ...gridBorderStyle
+  overflow: "hidden",
+  borderWidth: "0px 1px 1px 0px",
+  ...gridBorderStyle,
 };
 
 function HeaderCellFactory({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null {
   const cell = data.matrix[columnIndex][rowIndex];
 
-  if (typeof cell === 'string') {
+  if (typeof cell === "string") {
     return <DimensionTitleCell cell={cell} style={style} />;
   }
 
   return null;
-};
+}
 
 function HeaderGrid({
   columnWidthCallback,
@@ -84,13 +84,15 @@ function HeaderGrid({
       rowCount={headersData.size.y}
       rowHeight={rowHightCallback}
       width={width}
-      itemData={{
-        matrix: headersData.data,
-      } as HeaderItemData}
+      itemData={
+        {
+          matrix: headersData.data,
+        } as HeaderItemData
+      }
     >
       {MemoizedCellFactory}
     </VariableSizeGrid>
   );
-};
+}
 
 export default memo(HeaderGrid);

@@ -1,12 +1,12 @@
-import { useCallback, useMemo, useRef } from 'react';
-import { memoize } from 'qlik-chart-modules';
+import { memoize } from "qlik-chart-modules";
+import { useCallback, useMemo, useRef } from "react";
 
 export interface MeasureTextHook {
   estimateWidth: (length: number) => number;
   measureText: (text: string) => number;
 }
 
-const MAGIC_DEFAULT_CHAR = 'M';
+const MAGIC_DEFAULT_CHAR = "M";
 
 const LEEWAY_WIDTH = 25; // Used to make sure there is some leeway in the measurement of a text
 
@@ -15,7 +15,7 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
 
   useMemo(() => {
     if (context.current === null) {
-      context.current = document.createElement('canvas').getContext('2d');
+      context.current = document.createElement("canvas").getContext("2d");
     }
   }, [context.current]);
 
@@ -25,23 +25,29 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
     context.current.font = `${fontSize} ${fontFamily}`;
   }, [context.current, fontSize, fontFamily]);
 
-  const memoizedMeasureText = useMemo<(t: string) => ({ width: number })>(() => {
+  const memoizedMeasureText = useMemo<(t: string) => { width: number }>(() => {
     if (context.current === null) return null;
 
     return memoize(context.current.measureText.bind(context.current));
   }, [context.current, fontSize, fontFamily]);
 
-  const estimateWidth = useCallback((length: number) => {
-    if (context.current === null || memoizedMeasureText === null) return 0;
+  const estimateWidth = useCallback(
+    (length: number) => {
+      if (context.current === null || memoizedMeasureText === null) return 0;
 
-    return memoizedMeasureText(MAGIC_DEFAULT_CHAR).width * length;
-  }, [context.current, memoizedMeasureText]);
+      return memoizedMeasureText(MAGIC_DEFAULT_CHAR).width * length;
+    },
+    [context.current, memoizedMeasureText]
+  );
 
-  const measureText = useCallback((text: string) => {
-    if (context.current === null || memoizedMeasureText === null) return 0;
+  const measureText = useCallback(
+    (text: string) => {
+      if (context.current === null || memoizedMeasureText === null) return 0;
 
-    return memoizedMeasureText(text).width + LEEWAY_WIDTH;
-  }, [context.current, memoizedMeasureText]);
+      return memoizedMeasureText(text).width + LEEWAY_WIDTH;
+    },
+    [context.current, memoizedMeasureText]
+  );
 
   return { estimateWidth, measureText };
 }

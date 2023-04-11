@@ -1,1 +1,1 @@
-declare module 'qlik-chart-modules';
+declare module "qlik-chart-modules";

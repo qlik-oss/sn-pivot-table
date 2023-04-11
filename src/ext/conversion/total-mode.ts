@@ -1,9 +1,9 @@
-import conversion from 'qlik-object-conversion';
+import conversion from "qlik-object-conversion";
 
-const arrayPath = 'qHyperCubeDef.qDimensions';
-const arrayName = 'dimensions';
-const itemPath = 'qOtherTotalSpec.qTotalMode';
-const quarantineName = 'totalMode';
+const arrayPath = "qHyperCubeDef.qDimensions";
+const arrayName = "dimensions";
+const itemPath = "qOtherTotalSpec.qTotalMode";
+const quarantineName = "totalMode";
 
 const totalMode = {
   quarantine(properties: EngineAPI.IGenericHyperCubeProperties): void {
@@ -11,7 +11,7 @@ const totalMode = {
   },
   unquarantine(properties: EngineAPI.IGenericHyperCubeProperties): void {
     conversion.unquarantineArrayProp({ properties, arrayPath, quarantineName, arrayName, itemPath });
-  }
+  },
 };
 
 export default totalMode;

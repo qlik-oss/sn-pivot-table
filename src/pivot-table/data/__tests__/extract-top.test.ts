@@ -1,14 +1,13 @@
-import NxDimCellType from '../../../types/QIX';
-import { Cell } from '../../../types/types';
-import extractTopGrid from '../extract-top';
-import createNodes from './test-helper';
+import NxDimCellType from "../../../types/QIX";
+import { Cell } from "../../../types/types";
+import extractTopGrid from "../extract-top";
+import createNodes from "./test-helper";
 
-describe('extractTop', () => {
+describe("extractTop", () => {
   const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
   const grid = [] as Cell[][];
 
-
-  test('should handle empty qTop array', () => {
+  test("should handle empty qTop array", () => {
     const qTop: EngineAPI.INxPivotDimensionCell[] = [];
 
     const top = extractTopGrid(grid, qTop, qArea, false);
@@ -16,7 +15,7 @@ describe('extractTop', () => {
     expect(top).toHaveLength(0);
   });
 
-  test('should extract top data with no nodes expanded', () => {
+  test("should extract top data with no nodes expanded", () => {
     const colCount = 3;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 
@@ -25,7 +24,7 @@ describe('extractTop', () => {
     expect(top).toMatchSnapshot();
   });
 
-  test('should extract top data with first node expanded', () => {
+  test("should extract top data with first node expanded", () => {
     const colCount = 3;
     const subNodesCount = 2;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
@@ -38,7 +37,7 @@ describe('extractTop', () => {
     expect(top).toMatchSnapshot();
   });
 
-  test('should extract top data when data tree has a depth of 2', () => {
+  test("should extract top data when data tree has a depth of 2", () => {
     const colCount = 3;
     const subNodesCount = 2;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
@@ -57,7 +56,7 @@ describe('extractTop', () => {
     expect(top).toMatchSnapshot();
   });
 
-  test('should extract top data when in snapshot mode', () => {
+  test("should extract top data when in snapshot mode", () => {
     const colCount = 3;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 

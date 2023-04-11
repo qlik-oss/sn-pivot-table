@@ -1,10 +1,9 @@
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 // import useDebug from '../hooks/use-debug';
-import { StyleService } from '../../types/types';
-
+import { StyleService } from "../../types/types";
 
 interface StyleProviderProps {
-  children: JSX.Element | JSX.Element[],
+  children: JSX.Element | JSX.Element[];
   styleService: StyleService;
 }
 
@@ -17,9 +16,5 @@ export const useStyleContext = (): StyleService => useContext(StyleContext);
 export default function StyleProvider({ children, styleService }: StyleProviderProps): JSX.Element {
   // useDebug('StyleProvider', { ...styleService });
 
-  return (
-    <StyleContext.Provider value={styleService}>
-      {children}
-    </StyleContext.Provider>
-  );
+  return <StyleContext.Provider value={styleService}>{children}</StyleContext.Provider>;
 }
