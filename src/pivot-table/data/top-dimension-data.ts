@@ -1,16 +1,16 @@
-import { TopDimensionData } from '../../types/types';
-import extractTopGrid from './extract-top';
-import createDimInfoToIndexMapCallback from './helpers/dimension-info-to-index-map';
+import { TopDimensionData } from "../../types/types";
+import extractTopGrid from "./extract-top";
+import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
 
-export const addPageToTopDimensionData = (prevData: TopDimensionData, nextDataPage: EngineAPI.INxPivotPage): TopDimensionData => {
-  const {
-    qTop,
-    qArea,
-  } = nextDataPage;
+export const addPageToTopDimensionData = (
+  prevData: TopDimensionData,
+  nextDataPage: EngineAPI.INxPivotPage
+): TopDimensionData => {
+  const { qTop, qArea } = nextDataPage;
   if (!qTop.length) return prevData;
 
   const nextGrid = extractTopGrid(prevData.grid, qTop, qArea, false);
-  const nextData = nextGrid.map(row => row.filter(cell => typeof cell !== 'undefined'));
+  const nextData = nextGrid.map((row) => row.filter((cell) => typeof cell !== "undefined"));
   const width = Math.max(prevData.size.x, qArea.qWidth + qArea.qLeft);
 
   return {
@@ -19,8 +19,8 @@ export const addPageToTopDimensionData = (prevData: TopDimensionData, nextDataPa
     grid: nextGrid,
     size: {
       x: width,
-      y: nextData.length
-    }
+      y: nextData.length,
+    },
   };
 };
 
@@ -28,18 +28,14 @@ export const createTopDimensionData = (
   dataPage: EngineAPI.INxPivotPage,
   qHyperCube: EngineAPI.IHyperCube,
   isSnapshot: boolean
-  ): TopDimensionData => {
-  const {
-    qArea,
-    qTop,
-  } = dataPage;
-  const {
-    qEffectiveInterColumnSortOrder,
-    qNoOfLeftDims,
-  } = qHyperCube;
+): TopDimensionData => {
+  const { qArea, qTop } = dataPage;
+  const { qEffectiveInterColumnSortOrder, qNoOfLeftDims } = qHyperCube;
   const grid = extractTopGrid([], qTop, qArea, isSnapshot);
-  const data = grid.map(row => row.filter(cell => typeof cell !== 'undefined'));
-  const dimensionInfoIndexMap = data.map(createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder));
+  const data = grid.map((row) => row.filter((cell) => typeof cell !== "undefined"));
+  const dimensionInfoIndexMap = data.map(
+    createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder)
+  );
 
   return {
     data,
@@ -47,7 +43,7 @@ export const createTopDimensionData = (
     dimensionInfoIndexMap,
     size: {
       x: isSnapshot ? qArea.qWidth : qArea.qWidth + qArea.qLeft,
-      y: data.length
-      },
+      y: data.length,
+    },
   };
 };

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Cell } from '../../../types/types';
-import { useStyleContext } from '../../contexts/StyleProvider';
-import { borderStyle, textStyle } from '../shared-styles';
+import React from "react";
+import { Cell } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
+import { borderStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   style: React.CSSProperties;
@@ -11,12 +11,12 @@ interface LabelCellProps {
 
 const labelTextStyle: React.CSSProperties = {
   ...textStyle,
-  fontWeight: 'bold'
+  fontWeight: "bold",
 };
 
-export const testId = 'totals-cell';
+export const testId = "totals-cell";
 
-export default function TotalsCell({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element {
+const TotalsCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
 
@@ -25,4 +25,6 @@ export default function TotalsCell({ cell, style, isLeftColumn }: LabelCellProps
       <div style={{ ...labelTextStyle, ...serviceStyle }}>{cell.ref.qText}</div>
     </div>
   );
-}
+};
+
+export default TotalsCell;

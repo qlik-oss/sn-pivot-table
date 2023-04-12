@@ -1,14 +1,14 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import EmptyCell, { testId } from '../EmptyCell';
+import { render, screen } from "@testing-library/react";
+import React from "react";
+import EmptyCell, { testId } from "../EmptyCell";
 
-test('should render',  () => {
+test("should render", () => {
   const style: React.CSSProperties = {
-    position: 'absolute',
-    left: '25px',
-    top: '35px',
-    width: '100px',
-    height: '150px'
+    position: "absolute",
+    left: "25px",
+    top: "35px",
+    width: "100px",
+    height: "150px",
   };
 
   render(<EmptyCell style={style} />);

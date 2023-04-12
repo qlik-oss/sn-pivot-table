@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
 
-import { Cell } from '../../types/types';
-import createCell from './helpers/create-cell';
+import { Cell } from "../../types/types";
+import createCell from "./helpers/create-cell";
 
 const extractTopGrid = (
   grid: Cell[][],
   qTop: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage,
-  isSnapshot: boolean,
+  isSnapshot: boolean
 ): Cell[][] => {
   if (!qTop.length) {
     return grid;
@@ -38,7 +38,7 @@ const extractTopGrid = (
         cell.parent?.incrementLeafCount();
       }
     });
-  };
+  }
 
   recursiveExtract(null, null, qTop);
 

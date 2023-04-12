@@ -1,22 +1,22 @@
-import fs from 'fs';
-import path from 'path';
-import serve from '@nebula.js/cli-serve';
-import { test, expect } from '@playwright/test';
+import serve from "@nebula.js/cli-serve";
+import { expect, test } from "@playwright/test";
+import fs from "fs";
+import path from "path";
 
-import events from './utils/events.mjs';
-import createNebulaRoutes from './utils/routes.mjs';
-import createPlaywright from './utils/playwright.mjs';
+import events from "./utils/events.mjs";
+import createPlaywright from "./utils/playwright.mjs";
+import createNebulaRoutes from "./utils/routes.mjs";
 
 const dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const paths = {
-  fixtures: path.resolve(dirname, '__fixtures__'),
+  fixtures: path.resolve(dirname, "__fixtures__"),
 };
 
 // Set a small viewport size to more easily be able to trigger scenarios with "too" long labels
 test.use({ viewport: { width: 720, height: 480 } });
 
-test.describe('sn-pivot-table: Rendering tests', () => {
+test.describe("sn-pivot-table: Rendering tests", () => {
   let nebulaServer;
   let playwright;
   let route;
@@ -25,12 +25,12 @@ test.describe('sn-pivot-table: Rendering tests', () => {
     nebulaServer = await serve({
       // the entry is equal to path.resolve(dirname, '../../dist/sn-pivot-table.js'),
       // so before run the testing, yarn build should run first to generate /dist
-      entry: path.resolve(dirname, '../../'),
-      type: 'sn-pivot-table',
+      entry: path.resolve(dirname, "../../"),
+      type: "sn-pivot-table",
       open: false,
       build: false,
       themes: [],
-      fixturePath: 'test/rendering/__fixtures__',
+      fixturePath: "test/rendering/__fixtures__",
     });
     route = createNebulaRoutes(nebulaServer.url);
   });
@@ -45,7 +45,7 @@ test.describe('sn-pivot-table: Rendering tests', () => {
 
   // Iterate testing fixture files
   fs.readdirSync(paths.fixtures).forEach((file) => {
-    const name = file.replace('.fix.js', '');
+    const name = file.replace(".fix.js", "");
     const fixturePath = `./${file}`;
 
     // Create test case per testing fixture file

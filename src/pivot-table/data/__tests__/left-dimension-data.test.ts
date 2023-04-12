@@ -1,12 +1,12 @@
-import { createLeftDimensionData, addPageToLeftDimensionData } from '../left-dimension-data';
-import extractLeftGrid from '../extract-left';
-import NxDimCellType from '../../../types/QIX';
-import { Cell } from '../../../types/types';
+import NxDimCellType from "../../../types/QIX";
+import { Cell } from "../../../types/types";
+import extractLeftGrid from "../extract-left";
+import { addPageToLeftDimensionData, createLeftDimensionData } from "../left-dimension-data";
 
-jest.mock('../extract-left');
+jest.mock("../extract-left");
 const mockedExtractLeft = extractLeftGrid as jest.MockedFunction<typeof extractLeftGrid>;
 
-describe('left dimension data', () => {
+describe("left dimension data", () => {
   const CELL = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
   const qHyperCube = {
     qEffectiveInterColumnSortOrder: [0],
@@ -15,16 +15,16 @@ describe('left dimension data', () => {
     qLeft: [],
     qArea: {
       qHeight: 1,
-      qTop: 2
-    }
+      qTop: 2,
+    },
   } as unknown as EngineAPI.INxPivotPage;
 
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  describe('create', () => {
-    test('should return correct data', () => {
+  describe("create", () => {
+    test("should return correct data", () => {
       const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(mockedReturnValue);
       const data = createLeftDimensionData(dataPage, qHyperCube, false);
@@ -36,7 +36,7 @@ describe('left dimension data', () => {
       expect(data.size.y).toEqual(dataPage.qArea.qHeight + dataPage.qArea.qTop);
     });
 
-    test('should return correct data size in snapshot mode', () => {
+    test("should return correct data size in snapshot mode", () => {
       const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(mockedReturnValue);
       const data = createLeftDimensionData(dataPage, qHyperCube, true);
@@ -45,8 +45,8 @@ describe('left dimension data', () => {
     });
   });
 
-  describe('add page to', () => {
-    test('should add page to data', () => {
+  describe("add page to", () => {
+    test("should add page to data", () => {
       const nextLeft = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(nextLeft);
       const data = createLeftDimensionData(dataPage, qHyperCube, false);
@@ -54,8 +54,8 @@ describe('left dimension data', () => {
         qLeft: [{}],
         qArea: {
           qHeight: 2,
-          qTop: 3
-        }
+          qTop: 3,
+        },
       } as unknown as EngineAPI.INxPivotPage;
       const nextData = addPageToLeftDimensionData(data, nextDataPage);
 
@@ -66,7 +66,7 @@ describe('left dimension data', () => {
       expect(nextData.size.y).toEqual(nextDataPage.qArea.qHeight + nextDataPage.qArea.qTop);
     });
 
-    test('should return previous page if qLeft is an empty array', () => {
+    test("should return previous page if qLeft is an empty array", () => {
       const nextLeft = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(nextLeft);
       const data = createLeftDimensionData(dataPage, qHyperCube, false);
@@ -74,15 +74,15 @@ describe('left dimension data', () => {
         qLeft: [],
         qArea: {
           qHeight: 2,
-          qTop: 3
-        }
+          qTop: 3,
+        },
       } as unknown as EngineAPI.INxPivotPage;
       const nextData = addPageToLeftDimensionData(data, nextDataPage);
 
       expect(nextData).toBe(data);
     });
 
-    test('should compare height with previous data and return the largest value', () => {
+    test("should compare height with previous data and return the largest value", () => {
       const nextLeft = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractLeft.mockReturnValue(nextLeft);
       const data = createLeftDimensionData(dataPage, qHyperCube, false);
@@ -90,8 +90,8 @@ describe('left dimension data', () => {
         qLeft: [{}],
         qArea: {
           qHeight: 2,
-          qTop: 3
-        }
+          qTop: 3,
+        },
       } as unknown as EngineAPI.INxPivotPage;
       data.size.y = 100;
       const nextData = addPageToLeftDimensionData(data, nextDataPage);

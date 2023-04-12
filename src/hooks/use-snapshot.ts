@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { onTakeSnapshot, stardust } from '@nebula.js/stardust';
-import { Q_PATH } from '../constants';
-import { Model, SnapshotLayout } from '../types/QIX';
-import { LayoutService, ViewService } from '../types/types';
+import { onTakeSnapshot, stardust } from "@nebula.js/stardust";
+import { Q_PATH } from "../constants";
+import { Model, SnapshotLayout } from "../types/QIX";
+import { LayoutService, ViewService } from "../types/types";
 
 interface UseSnapshotProps {
   layoutService: LayoutService;
@@ -11,12 +11,7 @@ interface UseSnapshotProps {
   model: Model;
 }
 
-const useSnapshot = ({
-  layoutService,
-  viewService,
-  rect,
-  model,
-}: UseSnapshotProps): stardust.Rect => {
+const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotProps): stardust.Rect => {
   onTakeSnapshot(async (copyOfLayout: SnapshotLayout) => {
     if (!copyOfLayout.snapshotData) {
       return copyOfLayout;
@@ -28,12 +23,14 @@ const useSnapshot = ({
 
     if (!copyOfLayout.snapshotData.content) {
       if ((model as EngineAPI.IGenericObject)?.getHyperCubePivotData) {
-        const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [{
-          qLeft: viewService.gridColumnStartIndex,
-          qTop: viewService.gridRowStartIndex,
-          qWidth: viewService.gridWidth,
-          qHeight: viewService.gridHeight,
-        }]);
+        const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [
+          {
+            qLeft: viewService.gridColumnStartIndex,
+            qTop: viewService.gridRowStartIndex,
+            qWidth: viewService.gridWidth,
+            qHeight: viewService.gridHeight,
+          },
+        ]);
 
         copyOfLayout.snapshotData.content = {
           qPivotDataPages: pivotPages,

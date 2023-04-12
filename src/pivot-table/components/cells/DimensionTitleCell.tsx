@@ -1,6 +1,6 @@
-import React from 'react';
-import { useStyleContext } from '../../contexts/StyleProvider';
-import { borderStyle, textStyle } from '../shared-styles';
+import React from "react";
+import { useStyleContext } from "../../contexts/StyleProvider";
+import { borderStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: string;
@@ -9,17 +9,19 @@ interface LabelCellProps {
 
 const labelTextStyle: React.CSSProperties = {
   ...textStyle,
-  fontStyle: 'italic'
+  fontStyle: "italic",
 };
 
-export const testId = 'title-cell';
+export const testId = "title-cell";
 
-export default function DimensionTitleCell({ cell, style }: LabelCellProps): JSX.Element {
+const DimensionTitleCell = ({ cell, style }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
 
   return (
-    <div title={cell as string} style={{ ...style, ...borderStyle }} data-testid={testId}>
-      <div style={{ ...labelTextStyle, ...styleService.header }}>{cell as string}</div>
+    <div title={cell} style={{ ...style, ...borderStyle }} data-testid={testId}>
+      <div style={{ ...labelTextStyle, ...styleService.header }}>{cell}</div>
     </div>
   );
-}
+};
+
+export default DimensionTitleCell;

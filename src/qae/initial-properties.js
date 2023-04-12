@@ -8,7 +8,7 @@ const properties = {
    * @type {string}
    * @default
    */
-   version: process.env.PACKAGE_VERSION,
+  version: process.env.PACKAGE_VERSION,
   /**
    * @extends {HyperCubeDef}
    */
@@ -19,7 +19,7 @@ const properties = {
     qDimensions: [],
     /** @type {NxMeasure[]} */
     qMeasures: [],
-    qMode: 'P',
+    qMode: "P",
     /** @type {boolean} */
     qSuppressMissing: true,
     /** @type {boolean} */
@@ -45,17 +45,17 @@ const properties = {
    * Visualization title
    * @type {(string|StringExpression)=}
    */
-  title: '',
+  title: "",
   /**
    * Visualization subtitle
    * @type {(string|StringExpression)=}
    */
-  subtitle: '',
+  subtitle: "",
   /**
    * Visualization footnote
    * @type {(string|StringExpression)=}
    */
-  footnote: '',
+  footnote: "",
   /**
    * Null value properties
    * @type {object=}
@@ -65,7 +65,7 @@ const properties = {
      * Null value text
      * @type {string=}
      */
-    text: '-'
+    text: "-",
   },
 };
 

@@ -64,7 +64,7 @@ yarn build
 
 Compress the generated 'sn-pivot-table-ext' folder into the 'application/zip' file format
 
-|                                [Saas Edition of Qlik Sense]                              |                        [Qlik Sense Enterprise]                         |                               [Qlik Sense Desktop]                               |
+|                               [Saas Edition of Qlik Sense]                               |                        [Qlik Sense Enterprise]                         |                               [Qlik Sense Desktop]                               |
 | :--------------------------------------------------------------------------------------: | :--------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
 | Copy sn-pivot-table-ext into https://your-tenant-id.us.qlikcloud.com/console/extensions/ | Copy sn-pivot-table-ext into Qlik Management Console (QMC)->Extensions | Copy sn-pivot-table-ext into ..\Users\<UserName>\Documents\Qlik\Sense\Extensions |
 

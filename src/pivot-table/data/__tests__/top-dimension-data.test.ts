@@ -1,12 +1,12 @@
-import { createTopDimensionData, addPageToTopDimensionData } from '../top-dimension-data';
-import extractTopGrid from '../extract-top';
-import NxDimCellType from '../../../types/QIX';
-import { Cell } from '../../../types/types';
+import NxDimCellType from "../../../types/QIX";
+import { Cell } from "../../../types/types";
+import extractTopGrid from "../extract-top";
+import { addPageToTopDimensionData, createTopDimensionData } from "../top-dimension-data";
 
-jest.mock('../extract-top');
+jest.mock("../extract-top");
 const mockedExtractTop = extractTopGrid as jest.MockedFunction<typeof extractTopGrid>;
 
-describe('top dimension data', () => {
+describe("top dimension data", () => {
   const CELL = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
   const qHyperCube = {
     qEffectiveInterColumnSortOrder: [0],
@@ -16,16 +16,16 @@ describe('top dimension data', () => {
     qTop: [],
     qArea: {
       qWidth: 1,
-      qLeft: 2
-    }
+      qLeft: 2,
+    },
   } as unknown as EngineAPI.INxPivotPage;
 
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  describe('create', () => {
-    test('should return correct data', () => {
+  describe("create", () => {
+    test("should return correct data", () => {
       const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(mockedReturnValue);
       const data = createTopDimensionData(dataPage, qHyperCube, false);
@@ -37,7 +37,7 @@ describe('top dimension data', () => {
       expect(data.size.y).toEqual(1);
     });
 
-    test('should return correct data size in snapshot mode', () => {
+    test("should return correct data size in snapshot mode", () => {
       const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(mockedReturnValue);
       const data = createTopDimensionData(dataPage, qHyperCube, true);
@@ -46,8 +46,8 @@ describe('top dimension data', () => {
     });
   });
 
-  describe('add page to', () => {
-    test('should add page to data', () => {
+  describe("add page to", () => {
+    test("should add page to data", () => {
       const nextTop = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(nextTop);
       const data = createTopDimensionData(dataPage, qHyperCube, false);
@@ -55,8 +55,8 @@ describe('top dimension data', () => {
         qTop: [{}],
         qArea: {
           qWidth: 2,
-          qLeft: 3
-        }
+          qLeft: 3,
+        },
       } as unknown as EngineAPI.INxPivotPage;
       const nextData = addPageToTopDimensionData(data, nextDataPage);
 
@@ -67,7 +67,7 @@ describe('top dimension data', () => {
       expect(nextData.size.y).toEqual(1);
     });
 
-    test('should return previous page if qLeft is an empty array', () => {
+    test("should return previous page if qLeft is an empty array", () => {
       const nextTop = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(nextTop);
       const data = createTopDimensionData(dataPage, qHyperCube, false);
@@ -75,15 +75,15 @@ describe('top dimension data', () => {
         qTop: [],
         qArea: {
           qWidth: 2,
-          qLeft: 3
-        }
+          qLeft: 3,
+        },
       } as unknown as EngineAPI.INxPivotPage;
       const nextData = addPageToTopDimensionData(data, nextDataPage);
 
       expect(nextData).toBe(data);
     });
 
-    test('should compare width with previous data and return the largest value', () => {
+    test("should compare width with previous data and return the largest value", () => {
       const nextTop = [[undefined, undefined, CELL]] as Cell[][];
       mockedExtractTop.mockReturnValue(nextTop);
       const data = createTopDimensionData(dataPage, qHyperCube, false);
@@ -91,8 +91,8 @@ describe('top dimension data', () => {
         qTop: [{}],
         qArea: {
           qWidth: 2,
-          qLeft: 3
-        }
+          qLeft: 3,
+        },
       } as unknown as EngineAPI.INxPivotPage;
       data.size.x = 100;
       const nextData = addPageToTopDimensionData(data, nextDataPage);

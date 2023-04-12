@@ -2,16 +2,11 @@
   "name": "@nebula.js/sn-pivot-table",
   "version": "1.0.2",
   "description": "Pivot table supernova",
-  "license": "MIT",
-  "author": "QlikTech International AB",
   "keywords": [
     "qlik",
     "nebula",
     "stardust"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "bugs": {
     "url": "https://github.com/qlik-oss/sn-pivot-table/issues"
   },
@@ -19,33 +14,33 @@
     "type": "git",
     "url": "https://github.com/qlik-oss/sn-pivot-table.git"
   },
+  "license": "MIT",
+  "author": "QlikTech International AB",
+  "main": "dist/sn-pivot-table.js",
   "files": [
     "api-specifications",
     "core",
     "dist",
     "sn-pivot-table-ext"
   ],
-  "engines": {
-    "node": ">=16"
-  },
-  "main": "dist/sn-pivot-table.js",
-  "systemjs": "dist/sn-pivot-table.systemjs.js",
   "scripts": {
     "build": "node ./scripts/build.js --core --ext",
     "build:dev": "node ./scripts/build.js --core --mode development",
     "build:watch": "node ./scripts/build.js --mode development -w",
     "copy:ext": "node ./scripts/copy-ext.js",
+    "format:check": "prettier --check '**' --ignore-unknown",
+    "format:write": "prettier --write '**' --ignore-unknown",
     "lint": "eslint src/",
+    "prepare": "husky install",
+    "sense": "nebula sense",
+    "spec": "scriptappy-from-jsdoc -c ./scriptappy.config.js",
     "start": "nebula serve  --type sn-pivot-table",
     "start:mfe": "nebula serve --mfe  --type sn-pivot-table",
-    "sense": "nebula sense",
-    "types:check": "tsc --noEmit",
-    "test:unit": "jest --runInBand",
-    "test:rendering": "playwright test",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",
-    "spec": "scriptappy-from-jsdoc -c ./scriptappy.config.js",
-    "prepare": "husky install",
+    "test:rendering": "playwright test",
+    "test:unit": "jest --runInBand",
+    "types:check": "tsc --noEmit",
     "preversion": "yarn build",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && yarn spec && git add api-specifications CHANGELOG.md"
   },
@@ -53,7 +48,32 @@
     "*.{js,jsx,ts,tsx}": [
       "bash -c 'yarn lint'",
       "bash -c 'yarn types:check'"
-    ]
+    ],
+    "*": "bash -c 'yarn format:check'"
+  },
+  "prettier": "@qlik/prettier-config",
+  "eslintConfig": {
+    "parserOptions": {
+      "project": [
+        "./tsconfig.json"
+      ]
+    },
+    "extends": [
+      "@qlik/eslint-config-react/typescript",
+      "@qlik/eslint-config/jest",
+      "@qlik/eslint-config/playwright"
+    ],
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true,
+          "optionalDependencies": false,
+          "peerDependencies": true
+        }
+      ]
+    },
+    "root": true
   },
   "devDependencies": {
     "@babel/core": "7.21.4",
@@ -67,6 +87,10 @@
     "@nebula.js/cli-sense": "3.3.0",
     "@nebula.js/cli-serve": "3.3.0",
     "@playwright/test": "1.32.3",
+    "@qlik/eslint-config": "0.0.7",
+    "@qlik/eslint-config-react": "0.0.7",
+    "@qlik/prettier-config": "0.1.0",
+    "@qlik/tsconfig": "0.0.11",
     "@rollup/plugin-typescript": "11.1.0",
     "@testing-library/dom": "9.2.0",
     "@testing-library/jest-dom": "5.16.5",
@@ -77,20 +101,9 @@
     "@types/react": "18.0.34",
     "@types/react-dom": "18.0.11",
     "@types/react-window": "1.8.5",
-    "@typescript-eslint/eslint-plugin": "5.58.0",
-    "@typescript-eslint/parser": "5.58.0",
     "babel-eslint": "10.1.0",
     "conventional-changelog-cli": "2.2.2",
     "eslint": "8.38.0",
-    "eslint-config-airbnb": "19.0.4",
-    "eslint-config-airbnb-typescript": "17.0.0",
-    "eslint-config-prettier": "8.8.0",
-    "eslint-import-resolver-typescript": "3.5.5",
-    "eslint-plugin-import": "2.27.5",
-    "eslint-plugin-jsx-a11y": "6.7.1",
-    "eslint-plugin-prettier": "4.2.1",
-    "eslint-plugin-react": "7.32.2",
-    "eslint-plugin-react-hooks": "4.6.0",
     "husky": "8.0.3",
     "jest": "29.5.0",
     "jest-environment-jsdom": "29.5.0",
@@ -107,5 +120,12 @@
   },
   "peerDependencies": {
     "@nebula.js/stardust": "3.x"
-  }
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "systemjs": "dist/sn-pivot-table.systemjs.js"
 }

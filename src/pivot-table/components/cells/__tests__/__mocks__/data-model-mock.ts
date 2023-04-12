@@ -1,4 +1,4 @@
-import { DataModel } from '../../../../../types/types';
+import { DataModel } from "../../../../../types/types";
 
 const dataModelMock = (): DataModel => ({
   fetchNextPage: () => Promise.resolve(true),

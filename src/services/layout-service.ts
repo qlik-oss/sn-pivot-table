@@ -1,24 +1,16 @@
-import { PSEUDO_DIMENSION_INDEX } from '../constants';
-import { NxSelectionCellType, PivotLayout } from '../types/QIX';
-import { LayoutService } from '../types/types';
+import { PSEUDO_DIMENSION_INDEX } from "../constants";
+import { NxSelectionCellType, PivotLayout } from "../types/QIX";
+import { LayoutService } from "../types/types";
 
 const createLayoutService = (layout: PivotLayout): LayoutService => {
-  const {
-    qHyperCube,
-    nullValueRepresentation,
-  } = layout;
-  const {
-    qNoOfLeftDims,
-    qEffectiveInterColumnSortOrder,
-    qMeasureInfo,
-    qDimensionInfo,
-  } = qHyperCube;
+  const { qHyperCube, nullValueRepresentation } = layout;
+  const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo, qDimensionInfo } = qHyperCube;
   const leftDimensions = qDimensionInfo.slice(0, qNoOfLeftDims);
   const topDimensions = qDimensionInfo.slice(qNoOfLeftDims);
 
   return {
     layout,
-    getNullValueText: () => nullValueRepresentation?.text ?? '-',
+    getNullValueText: () => nullValueRepresentation?.text ?? "-",
     getMeasureInfoIndexFromCellIndex: (index: number) => {
       const pIndex = qEffectiveInterColumnSortOrder.findIndex((num) => num === PSEUDO_DIMENSION_INDEX);
       if (pIndex < qNoOfLeftDims) {

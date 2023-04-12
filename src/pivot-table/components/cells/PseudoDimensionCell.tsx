@@ -1,7 +1,7 @@
-import React from 'react';
-import { Cell } from '../../../types/types';
-import { useStyleContext } from '../../contexts/StyleProvider';
-import { borderStyle, textStyle } from '../shared-styles';
+import React from "react";
+import { Cell } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
+import { borderStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -10,19 +10,19 @@ interface LabelCellProps {
 }
 
 const topContainerStyle: React.CSSProperties = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 };
 
 const leftContainerStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
+  display: "flex",
+  alignItems: "center",
 };
 
-export const testId = 'pseudo-dimension-cell';
+export const testId = "pseudo-dimension-cell";
 
-export default function PseudoDimensionCell({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element {
+const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
   const containerStyle = isLeftColumn ? leftContainerStyle : topContainerStyle;
@@ -32,4 +32,6 @@ export default function PseudoDimensionCell({ cell, style, isLeftColumn }: Label
       <div style={{ ...textStyle, ...serviceStyle }}>{cell.ref.qText}</div>
     </div>
   );
-}
+};
+
+export default PseudoDimensionCell;

@@ -1,12 +1,12 @@
-import { stardust } from '@nebula.js/stardust';
-import React from 'react';
-import PlusIcon from '../icons/Plus';
-import MinusIcon from '../icons/Minus';
-import { ItemData, DataModel, Cell } from '../../../types/types';
-import { borderStyle, textStyle } from '../shared-styles';
-import NxDimCellType, { NxSelectionCellType } from '../../../types/QIX';
-import { useSelectionsContext } from '../../contexts/SelectionsProvider';
-import { useStyleContext } from '../../contexts/StyleProvider';
+import { stardust } from "@nebula.js/stardust";
+import React from "react";
+import NxDimCellType, { NxSelectionCellType } from "../../../types/QIX";
+import { Cell, DataModel, ItemData } from "../../../types/types";
+import { useSelectionsContext } from "../../contexts/SelectionsProvider";
+import { useStyleContext } from "../../contexts/StyleProvider";
+import MinusIcon from "../icons/Minus";
+import PlusIcon from "../icons/Plus";
+import { borderStyle, textStyle } from "../shared-styles";
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -27,54 +27,61 @@ interface OnExpandOrCollapseProps {
 }
 
 const containerStyle: React.CSSProperties = {
-  color: '#595959',
+  color: "#595959",
 };
 
 const cellStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
 };
 
 const stickyCell: React.CSSProperties = {
-  width: 'fit-content',
-  maxWidth: '100%',
-  position: 'sticky',
+  width: "fit-content",
+  maxWidth: "100%",
+  position: "sticky",
   left: 4,
   top: 4,
 };
 
 const dimTextStyle: React.CSSProperties = {
   ...textStyle,
-  fontWeight: 'bold',
+  fontWeight: "bold",
   marginLeft: 4,
 };
 
 const nullStyle: React.CSSProperties = {
-  backgroundColor: '#f2f2f2',
+  backgroundColor: "#f2f2f2",
 };
 
 export const selectedStyle: React.CSSProperties = {
-  backgroundColor: '#0aaf54',
-  color: 'white'
+  backgroundColor: "#0aaf54",
+  color: "white",
 };
 
 export const lockedFromSelectionStyle: React.CSSProperties = {
-  backgroundImage: 'repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)',
-  color: '#bebebe'
+  backgroundImage: "repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)",
+  color: "#bebebe",
 };
 
 export const selectableCellStyle: React.CSSProperties = {
-  cursor: 'pointer'
+  cursor: "pointer",
 };
 
-export const testId = 'dim-cell';
-export const testIdExpandIcon = 'expand-icon';
-export const testIdCollapseIcon = 'collapse-icon';
+export const testId = "dim-cell";
+export const testIdExpandIcon = "expand-icon";
+export const testIdCollapseIcon = "collapse-icon";
 
 const NOOP_KEY_HANDLER = () => {};
 
-const createOnExpand = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive }: OnExpandOrCollapseProps) => {
+const createOnExpand = ({
+  dataModel,
+  isLeftColumn,
+  rowIndex,
+  colIndex,
+  constraints,
+  isActive,
+}: OnExpandOrCollapseProps) => {
   if (constraints.active || isActive || !dataModel) {
     return undefined;
   }
@@ -89,7 +96,14 @@ const createOnExpand = ({ dataModel, isLeftColumn, rowIndex, colIndex, constrain
   };
 };
 
-const createOnCollapse = ({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive }: OnExpandOrCollapseProps) => {
+const createOnCollapse = ({
+  dataModel,
+  isLeftColumn,
+  rowIndex,
+  colIndex,
+  constraints,
+  isActive,
+}: OnExpandOrCollapseProps) => {
   if (constraints.active || isActive || !dataModel) {
     return undefined;
   }
@@ -104,25 +118,16 @@ const createOnCollapse = ({ dataModel, isLeftColumn, rowIndex, colIndex, constra
   };
 };
 
-export default function DimensionCell({
-  cell,
-  rowIndex,
-  colIndex,
-  style,
-  isLeftColumn,
-  data
-}: DimensionCellProps): JSX.Element {
+const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand, qType } = cell.ref;
-  const {
-    constraints = { active: false, passive: false, select: false },
-    dataModel,
-    layoutService,
-  } = data;
+  const { constraints = { active: false, passive: false, select: false }, dataModel, layoutService } = data;
   const styleService = useStyleContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellLocked = isLocked(selectionCellType, rowIndex, colIndex) || layoutService.isDimensionLocked(selectionCellType, rowIndex, colIndex);
+  const isCellLocked =
+    isLocked(selectionCellType, rowIndex, colIndex) ||
+    layoutService.isDimensionLocked(selectionCellType, rowIndex, colIndex);
   const appliedSelectedStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
   const appliedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
   const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active || isNull;
@@ -134,19 +139,23 @@ export default function DimensionCell({
   let cellIcon = null;
 
   if (qCanExpand) {
-    cellIcon = <PlusIcon
-      color={serviceStyle.color}
-      opacity={isActive ? 0.4 : 1.0}
-      testid={testIdExpandIcon}
-      onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
-    />;
+    cellIcon = (
+      <PlusIcon
+        color={serviceStyle.color}
+        opacity={isActive ? 0.4 : 1.0}
+        testid={testIdExpandIcon}
+        onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
+      />
+    );
   } else if (qCanCollapse) {
-    cellIcon = <MinusIcon
-      color={serviceStyle.color}
-      opacity={isActive ? 0.4 : 1.0}
-      testid={testIdCollapseIcon}
-      onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
-    />;
+    cellIcon = (
+      <MinusIcon
+        color={serviceStyle.color}
+        opacity={isActive ? 0.4 : 1.0}
+        testid={testIdCollapseIcon}
+        onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
+      />
+    );
   }
 
   return (
@@ -159,7 +168,7 @@ export default function DimensionCell({
         ...appliedLockedSelectionStyle,
         ...appliedSelectableCellStyle,
         ...borderStyle,
-        ...appliedNullStyle
+        ...appliedNullStyle,
       }}
       aria-hidden="true"
       onClick={onClickHandler}
@@ -168,10 +177,12 @@ export default function DimensionCell({
       tabIndex={0}
       data-testid={testId}
     >
-      <div style={{ ...cellStyle, ...stickyCell }} >
+      <div style={{ ...cellStyle, ...stickyCell }}>
         {cellIcon}
         <span style={{ ...dimTextStyle, ...serviceStyle }}>{text}</span>
       </div>
     </div>
   );
-}
+};
+
+export default DimensionCell;

@@ -1,16 +1,27 @@
-import { useElement, useStaleLayout, useEffect, useModel, useRect, useConstraints, useSelections, useTheme, useMemo } from '@nebula.js/stardust';
-import initialProperties from './qae/initial-properties';
-import createDataDefinition from './qae/data-definition';
-import ext from './ext';
-import render from './pivot-table/Root';
-import { ExtendedSelections, ExtendedTheme, Galaxy } from './types/types';
-import useViewService from './hooks/use-view-service';
-import { Model, PivotLayout } from './types/QIX';
-import useLayoutService from './hooks/use-layout-service';
-import useLoadDataPages from './hooks/use-load-data-pages';
-import createStyleService from './services/style-service';
-import useSnapshot from './hooks/use-snapshot';
-import useReactRoot from './hooks/use-react-root';
+/* eslint-disable react-hooks/rules-of-hooks */
+import {
+  useConstraints,
+  useEffect,
+  useElement,
+  useMemo,
+  useModel,
+  useRect,
+  useSelections,
+  useStaleLayout,
+  useTheme,
+} from "@nebula.js/stardust";
+import ext from "./ext";
+import useLayoutService from "./hooks/use-layout-service";
+import useLoadDataPages from "./hooks/use-load-data-pages";
+import useReactRoot from "./hooks/use-react-root";
+import useSnapshot from "./hooks/use-snapshot";
+import useViewService from "./hooks/use-view-service";
+import render from "./pivot-table/Root";
+import createDataDefinition from "./qae/data-definition";
+import initialProperties from "./qae/initial-properties";
+import createStyleService from "./services/style-service";
+import { Model, PivotLayout } from "./types/QIX";
+import { ExtendedSelections, ExtendedTheme, Galaxy } from "./types/types";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {
@@ -34,13 +45,23 @@ export default function supernova(env: Galaxy) {
       const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
       const selections = useSelections() as ExtendedSelections;
       const theme = useTheme() as ExtendedTheme;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
 
       rect = useSnapshot({ layoutService, viewService, rect, model });
 
       useEffect(() => {
-        if (!isLoading && model && rect?.width && rect?.height && constraints && selections && viewService && layoutService && styleService) {
-
+        if (
+          !isLoading &&
+          model &&
+          rect?.width &&
+          rect?.height &&
+          constraints &&
+          selections &&
+          viewService &&
+          layoutService &&
+          styleService
+        ) {
           render(reactRoot, {
             model,
             rect,
@@ -54,6 +75,7 @@ export default function supernova(env: Galaxy) {
         }
       }, [
         model,
+        rect,
         rect?.width,
         rect?.height,
         constraints,

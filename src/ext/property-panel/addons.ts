@@ -1,13 +1,13 @@
 const addons = {
-  type: 'items',
-  component: 'expandable-items',
-  translation: 'properties.addons',
+  type: "items",
+  component: "expandable-items",
+  translation: "properties.addons",
   items: {
     dataHandling: {
-      uses: 'dataHandling',
+      uses: "dataHandling",
       items: {
         calcCond: {
-          uses: 'calcCond',
+          uses: "calcCond",
         },
       },
     },

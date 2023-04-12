@@ -2,8 +2,8 @@
 const logLevels = [
   // 'info',
   // 'log',
-  'warn',
-  'error',
+  "warn",
+  "error",
 ];
 
 async function consoleEvent(msg) {
@@ -19,11 +19,11 @@ function pageerrorEvent(msg) {
 
 export default {
   addListeners(page) {
-    page.on('console', consoleEvent);
-    page.on('pageerror', pageerrorEvent);
+    page.on("console", consoleEvent);
+    page.on("pageerror", pageerrorEvent);
   },
   removeListeners(page) {
-    page.removeListener('console', consoleEvent);
-    page.removeListener('pageerror', pageerrorEvent);
+    page.removeListener("console", consoleEvent);
+    page.removeListener("pageerror", pageerrorEvent);
   },
 };
