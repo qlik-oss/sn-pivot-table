@@ -11,7 +11,7 @@ interface RootProps extends PivotTableProps {
   styleService: StyleService;
 }
 
-export default function render(reactRoot: Root, props: RootProps): void {
+const render = (reactRoot: Root, props: RootProps): void => {
   reactRoot.render(
     <React.StrictMode>
       <SelectionsProvider selections={props.selections}>
@@ -21,4 +21,6 @@ export default function render(reactRoot: Root, props: RootProps): void {
       </SelectionsProvider>
     </React.StrictMode>
   );
-}
+};
+
+export default render;

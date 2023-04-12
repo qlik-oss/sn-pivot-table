@@ -4,7 +4,7 @@ import { NxSelectionCellType } from "../../types/QIX";
 import { ExtendedSelections } from "../../types/types";
 
 export interface SelectionModel {
-  select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => void;
+  select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => Promise<void>;
   isSelected: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   isActive: boolean;
   isLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;

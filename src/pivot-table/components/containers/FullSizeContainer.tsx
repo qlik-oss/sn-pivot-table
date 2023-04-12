@@ -1,3 +1,5 @@
+import React from "react";
+
 interface FullSizeContainerProps {
   width: number;
   height: number;

@@ -39,8 +39,8 @@ describe("DimensionCell", () => {
   let collapseLeftSpy: jest.SpyInstance;
   let collapseTopSpy: jest.SpyInstance;
   let mockedSelectionContext: jest.MockedFunction<() => SelectionModel>;
-  let selectSpy: jest.MockedFunction<() => () => void>;
-  let onClickHandlerSpy: jest.MockedFunction<() => void>;
+  let selectSpy: jest.MockedFunction<() => () => Promise<void>>;
+  let onClickHandlerSpy: jest.MockedFunction<() => Promise<void>>;
   let isSelectedSpy: jest.MockedFunction<() => boolean>;
   let isLockedSpy: jest.MockedFunction<() => boolean>;
   let mockedSelectionModel: SelectionModel;
@@ -156,7 +156,7 @@ describe("DimensionCell", () => {
       test("should not be possible to expand left column when selections is active", async () => {
         cell.ref.qCanExpand = true;
         mockedSelectionContext.mockReturnValue({
-          select: () => () => {},
+          select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
           isLocked: () => false,
@@ -196,7 +196,7 @@ describe("DimensionCell", () => {
       test("should be not possible to collapse left column when selections is active", async () => {
         cell.ref.qCanCollapse = true;
         mockedSelectionContext.mockReturnValue({
-          select: () => () => {},
+          select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
           isLocked: () => false,
@@ -322,7 +322,7 @@ describe("DimensionCell", () => {
       test("should not be possible to expand top row when selections is active", async () => {
         cell.ref.qCanExpand = true;
         mockedSelectionContext.mockReturnValue({
-          select: () => () => {},
+          select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
           isLocked: () => false,
@@ -362,7 +362,7 @@ describe("DimensionCell", () => {
       test("should be not possible to collapse top row when selections is active", async () => {
         cell.ref.qCanCollapse = true;
         mockedSelectionContext.mockReturnValue({
-          select: () => () => {},
+          select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
           isLocked: () => false,

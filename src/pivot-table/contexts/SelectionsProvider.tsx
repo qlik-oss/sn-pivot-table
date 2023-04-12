@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 import { ExtendedSelections } from "../../types/types";
 import useSelectionsModel, { SelectionModel } from "../hooks/use-selections-model";
 
@@ -8,7 +8,7 @@ interface SelectionsProviderProps {
 }
 
 const NOOP_SELECTIONS_MODEL = {
-  select: () => () => {},
+  select: () => () => Promise.resolve(),
   isSelected: () => false,
   isActive: false,
   isLocked: () => false,
