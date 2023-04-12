@@ -116,7 +116,7 @@
     "react-window": "1.8.8",
     "scriptappy-from-jsdoc": "0.7.0",
     "tslib": "2.5.0",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   },
   "peerDependencies": {
     "@nebula.js/stardust": "3.x"
