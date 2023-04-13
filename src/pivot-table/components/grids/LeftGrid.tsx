@@ -1,6 +1,6 @@
 import { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect } from "react";
-import { areEqual, VariableSizeList } from "react-window";
+import { VariableSizeList, areEqual } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import { Cell, DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
 import ListCellFactory from "../cells/ListCellFactory";
