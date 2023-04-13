@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { act, renderHook } from "@testing-library/react";
 import { SnapshotData } from "../../../types/QIX";
 import { HeadersData, LeftDimensionData, MeasureData, TopDimensionData } from "../../../types/types";
 import createHeadersData from "../../data/headers-data";
@@ -136,7 +136,10 @@ describe("useData", () => {
   test("calling nextPageHandler should trigger data updates", () => {
     const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
     const nextPage = {} as EngineAPI.INxPivotPage;
-    result.current.nextPageHandler(nextPage);
+
+    act(() => {
+      result.current.nextPageHandler(nextPage);
+    });
 
     expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith(topDimensionData, nextPage);
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith(leftDimensionData, nextPage);
@@ -146,7 +149,10 @@ describe("useData", () => {
   test("calling moreDataHandler should trigger data updates", () => {
     const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
     const nextPage = {} as EngineAPI.INxPivotPage;
-    result.current.moreDataHandler(nextPage);
+
+    act(() => {
+      result.current.moreDataHandler(nextPage);
+    });
 
     expect(mockedAddPageToMeasureData).toHaveBeenCalledWith(measureData, nextPage);
   });

@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react";
 import { Q_PATH } from "../../../constants";
 import { Model } from "../../../types/QIX";
 import { Point } from "../../../types/types";

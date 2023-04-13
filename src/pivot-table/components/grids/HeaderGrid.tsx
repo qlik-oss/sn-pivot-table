@@ -1,5 +1,5 @@
 import React, { memo, useLayoutEffect, useRef } from "react";
-import { areEqual, VariableSizeGrid } from "react-window";
+import { VariableSizeGrid, areEqual } from "react-window";
 import { HeadersData } from "../../../types/types";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 // import useDebug from '../../hooks/use-debug';
