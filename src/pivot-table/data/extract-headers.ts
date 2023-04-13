@@ -10,10 +10,14 @@ const extractHeaders = (
     .map(() => Array.from({ length: rowCount }, () => null));
 
   dimensionInfoIndex.forEach((dimIndex, colIdx) => {
-    if (dimIndex === PSEUDO_DIMENSION_INDEX) {
-      matrix[colIdx][rowCount - 1] = "";
-    } else {
-      matrix[colIdx][rowCount - 1] = qDim[dimIndex].qFallbackTitle;
+    const column = matrix[colIdx];
+    const dimension = qDim[dimIndex];
+    if (column !== undefined && dimension !== undefined) {
+      if (dimIndex === PSEUDO_DIMENSION_INDEX) {
+        column[rowCount - 1] = "";
+      } else {
+        column[rowCount - 1] = dimension.qFallbackTitle;
+      }
     }
   });
 

@@ -29,13 +29,15 @@ const extractLeftGrid = (
       rowIdx += currRowIdx === 0 ? 0 : 1;
       const y = qArea.qTop + rowIdx - node.qUp; // Start position + current page position - previous tail size,
       const cell = createCell(node, parent, root, colIdx, y, isSnapshot);
+      const column = grid[colIdx];
+      if (column !== undefined) {
+        column[y] = cell;
 
-      grid[colIdx][y] = cell;
-
-      if (node.qSubNodes.length) {
-        recursiveExtract(root || cell, cell, node.qSubNodes, colIdx + 1);
-      } else {
-        cell.parent?.incrementLeafCount();
+        if (node.qSubNodes.length) {
+          recursiveExtract(root || cell, cell, node.qSubNodes, colIdx + 1);
+        } else {
+          cell.parent?.incrementLeafCount();
+        }
       }
     });
   }

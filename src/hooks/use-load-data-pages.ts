@@ -33,18 +33,20 @@ const getPagesToTheTop = (viewService: ViewService, maxHeight: number): EngineAP
   const batchSize = Math.floor(MAX_GRID_SIZE / gridWidth);
   let batchTop = Math.max(0, totalHeight - batchSize);
   let batchHeight = totalHeight - batchTop;
+  let page;
 
   do {
-    pages.unshift({
+    page = {
       qLeft: gridColumnStartIndex,
       qTop: Math.max(0, batchTop),
       qWidth: gridWidth,
       qHeight: batchHeight,
-    });
+    };
+    pages.unshift(page);
 
     batchHeight = Math.min(batchHeight, batchTop);
     batchTop -= batchSize;
-  } while (pages[0]?.qTop > 0);
+  } while (page?.qTop > 0);
 
   return pages;
 };
@@ -62,18 +64,20 @@ const getPagesToTheLeft = (viewService: ViewService, maxWidth: number): EngineAP
   const batchSize = Math.floor(MAX_GRID_SIZE / gridHeight);
   let batchLeft = Math.max(0, totalWidth - batchSize);
   let batchWidth = totalWidth - batchLeft;
+  let page;
 
   do {
-    pages.unshift({
+    page = {
       qLeft: Math.max(0, batchLeft),
       qTop: gridRowStartIndex,
       qWidth: batchWidth,
       qHeight: gridHeight,
-    });
+    };
+    pages.unshift(page);
 
     batchWidth = Math.min(batchWidth, batchLeft);
     batchLeft -= batchSize;
-  } while (pages[0]?.qLeft > 0);
+  } while (page?.qLeft > 0);
 
   return pages;
 };

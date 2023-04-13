@@ -65,6 +65,10 @@ const TopGrid = ({
 
   const getItemSizeCallback = (list: Cell[]) => (colIndex: number) => {
     const cell = list[colIndex];
+    if (cell === undefined) {
+      return 0;
+    }
+
     if (cell.leafCount > 0) {
       const measureInfoCount = qMeasureInfo.length;
       return (cell.leafCount / measureInfoCount) * allMeasuresWidth;
@@ -78,7 +82,12 @@ const TopGrid = ({
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       return "-1";
     }
-    return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
+
+    if (dimIndex === undefined) {
+      return "undefined";
+    }
+    const title = qDimensionInfo[dimIndex]?.qFallbackTitle ?? "";
+    return `${title}-${dimIndex}`;
   };
 
   if (topDimensionData.size.y === 0) {

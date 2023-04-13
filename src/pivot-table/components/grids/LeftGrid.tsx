@@ -40,7 +40,7 @@ const DEFAULT_ROW_HEIGHT = 28;
 
 const getItemSizeCallback = (list: Cell[]) => (rowIndex: number) => {
   const cell = list[rowIndex];
-  if (cell.leafCount) {
+  if (cell?.leafCount) {
     return cell.leafCount * DEFAULT_ROW_HEIGHT;
   }
 
@@ -81,7 +81,13 @@ const LeftGrid = ({
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
       return "-1";
     }
-    return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
+
+    if (dimIndex === undefined) {
+      return "dimIndex";
+    }
+
+    const title = qDimensionInfo[dimIndex]?.qFallbackTitle ?? "";
+    return `${title}-${dimIndex}`;
   };
 
   if (leftDimensionData.size.x === 0) {

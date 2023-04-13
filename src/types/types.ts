@@ -7,6 +7,10 @@ export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<bool
 
 export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<boolean>;
 
+export type NextPageHandler = (page: EngineAPI.INxPivotPage | undefined) => void;
+
+export type MoreDataHandler = NextPageHandler;
+
 export interface Rect {
   width: number;
   height: number;
@@ -105,8 +109,8 @@ export interface Data {
   leftDimensionData: LeftDimensionData;
   hasMoreRows: boolean;
   hasMoreColumns: boolean;
-  nextPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
-  moreDataHandler: (nextPage: EngineAPI.INxPivotPage) => void;
+  nextPageHandler: NextPageHandler;
+  moreDataHandler: MoreDataHandler;
 }
 
 export interface ExtendedSelections extends stardust.ObjectSelections {

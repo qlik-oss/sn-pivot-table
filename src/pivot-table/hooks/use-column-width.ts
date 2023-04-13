@@ -40,7 +40,7 @@ export default function useColumnWidth(
   const hasPseudoDimOnLeft = useMemo(
     () =>
       leftDimensionData.data.some(
-        (column) => column[0] !== null && column[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO
+        (column) => column[0] !== null && column[0]?.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO
       ),
     [leftDimensionData.data]
   );
@@ -53,7 +53,11 @@ export default function useColumnWidth(
         return pseudoDimensionWidth / rect.width;
       }
 
-      const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo[dimIndex];
+      const dim = qDimensionInfo[dimIndex];
+      if (dim === undefined) {
+        return 0;
+      }
+      const { qFallbackTitle, qApprMaxGlyphCount } = dim;
       const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
       const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
       const w = Math.max(
@@ -80,7 +84,7 @@ export default function useColumnWidth(
   ]);
 
   const getLeftColumnWidth = useCallback(
-    (index: number) => leftColumnWidthsRatios[index] * rect.width,
+    (index: number) => (leftColumnWidthsRatios[index] ?? 0) * rect.width,
     [leftColumnWidthsRatios, rect.width]
   );
 
@@ -112,7 +116,11 @@ export default function useColumnWidth(
     () =>
       memoize((measureInfoIndex: number) => {
         const getWidth = (index: number, includeTitleWidth = true) => {
-          const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo[index];
+          const measure = qMeasureInfo[index];
+          if (measure === undefined) {
+            return 0;
+          }
+          const { qApprMaxGlyphCount, qFallbackTitle } = measure;
           const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
 
           return Math.max(

@@ -31,10 +31,13 @@ const gridStyle: React.CSSProperties = {
 };
 
 const HeaderCellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
-  const cell = data.matrix[columnIndex][rowIndex];
+  const column = data.matrix[columnIndex];
+  if (column !== undefined) {
+    const cell = column[rowIndex];
 
-  if (typeof cell === "string") {
-    return <DimensionTitleCell cell={cell} style={style} />;
+    if (typeof cell === "string") {
+      return <DimensionTitleCell cell={cell} style={style} />;
+    }
   }
 
   return null;

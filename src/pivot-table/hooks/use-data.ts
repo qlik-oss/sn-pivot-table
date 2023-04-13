@@ -1,17 +1,37 @@
 import { useCallback, useMemo, useState } from "react";
 import { SnapshotData } from "../../types/QIX";
-import { Data, HeadersData, LeftDimensionData, MeasureData, TopDimensionData } from "../../types/types";
+import {
+  Data,
+  HeadersData,
+  LeftDimensionData,
+  MeasureData,
+  MoreDataHandler,
+  NextPageHandler,
+  TopDimensionData,
+} from "../../types/types";
 import createHeadersData from "../data/headers-data";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../data/left-dimension-data";
 import { addPageToMeasureData, createMeasureData } from "../data/measure-data";
 import { addPageToTopDimensionData, createTopDimensionData } from "../data/top-dimension-data";
+
+const EMPTY_DATA_PAGE: EngineAPI.INxPivotPage = {
+  qLeft: [],
+  qTop: [],
+  qData: [],
+  qArea: {
+    qLeft: 0,
+    qTop: 0,
+    qWidth: 0,
+    qHeight: 0,
+  },
+};
 
 const useData = (
   qPivotDataPages: EngineAPI.INxPivotPage[],
   qHyperCube: EngineAPI.IHyperCube,
   snapshotData: SnapshotData | undefined
 ): Data => {
-  const dataPage = snapshotData?.content?.qPivotDataPages?.[0] ?? qHyperCube.qPivotDataPages[0];
+  const dataPage = snapshotData?.content?.qPivotDataPages?.[0] ?? qHyperCube.qPivotDataPages[0] ?? EMPTY_DATA_PAGE;
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
   const [moreDataPage, setMoreDataPage] = useState<EngineAPI.INxPivotPage | null>(null);
   const deriveMeasureDataFromProps = useCallback(() => {
@@ -77,12 +97,16 @@ const useData = (
     [measureData.size.x, qHyperCube.qSize.qcx]
   );
 
-  const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
-    setNextPage(page);
+  const nextPageHandler = useCallback<NextPageHandler>((page) => {
+    if (page !== undefined) {
+      setNextPage(page);
+    }
   }, []);
 
-  const moreDataHandler = useCallback((page: EngineAPI.INxPivotPage) => {
-    setMoreDataPage(page);
+  const moreDataHandler = useCallback<MoreDataHandler>((page) => {
+    if (page !== undefined) {
+      setMoreDataPage(page);
+    }
   }, []);
 
   return {

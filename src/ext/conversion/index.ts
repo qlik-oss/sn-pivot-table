@@ -57,7 +57,8 @@ export function createImportProperties(env: Galaxy) {
 
     for (let i = interColSortOrder.length - 1; i >= 0; i--) {
       // remove dimension indices that no longer exist
-      if (interColSortOrder[i] >= numDimensions) {
+      const order = interColSortOrder[i];
+      if (order !== undefined && order >= numDimensions) {
         interColSortOrder.splice(i, 1);
       }
     }

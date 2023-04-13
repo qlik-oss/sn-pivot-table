@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import NxDimCellType from "../../../types/QIX";
 import { Cell } from "../../../types/types";
 import extractLeftGrid from "../extract-left";
@@ -28,8 +29,8 @@ describe("extractLeftGrid", () => {
     const subNodesCount = 2;
     const qLeft = createNodes(rowCount, NxDimCellType.NX_DIM_CELL_NORMAL);
     const subNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    qLeft[0].qSubNodes = subNodes;
-    qLeft[0].qCanCollapse = true;
+    qLeft[0]!.qSubNodes = subNodes;
+    qLeft[0]!.qCanCollapse = true;
     const left = extractLeftGrid(grid, qLeft, qArea, false);
 
     expect(left).toMatchSnapshot();
@@ -40,17 +41,17 @@ describe("extractLeftGrid", () => {
     const subNodesCount = 2;
     const qLeft = createNodes(rowCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    qLeft[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
-    qLeft[0].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    qLeft[0]!.qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    qLeft[0]!.qSubNodes[0]!.qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
 
-    qLeft[1].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
-    qLeft[1].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    qLeft[1]!.qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    qLeft[1]!.qSubNodes[0]!.qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
 
-    qLeft[2].qSubNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    qLeft[2].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
-    qLeft[2].qCanCollapse = true;
-    qLeft[2].qSubNodes[1].qSubNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    qLeft[2].qSubNodes[1].qCanCollapse = true;
+    qLeft[2]!.qSubNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
+    qLeft[2]!.qSubNodes[0]!.qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    qLeft[2]!.qCanCollapse = true;
+    qLeft[2]!.qSubNodes[1]!.qSubNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
+    qLeft[2]!.qSubNodes[1]!.qCanCollapse = true;
 
     const left = extractLeftGrid(grid, qLeft, qArea, false);
 

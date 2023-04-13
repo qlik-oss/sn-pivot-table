@@ -12,7 +12,7 @@ const MAGIC_DEFAULT_CHAR = "M";
 
 const LEEWAY_WIDTH = 25; // Used to make sure there is some leeway in the measurement of a text
 
-export default function useMeasureText(fontSize: string, fontFamily: string): MeasureTextHook {
+export default function useMeasureText(fontSize: string | undefined, fontFamily: string | undefined): MeasureTextHook {
   const context = useRef<CanvasRenderingContext2D | null>(null);
 
   useMemo(() => {
@@ -22,7 +22,7 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
   }, []);
 
   useMemo(() => {
-    if (context.current === null) return;
+    if (context.current === null || fontSize === undefined || fontFamily === undefined) return;
 
     context.current.font = `${fontSize} ${fontFamily}`;
   }, [fontSize, fontFamily]);

@@ -3,7 +3,7 @@ import React from "react";
 
 interface IconProps {
   onClick: ((e: React.SyntheticEvent<Element, Event>) => void) | undefined;
-  color: string;
+  color: string | undefined;
   testid: string;
   opacity: number;
 }

@@ -19,15 +19,15 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   const cell = list[index];
   // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
 
-  if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
+  if (cell?.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
     return <PseudoDimensionCell cell={cell} style={style} isLeftColumn={isLeftColumn} />;
   }
 
-  if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_TOTAL && cell.ref.qElemNo === TOTALS_CELL) {
+  if (cell?.ref.qType === NxDimCellType.NX_DIM_CELL_TOTAL && cell.ref.qElemNo === TOTALS_CELL) {
     return <TotalsCell cell={cell} style={style} isLeftColumn={isLeftColumn} />;
   }
 
-  if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {
+  if (cell?.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY || cell === undefined) {
     return <EmptyCell style={style} />;
   }
 

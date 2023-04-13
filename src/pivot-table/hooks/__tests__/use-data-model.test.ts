@@ -1,13 +1,13 @@
 import { renderHook } from "@testing-library/react";
 import { Q_PATH } from "../../../constants";
 import { Model } from "../../../types/QIX";
-import { Point } from "../../../types/types";
+import { MoreDataHandler, NextPageHandler, Point } from "../../../types/types";
 import useDataModel from "../use-data-model";
 
 describe("useDataModel", () => {
   let model: Model;
-  let nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
-  let moreDataHandler: (page: EngineAPI.INxPivotPage) => void;
+  let nextPageHandler: NextPageHandler;
+  let moreDataHandler: MoreDataHandler;
   let size: Point;
   let hasMoreRows: boolean;
   let hasMoreColumns: boolean;

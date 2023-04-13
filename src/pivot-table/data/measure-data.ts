@@ -11,7 +11,11 @@ const createNewGrid = (
       if (!Array.isArray(data[qArea.qTop + rowIndex])) {
         data[qArea.qTop + rowIndex] = [];
       }
-      data[qArea.qTop + rowIndex][qArea.qLeft + colIndex] = cell;
+
+      const currentRow = data[qArea.qTop + rowIndex];
+      if (currentRow !== undefined) {
+        currentRow[qArea.qLeft + colIndex] = cell;
+      }
     });
   });
 

@@ -2,7 +2,15 @@
 import { useCallback, useMemo } from "react";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../../constants";
 import { Model } from "../../types/QIX";
-import { DataModel, ExpandOrCollapser, FetchMoreData, FetchNextPage, Point } from "../../types/types";
+import {
+  DataModel,
+  ExpandOrCollapser,
+  FetchMoreData,
+  FetchNextPage,
+  MoreDataHandler,
+  NextPageHandler,
+  Point,
+} from "../../types/types";
 
 const getNextPage = (qLeft: number, qTop: number) => ({
   qLeft,
@@ -13,8 +21,8 @@ const getNextPage = (qLeft: number, qTop: number) => ({
 
 interface UseDataModelProps {
   model: Model;
-  nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
-  moreDataHandler: (page: EngineAPI.INxPivotPage) => void;
+  nextPageHandler: NextPageHandler;
+  moreDataHandler: MoreDataHandler;
   hasMoreRows: boolean;
   hasMoreColumns: boolean;
   size: Point;
