@@ -5,6 +5,7 @@ import createHeadersData from "../data/headers-data";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../data/left-dimension-data";
 import { addPageToMeasureData, createMeasureData } from "../data/measure-data";
 import { addPageToTopDimensionData, createTopDimensionData } from "../data/top-dimension-data";
+import useOnPropsChange from "./use-on-props-change";
 
 const useData = (
   qPivotDataPages: EngineAPI.INxPivotPage[],
@@ -38,26 +39,26 @@ const useData = (
     deriveLeftDimensionDataFromProps()
   );
 
-  useMemo(() => {
+  useOnPropsChange(() => {
     setMeasureData(deriveMeasureDataFromProps());
   }, [deriveMeasureDataFromProps]);
 
-  useMemo(() => {
+  useOnPropsChange(() => {
     setTopDimensionData(deriveTopDimensionDataFromProps());
   }, [deriveTopDimensionDataFromProps]);
 
-  useMemo(() => {
+  useOnPropsChange(() => {
     setLeftDimensionData(deriveLeftDimensionDataFromProps());
   }, [deriveLeftDimensionDataFromProps]);
 
-  useMemo(() => {
+  useOnPropsChange(() => {
     if (!nextPage) return;
     setMeasureData((prev) => addPageToMeasureData(prev, nextPage));
     setTopDimensionData((prev) => addPageToTopDimensionData(prev, nextPage));
     setLeftDimensionData((prev) => addPageToLeftDimensionData(prev, nextPage));
   }, [nextPage]);
 
-  useMemo(() => {
+  useOnPropsChange(() => {
     if (!moreDataPage) return;
     setMeasureData((prev) => addPageToMeasureData(prev, moreDataPage));
   }, [moreDataPage]);
