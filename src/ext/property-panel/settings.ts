@@ -12,6 +12,67 @@ export interface Emitter {
   $emit: (method: string, props: ExtendedGenericHyperCubeProperties) => void;
 }
 
+const getStylingPanelConfig = () => ({
+  type: "items",
+  items: [
+    {
+      component: "styling-panel",
+      chartTitle: "Object.PivotTable",
+      subtitle: "LayerStyleEditor.component.styling",
+      translation: "LayerStyleEditor.component.styling",
+      ref: "components",
+      useGeneral: true,
+      key: "theme",
+      defaultValue: [],
+      items: {},
+    },
+  ],
+});
+
+const getRowStylesConfig = () => ({
+  type: "items",
+  items: {
+    nullValueText: {
+      ref: "nullValueRepresentation.text",
+      type: "string",
+      translation: "properties.pivot.nullValueText",
+      defaultValue: "-",
+    },
+    alwaysFullyExpanded: {
+      ref: "qHyperCubeDef.qAlwaysFullyExpanded",
+      type: "boolean",
+      translation: "properties.pivot.fullyExpanded",
+      defaultValue: false,
+    },
+    showTotalsAbove: {
+      ref: "qHyperCubeDef.qShowTotalsAbove",
+      type: "boolean",
+      translation: "properties.pivot.showTotalsAbove",
+      defaultValue: true,
+      show(properties: EngineAPI.IGenericHyperCubeProperties): boolean {
+        return properties.qHyperCubeDef?.qDimensions?.some((qDim) => qDim.qOtherTotalSpec?.qTotalMode === "TOTAL_EXPR");
+      },
+    },
+    // indentMode: {
+    //   ref: 'qHyperCubeDef.qIndentMode',
+    //   type: 'boolean',
+    //   translation: 'properties.pivot.indentMode',
+    // },
+    resetProperties: {
+      type: "object",
+      component: "button",
+      translation: "properties.pivot.resetExpansionButton",
+      disabled(properties: EngineAPI.IGenericHyperCubeProperties): boolean {
+        return properties.qHyperCubeDef.qAlwaysFullyExpanded;
+      },
+      action(properties: ExtendedGenericHyperCubeProperties, _: unknown, __: unknown, emitter: Emitter): void {
+        properties.qHyperCubeDef.qExpansionState = []; // eslint-disable-line no-param-reassign
+        emitter.$emit("saveProperties", properties);
+      },
+    },
+  },
+});
+
 const settings = {
   uses: "settings",
   items: {
@@ -19,53 +80,7 @@ const settings = {
       type: "items",
       translation: "properties.presentation",
       grouped: true,
-      items: {
-        rowStyle: {
-          type: "items",
-          items: {
-            nullValueText: {
-              ref: "nullValueRepresentation.text",
-              type: "string",
-              translation: "properties.pivot.nullValueText",
-              defaultValue: "-",
-            },
-            alwaysFullyExpanded: {
-              ref: "qHyperCubeDef.qAlwaysFullyExpanded",
-              type: "boolean",
-              translation: "properties.pivot.fullyExpanded",
-              defaultValue: false,
-            },
-            showTotalsAbove: {
-              ref: "qHyperCubeDef.qShowTotalsAbove",
-              type: "boolean",
-              translation: "properties.pivot.showTotalsAbove",
-              defaultValue: true,
-              show(properties: EngineAPI.IGenericHyperCubeProperties): boolean {
-                return properties.qHyperCubeDef?.qDimensions?.some(
-                  (qDim) => qDim.qOtherTotalSpec?.qTotalMode === "TOTAL_EXPR"
-                );
-              },
-            },
-            // indentMode: {
-            //   ref: 'qHyperCubeDef.qIndentMode',
-            //   type: 'boolean',
-            //   translation: 'properties.pivot.indentMode',
-            // },
-            resetProperties: {
-              type: "object",
-              component: "button",
-              translation: "properties.pivot.resetExpansionButton",
-              disabled(properties: EngineAPI.IGenericHyperCubeProperties): boolean {
-                return properties.qHyperCubeDef.qAlwaysFullyExpanded;
-              },
-              action(properties: ExtendedGenericHyperCubeProperties, _: unknown, __: unknown, emitter: Emitter): void {
-                properties.qHyperCubeDef.qExpansionState = []; // eslint-disable-line no-param-reassign
-                emitter.$emit("saveProperties", properties);
-              },
-            },
-          },
-        },
-      },
+      items: [getStylingPanelConfig(), getRowStylesConfig()],
     },
   },
 };

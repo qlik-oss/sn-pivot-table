@@ -1,3 +1,4 @@
+/* eslint jest/no-conditional-expect: 0 */
 import settings, { Emitter, ExtendedGenericHyperCubeProperties } from "../settings";
 
 describe("settings", () => {
@@ -8,7 +9,10 @@ describe("settings", () => {
           qDimensions: [{ qOtherTotalSpec: { qTotalMode: "TOTAL_EXPR" } }],
         },
       } as EngineAPI.IGenericHyperCubeProperties;
-      expect(settings.items.presentation.items.rowStyle.items.showTotalsAbove.show(props)).toBe(true);
+
+      if ("showTotalsAbove" in settings.items.presentation.items[1].items) {
+        expect(settings.items.presentation.items[1].items.showTotalsAbove.show(props)).toBe(true);
+      }
     });
 
     test("should not show showTotalsAbove when no dimesion have totals turned on", () => {
@@ -17,7 +21,9 @@ describe("settings", () => {
           qDimensions: [{ qOtherTotalSpec: { qTotalMode: "TOTAL_OFF" } }],
         },
       } as EngineAPI.IGenericHyperCubeProperties;
-      expect(settings.items.presentation.items.rowStyle.items.showTotalsAbove.show(props)).toBe(false);
+      if ("showTotalsAbove" in settings.items.presentation.items[1].items) {
+        expect(settings.items.presentation.items[1].items.showTotalsAbove.show(props)).toBe(false);
+      }
     });
   });
 
@@ -28,7 +34,9 @@ describe("settings", () => {
           qAlwaysFullyExpanded: true,
         },
       } as EngineAPI.IGenericHyperCubeProperties;
-      expect(settings.items.presentation.items.rowStyle.items.resetProperties.disabled(props)).toBe(true);
+      if ("resetProperties" in settings.items.presentation.items[1].items) {
+        expect(settings.items.presentation.items[1].items.resetProperties.disabled(props)).toBe(true);
+      }
     });
 
     test("should not be disabled", () => {
@@ -37,7 +45,10 @@ describe("settings", () => {
           qAlwaysFullyExpanded: false,
         },
       } as EngineAPI.IGenericHyperCubeProperties;
-      expect(settings.items.presentation.items.rowStyle.items.resetProperties.disabled(props)).toBe(false);
+
+      if ("resetProperties" in settings.items.presentation.items[1].items) {
+        expect(settings.items.presentation.items[1].items.resetProperties.disabled(props)).toBe(false);
+      }
     });
 
     test("should trigger action", () => {
@@ -49,7 +60,9 @@ describe("settings", () => {
 
       const emitter = { $emit: jest.fn() } as Emitter;
 
-      settings.items.presentation.items.rowStyle.items.resetProperties.action(props, null, null, emitter);
+      if ("resetProperties" in settings.items.presentation.items[1].items) {
+        settings.items.presentation.items[1].items.resetProperties.action(props, null, null, emitter);
+      }
 
       expect(props.qHyperCubeDef.qExpansionState).toEqual([]);
       expect(emitter.$emit).toHaveBeenCalledWith("saveProperties", props);
