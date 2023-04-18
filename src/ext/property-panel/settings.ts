@@ -24,7 +24,54 @@ const getStylingPanelConfig = () => ({
       useGeneral: true,
       key: "theme",
       defaultValue: [],
-      items: {},
+      items: {
+        numlinesSection: {
+          translation: "ThemeStyleEditor.style.rowHeight",
+          component: "panel-section",
+          items: {
+            numlinesItem: {
+              component: "items",
+              ref: "components",
+              key: "general",
+              items: {
+                numlinesWrapper: {
+                  component: "inline-wrapper",
+                  items: {
+                    numlines: {
+                      component: "dropdown",
+                      ref: "numlines.linesCount",
+                      translation: "ThemeStyleEditor.style.rowHeight",
+                      options: [
+                        {
+                          value: 1,
+                          translation: 1,
+                        },
+                        {
+                          value: 2,
+                          translation: 2,
+                        },
+                        {
+                          value: 3,
+                          translation: 3,
+                        },
+                        {
+                          value: 4,
+                          translation: 4,
+                        },
+                        {
+                          value: 5,
+                          translation: 5,
+                        },
+                      ],
+                      defaultValue: 1,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   ],
 });
