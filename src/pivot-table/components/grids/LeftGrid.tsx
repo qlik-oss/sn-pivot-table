@@ -3,6 +3,7 @@ import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList, areEqual } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import { Cell, DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
 import ListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import setListRef from "../helpers/set-list-ref";
@@ -36,15 +37,13 @@ const rightListStyle: React.CSSProperties = {
   boxSizing: "content-box",
 };
 
-const DEFAULT_ROW_HEIGHT = 28;
-
-const getItemSizeCallback = (list: Cell[]) => (rowIndex: number) => {
+const getItemSizeCallback = (list: Cell[], defaultRowHeight: number) => (rowIndex: number) => {
   const cell = list[rowIndex];
   if (cell.leafCount) {
-    return cell.leafCount * DEFAULT_ROW_HEIGHT;
+    return cell.leafCount * defaultRowHeight;
   }
 
-  return DEFAULT_ROW_HEIGHT;
+  return defaultRowHeight;
 };
 
 const LeftGrid = ({
@@ -59,6 +58,7 @@ const LeftGrid = ({
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
   const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
+  const { cellHeight } = useStyleContext();
 
   const { qDimensionInfo } = layoutService.layout.qHyperCube;
 
@@ -98,7 +98,7 @@ const LeftGrid = ({
           height={height}
           width={getLeftColumnWidth(colIndex)}
           itemCount={list.length}
-          itemSize={getItemSizeCallback(list)}
+          itemSize={getItemSizeCallback(list, cellHeight)}
           layout="vertical"
           itemData={{
             layoutService,

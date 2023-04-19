@@ -22,47 +22,28 @@ const getStylingPanelConfig = () => ({
       translation: "LayerStyleEditor.component.styling",
       ref: "components",
       useGeneral: true,
-      key: "theme",
       defaultValue: [],
       items: {
-        numlinesSection: {
+        rowHeightSection: {
           translation: "ThemeStyleEditor.style.rowHeight",
           component: "panel-section",
           items: {
-            numlinesItem: {
+            rowHeightItem: {
               component: "items",
               ref: "components",
-              key: "general",
+              key: "theme",
               items: {
-                numlinesWrapper: {
+                rowHeightWrapper: {
                   component: "inline-wrapper",
                   items: {
-                    numlines: {
+                    rowHeight: {
                       component: "dropdown",
-                      ref: "numlines.linesCount",
+                      ref: "rowHeight.linesCount",
                       translation: "ThemeStyleEditor.style.rowHeight",
-                      options: [
-                        {
-                          value: 1,
-                          translation: 1,
-                        },
-                        {
-                          value: 2,
-                          translation: 2,
-                        },
-                        {
-                          value: 3,
-                          translation: 3,
-                        },
-                        {
-                          value: 4,
-                          translation: 4,
-                        },
-                        {
-                          value: 5,
-                          translation: 5,
-                        },
-                      ],
+                      options: [...Array(10).keys()].map((x) => ({
+                        value: x + 1,
+                        translation: x + 1,
+                      })),
                       defaultValue: 1,
                     },
                   },
