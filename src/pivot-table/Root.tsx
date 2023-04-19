@@ -12,8 +12,6 @@ interface RootProps extends PivotTableProps {
 }
 
 const render = (reactRoot: Root, props: RootProps): void => {
-  console.log({ Layout: props.layoutService.layout, props });
-
   reactRoot.render(
     <React.StrictMode>
       <SelectionsProvider selections={props.selections}>

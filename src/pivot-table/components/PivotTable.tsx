@@ -35,7 +35,6 @@ export const StickyPivotTable = ({
 }: PivotTableProps): JSX.Element => {
   const { qHyperCube, snapshotData } = layoutService.layout;
   const { cellHeight } = useStyleContext();
-  console.log("PT", { cellHeight });
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeList[]>([]);
