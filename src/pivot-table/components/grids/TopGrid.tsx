@@ -1,10 +1,10 @@
 import { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect, useMemo } from "react";
-import { VariableSizeList, areEqual } from "react-window";
+import { VariableSizeList } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import { Cell, DataModel, LayoutService, TopDimensionData } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
-import ListCellFactory from "../cells/ListCellFactory";
+import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
@@ -43,8 +43,6 @@ const TopGrid = ({
   layoutService,
   topDimensionData,
 }: TopGridProps): JSX.Element | null => {
-  const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
-
   const { qMeasureInfo, qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
 
   useOnPropsChange(() => {

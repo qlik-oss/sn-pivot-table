@@ -30,7 +30,7 @@ const gridStyle: React.CSSProperties = {
   ...gridBorderStyle,
 };
 
-const HeaderCellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
+const MemoizedCellFactory = memo(({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
   const cell = data.matrix[columnIndex][rowIndex];
 
   if (typeof cell === "string") {
@@ -38,7 +38,7 @@ const HeaderCellFactory = ({ columnIndex, rowIndex, style, data }: GridCallbackP
   }
 
   return null;
-};
+}, areEqual);
 
 const HeaderGrid = ({
   columnWidthCallback,
@@ -48,7 +48,6 @@ const HeaderGrid = ({
   headersData,
 }: HeaderGridProps): JSX.Element | null => {
   const headerGridRef = useRef<VariableSizeGrid>(null);
-  const MemoizedCellFactory = memo(HeaderCellFactory, areEqual);
 
   useLayoutEffect(() => {
     if (headerGridRef.current) {
