@@ -1,4 +1,5 @@
 import React from "react";
+import { areEqual } from "react-window";
 import { TOTALS_CELL } from "../../../constants";
 import NxDimCellType from "../../../types/QIX";
 import { ListItemData } from "../../../types/types";
@@ -43,4 +44,4 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   );
 };
 
-export default ListCellFactory;
+export default React.memo(ListCellFactory, areEqual);

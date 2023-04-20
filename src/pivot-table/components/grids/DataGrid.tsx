@@ -1,9 +1,9 @@
 /*  eslint-disable no-param-reassign */
 import { debouncer } from "qlik-chart-modules";
 import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
-import { GridOnItemsRenderedProps, VariableSizeGrid, areEqual } from "react-window";
+import { GridOnItemsRenderedProps, VariableSizeGrid } from "react-window";
 import { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
-import DataCell from "../cells/DataCell";
+import MemoizedDataCell from "../cells/DataCell";
 // import useDebug from '../../hooks/use-debug';
 
 interface DataGridProps {
@@ -101,8 +101,6 @@ const DataGrid = ({
   hasMoreRows,
   hasMoreColumns,
 }: DataGridProps): JSX.Element | null => {
-  const MemoizedDataCell = memo(DataCell, areEqual);
-
   useLayoutEffect(() => {
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterColumnIndex(0); // Needs to be re-computed every time the data changes
