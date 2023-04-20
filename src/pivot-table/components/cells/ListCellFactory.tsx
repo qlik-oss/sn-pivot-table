@@ -17,7 +17,10 @@ interface ListCallbackProps {
 const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
   const { list, isLeftColumn = false } = data;
   const cell = list[index];
-  // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
+
+  if (cell === undefined) {
+    return null;
+  }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
     return <PseudoDimensionCell cell={cell} style={style} isLeftColumn={isLeftColumn} />;

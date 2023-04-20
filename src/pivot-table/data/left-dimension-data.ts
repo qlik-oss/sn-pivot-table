@@ -11,6 +11,12 @@ export const addPageToLeftDimensionData = (
 
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, false);
   const data = grid.map((col) => col.filter((cell) => typeof cell !== "undefined"));
+  data.slice(0, -1).forEach((column) => {
+    column.forEach((cell, index, cells) => {
+      // eslint-disable-next-line no-param-reassign
+      cell.nextSibling = cells[index + 1] ?? null;
+    });
+  });
   const height = Math.max(prevData.size.y, qArea.qHeight + qArea.qTop);
 
   return {
@@ -33,6 +39,12 @@ export const createLeftDimensionData = (
   const { qEffectiveInterColumnSortOrder } = qHyperCube;
   const grid = extractLeftGrid([], qLeft, qArea, isSnapshot);
   const data = grid.map((col) => col.filter((cell) => typeof cell !== "undefined"));
+  data.slice(0, -1).forEach((column) => {
+    column.forEach((cell, index, cells) => {
+      // eslint-disable-next-line no-param-reassign
+      cell.nextSibling = cells[index + 1] ?? null;
+    });
+  });
   const dimensionInfoIndexMap = data.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
 
   return {

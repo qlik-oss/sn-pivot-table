@@ -1,6 +1,6 @@
 import { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect } from "react";
-import { VariableSizeList, areEqual } from "react-window";
+import { VariableSizeList } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import { Cell, DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
 import ListCellFactory from "../cells/ListCellFactory";
@@ -38,10 +38,20 @@ const rightListStyle: React.CSSProperties = {
 
 const DEFAULT_ROW_HEIGHT = 28;
 
-const getItemSizeCallback = (list: Cell[]) => (rowIndex: number) => {
+const getItemSizeCallback = (list: Cell[], isLastColumn: boolean) => (rowIndex: number) => {
   const cell = list[rowIndex];
+
+  if (cell === undefined) {
+    return isLastColumn ? DEFAULT_ROW_HEIGHT : 0;
+  }
+
   if (cell.leafCount) {
-    return cell.leafCount * DEFAULT_ROW_HEIGHT;
+    let distanceToNextCell = 0;
+    if (cell.nextSibling) {
+      distanceToNextCell = cell.nextSibling.y - (cell.y + cell.leafCount);
+    }
+
+    return (cell.leafCount + distanceToNextCell) * DEFAULT_ROW_HEIGHT;
   }
 
   return DEFAULT_ROW_HEIGHT;
@@ -58,15 +68,15 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
-  const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
+  const MemoizedListCellFactory = ListCellFactory; // memo(ListCellFactory, areEqual);
 
-  const { qDimensionInfo } = layoutService.layout.qHyperCube;
-
-  useLayoutEffect(() => {
-    if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list?.resetAfterIndex(0));
-    }
-  }, [dataModel, width, height, leftDimensionData, leftGridRef]);
+  const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
+  leftGridRef.current?.forEach((list) => list?.resetAfterIndex(0, false));
+  // useLayoutEffect(() => {
+  //   if (leftGridRef.current) {
+  //     leftGridRef.current.forEach((list) => list?.resetAfterIndex(0));
+  //   }
+  // }, [dataModel, width, height, leftDimensionData, leftGridRef]);
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {
@@ -90,15 +100,15 @@ const LeftGrid = ({
 
   return (
     <div style={containerStyle}>
-      {leftDimensionData.data.map((list, colIndex) => (
+      {leftDimensionData.grid.map((list, colIndex) => (
         <VariableSizeList
           key={getKey(colIndex)}
           ref={setListRef(leftGridRef, colIndex)}
           style={isLastColumn(colIndex) ? { ...listStyle, ...rightListStyle } : listStyle}
           height={height}
           width={getLeftColumnWidth(colIndex)}
-          itemCount={list.length}
-          itemSize={getItemSizeCallback(list)}
+          itemCount={qSize.qcy}
+          itemSize={getItemSizeCallback(list, leftDimensionData.grid.length - 1 === colIndex)}
           layout="vertical"
           itemData={{
             layoutService,
@@ -108,6 +118,7 @@ const LeftGrid = ({
             isLeftColumn: true,
           }}
           itemKey={getItemKey}
+          estimatedItemSize={DEFAULT_ROW_HEIGHT}
         >
           {MemoizedListCellFactory}
         </VariableSizeList>

@@ -49,6 +49,7 @@ export interface Cell {
   parent: Cell | null;
   root: Cell | null;
   leafCount: number;
+  nextSibling?: Cell;
   incrementLeafCount: () => void;
 }
 
