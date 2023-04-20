@@ -7,6 +7,7 @@ import ListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import setListRef from "../helpers/set-list-ref";
 // import useDebug from '../../hooks/use-debug';
+import useOnPropsChange from "../../hooks/use-on-props-change";
 import { gridBorderStyle } from "../shared-styles";
 
 interface LeftGridProps {
@@ -72,9 +73,9 @@ const LeftGrid = ({
 
   const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
 
-  useLayoutEffect(() => {
+  useOnPropsChange(() => {
     if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list?.resetAfterIndex(0));
+      leftGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
     }
   }, [dataModel, width, height, leftDimensionData, leftGridRef]);
 

@@ -10,3 +10,4 @@ yarn.lock
 test-report
 api-specifications
 CHANGELOG.md
+core/esm/index.js

@@ -3,6 +3,7 @@ import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList, areEqual } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import { Cell, DataModel, LayoutService, TopDimensionData } from "../../../types/types";
+import useOnPropsChange from "../../hooks/use-on-props-change";
 import ListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import setListRef from "../helpers/set-list-ref";
@@ -46,9 +47,9 @@ const TopGrid = ({
 
   const { qMeasureInfo, qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
 
-  useLayoutEffect(() => {
+  useOnPropsChange(() => {
     if (topGridRef.current) {
-      topGridRef.current.forEach((list) => list?.resetAfterIndex(0));
+      topGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
     }
   }, [dataModel, width, height, topDimensionData, topGridRef]);
 
