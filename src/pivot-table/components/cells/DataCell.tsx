@@ -3,6 +3,7 @@ import NxDimCellType from "../../../types/QIX";
 import { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { borderStyle, textStyle } from "../shared-styles";
+import EmptyCell from "./EmptyCell";
 
 export interface MeasureCellProps {
   columnIndex: number;
@@ -42,7 +43,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const cell = grid[rowIndex]?.[columnIndex];
 
   if (!cell) {
-    return null;
+    return <EmptyCell style={style} />;
   }
 
   const { qText, qType } = cell;

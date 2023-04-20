@@ -1,5 +1,6 @@
 import { TopDimensionData } from "../../types/types";
 import extractTopGrid from "./extract-top";
+import assignNextSibling from "./helpers/assign-next-sibling";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
 
 export const addPageToTopDimensionData = (
@@ -11,6 +12,7 @@ export const addPageToTopDimensionData = (
 
   const nextGrid = extractTopGrid(prevData.grid, qTop, qArea, false);
   const nextData = nextGrid.map((row) => row.filter((cell) => typeof cell !== "undefined"));
+  assignNextSibling(nextData);
   const width = Math.max(prevData.size.x, qArea.qWidth + qArea.qLeft);
 
   return {
@@ -33,6 +35,7 @@ export const createTopDimensionData = (
   const { qEffectiveInterColumnSortOrder, qNoOfLeftDims } = qHyperCube;
   const grid = extractTopGrid([], qTop, qArea, isSnapshot);
   const data = grid.map((row) => row.filter((cell) => typeof cell !== "undefined"));
+  assignNextSibling(data);
   const dimensionInfoIndexMap = data.map(
     createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder)
   );

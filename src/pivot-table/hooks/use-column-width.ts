@@ -35,7 +35,7 @@ export default function useColumnWidth(
     styleService.header.fontSize,
     styleService.header.fontFamily
   );
-  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims, qSize } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
     () =>
@@ -150,11 +150,11 @@ export default function useColumnWidth(
 
   const getTotalWidth = useCallback(
     () =>
-      Array.from({ length: measureData.size.x }, () => null).reduce(
+      Array.from({ length: qSize.qcx }, () => null).reduce(
         (width, _, index) => width + getDataColumnWidth(index),
         leftGridWidth
       ),
-    [getDataColumnWidth, leftGridWidth, measureData.size.x]
+    [getDataColumnWidth, leftGridWidth, qSize.qcx]
   );
 
   const totalMeasureInfoColumnWidth = useMemo(

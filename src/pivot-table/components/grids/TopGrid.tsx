@@ -44,7 +44,7 @@ const TopGrid = ({
 }: TopGridProps): JSX.Element | null => {
   const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
 
-  const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
+  const { qMeasureInfo, qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
 
   useLayoutEffect(() => {
     if (topGridRef.current) {
@@ -63,11 +63,20 @@ const TopGrid = ({
     [getMeasureInfoWidth, qMeasureInfo]
   );
 
-  const getItemSizeCallback = (list: Cell[]) => (colIndex: number) => {
+  const getItemSizeCallback = (list: Cell[], isLastRow: boolean) => (colIndex: number) => {
     const cell = list[colIndex];
+
+    if (cell === undefined) {
+      return isLastRow ? getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(colIndex)) : 0;
+    }
+
     if (cell.leafCount > 0) {
+      let distanceToNextCell = 0;
+      if (cell.nextSibling) {
+        distanceToNextCell = cell.nextSibling.x - (cell.x + cell.leafCount);
+      }
       const measureInfoCount = qMeasureInfo.length;
-      return (cell.leafCount / measureInfoCount) * allMeasuresWidth;
+      return ((cell.leafCount + distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
     }
 
     return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell.x));
@@ -88,15 +97,15 @@ const TopGrid = ({
 
   return (
     <div>
-      {topDimensionData.data.map((list, topRowIndex) => (
+      {topDimensionData.grid.map((list, topRowIndex) => (
         <VariableSizeList
           key={getKey(topRowIndex)}
           ref={setListRef(topGridRef, topRowIndex)}
           style={topRowIndex === topDimensionData.data.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
           height={rowHightCallback()}
           width={width}
-          itemCount={list.length}
-          itemSize={getItemSizeCallback(list)}
+          itemCount={qSize.qcx}
+          itemSize={getItemSizeCallback(list, topDimensionData.grid.length - 1 === topRowIndex)}
           layout="horizontal"
           itemData={{
             layoutService,

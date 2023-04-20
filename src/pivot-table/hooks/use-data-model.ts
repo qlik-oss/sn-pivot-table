@@ -101,12 +101,13 @@ export default function useDataModel({
         const nextArea = {
           qLeft: left,
           qTop: top,
-          qWidth: Math.min(width, size.x - left),
-          qHeight: Math.min(height, size.y - top),
+          qWidth: width,
+          qHeight: height,
         };
-
         const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, [nextArea]);
         moreDataHandler(pivotPage);
+        nextPageHandler(pivotPage);
+
         ref.isLoading = false;
         return true;
       } catch (error) {
@@ -115,7 +116,7 @@ export default function useDataModel({
         return false;
       }
     },
-    [genericObjectModel, moreDataHandler, ref, size.x, size.y]
+    [genericObjectModel, moreDataHandler, nextPageHandler, ref]
   );
 
   const dataModel = useMemo<DataModel>(

@@ -6,7 +6,6 @@ import DimensionCell from "./DimensionCell";
 import EmptyCell from "./EmptyCell";
 import PseudoDimensionCell from "./PseudoDimensionCell";
 import TotalsCell from "./TotalsCell";
-// import useDebug from '../../hooks/use-debug';
 
 interface ListCallbackProps {
   index: number;
@@ -19,7 +18,11 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   const cell = list[index];
 
   if (cell === undefined) {
-    return null;
+    if (style.height === 0) {
+      return null;
+    }
+
+    return <EmptyCell style={style} />;
   }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {

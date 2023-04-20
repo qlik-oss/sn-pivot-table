@@ -1,10 +1,9 @@
 /*  eslint-disable no-param-reassign */
 import { debouncer } from "qlik-chart-modules";
-import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
+import React, { memo, useCallback, useLayoutEffect } from "react";
 import { GridOnItemsRenderedProps, VariableSizeGrid, areEqual } from "react-window";
 import { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
 import DataCell from "../cells/DataCell";
-// import useDebug from '../../hooks/use-debug';
 
 interface DataGridProps {
   dataModel: DataModel;
@@ -16,8 +15,6 @@ interface DataGridProps {
   viewService: ViewService;
   layoutService: LayoutService;
   measureData: MeasureData;
-  hasMoreRows: boolean;
-  hasMoreColumns: boolean;
 }
 
 type FetchModeData = (
@@ -28,8 +25,6 @@ type FetchModeData = (
   overscanRowStartIndex: number,
   overscanRowStopIndex: number
 ) => Promise<void>;
-
-const EXPONENT = 2;
 
 const gridStyle: React.CSSProperties = { overflow: "hidden" };
 
@@ -60,14 +55,6 @@ const debouncedFetchMoreData: FetchModeData = debouncer(
     overscanRowStartIndex: number,
     overscanRowStopIndex: number
   ) => {
-    if (overscanColumnStartIndex > measureData.size.x) {
-      return;
-    }
-
-    if (overscanRowStartIndex > measureData.size.y) {
-      return;
-    }
-
     const shouldFetchData = isMissingData(
       measureData.data,
       overscanColumnStartIndex,
@@ -98,8 +85,6 @@ const DataGrid = ({
   viewService,
   layoutService,
   measureData,
-  hasMoreRows,
-  hasMoreColumns,
 }: DataGridProps): JSX.Element | null => {
   const MemoizedDataCell = memo(DataCell, areEqual);
 
@@ -115,17 +100,6 @@ const DataGrid = ({
     }
   }, [width, height, measureData, dataGridRef]);
 
-  // Use a logarithmic value as the threshold should scale with the size of the data. This helps create a smooth scrolling experience where.
-  // It should reduce the risk of the scroll hitting the "end" of the scrollable area before new data have been fetch.
-  const columnFetchThreshold = useMemo(
-    () => measureData.size.x - Math.round(Math.log(measureData.size.x) ** EXPONENT),
-    [measureData.size.x]
-  );
-  const rowFetchThreshold = useMemo(
-    () => measureData.size.y - Math.round(Math.log(measureData.size.y) ** EXPONENT),
-    [measureData.size.y]
-  );
-
   const onItemsRendered = useCallback(
     async ({
       overscanColumnStartIndex,
@@ -133,24 +107,12 @@ const DataGrid = ({
       overscanRowStartIndex,
       overscanRowStopIndex,
       visibleColumnStartIndex,
-      visibleColumnStopIndex,
       visibleRowStartIndex,
-      visibleRowStopIndex,
     }: GridOnItemsRenderedProps) => {
       viewService.gridColumnStartIndex = visibleColumnStartIndex;
       viewService.gridRowStartIndex = visibleRowStartIndex;
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
-
-      if (hasMoreRows && visibleRowStopIndex >= rowFetchThreshold) {
-        await dataModel.fetchNextPage(true, overscanColumnStartIndex);
-        return;
-      }
-
-      if (hasMoreColumns && visibleColumnStopIndex >= columnFetchThreshold) {
-        await dataModel.fetchNextPage(false, overscanRowStartIndex);
-        return;
-      }
 
       await debouncedFetchMoreData(
         dataModel,
@@ -161,7 +123,7 @@ const DataGrid = ({
         overscanRowStopIndex
       );
     },
-    [viewService, hasMoreRows, rowFetchThreshold, hasMoreColumns, columnFetchThreshold, dataModel, measureData]
+    [viewService, dataModel, measureData]
   );
 
   const getColumnWidth = useCallback(
@@ -177,10 +139,10 @@ const DataGrid = ({
     <VariableSizeGrid
       ref={dataGridRef}
       style={gridStyle}
-      columnCount={measureData.size.x}
+      columnCount={layoutService.layout.qHyperCube.qSize.qcx}
       columnWidth={getColumnWidth}
       height={height}
-      rowCount={measureData.size.y}
+      rowCount={layoutService.layout.qHyperCube.qSize.qcy}
       rowHeight={rowHightCallback}
       width={width}
       itemData={
@@ -191,6 +153,7 @@ const DataGrid = ({
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}
+      estimatedRowHeight={28}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>

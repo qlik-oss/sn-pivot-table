@@ -1,6 +1,6 @@
 import { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect } from "react";
-import { VariableSizeList } from "react-window";
+import { VariableSizeList, areEqual } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import { Cell, DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
 import ListCellFactory from "../cells/ListCellFactory";
@@ -68,15 +68,15 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
-  const MemoizedListCellFactory = ListCellFactory; // memo(ListCellFactory, areEqual);
+  const MemoizedListCellFactory = memo(ListCellFactory, areEqual);
 
   const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
-  leftGridRef.current?.forEach((list) => list?.resetAfterIndex(0, false));
-  // useLayoutEffect(() => {
-  //   if (leftGridRef.current) {
-  //     leftGridRef.current.forEach((list) => list?.resetAfterIndex(0));
-  //   }
-  // }, [dataModel, width, height, leftDimensionData, leftGridRef]);
+
+  useLayoutEffect(() => {
+    if (leftGridRef.current) {
+      leftGridRef.current.forEach((list) => list?.resetAfterIndex(0));
+    }
+  }, [dataModel, width, height, leftDimensionData, leftGridRef]);
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {

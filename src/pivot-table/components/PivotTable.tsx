@@ -1,9 +1,8 @@
 import { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import { VariableSizeGrid, VariableSizeList } from "react-window";
-import { LayoutService, Rect, ViewService } from "../../types/types";
-// import useDebug from '../hooks/use-debug';
 import { Model } from "../../types/QIX";
+import { LayoutService, Rect, ViewService } from "../../types/types";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
@@ -112,24 +111,6 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  // useDebug('PivotTable', {
-  //   model,
-  //   rect,
-  //   constraints,
-  //   viewService,
-  //   layoutService,
-  //   qPivotDataPages,
-  //   dataModel,
-  //   headersData,
-  //   measureData,
-  //   topDimensionData,
-  //   leftDimensionData,
-  //   hasMoreRows,
-  //   hasMoreColumns,
-  //   nextPageHandler,
-  //   moreDataHandler
-  // });
-
   const headerGridHeight = DEFAULT_ROW_HEIGHT * headersData.size.y;
   const leftGridHeight = rect.height - headerGridHeight;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
@@ -140,7 +121,7 @@ export const StickyPivotTable = ({
     <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints}>
       <FullSizeContainer
         width={getTotalWidth()}
-        height={DEFAULT_ROW_HEIGHT * (measureData.size.y + topDimensionData.size.y)}
+        height={DEFAULT_ROW_HEIGHT * (qHyperCube.qSize.qcy + topDimensionData.size.y)}
       >
         <StickyContainer
           rect={rect}
@@ -192,8 +173,6 @@ export const StickyPivotTable = ({
             viewService={viewService}
             layoutService={layoutService}
             measureData={measureData}
-            hasMoreRows={hasMoreRows}
-            hasMoreColumns={hasMoreColumns}
           />
         </StickyContainer>
       </FullSizeContainer>
