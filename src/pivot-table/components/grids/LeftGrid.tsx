@@ -83,7 +83,7 @@ const LeftGrid = ({
     if (leftGridRef.current) {
       leftGridRef.current.forEach((list) => list?.scrollTo(getScrollTop()));
     }
-  });
+  }, [getScrollTop, layoutService, leftGridRef]);
 
   const isLastColumn = (colIndex: number) => colIndex === leftDimensionData.data.length - 1;
 

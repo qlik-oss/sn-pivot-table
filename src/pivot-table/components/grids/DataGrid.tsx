@@ -1,6 +1,6 @@
 /*  eslint-disable no-param-reassign */
 import { debouncer } from "qlik-chart-modules";
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useLayoutEffect } from "react";
 import { GridOnItemsRenderedProps, VariableSizeGrid, areEqual } from "react-window";
 import { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
@@ -95,7 +95,7 @@ const DataGrid = ({
     }
   }, [dataGridRef, dataModel, measureData]);
 
-  useOnPropsChange(() => {
+  useLayoutEffect(() => {
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }

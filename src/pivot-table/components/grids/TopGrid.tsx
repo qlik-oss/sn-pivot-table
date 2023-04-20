@@ -57,7 +57,7 @@ const TopGrid = ({
     if (topGridRef.current) {
       topGridRef.current.forEach((list) => list?.scrollTo(getScrollLeft()));
     }
-  });
+  }, [layoutService, getScrollLeft, topGridRef]);
 
   const allMeasuresWidth = useMemo(
     () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
