@@ -169,7 +169,6 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
         ...appliedSelectableCellStyle,
         ...borderStyle,
         ...appliedNullStyle,
-        background: "cornsilk",
       }}
       aria-hidden="true"
       onClick={onClickHandler}
