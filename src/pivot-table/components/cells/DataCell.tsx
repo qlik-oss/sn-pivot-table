@@ -1,4 +1,5 @@
 import React from "react";
+import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
 import { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
@@ -63,4 +64,4 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   );
 };
 
-export default MeasureCell;
+export default React.memo(MeasureCell, areEqual);
