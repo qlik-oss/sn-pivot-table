@@ -28,8 +28,12 @@ const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX
   const containerStyle = isLeftColumn ? leftContainerStyle : topContainerStyle;
 
   return (
-    <div title={cell.ref.qText} style={{ ...style, ...borderStyle, ...containerStyle }} data-testid={testId}>
-      <div style={{ ...textStyle, ...serviceStyle }}>{cell.ref.qText}</div>
+    <div
+      title={cell.ref.qText}
+      style={{ ...style, ...borderStyle, ...containerStyle, display: "flex" }}
+      data-testid={testId}
+    >
+      <div style={{ ...textStyle, ...serviceStyle, alignSelf: "flex-end" }}>{cell.ref.qText}</div>
     </div>
   );
 };

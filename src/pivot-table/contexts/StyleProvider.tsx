@@ -21,7 +21,7 @@ const StyleProvider = ({ children, styleService, layoutService }: StyleProviderP
   );
 
   const memoisedProps = useMemo(() => {
-    const cellHeight = DEFAULT_ROW_HEIGHT * (rowHeight?.linesCount || 3);
+    const cellHeight = DEFAULT_ROW_HEIGHT * (rowHeight?.linesCount || 1);
     return { ...styleService, cellHeight };
   }, [styleService, rowHeight?.linesCount]);
 
