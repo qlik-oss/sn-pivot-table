@@ -18,8 +18,8 @@ const DimensionTitleCell = ({ cell, style }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
 
   return (
-    <div title={cell} style={{ ...style, ...borderStyle }} data-testid={testId}>
-      <div style={{ ...labelTextStyle, ...styleService.header }}>{cell}</div>
+    <div title={cell} style={{ ...style, ...borderStyle, display: "flex", background: "bisque" }} data-testid={testId}>
+      <div style={{ ...labelTextStyle, ...styleService.header, alignSelf: "flex-end", flexGrow: 1 }}>{cell}</div>
     </div>
   );
 };
