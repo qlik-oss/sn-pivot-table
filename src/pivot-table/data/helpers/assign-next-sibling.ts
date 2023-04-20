@@ -1,12 +1,15 @@
 import { Cell } from "../../../types/types";
 
-const assignNextSibling = (data: Cell[][]) => {
+const assignDistanceToNextCell = (data: Cell[][], direction: "x" | "y") => {
   data.slice(0, -1).forEach((list) => {
     list.forEach((cell, index, cells) => {
-      // eslint-disable-next-line no-param-reassign
-      cell.nextSibling = cells[index + 1] ?? null;
+      const nextSibling = cells[index + 1];
+      if (nextSibling) {
+        // eslint-disable-next-line no-param-reassign
+        cell.distanceToNextCell = nextSibling[direction] - (cell[direction] + cell.leafCount);
+      }
     });
   });
 };
 
-export default assignNextSibling;
+export default assignDistanceToNextCell;

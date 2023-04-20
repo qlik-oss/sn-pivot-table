@@ -1,6 +1,6 @@
 import { LeftDimensionData } from "../../types/types";
 import extractLeftGrid from "./extract-left";
-import assignNextSibling from "./helpers/assign-next-sibling";
+import assignDistanceToNextCell from "./helpers/assign-next-sibling";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
 
 export const addPageToLeftDimensionData = (
@@ -12,7 +12,7 @@ export const addPageToLeftDimensionData = (
 
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, false);
   const data = grid.map((col) => col.filter((cell) => typeof cell !== "undefined"));
-  assignNextSibling(data);
+  assignDistanceToNextCell(data, "y");
   const height = Math.max(prevData.size.y, qArea.qHeight + qArea.qTop);
 
   return {
@@ -35,7 +35,7 @@ export const createLeftDimensionData = (
   const { qEffectiveInterColumnSortOrder } = qHyperCube;
   const grid = extractLeftGrid([], qLeft, qArea, isSnapshot);
   const data = grid.map((col) => col.filter((cell) => typeof cell !== "undefined"));
-  assignNextSibling(data);
+  assignDistanceToNextCell(data, "y");
   const dimensionInfoIndexMap = data.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
 
   return {

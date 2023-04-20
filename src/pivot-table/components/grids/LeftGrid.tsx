@@ -46,12 +46,7 @@ const getItemSizeCallback = (list: Cell[], isLastColumn: boolean) => (rowIndex: 
   }
 
   if (cell.leafCount) {
-    let distanceToNextCell = 0;
-    if (cell.nextSibling) {
-      distanceToNextCell = cell.nextSibling.y - (cell.y + cell.leafCount);
-    }
-
-    return (cell.leafCount + distanceToNextCell) * DEFAULT_ROW_HEIGHT;
+    return (cell.leafCount + cell.distanceToNextCell) * DEFAULT_ROW_HEIGHT;
   }
 
   return DEFAULT_ROW_HEIGHT;

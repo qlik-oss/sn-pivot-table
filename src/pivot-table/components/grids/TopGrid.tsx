@@ -70,12 +70,8 @@ const TopGrid = ({
     }
 
     if (cell.leafCount > 0) {
-      let distanceToNextCell = 0;
-      if (cell.nextSibling) {
-        distanceToNextCell = cell.nextSibling.x - (cell.x + cell.leafCount);
-      }
       const measureInfoCount = qMeasureInfo.length;
-      return ((cell.leafCount + distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
+      return ((cell.leafCount + cell.distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
     }
 
     return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell.x));
