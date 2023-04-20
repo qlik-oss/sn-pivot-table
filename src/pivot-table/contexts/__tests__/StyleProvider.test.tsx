@@ -8,9 +8,9 @@ const DummyTestComponent = () => {
   const { cellHeight } = useStyleContext();
 
   return (
-    <>
+    <div>
       <p data-testid="cell-height">{cellHeight}</p>
-    </>
+    </div>
   );
 };
 
