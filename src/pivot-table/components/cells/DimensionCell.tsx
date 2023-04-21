@@ -56,6 +56,7 @@ const getDimTextStyle = (isLeftColumn: boolean, clampCount: number): React.CSSPr
     lineClamp: clampCount,
     WebkitLineClamp: clampCount,
     WebkitBoxOrient: "vertical",
+    lineBreak: "anywhere",
   }),
 });
 
