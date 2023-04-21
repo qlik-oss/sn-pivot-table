@@ -7,6 +7,10 @@ export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<bool
 
 export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<boolean>;
 
+export type List = Record<number, Cell>;
+
+export type Grid = List[];
+
 export interface Rect {
   width: number;
   height: number;
@@ -38,7 +42,7 @@ export interface GridItemData extends ItemData {
 }
 
 export interface ListItemData extends ItemData {
-  list: Cell[];
+  list: List;
   isLeftColumn?: boolean;
 }
 
@@ -76,15 +80,13 @@ export interface PivotData {
 }
 
 export interface TopDimensionData {
-  data: Cell[][];
-  grid: Cell[][];
+  grid: Grid;
   dimensionInfoIndexMap: number[];
   size: Point;
 }
 
 export interface LeftDimensionData {
-  data: Cell[][];
-  grid: Cell[][];
+  grid: Grid;
   dimensionInfoIndexMap: number[];
   size: Point;
 }

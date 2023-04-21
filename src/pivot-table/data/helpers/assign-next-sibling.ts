@@ -1,8 +1,8 @@
-import { Cell } from "../../../types/types";
+import { Grid } from "../../../types/types";
 
-const assignDistanceToNextCell = (data: Cell[][], direction: "x" | "y") => {
+const assignDistanceToNextCell = (data: Grid, direction: "x" | "y") => {
   data.slice(0, -1).forEach((list) => {
-    list.forEach((cell, index, cells) => {
+    Object.values(list).forEach((cell, index, cells) => {
       const nextSibling = cells[index + 1];
       if (nextSibling) {
         // eslint-disable-next-line no-param-reassign

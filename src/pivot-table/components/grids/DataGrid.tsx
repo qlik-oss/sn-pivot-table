@@ -152,7 +152,6 @@ const DataGrid = ({
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}
-      estimatedRowHeight={28}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>

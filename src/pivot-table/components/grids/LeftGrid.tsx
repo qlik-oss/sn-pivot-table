@@ -2,7 +2,7 @@ import { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
-import { Cell, DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
+import { DataModel, LayoutService, LeftDimensionData, List } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -38,7 +38,7 @@ const rightListStyle: React.CSSProperties = {
 
 const DEFAULT_ROW_HEIGHT = 28;
 
-const getItemSizeCallback = (list: Cell[], isLastColumn: boolean) => (rowIndex: number) => {
+const getItemSizeCallback = (list: List, isLastColumn: boolean) => (rowIndex: number) => {
   const cell = list[rowIndex];
 
   if (cell === undefined) {
@@ -77,8 +77,6 @@ const LeftGrid = ({
     }
   }, [getScrollTop, layoutService, leftGridRef]);
 
-  const isLastColumn = (colIndex: number) => colIndex === leftDimensionData.data.length - 1;
-
   const getKey = (colIndex: number): string => {
     const dimIndex = leftDimensionData.dimensionInfoIndexMap[colIndex];
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
@@ -93,29 +91,32 @@ const LeftGrid = ({
 
   return (
     <div style={containerStyle}>
-      {leftDimensionData.grid.map((list, colIndex) => (
-        <VariableSizeList
-          key={getKey(colIndex)}
-          ref={setListRef(leftGridRef, colIndex)}
-          style={isLastColumn(colIndex) ? { ...listStyle, ...rightListStyle } : listStyle}
-          height={height}
-          width={getLeftColumnWidth(colIndex)}
-          itemCount={qSize.qcy}
-          itemSize={getItemSizeCallback(list, leftDimensionData.grid.length - 1 === colIndex)}
-          layout="vertical"
-          itemData={{
-            layoutService,
-            dataModel,
-            constraints,
-            list,
-            isLeftColumn: true,
-          }}
-          itemKey={getItemKey}
-          estimatedItemSize={DEFAULT_ROW_HEIGHT}
-        >
-          {MemoizedListCellFactory}
-        </VariableSizeList>
-      ))}
+      {leftDimensionData.grid.map((list, colIndex) => {
+        const isLastColumn = colIndex === leftDimensionData.size.x - 1;
+
+        return (
+          <VariableSizeList
+            key={getKey(colIndex)}
+            ref={setListRef(leftGridRef, colIndex)}
+            style={isLastColumn ? { ...listStyle, ...rightListStyle } : listStyle}
+            height={height}
+            width={getLeftColumnWidth(colIndex)}
+            itemCount={qSize.qcy}
+            itemSize={getItemSizeCallback(list, isLastColumn)}
+            layout="vertical"
+            itemData={{
+              layoutService,
+              dataModel,
+              constraints,
+              list,
+              isLeftColumn: true,
+            }}
+            itemKey={getItemKey}
+          >
+            {MemoizedListCellFactory}
+          </VariableSizeList>
+        );
+      })}
     </div>
   );
 };

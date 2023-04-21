@@ -11,16 +11,14 @@ export const addPageToLeftDimensionData = (
   if (!qLeft.length) return prevData;
 
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, false);
-  const data = grid.map((col) => col.filter((cell) => typeof cell !== "undefined"));
-  assignDistanceToNextCell(data, "y");
+  assignDistanceToNextCell(grid, "y");
   const height = Math.max(prevData.size.y, qArea.qHeight + qArea.qTop);
 
   return {
     ...prevData,
-    data,
     grid,
     size: {
-      x: data.length,
+      x: grid.length,
       y: height,
     },
   };
@@ -34,16 +32,14 @@ export const createLeftDimensionData = (
   const { qArea, qLeft } = dataPage;
   const { qEffectiveInterColumnSortOrder } = qHyperCube;
   const grid = extractLeftGrid([], qLeft, qArea, isSnapshot);
-  const data = grid.map((col) => col.filter((cell) => typeof cell !== "undefined"));
-  assignDistanceToNextCell(data, "y");
-  const dimensionInfoIndexMap = data.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
+  assignDistanceToNextCell(grid, "y");
+  const dimensionInfoIndexMap = grid.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
 
   return {
-    data,
     grid,
     dimensionInfoIndexMap,
     size: {
-      x: data.length,
+      x: grid.length,
       y: isSnapshot ? qArea.qHeight : qArea.qHeight + qArea.qTop,
     },
   };

@@ -39,10 +39,10 @@ export default function useColumnWidth(
 
   const hasPseudoDimOnLeft = useMemo(
     () =>
-      leftDimensionData.data.some(
+      leftDimensionData.grid.some(
         (column) => column[0] !== null && column[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO
       ),
-    [leftDimensionData.data]
+    [leftDimensionData.grid]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
@@ -85,8 +85,8 @@ export default function useColumnWidth(
   );
 
   const leftGridWidth = useMemo(
-    () => leftDimensionData.data.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
-    [leftDimensionData.data, getLeftColumnWidth]
+    () => leftDimensionData.grid.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
+    [leftDimensionData.grid, getLeftColumnWidth]
   );
 
   const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth), [leftGridWidth, rect.width]);

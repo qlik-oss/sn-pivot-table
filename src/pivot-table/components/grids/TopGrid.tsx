@@ -2,7 +2,7 @@ import { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
-import { Cell, DataModel, LayoutService, TopDimensionData } from "../../../types/types";
+import { DataModel, LayoutService, List, TopDimensionData } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -62,7 +62,7 @@ const TopGrid = ({
     [getMeasureInfoWidth, qMeasureInfo]
   );
 
-  const getItemSizeCallback = (list: Cell[], isLastRow: boolean) => (colIndex: number) => {
+  const getItemSizeCallback = (list: List, isLastRow: boolean) => (colIndex: number) => {
     const cell = list[colIndex];
 
     if (cell === undefined) {
@@ -92,27 +92,31 @@ const TopGrid = ({
 
   return (
     <div>
-      {topDimensionData.grid.map((list, topRowIndex) => (
-        <VariableSizeList
-          key={getKey(topRowIndex)}
-          ref={setListRef(topGridRef, topRowIndex)}
-          style={topRowIndex === topDimensionData.data.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
-          height={rowHightCallback()}
-          width={width}
-          itemCount={qSize.qcx}
-          itemSize={getItemSizeCallback(list, topDimensionData.grid.length - 1 === topRowIndex)}
-          layout="horizontal"
-          itemData={{
-            layoutService,
-            dataModel,
-            constraints,
-            list,
-          }}
-          itemKey={getItemKey}
-        >
-          {MemoizedListCellFactory}
-        </VariableSizeList>
-      ))}
+      {topDimensionData.grid.map((list, topRowIndex) => {
+        const isLastRow = topRowIndex === topDimensionData.size.y - 1;
+
+        return (
+          <VariableSizeList
+            key={getKey(topRowIndex)}
+            ref={setListRef(topGridRef, topRowIndex)}
+            style={isLastRow ? { ...listStyle, ...bottomListStyle } : listStyle}
+            height={rowHightCallback()}
+            width={width}
+            itemCount={qSize.qcx}
+            itemSize={getItemSizeCallback(list, isLastRow)}
+            layout="horizontal"
+            itemData={{
+              layoutService,
+              dataModel,
+              constraints,
+              list,
+            }}
+            itemKey={getItemKey}
+          >
+            {MemoizedListCellFactory}
+          </VariableSizeList>
+        );
+      })}
     </div>
   );
 };

@@ -10,18 +10,16 @@ export const addPageToTopDimensionData = (
   const { qTop, qArea } = nextDataPage;
   if (!qTop.length) return prevData;
 
-  const nextGrid = extractTopGrid(prevData.grid, qTop, qArea, false);
-  const nextData = nextGrid.map((row) => row.filter((cell) => typeof cell !== "undefined"));
-  assignDistanceToNextCell(nextData, "x");
+  const grid = extractTopGrid(prevData.grid, qTop, qArea, false);
+  assignDistanceToNextCell(grid, "x");
   const width = Math.max(prevData.size.x, qArea.qWidth + qArea.qLeft);
 
   return {
     ...prevData,
-    data: nextData,
-    grid: nextGrid,
+    grid,
     size: {
       x: width,
-      y: nextData.length,
+      y: grid.length,
     },
   };
 };
@@ -34,19 +32,17 @@ export const createTopDimensionData = (
   const { qArea, qTop } = dataPage;
   const { qEffectiveInterColumnSortOrder, qNoOfLeftDims } = qHyperCube;
   const grid = extractTopGrid([], qTop, qArea, isSnapshot);
-  const data = grid.map((row) => row.filter((cell) => typeof cell !== "undefined"));
-  assignDistanceToNextCell(data, "x");
-  const dimensionInfoIndexMap = data.map(
+  assignDistanceToNextCell(grid, "x");
+  const dimensionInfoIndexMap = grid.map(
     createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder)
   );
 
   return {
-    data,
     grid,
     dimensionInfoIndexMap,
     size: {
       x: isSnapshot ? qArea.qWidth : qArea.qWidth + qArea.qLeft,
-      y: data.length,
+      y: grid.length,
     },
   };
 };
