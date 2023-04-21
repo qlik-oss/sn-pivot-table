@@ -26,7 +26,6 @@ const gridBorderStyle: React.CSSProperties = {
 const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   whiteSpace: "unset",
   display: "-webkit-box",
-  lineClamp: clampCount,
   WebkitLineClamp: clampCount,
   WebkitBoxOrient: "vertical",
   lineBreak: "anywhere",
