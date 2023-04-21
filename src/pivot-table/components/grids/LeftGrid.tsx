@@ -37,13 +37,13 @@ const rightListStyle: React.CSSProperties = {
   boxSizing: "content-box",
 };
 
-const getItemSizeCallback = (list: Cell[], defaultRowHeight: number) => (rowIndex: number) => {
+const getItemSizeCallback = (list: Cell[], cellHeight: number) => (rowIndex: number) => {
   const cell = list[rowIndex];
   if (cell.leafCount) {
-    return cell.leafCount * defaultRowHeight;
+    return cell.leafCount * cellHeight;
   }
 
-  return defaultRowHeight;
+  return cellHeight;
 };
 
 const LeftGrid = ({

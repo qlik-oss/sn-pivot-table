@@ -40,7 +40,7 @@ export interface RowHeight {
 }
 
 export interface Component {
-  key: string;
+  key: "general" | "theme";
   rowHeight?: RowHeight;
 }
 
