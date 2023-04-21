@@ -44,11 +44,20 @@ const stickyCell: React.CSSProperties = {
   top: 4,
 };
 
-const dimTextStyle: React.CSSProperties = {
+const getDimTextStyle = (isLeftColumn: boolean, clampCount: number): React.CSSProperties => ({
   ...textStyle,
+  whiteSpace: "unset",
   fontWeight: "bold",
   marginLeft: 4,
-};
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  display: "-webkit-box",
+  ...(!isLeftColumn && {
+    lineClamp: clampCount,
+    WebkitLineClamp: clampCount,
+    WebkitBoxOrient: "vertical",
+  }),
+});
 
 const nullStyle: React.CSSProperties = {
   backgroundColor: "#f2f2f2",
@@ -180,7 +189,7 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
     >
       <div style={{ ...cellStyle, ...stickyCell, alignSelf: isLeftColumn ? "flex-start" : "flex-end" }}>
         {cellIcon}
-        <span style={{ ...dimTextStyle, ...serviceStyle }}>{text}</span>
+        <span style={{ ...getDimTextStyle(isLeftColumn, styleService.lineClamp), ...serviceStyle }}>{text}</span>
       </div>
     </div>
   );

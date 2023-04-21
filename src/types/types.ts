@@ -148,6 +148,7 @@ export interface StyleService {
   content: StyleProperties;
   backgroundColor: string;
   cellHeight: number;
+  lineClamp: number;
 }
 
 export interface Galaxy {
