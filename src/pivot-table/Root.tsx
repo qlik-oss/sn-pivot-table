@@ -15,7 +15,7 @@ const render = (reactRoot: Root, props: RootProps): void => {
   reactRoot.render(
     <React.StrictMode>
       <SelectionsProvider selections={props.selections}>
-        <StyleProvider styleService={props.styleService}>
+        <StyleProvider styleService={props.styleService} layoutService={props.layoutService}>
           <StickyPivotTable {...props} />
         </StyleProvider>
       </SelectionsProvider>

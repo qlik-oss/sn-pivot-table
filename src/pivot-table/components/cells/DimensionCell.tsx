@@ -169,6 +169,7 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
         ...appliedSelectableCellStyle,
         ...borderStyle,
         ...appliedNullStyle,
+        display: "flex",
       }}
       aria-hidden="true"
       onClick={onClickHandler}
@@ -177,7 +178,7 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
       tabIndex={0}
       data-testid={testId}
     >
-      <div style={{ ...cellStyle, ...stickyCell }}>
+      <div style={{ ...cellStyle, ...stickyCell, alignSelf: isLeftColumn ? "flex-start" : "flex-end" }}>
         {cellIcon}
         <span style={{ ...dimTextStyle, ...serviceStyle }}>{text}</span>
       </div>

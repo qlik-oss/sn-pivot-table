@@ -35,10 +35,20 @@ interface NullValueRepresentation {
   text?: string;
 }
 
+export interface RowHeight {
+  linesCount: number;
+}
+
+export interface Component {
+  key: "general" | "theme";
+  rowHeight?: RowHeight;
+}
+
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
   nullValueRepresentation?: NullValueRepresentation;
   title: string;
   snapshotData?: SnapshotData;
+  components?: Component[];
 }
 
 export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {

@@ -57,8 +57,8 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
 
   return (
     <div title={text} style={{ ...style, ...containerStyle }} data-testid={testId}>
-      <div style={cellStyle}>
-        <span style={{ ...textStyle, ...styleService.content }}>{text}</span>
+      <div style={{ ...cellStyle, display: "flex" }}>
+        <span style={{ ...textStyle, ...styleService.content, alignSelf: "flex-start" }}>{text}</span>
       </div>
     </div>
   );

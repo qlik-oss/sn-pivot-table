@@ -13,7 +13,7 @@ test("should render on the top", () => {
     height: "150px",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-end",
   };
 
   render(<PseudoDimensionCell cell={cell} style={style} isLeftColumn={false} />);
@@ -31,7 +31,7 @@ test("should render on the left", () => {
     width: "100px",
     height: "150px",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
   };
 
   render(<PseudoDimensionCell cell={cell} style={style} isLeftColumn />);

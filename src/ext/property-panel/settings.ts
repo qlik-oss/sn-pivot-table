@@ -22,9 +22,37 @@ const getStylingPanelConfig = () => ({
       translation: "LayerStyleEditor.component.styling",
       ref: "components",
       useGeneral: true,
-      key: "theme",
       defaultValue: [],
-      items: {},
+      items: {
+        rowHeightSection: {
+          translation: "ThemeStyleEditor.style.rowHeight",
+          component: "panel-section",
+          items: {
+            rowHeightItem: {
+              component: "items",
+              ref: "components",
+              key: "theme",
+              items: {
+                rowHeightWrapper: {
+                  component: "inline-wrapper",
+                  items: {
+                    rowHeight: {
+                      component: "dropdown",
+                      ref: "rowHeight.linesCount",
+                      translation: "ThemeStyleEditor.style.rowHeight",
+                      options: [...Array(10).keys()].map((x) => ({
+                        value: x + 1,
+                        translation: x + 1,
+                      })),
+                      defaultValue: 1,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   ],
 });
