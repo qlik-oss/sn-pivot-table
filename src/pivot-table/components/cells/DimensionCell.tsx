@@ -6,7 +6,7 @@ import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
-import { borderStyle, textStyle } from "../shared-styles";
+import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -44,20 +44,13 @@ const stickyCell: React.CSSProperties = {
   top: 4,
 };
 
-const getDimTextStyle = (isLeftColumn: boolean, clampCount: number): React.CSSProperties => ({
+const getDimTextStyle = (clampCount: number): React.CSSProperties => ({
   ...textStyle,
-  whiteSpace: "unset",
   fontWeight: "bold",
   marginLeft: 4,
   overflow: "hidden",
   textOverflow: "ellipsis",
-  display: "-webkit-box",
-  ...(!isLeftColumn && {
-    lineClamp: clampCount,
-    WebkitLineClamp: clampCount,
-    WebkitBoxOrient: "vertical",
-    lineBreak: "anywhere",
-  }),
+  ...getLineClampStyle(clampCount),
 });
 
 const nullStyle: React.CSSProperties = {
@@ -190,7 +183,7 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
     >
       <div style={{ ...cellStyle, ...stickyCell, alignSelf: isLeftColumn ? "flex-start" : "flex-end" }}>
         {cellIcon}
-        <span style={{ ...getDimTextStyle(isLeftColumn, styleService.lineClamp), ...serviceStyle }}>{text}</span>
+        <span style={{ ...getDimTextStyle(styleService.lineClamp), ...serviceStyle }}>{text}</span>
       </div>
     </div>
   );
