@@ -23,6 +23,7 @@ const createStyleService = (theme: stardust.Theme): StyleService => {
     content: {},
     backgroundColor: DEFAULT_BACKGROUND_COLOR,
     cellHeight: DEFAULT_ROW_HEIGHT,
+    lineClamp: 1,
   };
 
   THEME_STYLES.forEach(({ basePath, path, attribute, defaultValue }) => {

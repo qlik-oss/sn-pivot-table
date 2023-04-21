@@ -6,7 +6,7 @@ import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
-import { borderStyle, textStyle } from "../shared-styles";
+import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -44,11 +44,14 @@ const stickyCell: React.CSSProperties = {
   top: 4,
 };
 
-const dimTextStyle: React.CSSProperties = {
+const getDimTextStyle = (clampCount: number): React.CSSProperties => ({
   ...textStyle,
   fontWeight: "bold",
   marginLeft: 4,
-};
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  ...getLineClampStyle(clampCount),
+});
 
 const nullStyle: React.CSSProperties = {
   backgroundColor: "#f2f2f2",
@@ -180,7 +183,7 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
     >
       <div style={{ ...cellStyle, ...stickyCell, alignSelf: isLeftColumn ? "flex-start" : "flex-end" }}>
         {cellIcon}
-        <span style={{ ...dimTextStyle, ...serviceStyle }}>{text}</span>
+        <span style={{ ...getDimTextStyle(styleService.lineClamp), ...serviceStyle }}>{text}</span>
       </div>
     </div>
   );

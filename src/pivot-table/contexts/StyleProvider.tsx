@@ -20,9 +20,10 @@ const StyleProvider = ({ children, styleService, layoutService }: StyleProviderP
     [layoutService.layout.components]
   );
 
-  const memoisedProps = useMemo(() => {
-    const cellHeight = DEFAULT_ROW_HEIGHT * (rowHeight?.linesCount || 1);
-    return { ...styleService, cellHeight };
+  const memoisedProps: StyleService = useMemo(() => {
+    const lineClamp = rowHeight?.linesCount || 1;
+    const cellHeight = DEFAULT_ROW_HEIGHT * lineClamp;
+    return { ...styleService, cellHeight, lineClamp };
   }, [styleService, rowHeight?.linesCount]);
 
   return <StyleContext.Provider value={memoisedProps}>{children}</StyleContext.Provider>;

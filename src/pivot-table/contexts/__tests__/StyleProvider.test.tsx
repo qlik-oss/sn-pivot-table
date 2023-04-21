@@ -5,11 +5,12 @@ import { DEFAULT_ROW_HEIGHT } from "../../constants";
 import StyleProvider, { useStyleContext } from "../StyleProvider";
 
 const DummyTestComponent = () => {
-  const { cellHeight } = useStyleContext();
+  const { cellHeight, lineClamp } = useStyleContext();
 
   return (
     <div>
       <p data-testid="cell-height">{cellHeight}</p>
+      <p data-testid="line-clamp">{lineClamp}</p>
     </div>
   );
 };
@@ -34,12 +35,13 @@ describe("StyleProvider", () => {
       } as LayoutService;
     });
 
-    test("should return default cell height", () => {
+    test("should return default values", () => {
       const { getByTestId } = renderer();
       expect(getByTestId("cell-height").textContent).toEqual(`${DEFAULT_ROW_HEIGHT}`);
+      expect(getByTestId("line-clamp").textContent).toEqual("1");
     });
 
-    test("should return correct cell height for 'n' lines", () => {
+    test("should return calculated values for 'n' lines", () => {
       const n = 2;
       layoutService = {
         layout: {
@@ -49,6 +51,7 @@ describe("StyleProvider", () => {
 
       const { getByTestId } = renderer();
       expect(getByTestId("cell-height").textContent).toEqual(`${n * DEFAULT_ROW_HEIGHT}`);
+      expect(getByTestId("line-clamp").textContent).toEqual(`${n}`);
     });
   });
 });

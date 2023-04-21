@@ -1,3 +1,5 @@
+import React from "react";
+
 const borderStyle: React.CSSProperties = {
   boxSizing: "border-box",
   padding: 4,
@@ -21,4 +23,12 @@ const gridBorderStyle: React.CSSProperties = {
   boxSizing: "border-box",
 };
 
-export { borderStyle, textStyle, gridBorderStyle };
+const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
+  whiteSpace: "unset",
+  display: "-webkit-box",
+  WebkitLineClamp: clampCount,
+  WebkitBoxOrient: "vertical",
+  lineBreak: "anywhere",
+});
+
+export { borderStyle, textStyle, gridBorderStyle, getLineClampStyle };

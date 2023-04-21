@@ -1,7 +1,7 @@
 import React from "react";
 import { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { borderStyle, textStyle } from "../shared-styles";
+import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -20,6 +20,13 @@ const leftContainerStyle: React.CSSProperties = {
   alignItems: "flex-start",
 };
 
+const getTextStyle = (clampCount: number): React.CSSProperties => ({
+  ...textStyle,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  ...getLineClampStyle(clampCount),
+});
+
 export const testId = "pseudo-dimension-cell";
 
 const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element => {
@@ -29,7 +36,7 @@ const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX
 
   return (
     <div title={cell.ref.qText} style={{ ...style, ...borderStyle, ...containerStyle }} data-testid={testId}>
-      <div style={{ ...textStyle, ...serviceStyle }}>{cell.ref.qText}</div>
+      <div style={{ ...getTextStyle(styleService.lineClamp), ...serviceStyle }}>{cell.ref.qText}</div>
     </div>
   );
 };
