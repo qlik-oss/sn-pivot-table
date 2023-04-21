@@ -38,14 +38,10 @@ const rightListStyle: React.CSSProperties = {
 
 const DEFAULT_ROW_HEIGHT = 28;
 
-const getItemSizeCallback = (list: List, isLastColumn: boolean) => (rowIndex: number) => {
-  const cell = list[rowIndex];
+const getItemSizeCallback = (list: List) => (rowIndex: number) => {
+  const cell = Object.values(list)[rowIndex];
 
-  if (cell === undefined) {
-    return isLastColumn ? DEFAULT_ROW_HEIGHT : 0;
-  }
-
-  if (cell.leafCount) {
+  if (cell?.leafCount) {
     return (cell.leafCount + cell.distanceToNextCell) * DEFAULT_ROW_HEIGHT;
   }
 
@@ -63,7 +59,7 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
-  const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo, qMeasureInfo, qSize } = layoutService.layout.qHyperCube;
 
   useOnPropsChange(() => {
     if (leftGridRef.current) {
@@ -85,6 +81,16 @@ const LeftGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
+  const lastDimensionIndex = leftDimensionData.dimensionInfoIndexMap.findLastIndex(
+    (idx) => idx !== PSEUDO_DIMENSION_INDEX
+  );
+
+  const pseudoDimensionIndex = leftDimensionData.dimensionInfoIndexMap.findLastIndex(
+    (idx) => idx === PSEUDO_DIMENSION_INDEX
+  );
+
+  const totalHeight = qSize.qcy * DEFAULT_ROW_HEIGHT * (pseudoDimensionIndex > -1 ? qMeasureInfo.length : 1);
+
   if (leftDimensionData.size.x === 0) {
     return null;
   }
@@ -93,6 +99,15 @@ const LeftGrid = ({
     <div style={containerStyle}>
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.size.x - 1;
+        const isLastDimension = lastDimensionIndex === colIndex;
+        const isPseudoDimension = colIndex === pseudoDimensionIndex;
+        let itemCount = Object.keys(list).length;
+        if (isPseudoDimension || isLastColumn) {
+          itemCount = qSize.qcy;
+        } else if (isLastDimension) {
+          itemCount = qSize.qcy / qMeasureInfo.length;
+        }
+        const estimatedItemSize = totalHeight / itemCount;
 
         return (
           <VariableSizeList
@@ -101,8 +116,8 @@ const LeftGrid = ({
             style={isLastColumn ? { ...listStyle, ...rightListStyle } : listStyle}
             height={height}
             width={getLeftColumnWidth(colIndex)}
-            itemCount={qSize.qcy}
-            itemSize={getItemSizeCallback(list, isLastColumn)}
+            itemCount={isLastColumn ? qSize.qcy : Object.keys(list).length}
+            itemSize={getItemSizeCallback(list)}
             layout="vertical"
             itemData={{
               layoutService,
@@ -110,8 +125,10 @@ const LeftGrid = ({
               constraints,
               list,
               isLeftColumn: true,
+              isLast: isLastColumn,
             }}
             itemKey={getItemKey}
+            estimatedItemSize={estimatedItemSize}
           >
             {MemoizedListCellFactory}
           </VariableSizeList>

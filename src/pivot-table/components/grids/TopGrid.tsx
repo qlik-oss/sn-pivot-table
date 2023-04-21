@@ -62,19 +62,15 @@ const TopGrid = ({
     [getMeasureInfoWidth, qMeasureInfo]
   );
 
-  const getItemSizeCallback = (list: List, isLastRow: boolean) => (colIndex: number) => {
-    const cell = list[colIndex];
+  const getItemSizeCallback = (list: List, isLast: boolean) => (colIndex: number) => {
+    const cell = isLast ? list[colIndex] : Object.values(list)[colIndex];
 
-    if (cell === undefined) {
-      return isLastRow ? getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(colIndex)) : 0;
-    }
-
-    if (cell.leafCount > 0) {
+    if (cell?.leafCount > 0) {
       const measureInfoCount = qMeasureInfo.length;
       return ((cell.leafCount + cell.distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
     }
 
-    return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell.x));
+    return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell?.x ?? colIndex));
   };
 
   const getKey = (rowIndex: number): string => {
@@ -85,6 +81,16 @@ const TopGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
+  const lastDimensionIndex = topDimensionData.dimensionInfoIndexMap.findLastIndex(
+    (idx) => idx !== PSEUDO_DIMENSION_INDEX
+  );
+
+  const pseudoDimensionIndex = topDimensionData.dimensionInfoIndexMap.findLastIndex(
+    (idx) => idx === PSEUDO_DIMENSION_INDEX
+  );
+
+  const totalWidth = qSize.qcx * (allMeasuresWidth / 2);
+
   if (topDimensionData.size.y === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
     return <div style={{ width, height, ...bottomListStyle }} />;
@@ -94,6 +100,15 @@ const TopGrid = ({
     <div>
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.size.y - 1;
+        const isLastDimension = lastDimensionIndex === topRowIndex;
+        const isPseudoDimension = topRowIndex === pseudoDimensionIndex;
+        let itemCount = Object.keys(list).length;
+        if (isPseudoDimension || isLastRow) {
+          itemCount = qSize.qcx;
+        } else if (isLastDimension) {
+          itemCount = qSize.qcx / qMeasureInfo.length;
+        }
+        const estimatedItemSize = totalWidth / itemCount;
 
         return (
           <VariableSizeList
@@ -102,7 +117,7 @@ const TopGrid = ({
             style={isLastRow ? { ...listStyle, ...bottomListStyle } : listStyle}
             height={rowHightCallback()}
             width={width}
-            itemCount={qSize.qcx}
+            itemCount={itemCount}
             itemSize={getItemSizeCallback(list, isLastRow)}
             layout="horizontal"
             itemData={{
@@ -110,8 +125,10 @@ const TopGrid = ({
               dataModel,
               constraints,
               list,
+              isLast: isLastRow,
             }}
             itemKey={getItemKey}
+            estimatedItemSize={estimatedItemSize}
           >
             {MemoizedListCellFactory}
           </VariableSizeList>

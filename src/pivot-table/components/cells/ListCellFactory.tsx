@@ -15,15 +15,11 @@ interface ListCallbackProps {
 }
 
 const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
-  const { list, isLeftColumn = false } = data;
-  const cell = list[index];
+  const { list, isLeftColumn = false, isLast } = data;
+  const cell = isLast ? list[index] : Object.values(list)[index];
 
   if (cell === undefined) {
-    if (style.height === 0) {
-      return null;
-    }
-
-    return <EmptyCell style={style} />;
+    return <EmptyCell style={style} index={index} />;
   }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
@@ -35,7 +31,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {
-    return <EmptyCell style={style} />;
+    return <EmptyCell style={style} index={index} />;
   }
 
   return (

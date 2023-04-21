@@ -1,6 +1,6 @@
 import { LeftDimensionData } from "../../types/types";
 import extractLeftGrid from "./extract-left";
-import assignDistanceToNextCell from "./helpers/assign-next-sibling";
+import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
 
 export const addPageToLeftDimensionData = (
@@ -11,7 +11,7 @@ export const addPageToLeftDimensionData = (
   if (!qLeft.length) return prevData;
 
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, false);
-  assignDistanceToNextCell(grid, "y");
+  assignDistanceToNextCell(grid, "y", prevData.qSize);
   const height = Math.max(prevData.size.y, qArea.qHeight + qArea.qTop);
 
   return {
@@ -30,9 +30,9 @@ export const createLeftDimensionData = (
   isSnapshot: boolean
 ): LeftDimensionData => {
   const { qArea, qLeft } = dataPage;
-  const { qEffectiveInterColumnSortOrder } = qHyperCube;
+  const { qEffectiveInterColumnSortOrder, qSize } = qHyperCube;
   const grid = extractLeftGrid([], qLeft, qArea, isSnapshot);
-  assignDistanceToNextCell(grid, "y");
+  assignDistanceToNextCell(grid, "y", qSize);
   const dimensionInfoIndexMap = grid.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
 
   return {
@@ -42,5 +42,6 @@ export const createLeftDimensionData = (
       x: grid.length,
       y: isSnapshot ? qArea.qHeight : qArea.qHeight + qArea.qTop,
     },
+    qSize,
   };
 };

@@ -13,13 +13,13 @@ interface RootProps extends PivotTableProps {
 
 const render = (reactRoot: Root, props: RootProps): void => {
   reactRoot.render(
-    <React.StrictMode>
-      <SelectionsProvider selections={props.selections}>
-        <StyleProvider styleService={props.styleService}>
-          <StickyPivotTable {...props} />
-        </StyleProvider>
-      </SelectionsProvider>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <SelectionsProvider selections={props.selections}>
+      <StyleProvider styleService={props.styleService}>
+        <StickyPivotTable {...props} />
+      </StyleProvider>
+    </SelectionsProvider>
+    // </React.StrictMode>
   );
 };
 

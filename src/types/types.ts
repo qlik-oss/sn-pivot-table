@@ -44,6 +44,7 @@ export interface GridItemData extends ItemData {
 export interface ListItemData extends ItemData {
   list: List;
   isLeftColumn?: boolean;
+  isLast: boolean;
 }
 
 export interface Cell {
@@ -83,12 +84,14 @@ export interface TopDimensionData {
   grid: Grid;
   dimensionInfoIndexMap: number[];
   size: Point;
+  qSize: EngineAPI.ISize;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
   dimensionInfoIndexMap: number[];
   size: Point;
+  qSize: EngineAPI.ISize;
 }
 
 export interface HeadersData {

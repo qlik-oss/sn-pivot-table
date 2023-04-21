@@ -176,6 +176,8 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
       role="button"
       tabIndex={0}
       data-testid={testId}
+      data-row-idx={rowIndex}
+      data-column-idx={colIndex}
     >
       <div style={{ ...cellStyle, ...stickyCell }}>
         {cellIcon}
