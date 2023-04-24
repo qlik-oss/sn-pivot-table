@@ -1,7 +1,7 @@
 import React from "react";
 import { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { borderStyle, textStyle } from "../shared-styles";
+import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -11,13 +11,13 @@ interface LabelCellProps {
 
 const topContainerStyle: React.CSSProperties = {
   display: "flex",
-  justifyContent: "start",
-  alignItems: "end",
+  justifyContent: "flex-start",
+  alignItems: "flex-end",
 };
 
 const leftContainerStyle: React.CSSProperties = {
   display: "flex",
-  alignItems: "start",
+  alignItems: "flex-start",
 };
 
 const stickyCell: React.CSSProperties = {
@@ -28,6 +28,13 @@ const stickyCell: React.CSSProperties = {
   top: 4,
 };
 
+const getTextStyle = (clampCount: number): React.CSSProperties => ({
+  ...textStyle,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  ...getLineClampStyle(clampCount),
+});
+
 export const testId = "pseudo-dimension-cell";
 
 const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element => {
@@ -37,7 +44,7 @@ const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX
 
   return (
     <div title={cell.ref.qText} style={{ ...style, ...borderStyle, ...containerStyle }} data-testid={testId}>
-      <div style={{ ...textStyle, ...serviceStyle, ...stickyCell }}>{cell.ref.qText}</div>
+      <div style={{ ...getTextStyle(styleService.lineClamp), ...serviceStyle, ...stickyCell }}>{cell.ref.qText}</div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { stardust } from "@nebula.js/stardust";
+import { DEFAULT_ROW_HEIGHT } from "../pivot-table/constants";
 import { StyleService } from "../types/types";
 
 export const DEFAULT_FONT_SIZE = "13px";
@@ -21,6 +22,8 @@ const createStyleService = (theme: stardust.Theme): StyleService => {
     header: {},
     content: {},
     backgroundColor: DEFAULT_BACKGROUND_COLOR,
+    cellHeight: DEFAULT_ROW_HEIGHT,
+    lineClamp: 1,
   };
 
   THEME_STYLES.forEach(({ basePath, path, attribute, defaultValue }) => {

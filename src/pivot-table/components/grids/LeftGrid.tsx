@@ -3,6 +3,7 @@ import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import { DataModel, LayoutService, LeftDimensionData, List } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -37,16 +38,14 @@ const rightListStyle: React.CSSProperties = {
   boxSizing: "content-box",
 };
 
-const DEFAULT_ROW_HEIGHT = 28;
-
-const getItemSizeCallback = (list: List) => (rowIndex: number) => {
+const getItemSizeCallback = (list: List, cellHeight: number) => (rowIndex: number) => {
   const cell = Object.values(list)[rowIndex];
 
   if (cell?.leafCount) {
-    return (cell.leafCount + cell.distanceToNextCell) * DEFAULT_ROW_HEIGHT;
+    return (cell.leafCount + cell.distanceToNextCell) * cellHeight;
   }
 
-  return DEFAULT_ROW_HEIGHT;
+  return cellHeight;
 };
 
 const LeftGrid = ({
@@ -60,7 +59,8 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
-  const { qDimensionInfo, qMeasureInfo, qSize } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
+  const { cellHeight } = useStyleContext();
 
   useOnPropsChange(() => {
     if (leftGridRef.current) {
@@ -82,7 +82,7 @@ const LeftGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
-  const totalHeight = qSize.qcy * DEFAULT_ROW_HEIGHT;
+  const totalHeight = qSize.qcy * cellHeight;
 
   if (leftDimensionData.size.x === 0) {
     return null;
@@ -102,7 +102,7 @@ const LeftGrid = ({
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
-            itemSize={getItemSizeCallback(list)}
+            itemSize={getItemSizeCallback(list, cellHeight)}
             layout="vertical"
             itemData={{
               layoutService,

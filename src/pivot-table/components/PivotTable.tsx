@@ -3,6 +3,7 @@ import React, { useCallback, useLayoutEffect, useRef } from "react";
 import { VariableSizeGrid, VariableSizeList } from "react-window";
 import { Model } from "../../types/QIX";
 import { LayoutService, Rect, ViewService } from "../../types/types";
+import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
@@ -23,10 +24,6 @@ export interface PivotTableProps {
   model: Model;
 }
 
-const DEFAULT_ROW_HEIGHT = 28;
-
-const rowHightCallback = () => DEFAULT_ROW_HEIGHT;
-
 export const StickyPivotTable = ({
   model,
   rect,
@@ -36,6 +33,7 @@ export const StickyPivotTable = ({
   qPivotDataPages,
 }: PivotTableProps): JSX.Element => {
   const { qHyperCube, snapshotData } = layoutService.layout;
+  const { cellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeList[]>([]);
@@ -108,21 +106,19 @@ export const StickyPivotTable = ({
     }
   };
 
+  const rowHightCallback = useCallback(() => cellHeight, [cellHeight]);
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  const headerGridHeight = DEFAULT_ROW_HEIGHT * headersData.size.y;
+  const headerGridHeight = cellHeight * headersData.size.y;
   const leftGridHeight = rect.height - headerGridHeight;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
-  const topGridHeight = DEFAULT_ROW_HEIGHT * Math.max(topDimensionData.size.y, 1);
+  const topGridHeight = cellHeight * Math.max(topDimensionData.size.y, 1);
   const dataGridHeight = rect.height - topGridHeight;
 
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints}>
-      <FullSizeContainer
-        width={getTotalWidth()}
-        height={DEFAULT_ROW_HEIGHT * (qHyperCube.qSize.qcy + topDimensionData.size.y)}
-      >
+      <FullSizeContainer width={getTotalWidth()} height={cellHeight * (qHyperCube.qSize.qcy + topDimensionData.size.y)}>
         <StickyContainer
           rect={rect}
           leftColumnsWidth={leftGridWidth}
