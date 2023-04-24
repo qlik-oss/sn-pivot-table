@@ -6,6 +6,7 @@ import { DataModel, LayoutService, LeftDimensionData, List } from "../../../type
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
+import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
 
@@ -81,14 +82,6 @@ const LeftGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
-  const lastDimensionIndex = leftDimensionData.dimensionInfoIndexMap.findLastIndex(
-    (idx) => idx !== PSEUDO_DIMENSION_INDEX
-  );
-
-  const pseudoDimensionIndex = leftDimensionData.dimensionInfoIndexMap.findLastIndex(
-    (idx) => idx === PSEUDO_DIMENSION_INDEX
-  );
-
   const totalHeight = qSize.qcy * DEFAULT_ROW_HEIGHT;
 
   if (leftDimensionData.size.x === 0) {
@@ -99,27 +92,7 @@ const LeftGrid = ({
     <div style={containerStyle}>
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.size.x - 1;
-        const isLastDimension = lastDimensionIndex === colIndex;
-        const isPseudoDimension = colIndex === pseudoDimensionIndex;
-        let itemCount = Object.keys(list).length;
-        let estimatedItemSize;
-        if (isLastColumn) {
-          itemCount = qSize.qcy;
-          estimatedItemSize = totalHeight / itemCount; // Only need estimated size for the last list, as it does not already contains all the values
-        } else if (isLastDimension) {
-          // Last list is pseudo dimension
-          itemCount = qSize.qcy / qMeasureInfo.length;
-        }
-
-        console.log("%c LEFT LIST", "color: orange", {
-          itemCount,
-          list,
-          isLastColumn,
-          isLastDimension,
-          isPseudoDimension,
-          totalHeight,
-          qSize,
-        });
+        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, qSize.qcy, isLastColumn);
 
         return (
           <VariableSizeList
@@ -137,7 +110,7 @@ const LeftGrid = ({
               constraints,
               list,
               isLeftColumn: true,
-              isLast: isLastColumn || isLastDimension,
+              isLast: isLastColumn,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

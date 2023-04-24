@@ -6,6 +6,7 @@ import { DataModel, LayoutService, List, TopDimensionData } from "../../../types
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
+import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
 
@@ -81,14 +82,6 @@ const TopGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
-  const lastDimensionIndex = topDimensionData.dimensionInfoIndexMap.findLastIndex(
-    (idx) => idx !== PSEUDO_DIMENSION_INDEX
-  );
-
-  const pseudoDimensionIndex = topDimensionData.dimensionInfoIndexMap.findLastIndex(
-    (idx) => idx === PSEUDO_DIMENSION_INDEX
-  );
-
   const totalWidth = qSize.qcx * (allMeasuresWidth / qMeasureInfo.length);
 
   if (topDimensionData.size.y === 0) {
@@ -100,26 +93,7 @@ const TopGrid = ({
     <div>
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.size.y - 1;
-        const isLastDimension = lastDimensionIndex === topRowIndex;
-        const isPseudoDimension = topRowIndex === pseudoDimensionIndex;
-        let itemCount = Object.keys(list).length;
-        let estimatedItemSize;
-        if (isLastRow) {
-          itemCount = qSize.qcx;
-          estimatedItemSize = totalWidth / itemCount; // Only need estimated size for the last list, as it does not already contains all the values
-        } else if (isLastDimension) {
-          // Last list is pseudo dimension
-          itemCount = qSize.qcx / qMeasureInfo.length;
-        }
-
-        console.log("%c TOP LIST", "color: orange", {
-          itemCount,
-          list,
-          isLastRow,
-          isLastDimension,
-          isPseudoDimension,
-          totalWidth,
-        });
+        const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, qSize.qcx, isLastRow);
 
         return (
           <VariableSizeList
@@ -136,7 +110,7 @@ const TopGrid = ({
               dataModel,
               constraints,
               list,
-              isLast: isLastRow || isLastDimension,
+              isLast: isLastRow,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}
