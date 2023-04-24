@@ -67,6 +67,46 @@ const properties = {
      */
     text: "-",
   },
+  /**
+   * Holds general styling
+   * @type {?Component[]}
+   */
+  components: [],
 };
+
+/**
+ * General styling for all columns.
+ * Split up into header and content (body) styling.
+ * If any property is not set, default values specific for each property is used.
+ * @typedef {object} Component
+ * @property {string} key - This should be set to `theme`
+ * @property {ContentStyling=} content
+ * @property {HeaderStyling=} header
+ */
+
+/**
+ * Holds properties for font size, font color and hover styling.
+ * @typedef {object} ContentStyling
+ * @property {number=} fontSize - Defaults to `14`
+ * @property {PaletteColor=} fontColor - Defaults to `#404040`
+ * @property {boolean=} hoverEffect - Toggles hover effect
+ * @property {PaletteColor=} hoverColor - Background hover color. Uses `#f4f4f4` if no hover colors are set, is transparent if only `hoverFontColor` is set
+ * @property {PaletteColor=} hoverFontColor - When only `hoverColor` is set, this is adjusted to either `#f4f4f4` or `#ffffff` for optimal contrast
+ * @property {string=} padding - Css setting for the cell padding, defaults to `4px 12px`
+ */
+
+/**
+ * Holds properties for font size and color.
+ * @typedef {object} HeaderStyling
+ * @property {number=} fontSize - Defaults to `14`
+ * @property {PaletteColor=} fontColor - Defaults to `#404040`
+ */
+
+/**
+ * Color information structure. Holds the actual color and index in palette
+ * @typedef {object} PaletteColor
+ * @property {string} color - Color as hex string (mandatory if index: -1)
+ * @property {number} index - Index in palette
+ */
 
 export default properties;
