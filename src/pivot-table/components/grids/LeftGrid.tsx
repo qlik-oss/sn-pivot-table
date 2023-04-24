@@ -41,7 +41,7 @@ const rightListStyle: React.CSSProperties = {
 const getItemSizeCallback = (list: List, cellHeight: number) => (rowIndex: number) => {
   const cell = Object.values(list)[rowIndex];
 
-  if (cell?.leafCount) {
+  if (cell?.leafCount > 0) {
     return (cell.leafCount + cell.distanceToNextCell) * cellHeight;
   }
 

@@ -1,5 +1,5 @@
 import NxDimCellType from "../../../types/QIX";
-import { Cell } from "../../../types/types";
+import { Cell, Grid } from "../../../types/types";
 import extractTopGrid from "../extract-top";
 import { addPageToTopDimensionData, createTopDimensionData } from "../top-dimension-data";
 
@@ -11,7 +11,8 @@ describe("top dimension data", () => {
   const qHyperCube = {
     qEffectiveInterColumnSortOrder: [0],
     qNoOfLeftDims: 0,
-  } as EngineAPI.IHyperCube;
+    qSize: { qcx: 0, qxy: 0 },
+  } as unknown as EngineAPI.IHyperCube;
   const dataPage = {
     qTop: [],
     qArea: {
@@ -26,11 +27,10 @@ describe("top dimension data", () => {
 
   describe("create", () => {
     test("should return correct data", () => {
-      const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
+      const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(mockedReturnValue);
       const data = createTopDimensionData(dataPage, qHyperCube, false);
 
-      expect(data.data).toEqual([[CELL, CELL]]);
       expect(data.grid).toEqual(mockedReturnValue);
       expect(data.dimensionInfoIndexMap).toEqual([0]);
       expect(data.size.x).toEqual(dataPage.qArea.qWidth + dataPage.qArea.qLeft);
@@ -38,7 +38,7 @@ describe("top dimension data", () => {
     });
 
     test("should return correct data size in snapshot mode", () => {
-      const mockedReturnValue = [[CELL, undefined, CELL]] as Cell[][];
+      const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(mockedReturnValue);
       const data = createTopDimensionData(dataPage, qHyperCube, true);
 
@@ -48,7 +48,7 @@ describe("top dimension data", () => {
 
   describe("add page to", () => {
     test("should add page to data", () => {
-      const nextTop = [[undefined, undefined, CELL]] as Cell[][];
+      const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
       const data = createTopDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {
@@ -60,7 +60,7 @@ describe("top dimension data", () => {
       } as unknown as EngineAPI.INxPivotPage;
       const nextData = addPageToTopDimensionData(data, nextDataPage);
 
-      expect(nextData.data).toEqual([[CELL]]);
+      expect(nextData).not.toBe(data);
       expect(nextData.grid).toEqual(nextTop);
       expect(nextData.dimensionInfoIndexMap).toEqual([0]);
       expect(nextData.size.x).toEqual(nextDataPage.qArea.qWidth + nextDataPage.qArea.qLeft);
@@ -68,7 +68,7 @@ describe("top dimension data", () => {
     });
 
     test("should return previous page if qLeft is an empty array", () => {
-      const nextTop = [[undefined, undefined, CELL]] as Cell[][];
+      const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
       const data = createTopDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {
@@ -84,7 +84,7 @@ describe("top dimension data", () => {
     });
 
     test("should compare width with previous data and return the largest value", () => {
-      const nextTop = [[undefined, undefined, CELL]] as Cell[][];
+      const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
       const data = createTopDimensionData(dataPage, qHyperCube, false);
       const nextDataPage = {

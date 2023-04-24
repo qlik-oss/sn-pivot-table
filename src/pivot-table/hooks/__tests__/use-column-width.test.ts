@@ -29,8 +29,10 @@ describe("useColumnWidth", () => {
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
     mockedUseStyleContext = useStyleContext as jest.MockedFunction<typeof useStyleContext>;
     leftDimensionData = {
-      data: [[cell], [cell], [cell]],
+      grid: [{ 0: cell }, { 0: cell }, { 0: cell }],
       dimensionInfoIndexMap: [0, 1, 2],
+      size: { x: 3, y: 1 },
+      qSize: { qcx: 3, qcy: 1 },
     } as LeftDimensionData;
     measureData = {
       size: {
@@ -44,6 +46,7 @@ describe("useColumnWidth", () => {
           qDimensionInfo: [dimInfo, dimInfo, dimInfo],
           qMeasureInfo: [meaInfo, meaInfo, meaInfo],
           qNoOfLeftDims: 3,
+          qSize: { qcx: 3, qcy: 1 },
         },
       },
     } as unknown as LayoutService;
@@ -94,7 +97,7 @@ describe("useColumnWidth", () => {
       const pCell = { ref: { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } } as Cell;
       const dimInfo = { qApprMaxGlyphCount: 1 } as EngineAPI.INxDimensionInfo;
       const meaInfo = { qFallbackTitle: 1 } as unknown as EngineAPI.INxMeasureInfo;
-      leftDimensionData.data = [[cell], [pCell], [cell]];
+      leftDimensionData.grid = [{ 0: cell }, { 0: pCell }, { 0: cell }];
       leftDimensionData.dimensionInfoIndexMap = [0, -1, 1];
       layoutService.layout.qHyperCube.qDimensionInfo = [dimInfo, dimInfo, dimInfo];
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo];
@@ -212,7 +215,7 @@ describe("useColumnWidth", () => {
     test("should return total width", () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(100);
-      measureData.size.x = 30;
+      layoutService.layout.qHyperCube.qSize.qcx = 30;
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.getTotalWidth()).toBe(150 + 30 * 100);
@@ -223,7 +226,7 @@ describe("useColumnWidth", () => {
     test("should return total width", () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(175);
-      measureData.size.x = 30;
+      layoutService.layout.qHyperCube.qSize.qcx = 30;
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData, measureData));
       expect(result.current.totalMeasureInfoColumnWidth).toBe(175 * 3);

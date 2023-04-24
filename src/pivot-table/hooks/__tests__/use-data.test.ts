@@ -65,15 +65,17 @@ describe("useData", () => {
     mockedCreateHeadersData = createHeadersData as jest.MockedFunction<typeof createHeadersData>;
 
     leftDimensionData = {
-      data: [[{}]],
+      grid: [{}],
       dimensionInfoIndexMap: [0, 1, 2],
       size: { x: 3, y: 4 },
+      qSize: { qcx: 3, qcy: 4 },
     } as LeftDimensionData;
 
     topDimensionData = {
-      data: [[{}]],
+      grid: [{}],
       dimensionInfoIndexMap: [0, 1, 2],
       size: { x: 3, y: 4 },
+      qSize: { qcx: 3, qcy: 4 },
     } as TopDimensionData;
 
     measureData = {
