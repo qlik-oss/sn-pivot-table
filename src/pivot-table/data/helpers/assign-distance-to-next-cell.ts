@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { Grid } from "../../../types/types";
 
 const assignDistanceToNextCell = (data: Grid, direction: "x" | "y", qSize: EngineAPI.ISize) => {
@@ -5,10 +6,14 @@ const assignDistanceToNextCell = (data: Grid, direction: "x" | "y", qSize: Engin
     Object.values(list).forEach((cell, index, cells) => {
       const nextSibling = cells[index + 1];
       if (nextSibling) {
-        // eslint-disable-next-line no-param-reassign
+        // If a node a position 1 and another node at position 1337, but no other nodes between that.
+        // The node at position 1 is using "distanceToNextCell" streched all the way to the node at
+        // position 1337.
         cell.distanceToNextCell = nextSibling[direction] - (cell[direction] + cell.leafCount);
       } else {
-        // eslint-disable-next-line no-param-reassign
+        // This is what enables the dimensions with branch nodes to be fully scrollable.
+        // By "faking" the distanceToNextCell for the last cell to include all other cells
+        // the react-window list can render with a full size.
         cell.distanceToNextCell = qSize[`qc${direction}`] - (cell[direction] + cell.leafCount);
       }
     });

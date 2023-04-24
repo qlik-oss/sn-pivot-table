@@ -11,13 +11,21 @@ interface LabelCellProps {
 
 const topContainerStyle: React.CSSProperties = {
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  justifyContent: "start",
+  alignItems: "end",
 };
 
 const leftContainerStyle: React.CSSProperties = {
   display: "flex",
-  alignItems: "center",
+  alignItems: "start",
+};
+
+const stickyCell: React.CSSProperties = {
+  width: "fit-content",
+  maxWidth: "100%",
+  position: "sticky",
+  left: 4,
+  top: 4,
 };
 
 export const testId = "pseudo-dimension-cell";
@@ -29,7 +37,7 @@ const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX
 
   return (
     <div title={cell.ref.qText} style={{ ...style, ...borderStyle, ...containerStyle }} data-testid={testId}>
-      <div style={{ ...textStyle, ...serviceStyle }}>{cell.ref.qText}</div>
+      <div style={{ ...textStyle, ...serviceStyle, ...stickyCell }}>{cell.ref.qText}</div>
     </div>
   );
 };

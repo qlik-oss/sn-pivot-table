@@ -89,7 +89,7 @@ const TopGrid = ({
     (idx) => idx === PSEUDO_DIMENSION_INDEX
   );
 
-  const totalWidth = qSize.qcx * (allMeasuresWidth / 2);
+  const totalWidth = qSize.qcx * (allMeasuresWidth / qMeasureInfo.length);
 
   if (topDimensionData.size.y === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
@@ -103,12 +103,23 @@ const TopGrid = ({
         const isLastDimension = lastDimensionIndex === topRowIndex;
         const isPseudoDimension = topRowIndex === pseudoDimensionIndex;
         let itemCount = Object.keys(list).length;
-        if (isPseudoDimension || isLastRow) {
+        let estimatedItemSize;
+        if (isLastRow) {
           itemCount = qSize.qcx;
+          estimatedItemSize = totalWidth / itemCount; // Only need estimated size for the last list, as it does not already contains all the values
         } else if (isLastDimension) {
+          // Last list is pseudo dimension
           itemCount = qSize.qcx / qMeasureInfo.length;
         }
-        const estimatedItemSize = totalWidth / itemCount;
+
+        console.log("%c TOP LIST", "color: orange", {
+          itemCount,
+          list,
+          isLastRow,
+          isLastDimension,
+          isPseudoDimension,
+          totalWidth,
+        });
 
         return (
           <VariableSizeList
@@ -125,7 +136,7 @@ const TopGrid = ({
               dataModel,
               constraints,
               list,
-              isLast: isLastRow,
+              isLast: isLastRow || isLastDimension,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

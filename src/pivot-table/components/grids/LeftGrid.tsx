@@ -89,7 +89,7 @@ const LeftGrid = ({
     (idx) => idx === PSEUDO_DIMENSION_INDEX
   );
 
-  const totalHeight = qSize.qcy * DEFAULT_ROW_HEIGHT * (pseudoDimensionIndex > -1 ? qMeasureInfo.length : 1);
+  const totalHeight = qSize.qcy * DEFAULT_ROW_HEIGHT;
 
   if (leftDimensionData.size.x === 0) {
     return null;
@@ -102,12 +102,24 @@ const LeftGrid = ({
         const isLastDimension = lastDimensionIndex === colIndex;
         const isPseudoDimension = colIndex === pseudoDimensionIndex;
         let itemCount = Object.keys(list).length;
-        if (isPseudoDimension || isLastColumn) {
+        let estimatedItemSize;
+        if (isLastColumn) {
           itemCount = qSize.qcy;
+          estimatedItemSize = totalHeight / itemCount; // Only need estimated size for the last list, as it does not already contains all the values
         } else if (isLastDimension) {
+          // Last list is pseudo dimension
           itemCount = qSize.qcy / qMeasureInfo.length;
         }
-        const estimatedItemSize = totalHeight / itemCount;
+
+        console.log("%c LEFT LIST", "color: orange", {
+          itemCount,
+          list,
+          isLastColumn,
+          isLastDimension,
+          isPseudoDimension,
+          totalHeight,
+          qSize,
+        });
 
         return (
           <VariableSizeList
@@ -116,7 +128,7 @@ const LeftGrid = ({
             style={isLastColumn ? { ...listStyle, ...rightListStyle } : listStyle}
             height={height}
             width={getLeftColumnWidth(colIndex)}
-            itemCount={isLastColumn ? qSize.qcy : Object.keys(list).length}
+            itemCount={itemCount}
             itemSize={getItemSizeCallback(list)}
             layout="vertical"
             itemData={{
@@ -125,7 +137,7 @@ const LeftGrid = ({
               constraints,
               list,
               isLeftColumn: true,
-              isLast: isLastColumn,
+              isLast: isLastColumn || isLastDimension,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}
