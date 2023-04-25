@@ -45,7 +45,7 @@ describe("ListCellFactory", () => {
     data = {
       layoutService,
       dataModel,
-      list: [],
+      list: {},
       constraints,
       isLast: false,
     };

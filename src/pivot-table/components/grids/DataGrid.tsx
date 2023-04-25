@@ -1,6 +1,6 @@
 /*  eslint-disable no-param-reassign */
 import { debouncer } from "qlik-chart-modules";
-import React, { memo, useCallback, useLayoutEffect } from "react";
+import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
 import { GridOnItemsRenderedProps, VariableSizeGrid } from "react-window";
 import { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
@@ -87,6 +87,8 @@ const DataGrid = ({
   layoutService,
   measureData,
 }: DataGridProps): JSX.Element | null => {
+  const { qMeasureInfo } = layoutService.layout.qHyperCube;
+
   useOnPropsChange(() => {
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterColumnIndex(0, false); // Needs to be re-computed every time the data changes
@@ -130,6 +132,11 @@ const DataGrid = ({
     [getMeasureInfoWidth, layoutService]
   );
 
+  const allMeasuresWidth = useMemo(
+    () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
+    [getMeasureInfoWidth, qMeasureInfo]
+  );
+
   if (measureData.size.x === 0) {
     return null;
   }
@@ -152,6 +159,8 @@ const DataGrid = ({
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}
+      estimatedRowHeight={rowHightCallback()}
+      estimatedColumnWidth={allMeasuresWidth / qMeasureInfo.length}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>
