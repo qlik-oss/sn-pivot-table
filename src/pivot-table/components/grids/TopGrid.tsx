@@ -110,7 +110,7 @@ const TopGrid = ({
               dataModel,
               constraints,
               list,
-              isLast: isLastRow,
+              isLast: isLastRow && !layoutService.layout.snapshotData,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

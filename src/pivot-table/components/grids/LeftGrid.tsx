@@ -110,7 +110,7 @@ const LeftGrid = ({
               constraints,
               list,
               isLeftColumn: true,
-              isLast: isLastColumn,
+              isLast: isLastColumn && !layoutService.layout.snapshotData,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

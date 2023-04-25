@@ -7,7 +7,7 @@ const dimensionInfoToIndexMap =
   (row: List, index: number): number => {
     const columnSortIndex = index + startIndex;
 
-    if (row[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
+    if (Object.values(row)[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
       return PSEUDO_DIMENSION_INDEX;
     }
     return qEffectiveInterColumnSortOrder[columnSortIndex];
