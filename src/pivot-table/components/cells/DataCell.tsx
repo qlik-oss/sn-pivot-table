@@ -3,7 +3,6 @@ import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
 import { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import includesDigit from "../helpers/includes-digit";
 import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 
 export interface MeasureCellProps {
@@ -70,7 +69,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
           style={{
             ...textStyle,
             ...styleService.content,
-            ...(!includesDigit(text) && getGridTextClampStyle(styleService.lineClamp)),
+            ...(!isNumeric && getGridTextClampStyle(styleService.lineClamp)),
             alignSelf: "flex-start",
           }}
         >
