@@ -3,7 +3,7 @@ import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
 import { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { borderStyle, textStyle } from "../shared-styles";
+import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
 
 export interface MeasureCellProps {
@@ -36,6 +36,12 @@ const containerStyle: React.CSSProperties = {
   justifyContent: "center",
 };
 
+const getGridTextClampStyle = (clampCount: number): React.CSSProperties => ({
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  ...getLineClampStyle(clampCount),
+});
+
 export const testId = "measure-cell";
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
@@ -53,13 +59,23 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const isNumeric = isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
     ...(isNull ? nilStyle : numericStyle),
+    display: "flex",
     justifyContent: isNumeric ? "flex-end" : "center",
   };
 
   return (
     <div title={text} style={{ ...style, ...containerStyle }} data-testid={testId}>
-      <div style={{ ...cellStyle, display: "flex" }}>
-        <span style={{ ...textStyle, ...styleService.content, alignSelf: "flex-start" }}>{text}</span>
+      <div style={cellStyle}>
+        <span
+          style={{
+            ...textStyle,
+            ...styleService.content,
+            ...(!isNumeric && getGridTextClampStyle(styleService.lineClamp)),
+            alignSelf: "flex-start",
+          }}
+        >
+          {text}
+        </span>
       </div>
     </div>
   );
