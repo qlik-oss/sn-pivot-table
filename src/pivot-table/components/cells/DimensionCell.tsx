@@ -173,6 +173,8 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
         ...borderStyle,
         ...appliedNullStyle,
         display: "flex",
+        overflow: "hidden",
+        backgroundColor: "bisque",
       }}
       aria-hidden="true"
       onClick={onClickHandler}
@@ -183,7 +185,9 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
     >
       <div style={{ ...cellStyle, ...stickyCell, alignSelf: isLeftColumn ? "flex-start" : "flex-end" }}>
         {cellIcon}
-        <span style={{ ...getDimTextStyle(styleService.lineClamp), ...serviceStyle }}>{text}</span>
+        <span style={{ ...getDimTextStyle(styleService.lineClamp), ...serviceStyle }}>
+          {`r${rowIndex + 1} ${text}`}
+        </span>
       </div>
     </div>
   );

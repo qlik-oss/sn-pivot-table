@@ -59,6 +59,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const cellStyle = {
     ...(isNull ? nilStyle : numericStyle),
     display: "flex",
+    overflow: "hidden",
     justifyContent: isNumeric ? "flex-end" : "center",
   };
 

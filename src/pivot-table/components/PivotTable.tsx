@@ -34,7 +34,7 @@ export const StickyPivotTable = ({
   qPivotDataPages,
 }: PivotTableProps): JSX.Element => {
   const { qHyperCube, snapshotData } = layoutService.layout;
-  const { headerCellHeight } = useStyleContext();
+  const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeList[]>([]);
@@ -107,7 +107,8 @@ export const StickyPivotTable = ({
     }
   };
 
-  const rowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
+  const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
+  const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
@@ -131,6 +132,7 @@ export const StickyPivotTable = ({
 
   const headerGridHeight = headerCellHeight * headersData.size.y;
   const leftGridHeight = rect.height - headerGridHeight;
+  // console.log({ rect, headerGridHeight, headerCellHeight, leftGridHeight, headersData });
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
   const topGridHeight = headerCellHeight * Math.max(topDimensionData.size.y, 1);
   const dataGridHeight = rect.height - topGridHeight;
@@ -148,20 +150,22 @@ export const StickyPivotTable = ({
           topRowsHeight={topGridHeight}
           bottomRowsHeight={dataGridHeight}
         >
+          {/* GOLD ONE */}
           <HeaderGrid
             columnWidthCallback={getLeftColumnWidth}
-            rowHightCallback={rowHightCallback}
+            rowHightCallback={headerCellRowHightCallback}
             width={leftGridWidth}
             height={headerGridHeight}
             headersData={headersData}
           />
 
+          {/* BISQUE ONE */}
           <TopGrid
             dataModel={dataModel}
             constraints={constraints}
             topGridRef={topGridRef}
             getMeasureInfoWidth={getMeasureInfoWidth}
-            rowHightCallback={rowHightCallback}
+            rowHightCallback={headerCellRowHightCallback}
             width={rightGridWidth}
             height={topGridHeight}
             getScrollLeft={getScrollLeft}
@@ -169,6 +173,7 @@ export const StickyPivotTable = ({
             topDimensionData={topDimensionData}
           />
 
+          {/* BISQUE ONE */}
           <LeftGrid
             dataModel={dataModel}
             constraints={constraints}
@@ -185,7 +190,7 @@ export const StickyPivotTable = ({
             dataModel={dataModel}
             dataGridRef={dataGridRef}
             getMeasureInfoWidth={getMeasureInfoWidth}
-            rowHightCallback={rowHightCallback}
+            rowHightCallback={contentCellRowHightCallback}
             width={rightGridWidth}
             height={dataGridHeight}
             viewService={viewService}

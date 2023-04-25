@@ -32,9 +32,9 @@ const StyleProvider = ({ children, styleService, layoutService }: StyleProviderP
   const memoisedProps: StyleService = useMemo(() => {
     const lineClamp = rowHeight?.linesCount || 1;
     const cellHeight = DEFAULT_ROW_HEIGHT * lineClamp;
-
+    console.log({ headerCellHeight, contentCellHeight });
     return { ...styleService, cellHeight, lineClamp, headerCellHeight, contentCellHeight };
-  }, [styleService, rowHeight?.linesCount]);
+  }, [styleService, rowHeight?.linesCount, headerCellHeight, contentCellHeight]);
 
   return <StyleContext.Provider value={memoisedProps}>{children}</StyleContext.Provider>;
 };

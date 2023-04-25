@@ -41,8 +41,8 @@ const useCellHeight: UseCellHeight = ({ styleService, layoutService }) => {
   );
 
   return {
-    headerCellHeight: Math.max(calculatedHeaderCellHeight, DEFAULT_ROW_HEIGHT),
-    contentCellHeight: Math.max(calculatedContentCellHeight, DEFAULT_ROW_HEIGHT),
+    headerCellHeight: Math.max(+calculatedHeaderCellHeight.toFixed(2), DEFAULT_ROW_HEIGHT),
+    contentCellHeight: Math.max(+calculatedContentCellHeight.toFixed(2), DEFAULT_ROW_HEIGHT),
   };
 };
 
