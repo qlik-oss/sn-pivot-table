@@ -1,11 +1,13 @@
+import { Component } from "../types/QIX";
+
 declare module "initial-properties";
 
 declare const properties: {
   version: number;
   qHyperCubeDef: {
     qAlwaysFullyExpanded: boolean;
-    qDimensions: [];
-    qMeasures: [];
+    qDimensions: EngineAPI.INxDimension[];
+    qMeasures: EngineAPI.INxMeasure[];
     qMode: "P";
     qSuppressMissing: boolean;
     qSuppressZero: boolean;
@@ -27,6 +29,7 @@ declare const properties: {
   nullValueRepresentation: {
     text: "-";
   };
+  components?: Component[];
 };
 
 export default properties;
