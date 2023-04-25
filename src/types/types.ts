@@ -22,7 +22,6 @@ export interface Point {
 }
 
 export interface DataModel {
-  fetchNextPage: FetchNextPage;
   fetchMoreData: FetchMoreData;
   collapseLeft: ExpandOrCollapser;
   collapseTop: ExpandOrCollapser;
@@ -109,8 +108,6 @@ export interface Data {
   measureData: MeasureData;
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
-  hasMoreRows: boolean;
-  hasMoreColumns: boolean;
   nextPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
   moreDataHandler: (nextPage: EngineAPI.INxPivotPage) => void;
 }

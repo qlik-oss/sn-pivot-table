@@ -68,16 +68,6 @@ const useData = (
     [qHyperCube, topDimensionData.size.y, leftDimensionData.dimensionInfoIndexMap]
   );
 
-  const hasMoreRows = useMemo<boolean>(
-    () => measureData.size.y < qHyperCube.qSize.qcy,
-    [measureData.size.y, qHyperCube.qSize.qcy]
-  );
-
-  const hasMoreColumns = useMemo<boolean>(
-    () => measureData.size.x < qHyperCube.qSize.qcx,
-    [measureData.size.x, qHyperCube.qSize.qcx]
-  );
-
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
     setNextPage(page);
   }, []);
@@ -91,8 +81,6 @@ const useData = (
     measureData,
     topDimensionData,
     leftDimensionData,
-    hasMoreRows,
-    hasMoreColumns,
     nextPageHandler,
     moreDataHandler,
   };

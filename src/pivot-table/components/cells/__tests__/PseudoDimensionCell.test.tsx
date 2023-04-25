@@ -12,7 +12,7 @@ test("should render on the top", () => {
     width: "100px",
     height: "150px",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "flex-end",
   };
 

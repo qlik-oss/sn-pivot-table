@@ -117,22 +117,6 @@ describe("useData", () => {
     expect(result.current.measureData).toBe(measureData);
     expect(result.current.topDimensionData).toBe(topDimensionData);
     expect(result.current.leftDimensionData).toBe(leftDimensionData);
-    expect(result.current.hasMoreRows).toBeTruthy();
-    expect(result.current.hasMoreColumns).toBeTruthy();
-  });
-
-  test("should give correct state for hasMoreRows when there is no more rows", () => {
-    qHyperCube.qSize.qcy = 4;
-    const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
-
-    expect(result.current.hasMoreRows).toBeFalsy();
-  });
-
-  test("should give correct state for hasMoreRows when there is no more columns", () => {
-    qHyperCube.qSize.qcx = 3;
-    const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
-
-    expect(result.current.hasMoreColumns).toBeFalsy();
   });
 
   test("calling nextPageHandler should trigger data updates", () => {
