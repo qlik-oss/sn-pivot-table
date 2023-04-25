@@ -109,7 +109,6 @@ export interface Data {
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
   nextPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
-  moreDataHandler: (nextPage: EngineAPI.INxPivotPage) => void;
 }
 
 export interface ExtendedSelections extends stardust.ObjectSelections {

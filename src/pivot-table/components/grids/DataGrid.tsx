@@ -145,10 +145,10 @@ const DataGrid = ({
     <VariableSizeGrid
       ref={dataGridRef}
       style={gridStyle}
-      columnCount={layoutService.layout.qHyperCube.qSize.qcx}
+      columnCount={measureData.size.x}
       columnWidth={getColumnWidth}
       height={height}
-      rowCount={layoutService.layout.qHyperCube.qSize.qcy}
+      rowCount={measureData.size.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={

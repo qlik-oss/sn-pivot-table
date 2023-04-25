@@ -25,7 +25,7 @@ describe("useData", () => {
     (prevData: MeasureData, nextDataPage: EngineAPI.INxPivotPage) => MeasureData
   >;
   let mockedCreateMeasureData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, isSnapshot: boolean) => MeasureData
+    (dataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube, isSnapshot: boolean) => MeasureData
   >;
   // Left data mocks
   let mockedAddPageToLeftDimensionData: jest.MockedFunction<
@@ -129,17 +129,6 @@ describe("useData", () => {
 
     expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith(topDimensionData, nextPage);
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith(leftDimensionData, nextPage);
-    expect(mockedAddPageToMeasureData).toHaveBeenCalledWith(measureData, nextPage);
-  });
-
-  test("calling moreDataHandler should trigger data updates", () => {
-    const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
-    const nextPage = {} as EngineAPI.INxPivotPage;
-
-    act(() => {
-      result.current.moreDataHandler(nextPage);
-    });
-
     expect(mockedAddPageToMeasureData).toHaveBeenCalledWith(measureData, nextPage);
   });
 });

@@ -7,10 +7,9 @@ import { DataModel, ExpandOrCollapser, FetchMoreData } from "../../types/types";
 interface UseDataModelProps {
   model: Model;
   nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
-  moreDataHandler: (page: EngineAPI.INxPivotPage) => void;
 }
 
-export default function useDataModel({ model, nextPageHandler, moreDataHandler }: UseDataModelProps): DataModel {
+export default function useDataModel({ model, nextPageHandler }: UseDataModelProps): DataModel {
   const ref = useMemo(() => ({ isLoading: false }), []);
   const genericObjectModel = model as EngineAPI.IGenericObject | undefined;
 
@@ -57,7 +56,6 @@ export default function useDataModel({ model, nextPageHandler, moreDataHandler }
           qHeight: height,
         };
         const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, [nextArea]);
-        moreDataHandler(pivotPage);
         nextPageHandler(pivotPage);
 
         ref.isLoading = false;
@@ -68,7 +66,7 @@ export default function useDataModel({ model, nextPageHandler, moreDataHandler }
         return false;
       }
     },
-    [genericObjectModel, moreDataHandler, nextPageHandler, ref]
+    [genericObjectModel, nextPageHandler, ref]
   );
 
   const dataModel = useMemo<DataModel>(

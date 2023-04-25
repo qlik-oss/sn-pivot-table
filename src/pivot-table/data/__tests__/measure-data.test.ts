@@ -1,6 +1,13 @@
 import { addPageToMeasureData, createMeasureData } from "../measure-data";
 
 describe("measure data", () => {
+  const qHyperCube = {
+    qSize: {
+      qcx: 1,
+      qcy: 2,
+    },
+  } as EngineAPI.IHyperCube;
+
   describe("create", () => {
     test("should return correct data", () => {
       const dataPage = {
@@ -10,12 +17,12 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 1, qHeight: 2, qLeft: 3, qTop: 4 },
       } as unknown as EngineAPI.INxPivotPage;
-      const data = createMeasureData(dataPage, false);
+      const data = createMeasureData(dataPage, qHyperCube, false);
 
       expect(data.data).toEqual(dataPage.qData);
       expect(data.data).not.toBe(dataPage.qData); // Should not be referentially equal
-      expect(data.size.x).toEqual(dataPage.qArea.qWidth + dataPage.qArea.qLeft);
-      expect(data.size.y).toEqual(dataPage.qArea.qHeight + dataPage.qArea.qTop);
+      expect(data.size.x).toEqual(qHyperCube.qSize.qcx);
+      expect(data.size.y).toEqual(qHyperCube.qSize.qcy);
     });
 
     test("should return correct data size in snapshot mode", () => {
@@ -26,7 +33,7 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 1, qHeight: 2, qLeft: 3, qTop: 4 },
       } as unknown as EngineAPI.INxPivotPage;
-      const data = createMeasureData(dataPage, true);
+      const data = createMeasureData(dataPage, qHyperCube, true);
 
       expect(data.size.x).toEqual(dataPage.qArea.qWidth);
       expect(data.size.y).toEqual(dataPage.qArea.qHeight);
@@ -42,7 +49,7 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 2, qHeight: 2, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
-      const prevData = createMeasureData(dataPage, false);
+      const prevData = createMeasureData(dataPage, qHyperCube, false);
 
       const nextDataPage = {
         qData: [
@@ -58,8 +65,8 @@ describe("measure data", () => {
         [{}, {}, {}, {}],
         [{}, {}, {}, {}],
       ]);
-      expect(data.size.x).toEqual(nextDataPage.qArea.qWidth + nextDataPage.qArea.qLeft);
-      expect(data.size.y).toEqual(nextDataPage.qArea.qHeight + nextDataPage.qArea.qTop);
+      expect(data.size.x).toEqual(qHyperCube.qSize.qcx);
+      expect(data.size.y).toEqual(qHyperCube.qSize.qcy);
     });
 
     test("should fill gaps in data", () => {
@@ -70,7 +77,7 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 2, qHeight: 2, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
-      const prevData = createMeasureData(dataPage, false);
+      const prevData = createMeasureData(dataPage, qHyperCube, false);
 
       const nextDataPage = {
         qData: [[{}, {}]],
@@ -83,8 +90,8 @@ describe("measure data", () => {
         [{}, {}, {}, {}],
         [{}, {}, {}, {}],
       ]);
-      expect(data.size.x).toEqual(nextDataPage.qArea.qWidth + nextDataPage.qArea.qLeft);
-      expect(data.size.y).toEqual(nextDataPage.qArea.qHeight + nextDataPage.qArea.qTop);
+      expect(data.size.x).toEqual(qHyperCube.qSize.qcx);
+      expect(data.size.y).toEqual(qHyperCube.qSize.qcy);
     });
 
     test("should return previous page if qData is an empty array", () => {
@@ -95,7 +102,7 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 2, qHeight: 2, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
-      const prevData = createMeasureData(dataPage, false);
+      const prevData = createMeasureData(dataPage, qHyperCube, false);
 
       const nextDataPage = {
         qData: [],
@@ -106,30 +113,6 @@ describe("measure data", () => {
 
       expect(data.data).toEqual(prevData.data);
       expect(data.data).toBe(prevData.data); // Should not be referentially equal
-    });
-
-    test("should compare size with previous data and return the largest value", () => {
-      const dataPage = {
-        qData: [
-          [{}, {}],
-          [{}, {}],
-        ],
-        qArea: { qWidth: 20, qHeight: 20, qLeft: 0, qTop: 0 },
-      } as unknown as EngineAPI.INxPivotPage;
-      const prevData = createMeasureData(dataPage, false);
-
-      const nextDataPage = {
-        qData: [
-          [{}, {}],
-          [{}, {}],
-        ],
-        qArea: { qWidth: 2, qHeight: 2, qLeft: 2, qTop: 2 },
-      } as unknown as EngineAPI.INxPivotPage;
-
-      const data = addPageToMeasureData(prevData, nextDataPage);
-
-      expect(data.size.x).toEqual(prevData.size.x);
-      expect(data.size.y).toEqual(prevData.size.y);
     });
   });
 });
