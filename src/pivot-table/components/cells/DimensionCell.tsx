@@ -6,7 +6,7 @@ import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
-import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
+import { borderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -34,14 +34,6 @@ const cellStyle: React.CSSProperties = {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-};
-
-const stickyCell: React.CSSProperties = {
-  width: "fit-content",
-  maxWidth: "100%",
-  position: "sticky",
-  left: 4,
-  top: 4,
 };
 
 const getDimTextStyle = (clampCount: number): React.CSSProperties => ({

@@ -109,7 +109,7 @@ export const StickyPivotTable = ({
 
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints}>
-      <FullSizeContainer width={getTotalWidth()} height={cellHeight * (qHyperCube.qSize.qcy + topDimensionData.size.y)}>
+      <FullSizeContainer width={getTotalWidth()} height={cellHeight * (measureData.size.y + topDimensionData.size.y)}>
         <StickyContainer
           rect={rect}
           leftColumnsWidth={leftGridWidth}
