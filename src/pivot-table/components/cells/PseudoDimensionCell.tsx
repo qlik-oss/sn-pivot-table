@@ -1,7 +1,7 @@
 import React from "react";
 import { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
+import { borderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -18,14 +18,6 @@ const topContainerStyle: React.CSSProperties = {
 const leftContainerStyle: React.CSSProperties = {
   display: "flex",
   alignItems: "flex-start",
-};
-
-const stickyCell: React.CSSProperties = {
-  width: "fit-content",
-  maxWidth: "100%",
-  position: "sticky",
-  left: 4,
-  top: 4,
 };
 
 const getTextStyle = (clampCount: number): React.CSSProperties => ({

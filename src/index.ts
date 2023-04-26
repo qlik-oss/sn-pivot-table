@@ -48,7 +48,14 @@ export default function supernova(env: Galaxy) {
       const theme = useTheme() as ExtendedTheme;
       // eslint-disable-next-line react-hooks/exhaustive-deps
       const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
-      const isFontLoaded = useWaitForFonts(styleService);
+      const fonts = useMemo(
+        () => [
+          `600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,
+          `${styleService.content.fontSize} ${styleService.content.fontFamily}`,
+        ],
+        [styleService]
+      );
+      const isFontLoaded = useWaitForFonts(fonts);
 
       rect = useSnapshot({ layoutService, viewService, rect, model });
 
