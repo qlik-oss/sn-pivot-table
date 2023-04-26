@@ -5,11 +5,12 @@ import { DEFAULT_ROW_HEIGHT } from "../../constants";
 import StyleProvider, { useStyleContext } from "../StyleProvider";
 
 const DummyTestComponent = () => {
-  const { cellHeight, lineClamp } = useStyleContext();
+  const { headerCellHeight, contentCellHeight, lineClamp } = useStyleContext();
 
   return (
     <div>
-      <p data-testid="cell-height">{cellHeight}</p>
+      <p data-testid="header-cell-height">{headerCellHeight}</p>
+      <p data-testid="content-cell-height">{contentCellHeight}</p>
       <p data-testid="line-clamp">{lineClamp}</p>
     </div>
   );
@@ -26,18 +27,24 @@ describe("StyleProvider", () => {
       </StyleProvider>
     );
 
+  const fontSizeCalcualteHelper = (size: string, clamp: number): string =>
+    `${+(parseInt(size, 10) * (4 / 3) * clamp).toFixed(2)}`;
+
   describe("assert `rowHeight.linesCount` effect", () => {
     beforeEach(() => {
       layoutService = {
-        layout: {
-          components: [{ key: "theme" }],
-        },
+        layout: { components: [{ key: "theme" }] },
       } as LayoutService;
+      styleService = {
+        header: { fontSize: "18px" },
+        content: { fontSize: "14px" },
+      } as unknown as StyleService;
     });
 
-    test("should return default values", () => {
+    test("should return default values because provided font sizes are smaller than `DEFAULT_ROW_HEIGHT`", () => {
       const { getByTestId } = renderer();
-      expect(getByTestId("cell-height").textContent).toEqual(`${DEFAULT_ROW_HEIGHT}`);
+      expect(getByTestId("header-cell-height").textContent).toEqual(`${DEFAULT_ROW_HEIGHT}`);
+      expect(getByTestId("content-cell-height").textContent).toEqual(`${DEFAULT_ROW_HEIGHT}`);
       expect(getByTestId("line-clamp").textContent).toEqual("1");
     });
 
@@ -50,7 +57,12 @@ describe("StyleProvider", () => {
       } as LayoutService;
 
       const { getByTestId } = renderer();
-      expect(getByTestId("cell-height").textContent).toEqual(`${n * DEFAULT_ROW_HEIGHT}`);
+      expect(getByTestId("header-cell-height").textContent).toEqual(
+        fontSizeCalcualteHelper(styleService.header.fontSize, n)
+      );
+      expect(getByTestId("content-cell-height").textContent).toEqual(
+        fontSizeCalcualteHelper(styleService.content.fontSize, n)
+      );
       expect(getByTestId("line-clamp").textContent).toEqual(`${n}`);
     });
   });

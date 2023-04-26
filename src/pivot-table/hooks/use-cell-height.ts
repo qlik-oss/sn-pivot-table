@@ -14,7 +14,7 @@ interface UseCellHeight {
   };
 }
 
-const LINE_HEIGHT_COEFFICIENT = 4 / 3;
+export const LINE_HEIGHT_COEFFICIENT = 4 / 3;
 
 const useCellHeight: UseCellHeight = ({ styleService, layoutService }) => {
   const rowHeight = useMemo(

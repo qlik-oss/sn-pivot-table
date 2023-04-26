@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { LayoutService, StyleService } from "../../types/types";
-import { DEFAULT_ROW_HEIGHT } from "../constants";
 import useCellHeight from "../hooks/use-cell-height";
 
 interface StyleProviderProps {
@@ -25,8 +24,7 @@ const StyleProvider = ({ children, styleService, layoutService }: StyleProviderP
 
   const memoisedProps: StyleService = useMemo(() => {
     const lineClamp = rowHeight?.linesCount || 1;
-    const cellHeight = DEFAULT_ROW_HEIGHT * lineClamp;
-    return { ...styleService, cellHeight, lineClamp, headerCellHeight, contentCellHeight };
+    return { ...styleService, lineClamp, headerCellHeight, contentCellHeight };
   }, [styleService, rowHeight?.linesCount, headerCellHeight, contentCellHeight]);
 
   return <StyleContext.Provider value={memoisedProps}>{children}</StyleContext.Provider>;
