@@ -24,6 +24,100 @@ const getStylingPanelConfig = () => ({
       useGeneral: true,
       defaultValue: [],
       items: {
+        headerSection: {
+          translation: "properties.Header",
+          component: "panel-section",
+          items: {
+            headerFontItem: {
+              component: "items",
+              ref: "components",
+              key: "theme",
+              items: {
+                headerFontWrapper: {
+                  component: "inline-wrapper",
+                  items: {
+                    headerFontSize: {
+                      component: "integer",
+                      ref: "header.fontSize",
+                      translation: "properties.fontSize",
+                      width: 9,
+                      min: 5,
+                      max: 300,
+                      defaultValue(item, data, args) {
+                        const currentTheme = args.theme.current();
+                        return parseInt(currentTheme.object?.pivotTable?.header?.fontSize ?? currentTheme.fontSize, 10);
+                      },
+                      change(data) {
+                        data.header.fontSize = !data.header.fontSize
+                          ? data.header.fontSize
+                          : Math.max(5, Math.min(300, Math.floor(data.header.fontSize)));
+                      },
+                    },
+                    headerFontColor: {
+                      show: true,
+                      ref: "header.fontColor",
+                      type: "object",
+                      component: "color-picker",
+                      defaultValue(item, data, args) {
+                        const currentTheme = args.theme.current();
+                        return { color: currentTheme.object?.pivotTable?.header?.color ?? currentTheme.color };
+                      },
+                      dualOutput: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        contentSection: {
+          component: "panel-section",
+          translation: "properties.Content",
+          items: {
+            contentFontItem: {
+              component: "items",
+              ref: "components",
+              key: "theme",
+              items: {
+                contentFontWrapper: {
+                  component: "inline-wrapper",
+                  items: {
+                    contentFontSize: {
+                      component: "integer",
+                      ref: "content.fontSize",
+                      translation: "properties.fontSize",
+                      width: 9,
+                      min: 5,
+                      max: 300,
+                      defaultValue(item, data, args) {
+                        const currentTheme = args.theme.current();
+                        return parseInt(
+                          currentTheme.object?.pivotTable?.content?.fontSize ?? currentTheme.fontSize,
+                          10
+                        );
+                      },
+                      change(data) {
+                        data.content.fontSize = !data.content.fontSize
+                          ? data.content.fontSize
+                          : Math.max(5, Math.min(300, Math.floor(data.content.fontSize)));
+                      },
+                    },
+                    contentFontColor: {
+                      ref: "content.fontColor",
+                      type: "object",
+                      component: "color-picker",
+                      defaultValue(item, data, args) {
+                        const currentTheme = args.theme.current();
+                        return { color: currentTheme.object?.pivotTable?.content?.color ?? currentTheme.color };
+                      },
+                      dualOutput: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         rowHeightSection: {
           translation: "ThemeStyleEditor.style.rowHeight",
           component: "panel-section",

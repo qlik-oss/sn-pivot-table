@@ -1,32 +1,23 @@
 import React, { createContext, useContext, useMemo } from "react";
-import { LayoutService, StyleService } from "../../types/types";
-import { DEFAULT_ROW_HEIGHT } from "../constants";
+import { ExtendedTheme, LayoutService } from "../../types/types";
+import { Styling, createStyling } from "./create-styling";
 
 interface StyleProviderProps {
   children: JSX.Element | JSX.Element[];
-  styleService: StyleService;
+  theme: ExtendedTheme;
   layoutService: LayoutService;
 }
 
-const NOOP_STYLE_SERVICE = {} as StyleService;
+const NOOP_STYLE_SERVICE = {} as Styling;
 
-const StyleContext = createContext<StyleService>(NOOP_STYLE_SERVICE);
+const StyleContext = createContext<Styling>(NOOP_STYLE_SERVICE);
 
-export const useStyleContext = (): StyleService => useContext(StyleContext);
+export const useStyleContext = (): Styling => useContext(StyleContext);
 
-const StyleProvider = ({ children, styleService, layoutService }: StyleProviderProps): JSX.Element => {
-  const rowHeight = useMemo(
-    () => layoutService.layout.components?.find((n) => n.key === "theme")?.rowHeight,
-    [layoutService.layout.components]
-  );
+const StyleProvider = ({ children, theme, layoutService }: StyleProviderProps): JSX.Element => {
+  const memoisedStyling = useMemo(() => createStyling(layoutService, theme), [layoutService, theme]);
 
-  const memoisedProps: StyleService = useMemo(() => {
-    const lineClamp = rowHeight?.linesCount || 1;
-    const cellHeight = DEFAULT_ROW_HEIGHT * lineClamp;
-    return { ...styleService, cellHeight, lineClamp };
-  }, [styleService, rowHeight?.linesCount]);
-
-  return <StyleContext.Provider value={memoisedProps}>{children}</StyleContext.Provider>;
+  return <StyleContext.Provider value={memoisedStyling}>{children}</StyleContext.Provider>;
 };
 
 export default StyleProvider;

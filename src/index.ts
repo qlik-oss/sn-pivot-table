@@ -3,7 +3,6 @@ import {
   useConstraints,
   useEffect,
   useElement,
-  useMemo,
   useModel,
   useRect,
   useSelections,
@@ -19,7 +18,6 @@ import useViewService from "./hooks/use-view-service";
 import render from "./pivot-table/Root";
 import createDataDefinition from "./qae/data-definition";
 import initialProperties from "./qae/initial-properties";
-import createStyleService from "./services/style-service";
 import { Model, PivotLayout } from "./types/QIX";
 import { ExtendedSelections, ExtendedTheme, Galaxy } from "./types/types";
 
@@ -45,8 +43,6 @@ export default function supernova(env: Galaxy) {
       const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
       const selections = useSelections() as ExtendedSelections;
       const theme = useTheme() as ExtendedTheme;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
 
       rect = useSnapshot({ layoutService, viewService, rect, model });
 
@@ -60,7 +56,7 @@ export default function supernova(env: Galaxy) {
           selections &&
           viewService &&
           layoutService &&
-          styleService
+          theme
         ) {
           render(reactRoot, {
             model,
@@ -70,7 +66,7 @@ export default function supernova(env: Galaxy) {
             viewService,
             layoutService,
             qPivotDataPages,
-            styleService,
+            theme,
           });
         }
       }, [
@@ -84,7 +80,7 @@ export default function supernova(env: Galaxy) {
         layoutService,
         isLoading,
         qPivotDataPages,
-        styleService,
+        theme,
         reactRoot,
       ]);
     },

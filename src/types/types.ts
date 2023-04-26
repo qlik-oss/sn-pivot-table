@@ -141,16 +141,6 @@ export interface DataService {
   size: PivotDataSize;
 }
 
-type StyleProperties = Record<string, string>;
-
-export interface StyleService {
-  header: StyleProperties;
-  content: StyleProperties;
-  backgroundColor: string;
-  cellHeight: number;
-  lineClamp: number;
-}
-
 export interface Galaxy {
   translator: {
     get: (str: string) => string;
