@@ -14,9 +14,7 @@ interface UseCellHeight {
   };
 }
 
-const LINE_HEIGHT = 4 / 3;
-const CELL_PADDING_HEIGHT = 8;
-const CELL_BORDER_HEIGHT = 1;
+const LINE_HEIGHT_COEFFICIENT = 4 / 3;
 
 const useCellHeight: UseCellHeight = ({ styleService, layoutService }) => {
   const rowHeight = useMemo(
@@ -25,10 +23,7 @@ const useCellHeight: UseCellHeight = ({ styleService, layoutService }) => {
   );
 
   const lineClamp = rowHeight?.linesCount || 1;
-
-  console.log({ styleService });
-
-  const fontSizeToRowHeight = (fontSize: string) => parseInt(fontSize, 10) * LINE_HEIGHT; // + CELL_PADDING_HEIGHT + CELL_BORDER_HEIGHT;
+  const fontSizeToRowHeight = (fontSize: string) => parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT;
 
   const calculatedHeaderCellHeight: number = useMemo(
     () => fontSizeToRowHeight(styleService.header.fontSize) * lineClamp,

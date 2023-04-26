@@ -88,31 +88,28 @@ const LeftGrid = ({
 
   return (
     <div style={containerStyle}>
-      {leftDimensionData.data.map((list, colIndex) => {
-        console.log({ list, height });
-        return (
-          <VariableSizeList
-            key={getKey(colIndex)}
-            ref={setListRef(leftGridRef, colIndex)}
-            style={isLastColumn(colIndex) ? { ...listStyle, ...rightListStyle } : listStyle}
-            height={height}
-            width={getLeftColumnWidth(colIndex)}
-            itemCount={list.length}
-            itemSize={getItemSizeCallback(list, contentCellHeight)}
-            layout="vertical"
-            itemData={{
-              layoutService,
-              dataModel,
-              constraints,
-              list,
-              isLeftColumn: true,
-            }}
-            itemKey={getItemKey}
-          >
-            {MemoizedListCellFactory}
-          </VariableSizeList>
-        );
-      })}
+      {leftDimensionData.data.map((list, colIndex) => (
+        <VariableSizeList
+          key={getKey(colIndex)}
+          ref={setListRef(leftGridRef, colIndex)}
+          style={isLastColumn(colIndex) ? { ...listStyle, ...rightListStyle } : listStyle}
+          height={height}
+          width={getLeftColumnWidth(colIndex)}
+          itemCount={list.length}
+          itemSize={getItemSizeCallback(list, contentCellHeight)}
+          layout="vertical"
+          itemData={{
+            layoutService,
+            dataModel,
+            constraints,
+            list,
+            isLeftColumn: true,
+          }}
+          itemKey={getItemKey}
+        >
+          {MemoizedListCellFactory}
+        </VariableSizeList>
+      ))}
     </div>
   );
 };

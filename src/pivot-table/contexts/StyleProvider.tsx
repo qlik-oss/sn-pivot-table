@@ -23,16 +23,9 @@ const StyleProvider = ({ children, styleService, layoutService }: StyleProviderP
     [layoutService.layout.components]
   );
 
-  // TODO:
-  // - DEFAULT_ROW_HEIGHT should be dynamic based on fontsize from theme
-  // - DEFAULT_ROW_HEIGHT should be the minimum cell height -> any value above might update it!
-  // -> cell height will be 2 cell heights:
-  //    - header cell height
-  //    - content cell height
   const memoisedProps: StyleService = useMemo(() => {
     const lineClamp = rowHeight?.linesCount || 1;
     const cellHeight = DEFAULT_ROW_HEIGHT * lineClamp;
-    console.log({ headerCellHeight, contentCellHeight });
     return { ...styleService, cellHeight, lineClamp, headerCellHeight, contentCellHeight };
   }, [styleService, rowHeight?.linesCount, headerCellHeight, contentCellHeight]);
 
