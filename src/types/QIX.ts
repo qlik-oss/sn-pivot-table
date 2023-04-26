@@ -51,7 +51,7 @@ export interface Component {
     fontFamily?: string;
     fontColor?: PaletteColor;
   };
-  content: {
+  content?: {
     fontSize?: number;
     fontFamily?: string;
     fontColor?: PaletteColor;
