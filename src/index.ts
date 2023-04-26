@@ -16,6 +16,7 @@ import useLoadDataPages from "./hooks/use-load-data-pages";
 import useReactRoot from "./hooks/use-react-root";
 import useSnapshot from "./hooks/use-snapshot";
 import useViewService from "./hooks/use-view-service";
+import useWaitForFonts from "./hooks/use-wait-for-fonts";
 import render from "./pivot-table/Root";
 import createDataDefinition from "./qae/data-definition";
 import initialProperties from "./qae/initial-properties";
@@ -47,6 +48,14 @@ export default function supernova(env: Galaxy) {
       const theme = useTheme() as ExtendedTheme;
       // eslint-disable-next-line react-hooks/exhaustive-deps
       const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
+      const fonts = useMemo(
+        () => [
+          `600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,
+          `${styleService.content.fontSize} ${styleService.content.fontFamily}`,
+        ],
+        [styleService]
+      );
+      const isFontLoaded = useWaitForFonts(fonts);
 
       rect = useSnapshot({ layoutService, viewService, rect, model });
 
@@ -60,7 +69,8 @@ export default function supernova(env: Galaxy) {
           selections &&
           viewService &&
           layoutService &&
-          styleService
+          styleService &&
+          isFontLoaded
         ) {
           render(reactRoot, {
             model,
@@ -86,6 +96,7 @@ export default function supernova(env: Galaxy) {
         qPivotDataPages,
         styleService,
         reactRoot,
+        isFontLoaded,
       ]);
     },
   };
