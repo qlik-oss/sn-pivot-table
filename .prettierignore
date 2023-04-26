@@ -1,5 +1,6 @@
 .cache/
 dist/
+core/esm/
 .DS_Store
 *.html
 sn-pivot-table-ext
