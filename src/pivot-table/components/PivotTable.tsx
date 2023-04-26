@@ -1,9 +1,8 @@
 import { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import { VariableSizeGrid, VariableSizeList } from "react-window";
-import { LayoutService, Rect, ViewService } from "../../types/types";
-// import useDebug from '../hooks/use-debug';
 import { Model } from "../../types/QIX";
+import { LayoutService, Rect, ViewService } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
@@ -112,37 +111,16 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  // useDebug('PivotTable', {
-  //   model,
-  //   rect,
-  //   constraints,
-  //   viewService,
-  //   layoutService,
-  //   qPivotDataPages,
-  //   dataModel,
-  //   headersData,
-  //   measureData,
-  //   topDimensionData,
-  //   leftDimensionData,
-  //   hasMoreRows,
-  //   hasMoreColumns,
-  //   nextPageHandler,
-  //   moreDataHandler
-  // });
-
+  const containerHeight = contentCellHeight * measureData.size.y + headerCellHeight * topDimensionData.size.y;
   const headerGridHeight = headerCellHeight * headersData.size.y;
-  const leftGridHeight = rect.height - headerGridHeight;
-  // console.log({ rect, headerGridHeight, headerCellHeight, leftGridHeight, headersData });
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
   const topGridHeight = headerCellHeight * Math.max(topDimensionData.size.y, 1);
+  const leftGridHeight = rect.height - headerGridHeight;
   const dataGridHeight = rect.height - topGridHeight;
 
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints}>
-      <FullSizeContainer
-        width={getTotalWidth()}
-        height={headerCellHeight * (measureData.size.y + topDimensionData.size.y)}
-      >
+      <FullSizeContainer width={getTotalWidth()} height={containerHeight}>
         <StickyContainer
           rect={rect}
           leftColumnsWidth={leftGridWidth}
@@ -150,7 +128,6 @@ export const StickyPivotTable = ({
           topRowsHeight={topGridHeight}
           bottomRowsHeight={dataGridHeight}
         >
-          {/* GOLD ONE */}
           <HeaderGrid
             columnWidthCallback={getLeftColumnWidth}
             rowHightCallback={headerCellRowHightCallback}
@@ -159,7 +136,6 @@ export const StickyPivotTable = ({
             headersData={headersData}
           />
 
-          {/* BISQUE ONE */}
           <TopGrid
             dataModel={dataModel}
             constraints={constraints}
@@ -173,7 +149,6 @@ export const StickyPivotTable = ({
             topDimensionData={topDimensionData}
           />
 
-          {/* BISQUE ONE */}
           <LeftGrid
             dataModel={dataModel}
             constraints={constraints}

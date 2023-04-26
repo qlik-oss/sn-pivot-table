@@ -173,7 +173,6 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
         ...borderStyle,
         ...appliedNullStyle,
         display: "flex",
-        overflow: "hidden",
         backgroundColor: "bisque",
       }}
       aria-hidden="true"
