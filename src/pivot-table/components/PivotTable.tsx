@@ -1,9 +1,8 @@
 import { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import { VariableSizeGrid, VariableSizeList } from "react-window";
-import { LayoutService, Rect, ViewService } from "../../types/types";
-// import useDebug from '../hooks/use-debug';
 import { Model } from "../../types/QIX";
+import { LayoutService, Rect, ViewService } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
@@ -42,24 +41,15 @@ export const StickyPivotTable = ({
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
 
-  const {
-    headersData,
-    measureData,
-    topDimensionData,
-    leftDimensionData,
-    hasMoreRows,
-    hasMoreColumns,
-    nextPageHandler,
-    moreDataHandler,
-  } = useData(qPivotDataPages, qHyperCube, snapshotData);
+  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
+    qPivotDataPages,
+    qHyperCube,
+    snapshotData
+  );
 
   const dataModel = useDataModel({
     model,
     nextPageHandler,
-    moreDataHandler,
-    hasMoreRows,
-    hasMoreColumns,
-    size: measureData.size,
   });
 
   const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
@@ -110,24 +100,6 @@ export const StickyPivotTable = ({
   const rowHightCallback = useCallback(() => cellHeight, [cellHeight]);
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
-
-  // useDebug('PivotTable', {
-  //   model,
-  //   rect,
-  //   constraints,
-  //   viewService,
-  //   layoutService,
-  //   qPivotDataPages,
-  //   dataModel,
-  //   headersData,
-  //   measureData,
-  //   topDimensionData,
-  //   leftDimensionData,
-  //   hasMoreRows,
-  //   hasMoreColumns,
-  //   nextPageHandler,
-  //   moreDataHandler
-  // });
 
   const headerGridHeight = cellHeight * headersData.size.y;
   const leftGridHeight = rect.height - headerGridHeight;
@@ -188,8 +160,6 @@ export const StickyPivotTable = ({
             viewService={viewService}
             layoutService={layoutService}
             measureData={measureData}
-            hasMoreRows={hasMoreRows}
-            hasMoreColumns={hasMoreColumns}
           />
         </StickyContainer>
       </FullSizeContainer>

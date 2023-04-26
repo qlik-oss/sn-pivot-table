@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 
-import { Cell } from "../../types/types";
+import { Cell, Grid } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
 const extractLeftGrid = (
-  grid: Cell[][],
+  grid: Grid,
   qLeft: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage,
   isSnapshot: boolean
-): Cell[][] => {
+): Grid => {
   if (!qLeft.length) {
     return grid;
   }
@@ -21,8 +21,8 @@ const extractLeftGrid = (
     nodes: EngineAPI.INxPivotDimensionCell[],
     colIdx = 0
   ) {
-    if (!Array.isArray(grid[colIdx])) {
-      grid[colIdx] = [];
+    if (!grid[colIdx]) {
+      grid[colIdx] = {};
     }
 
     nodes.forEach((node, currRowIdx) => {

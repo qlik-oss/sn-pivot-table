@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "build": "node ./scripts/build.js --core --ext",
-    "build:dev": "node ./scripts/build.js --core --mode development",
+    "build:dev": "node ./scripts/build.js --core --ext --mode development",
     "build:watch": "node ./scripts/build.js --mode development -w",
     "copy:ext": "node ./scripts/copy-ext.js",
     "format:check": "prettier --check '**' --ignore-unknown",

@@ -2,9 +2,11 @@ import { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
-import { Cell, DataModel, LayoutService, TopDimensionData } from "../../../types/types";
+import { DataModel, LayoutService, List, TopDimensionData } from "../../../types/types";
+import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
+import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
 
@@ -42,11 +44,11 @@ const TopGrid = ({
   layoutService,
   topDimensionData,
 }: TopGridProps): JSX.Element | null => {
-  const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
+  const { qMeasureInfo, qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
 
-  useLayoutEffect(() => {
+  useOnPropsChange(() => {
     if (topGridRef.current) {
-      topGridRef.current.forEach((list) => list?.resetAfterIndex(0));
+      topGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
     }
   }, [dataModel, width, height, topDimensionData, topGridRef]);
 
@@ -54,21 +56,22 @@ const TopGrid = ({
     if (topGridRef.current) {
       topGridRef.current.forEach((list) => list?.scrollTo(getScrollLeft()));
     }
-  });
+  }, [layoutService, getScrollLeft, topGridRef]);
 
   const allMeasuresWidth = useMemo(
     () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
     [getMeasureInfoWidth, qMeasureInfo]
   );
 
-  const getItemSizeCallback = (list: Cell[]) => (colIndex: number) => {
-    const cell = list[colIndex];
-    if (cell.leafCount > 0) {
+  const getItemSizeCallback = (list: List, isLast: boolean) => (colIndex: number) => {
+    const cell = isLast ? list[colIndex] : Object.values(list)[colIndex];
+
+    if (cell?.leafCount > 0) {
       const measureInfoCount = qMeasureInfo.length;
-      return (cell.leafCount / measureInfoCount) * allMeasuresWidth;
+      return ((cell.leafCount + cell.distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
     }
 
-    return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell.x));
+    return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell?.x ?? colIndex));
   };
 
   const getKey = (rowIndex: number): string => {
@@ -79,6 +82,8 @@ const TopGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
+  const totalWidth = qSize.qcx * (allMeasuresWidth / qMeasureInfo.length);
+
   if (topDimensionData.size.y === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
     return <div style={{ width, height, ...bottomListStyle }} />;
@@ -86,27 +91,34 @@ const TopGrid = ({
 
   return (
     <div>
-      {topDimensionData.data.map((list, topRowIndex) => (
-        <VariableSizeList
-          key={getKey(topRowIndex)}
-          ref={setListRef(topGridRef, topRowIndex)}
-          style={topRowIndex === topDimensionData.data.length - 1 ? { ...listStyle, ...bottomListStyle } : listStyle}
-          height={rowHightCallback()}
-          width={width}
-          itemCount={list.length}
-          itemSize={getItemSizeCallback(list)}
-          layout="horizontal"
-          itemData={{
-            layoutService,
-            dataModel,
-            constraints,
-            list,
-          }}
-          itemKey={getItemKey}
-        >
-          {MemoizedListCellFactory}
-        </VariableSizeList>
-      ))}
+      {topDimensionData.grid.map((list, topRowIndex) => {
+        const isLastRow = topRowIndex === topDimensionData.size.y - 1;
+        const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, qSize.qcx, isLastRow);
+
+        return (
+          <VariableSizeList
+            key={getKey(topRowIndex)}
+            ref={setListRef(topGridRef, topRowIndex)}
+            style={isLastRow ? { ...listStyle, ...bottomListStyle } : listStyle}
+            height={rowHightCallback()}
+            width={width}
+            itemCount={itemCount}
+            itemSize={getItemSizeCallback(list, isLastRow)}
+            layout="horizontal"
+            itemData={{
+              layoutService,
+              dataModel,
+              constraints,
+              list,
+              isLast: isLastRow && !layoutService.layout.snapshotData,
+            }}
+            itemKey={getItemKey}
+            estimatedItemSize={estimatedItemSize}
+          >
+            {MemoizedListCellFactory}
+          </VariableSizeList>
+        );
+      })}
     </div>
   );
 };

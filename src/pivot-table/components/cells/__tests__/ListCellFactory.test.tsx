@@ -45,18 +45,20 @@ describe("ListCellFactory", () => {
     data = {
       layoutService,
       dataModel,
-      list: [],
+      list: {},
       constraints,
+      isLast: false,
     };
   });
 
   test("should render dimension cell", () => {
+    const index = 0;
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
     cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
-    data.list[0] = cell;
+    data.list[index] = cell;
 
-    render(<ListCellFactory index={0} style={style} data={data} />);
+    render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockDimensionCell).toHaveBeenCalledWith(
       { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false },
@@ -65,35 +67,51 @@ describe("ListCellFactory", () => {
   });
 
   test("should render pseudo dimension cell", () => {
+    const index = 0;
     const mockPseudoDimensionCell = PseudoDimensionCell as jest.MockedFunction<typeof PseudoDimensionCell>;
     mockPseudoDimensionCell.mockReturnValue(<div />);
     cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_PSEUDO } } as Cell;
-    data.list[0] = cell;
+    data.list[index] = cell;
 
-    render(<ListCellFactory index={0} style={style} data={data} />);
+    render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith({ style, cell, isLeftColumn: false }, {});
   });
 
   test("should render totals cell", () => {
+    const index = 0;
     const mockedTotalsCell = TotalsCell as jest.MockedFunction<typeof TotalsCell>;
     mockedTotalsCell.mockReturnValue(<div />);
     cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_TOTAL, qElemNo: -1 } } as Cell;
-    data.list[0] = cell;
+    data.list[index] = cell;
 
-    render(<ListCellFactory index={0} style={style} data={data} />);
+    render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockedTotalsCell).toHaveBeenCalledWith({ cell, style, isLeftColumn: false }, {});
   });
 
   test("should render empty cell", () => {
+    const index = 0;
     const mockEmptyCell = EmptyCell as jest.MockedFunction<typeof EmptyCell>;
     mockEmptyCell.mockReturnValue(<div />);
     cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_EMPTY } } as Cell;
-    data.list[0] = cell;
+    data.list[index] = cell;
 
-    render(<ListCellFactory index={0} style={style} data={data} />);
+    render(<ListCellFactory index={index} style={style} data={data} />);
 
-    expect(mockEmptyCell).toHaveBeenCalledWith({ style }, {});
+    expect(mockEmptyCell).toHaveBeenCalledWith({ style, index }, {});
+  });
+
+  test("should render undefined cell", () => {
+    const index = 1;
+    const mockEmptyCell = EmptyCell as jest.MockedFunction<typeof EmptyCell>;
+    mockEmptyCell.mockReturnValue(<div />);
+    cell = { ref: { qText, qType: NxDimCellType.NX_DIM_CELL_EMPTY } } as Cell;
+    data.list[index] = cell;
+    data.isLast = true;
+
+    render(<ListCellFactory index={index} style={style} data={data} />);
+
+    expect(mockEmptyCell).toHaveBeenCalledWith({ style, index }, {});
   });
 });

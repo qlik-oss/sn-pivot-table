@@ -2,8 +2,9 @@
 
 exports[`extractLeftGrid should extract left data when data tree has a depth of 2 1`] = `
 [
-  [
-    {
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": null,
@@ -34,7 +35,8 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 0,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": null,
@@ -65,7 +67,8 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 0,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 6,
       "parent": null,
@@ -120,7 +123,8 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 0,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -135,12 +139,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 0,
       "y": 3,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -187,6 +193,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -220,10 +227,12 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 1,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -270,6 +279,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -303,10 +313,12 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 1,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -377,6 +389,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -434,10 +447,12 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 1,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -516,6 +531,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -573,15 +589,18 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 1,
       "y": 3,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -628,6 +647,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -669,6 +689,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -702,13 +723,16 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 2,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -755,6 +779,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -796,6 +821,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -829,13 +855,16 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 2,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -906,6 +935,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -971,6 +1001,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1028,13 +1059,16 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 2,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -1113,6 +1147,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -1178,6 +1213,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1235,13 +1271,16 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 2,
       "y": 3,
     },
-    {
+    "4": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -1320,6 +1359,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -1385,6 +1425,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1442,14 +1483,15 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "x": 2,
       "y": 4,
     },
-  ],
+  },
 ]
 `;
 
 exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
 [
-  [
-    {
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
@@ -1464,7 +1506,8 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 0,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
@@ -1479,7 +1522,8 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 0,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
@@ -1494,7 +1538,8 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 0,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -1509,12 +1554,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 0,
       "y": 3,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -1561,6 +1608,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -1594,10 +1642,12 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 1,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -1644,6 +1694,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -1677,10 +1728,12 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 1,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1751,6 +1804,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1808,10 +1862,12 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 1,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1890,6 +1946,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1947,15 +2004,18 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 1,
       "y": 3,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -2002,6 +2062,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -2043,6 +2104,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -2076,13 +2138,16 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 2,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -2129,6 +2194,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -2170,6 +2236,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -2203,13 +2270,16 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 2,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2280,6 +2350,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2345,6 +2416,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -2402,13 +2474,16 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 2,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2487,6 +2562,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2552,6 +2628,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -2609,13 +2686,16 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 2,
       "y": 3,
     },
-    {
+    "4": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2694,6 +2774,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2759,6 +2840,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -2816,14 +2898,15 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "x": 2,
       "y": 4,
     },
-  ],
+  },
 ]
 `;
 
 exports[`extractLeftGrid should extract left data with first node expanded 1`] = `
 [
-  [
-    {
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
       "parent": null,
@@ -2854,7 +2937,8 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "x": 0,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -2869,7 +2953,8 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "x": 0,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -2884,7 +2969,8 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "x": 0,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -2899,12 +2985,14 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "x": 0,
       "y": 3,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
@@ -2943,6 +3031,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
@@ -2976,10 +3065,12 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "x": 1,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
@@ -3018,6 +3109,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
@@ -3051,14 +3143,15 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "x": 1,
       "y": 1,
     },
-  ],
+  },
 ]
 `;
 
 exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
 [
-  [
-    {
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -3073,7 +3166,8 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
       "x": 0,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -3088,7 +3182,8 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
       "x": 0,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -3103,6 +3198,6 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
       "x": 0,
       "y": 2,
     },
-  ],
+  },
 ]
 `;

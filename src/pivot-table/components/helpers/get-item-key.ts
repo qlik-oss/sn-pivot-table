@@ -1,5 +1,5 @@
 import { ListItemData } from "../../../types/types";
 
-const getItemKey = (index: number, data: ListItemData): string => `${data.list[index].ref.qElemNo}-${index}`;
+const getItemKey = (index: number, data: ListItemData): string => `${data.list[index]?.ref.qElemNo}-${index}`;
 
 export default getItemKey;
