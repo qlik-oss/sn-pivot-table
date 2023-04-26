@@ -9,6 +9,7 @@ interface UseCellHeightProps {
 
 interface UseCellHeight {
   (args: UseCellHeightProps): {
+    lineClamp: number;
     headerCellHeight: number;
     contentCellHeight: number;
   };
@@ -36,6 +37,7 @@ const useCellHeight: UseCellHeight = ({ styleService, layoutService }) => {
   );
 
   return {
+    lineClamp,
     headerCellHeight: Math.max(+calculatedHeaderCellHeight.toFixed(2), DEFAULT_ROW_HEIGHT),
     contentCellHeight: Math.max(+calculatedContentCellHeight.toFixed(2), DEFAULT_ROW_HEIGHT),
   };

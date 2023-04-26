@@ -15,17 +15,12 @@ const StyleContext = createContext<StyleService>(NOOP_STYLE_SERVICE);
 export const useStyleContext = (): StyleService => useContext(StyleContext);
 
 const StyleProvider = ({ children, styleService, layoutService }: StyleProviderProps): JSX.Element => {
-  const { headerCellHeight, contentCellHeight } = useCellHeight({ styleService, layoutService });
+  const cellHeightData = useCellHeight({ styleService, layoutService });
 
-  const rowHeight = useMemo(
-    () => layoutService.layout.components?.find((n) => n.key === "theme")?.rowHeight,
-    [layoutService.layout.components]
+  const memoisedProps: StyleService = useMemo(
+    () => ({ ...styleService, ...cellHeightData }),
+    [styleService, cellHeightData]
   );
-
-  const memoisedProps: StyleService = useMemo(() => {
-    const lineClamp = rowHeight?.linesCount || 1;
-    return { ...styleService, lineClamp, headerCellHeight, contentCellHeight };
-  }, [styleService, rowHeight?.linesCount, headerCellHeight, contentCellHeight]);
 
   return <StyleContext.Provider value={memoisedProps}>{children}</StyleContext.Provider>;
 };
