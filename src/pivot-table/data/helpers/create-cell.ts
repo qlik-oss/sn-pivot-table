@@ -14,6 +14,7 @@ const createCell = (
   parent,
   root,
   leafCount: isSnapshot ? 0 : node.qUp + node.qDown,
+  distanceToNextCell: 0,
   incrementLeafCount() {
     this.leafCount += 1;
     if (parent) {

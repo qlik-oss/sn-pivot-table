@@ -1,7 +1,7 @@
 import React from "react";
 import { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
+import { borderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -11,7 +11,7 @@ interface LabelCellProps {
 
 const topContainerStyle: React.CSSProperties = {
   display: "flex",
-  justifyContent: "center",
+  justifyContent: "flex-start",
   alignItems: "flex-end",
 };
 
@@ -36,7 +36,7 @@ const PseudoDimensionCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX
 
   return (
     <div title={cell.ref.qText} style={{ ...style, ...borderStyle, ...containerStyle }} data-testid={testId}>
-      <div style={{ ...getTextStyle(styleService.lineClamp), ...serviceStyle }}>{cell.ref.qText}</div>
+      <div style={{ ...getTextStyle(styleService.lineClamp), ...serviceStyle, ...stickyCell }}>{cell.ref.qText}</div>
     </div>
   );
 };

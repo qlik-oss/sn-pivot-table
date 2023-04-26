@@ -2,8 +2,9 @@
 
 exports[`extractTop should extract top data when data tree has a depth of 2 1`] = `
 [
-  [
-    {
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": null,
@@ -34,7 +35,8 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 0,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": null,
@@ -65,7 +67,8 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 1,
       "y": 0,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 6,
       "parent": null,
@@ -118,7 +121,8 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 2,
       "y": 0,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -133,12 +137,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 3,
       "y": 0,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -185,6 +191,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -218,10 +225,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 0,
       "y": 1,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -268,6 +277,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -301,10 +311,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 1,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -373,6 +385,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -428,10 +441,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 2,
       "y": 1,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -507,6 +522,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -562,15 +578,18 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 3,
       "y": 1,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -617,6 +636,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -658,6 +678,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -691,13 +712,16 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 0,
       "y": 2,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -744,6 +768,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -785,6 +810,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -818,13 +844,16 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 1,
       "y": 2,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -893,6 +922,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -956,6 +986,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1011,13 +1042,16 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 2,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -1093,6 +1127,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -1156,6 +1191,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1211,13 +1247,16 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 3,
       "y": 2,
     },
-    {
+    "4": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -1293,6 +1332,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -1356,6 +1396,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1411,14 +1452,15 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "x": 4,
       "y": 2,
     },
-  ],
+  },
 ]
 `;
 
 exports[`extractTop should extract top data when in snapshot mode 1`] = `
 [
-  [
-    {
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
@@ -1433,7 +1475,8 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 0,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
@@ -1448,7 +1491,8 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 1,
       "y": 0,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
       "parent": null,
@@ -1463,7 +1507,8 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 2,
       "y": 0,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -1478,12 +1523,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 3,
       "y": 0,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -1530,6 +1577,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -1563,10 +1611,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 0,
       "y": 1,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -1613,6 +1663,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -1646,10 +1697,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 1,
       "y": 1,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1718,6 +1771,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1773,10 +1827,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 2,
       "y": 1,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1852,6 +1908,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -1907,15 +1964,18 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 3,
       "y": 1,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -1962,6 +2022,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -2003,6 +2064,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -2036,13 +2098,16 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 0,
       "y": 2,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -2089,6 +2154,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
           "parent": null,
@@ -2130,6 +2196,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": null,
@@ -2163,13 +2230,16 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 1,
       "y": 2,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2238,6 +2308,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2301,6 +2372,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -2356,13 +2428,16 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 2,
       "y": 2,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2438,6 +2513,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2501,6 +2577,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -2556,13 +2633,16 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 3,
       "y": 2,
     },
-    {
+    "4": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2638,6 +2718,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
           "parent": null,
@@ -2701,6 +2782,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
         "parent": null,
@@ -2756,14 +2838,15 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "x": 4,
       "y": 2,
     },
-  ],
+  },
 ]
 `;
 
 exports[`extractTop should extract top data with first node expanded 1`] = `
 [
-  [
-    {
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
       "parent": null,
@@ -2794,7 +2877,8 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "x": 0,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -2809,7 +2893,8 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "x": 1,
       "y": 0,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -2824,7 +2909,8 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "x": 2,
       "y": 0,
     },
-    {
+    "3": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -2839,12 +2925,14 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "x": 3,
       "y": 0,
     },
-  ],
-  [
-    {
+  },
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
@@ -2883,6 +2971,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
@@ -2916,10 +3005,12 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "x": 0,
       "y": 1,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
@@ -2958,6 +3049,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         "qUp": 1,
       },
       "root": {
+        "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
         "parent": null,
@@ -2991,14 +3083,15 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "x": 1,
       "y": 1,
     },
-  ],
+  },
 ]
 `;
 
 exports[`extractTop should extract top data with no nodes expanded 1`] = `
 [
-  [
-    {
+  {
+    "0": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -3013,7 +3106,8 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
       "x": 0,
       "y": 0,
     },
-    {
+    "1": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -3028,7 +3122,8 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
       "x": 1,
       "y": 0,
     },
-    {
+    "2": {
+      "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
       "parent": null,
@@ -3043,6 +3138,6 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
       "x": 2,
       "y": 0,
     },
-  ],
+  },
 ]
 `;

@@ -14,12 +14,11 @@ const useData = (
 ): Data => {
   const dataPage = snapshotData?.content?.qPivotDataPages?.[0] ?? qHyperCube.qPivotDataPages[0];
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
-  const [moreDataPage, setMoreDataPage] = useState<EngineAPI.INxPivotPage | null>(null);
   const deriveMeasureDataFromProps = useCallback(() => {
-    const newData = createMeasureData(dataPage, !!snapshotData);
+    const newData = createMeasureData(dataPage, qHyperCube, !!snapshotData);
     // Resolve qPivotDataPages here as well, otherwise there could be double renders
     return qPivotDataPages.reduce((nextData, page) => addPageToMeasureData(nextData, page), newData);
-  }, [dataPage, qPivotDataPages, snapshotData]);
+  }, [dataPage, qPivotDataPages, qHyperCube, snapshotData]);
 
   const deriveTopDimensionDataFromProps = useCallback(() => {
     const newData = createTopDimensionData(dataPage, qHyperCube, !!snapshotData);
@@ -58,32 +57,13 @@ const useData = (
     setLeftDimensionData((prev) => addPageToLeftDimensionData(prev, nextPage));
   }, [nextPage]);
 
-  useOnPropsChange(() => {
-    if (!moreDataPage) return;
-    setMeasureData((prev) => addPageToMeasureData(prev, moreDataPage));
-  }, [moreDataPage]);
-
   const headersData = useMemo<HeadersData>(
     () => createHeadersData(qHyperCube, topDimensionData.size.y, leftDimensionData.dimensionInfoIndexMap),
     [qHyperCube, topDimensionData.size.y, leftDimensionData.dimensionInfoIndexMap]
   );
 
-  const hasMoreRows = useMemo<boolean>(
-    () => measureData.size.y < qHyperCube.qSize.qcy,
-    [measureData.size.y, qHyperCube.qSize.qcy]
-  );
-
-  const hasMoreColumns = useMemo<boolean>(
-    () => measureData.size.x < qHyperCube.qSize.qcx,
-    [measureData.size.x, qHyperCube.qSize.qcx]
-  );
-
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
     setNextPage(page);
-  }, []);
-
-  const moreDataHandler = useCallback((page: EngineAPI.INxPivotPage) => {
-    setMoreDataPage(page);
   }, []);
 
   return {
@@ -91,10 +71,7 @@ const useData = (
     measureData,
     topDimensionData,
     leftDimensionData,
-    hasMoreRows,
-    hasMoreColumns,
     nextPageHandler,
-    moreDataHandler,
   };
 };
 

@@ -7,7 +7,6 @@ import DimensionCell from "./DimensionCell";
 import EmptyCell from "./EmptyCell";
 import PseudoDimensionCell from "./PseudoDimensionCell";
 import TotalsCell from "./TotalsCell";
-// import useDebug from '../../hooks/use-debug';
 
 interface ListCallbackProps {
   index: number;
@@ -16,9 +15,19 @@ interface ListCallbackProps {
 }
 
 const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
-  const { list, isLeftColumn = false } = data;
-  const cell = list[index];
-  // useDebug('CellFactory', { columnIndex, rowIndex, style, data, cell }, { columnIndex, rowIndex, value: cell.value });
+  const { list, isLeftColumn = false, isLast } = data;
+  /**
+   * When "isLast" is true, the keys in the "list" object, which are numerical values (ex. "{ 0: cell, 1: cell }"),
+   * matches the number of rows the react-window List component. So "index" will exist, as some point, as a key in "list".
+   *
+   * But when "isLast" is false, the keys in "list" object, are not guaranteed to match "index".
+   * To get around that, the "list" object is converted to an array.
+   */
+  const cell = isLast ? list[index] : Object.values(list)[index];
+
+  if (cell === undefined) {
+    return <EmptyCell style={style} index={index} />;
+  }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
     return <PseudoDimensionCell cell={cell} style={style} isLeftColumn={isLeftColumn} />;
@@ -29,7 +38,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {
-    return <EmptyCell style={style} />;
+    return <EmptyCell style={style} index={index} />;
   }
 
   return (

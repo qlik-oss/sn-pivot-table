@@ -25,22 +25,24 @@ export const addPageToMeasureData = (prevData: MeasureData, nextDataPage: Engine
   const data = createNewGrid(qArea, prevData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
 
   return {
+    ...prevData,
     data,
-    size: {
-      x: Math.max(prevData.size.x, qArea.qWidth + qArea.qLeft),
-      y: Math.max(prevData.size.y, qArea.qHeight + qArea.qTop),
-    },
   };
 };
 
-export const createMeasureData = (dataPage: EngineAPI.INxPivotPage, isSnapshot: boolean): MeasureData => {
+export const createMeasureData = (
+  dataPage: EngineAPI.INxPivotPage,
+  qHyperCube: EngineAPI.IHyperCube,
+  isSnapshot: boolean
+): MeasureData => {
   const { qData, qArea } = dataPage;
+  const grid = qData as unknown as EngineAPI.INxPivotValuePoint[][];
 
   return {
-    data: [...(qData as unknown as EngineAPI.INxPivotValuePoint[][])].map((row) => [...row]),
+    data: [...grid].map((row) => [...row]),
     size: {
-      x: isSnapshot ? qArea.qWidth : qArea.qWidth + qArea.qLeft,
-      y: isSnapshot ? qArea.qHeight : qArea.qHeight + qArea.qTop,
+      x: isSnapshot ? qArea.qWidth : qHyperCube.qSize.qcx,
+      y: isSnapshot ? qArea.qHeight : qHyperCube.qSize.qcy,
     },
   };
 };

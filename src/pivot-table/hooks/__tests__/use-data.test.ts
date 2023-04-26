@@ -25,7 +25,7 @@ describe("useData", () => {
     (prevData: MeasureData, nextDataPage: EngineAPI.INxPivotPage) => MeasureData
   >;
   let mockedCreateMeasureData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, isSnapshot: boolean) => MeasureData
+    (dataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube, isSnapshot: boolean) => MeasureData
   >;
   // Left data mocks
   let mockedAddPageToLeftDimensionData: jest.MockedFunction<
@@ -65,15 +65,17 @@ describe("useData", () => {
     mockedCreateHeadersData = createHeadersData as jest.MockedFunction<typeof createHeadersData>;
 
     leftDimensionData = {
-      data: [[{}]],
+      grid: [{}],
       dimensionInfoIndexMap: [0, 1, 2],
       size: { x: 3, y: 4 },
+      qSize: { qcx: 3, qcy: 4 },
     } as LeftDimensionData;
 
     topDimensionData = {
-      data: [[{}]],
+      grid: [{}],
       dimensionInfoIndexMap: [0, 1, 2],
       size: { x: 3, y: 4 },
+      qSize: { qcx: 3, qcy: 4 },
     } as TopDimensionData;
 
     measureData = {
@@ -115,22 +117,6 @@ describe("useData", () => {
     expect(result.current.measureData).toBe(measureData);
     expect(result.current.topDimensionData).toBe(topDimensionData);
     expect(result.current.leftDimensionData).toBe(leftDimensionData);
-    expect(result.current.hasMoreRows).toBeTruthy();
-    expect(result.current.hasMoreColumns).toBeTruthy();
-  });
-
-  test("should give correct state for hasMoreRows when there is no more rows", () => {
-    qHyperCube.qSize.qcy = 4;
-    const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
-
-    expect(result.current.hasMoreRows).toBeFalsy();
-  });
-
-  test("should give correct state for hasMoreRows when there is no more columns", () => {
-    qHyperCube.qSize.qcx = 3;
-    const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
-
-    expect(result.current.hasMoreColumns).toBeFalsy();
   });
 
   test("calling nextPageHandler should trigger data updates", () => {
@@ -143,17 +129,6 @@ describe("useData", () => {
 
     expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith(topDimensionData, nextPage);
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith(leftDimensionData, nextPage);
-    expect(mockedAddPageToMeasureData).toHaveBeenCalledWith(measureData, nextPage);
-  });
-
-  test("calling moreDataHandler should trigger data updates", () => {
-    const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
-    const nextPage = {} as EngineAPI.INxPivotPage;
-
-    act(() => {
-      result.current.moreDataHandler(nextPage);
-    });
-
     expect(mockedAddPageToMeasureData).toHaveBeenCalledWith(measureData, nextPage);
   });
 });

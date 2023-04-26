@@ -41,24 +41,15 @@ export const StickyPivotTable = ({
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
 
-  const {
-    headersData,
-    measureData,
-    topDimensionData,
-    leftDimensionData,
-    hasMoreRows,
-    hasMoreColumns,
-    nextPageHandler,
-    moreDataHandler,
-  } = useData(qPivotDataPages, qHyperCube, snapshotData);
+  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
+    qPivotDataPages,
+    qHyperCube,
+    snapshotData
+  );
 
   const dataModel = useDataModel({
     model,
     nextPageHandler,
-    moreDataHandler,
-    hasMoreRows,
-    hasMoreColumns,
-    size: measureData.size,
   });
 
   const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
@@ -171,8 +162,6 @@ export const StickyPivotTable = ({
             viewService={viewService}
             layoutService={layoutService}
             measureData={measureData}
-            hasMoreRows={hasMoreRows}
-            hasMoreColumns={hasMoreColumns}
           />
         </StickyContainer>
       </FullSizeContainer>

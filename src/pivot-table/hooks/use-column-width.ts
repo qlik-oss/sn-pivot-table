@@ -35,14 +35,14 @@ export default function useColumnWidth(
     styleService.header.fontSize,
     styleService.header.fontFamily
   );
-  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims, qSize } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
     () =>
-      leftDimensionData.data.some(
+      leftDimensionData.grid.some(
         (column) => column[0] !== null && column[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO
       ),
-    [leftDimensionData.data]
+    [leftDimensionData.grid]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
@@ -85,8 +85,8 @@ export default function useColumnWidth(
   );
 
   const leftGridWidth = useMemo(
-    () => leftDimensionData.data.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
-    [leftDimensionData.data, getLeftColumnWidth]
+    () => leftDimensionData.grid.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
+    [leftDimensionData.grid, getLeftColumnWidth]
   );
 
   const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth), [leftGridWidth, rect.width]);
@@ -150,11 +150,11 @@ export default function useColumnWidth(
 
   const getTotalWidth = useCallback(
     () =>
-      Array.from({ length: measureData.size.x }, () => null).reduce(
+      Array.from({ length: qSize.qcx }, () => null).reduce(
         (width, _, index) => width + getDataColumnWidth(index),
         leftGridWidth
       ),
-    [getDataColumnWidth, leftGridWidth, measureData.size.x]
+    [getDataColumnWidth, leftGridWidth, qSize.qcx]
   );
 
   const totalMeasureInfoColumnWidth = useMemo(

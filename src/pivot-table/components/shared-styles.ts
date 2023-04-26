@@ -31,4 +31,12 @@ const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   lineBreak: "anywhere",
 });
 
-export { borderStyle, textStyle, gridBorderStyle, getLineClampStyle };
+const stickyCell: React.CSSProperties = {
+  width: "fit-content",
+  maxWidth: "100%",
+  position: "sticky",
+  left: 4,
+  top: 4,
+};
+
+export { borderStyle, textStyle, gridBorderStyle, stickyCell, getLineClampStyle };
