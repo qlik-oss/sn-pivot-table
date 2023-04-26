@@ -15,31 +15,20 @@ interface UseCellHeight {
   };
 }
 
-export const LINE_HEIGHT_COEFFICIENT = 4 / 3;
+const LINE_HEIGHT_COEFFICIENT = 4 / 3;
+const fontSizeToRowHeight = (fontSize: string, lineClamp: number) =>
+  +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp).toFixed(2);
 
 const useCellHeight: UseCellHeight = ({ styleService, layoutService }) => {
-  const rowHeight = useMemo(
-    () => layoutService.layout.components?.find((n) => n.key === "theme")?.rowHeight,
-    [layoutService.layout.components]
-  );
-
-  const lineClamp = rowHeight?.linesCount || 1;
-  const fontSizeToRowHeight = (fontSize: string) => parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT;
-
-  const calculatedHeaderCellHeight: number = useMemo(
-    () => fontSizeToRowHeight(styleService.header.fontSize) * lineClamp,
-    [lineClamp, styleService.header.fontSize]
-  );
-
-  const calculatedContentCellHeight: number = useMemo(
-    () => fontSizeToRowHeight(styleService.content.fontSize) * lineClamp,
-    [lineClamp, styleService.content.fontSize]
-  );
+  const lineClamp = useMemo<number>(() => {
+    const rowHeight = layoutService.layout.components?.find((n) => n.key === "theme")?.rowHeight;
+    return rowHeight?.linesCount || 1;
+  }, [layoutService.layout.components]);
 
   return {
     lineClamp,
-    headerCellHeight: Math.max(+calculatedHeaderCellHeight.toFixed(2), DEFAULT_ROW_HEIGHT),
-    contentCellHeight: Math.max(+calculatedContentCellHeight.toFixed(2), DEFAULT_ROW_HEIGHT),
+    headerCellHeight: Math.max(fontSizeToRowHeight(styleService.header.fontSize, lineClamp), DEFAULT_ROW_HEIGHT),
+    contentCellHeight: Math.max(fontSizeToRowHeight(styleService.content.fontSize, lineClamp), DEFAULT_ROW_HEIGHT),
   };
 };
 
