@@ -1,6 +1,5 @@
-import { stardust } from "@nebula.js/stardust";
 import { Component } from "../../types/QIX";
-import { LayoutService } from "../../types/types";
+import { ExtendedTheme, LayoutService } from "../../types/types";
 
 const BASE_PATH = "object.pivotTable";
 
@@ -22,16 +21,16 @@ export interface Styling {
 }
 
 enum Path {
-  HEADER = "header",
-  CONTENT = "content",
-  ROOT = "",
+  Header = "header",
+  Content = "content",
+  Root = "",
 }
 enum Attribute {
-  FONT_SIZE = "fontSize",
-  FONT_FAMILY = "fontFamily",
-  COLOR = "color",
-  CELL_HEIGHT = "cellHeight",
-  LINE_CLAMP = "lineClamp",
+  FontSize = "fontSize",
+  fontFamily = "fontFamily",
+  Color = "color",
+  CellHeight = "cellHeight",
+  LineClamp = "lineClamp",
 }
 
 const resolveFontSize = (fontSize: number | undefined) => (fontSize ? `${fontSize}px` : undefined);
@@ -41,20 +40,20 @@ const resolveFontSize = (fontSize: number | undefined) => (fontSize ? `${fontSiz
  */
 const createComponentStyling = (
   chartStyling: Component | undefined,
-  theme: stardust.Theme,
-  path: Path.HEADER | Path.CONTENT
+  theme: ExtendedTheme,
+  path: Path.Header | Path.Content
 ) => {
   const fontSize =
     resolveFontSize(chartStyling?.[path]?.fontSize) ??
-    theme.getStyle(BASE_PATH, path, Attribute.FONT_SIZE) ??
+    theme.getStyle(BASE_PATH, path, Attribute.FontSize) ??
     DEFAULT_FONT_SIZE;
 
   const fontFamily =
-    chartStyling?.[path]?.fontFamily ?? theme.getStyle(BASE_PATH, path, Attribute.FONT_FAMILY) ?? DEFAULT_FONT_SIZE;
+    chartStyling?.[path]?.fontFamily ?? theme.getStyle(BASE_PATH, path, Attribute.fontFamily) ?? DEFAULT_FONT_SIZE;
 
   const color =
     chartStyling?.[path]?.fontColor?.color ?? // TODO: resolve color
-    theme.getStyle(BASE_PATH, path, Attribute.COLOR) ??
+    theme.getStyle(BASE_PATH, path, Attribute.Color) ??
     DEFAULT_FONT_COLOR;
 
   return { fontSize, fontFamily, color };
@@ -63,7 +62,7 @@ const createComponentStyling = (
 /**
  * creates the styling based on layout, theme and default values - in that order
  */
-export const createStyling = (layoutService: LayoutService, theme: stardust.Theme): Styling => {
+export const createStyling = (layoutService: LayoutService, theme: ExtendedTheme): Styling => {
   1;
   const chartStyling = layoutService.layout.components?.find((n) => n.key === "theme");
 
@@ -74,8 +73,8 @@ export const createStyling = (layoutService: LayoutService, theme: stardust.Them
   const cellHeight = lineClamp * DEFAULT_ROW_HEIGHT;
   const backgroundColor = DEFAULT_BACKGROUND_COLOR; // TODO: Add  background to styling panel?
 
-  const header = createComponentStyling(chartStyling, theme, Path.HEADER);
-  const content = createComponentStyling(chartStyling, theme, Path.CONTENT);
+  const header = createComponentStyling(chartStyling, theme, Path.Header);
+  const content = createComponentStyling(chartStyling, theme, Path.Content);
 
   return { header, content, lineClamp, cellHeight, backgroundColor };
 };
