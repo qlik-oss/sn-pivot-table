@@ -44,7 +44,7 @@ const TopGrid = ({
   layoutService,
   topDimensionData,
 }: TopGridProps): JSX.Element | null => {
-  const { qMeasureInfo, qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
+  const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
 
   useOnPropsChange(() => {
     if (topGridRef.current) {

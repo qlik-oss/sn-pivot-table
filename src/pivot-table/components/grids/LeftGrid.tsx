@@ -59,7 +59,7 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
-  const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo } = layoutService.layout.qHyperCube;
   const { cellHeight } = useStyleContext();
 
   useOnPropsChange(() => {
