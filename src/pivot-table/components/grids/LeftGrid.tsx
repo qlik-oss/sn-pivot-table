@@ -60,7 +60,7 @@ const LeftGrid = ({
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
   const { qDimensionInfo } = layoutService.layout.qHyperCube;
-  const { cellHeight } = useStyleContext();
+  const { contentCellHeight } = useStyleContext();
 
   useOnPropsChange(() => {
     if (leftGridRef.current) {
@@ -82,7 +82,7 @@ const LeftGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
-  const totalHeight = layoutService.size.y * cellHeight;
+  const totalHeight = layoutService.size.y * contentCellHeight;
 
   if (leftDimensionData.columnCount === 0) {
     return null;
@@ -102,7 +102,7 @@ const LeftGrid = ({
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
-            itemSize={getItemSizeCallback(list, cellHeight)}
+            itemSize={getItemSizeCallback(list, contentCellHeight)}
             layout="vertical"
             itemData={{
               layoutService,
