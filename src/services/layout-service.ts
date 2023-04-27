@@ -1,12 +1,15 @@
 import { PSEUDO_DIMENSION_INDEX } from "../constants";
+import { MAX_COLUMN_COUNT } from "../pivot-table/constants";
 import { NxSelectionCellType, PivotLayout } from "../types/QIX";
 import { LayoutService } from "../types/types";
 
 const createLayoutService = (layout: PivotLayout): LayoutService => {
-  const { qHyperCube, nullValueRepresentation } = layout;
+  const { qHyperCube, nullValueRepresentation, snapshotData } = layout;
   const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo, qDimensionInfo } = qHyperCube;
   const leftDimensions = qDimensionInfo.slice(0, qNoOfLeftDims);
   const topDimensions = qDimensionInfo.slice(qNoOfLeftDims);
+  const isSnapshot = !!layout.snapshotData;
+  const snapshotDataPage = snapshotData?.content?.qPivotDataPages?.[0]?.qArea ?? { qWidth: 0, qHeight: 0 };
 
   return {
     layout,
@@ -30,6 +33,11 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
 
       return false;
     },
+    size: {
+      x: isSnapshot ? snapshotDataPage.qWidth : Math.min(layout.qHyperCube.qSize.qcx, MAX_COLUMN_COUNT),
+      y: isSnapshot ? snapshotDataPage.qHeight : layout.qHyperCube.qSize.qcy,
+    },
+    isSnapshot,
   };
 };
 

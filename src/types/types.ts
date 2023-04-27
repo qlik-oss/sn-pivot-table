@@ -82,15 +82,15 @@ export interface PivotData {
 export interface TopDimensionData {
   grid: Grid;
   dimensionInfoIndexMap: number[];
-  size: Point;
-  qSize: EngineAPI.ISize;
+  size: number;
+  layoutSize: Point;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
   dimensionInfoIndexMap: number[];
-  size: Point;
-  qSize: EngineAPI.ISize;
+  size: number;
+  layoutSize: Point;
 }
 
 export interface HeadersData {
@@ -132,6 +132,8 @@ export interface LayoutService {
   isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
   getNullValueText: () => string;
+  size: Point;
+  isSnapshot: boolean;
 }
 
 export interface DataService {

@@ -82,9 +82,9 @@ const TopGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
-  const totalWidth = qSize.qcx * (allMeasuresWidth / qMeasureInfo.length);
+  const totalWidth = layoutService.size.x * (allMeasuresWidth / qMeasureInfo.length);
 
-  if (topDimensionData.size.y === 0) {
+  if (topDimensionData.size === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
     return <div style={{ width, height, ...bottomListStyle }} />;
   }
@@ -92,8 +92,8 @@ const TopGrid = ({
   return (
     <div>
       {topDimensionData.grid.map((list, topRowIndex) => {
-        const isLastRow = topRowIndex === topDimensionData.size.y - 1;
-        const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, qSize.qcx, isLastRow);
+        const isLastRow = topRowIndex === topDimensionData.size - 1;
+        const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
 
         return (
           <VariableSizeList

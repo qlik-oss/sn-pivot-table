@@ -150,11 +150,11 @@ export default function useColumnWidth(
 
   const getTotalWidth = useCallback(
     () =>
-      Array.from({ length: qSize.qcx }, () => null).reduce(
+      Array.from({ length: layoutService.size.x }, () => null).reduce(
         (width, _, index) => width + getDataColumnWidth(index),
         leftGridWidth
       ),
-    [getDataColumnWidth, leftGridWidth, qSize.qcx]
+    [getDataColumnWidth, leftGridWidth, layoutService.size.x]
   );
 
   const totalMeasureInfoColumnWidth = useMemo(
