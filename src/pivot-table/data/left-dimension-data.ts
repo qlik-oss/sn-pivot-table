@@ -16,7 +16,7 @@ export const addPageToLeftDimensionData = (
   return {
     ...prevData,
     grid,
-    size: grid.length,
+    columnCount: grid.length,
   };
 };
 
@@ -34,7 +34,7 @@ export const createLeftDimensionData = (
   return {
     grid,
     dimensionInfoIndexMap,
-    size: grid.length,
+    columnCount: grid.length,
     layoutSize: layoutService.size,
   };
 };

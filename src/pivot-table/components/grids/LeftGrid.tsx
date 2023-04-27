@@ -84,14 +84,14 @@ const LeftGrid = ({
 
   const totalHeight = layoutService.size.y * cellHeight;
 
-  if (leftDimensionData.size === 0) {
+  if (leftDimensionData.columnCount === 0) {
     return null;
   }
 
   return (
     <div style={containerStyle}>
       {leftDimensionData.grid.map((list, colIndex) => {
-        const isLastColumn = colIndex === leftDimensionData.size - 1;
+        const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
 
         return (

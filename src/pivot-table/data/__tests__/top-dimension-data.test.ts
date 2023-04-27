@@ -1,5 +1,5 @@
 import NxDimCellType from "../../../types/QIX";
-import { Cell, Grid } from "../../../types/types";
+import { Cell, Grid, LayoutService } from "../../../types/types";
 import extractTopGrid from "../extract-top";
 import { addPageToTopDimensionData, createTopDimensionData } from "../top-dimension-data";
 
@@ -20,6 +20,15 @@ describe("top dimension data", () => {
       qLeft: 2,
     },
   } as unknown as EngineAPI.INxPivotPage;
+  const layoutService: LayoutService = {
+    size: {
+      x: 100,
+      y: 200,
+    },
+    layout: {
+      qHyperCube,
+    },
+  } as LayoutService;
 
   beforeEach(() => {
     jest.resetAllMocks();
@@ -29,20 +38,11 @@ describe("top dimension data", () => {
     test("should return correct data", () => {
       const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(mockedReturnValue);
-      const data = createTopDimensionData(dataPage, qHyperCube, false);
+      const data = createTopDimensionData(dataPage, layoutService);
 
       expect(data.grid).toEqual(mockedReturnValue);
       expect(data.dimensionInfoIndexMap).toEqual([0]);
-      expect(data.size.x).toEqual(dataPage.qArea.qWidth + dataPage.qArea.qLeft);
-      expect(data.size.y).toEqual(1);
-    });
-
-    test("should return correct data size in snapshot mode", () => {
-      const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
-      mockedExtractTop.mockReturnValue(mockedReturnValue);
-      const data = createTopDimensionData(dataPage, qHyperCube, true);
-
-      expect(data.size.x).toEqual(dataPage.qArea.qWidth);
+      expect(data.rowCount).toEqual(1);
     });
   });
 
@@ -50,7 +50,7 @@ describe("top dimension data", () => {
     test("should add page to data", () => {
       const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
-      const data = createTopDimensionData(dataPage, qHyperCube, false);
+      const data = createTopDimensionData(dataPage, layoutService);
       const nextDataPage = {
         qTop: [{}],
         qArea: {
@@ -63,14 +63,13 @@ describe("top dimension data", () => {
       expect(nextData).not.toBe(data);
       expect(nextData.grid).toEqual(nextTop);
       expect(nextData.dimensionInfoIndexMap).toEqual([0]);
-      expect(nextData.size.x).toEqual(nextDataPage.qArea.qWidth + nextDataPage.qArea.qLeft);
-      expect(nextData.size.y).toEqual(1);
+      expect(nextData.rowCount).toEqual(1);
     });
 
     test("should return previous page if qLeft is an empty array", () => {
       const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
-      const data = createTopDimensionData(dataPage, qHyperCube, false);
+      const data = createTopDimensionData(dataPage, layoutService);
       const nextDataPage = {
         qTop: [],
         qArea: {
@@ -81,23 +80,6 @@ describe("top dimension data", () => {
       const nextData = addPageToTopDimensionData(data, nextDataPage);
 
       expect(nextData).toBe(data);
-    });
-
-    test("should compare width with previous data and return the largest value", () => {
-      const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
-      mockedExtractTop.mockReturnValue(nextTop);
-      const data = createTopDimensionData(dataPage, qHyperCube, false);
-      const nextDataPage = {
-        qTop: [{}],
-        qArea: {
-          qWidth: 2,
-          qLeft: 3,
-        },
-      } as unknown as EngineAPI.INxPivotPage;
-      data.size.x = 100;
-      const nextData = addPageToTopDimensionData(data, nextDataPage);
-
-      expect(nextData.size.x).toEqual(data.size.x);
     });
   });
 });

@@ -16,7 +16,7 @@ export const addPageToTopDimensionData = (
   return {
     ...prevData,
     grid,
-    size: grid.length,
+    rowCount: grid.length,
   };
 };
 
@@ -36,7 +36,7 @@ export const createTopDimensionData = (
   return {
     grid,
     dimensionInfoIndexMap,
-    size: grid.length,
+    rowCount: grid.length,
     layoutSize: layoutService.size,
   };
 };

@@ -1,6 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
-import { SnapshotData } from "../../../types/QIX";
-import { HeadersData, LeftDimensionData, MeasureData, TopDimensionData } from "../../../types/types";
+import { HeadersData, LayoutService, LeftDimensionData, MeasureData, TopDimensionData } from "../../../types/types";
 import createHeadersData from "../../data/headers-data";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../../data/left-dimension-data";
 import { addPageToMeasureData, createMeasureData } from "../../data/measure-data";
@@ -18,21 +17,21 @@ describe("useData", () => {
     (prevData: TopDimensionData, nextDataPage: EngineAPI.INxPivotPage) => TopDimensionData
   >;
   let mockedCreateTopDimensionData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube, isSnapshot: boolean) => TopDimensionData
+    (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService) => TopDimensionData
   >;
   // Measure data mocks
   let mockedAddPageToMeasureData: jest.MockedFunction<
     (prevData: MeasureData, nextDataPage: EngineAPI.INxPivotPage) => MeasureData
   >;
   let mockedCreateMeasureData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube, isSnapshot: boolean) => MeasureData
+    (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService) => MeasureData
   >;
   // Left data mocks
   let mockedAddPageToLeftDimensionData: jest.MockedFunction<
     (prevData: LeftDimensionData, nextDataPage: EngineAPI.INxPivotPage) => LeftDimensionData
   >;
   let mockedCreateLeftDimensionData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, qHyperCube: EngineAPI.IHyperCube, isSnapshot: boolean) => LeftDimensionData
+    (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService) => LeftDimensionData
   >;
   // Header data mocks
   let mockedCreateHeadersData: jest.MockedFunction<
@@ -46,7 +45,7 @@ describe("useData", () => {
 
   let qPivotDataPages: EngineAPI.INxPivotPage[];
   let qHyperCube: EngineAPI.IHyperCube;
-  let snapshotData: SnapshotData | undefined;
+  let layoutService: LayoutService;
 
   beforeEach(() => {
     mockedAddPageToTopDimensionData = addPageToTopDimensionData as jest.MockedFunction<
@@ -64,18 +63,31 @@ describe("useData", () => {
 
     mockedCreateHeadersData = createHeadersData as jest.MockedFunction<typeof createHeadersData>;
 
+    qPivotDataPages = [{} as EngineAPI.INxPivotPage];
+    qHyperCube = {
+      qPivotDataPages: [],
+      qSize: { qcx: 10, qcy: 20 },
+    } as unknown as EngineAPI.IHyperCube;
+
+    layoutService = {
+      layout: {
+        qHyperCube,
+      },
+      size: { x: 3, y: 4 },
+    } as LayoutService;
+
     leftDimensionData = {
       grid: [{}],
       dimensionInfoIndexMap: [0, 1, 2],
-      size: { x: 3, y: 4 },
-      qSize: { qcx: 3, qcy: 4 },
+      columnCount: 3,
+      layoutSize: layoutService.size,
     } as LeftDimensionData;
 
     topDimensionData = {
       grid: [{}],
       dimensionInfoIndexMap: [0, 1, 2],
-      size: { x: 3, y: 4 },
-      qSize: { qcx: 3, qcy: 4 },
+      rowCount: 4,
+      layoutSize: layoutService.size,
     } as TopDimensionData;
 
     measureData = {
@@ -97,13 +109,6 @@ describe("useData", () => {
     mockedCreateLeftDimensionData.mockReturnValue(leftDimensionData);
 
     mockedCreateHeadersData.mockReturnValue(headersData);
-
-    qPivotDataPages = [{} as EngineAPI.INxPivotPage];
-    qHyperCube = {
-      qPivotDataPages: [],
-      qSize: { qcx: 10, qcy: 20 },
-    } as unknown as EngineAPI.IHyperCube;
-    snapshotData = {} as SnapshotData;
   });
 
   afterEach(() => {
@@ -111,7 +116,7 @@ describe("useData", () => {
   });
 
   test("should return data", () => {
-    const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
+    const { result } = renderHook(() => useData(qPivotDataPages, layoutService));
 
     expect(result.current.headersData).toBe(headersData);
     expect(result.current.measureData).toBe(measureData);
@@ -120,7 +125,7 @@ describe("useData", () => {
   });
 
   test("calling nextPageHandler should trigger data updates", () => {
-    const { result } = renderHook(() => useData(qPivotDataPages, qHyperCube, snapshotData));
+    const { result } = renderHook(() => useData(qPivotDataPages, layoutService));
     const nextPage = {} as EngineAPI.INxPivotPage;
 
     act(() => {

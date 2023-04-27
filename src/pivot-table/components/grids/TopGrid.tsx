@@ -84,7 +84,7 @@ const TopGrid = ({
 
   const totalWidth = layoutService.size.x * (allMeasuresWidth / qMeasureInfo.length);
 
-  if (topDimensionData.size === 0) {
+  if (topDimensionData.rowCount === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
     return <div style={{ width, height, ...bottomListStyle }} />;
   }
@@ -92,7 +92,7 @@ const TopGrid = ({
   return (
     <div>
       {topDimensionData.grid.map((list, topRowIndex) => {
-        const isLastRow = topRowIndex === topDimensionData.size - 1;
+        const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
 
         return (

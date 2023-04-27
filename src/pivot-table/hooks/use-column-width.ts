@@ -35,7 +35,7 @@ export default function useColumnWidth(
     styleService.header.fontSize,
     styleService.header.fontFamily
   );
-  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims, qSize } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
     () =>

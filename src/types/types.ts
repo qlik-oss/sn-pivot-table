@@ -82,14 +82,14 @@ export interface PivotData {
 export interface TopDimensionData {
   grid: Grid;
   dimensionInfoIndexMap: number[];
-  size: number;
+  rowCount: number;
   layoutSize: Point;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
   dimensionInfoIndexMap: number[];
-  size: number;
+  columnCount: number;
   layoutSize: Point;
 }
 
