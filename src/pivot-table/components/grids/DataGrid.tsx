@@ -30,7 +30,7 @@ type FetchModeData = (
 const gridStyle: React.CSSProperties = { overflow: "hidden" };
 
 const isMissingData = (
-  data: EngineAPI.INxPivotValuePoint[][],
+  data: MeasureData,
   visibleColumnStartIndex: number,
   visibleColumnStopIndex: number,
   visibleRowStartIndex: number,
@@ -57,7 +57,7 @@ const debouncedFetchMoreData: FetchModeData = debouncer(
     overscanRowStopIndex: number
   ) => {
     const shouldFetchData = isMissingData(
-      measureData.data,
+      measureData,
       overscanColumnStartIndex,
       overscanColumnStopIndex,
       overscanRowStartIndex,
@@ -137,7 +137,7 @@ const DataGrid = ({
     [getMeasureInfoWidth, qMeasureInfo]
   );
 
-  if (measureData.size.x === 0) {
+  if (layoutService.size.x === 0) {
     return null;
   }
 
@@ -145,16 +145,16 @@ const DataGrid = ({
     <VariableSizeGrid
       ref={dataGridRef}
       style={gridStyle}
-      columnCount={measureData.size.x}
+      columnCount={layoutService.size.x}
       columnWidth={getColumnWidth}
       height={height}
-      rowCount={measureData.size.y}
+      rowCount={layoutService.size.y}
       rowHeight={rowHightCallback}
       width={width}
       itemData={
         {
           layoutService,
-          grid: measureData.data,
+          grid: measureData,
           dataModel,
         } as GridItemData
       }

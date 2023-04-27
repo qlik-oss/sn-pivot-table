@@ -1,15 +1,17 @@
+import {
+  CELL_PADDING_HEIGHT,
+  DEFAULT_BACKGROUND_COLOR,
+  DEFAULT_CELL_HEIGHT,
+  DEFAULT_FONT_COLOR,
+  DEFAULT_FONT_FAMILY,
+  DEFAULT_FONT_SIZE,
+  DEFAULT_LINE_CLAMP,
+  LINE_HEIGHT_COEFFICIENT,
+} from "../pivot-table/constants";
 import { Component } from "../types/QIX";
 import { ExtendedTheme, LayoutService, StyleService } from "../types/types";
 
 const BASE_PATH = "object.pivotTable";
-const LINE_HEIGHT_COEFFICIENT = 3 / 4;
-
-export const DEFAULT_FONT_SIZE = "12px";
-export const DEFAULT_FONT_FAMILY = '"Source Sans Pro", "Arial", "sans-serif"';
-export const DEFAULT_FONT_COLOR = "#595959";
-export const DEFAULT_BACKGROUND_COLOR = "transparent";
-export const DEFAULT_CELL_HEIGHT = 28;
-export const DEFAULT_LINE_CLAMP = 1;
 
 enum Path {
   Header = "header",
@@ -41,7 +43,7 @@ export interface Styling {
 const resolveFontSize = (fontSize: number | undefined) => (fontSize ? `${fontSize}px` : undefined);
 
 const fontSizeToCellHeight = (fontSize: string, lineClamp: number) =>
-  +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp).toFixed(2);
+  +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
 
 /**
  * get the styling for header and content

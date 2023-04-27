@@ -22,27 +22,12 @@ export const addPageToMeasureData = (prevData: MeasureData, nextDataPage: Engine
   const { qData, qArea } = nextDataPage;
   if (!qData.length) return prevData;
 
-  const data = createNewGrid(qArea, prevData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
-
-  return {
-    ...prevData,
-    data,
-  };
+  return createNewGrid(qArea, prevData, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
 };
 
-export const createMeasureData = (
-  dataPage: EngineAPI.INxPivotPage,
-  qHyperCube: EngineAPI.IHyperCube,
-  isSnapshot: boolean
-): MeasureData => {
-  const { qData, qArea } = dataPage;
+export const createMeasureData = (dataPage: EngineAPI.INxPivotPage): MeasureData => {
+  const { qData } = dataPage;
   const grid = qData as unknown as EngineAPI.INxPivotValuePoint[][];
 
-  return {
-    data: [...grid].map((row) => [...row]),
-    size: {
-      x: isSnapshot ? qArea.qWidth : qHyperCube.qSize.qcx,
-      y: isSnapshot ? qArea.qHeight : qHyperCube.qSize.qcy,
-    },
-  };
+  return [...grid].map((row) => [...row]);
 };

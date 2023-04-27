@@ -11,6 +11,8 @@ export type List = Record<number, Cell>;
 
 export type Grid = List[];
 
+export type MeasureData = EngineAPI.INxPivotValuePoint[][];
+
 export interface Rect {
   width: number;
   height: number;
@@ -82,24 +84,19 @@ export interface PivotData {
 export interface TopDimensionData {
   grid: Grid;
   dimensionInfoIndexMap: number[];
-  size: Point;
-  qSize: EngineAPI.ISize;
+  rowCount: number;
+  layoutSize: Point;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
   dimensionInfoIndexMap: number[];
-  size: Point;
-  qSize: EngineAPI.ISize;
+  columnCount: number;
+  layoutSize: Point;
 }
 
 export interface HeadersData {
   data: (null | string)[][];
-  size: Point;
-}
-
-export interface MeasureData {
-  data: EngineAPI.INxPivotValuePoint[][];
   size: Point;
 }
 
@@ -132,6 +129,8 @@ export interface LayoutService {
   isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
   getNullValueText: () => string;
+  size: Point;
+  isSnapshot: boolean;
 }
 
 export interface DataService {

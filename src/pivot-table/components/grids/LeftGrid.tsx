@@ -59,8 +59,8 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
-  const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
-  const { cellHeight } = useStyleContext();
+  const { qDimensionInfo } = layoutService.layout.qHyperCube;
+  const { contentCellHeight } = useStyleContext();
 
   useOnPropsChange(() => {
     if (leftGridRef.current) {
@@ -82,17 +82,17 @@ const LeftGrid = ({
     return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
-  const totalHeight = qSize.qcy * cellHeight;
+  const totalHeight = layoutService.size.y * contentCellHeight;
 
-  if (leftDimensionData.size.x === 0) {
+  if (leftDimensionData.columnCount === 0) {
     return null;
   }
 
   return (
     <div style={containerStyle}>
       {leftDimensionData.grid.map((list, colIndex) => {
-        const isLastColumn = colIndex === leftDimensionData.size.x - 1;
-        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, qSize.qcy, isLastColumn);
+        const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
+        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
 
         return (
           <VariableSizeList
@@ -102,7 +102,7 @@ const LeftGrid = ({
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
-            itemSize={getItemSizeCallback(list, cellHeight)}
+            itemSize={getItemSizeCallback(list, contentCellHeight)}
             layout="vertical"
             itemData={{
               layoutService,

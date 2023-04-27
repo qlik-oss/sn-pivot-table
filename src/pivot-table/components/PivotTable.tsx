@@ -32,8 +32,7 @@ export const StickyPivotTable = ({
   layoutService,
   qPivotDataPages,
 }: PivotTableProps): JSX.Element => {
-  const { qHyperCube, snapshotData } = layoutService.layout;
-  const { cellHeight } = useStyleContext();
+  const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
   const leftGridRef = useRef<VariableSizeList[]>([]);
@@ -43,8 +42,7 @@ export const StickyPivotTable = ({
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
-    qHyperCube,
-    snapshotData
+    layoutService
   );
 
   const dataModel = useDataModel({
@@ -55,8 +53,7 @@ export const StickyPivotTable = ({
   const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
     layoutService,
     rect,
-    leftDimensionData,
-    measureData
+    leftDimensionData
   );
 
   useLayoutEffect(() => {
@@ -97,19 +94,21 @@ export const StickyPivotTable = ({
     }
   };
 
-  const rowHightCallback = useCallback(() => cellHeight, [cellHeight]);
+  const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
+  const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  const headerGridHeight = cellHeight * headersData.size.y;
-  const leftGridHeight = rect.height - headerGridHeight;
+  const containerHeight = contentCellHeight * layoutService.size.y + headerCellHeight * topDimensionData.rowCount;
+  const headerGridHeight = headerCellHeight * headersData.size.y;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
-  const topGridHeight = cellHeight * Math.max(topDimensionData.size.y, 1);
+  const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
+  const leftGridHeight = rect.height - headerGridHeight;
   const dataGridHeight = rect.height - topGridHeight;
 
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints}>
-      <FullSizeContainer width={getTotalWidth()} height={cellHeight * (measureData.size.y + topDimensionData.size.y)}>
+      <FullSizeContainer width={getTotalWidth()} height={containerHeight}>
         <StickyContainer
           rect={rect}
           leftColumnsWidth={leftGridWidth}
@@ -119,7 +118,7 @@ export const StickyPivotTable = ({
         >
           <HeaderGrid
             columnWidthCallback={getLeftColumnWidth}
-            rowHightCallback={rowHightCallback}
+            rowHightCallback={headerCellRowHightCallback}
             width={leftGridWidth}
             height={headerGridHeight}
             headersData={headersData}
@@ -130,7 +129,7 @@ export const StickyPivotTable = ({
             constraints={constraints}
             topGridRef={topGridRef}
             getMeasureInfoWidth={getMeasureInfoWidth}
-            rowHightCallback={rowHightCallback}
+            rowHightCallback={headerCellRowHightCallback}
             width={rightGridWidth}
             height={topGridHeight}
             getScrollLeft={getScrollLeft}
@@ -154,7 +153,7 @@ export const StickyPivotTable = ({
             dataModel={dataModel}
             dataGridRef={dataGridRef}
             getMeasureInfoWidth={getMeasureInfoWidth}
-            rowHightCallback={rowHightCallback}
+            rowHightCallback={contentCellRowHightCallback}
             width={rightGridWidth}
             height={dataGridHeight}
             viewService={viewService}

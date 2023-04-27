@@ -1,4 +1,5 @@
-import { PivotLayout } from "../../types/QIX";
+import { MAX_COLUMN_COUNT } from "../../pivot-table/constants";
+import { PivotLayout, SnapshotData } from "../../types/QIX";
 import { LayoutService } from "../../types/types";
 import createLayoutService from "../layout-service";
 
@@ -18,6 +19,10 @@ describe("createLayoutService", () => {
         qEffectiveInterColumnSortOrder: [0, 1, -1],
         qMeasureInfo: [getMeasureInfo()],
         qDimensionInfo: [{ qLocked: false }, { qLocked: false }],
+        qSize: {
+          qcx: 100,
+          qcy: 200,
+        },
       },
     } as PivotLayout;
 
@@ -108,6 +113,38 @@ describe("createLayoutService", () => {
     test("should return false when cell type is not supported", () => {
       const service = create();
       expect(service.isDimensionLocked("D", 0, 0)).toEqual(false);
+    });
+  });
+
+  describe("size", () => {
+    test("should return size", () => {
+      const service = create();
+      expect(service.size).toEqual({ x: layout.qHyperCube.qSize.qcx, y: layout.qHyperCube.qSize.qcy });
+    });
+
+    test("should return limited column size", () => {
+      layout.qHyperCube.qSize.qcx = MAX_COLUMN_COUNT + 1;
+      const service = create();
+      expect(service.size).toEqual({ x: MAX_COLUMN_COUNT, y: layout.qHyperCube.qSize.qcy });
+    });
+
+    test("should return size for snapshot", () => {
+      const dataPage = { qArea: { qWidth: 123, qHeight: 321, qTop: 0, qLeft: 0 } } as unknown as EngineAPI.INxPivotPage;
+      layout.snapshotData = {
+        content: {
+          qPivotDataPages: [dataPage],
+        },
+      } as SnapshotData;
+      const service = create();
+      expect(service.size).toEqual({ x: dataPage.qArea.qWidth, y: dataPage.qArea.qHeight });
+    });
+  });
+
+  describe("isSnapshot", () => {
+    test("should return true when layout has snapshot data", () => {
+      layout.snapshotData = {} as SnapshotData;
+      const service = create();
+      expect(service.isSnapshot).toBe(true);
     });
   });
 });
