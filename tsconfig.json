@@ -3,5 +3,6 @@
   "compilerOptions": {
     "jsx": "react"
     // "noUncheckedIndexedAccess": true
-  }
+  },
+  "exclude": [".github/"]
 }
