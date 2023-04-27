@@ -2,7 +2,7 @@ import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import NxDimCellType from "../../types/QIX";
-import { LayoutService, LeftDimensionData, MeasureData, Rect } from "../../types/types";
+import { LayoutService, LeftDimensionData, Rect } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
 
@@ -23,8 +23,7 @@ const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
-  leftDimensionData: LeftDimensionData,
-  measureData: MeasureData
+  leftDimensionData: LeftDimensionData
 ): ColumnWidthHook {
   const styleService = useStyleContext();
   const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
@@ -35,7 +34,7 @@ export default function useColumnWidth(
     styleService.header.fontSize,
     styleService.header.fontFamily
   );
-  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims, qSize } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
     () =>
@@ -117,7 +116,7 @@ export default function useColumnWidth(
 
           return Math.max(
             MIN_COLUMN_WIDTH,
-            availableWidth / measureData.size.x,
+            availableWidth / layoutService.size.x,
             estimateWidthForContent(qApprMaxGlyphCount),
             includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
           );
@@ -131,7 +130,7 @@ export default function useColumnWidth(
       }),
     [
       rightGridWidth,
-      measureData.size.x,
+      layoutService.size.x,
       preCalcTotalDataColumnWidth,
       estimateWidthForContent,
       measureTextForHeader,
@@ -150,11 +149,11 @@ export default function useColumnWidth(
 
   const getTotalWidth = useCallback(
     () =>
-      Array.from({ length: qSize.qcx }, () => null).reduce(
+      Array.from({ length: layoutService.size.x }, () => null).reduce(
         (width, _, index) => width + getDataColumnWidth(index),
         leftGridWidth
       ),
-    [getDataColumnWidth, leftGridWidth, qSize.qcx]
+    [getDataColumnWidth, leftGridWidth, layoutService.size.x]
   );
 
   const totalMeasureInfoColumnWidth = useMemo(

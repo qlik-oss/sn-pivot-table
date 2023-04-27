@@ -1,4 +1,4 @@
-import { TopDimensionData } from "../../types/types";
+import { LayoutService, TopDimensionData } from "../../types/types";
 import extractTopGrid from "./extract-top";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
@@ -11,28 +11,24 @@ export const addPageToTopDimensionData = (
   if (!qTop.length) return prevData;
 
   const grid = extractTopGrid(prevData.grid, qTop, qArea, false);
-  assignDistanceToNextCell(grid, "x", prevData.qSize);
-  const width = Math.max(prevData.size.x, qArea.qWidth + qArea.qLeft);
+  assignDistanceToNextCell(grid, "x", prevData.layoutSize);
 
   return {
     ...prevData,
     grid,
-    size: {
-      x: width,
-      y: grid.length,
-    },
+    rowCount: grid.length,
   };
 };
 
 export const createTopDimensionData = (
   dataPage: EngineAPI.INxPivotPage,
-  qHyperCube: EngineAPI.IHyperCube,
-  isSnapshot: boolean
+  layoutService: LayoutService
 ): TopDimensionData => {
+  const { qHyperCube } = layoutService.layout;
   const { qArea, qTop } = dataPage;
-  const { qEffectiveInterColumnSortOrder, qNoOfLeftDims, qSize } = qHyperCube;
-  const grid = extractTopGrid([], qTop, qArea, isSnapshot);
-  assignDistanceToNextCell(grid, "x", qSize);
+  const { qEffectiveInterColumnSortOrder, qNoOfLeftDims } = qHyperCube;
+  const grid = extractTopGrid([], qTop, qArea, layoutService.isSnapshot);
+  assignDistanceToNextCell(grid, "x", layoutService.size);
   const dimensionInfoIndexMap = grid.map(
     createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder)
   );
@@ -40,10 +36,7 @@ export const createTopDimensionData = (
   return {
     grid,
     dimensionInfoIndexMap,
-    size: {
-      x: isSnapshot ? qArea.qWidth : qArea.qWidth + qArea.qLeft,
-      y: grid.length,
-    },
-    qSize,
+    rowCount: grid.length,
+    layoutSize: layoutService.size,
   };
 };

@@ -32,7 +32,6 @@ export const StickyPivotTable = ({
   layoutService,
   qPivotDataPages,
 }: PivotTableProps): JSX.Element => {
-  const { qHyperCube, snapshotData } = layoutService.layout;
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
   const topGridRef = useRef<VariableSizeList[]>([]);
@@ -43,8 +42,7 @@ export const StickyPivotTable = ({
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
-    qHyperCube,
-    snapshotData
+    layoutService
   );
 
   const dataModel = useDataModel({
@@ -55,8 +53,7 @@ export const StickyPivotTable = ({
   const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
     layoutService,
     rect,
-    leftDimensionData,
-    measureData
+    leftDimensionData
   );
 
   useLayoutEffect(() => {
@@ -102,10 +99,10 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  const containerHeight = contentCellHeight * measureData.size.y + headerCellHeight * topDimensionData.size.y;
+  const containerHeight = contentCellHeight * layoutService.size.y + headerCellHeight * topDimensionData.rowCount;
   const headerGridHeight = headerCellHeight * headersData.size.y;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
-  const topGridHeight = headerCellHeight * Math.max(topDimensionData.size.y, 1);
+  const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
   const leftGridHeight = rect.height - headerGridHeight;
   const dataGridHeight = rect.height - topGridHeight;
 
