@@ -18,7 +18,7 @@ enum Path {
 }
 enum Attribute {
   FontSize = "fontSize",
-  fontFamily = "fontFamily",
+  FontFamily = "fontFamily",
   Color = "color",
   CellHeight = "cellHeight",
   LineClamp = "lineClamp",
@@ -55,7 +55,8 @@ const createSectionStyling = (
 
   const fontSize =
     resolveFontSize(section?.fontSize) ?? theme.getStyle(BASE_PATH, path, Attribute.FontSize) ?? DEFAULT_FONT_SIZE;
-  const fontFamily = section?.fontFamily ?? theme.getStyle(BASE_PATH, path, Attribute.fontFamily) ?? DEFAULT_FONT_SIZE;
+  const fontFamily =
+    section?.fontFamily ?? theme.getStyle(BASE_PATH, path, Attribute.FontFamily) ?? DEFAULT_FONT_FAMILY;
   // TODO: resolve color
   const color = section?.fontColor?.color ?? theme.getStyle(BASE_PATH, path, Attribute.Color) ?? DEFAULT_FONT_COLOR;
 
@@ -65,7 +66,7 @@ const createSectionStyling = (
 /**
  * creates the styling based on layout, theme and default values - in that order
  */
-const createStyleService = (layoutService: LayoutService, theme: ExtendedTheme): StyleService => {
+const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService): StyleService => {
   const chartStyling = layoutService.layout.components?.find((n) => n.key === "theme");
 
   const lineClamp =
@@ -76,6 +77,8 @@ const createStyleService = (layoutService: LayoutService, theme: ExtendedTheme):
 
   const header = createSectionStyling(chartStyling, theme, Path.Header);
   const content = createSectionStyling(chartStyling, theme, Path.Content);
+
+  console.log(header.fontSize, lineClamp);
 
   const headerCellHeight = Math.max(fontSizeToCellHeight(header.fontSize, lineClamp), DEFAULT_CELL_HEIGHT);
   const contentCellHeight = Math.max(fontSizeToCellHeight(content.fontSize, lineClamp), DEFAULT_CELL_HEIGHT);
