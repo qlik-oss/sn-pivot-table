@@ -1,8 +1,9 @@
 import { stardust } from "@nebula.js/stardust";
-import React, { useCallback, useLayoutEffect, useRef } from "react";
+import React, { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { VariableSizeGrid, VariableSizeList } from "react-window";
 import { Model } from "../../types/QIX";
 import { LayoutService, Rect, ViewService } from "../../types/types";
+import { DISCLAIMER_HEIGHT } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
@@ -39,6 +40,7 @@ export const StickyPivotTable = ({
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
+  const tableRect = useMemo(() => ({ ...rect, height: rect.height - DISCLAIMER_HEIGHT }), [rect]);
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
@@ -103,14 +105,19 @@ export const StickyPivotTable = ({
   const headerGridHeight = headerCellHeight * headersData.size.y;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
   const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
-  const leftGridHeight = rect.height - headerGridHeight;
-  const dataGridHeight = rect.height - topGridHeight;
+  const leftGridHeight = tableRect.height - headerGridHeight;
+  const dataGridHeight = tableRect.height - topGridHeight;
 
   return (
-    <ScrollableContainer ref={scrollableContainerRef} rect={rect} onScroll={onScrollHandler} constraints={constraints}>
+    <ScrollableContainer
+      ref={scrollableContainerRef}
+      rect={tableRect}
+      onScroll={onScrollHandler}
+      constraints={constraints}
+    >
       <FullSizeContainer width={getTotalWidth()} height={containerHeight}>
         <StickyContainer
-          rect={rect}
+          rect={tableRect}
           leftColumnsWidth={leftGridWidth}
           rightColumnsWidth={rightGridWidth}
           topRowsHeight={topGridHeight}

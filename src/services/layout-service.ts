@@ -38,6 +38,7 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
       y: isSnapshot ? snapshotDataPage.qHeight : layout.qHyperCube.qSize.qcy,
     },
     isSnapshot,
+    hasLimitedData: true,
   };
 };
 
