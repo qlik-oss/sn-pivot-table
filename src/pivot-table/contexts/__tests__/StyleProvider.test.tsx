@@ -27,8 +27,10 @@ describe("StyleProvider", () => {
       </StyleProvider>
     );
 
+  // formula:
+  // given fontsize * coefficient (most adaptive one) * clamp count + padding of 8px
   const fontSizeCalcualteHelper = (size: string, clamp: number): string =>
-    `${+(parseInt(size, 10) * (4 / 3) * clamp).toFixed(2)}`;
+    `${+(parseInt(size, 10) * (4 / 3) * clamp + 8).toFixed(2)}`;
 
   describe("assert `rowHeight.linesCount` effect", () => {
     beforeEach(() => {
@@ -36,8 +38,8 @@ describe("StyleProvider", () => {
         layout: { components: [{ key: "theme" }] },
       } as LayoutService;
       styleService = {
-        header: { fontSize: "18px" },
-        content: { fontSize: "14px" },
+        header: { fontSize: "14px" },
+        content: { fontSize: "12px" },
       } as unknown as StyleService;
     });
 

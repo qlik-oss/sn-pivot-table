@@ -1,4 +1,5 @@
 import React from "react";
+import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 const borderStyle: React.CSSProperties = {
   boxSizing: "border-box",
@@ -12,6 +13,7 @@ const borderStyle: React.CSSProperties = {
 };
 
 const textStyle: React.CSSProperties = {
+  lineHeight: `calc(${LINE_HEIGHT_COEFFICIENT})`,
   textOverflow: "ellipsis",
   overflow: "hidden",
   whiteSpace: "nowrap",

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { LayoutService, StyleService } from "../../types/types";
-import { DEFAULT_ROW_HEIGHT } from "../constants";
+import { CELL_PADDING_HEIGHT, DEFAULT_ROW_HEIGHT, LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 interface UseCellHeightProps {
   styleService: StyleService;
@@ -15,9 +15,8 @@ interface UseCellHeight {
   };
 }
 
-const LINE_HEIGHT_COEFFICIENT = 4 / 3;
 const fontSizeToRowHeight = (fontSize: string, lineClamp: number) =>
-  +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp).toFixed(2);
+  +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
 
 const useCellHeight: UseCellHeight = ({ styleService, layoutService }) => {
   const lineClamp = useMemo<number>(() => {
