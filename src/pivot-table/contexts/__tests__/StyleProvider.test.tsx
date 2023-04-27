@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import React from "react";
 import { LayoutService, StyleService } from "../../../types/types";
-import { DEFAULT_ROW_HEIGHT } from "../../constants";
+import { CELL_PADDING_HEIGHT, DEFAULT_ROW_HEIGHT, LINE_HEIGHT_COEFFICIENT } from "../../constants";
 import StyleProvider, { useStyleContext } from "../StyleProvider";
 
 const DummyTestComponent = () => {
@@ -30,7 +30,7 @@ describe("StyleProvider", () => {
   // formula:
   // given fontsize * coefficient (most adaptive one) * clamp count + padding of 8px
   const fontSizeCalcualteHelper = (size: string, clamp: number): string =>
-    `${+(parseInt(size, 10) * (4 / 3) * clamp + 8).toFixed(2)}`;
+    `${+(parseInt(size, 10) * LINE_HEIGHT_COEFFICIENT * clamp + CELL_PADDING_HEIGHT).toFixed(2)}`;
 
   describe("assert `rowHeight.linesCount` effect", () => {
     beforeEach(() => {
