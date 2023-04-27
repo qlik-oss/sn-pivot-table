@@ -143,14 +143,19 @@ export interface DataService {
   size: PivotDataSize;
 }
 
-type StyleProperties = Record<string, string>;
+type StyleProperties = {
+  fontSize: string;
+  fontFamily: string;
+  color: string;
+};
 
 export interface StyleService {
   header: StyleProperties;
   content: StyleProperties;
   backgroundColor: string;
-  cellHeight: number;
   lineClamp: number;
+  headerCellHeight: number;
+  contentCellHeight: number;
 }
 
 export interface Galaxy {

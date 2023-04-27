@@ -39,9 +39,23 @@ export interface RowHeight {
   linesCount: number;
 }
 
+export interface PaletteColor {
+  index: number;
+  color: string | null;
+}
 export interface Component {
   key: "general" | "theme";
   rowHeight?: RowHeight;
+  header?: {
+    fontFamily?: string;
+    fontSize?: number;
+    fontColor?: PaletteColor;
+  };
+  content?: {
+    fontFamily?: string;
+    fontSize?: number;
+    fontColor?: PaletteColor;
+  };
 }
 
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
