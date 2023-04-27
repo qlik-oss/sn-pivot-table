@@ -8,7 +8,7 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
   const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo, qDimensionInfo } = qHyperCube;
   const leftDimensions = qDimensionInfo.slice(0, qNoOfLeftDims);
   const topDimensions = qDimensionInfo.slice(qNoOfLeftDims);
-  const isSnapshot = !!layout.snapshotData;
+  const isSnapshot = !!snapshotData;
   const snapshotDataPage = snapshotData?.content?.qPivotDataPages?.[0]?.qArea ?? { qWidth: 0, qHeight: 0 };
 
   return {
