@@ -9,7 +9,7 @@ interface DisclaimerProps {
 
 export const Disclaimer = ({ styleService }: DisclaimerProps): JSX.Element => {
   // TODO Use translated string
-  const text = "* Showing a limited number of columns";
+  const text = "* Currently showing limited number of columns";
   const { fontFamily } = styleService.content; // TODO Resolve from root of theme?
 
   return (

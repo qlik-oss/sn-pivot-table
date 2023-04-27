@@ -1,13 +1,13 @@
 import { stardust } from "@nebula.js/stardust";
-import React, { useCallback, useLayoutEffect, useMemo, useRef } from "react";
+import React, { useCallback, useLayoutEffect, useRef } from "react";
 import { VariableSizeGrid, VariableSizeList } from "react-window";
 import { Model } from "../../types/QIX";
 import { LayoutService, Rect, ViewService } from "../../types/types";
-import { DISCLAIMER_HEIGHT } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
+import { useTableRect } from "../hooks/use-table-rect";
 import FullSizeContainer from "./containers/FullSizeContainer";
 import ScrollableContainer from "./containers/ScrollableContainer";
 import StickyContainer from "./containers/StickyContainer";
@@ -40,7 +40,7 @@ export const StickyPivotTable = ({
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
-  const tableRect = useMemo(() => ({ ...rect, height: rect.height - DISCLAIMER_HEIGHT }), [rect]);
+  const tableRect = useTableRect(rect, layoutService);
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
