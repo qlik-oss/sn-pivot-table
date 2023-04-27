@@ -11,10 +11,10 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
   const dataPage = snapshotData?.content?.qPivotDataPages?.[0] ?? qHyperCube.qPivotDataPages[0];
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
   const deriveMeasureDataFromProps = useCallback(() => {
-    const newData = createMeasureData(dataPage, layoutService);
+    const newData = createMeasureData(dataPage);
     // Resolve qPivotDataPages here as well, otherwise there could be double renders
     return qPivotDataPages.reduce((nextData, page) => addPageToMeasureData(nextData, page), newData);
-  }, [dataPage, layoutService, qPivotDataPages]);
+  }, [dataPage, qPivotDataPages]);
 
   const deriveTopDimensionDataFromProps = useCallback(() => {
     const newData = createTopDimensionData(dataPage, layoutService);

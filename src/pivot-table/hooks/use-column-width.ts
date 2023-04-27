@@ -2,7 +2,7 @@ import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import NxDimCellType from "../../types/QIX";
-import { LayoutService, LeftDimensionData, MeasureData, Rect } from "../../types/types";
+import { LayoutService, LeftDimensionData, Rect } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
 
@@ -23,8 +23,7 @@ const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
-  leftDimensionData: LeftDimensionData,
-  measureData: MeasureData
+  leftDimensionData: LeftDimensionData
 ): ColumnWidthHook {
   const styleService = useStyleContext();
   const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
@@ -117,7 +116,7 @@ export default function useColumnWidth(
 
           return Math.max(
             MIN_COLUMN_WIDTH,
-            availableWidth / measureData.size.x,
+            availableWidth / layoutService.size.x,
             estimateWidthForContent(qApprMaxGlyphCount),
             includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
           );
@@ -131,7 +130,7 @@ export default function useColumnWidth(
       }),
     [
       rightGridWidth,
-      measureData.size.x,
+      layoutService.size.x,
       preCalcTotalDataColumnWidth,
       estimateWidthForContent,
       measureTextForHeader,

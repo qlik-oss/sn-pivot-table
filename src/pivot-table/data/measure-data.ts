@@ -1,4 +1,4 @@
-import { LayoutService, MeasureData } from "../../types/types";
+import { MeasureData } from "../../types/types";
 
 const createNewGrid = (
   qArea: EngineAPI.IRect,
@@ -22,20 +22,12 @@ export const addPageToMeasureData = (prevData: MeasureData, nextDataPage: Engine
   const { qData, qArea } = nextDataPage;
   if (!qData.length) return prevData;
 
-  const data = createNewGrid(qArea, prevData.data, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
-
-  return {
-    ...prevData,
-    data,
-  };
+  return createNewGrid(qArea, prevData, qData as unknown as EngineAPI.INxPivotValuePoint[][]);
 };
 
-export const createMeasureData = (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService): MeasureData => {
+export const createMeasureData = (dataPage: EngineAPI.INxPivotPage): MeasureData => {
   const { qData } = dataPage;
   const grid = qData as unknown as EngineAPI.INxPivotValuePoint[][];
 
-  return {
-    data: [...grid].map((row) => [...row]),
-    size: layoutService.size,
-  };
+  return [...grid].map((row) => [...row]);
 };

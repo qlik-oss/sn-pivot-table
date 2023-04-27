@@ -23,9 +23,7 @@ describe("useData", () => {
   let mockedAddPageToMeasureData: jest.MockedFunction<
     (prevData: MeasureData, nextDataPage: EngineAPI.INxPivotPage) => MeasureData
   >;
-  let mockedCreateMeasureData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService) => MeasureData
-  >;
+  let mockedCreateMeasureData: jest.MockedFunction<(dataPage: EngineAPI.INxPivotPage) => MeasureData>;
   // Left data mocks
   let mockedAddPageToLeftDimensionData: jest.MockedFunction<
     (prevData: LeftDimensionData, nextDataPage: EngineAPI.INxPivotPage) => LeftDimensionData
@@ -89,10 +87,6 @@ describe("useData", () => {
       rowCount: 4,
       layoutSize: layoutService.size,
     } as TopDimensionData;
-
-    measureData = {
-      size: { x: 3, y: 4 },
-    } as MeasureData;
 
     headersData = {
       data: [["value"]],

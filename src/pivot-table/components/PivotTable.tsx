@@ -53,8 +53,7 @@ export const StickyPivotTable = ({
   const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
     layoutService,
     rect,
-    leftDimensionData,
-    measureData
+    leftDimensionData
   );
 
   useLayoutEffect(() => {
@@ -100,7 +99,7 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  const containerHeight = contentCellHeight * measureData.size.y + headerCellHeight * topDimensionData.rowCount;
+  const containerHeight = contentCellHeight * layoutService.size.y + headerCellHeight * topDimensionData.rowCount;
   const headerGridHeight = headerCellHeight * headersData.size.y;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
   const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
