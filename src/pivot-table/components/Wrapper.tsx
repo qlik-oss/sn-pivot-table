@@ -10,9 +10,9 @@ export const Wrapper = (props: PivotTableProps): JSX.Element => {
   const styleService = useStyleContext();
 
   return (
-    <div>
+    <>
       <StickyPivotTable {...props} />
       {hasLimitedData && <Disclaimer styleService={styleService} />}
-    </div>
+    </>
   );
 };
