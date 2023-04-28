@@ -10,6 +10,10 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
   const topDimensions = qDimensionInfo.slice(qNoOfLeftDims);
   const isSnapshot = !!snapshotData;
   const snapshotDataPage = snapshotData?.content?.qPivotDataPages?.[0]?.qArea ?? { qWidth: 0, qHeight: 0 };
+  const size = {
+    x: isSnapshot ? snapshotDataPage.qWidth : Math.min(layout.qHyperCube.qSize.qcx, MAX_COLUMN_COUNT),
+    y: isSnapshot ? snapshotDataPage.qHeight : layout.qHyperCube.qSize.qcy,
+  };
 
   return {
     layout,
@@ -33,11 +37,9 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
 
       return false;
     },
-    size: {
-      x: isSnapshot ? snapshotDataPage.qWidth : Math.min(layout.qHyperCube.qSize.qcx, MAX_COLUMN_COUNT),
-      y: isSnapshot ? snapshotDataPage.qHeight : layout.qHyperCube.qSize.qcy,
-    },
+    size,
     isSnapshot,
+    hasLimitedData: !isSnapshot && size.x < layout.qHyperCube.qSize.qcx,
   };
 };
 

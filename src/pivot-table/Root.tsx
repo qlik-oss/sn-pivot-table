@@ -2,11 +2,12 @@
 import React from "react";
 import { Root } from "react-dom/client";
 import { ExtendedSelections, StyleService } from "../types/types";
-import { PivotTableProps, StickyPivotTable } from "./components/PivotTable";
+import { PivotTableProps } from "./components/PivotTable";
+import { Wrapper } from "./components/Wrapper";
 import SelectionsProvider from "./contexts/SelectionsProvider";
 import StyleProvider from "./contexts/StyleProvider";
 
-interface RootProps extends PivotTableProps {
+export interface RootProps extends PivotTableProps {
   selections: ExtendedSelections;
   styleService: StyleService;
 }
@@ -16,7 +17,7 @@ const render = (reactRoot: Root, props: RootProps): void => {
     <React.StrictMode>
       <SelectionsProvider selections={props.selections}>
         <StyleProvider styleService={props.styleService} layoutService={props.layoutService}>
-          <StickyPivotTable {...props} />
+          <Wrapper {...props} />
         </StyleProvider>
       </SelectionsProvider>
     </React.StrictMode>
