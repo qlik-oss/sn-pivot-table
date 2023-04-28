@@ -131,6 +131,7 @@ export interface LayoutService {
   getNullValueText: () => string;
   size: Point;
   isSnapshot: boolean;
+  hasLimitedData: boolean;
 }
 
 export interface DataService {
