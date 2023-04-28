@@ -61,6 +61,7 @@
       ]
     },
     "extends": [
+      "@qlik/eslint-config",
       "@qlik/eslint-config-react/typescript",
       "@qlik/eslint-config/jest",
       "@qlik/eslint-config/playwright"
