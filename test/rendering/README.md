@@ -54,6 +54,6 @@ Sometimes tests might break, if you are certain no UI changes have been made jus
 
 2 dimension as rows, first dimension have an expanded value.
 
-### scenario_5.fix.js
+### scenario_11.fix.js
 
-2 dimension as columns, first dimension have an expanded value.
+Has a faked "qSize.qcx" to trigger the max column limit and show a disclaimer.
