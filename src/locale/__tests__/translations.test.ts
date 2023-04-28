@@ -9,7 +9,7 @@ describe("translations", () => {
     let translator: stardust.Translator;
     beforeEach(() => {
       translator = {
-        get: () => "SNTable.Accessibility.RowsAndColumns",
+        get: () => "SNPivotTable_LimitedData",
         add: jest.fn(),
       };
     });
