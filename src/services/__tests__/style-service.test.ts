@@ -1,29 +1,28 @@
-import { ExtendedTheme, LayoutService } from "../../types/types";
-import createStyleService, {
+import {
   DEFAULT_BACKGROUND_COLOR,
   DEFAULT_CELL_HEIGHT,
   DEFAULT_FONT_COLOR,
   DEFAULT_FONT_FAMILY,
   DEFAULT_FONT_SIZE,
   DEFAULT_LINE_CLAMP,
-} from "../style-service";
+} from "../../pivot-table/constants";
+import { ExtendedTheme, LayoutService } from "../../types/types";
+import createStyleService from "../style-service";
 
 describe("style-service", () => {
-  const themeValue = "44px"; // Choosing a value that works for the cellHeight
-  const themeNumValue = 3;
+  const themeValue = "18px"; // Choosing a value that works for the cellHeight calculation
   let fontSize: number;
   let color: string;
+  let linesCount: number;
   let layoutServiceMock: LayoutService;
   let themeMock: ExtendedTheme;
-  let linesCount: number;
 
   beforeEach(() => {
-    fontSize = 20;
+    fontSize = 15;
     color = "#ff0000";
     linesCount = 2;
     themeMock = {
-      getStyle: (basePath: string, path: string, attribute: string) =>
-        attribute === "lineClamp" ? themeNumValue : themeValue,
+      getStyle: () => themeValue,
     } as unknown as ExtendedTheme;
     layoutServiceMock = {
       layout: {
@@ -63,8 +62,8 @@ describe("style-service", () => {
       },
       lineClamp: linesCount,
       backgroundColor: DEFAULT_BACKGROUND_COLOR,
-      headerCellHeight: 30,
-      contentCellHeight: 30,
+      headerCellHeight: 48,
+      contentCellHeight: 48,
     });
   });
 
@@ -85,8 +84,8 @@ describe("style-service", () => {
       },
       lineClamp: DEFAULT_LINE_CLAMP,
       backgroundColor: DEFAULT_BACKGROUND_COLOR,
-      headerCellHeight: 33,
-      contentCellHeight: 33,
+      headerCellHeight: 32,
+      contentCellHeight: 32,
     });
   });
 

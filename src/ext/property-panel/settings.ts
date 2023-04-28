@@ -1,5 +1,7 @@
 // import { TOTAL_MODE_ON } from '../../constants';
 
+import { Args, Component } from "../../types/QIX";
+
 interface ExtendedVisualizationHyperCubeDef extends EngineAPI.IVisualizationHyperCubeDef {
   qExpansionState: unknown[];
 }
@@ -43,14 +45,16 @@ const getStylingPanelConfig = () => ({
                       width: 9,
                       min: 5,
                       max: 300,
-                      defaultValue(item, data, args) {
+                      defaultValue(data: unknown, handler: unknown, args: Args) {
                         const currentTheme = args.theme.current();
-                        return parseInt(currentTheme.object?.pivotTable?.header?.fontSize ?? currentTheme.fontSize, 10);
+                        const fontSize = currentTheme.object?.pivotTable?.header?.fontSize ?? currentTheme.fontSize;
+                        return parseInt(fontSize, 10);
                       },
-                      change(data) {
-                        data.header.fontSize = !data.header.fontSize
-                          ? data.header.fontSize
-                          : Math.max(5, Math.min(300, Math.floor(data.header.fontSize)));
+                      change(data: Component) {
+                        if (data?.header?.fontSize) {
+                          // eslint-disable-next-line no-param-reassign
+                          data.header.fontSize = Math.max(5, Math.min(300, Math.floor(data.header.fontSize)));
+                        }
                       },
                     },
                     headerFontColor: {
@@ -58,9 +62,11 @@ const getStylingPanelConfig = () => ({
                       ref: "header.fontColor",
                       type: "object",
                       component: "color-picker",
-                      defaultValue(item, data, args) {
+                      defaultValue(data: unknown, handler: unknown, args: Args) {
                         const currentTheme = args.theme.current();
-                        return { color: currentTheme.object?.pivotTable?.header?.color ?? currentTheme.color };
+                        return {
+                          color: currentTheme.object?.pivotTable?.header?.color ?? currentTheme.color,
+                        };
                       },
                       dualOutput: true,
                     },
@@ -89,26 +95,29 @@ const getStylingPanelConfig = () => ({
                       width: 9,
                       min: 5,
                       max: 300,
-                      defaultValue(item: any, data: any, args) {
+                      defaultValue(data: unknown, handler: unknown, args: Args) {
                         const currentTheme = args.theme.current();
                         return parseInt(
                           currentTheme.object?.pivotTable?.content?.fontSize ?? currentTheme.fontSize,
                           10
                         );
                       },
-                      change(data) {
-                        data.content.fontSize = !data.content.fontSize
-                          ? data.content.fontSize
-                          : Math.max(5, Math.min(300, Math.floor(data.content.fontSize)));
+                      change(data: Component) {
+                        if (data?.content?.fontSize) {
+                          // eslint-disable-next-line no-param-reassign
+                          data.content.fontSize = Math.max(5, Math.min(300, Math.floor(data.content.fontSize)));
+                        }
                       },
                     },
                     contentFontColor: {
                       ref: "content.fontColor",
                       type: "object",
                       component: "color-picker",
-                      defaultValue(item, data, args) {
+                      defaultValue(data: unknown, handler: unknown, args: Args) {
                         const currentTheme = args.theme.current();
-                        return { color: currentTheme.object?.pivotTable?.content?.color ?? currentTheme.color };
+                        return {
+                          color: currentTheme.object?.pivotTable?.content?.color ?? currentTheme.color,
+                        };
                       },
                       dualOutput: true,
                     },

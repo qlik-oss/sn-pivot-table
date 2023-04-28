@@ -57,8 +57,8 @@ const createSectionStyling = (
 
   const fontSize =
     resolveFontSize(section?.fontSize) ?? theme.getStyle(BASE_PATH, path, Attribute.FontSize) ?? DEFAULT_FONT_SIZE;
-  const fontFamily =
-    section?.fontFamily ?? theme.getStyle(BASE_PATH, path, Attribute.FontFamily) ?? DEFAULT_FONT_FAMILY;
+  // TODO: no way of setting fontFamily in the styling panel yet
+  const fontFamily = theme.getStyle(BASE_PATH, path, Attribute.FontFamily) ?? DEFAULT_FONT_FAMILY;
   // TODO: resolve color
   const color = section?.fontColor?.color ?? theme.getStyle(BASE_PATH, path, Attribute.Color) ?? DEFAULT_FONT_COLOR;
 
@@ -79,8 +79,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
 
   const header = createSectionStyling(chartStyling, theme, Path.Header);
   const content = createSectionStyling(chartStyling, theme, Path.Content);
-
-  console.log(header.fontSize, lineClamp);
 
   const headerCellHeight = Math.max(fontSizeToCellHeight(header.fontSize, lineClamp), DEFAULT_CELL_HEIGHT);
   const contentCellHeight = Math.max(fontSizeToCellHeight(content.fontSize, lineClamp), DEFAULT_CELL_HEIGHT);

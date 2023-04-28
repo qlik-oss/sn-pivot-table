@@ -58,6 +58,32 @@ export interface Component {
   };
 }
 
+export interface CurrentTheme {
+  object?: {
+    pivotTable?: {
+      header?: {
+        fontSize?: string;
+        fontFamily?: string;
+        color?: string;
+      };
+      content?: {
+        fontSize?: string;
+        fontFamily?: string;
+        color?: string;
+      };
+    };
+  };
+  fontSize: string;
+  fontFamily: string;
+  color: string;
+}
+
+export interface Args {
+  theme: {
+    current(): CurrentTheme;
+  };
+}
+
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
   nullValueRepresentation?: NullValueRepresentation;
   title: string;
