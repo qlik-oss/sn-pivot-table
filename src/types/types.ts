@@ -143,7 +143,11 @@ export interface DataService {
   size: PivotDataSize;
 }
 
-type StyleProperties = Record<string, string>;
+type StyleProperties = {
+  fontSize: string;
+  fontFamily: string;
+  color: string;
+};
 
 export interface StyleService {
   header: StyleProperties;

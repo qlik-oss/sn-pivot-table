@@ -1,7 +1,7 @@
 import React from "react";
 import { ExtendedSelections, LayoutService } from "../../types/types";
 import { RootProps } from "../Root";
-import { DEFAULT_ROW_HEIGHT } from "../constants";
+import { DEFAULT_CELL_HEIGHT } from "../constants";
 import SelectionsProvider from "../contexts/SelectionsProvider";
 import StyleProvider from "../contexts/StyleProvider";
 
@@ -23,8 +23,8 @@ export const TestWithProvider = (props: Props) => {
       content: { color: "white", fontSize: "12px", fontFamily: "sans-serif" },
       backgroundColor: "red",
       lineClamp: 1,
-      headerCellHeight: DEFAULT_ROW_HEIGHT,
-      contentCellHeight: DEFAULT_ROW_HEIGHT,
+      headerCellHeight: DEFAULT_CELL_HEIGHT,
+      contentCellHeight: DEFAULT_CELL_HEIGHT,
     },
     layoutService = {
       layout: {},
@@ -39,9 +39,7 @@ export const TestWithProvider = (props: Props) => {
 
   return (
     <SelectionsProvider selections={selections}>
-      <StyleProvider styleService={styleService} layoutService={layoutService}>
-        {children}
-      </StyleProvider>
+      <StyleProvider styleService={styleService}>{children}</StyleProvider>
     </SelectionsProvider>
   );
 };
