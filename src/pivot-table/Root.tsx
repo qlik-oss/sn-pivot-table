@@ -7,7 +7,7 @@ import { Wrapper } from "./components/Wrapper";
 import SelectionsProvider from "./contexts/SelectionsProvider";
 import StyleProvider from "./contexts/StyleProvider";
 
-interface RootProps extends PivotTableProps {
+export interface RootProps extends PivotTableProps {
   selections: ExtendedSelections;
   styleService: StyleService;
 }
