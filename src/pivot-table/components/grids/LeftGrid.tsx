@@ -35,7 +35,6 @@ const listStyle: React.CSSProperties = {
 const rightListStyle: React.CSSProperties = {
   borderWidth: "0px 1px 0px 0px",
   ...gridBorderStyle,
-  boxSizing: "content-box",
 };
 
 const getItemSizeCallback = (list: List, cellHeight: number) => (rowIndex: number) => {
