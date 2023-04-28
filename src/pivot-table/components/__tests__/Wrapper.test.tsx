@@ -8,8 +8,7 @@ import { Wrapper, WrapperProps } from "../Wrapper";
 jest.mock("../PivotTable");
 
 describe("Wrapper", () => {
-  const disclaimerText = "Currently showing limited number of columns";
-  const disclaimerTextWithAstrix = `* ${disclaimerText}`;
+  const disclaimerText = "* Currently showing limited number of columns";
   const mockedPivotTable = StickyPivotTable as jest.MockedFunction<typeof StickyPivotTable>;
   mockedPivotTable.mockReturnValue(<div />);
   let layoutService: LayoutService;
@@ -31,7 +30,7 @@ describe("Wrapper", () => {
         <Wrapper {...({ layoutService, translator } as unknown as WrapperProps)} />
       </TestWithProvider>
     );
-    expect(screen.getByText(disclaimerTextWithAstrix)).toBeVisible();
+    expect(screen.getByText(disclaimerText)).toBeVisible();
   });
 
   test("should render without a disclaimer", () => {
@@ -41,6 +40,6 @@ describe("Wrapper", () => {
         <Wrapper {...({ layoutService, translator } as unknown as WrapperProps)} />
       </TestWithProvider>
     );
-    expect(screen.queryByText(disclaimerTextWithAstrix)).toBeNull();
+    expect(screen.queryByText(disclaimerText)).toBeNull();
   });
 });

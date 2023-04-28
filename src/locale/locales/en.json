@@ -1,6 +1,6 @@
 {
   "SNPivotTable.LimitedData": {
-    "value": "Currently showing a limited number of columns",
+    "value": "* Currently showing a limited number of columns",
     "comment": "Disclaimer stating that not all columns can be rendered"
   }
 }

@@ -10,8 +10,7 @@ interface DisclaimerProps {
 }
 
 export const Disclaimer = ({ styleService, translator }: DisclaimerProps): JSX.Element => {
-  // TODO Use translated string
-  const text = `* ${translator.get("SNPivotTable.LimitedData")}`;
+  const text = translator.get("SNPivotTable.LimitedData");
   const { fontFamily } = styleService.content; // TODO Resolve from root of theme?
 
   return (
