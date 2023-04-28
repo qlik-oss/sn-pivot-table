@@ -39,9 +39,49 @@ export interface RowHeight {
   linesCount: number;
 }
 
+export interface PaletteColor {
+  index: number;
+  color: string | null;
+}
 export interface Component {
   key: "general" | "theme";
   rowHeight?: RowHeight;
+  header?: {
+    fontFamily?: string;
+    fontSize?: number;
+    fontColor?: PaletteColor;
+  };
+  content?: {
+    fontFamily?: string;
+    fontSize?: number;
+    fontColor?: PaletteColor;
+  };
+}
+
+export interface CurrentTheme {
+  object?: {
+    pivotTable?: {
+      header?: {
+        fontSize?: string;
+        fontFamily?: string;
+        color?: string;
+      };
+      content?: {
+        fontSize?: string;
+        fontFamily?: string;
+        color?: string;
+      };
+    };
+  };
+  fontSize: string;
+  fontFamily: string;
+  color: string;
+}
+
+export interface Args {
+  theme: {
+    current(): CurrentTheme;
+  };
 }
 
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {

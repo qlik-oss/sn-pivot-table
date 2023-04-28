@@ -15,13 +15,13 @@ export interface RootProps extends PivotTableProps {
 }
 
 const render = (reactRoot: Root, props: RootProps): void => {
-  const { selections, styleService, layoutService, translator } = props;
+  const { selections, styleService } = props;
 
   reactRoot.render(
     <React.StrictMode>
       <SelectionsProvider selections={selections}>
-        <StyleProvider styleService={styleService} layoutService={layoutService}>
-          <Wrapper {...props} translator={translator} />
+        <StyleProvider styleService={styleService}>
+          <Wrapper {...props} />
         </StyleProvider>
       </SelectionsProvider>
     </React.StrictMode>

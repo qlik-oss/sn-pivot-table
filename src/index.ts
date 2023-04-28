@@ -48,7 +48,7 @@ export default function supernova(env: Galaxy) {
       const selections = useSelections() as ExtendedSelections;
       const theme = useTheme() as ExtendedTheme;
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      const styleService = useMemo(() => createStyleService(theme), [theme.name()]);
+      const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);
       const fonts = useMemo(
         () => [
           `600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,

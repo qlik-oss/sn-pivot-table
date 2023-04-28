@@ -1,5 +1,7 @@
 // import { TOTAL_MODE_ON } from '../../constants';
 
+import { Args, Component } from "../../types/QIX";
+
 interface ExtendedVisualizationHyperCubeDef extends EngineAPI.IVisualizationHyperCubeDef {
   qExpansionState: unknown[];
 }
@@ -24,6 +26,107 @@ const getStylingPanelConfig = () => ({
       useGeneral: true,
       defaultValue: [],
       items: {
+        headerSection: {
+          translation: "properties.Header",
+          component: "panel-section",
+          items: {
+            headerFontItem: {
+              component: "items",
+              ref: "components",
+              key: "theme",
+              items: {
+                headerFontWrapper: {
+                  component: "inline-wrapper",
+                  items: {
+                    headerFontSize: {
+                      component: "integer",
+                      ref: "header.fontSize",
+                      translation: "properties.fontSize",
+                      width: 9,
+                      min: 5,
+                      max: 300,
+                      defaultValue(data: unknown, handler: unknown, args: Args) {
+                        const currentTheme = args.theme.current();
+                        const fontSize = currentTheme.object?.pivotTable?.header?.fontSize ?? currentTheme.fontSize;
+                        return parseInt(fontSize, 10);
+                      },
+                      change(data: Component) {
+                        if (data?.header?.fontSize) {
+                          // eslint-disable-next-line no-param-reassign
+                          data.header.fontSize = Math.max(5, Math.min(300, Math.floor(data.header.fontSize)));
+                        }
+                      },
+                    },
+                    headerFontColor: {
+                      show: true,
+                      ref: "header.fontColor",
+                      type: "object",
+                      component: "color-picker",
+                      defaultValue(data: unknown, handler: unknown, args: Args) {
+                        const currentTheme = args.theme.current();
+                        return {
+                          color: currentTheme.object?.pivotTable?.header?.color ?? currentTheme.color,
+                        };
+                      },
+                      dualOutput: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        contentSection: {
+          component: "panel-section",
+          translation: "properties.Content",
+          items: {
+            contentFontItem: {
+              component: "items",
+              ref: "components",
+              key: "theme",
+              items: {
+                contentFontWrapper: {
+                  component: "inline-wrapper",
+                  items: {
+                    contentFontSize: {
+                      component: "integer",
+                      ref: "content.fontSize",
+                      translation: "properties.fontSize",
+                      width: 9,
+                      min: 5,
+                      max: 300,
+                      defaultValue(data: unknown, handler: unknown, args: Args) {
+                        const currentTheme = args.theme.current();
+                        return parseInt(
+                          currentTheme.object?.pivotTable?.content?.fontSize ?? currentTheme.fontSize,
+                          10
+                        );
+                      },
+                      change(data: Component) {
+                        if (data?.content?.fontSize) {
+                          // eslint-disable-next-line no-param-reassign
+                          data.content.fontSize = Math.max(5, Math.min(300, Math.floor(data.content.fontSize)));
+                        }
+                      },
+                    },
+                    contentFontColor: {
+                      ref: "content.fontColor",
+                      type: "object",
+                      component: "color-picker",
+                      defaultValue(data: unknown, handler: unknown, args: Args) {
+                        const currentTheme = args.theme.current();
+                        return {
+                          color: currentTheme.object?.pivotTable?.content?.color ?? currentTheme.color,
+                        };
+                      },
+                      dualOutput: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         rowHeightSection: {
           translation: "ThemeStyleEditor.style.rowHeight",
           component: "panel-section",
