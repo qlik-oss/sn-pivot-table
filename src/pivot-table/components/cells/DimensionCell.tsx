@@ -6,7 +6,7 @@ import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
-import { borderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
+import { getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -15,6 +15,8 @@ export interface DimensionCellProps {
   style: React.CSSProperties;
   data: ItemData;
   isLeftColumn: boolean;
+  isLastRow: boolean;
+  isLastColumn: boolean;
 }
 
 interface OnExpandOrCollapseProps {
@@ -113,7 +115,16 @@ const createOnCollapse = ({
   };
 };
 
-const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: DimensionCellProps): JSX.Element => {
+const DimensionCell = ({
+  cell,
+  rowIndex,
+  colIndex,
+  style,
+  isLeftColumn,
+  data,
+  isLastRow,
+  isLastColumn,
+}: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand, qType } = cell.ref;
   const { constraints = { active: false, passive: false, select: false }, dataModel, layoutService } = data;
   const styleService = useStyleContext();
@@ -162,7 +173,7 @@ const DimensionCell = ({ cell, rowIndex, colIndex, style, isLeftColumn, data }: 
         ...appliedSelectedStyle,
         ...appliedLockedSelectionStyle,
         ...appliedSelectableCellStyle,
-        ...borderStyle,
+        ...getBorderStyle(isLastRow, isLastColumn),
         ...appliedNullStyle,
         display: "flex",
       }}

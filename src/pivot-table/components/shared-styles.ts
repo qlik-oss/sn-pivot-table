@@ -1,31 +1,41 @@
 import React from "react";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
-const borderStyle: React.CSSProperties = {
+export const borderBottomRightStyle: React.CSSProperties = {
   boxSizing: "border-box",
   padding: 4,
-  borderLeftWidth: 1,
+  borderLeftWidth: 0,
   borderBottomWidth: 1,
-  borderRightWidth: 0,
+  borderRightWidth: 1,
   borderTopWidth: 0,
   borderColor: "rgb(230, 230, 230)",
   borderStyle: "solid",
 };
 
-const textStyle: React.CSSProperties = {
+export const borderBottomStyle: React.CSSProperties = {
+  ...borderBottomRightStyle,
+  borderRightWidth: 0,
+};
+
+export const borderRightStyle: React.CSSProperties = {
+  ...borderBottomRightStyle,
+  borderBottomWidth: 0,
+};
+
+export const textStyle: React.CSSProperties = {
   lineHeight: `calc(${LINE_HEIGHT_COEFFICIENT})`,
   textOverflow: "ellipsis",
   overflow: "hidden",
   whiteSpace: "nowrap",
 };
 
-const gridBorderStyle: React.CSSProperties = {
+export const gridBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
   borderColor: "#a6a6a6",
-  boxSizing: "border-box",
+  // boxSizing: "border-box",
 };
 
-const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
+export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   whiteSpace: "unset",
   display: "-webkit-box",
   WebkitLineClamp: clampCount,
@@ -33,7 +43,7 @@ const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   lineBreak: "anywhere",
 });
 
-const stickyCell: React.CSSProperties = {
+export const stickyCell: React.CSSProperties = {
   width: "fit-content",
   maxWidth: "100%",
   position: "sticky",
@@ -41,4 +51,18 @@ const stickyCell: React.CSSProperties = {
   top: 4,
 };
 
-export { borderStyle, textStyle, gridBorderStyle, stickyCell, getLineClampStyle };
+export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean) => {
+  if (isLastRow && isLastColumn) {
+    return { boxSizing: "border-box", padding: 4 } as React.CSSProperties;
+  }
+
+  if (isLastRow) {
+    return borderRightStyle;
+  }
+
+  if (isLastColumn) {
+    return borderBottomStyle;
+  }
+
+  return borderBottomRightStyle;
+};

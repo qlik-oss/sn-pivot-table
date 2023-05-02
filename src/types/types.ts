@@ -46,6 +46,7 @@ export interface ListItemData extends ItemData {
   list: List;
   isLeftColumn?: boolean;
   isLast: boolean;
+  itemCount: number;
 }
 
 export interface Cell {

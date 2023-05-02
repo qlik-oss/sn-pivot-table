@@ -48,6 +48,7 @@ describe("ListCellFactory", () => {
       list: {},
       constraints,
       isLast: false,
+      itemCount: 1,
     };
   });
 

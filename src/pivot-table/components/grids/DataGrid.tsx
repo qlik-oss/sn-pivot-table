@@ -5,6 +5,7 @@ import { GridOnItemsRenderedProps, VariableSizeGrid } from "react-window";
 import { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedDataCell from "../cells/DataCell";
+import { gridBorderStyle } from "../shared-styles";
 
 interface DataGridProps {
   dataModel: DataModel;
@@ -27,7 +28,12 @@ type FetchModeData = (
   overscanRowStopIndex: number
 ) => Promise<void>;
 
-const gridStyle: React.CSSProperties = { overflow: "hidden" };
+const gridStyle: React.CSSProperties = {
+  overflow: "hidden",
+  ...gridBorderStyle,
+  borderWidth: "1px 0px 0px 1px",
+  boxSizing: "content-box",
+};
 
 const isMissingData = (
   data: MeasureData,

@@ -11,7 +11,7 @@ test("should render", () => {
     height: "150px",
   };
 
-  render(<EmptyCell style={style} />);
+  render(<EmptyCell style={style} isLastRow={false} isLastColumn={false} />);
 
   const elm = screen.getByTestId(testId);
   expect(elm).toBeInTheDocument();

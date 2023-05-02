@@ -1,12 +1,14 @@
 import React from "react";
 import { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { borderStyle, textStyle } from "../shared-styles";
+import { getBorderStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   style: React.CSSProperties;
   cell: Cell;
   isLeftColumn: boolean;
+  isLastRow: boolean;
+  isLastColumn: boolean;
 }
 
 const labelTextStyle: React.CSSProperties = {
@@ -16,12 +18,12 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = "totals-cell";
 
-const TotalsCell = ({ cell, style, isLeftColumn }: LabelCellProps): JSX.Element => {
+const TotalsCell = ({ cell, style, isLeftColumn, isLastRow, isLastColumn }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
 
   return (
-    <div style={{ ...style, ...borderStyle }} data-testid={testId}>
+    <div style={{ ...style, ...getBorderStyle(isLastRow, isLastColumn) }} data-testid={testId}>
       <div style={{ ...labelTextStyle, ...serviceStyle }}>{cell.ref.qText}</div>
     </div>
   );

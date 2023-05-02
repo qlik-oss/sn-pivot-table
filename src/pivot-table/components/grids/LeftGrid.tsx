@@ -26,15 +26,12 @@ interface LeftGridProps {
 const containerStyle: React.CSSProperties = {
   display: "flex",
   height: "fit-content",
+  borderWidth: "1px 0px 0px 0px",
+  ...gridBorderStyle,
 };
 
 const listStyle: React.CSSProperties = {
   overflow: "hidden",
-};
-
-const rightListStyle: React.CSSProperties = {
-  borderWidth: "0px 1px 0px 0px",
-  ...gridBorderStyle,
 };
 
 const getItemSizeCallback = (list: List, cellHeight: number) => (rowIndex: number) => {
@@ -97,7 +94,7 @@ const LeftGrid = ({
           <VariableSizeList
             key={getKey(colIndex)}
             ref={setListRef(leftGridRef, colIndex)}
-            style={isLastColumn ? { ...listStyle, ...rightListStyle } : listStyle}
+            style={listStyle}
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
@@ -110,6 +107,7 @@ const LeftGrid = ({
               list,
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,
+              itemCount,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

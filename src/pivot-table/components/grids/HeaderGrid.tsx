@@ -3,7 +3,6 @@ import { VariableSizeGrid, areEqual } from "react-window";
 import { HeadersData } from "../../../types/types";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 // import useDebug from '../../hooks/use-debug';
-import { gridBorderStyle } from "../shared-styles";
 
 interface HeaderGridProps {
   columnWidthCallback: (index: number) => number;
@@ -26,15 +25,14 @@ interface GridCallbackProps {
 
 const gridStyle: React.CSSProperties = {
   overflow: "hidden",
-  borderWidth: "0px 1px 1px 0px",
-  ...gridBorderStyle,
 };
 
 const MemoizedCellFactory = memo(({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
   const cell = data.matrix[columnIndex][rowIndex];
+  const isLastColumn = columnIndex === data.matrix.length - 1;
 
   if (typeof cell === "string") {
-    return <DimensionTitleCell cell={cell} style={style} />;
+    return <DimensionTitleCell cell={cell} style={style} isLastColumn={isLastColumn} />;
   }
 
   return null;

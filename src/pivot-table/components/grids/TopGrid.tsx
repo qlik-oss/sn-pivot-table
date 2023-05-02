@@ -90,7 +90,7 @@ const TopGrid = ({
   }
 
   return (
-    <div>
+    <div style={{ ...gridBorderStyle, borderWidth: "0px 0px 0px 1px" }}>
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
@@ -99,7 +99,7 @@ const TopGrid = ({
           <VariableSizeList
             key={getKey(topRowIndex)}
             ref={setListRef(topGridRef, topRowIndex)}
-            style={isLastRow ? { ...listStyle, ...bottomListStyle } : listStyle}
+            style={listStyle}
             height={rowHightCallback()}
             width={width}
             itemCount={itemCount}
@@ -111,6 +111,7 @@ const TopGrid = ({
               constraints,
               list,
               isLast: isLastRow && !layoutService.layout.snapshotData,
+              itemCount,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}
