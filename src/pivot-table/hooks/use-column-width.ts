@@ -19,6 +19,7 @@ interface ColumnWidthHook {
 export const EXPAND_ICON_WIDTH = 30;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
+const GRID_BORDER = 1;
 
 export default function useColumnWidth(
   layoutService: LayoutService,
@@ -88,7 +89,7 @@ export default function useColumnWidth(
     [leftDimensionData.grid, getLeftColumnWidth]
   );
 
-  const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth), [leftGridWidth, rect.width]);
+  const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth - GRID_BORDER), [leftGridWidth, rect.width]);
 
   const preCalcTotalDataColumnWidth = useMemo(() => {
     if (hasPseudoDimOnLeft) {
