@@ -90,7 +90,7 @@ const TopGrid = ({
   }
 
   return (
-    <div style={containerStyle}>
+    <div style={layoutService.hasLeftData ? containerStyle : { ...containerStyle, borderWidth: "0px" }}>
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);

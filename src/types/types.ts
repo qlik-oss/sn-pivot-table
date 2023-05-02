@@ -133,6 +133,7 @@ export interface LayoutService {
   size: Point;
   isSnapshot: boolean;
   hasLimitedData: boolean;
+  hasLeftData: boolean;
 }
 
 export interface DataService {

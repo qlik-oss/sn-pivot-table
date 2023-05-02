@@ -150,7 +150,7 @@ const DataGrid = ({
   return (
     <VariableSizeGrid
       ref={dataGridRef}
-      style={gridStyle}
+      style={layoutService.hasLeftData ? gridStyle : { ...gridStyle, borderWidth: "1px 0px 0px 0px" }}
       columnCount={layoutService.size.x}
       columnWidth={getColumnWidth}
       height={height}
