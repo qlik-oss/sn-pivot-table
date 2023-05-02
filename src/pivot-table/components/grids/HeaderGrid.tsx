@@ -17,6 +17,8 @@ const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridPr
     <div style={{ display: "flex", alignItems: "end" }}>
       {headersData.data.map((col, colIndex) => (
         <DimensionTitleCell
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${colIndex}-${col[col.length - 1] as string}`} // TODO Use a better key
           cell={col[col.length - 1] as string}
           style={{ width: columnWidthCallback(colIndex), height: rowHight }}
           isLastColumn={colIndex === headersData.size.x - 1}

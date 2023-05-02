@@ -8,7 +8,7 @@ export const borderBottomRightStyle: React.CSSProperties = {
   borderBottomWidth: 1,
   borderRightWidth: 1,
   borderTopWidth: 0,
-  borderColor: "rgb(230, 230, 230)",
+  borderColor: "rgba(0, 0, 0, 0.15)",
   borderStyle: "solid",
 };
 
@@ -31,8 +31,7 @@ export const textStyle: React.CSSProperties = {
 
 export const gridBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
-  borderColor: "#a6a6a6",
-  // boxSizing: "border-box",
+  borderColor: "rgba(0, 0, 0, 0.60)",
 };
 
 export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
