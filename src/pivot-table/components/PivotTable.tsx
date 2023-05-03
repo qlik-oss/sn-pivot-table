@@ -3,6 +3,7 @@ import React, { useCallback, useLayoutEffect, useRef } from "react";
 import { VariableSizeGrid, VariableSizeList } from "react-window";
 import { Model } from "../../types/QIX";
 import { LayoutService, Rect, ViewService } from "../../types/types";
+import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
@@ -101,7 +102,7 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  const totalDataHeight = layoutService.size.y * contentCellHeight;
+  const totalDataHeight = layoutService.size.y * contentCellHeight + GRID_BORDER;
   const containerHeight = totalDataHeight + headerCellHeight * topDimensionData.rowCount;
   const headerGridHeight = headerCellHeight * headersData.size.y;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers

@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import NxDimCellType from "../../types/QIX";
 import { LayoutService, LeftDimensionData, Rect } from "../../types/types";
+import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
 
@@ -19,7 +20,6 @@ interface ColumnWidthHook {
 export const EXPAND_ICON_WIDTH = 30;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
-const GRID_BORDER = 1;
 
 export default function useColumnWidth(
   layoutService: LayoutService,
@@ -80,7 +80,8 @@ export default function useColumnWidth(
   ]);
 
   const getLeftColumnWidth = useCallback(
-    (index: number) => leftColumnWidthsRatios[index] * rect.width,
+    // TODO Math.round here to avoid issues where border between grids would disappear. Should find a better solution for it.
+    (index: number) => Math.round(leftColumnWidthsRatios[index] * rect.width),
     [leftColumnWidthsRatios, rect.width]
   );
 

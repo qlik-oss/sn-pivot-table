@@ -8,13 +8,18 @@ interface HeaderGridProps {
   headersData: HeadersData;
 }
 
+const containerStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "flex-end",
+};
+
 const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridProps): JSX.Element | null => {
   if (headersData.size.x === 0) {
     return null;
   }
 
   return (
-    <div style={{ display: "flex", alignItems: "end" }}>
+    <div style={containerStyle}>
       {headersData.data.map((col, colIndex) => (
         <DimensionTitleCell
           // eslint-disable-next-line react/no-array-index-key
