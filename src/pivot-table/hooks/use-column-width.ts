@@ -80,8 +80,7 @@ export default function useColumnWidth(
   ]);
 
   const getLeftColumnWidth = useCallback(
-    // TODO Math.round here to avoid issues where border between grids would disappear. Should find a better solution for it.
-    (index: number) => Math.round(leftColumnWidthsRatios[index] * rect.width),
+    (index: number) => leftColumnWidthsRatios[index] * rect.width,
     [leftColumnWidthsRatios, rect.width]
   );
 
@@ -91,7 +90,6 @@ export default function useColumnWidth(
   );
 
   const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth - GRID_BORDER), [leftGridWidth, rect.width]);
-
   const preCalcTotalDataColumnWidth = useMemo(() => {
     if (hasPseudoDimOnLeft) {
       return qMeasureInfo.reduce(

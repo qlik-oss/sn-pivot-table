@@ -62,7 +62,7 @@ describe("ListCellFactory", () => {
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockDimensionCell).toHaveBeenCalledWith(
-      { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false },
+      { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: true },
       {}
     );
   });
@@ -76,7 +76,10 @@ describe("ListCellFactory", () => {
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
-    expect(mockPseudoDimensionCell).toHaveBeenCalledWith({ style, cell, isLeftColumn: false }, {});
+    expect(mockPseudoDimensionCell).toHaveBeenCalledWith(
+      { style, cell, isLeftColumn: false, isLastRow: false, isLastColumn: true },
+      {}
+    );
   });
 
   test("should render totals cell", () => {
@@ -88,7 +91,10 @@ describe("ListCellFactory", () => {
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
-    expect(mockedTotalsCell).toHaveBeenCalledWith({ cell, style, isLeftColumn: false }, {});
+    expect(mockedTotalsCell).toHaveBeenCalledWith(
+      { cell, style, isLeftColumn: false, isLastRow: false, isLastColumn: true },
+      {}
+    );
   });
 
   test("should render empty cell", () => {
@@ -100,7 +106,7 @@ describe("ListCellFactory", () => {
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
-    expect(mockEmptyCell).toHaveBeenCalledWith({ style, index }, {});
+    expect(mockEmptyCell).toHaveBeenCalledWith({ style, index, isLastRow: false, isLastColumn: true }, {});
   });
 
   test("should render undefined cell", () => {
@@ -113,6 +119,79 @@ describe("ListCellFactory", () => {
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
-    expect(mockEmptyCell).toHaveBeenCalledWith({ style, index }, {});
+    expect(mockEmptyCell).toHaveBeenCalledWith({ style, index, isLastRow: true, isLastColumn: false }, {});
+  });
+
+  describe("isLastRow and isLastColumn", () => {
+    describe("on left grid", () => {
+      test("should resolve when cell is on last column and last row", () => {
+        const index = 0;
+        const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
+        mockDimensionCell.mockReturnValue(<div />);
+        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        data.list[index] = cell;
+        data.isLeftColumn = true;
+        data.isLast = true;
+
+        render(<ListCellFactory index={index} style={style} data={data} />);
+
+        expect(mockDimensionCell).toHaveBeenCalledWith(
+          { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: true, isLastRow: true, isLastColumn: true },
+          {}
+        );
+      });
+
+      test("should resolve when cell is NOT on last column and last row", () => {
+        const index = 0;
+        const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
+        mockDimensionCell.mockReturnValue(<div />);
+        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        data.list[index] = cell;
+        data.isLeftColumn = true;
+        data.isLast = false;
+        data.itemCount = 2;
+
+        render(<ListCellFactory index={index} style={style} data={data} />);
+
+        expect(mockDimensionCell).toHaveBeenCalledWith(
+          { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: true, isLastRow: false, isLastColumn: false },
+          {}
+        );
+      });
+    });
+
+    describe("on top grid", () => {
+      test("should resolve when cell is on last column and last row", () => {
+        const index = 0;
+        const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
+        mockDimensionCell.mockReturnValue(<div />);
+        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        data.list[index] = cell;
+
+        render(<ListCellFactory index={index} style={style} data={data} />);
+
+        expect(mockDimensionCell).toHaveBeenCalledWith(
+          { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: true },
+          {}
+        );
+      });
+
+      test("should resolve when cell is NOT on last column and last row", () => {
+        const index = 0;
+        const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
+        mockDimensionCell.mockReturnValue(<div />);
+        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        data.list[index] = cell;
+        data.isLast = false;
+        data.itemCount = 2;
+
+        render(<ListCellFactory index={index} style={style} data={data} />);
+
+        expect(mockDimensionCell).toHaveBeenCalledWith(
+          { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: false },
+          {}
+        );
+      });
+    });
   });
 });
