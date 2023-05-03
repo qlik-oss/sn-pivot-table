@@ -1,12 +1,12 @@
-import { stardust } from "@nebula.js/stardust";
+import type { stardust } from "@nebula.js/stardust";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import NxDimCellType, { NxSelectionCellType } from "../../../../types/QIX";
-import { Cell, DataModel, ItemData, LayoutService, StyleService } from "../../../../types/types";
+import type { Cell, DataModel, ItemData, LayoutService, StyleService } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
-import { SelectionModel } from "../../../hooks/use-selections-model";
+import type { SelectionModel } from "../../../hooks/use-selections-model";
 import DimensionCell, {
   lockedFromSelectionStyle,
   selectedStyle,

@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { onTakeSnapshot, stardust } from "@nebula.js/stardust";
+import { onTakeSnapshot, type stardust } from "@nebula.js/stardust";
 import { Q_PATH } from "../constants";
-import { Model, SnapshotLayout } from "../types/QIX";
-import { LayoutService, ViewService } from "../types/types";
+import type { Model, SnapshotLayout } from "../types/QIX";
+import type { LayoutService, ViewService } from "../types/types";
 
 interface UseSnapshotProps {
   layoutService: LayoutService;

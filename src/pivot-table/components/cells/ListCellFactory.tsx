@@ -2,7 +2,7 @@ import React from "react";
 import { areEqual } from "react-window";
 import { TOTALS_CELL } from "../../../constants";
 import NxDimCellType from "../../../types/QIX";
-import { ListItemData } from "../../../types/types";
+import type { ListItemData } from "../../../types/types";
 import DimensionCell from "./DimensionCell";
 import EmptyCell from "./EmptyCell";
 import PseudoDimensionCell from "./PseudoDimensionCell";

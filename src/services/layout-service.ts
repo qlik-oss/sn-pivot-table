@@ -1,7 +1,7 @@
 import { PSEUDO_DIMENSION_INDEX } from "../constants";
 import { MAX_COLUMN_COUNT } from "../pivot-table/constants";
-import { NxSelectionCellType, PivotLayout } from "../types/QIX";
-import { LayoutService } from "../types/types";
+import { NxSelectionCellType, type PivotLayout } from "../types/QIX";
+import type { LayoutService } from "../types/types";
 
 const createLayoutService = (layout: PivotLayout): LayoutService => {
   const { qHyperCube, nullValueRepresentation, snapshotData } = layout;

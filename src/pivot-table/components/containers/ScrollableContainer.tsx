@@ -1,6 +1,6 @@
-import { stardust } from "@nebula.js/stardust";
+import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import { Rect } from "../../../types/types";
+import type { Rect } from "../../../types/types";
 
 interface ScrollableContainerProps {
   constraints: stardust.Constraints;

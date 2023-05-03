@@ -1,4 +1,4 @@
-import { HeadersData } from "../../types/types";
+import type { HeadersData } from "../../types/types";
 import extractHeaders from "./extract-headers";
 
 const createHeadersData = (

@@ -1,8 +1,8 @@
 /*  eslint-disable no-param-reassign */
 import { useMemo, usePromise, useState } from "@nebula.js/stardust";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../constants";
-import { Model } from "../types/QIX";
-import { LayoutService, ViewService } from "../types/types";
+import type { Model } from "../types/QIX";
+import type { LayoutService, ViewService } from "../types/types";
 
 interface UseLoadDataPages {
   isLoading: boolean;

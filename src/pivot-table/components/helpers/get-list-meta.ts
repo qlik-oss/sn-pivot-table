@@ -1,4 +1,4 @@
-import { List } from "../../../types/types";
+import type { List } from "../../../types/types";
 
 const getListMeta = (list: List, totalSize: number, qSize: number, isLast: boolean) => {
   let itemCount = Object.keys(list).length;

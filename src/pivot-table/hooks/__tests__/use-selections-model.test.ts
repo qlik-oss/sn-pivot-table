@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { NxSelectionCellType } from "../../../types/QIX";
-import { ExtendedSelections } from "../../../types/types";
+import type { ExtendedSelections } from "../../../types/types";
 import useSelectionsModel from "../use-selections-model";
 
 describe("useSelectionsModel", () => {

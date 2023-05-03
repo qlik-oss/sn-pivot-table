@@ -1,4 +1,4 @@
-import { stardust } from "@nebula.js/stardust";
+import type { stardust } from "@nebula.js/stardust";
 
 import all from "../all.json";
 

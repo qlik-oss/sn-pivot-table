@@ -1,8 +1,8 @@
-import { stardust } from "@nebula.js/stardust";
+import type { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
-import { DataModel, LayoutService, List, TopDimensionData } from "../../../types/types";
+import type { DataModel, LayoutService, List, TopDimensionData } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";

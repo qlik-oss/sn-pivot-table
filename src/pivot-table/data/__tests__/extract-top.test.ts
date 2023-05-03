@@ -1,5 +1,5 @@
 import NxDimCellType from "../../../types/QIX";
-import { Cell } from "../../../types/types";
+import type { Cell } from "../../../types/types";
 import extractTopGrid from "../extract-top";
 import createNodes from "./test-helper";
 

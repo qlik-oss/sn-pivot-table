@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import NxDimCellType from "../../../../types/QIX";
-import { GridItemData, LayoutService } from "../../../../types/types";
+import type { GridItemData, LayoutService } from "../../../../types/types";
 import DataCell, { testId } from "../DataCell";
 
 describe("DataCell", () => {

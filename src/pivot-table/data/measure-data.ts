@@ -1,4 +1,4 @@
-import { MeasureData } from "../../types/types";
+import type { MeasureData } from "../../types/types";
 
 const createNewGrid = (
   qArea: EngineAPI.IRect,

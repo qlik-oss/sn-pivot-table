@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from "react";
-import { StyleService } from "../../types/types";
+import type { StyleService } from "../../types/types";
 
 interface StyleProviderProps {
   children: JSX.Element | JSX.Element[];

@@ -1,5 +1,5 @@
 import NxDimCellType from "../../../types/QIX";
-import { Cell, Grid, LayoutService } from "../../../types/types";
+import type { Cell, Grid, LayoutService } from "../../../types/types";
 import extractTopGrid from "../extract-top";
 import { addPageToTopDimensionData, createTopDimensionData } from "../top-dimension-data";
 

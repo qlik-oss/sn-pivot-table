@@ -1,4 +1,4 @@
-import { DataModel } from "../../../../../types/types";
+import type { DataModel } from "../../../../../types/types";
 
 const dataModelMock = (): DataModel => ({
   fetchMoreData: () => Promise.resolve(true),

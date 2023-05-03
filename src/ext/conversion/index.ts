@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign, no-plusplus */
 import { setValue } from "qlik-chart-modules";
-import conversion, { ExportFormat, PropTree } from "qlik-object-conversion";
+import type { ExportFormat, PropTree } from "qlik-object-conversion";
+import conversion from "qlik-object-conversion";
 import createDataDefinition from "../../qae/data-definition";
-import { Galaxy } from "../../types/types";
+import type { Galaxy } from "../../types/types";
 import totalMode from "./total-mode";
 
 export function createImportProperties(env: Galaxy) {

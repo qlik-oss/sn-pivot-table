@@ -1,10 +1,10 @@
 import { renderHook } from "@testing-library/react";
 import NxDimCellType from "../../../types/QIX";
-import { Cell, LayoutService, LeftDimensionData, Rect, StyleService } from "../../../types/types";
+import type { Cell, LayoutService, LeftDimensionData, Rect, StyleService } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import useColumnWidth, { EXPAND_ICON_WIDTH } from "../use-column-width";
-import useMeasureText, { MeasureTextHook } from "../use-measure-text";
+import useMeasureText, { type MeasureTextHook } from "../use-measure-text";
 
 jest.mock("../use-measure-text");
 jest.mock("../../contexts/StyleProvider");

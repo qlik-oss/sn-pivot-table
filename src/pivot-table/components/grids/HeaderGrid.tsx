@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { HeadersData } from "../../../types/types";
+import type { HeadersData } from "../../../types/types";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 
 interface HeaderGridProps {

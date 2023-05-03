@@ -1,8 +1,8 @@
 /*  eslint-disable no-param-reassign */
 import { debouncer } from "qlik-chart-modules";
 import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
-import { GridOnItemsRenderedProps, VariableSizeGrid } from "react-window";
-import { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
+import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
+import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedDataCell from "../cells/DataCell";
 import { gridBorderStyle } from "../shared-styles";

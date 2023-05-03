@@ -1,4 +1,4 @@
-import { Component } from "../types/QIX";
+import type { Component } from "../types/QIX";
 
 declare module "initial-properties";
 
