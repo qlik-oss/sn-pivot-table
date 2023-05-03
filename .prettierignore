@@ -11,3 +11,4 @@ yarn.lock
 test-report
 api-specifications
 CHANGELOG.md
+src/locale/all.json

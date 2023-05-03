@@ -118,6 +118,10 @@ export interface ExtendedTheme extends stardust.Theme {
   name: () => string;
 }
 
+export interface ExtendedTranslator extends stardust.Translator {
+  language(): string;
+}
+
 export interface ViewService {
   gridColumnStartIndex: number;
   gridRowStartIndex: number;

@@ -1,18 +1,24 @@
+import { stardust } from "@nebula.js/stardust";
 import React from "react";
 import { useStyleContext } from "../contexts/StyleProvider";
 import { Disclaimer } from "./Disclaimer";
 import { PivotTableProps, StickyPivotTable } from "./PivotTable";
 
-export const Wrapper = (props: PivotTableProps): JSX.Element => {
+export interface WrapperProps extends PivotTableProps {
+  translator: stardust.Translator;
+}
+
+export const Wrapper = (props: WrapperProps): JSX.Element => {
   const {
     layoutService: { hasLimitedData },
+    translator,
   } = props;
   const styleService = useStyleContext();
 
   return (
     <>
       <StickyPivotTable {...props} />
-      {hasLimitedData && <Disclaimer styleService={styleService} />}
+      {hasLimitedData && <Disclaimer styleService={styleService} translator={translator} />}
     </>
   );
 };
