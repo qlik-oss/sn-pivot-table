@@ -1,3 +1,4 @@
+import { stardust } from "@nebula.js/stardust";
 import React from "react";
 import { StyleService } from "../../types/types";
 import { DISCLAIMER_HEIGHT } from "../constants";
@@ -5,11 +6,11 @@ import { textStyle } from "./shared-styles";
 
 interface DisclaimerProps {
   styleService: StyleService;
+  translator: stardust.Translator;
 }
 
-export const Disclaimer = ({ styleService }: DisclaimerProps): JSX.Element => {
-  // TODO Use translated string
-  const text = "* Currently showing limited number of columns";
+export const Disclaimer = ({ styleService, translator }: DisclaimerProps): JSX.Element => {
+  const text = translator.get("SNPivotTable.LimitedData");
   const { fontFamily } = styleService.content; // TODO Resolve from root of theme?
 
   return (

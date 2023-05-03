@@ -15,6 +15,7 @@ import useLayoutService from "./hooks/use-layout-service";
 import useLoadDataPages from "./hooks/use-load-data-pages";
 import useReactRoot from "./hooks/use-react-root";
 import useSnapshot from "./hooks/use-snapshot";
+import { useTranslations } from "./hooks/use-translations";
 import useViewService from "./hooks/use-view-service";
 import useWaitForFonts from "./hooks/use-wait-for-fonts";
 import render from "./pivot-table/Root";
@@ -56,6 +57,7 @@ export default function supernova(env: Galaxy) {
         [styleService]
       );
       const isFontLoaded = useWaitForFonts(fonts);
+      const { translator, language } = useTranslations();
 
       rect = useSnapshot({ layoutService, viewService, rect, model });
 
@@ -81,6 +83,7 @@ export default function supernova(env: Galaxy) {
             layoutService,
             qPivotDataPages,
             styleService,
+            translator,
           });
         }
       }, [
@@ -97,6 +100,8 @@ export default function supernova(env: Galaxy) {
         styleService,
         reactRoot,
         isFontLoaded,
+        translator,
+        language,
       ]);
     },
   };
