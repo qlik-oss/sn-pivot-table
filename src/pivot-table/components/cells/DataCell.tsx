@@ -1,7 +1,7 @@
 import React from "react";
 import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
-import { GridItemData } from "../../../types/types";
+import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { borderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";

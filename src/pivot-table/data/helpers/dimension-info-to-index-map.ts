@@ -1,6 +1,6 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import NxDimCellType from "../../../types/QIX";
-import { List } from "../../../types/types";
+import type { List } from "../../../types/types";
 
 const dimensionInfoToIndexMap =
   (startIndex: number, qEffectiveInterColumnSortOrder: number[]) =>

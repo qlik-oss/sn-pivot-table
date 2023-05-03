@@ -2,7 +2,7 @@ import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import NxDimCellType from "../../types/QIX";
-import { LayoutService, LeftDimensionData, Rect } from "../../types/types";
+import type { LayoutService, LeftDimensionData, Rect } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
 

@@ -1,8 +1,8 @@
 /*  eslint-disable no-param-reassign */
 import { useCallback, useMemo } from "react";
 import { Q_PATH } from "../../constants";
-import { Model } from "../../types/QIX";
-import { DataModel, ExpandOrCollapser, FetchMoreData } from "../../types/types";
+import type { Model } from "../../types/QIX";
+import type { DataModel, ExpandOrCollapser, FetchMoreData } from "../../types/types";
 
 interface UseDataModelProps {
   model: Model;

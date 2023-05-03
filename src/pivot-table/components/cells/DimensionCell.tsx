@@ -1,7 +1,7 @@
-import { stardust } from "@nebula.js/stardust";
+import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import NxDimCellType, { NxSelectionCellType } from "../../../types/QIX";
-import { Cell, DataModel, ItemData } from "../../../types/types";
+import type { Cell, DataModel, ItemData } from "../../../types/types";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";

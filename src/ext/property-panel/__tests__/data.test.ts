@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import createData, { Args } from "../data";
+import type { Args } from "../data";
+import createData from "../data";
 
 describe("data", () => {
   let data: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any

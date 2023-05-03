@@ -1,4 +1,4 @@
-import NxDimCellType from "../../../types/QIX";
+import type NxDimCellType from "../../../types/QIX";
 
 function createNode(qElemNo: number, qType: NxDimCellType): EngineAPI.INxPivotDimensionCell {
   return {

@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading  */
-import { stardust } from "@nebula.js/stardust";
+import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import { Root } from "react-dom/client";
-import { ExtendedSelections, StyleService } from "../types/types";
-import { PivotTableProps } from "./components/PivotTable";
+import { type Root } from "react-dom/client";
+import type { ExtendedSelections, StyleService } from "../types/types";
+import type { PivotTableProps } from "./components/PivotTable";
 import { Wrapper } from "./components/Wrapper";
 import SelectionsProvider from "./contexts/SelectionsProvider";
 import StyleProvider from "./contexts/StyleProvider";

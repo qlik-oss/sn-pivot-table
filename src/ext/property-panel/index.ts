@@ -1,4 +1,4 @@
-import { Galaxy } from "../../types/types";
+import type { Galaxy } from "../../types/types";
 import addons from "./addons";
 import createData from "./data";
 import settings from "./settings";

@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
-import { ExtendedSelections } from "../../types/types";
-import useSelectionsModel, { SelectionModel } from "../hooks/use-selections-model";
+import type { ExtendedSelections } from "../../types/types";
+import useSelectionsModel, { type SelectionModel } from "../hooks/use-selections-model";
 
 interface SelectionsProviderProps {
   children: JSX.Element | JSX.Element[];

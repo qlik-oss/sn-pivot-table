@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 const borderStyle: React.CSSProperties = {

@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { ExtendedTranslator, LayoutService } from "../../../types/types";
+import type { ExtendedTranslator, LayoutService } from "../../../types/types";
 import { TestWithProvider } from "../../__tests__/test-with-providers";
 import { StickyPivotTable } from "../PivotTable";
-import { Wrapper, WrapperProps } from "../Wrapper";
+import type { WrapperProps } from "../Wrapper";
+import { Wrapper } from "../Wrapper";
 
 jest.mock("../PivotTable");
 

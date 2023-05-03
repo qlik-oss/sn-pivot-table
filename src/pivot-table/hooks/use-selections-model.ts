@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Q_PATH } from "../../constants";
 import { NxSelectionCellType } from "../../types/QIX";
-import { ExtendedSelections } from "../../types/types";
+import type { ExtendedSelections } from "../../types/types";
 
 export interface SelectionModel {
   select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => Promise<void>;

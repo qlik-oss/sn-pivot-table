@@ -1,6 +1,6 @@
-import { stardust } from "@nebula.js/stardust";
+import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import { StyleService } from "../../types/types";
+import type { StyleService } from "../../types/types";
 import { DISCLAIMER_HEIGHT } from "../constants";
 import { textStyle } from "./shared-styles";
 

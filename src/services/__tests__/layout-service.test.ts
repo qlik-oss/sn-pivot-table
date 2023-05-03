@@ -1,6 +1,6 @@
 import { MAX_COLUMN_COUNT } from "../../pivot-table/constants";
-import { PivotLayout, SnapshotData } from "../../types/QIX";
-import { LayoutService } from "../../types/types";
+import type { PivotLayout, SnapshotData } from "../../types/QIX";
+import type { LayoutService } from "../../types/types";
 import createLayoutService from "../layout-service";
 
 const getMeasureInfo = () => ({} as EngineAPI.INxMeasureInfo);

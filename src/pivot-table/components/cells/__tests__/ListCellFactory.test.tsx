@@ -1,8 +1,8 @@
-import { stardust } from "@nebula.js/stardust";
+import { type stardust } from "@nebula.js/stardust";
 import { render } from "@testing-library/react";
 import React from "react";
 import NxDimCellType from "../../../../types/QIX";
-import { Cell, DataModel, LayoutService, ListItemData } from "../../../../types/types";
+import type { Cell, DataModel, LayoutService, ListItemData } from "../../../../types/types";
 import DimensionCell from "../DimensionCell";
 import EmptyCell from "../EmptyCell";
 import ListCellFactory from "../ListCellFactory";

@@ -6,7 +6,7 @@ import {
   DEFAULT_FONT_SIZE,
   DEFAULT_LINE_CLAMP,
 } from "../../pivot-table/constants";
-import { ExtendedTheme, LayoutService } from "../../types/types";
+import type { ExtendedTheme, LayoutService } from "../../types/types";
 import createStyleService from "../style-service";
 
 describe("style-service", () => {

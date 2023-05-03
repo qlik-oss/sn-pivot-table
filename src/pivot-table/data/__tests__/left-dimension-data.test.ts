@@ -1,5 +1,5 @@
 import NxDimCellType from "../../../types/QIX";
-import { Cell, Grid, LayoutService } from "../../../types/types";
+import type { Cell, Grid, LayoutService } from "../../../types/types";
 import extractLeftGrid from "../extract-left";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../left-dimension-data";
 

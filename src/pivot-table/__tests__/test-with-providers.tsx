@@ -1,6 +1,6 @@
 import React from "react";
-import { ExtendedSelections, LayoutService } from "../../types/types";
-import { RootProps } from "../Root";
+import type { ExtendedSelections, LayoutService } from "../../types/types";
+import type { RootProps } from "../Root";
 import { DEFAULT_CELL_HEIGHT } from "../constants";
 import SelectionsProvider from "../contexts/SelectionsProvider";
 import StyleProvider from "../contexts/StyleProvider";

@@ -1,4 +1,4 @@
-import { LayoutService, TopDimensionData } from "../../types/types";
+import type { LayoutService, TopDimensionData } from "../../types/types";
 import extractTopGrid from "./extract-top";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";

@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { Q_PATH } from "../../../constants";
-import { Model } from "../../../types/QIX";
+import type { Model } from "../../../types/QIX";
 import useDataModel from "../use-data-model";
 
 describe("useDataModel", () => {

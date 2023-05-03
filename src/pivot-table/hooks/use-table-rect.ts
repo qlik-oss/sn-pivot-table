@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { LayoutService, Rect } from "../../types/types";
+import type { LayoutService, Rect } from "../../types/types";
 import { DISCLAIMER_HEIGHT } from "../constants";
 
 export const useTableRect = (rect: Rect, layoutService: LayoutService) =>

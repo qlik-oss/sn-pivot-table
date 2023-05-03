@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import { Galaxy } from "../types/types";
+import type { Galaxy } from "../types/types";
 
 interface Config {
   type: "rows" | "columns";
