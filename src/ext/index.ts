@@ -1,4 +1,4 @@
-import { Galaxy } from "../types/types";
+import type { Galaxy } from "../types/types";
 import { createImportProperties, exportProperties } from "./conversion";
 import propertyPanelDefinition from "./property-panel";
 

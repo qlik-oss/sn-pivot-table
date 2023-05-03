@@ -1,5 +1,12 @@
 import { useCallback, useMemo, useState } from "react";
-import { Data, HeadersData, LayoutService, LeftDimensionData, MeasureData, TopDimensionData } from "../../types/types";
+import type {
+  Data,
+  HeadersData,
+  LayoutService,
+  LeftDimensionData,
+  MeasureData,
+  TopDimensionData,
+} from "../../types/types";
 import createHeadersData from "../data/headers-data";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../data/left-dimension-data";
 import { addPageToMeasureData, createMeasureData } from "../data/measure-data";

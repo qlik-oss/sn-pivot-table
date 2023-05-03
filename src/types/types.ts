@@ -1,5 +1,5 @@
-import { stardust } from "@nebula.js/stardust";
-import { PivotLayout } from "./QIX";
+import type { stardust } from "@nebula.js/stardust";
+import type { PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 

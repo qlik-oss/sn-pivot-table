@@ -1,4 +1,4 @@
-import { Galaxy } from "../../types/types";
+import type { Galaxy } from "../../types/types";
 
 export interface Args {
   properties: EngineAPI.IGenericHyperCubeProperties;

@@ -1,4 +1,4 @@
-import { LayoutService, LeftDimensionData } from "../../types/types";
+import type { LayoutService, LeftDimensionData } from "../../types/types";
 import extractLeftGrid from "./extract-left";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";

@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { Grid, Point } from "../../../types/types";
+import type { Grid, Point } from "../../../types/types";
 
 const assignDistanceToNextCell = (data: Grid, direction: "x" | "y", size: Point) => {
   data.slice(0, -1).forEach((list) => {

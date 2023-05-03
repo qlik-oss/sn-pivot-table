@@ -1,4 +1,4 @@
-import { VariableSizeList } from "react-window";
+import type { VariableSizeList } from "react-window";
 
 const setRef =
   (refList: React.RefObject<VariableSizeList[]>, colIndex: number) =>

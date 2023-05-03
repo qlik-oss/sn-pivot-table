@@ -1,6 +1,6 @@
 // import { TOTAL_MODE_ON } from '../../constants';
 
-import { Args, Component } from "../../types/QIX";
+import type { Args, Component } from "../../types/QIX";
 
 interface ExtendedVisualizationHyperCubeDef extends EngineAPI.IVisualizationHyperCubeDef {
   qExpansionState: unknown[];

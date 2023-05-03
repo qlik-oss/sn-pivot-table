@@ -22,8 +22,8 @@ import render from "./pivot-table/Root";
 import createDataDefinition from "./qae/data-definition";
 import initialProperties from "./qae/initial-properties";
 import createStyleService from "./services/style-service";
-import { Model, PivotLayout } from "./types/QIX";
-import { ExtendedSelections, ExtendedTheme, Galaxy } from "./types/types";
+import type { Model, PivotLayout } from "./types/QIX";
+import type { ExtendedSelections, ExtendedTheme, Galaxy } from "./types/types";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {

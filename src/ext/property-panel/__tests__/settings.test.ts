@@ -1,5 +1,6 @@
 /* eslint jest/no-conditional-expect: 0 */
-import settings, { Emitter, ExtendedGenericHyperCubeProperties } from "../settings";
+import type { Emitter, ExtendedGenericHyperCubeProperties } from "../settings";
+import settings from "../settings";
 
 describe("settings", () => {
   describe("alwaysFullyExpanded", () => {

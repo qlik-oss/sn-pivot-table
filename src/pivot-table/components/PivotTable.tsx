@@ -1,8 +1,8 @@
-import { stardust } from "@nebula.js/stardust";
+import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
-import { VariableSizeGrid, VariableSizeList } from "react-window";
-import { Model } from "../../types/QIX";
-import { LayoutService, Rect, ViewService } from "../../types/types";
+import type { VariableSizeGrid, VariableSizeList } from "react-window";
+import type { Model } from "../../types/QIX";
+import type { LayoutService, Rect, ViewService } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";

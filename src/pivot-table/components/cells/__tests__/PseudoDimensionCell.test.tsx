@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { Cell } from "../../../../types/types";
+import type { Cell } from "../../../../types/types";
 import PseudoDimensionCell, { testId } from "../PseudoDimensionCell";
 
 test("should render on the top", () => {

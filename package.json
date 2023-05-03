@@ -67,6 +67,7 @@
       "@qlik/eslint-config/playwright"
     ],
     "rules": {
+      "@typescript-eslint/consistent-type-imports": "error",
       "import/no-extraneous-dependencies": [
         "error",
         {

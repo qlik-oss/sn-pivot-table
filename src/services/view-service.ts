@@ -1,4 +1,4 @@
-import { ViewService } from "../types/types";
+import type { ViewService } from "../types/types";
 
 const createViewService = (): ViewService => ({
   gridColumnStartIndex: 0,

@@ -8,8 +8,8 @@ import {
   DEFAULT_LINE_CLAMP,
   LINE_HEIGHT_COEFFICIENT,
 } from "../pivot-table/constants";
-import { Component } from "../types/QIX";
-import { ExtendedTheme, LayoutService, StyleService } from "../types/types";
+import type { Component } from "../types/QIX";
+import type { ExtendedTheme, LayoutService, StyleService } from "../types/types";
 
 const BASE_PATH = "object.pivotTable";
 

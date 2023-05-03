@@ -1,5 +1,5 @@
 import React from "react";
-import { Cell } from "../../../types/types";
+import type { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { borderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
 
