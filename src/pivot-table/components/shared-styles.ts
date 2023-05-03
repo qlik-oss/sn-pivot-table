@@ -1,25 +1,41 @@
 import React from "react";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
-export const borderBottomRightStyle: React.CSSProperties = {
-  boxSizing: "border-box",
-  padding: 4,
-  borderLeftWidth: 0,
-  borderBottomWidth: 1,
-  borderRightWidth: 1,
-  borderTopWidth: 0,
+const borderStyle: React.CSSProperties = {
   borderColor: "rgba(0, 0, 0, 0.15)",
   borderStyle: "solid",
 };
 
+const cellStyle: React.CSSProperties = {
+  boxSizing: "border-box",
+  padding: 4,
+};
+
+export const borderBottomRightStyle: React.CSSProperties = {
+  ...cellStyle,
+  ...borderStyle,
+  borderLeftWidth: 0,
+  borderBottomWidth: 1,
+  borderRightWidth: 1,
+  borderTopWidth: 0,
+};
+
 export const borderBottomStyle: React.CSSProperties = {
-  ...borderBottomRightStyle,
+  ...cellStyle,
+  ...borderStyle,
+  borderLeftWidth: 0,
+  borderBottomWidth: 1,
   borderRightWidth: 0,
+  borderTopWidth: 0,
 };
 
 export const borderRightStyle: React.CSSProperties = {
-  ...borderBottomRightStyle,
+  ...cellStyle,
+  ...borderStyle,
+  borderLeftWidth: 0,
   borderBottomWidth: 0,
+  borderRightWidth: 1,
+  borderTopWidth: 0,
 };
 
 export const textStyle: React.CSSProperties = {
@@ -52,7 +68,7 @@ export const stickyCell: React.CSSProperties = {
 
 export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean) => {
   if (isLastRow && isLastColumn) {
-    return { boxSizing: "border-box", padding: 4 } as React.CSSProperties;
+    return cellStyle;
   }
 
   if (isLastRow) {
