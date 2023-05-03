@@ -137,7 +137,7 @@ export interface LayoutService {
   size: Point;
   isSnapshot: boolean;
   hasLimitedData: boolean;
-  hasLeftData: boolean;
+  hasLeftDimensions: boolean;
 }
 
 export interface DataService {

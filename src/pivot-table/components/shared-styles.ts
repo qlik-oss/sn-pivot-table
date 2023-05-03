@@ -6,7 +6,7 @@ const borderStyle: React.CSSProperties = {
   borderStyle: "solid",
 };
 
-const cellStyle: React.CSSProperties = {
+export const cellStyle: React.CSSProperties = {
   boxSizing: "border-box",
   padding: 4,
 };

@@ -32,6 +32,11 @@ const containerStyle: React.CSSProperties = {
   borderWidth: "0px 0px 0px 1px",
 };
 
+const containerStyleWithoutBorders: React.CSSProperties = {
+  ...gridBorderStyle,
+  borderWidth: "0px",
+};
+
 const TopGrid = ({
   dataModel,
   topGridRef,
@@ -90,7 +95,7 @@ const TopGrid = ({
   }
 
   return (
-    <div style={layoutService.hasLeftData ? containerStyle : { ...containerStyle, borderWidth: "0px" }}>
+    <div style={layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders}>
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);

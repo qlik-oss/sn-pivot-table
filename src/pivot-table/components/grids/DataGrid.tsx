@@ -29,10 +29,19 @@ type FetchModeData = (
 ) => Promise<void>;
 
 const gridStyle: React.CSSProperties = {
-  overflow: "hidden",
   ...gridBorderStyle,
-  borderWidth: "1px 0px 0px 1px",
+  overflow: "hidden",
   boxSizing: "content-box",
+};
+
+const gridStyleWithLeftDimensions: React.CSSProperties = {
+  ...gridStyle,
+  borderWidth: "1px 0px 0px 1px",
+};
+
+const gridStyleWithoutLeftDimensions: React.CSSProperties = {
+  ...gridStyle,
+  borderWidth: "1px 0px 0px 0px",
 };
 
 const isMissingData = (
@@ -150,7 +159,7 @@ const DataGrid = ({
   return (
     <VariableSizeGrid
       ref={dataGridRef}
-      style={layoutService.hasLeftData ? gridStyle : { ...gridStyle, borderWidth: "1px 0px 0px 0px" }}
+      style={layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions}
       columnCount={layoutService.size.x}
       columnWidth={getColumnWidth}
       height={height}
