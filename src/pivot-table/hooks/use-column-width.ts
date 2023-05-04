@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import NxDimCellType from "../../types/QIX";
 import type { LayoutService, LeftDimensionData, Rect } from "../../types/types";
+import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
 
@@ -88,8 +89,7 @@ export default function useColumnWidth(
     [leftDimensionData.grid, getLeftColumnWidth]
   );
 
-  const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth), [leftGridWidth, rect.width]);
-
+  const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth - GRID_BORDER), [leftGridWidth, rect.width]);
   const preCalcTotalDataColumnWidth = useMemo(() => {
     if (hasPseudoDimOnLeft) {
       return qMeasureInfo.reduce(

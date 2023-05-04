@@ -1,88 +1,35 @@
-import React, { memo, useLayoutEffect, useRef } from "react";
-import { VariableSizeGrid, areEqual } from "react-window";
+import React, { memo } from "react";
 import type { HeadersData } from "../../../types/types";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
-// import useDebug from '../../hooks/use-debug';
-import { gridBorderStyle } from "../shared-styles";
 
 interface HeaderGridProps {
   columnWidthCallback: (index: number) => number;
-  height: number;
-  rowHightCallback: () => number;
-  width: number;
+  rowHight: number;
   headersData: HeadersData;
 }
 
-interface HeaderItemData {
-  matrix: (string | null)[][];
-}
-
-interface GridCallbackProps {
-  columnIndex: number;
-  rowIndex: number;
-  style: React.CSSProperties;
-  data: HeaderItemData;
-}
-
-const gridStyle: React.CSSProperties = {
-  overflow: "hidden",
-  borderWidth: "0px 1px 1px 0px",
-  ...gridBorderStyle,
+const containerStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "flex-end",
 };
 
-const MemoizedCellFactory = memo(({ columnIndex, rowIndex, style, data }: GridCallbackProps): JSX.Element | null => {
-  const cell = data.matrix[columnIndex][rowIndex];
-
-  if (typeof cell === "string") {
-    return <DimensionTitleCell cell={cell} style={style} />;
-  }
-
-  return null;
-}, areEqual);
-
-const HeaderGrid = ({
-  columnWidthCallback,
-  height,
-  rowHightCallback,
-  width,
-  headersData,
-}: HeaderGridProps): JSX.Element | null => {
-  const headerGridRef = useRef<VariableSizeGrid>(null);
-
-  useLayoutEffect(() => {
-    if (headerGridRef.current) {
-      headerGridRef.current.resetAfterColumnIndex(0);
-    }
-  }, [headersData]);
-
-  useLayoutEffect(() => {
-    if (headerGridRef.current) {
-      headerGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
-    }
-  }, [width, height]);
-
+const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridProps): JSX.Element | null => {
   if (headersData.size.x === 0) {
     return null;
   }
 
   return (
-    <VariableSizeGrid
-      ref={headerGridRef}
-      style={gridStyle}
-      columnCount={headersData.size.x}
-      columnWidth={columnWidthCallback}
-      height={height}
-      rowCount={headersData.size.y}
-      rowHeight={rowHightCallback}
-      width={width}
-      itemData={
-        {
-          matrix: headersData.data,
-        } as HeaderItemData
-      }
-    >
-      {MemoizedCellFactory}
-    </VariableSizeGrid>
+    <div style={containerStyle}>
+      {headersData.data.map((col, colIndex) => (
+        <DimensionTitleCell
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${colIndex}-${col[col.length - 1] as string}`} // TODO Use a better key
+          cell={col[col.length - 1] as string}
+          style={{ width: columnWidthCallback(colIndex), height: rowHight }}
+          isLastColumn={colIndex === headersData.size.x - 1}
+        />
+      ))}
+    </div>
   );
 };
 

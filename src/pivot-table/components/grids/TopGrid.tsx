@@ -27,9 +27,14 @@ const listStyle: React.CSSProperties = {
   overflow: "hidden",
 };
 
-const bottomListStyle: React.CSSProperties = {
-  borderWidth: "0px 0px 1px 0px",
+const containerStyle: React.CSSProperties = {
   ...gridBorderStyle,
+  borderWidth: "0px 0px 0px 1px",
+};
+
+const containerStyleWithoutBorders: React.CSSProperties = {
+  ...gridBorderStyle,
+  borderWidth: "0px",
 };
 
 const TopGrid = ({
@@ -86,11 +91,11 @@ const TopGrid = ({
 
   if (topDimensionData.rowCount === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
-    return <div style={{ width, height, ...bottomListStyle }} />;
+    return <div style={{ width, height, ...containerStyle }} />;
   }
 
   return (
-    <div>
+    <div style={layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders}>
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
@@ -99,7 +104,7 @@ const TopGrid = ({
           <VariableSizeList
             key={getKey(topRowIndex)}
             ref={setListRef(topGridRef, topRowIndex)}
-            style={isLastRow ? { ...listStyle, ...bottomListStyle } : listStyle}
+            style={listStyle}
             height={rowHightCallback()}
             width={width}
             itemCount={itemCount}
@@ -111,6 +116,7 @@ const TopGrid = ({
               constraints,
               list,
               isLast: isLastRow && !layoutService.layout.snapshotData,
+              itemCount,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

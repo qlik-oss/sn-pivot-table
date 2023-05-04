@@ -26,16 +26,22 @@ interface LeftGridProps {
 const containerStyle: React.CSSProperties = {
   display: "flex",
   height: "fit-content",
+  borderWidth: "1px 0px 0px 0px",
+  ...gridBorderStyle,
 };
 
 const listStyle: React.CSSProperties = {
   overflow: "hidden",
-};
-
-const rightListStyle: React.CSSProperties = {
-  borderWidth: "0px 1px 0px 0px",
-  ...gridBorderStyle,
-  boxSizing: "content-box",
+  /**
+   * "will-change" is by default "transform" in react-window. This disables that default value,
+   * as there was issues with rendering border when the width of the react-window "list" was
+   * a floating point number.
+   *
+   * If performance issues arrise when scrolling, this may need to be change back the "transform"
+   * again to resolve those performance issues, but the issue with rendering border will need to
+   * be fixed in some other way.
+   */
+  willChange: "auto",
 };
 
 const getItemSizeCallback = (list: List, cellHeight: number) => (rowIndex: number) => {
@@ -98,7 +104,7 @@ const LeftGrid = ({
           <VariableSizeList
             key={getKey(colIndex)}
             ref={setListRef(leftGridRef, colIndex)}
-            style={isLastColumn ? { ...listStyle, ...rightListStyle } : listStyle}
+            style={listStyle}
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
@@ -111,6 +117,7 @@ const LeftGrid = ({
               list,
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,
+              itemCount,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

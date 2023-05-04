@@ -1,10 +1,11 @@
 import React from "react";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { borderStyle, textStyle } from "../shared-styles";
+import { getBorderStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: string;
   style: React.CSSProperties;
+  isLastColumn: boolean;
 }
 
 const labelTextStyle: React.CSSProperties = {
@@ -14,11 +15,11 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = "title-cell";
 
-const DimensionTitleCell = ({ cell, style }: LabelCellProps): JSX.Element => {
+const DimensionTitleCell = ({ cell, style, isLastColumn }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
 
   return (
-    <div title={cell} style={{ ...style, ...borderStyle, display: "flex" }} data-testid={testId}>
+    <div title={cell} style={{ ...style, ...getBorderStyle(true, isLastColumn), display: "flex" }} data-testid={testId}>
       <div style={{ ...labelTextStyle, ...styleService.header, alignSelf: "flex-end", flexGrow: 1 }}>{cell}</div>
     </div>
   );

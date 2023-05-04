@@ -20,9 +20,6 @@ const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyR
         overflow: constraints.active ? "hidden" : "auto",
         width: rect.width,
         height: rect.height,
-        borderWidth: "1px",
-        borderColor: "rgb(230, 230, 230)",
-        borderStyle: "solid",
       }}
       onScroll={onScroll}
     >

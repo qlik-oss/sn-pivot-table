@@ -112,7 +112,18 @@ describe("DimensionCell", () => {
   });
 
   test("should render", () => {
-    render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+    render(
+      <DimensionCell
+        cell={cell}
+        data={data}
+        rowIndex={0}
+        colIndex={1}
+        style={style}
+        isLeftColumn={false}
+        isLastRow={false}
+        isLastColumn={false}
+      />
+    );
 
     expect(screen.getByText(qText)).toBeInTheDocument();
     expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);
@@ -122,7 +133,18 @@ describe("DimensionCell", () => {
     cell.ref.qCanExpand = false;
     cell.ref.qCanCollapse = false;
 
-    render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+    render(
+      <DimensionCell
+        cell={cell}
+        data={data}
+        rowIndex={0}
+        colIndex={1}
+        style={style}
+        isLeftColumn={false}
+        isLastRow={false}
+        isLastColumn={false}
+      />
+    );
 
     expect(screen.queryByTestId(testIdExpandIcon)).toBeNull();
     expect(screen.queryByTestId(testIdCollapseIcon)).toBeNull();
@@ -133,7 +155,18 @@ describe("DimensionCell", () => {
       test("should be possible to expand left column", async () => {
         cell.ref.qCanExpand = true;
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdExpandIcon));
@@ -145,7 +178,18 @@ describe("DimensionCell", () => {
         cell.ref.qCanExpand = true;
         (data.constraints as stardust.Constraints).active = true;
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdExpandIcon));
@@ -162,7 +206,18 @@ describe("DimensionCell", () => {
           isLocked: () => false,
         });
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdExpandIcon));
@@ -173,7 +228,18 @@ describe("DimensionCell", () => {
       test("should be possible to collapse left column", async () => {
         cell.ref.qCanCollapse = true;
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdCollapseIcon));
@@ -185,7 +251,18 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
         (data.constraints as stardust.Constraints).active = true;
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdCollapseIcon));
@@ -202,7 +279,18 @@ describe("DimensionCell", () => {
           isLocked: () => false,
         });
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdCollapseIcon));
@@ -217,7 +305,16 @@ describe("DimensionCell", () => {
         const colIdx = 1;
         cell.ref.qCanCollapse = true;
         render(
-          <DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -233,7 +330,16 @@ describe("DimensionCell", () => {
         isSelectedSpy.mockReturnValue(true);
 
         render(
-          <DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
         );
 
         expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
@@ -248,7 +354,16 @@ describe("DimensionCell", () => {
         isSelectedSpy.mockReturnValue(true);
 
         render(
-          <DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -264,7 +379,16 @@ describe("DimensionCell", () => {
         isLockedSpy.mockReturnValue(true);
 
         render(
-          <DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -281,7 +405,16 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <DimensionCell cell={cell} data={data} rowIndex={rowIdx} colIndex={colIdx} style={style} isLeftColumn />
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+          />
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -299,7 +432,18 @@ describe("DimensionCell", () => {
       test("should be possible to expand top row", async () => {
         cell.ref.qCanExpand = true;
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdExpandIcon));
@@ -311,7 +455,18 @@ describe("DimensionCell", () => {
         cell.ref.qCanExpand = true;
         (data.constraints as stardust.Constraints).active = true;
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdExpandIcon));
@@ -328,7 +483,18 @@ describe("DimensionCell", () => {
           isLocked: () => false,
         });
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdExpandIcon));
@@ -339,7 +505,18 @@ describe("DimensionCell", () => {
       test("should be possible to collapse top row", async () => {
         cell.ref.qCanCollapse = true;
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdCollapseIcon));
@@ -351,7 +528,18 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
         (data.constraints as stardust.Constraints).active = true;
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdCollapseIcon));
@@ -368,7 +556,18 @@ describe("DimensionCell", () => {
           isLocked: () => false,
         });
 
-        render(<DimensionCell cell={cell} data={data} rowIndex={0} colIndex={1} style={style} isLeftColumn={false} />);
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={0}
+            colIndex={1}
+            style={style}
+            isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
+          />
+        );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
         await userEvent.click(screen.getByTestId(testIdCollapseIcon));
@@ -391,6 +590,8 @@ describe("DimensionCell", () => {
             colIndex={colIdx}
             style={style}
             isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
           />
         );
 
@@ -414,6 +615,8 @@ describe("DimensionCell", () => {
             colIndex={colIdx}
             style={style}
             isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
           />
         );
 
@@ -436,6 +639,8 @@ describe("DimensionCell", () => {
             colIndex={colIdx}
             style={style}
             isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
           />
         );
 
@@ -459,6 +664,8 @@ describe("DimensionCell", () => {
             colIndex={colIdx}
             style={style}
             isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
           />
         );
 
@@ -483,6 +690,8 @@ describe("DimensionCell", () => {
             colIndex={colIdx}
             style={style}
             isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
           />
         );
 

@@ -46,6 +46,7 @@ export interface ListItemData extends ItemData {
   list: List;
   isLeftColumn?: boolean;
   isLast: boolean;
+  itemCount: number;
 }
 
 export interface Cell {
@@ -136,6 +137,7 @@ export interface LayoutService {
   size: Point;
   isSnapshot: boolean;
   hasLimitedData: boolean;
+  hasLeftDimensions: boolean;
 }
 
 export interface DataService {

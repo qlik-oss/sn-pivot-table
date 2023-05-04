@@ -147,4 +147,24 @@ describe("createLayoutService", () => {
       expect(service.isSnapshot).toBe(true);
     });
   });
+
+  describe("hasLeftDimensions", () => {
+    test("should be true when qNoOfLeftDims is larger then 0", () => {
+      layout.qHyperCube.qNoOfLeftDims = 1;
+      const service = create();
+      expect(service.hasLeftDimensions).toBe(true);
+    });
+
+    test("should be true when qNoOfLeftDims -1", () => {
+      layout.qHyperCube.qNoOfLeftDims = -1;
+      const service = create();
+      expect(service.hasLeftDimensions).toBe(true);
+    });
+
+    test("should be false when qNoOfLeftDims is 0", () => {
+      layout.qHyperCube.qNoOfLeftDims = 0;
+      const service = create();
+      expect(service.hasLeftDimensions).toBe(false);
+    });
+  });
 });

@@ -12,7 +12,7 @@ test("should render", () => {
     height: "150px",
   };
 
-  render(<DimensionTitleCell cell={cell} style={style} />);
+  render(<DimensionTitleCell cell={cell} style={style} isLastColumn={false} />);
 
   expect(screen.getByText(cell)).toBeInTheDocument();
   expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);

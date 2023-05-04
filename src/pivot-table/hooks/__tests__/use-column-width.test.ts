@@ -1,6 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, LayoutService, LeftDimensionData, Rect, StyleService } from "../../../types/types";
+import { GRID_BORDER } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import useColumnWidth, { EXPAND_ICON_WIDTH } from "../use-column-width";
 import useMeasureText, { type MeasureTextHook } from "../use-measure-text";
@@ -77,7 +78,7 @@ describe("useColumnWidth", () => {
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
       expect(result.current.leftGridWidth).toBe((50 + EXPAND_ICON_WIDTH) * 2 + 50);
-      expect(result.current.rightGridWidth).toBe(80);
+      expect(result.current.rightGridWidth).toBe(80 - GRID_BORDER);
     });
 
     test("should return left and right grid widths with only dimension cells and glyph size < then text size", () => {
@@ -86,7 +87,7 @@ describe("useColumnWidth", () => {
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
       expect(result.current.leftGridWidth).toBe(150);
-      expect(result.current.rightGridWidth).toBe(50);
+      expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
     });
 
     test("should return left and right grid width with dimension and pseudo dimension cells", () => {
@@ -104,7 +105,7 @@ describe("useColumnWidth", () => {
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
       expect(result.current.leftGridWidth).toBe(150);
-      expect(result.current.rightGridWidth).toBe(50);
+      expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
     });
 
     test("left grid can not take more space then 75% of the total width available", () => {
@@ -113,7 +114,7 @@ describe("useColumnWidth", () => {
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
       expect(result.current.leftGridWidth).toBe(rect.width * 0.75);
-      expect(result.current.rightGridWidth).toBe(rect.width * 0.25);
+      expect(result.current.rightGridWidth).toBe(rect.width * 0.25 - GRID_BORDER);
     });
   });
 
@@ -151,9 +152,9 @@ describe("useColumnWidth", () => {
       rect.width = 600;
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
-      expect(result.current.getDataColumnWidth(0)).toBe(170);
-      expect(result.current.getDataColumnWidth(1)).toBe(170);
-      expect(result.current.getDataColumnWidth(2)).toBe(170);
+      expect(result.current.getDataColumnWidth(0)).toBeCloseTo(169.666);
+      expect(result.current.getDataColumnWidth(1)).toBeCloseTo(169.666);
+      expect(result.current.getDataColumnWidth(2)).toBeCloseTo(169.666);
     });
 
     test("should not return data column width based of available right grid width when total data column width is larger than available right grid width", () => {

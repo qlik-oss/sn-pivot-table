@@ -5,6 +5,7 @@ import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedDataCell from "../cells/DataCell";
+import { gridBorderStyle } from "../shared-styles";
 
 interface DataGridProps {
   dataModel: DataModel;
@@ -27,7 +28,21 @@ type FetchModeData = (
   overscanRowStopIndex: number
 ) => Promise<void>;
 
-const gridStyle: React.CSSProperties = { overflow: "hidden" };
+const gridStyle: React.CSSProperties = {
+  ...gridBorderStyle,
+  overflow: "hidden",
+  boxSizing: "content-box",
+};
+
+const gridStyleWithLeftDimensions: React.CSSProperties = {
+  ...gridStyle,
+  borderWidth: "1px 0px 0px 1px",
+};
+
+const gridStyleWithoutLeftDimensions: React.CSSProperties = {
+  ...gridStyle,
+  borderWidth: "1px 0px 0px 0px",
+};
 
 const isMissingData = (
   data: MeasureData,
@@ -144,7 +159,7 @@ const DataGrid = ({
   return (
     <VariableSizeGrid
       ref={dataGridRef}
-      style={gridStyle}
+      style={layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions}
       columnCount={layoutService.size.x}
       columnWidth={getColumnWidth}
       height={height}

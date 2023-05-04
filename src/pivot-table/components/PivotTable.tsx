@@ -3,6 +3,7 @@ import React, { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import type { Model } from "../../types/QIX";
 import type { LayoutService, Rect, ViewService } from "../../types/types";
+import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
@@ -54,7 +55,7 @@ export const StickyPivotTable = ({
 
   const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
     layoutService,
-    rect,
+    tableRect,
     leftDimensionData
   );
 
@@ -101,12 +102,13 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  const containerHeight = contentCellHeight * layoutService.size.y + headerCellHeight * topDimensionData.rowCount;
+  const totalDataHeight = layoutService.size.y * contentCellHeight + GRID_BORDER;
+  const containerHeight = totalDataHeight + headerCellHeight * topDimensionData.rowCount;
   const headerGridHeight = headerCellHeight * headersData.size.y;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
   const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
-  const leftGridHeight = tableRect.height - headerGridHeight;
-  const dataGridHeight = tableRect.height - topGridHeight;
+  const leftGridHeight = Math.min(tableRect.height - headerGridHeight, totalDataHeight);
+  const dataGridHeight = Math.min(tableRect.height - topGridHeight, totalDataHeight);
 
   return (
     <ScrollableContainer
@@ -123,13 +125,7 @@ export const StickyPivotTable = ({
           topRowsHeight={topGridHeight}
           bottomRowsHeight={dataGridHeight}
         >
-          <HeaderGrid
-            columnWidthCallback={getLeftColumnWidth}
-            rowHightCallback={headerCellRowHightCallback}
-            width={leftGridWidth}
-            height={headerGridHeight}
-            headersData={headersData}
-          />
+          <HeaderGrid columnWidthCallback={getLeftColumnWidth} rowHight={headerCellHeight} headersData={headersData} />
 
           <TopGrid
             dataModel={dataModel}

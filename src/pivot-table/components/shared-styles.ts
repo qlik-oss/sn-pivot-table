@@ -2,30 +2,55 @@ import type React from "react";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 const borderStyle: React.CSSProperties = {
-  boxSizing: "border-box",
-  padding: 4,
-  borderLeftWidth: 1,
-  borderBottomWidth: 1,
-  borderRightWidth: 0,
-  borderTopWidth: 0,
-  borderColor: "rgb(230, 230, 230)",
+  borderColor: "rgba(0, 0, 0, 0.15)",
   borderStyle: "solid",
 };
 
-const textStyle: React.CSSProperties = {
+export const cellStyle: React.CSSProperties = {
+  boxSizing: "border-box",
+  padding: 4,
+};
+
+export const borderBottomRightStyle: React.CSSProperties = {
+  ...cellStyle,
+  ...borderStyle,
+  borderLeftWidth: 0,
+  borderBottomWidth: 1,
+  borderRightWidth: 1,
+  borderTopWidth: 0,
+};
+
+export const borderBottomStyle: React.CSSProperties = {
+  ...cellStyle,
+  ...borderStyle,
+  borderLeftWidth: 0,
+  borderBottomWidth: 1,
+  borderRightWidth: 0,
+  borderTopWidth: 0,
+};
+
+export const borderRightStyle: React.CSSProperties = {
+  ...cellStyle,
+  ...borderStyle,
+  borderLeftWidth: 0,
+  borderBottomWidth: 0,
+  borderRightWidth: 1,
+  borderTopWidth: 0,
+};
+
+export const textStyle: React.CSSProperties = {
   lineHeight: `calc(${LINE_HEIGHT_COEFFICIENT})`,
   textOverflow: "ellipsis",
   overflow: "hidden",
   whiteSpace: "nowrap",
 };
 
-const gridBorderStyle: React.CSSProperties = {
+export const gridBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
-  borderColor: "#a6a6a6",
-  boxSizing: "border-box",
+  borderColor: "rgba(0, 0, 0, 0.60)",
 };
 
-const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
+export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   whiteSpace: "unset",
   display: "-webkit-box",
   WebkitLineClamp: clampCount,
@@ -33,7 +58,7 @@ const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   lineBreak: "anywhere",
 });
 
-const stickyCell: React.CSSProperties = {
+export const stickyCell: React.CSSProperties = {
   width: "fit-content",
   maxWidth: "100%",
   position: "sticky",
@@ -41,4 +66,18 @@ const stickyCell: React.CSSProperties = {
   top: 4,
 };
 
-export { borderStyle, textStyle, gridBorderStyle, stickyCell, getLineClampStyle };
+export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean) => {
+  if (isLastRow && isLastColumn) {
+    return cellStyle;
+  }
+
+  if (isLastRow) {
+    return borderRightStyle;
+  }
+
+  if (isLastColumn) {
+    return borderBottomStyle;
+  }
+
+  return borderBottomRightStyle;
+};

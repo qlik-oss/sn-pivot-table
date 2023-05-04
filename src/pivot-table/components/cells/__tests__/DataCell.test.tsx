@@ -26,6 +26,7 @@ describe("DataCell", () => {
 
     layoutService = {
       getNullValueText: () => "-",
+      size: { x: 1, y: 2 },
     } as LayoutService;
 
     data = {
