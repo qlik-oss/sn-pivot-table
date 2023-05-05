@@ -95,7 +95,7 @@ describe("useData", () => {
     } as TopDimensionData;
 
     headersData = {
-      data: [["value"]],
+      data: [[{ id: "value", title: "value" }]],
       size: { x: 3, y: 4 },
     } as HeadersData;
 
