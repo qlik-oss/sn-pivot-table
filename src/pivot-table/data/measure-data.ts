@@ -1,4 +1,4 @@
-import { PageInfo } from "../../hooks/use-pivot-table";
+import type { PageInfo } from "../../hooks/use-pivot-table";
 import type { MeasureData } from "../../types/types";
 
 const createNewGrid = (
@@ -22,7 +22,7 @@ const createNewGrid = (
   return data;
 };
 
-interface AddPageToMeasureDataProps {
+export interface AddPageToMeasureDataProps {
   prevData: MeasureData;
   nextDataPage: EngineAPI.INxPivotPage;
   pageInfo: PageInfo;

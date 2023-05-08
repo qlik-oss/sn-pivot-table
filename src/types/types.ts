@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import { PageInfo } from "../hooks/use-pivot-table";
+import type { PageInfo } from "../hooks/use-pivot-table";
 import type { PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;

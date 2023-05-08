@@ -1,6 +1,12 @@
+import type { PageInfo } from "../../../hooks/use-pivot-table";
 import { addPageToMeasureData, createMeasureData } from "../measure-data";
 
 describe("measure data", () => {
+  const pageInfo = {
+    currentPage: 1,
+    rowsPerPage: 100,
+  } as PageInfo;
+
   describe("create", () => {
     test("should return correct data", () => {
       const dataPage = {
@@ -36,7 +42,7 @@ describe("measure data", () => {
         qArea: { qWidth: 2, qHeight: 2, qLeft: 2, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
 
-      const data = addPageToMeasureData(prevData, nextDataPage);
+      const data = addPageToMeasureData({ prevData, nextDataPage, pageInfo });
 
       expect(data).toEqual([
         [{}, {}, {}, {}],
@@ -59,7 +65,7 @@ describe("measure data", () => {
         qArea: { qWidth: 2, qHeight: 1, qLeft: 2, qTop: 1 },
       } as unknown as EngineAPI.INxPivotPage;
 
-      const data = addPageToMeasureData(prevData, nextDataPage);
+      const data = addPageToMeasureData({ prevData, nextDataPage, pageInfo });
 
       expect(data).toEqual([
         [{}, {}, {}, {}],
@@ -82,7 +88,7 @@ describe("measure data", () => {
         qArea: { qWidth: 0, qHeight: 0, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
 
-      const data = addPageToMeasureData(prevData, nextDataPage);
+      const data = addPageToMeasureData({ prevData, nextDataPage, pageInfo });
 
       expect(data).toEqual(prevData);
       expect(data).toBe(prevData); // Should not be referentially equal

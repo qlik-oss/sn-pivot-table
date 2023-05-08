@@ -1,11 +1,10 @@
 /*  eslint-disable no-param-reassign */
 import { useCallback, useMemo } from "react";
 import { Q_PATH } from "../../constants";
-import { PageInfo } from "../../hooks/use-pivot-table";
+import type { PageInfo } from "../../hooks/use-pivot-table";
 import initialProperties from "../../qae/initial-properties";
 import type { Model } from "../../types/QIX";
-import type { DataModel, ExpandOrCollapser, FetchMoreData } from "../../types/types";
-import { FetchNewPage } from "../../types/types";
+import type { DataModel, ExpandOrCollapser, FetchMoreData, FetchNewPage } from "../../types/types";
 
 interface UseDataModelProps {
   model: Model;

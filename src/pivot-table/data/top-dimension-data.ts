@@ -3,7 +3,7 @@ import extractTopGrid from "./extract-top";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
 
-interface AddPageToTopDimensionDataProps {
+export interface AddPageToTopDimensionDataProps {
   prevData: TopDimensionData;
   nextDataPage: EngineAPI.INxPivotPage;
   isNewPage?: boolean;

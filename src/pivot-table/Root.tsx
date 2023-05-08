@@ -2,9 +2,9 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import type { Root } from "react-dom/client";
-import { PageInfo } from "../hooks/use-pivot-table";
+import type { PageInfo } from "../hooks/use-pivot-table";
 import type { Data, ExtendedSelections, StyleService } from "../types/types";
-import { Wrapper, WrapperProps } from "./components/Wrapper";
+import { Wrapper, type WrapperProps } from "./components/Wrapper";
 import SelectionsProvider from "./contexts/SelectionsProvider";
 import StyleProvider from "./contexts/StyleProvider";
 

@@ -1,11 +1,14 @@
 import { renderHook } from "@testing-library/react";
 import { Q_PATH } from "../../../constants";
+import type { PageInfo } from "../../../hooks/use-pivot-table";
 import type { Model } from "../../../types/QIX";
 import useDataModel from "../use-data-model";
 
 describe("useDataModel", () => {
   let model: Model;
   let nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
+  let newPageHandler: (page: EngineAPI.INxPivotPage) => void;
+  let pageInfo: PageInfo;
 
   beforeEach(() => {
     model = {
@@ -17,6 +20,11 @@ describe("useDataModel", () => {
     } as unknown as EngineAPI.IGenericObject;
     (model.getHyperCubePivotData as jest.Mock).mockResolvedValue([]);
     nextPageHandler = jest.fn();
+    newPageHandler = jest.fn();
+    pageInfo = {
+      currentPage: 1,
+      rowsPerPage: 100,
+    } as PageInfo;
   });
 
   afterEach(() => {
@@ -24,28 +32,28 @@ describe("useDataModel", () => {
   });
 
   test("collapseLeft should call model.collapseLeft with correct parameters", () => {
-    const { result } = renderHook(() => useDataModel({ model, nextPageHandler }));
+    const { result } = renderHook(() => useDataModel({ model, nextPageHandler, newPageHandler, pageInfo }));
     result.current.collapseLeft(1, 2);
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect((model as EngineAPI.IGenericObject).collapseLeft).toHaveBeenCalledWith(Q_PATH, 1, 2, false);
   });
 
   test("collapseTop should call model.collapseTop with correct parameters", () => {
-    const { result } = renderHook(() => useDataModel({ model, nextPageHandler }));
+    const { result } = renderHook(() => useDataModel({ model, nextPageHandler, newPageHandler, pageInfo }));
     result.current.collapseTop(1, 2);
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect((model as EngineAPI.IGenericObject).collapseTop).toHaveBeenCalledWith(Q_PATH, 1, 2, false);
   });
 
   test("expandLeft should call model.expandLeft with correct parameters", () => {
-    const { result } = renderHook(() => useDataModel({ model, nextPageHandler }));
+    const { result } = renderHook(() => useDataModel({ model, nextPageHandler, newPageHandler, pageInfo }));
     result.current.expandLeft(1, 2);
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect((model as EngineAPI.IGenericObject).expandLeft).toHaveBeenCalledWith(Q_PATH, 1, 2, false);
   });
 
   test("expandTop should call model.expandTop with correct parameters", () => {
-    const { result } = renderHook(() => useDataModel({ model, nextPageHandler }));
+    const { result } = renderHook(() => useDataModel({ model, nextPageHandler, newPageHandler, pageInfo }));
     result.current.expandTop(1, 2);
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect((model as EngineAPI.IGenericObject).expandTop).toHaveBeenCalledWith(Q_PATH, 1, 2, false);
@@ -61,14 +69,14 @@ describe("useDataModel", () => {
         expandTop: jest.fn(),
       } as unknown as EngineAPI.IGenericBookmark;
 
-      const { result } = renderHook(() => useDataModel({ model, nextPageHandler }));
+      const { result } = renderHook(() => useDataModel({ model, nextPageHandler, newPageHandler, pageInfo }));
       const output = await result.current.fetchMoreData(1, 2, 10, 20);
 
       expect(output).toBeFalsy();
     });
 
     test("fetchMoreData should call getHyperCubePivotData to fetch more data", async () => {
-      const { result } = renderHook(() => useDataModel({ model, nextPageHandler }));
+      const { result } = renderHook(() => useDataModel({ model, nextPageHandler, newPageHandler, pageInfo }));
       const output = await result.current.fetchMoreData(1, 2, 10, 20);
 
       expect(output).toBeTruthy();
@@ -84,7 +92,7 @@ describe("useDataModel", () => {
     });
 
     test("fetchMoreData should not try and fetch more data then available", async () => {
-      const { result } = renderHook(() => useDataModel({ model, nextPageHandler }));
+      const { result } = renderHook(() => useDataModel({ model, nextPageHandler, newPageHandler, pageInfo }));
       const output = await result.current.fetchMoreData(40, 50, 50, 60);
 
       expect(output).toBeTruthy();
@@ -102,7 +110,7 @@ describe("useDataModel", () => {
     test("fetchMoreData should handle when call to getHyperCubePivotData is rejected", async () => {
       const genericObjectModel = model as EngineAPI.IGenericObject;
       (genericObjectModel.getHyperCubePivotData as jest.Mock).mockRejectedValue(new Error("testing"));
-      const { result } = renderHook(() => useDataModel({ model, nextPageHandler }));
+      const { result } = renderHook(() => useDataModel({ model, nextPageHandler, newPageHandler, pageInfo }));
       const output = await result.current.fetchMoreData(1, 2, 10, 20);
 
       expect(output).toBeFalsy();

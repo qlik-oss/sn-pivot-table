@@ -1,8 +1,8 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import { PageInfo } from "../../hooks/use-pivot-table";
-import { Model } from "../../types/QIX";
-import { Data, DataModel } from "../../types/types";
+import type { PageInfo } from "../../hooks/use-pivot-table";
+import type { Model } from "../../types/QIX";
+import type { Data, DataModel } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useDataModel from "../hooks/use-data-model";
 import { Disclaimer } from "./Disclaimer";

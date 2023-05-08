@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
-
-import { PageInfo } from "../../hooks/use-pivot-table";
+import type { PageInfo } from "../../hooks/use-pivot-table";
 import type { Cell, Grid } from "../../types/types";
 import createCell from "./helpers/create-cell";
 

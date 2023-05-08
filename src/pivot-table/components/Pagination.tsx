@@ -1,6 +1,6 @@
 import React from "react";
-import { PageInfo } from "../../hooks/use-pivot-table";
-import { DataModel } from "../../types/types";
+import type { PageInfo } from "../../hooks/use-pivot-table";
+import type { DataModel } from "../../types/types";
 import { PAGINATION_HEIGHT } from "../constants";
 
 interface PaginationProps {

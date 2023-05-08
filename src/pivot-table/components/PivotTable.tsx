@@ -1,7 +1,7 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
-import { PageInfo } from "../../hooks/use-pivot-table";
+import type { PageInfo } from "../../hooks/use-pivot-table";
 import type { Data, DataModel, LayoutService, Rect, ViewService } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";

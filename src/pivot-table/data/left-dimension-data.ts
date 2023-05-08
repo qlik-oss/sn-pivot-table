@@ -1,10 +1,10 @@
-import { PageInfo } from "../../hooks/use-pivot-table";
+import type { PageInfo } from "../../hooks/use-pivot-table";
 import type { LayoutService, LeftDimensionData } from "../../types/types";
 import extractLeftGrid from "./extract-left";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
 
-interface AddPageToLeftDimensionDataProps {
+export interface AddPageToLeftDimensionDataProps {
   prevData: LeftDimensionData;
   nextDataPage: EngineAPI.INxPivotPage;
   pageInfo: PageInfo;

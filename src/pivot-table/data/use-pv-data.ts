@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from "@nebula.js/stardust";
-import { PageInfo } from "../../hooks/use-pivot-table";
-import { Data, HeadersData, LayoutService, LeftDimensionData, MeasureData, TopDimensionData } from "../../types/types";
+import type { PageInfo } from "../../hooks/use-pivot-table";
+import type {
+  Data,
+  HeadersData,
+  LayoutService,
+  LeftDimensionData,
+  MeasureData,
+  TopDimensionData,
+} from "../../types/types";
 import createHeadersData from "./headers-data";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "./left-dimension-data";
 import { addPageToMeasureData, createMeasureData } from "./measure-data";
