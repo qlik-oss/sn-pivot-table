@@ -1,13 +1,11 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
-import type { Model } from "../../types/QIX";
-import type { LayoutService, Rect, ViewService } from "../../types/types";
+import { PageInfo } from "../../hooks/use-pivot-table";
+import type { Data, DataModel, LayoutService, Rect, ViewService } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
-import useData from "../hooks/use-data";
-import useDataModel from "../hooks/use-data-model";
 import { useTableRect } from "../hooks/use-table-rect";
 import FullSizeContainer from "./containers/FullSizeContainer";
 import ScrollableContainer from "./containers/ScrollableContainer";
@@ -22,17 +20,19 @@ export interface PivotTableProps {
   constraints: stardust.Constraints;
   viewService: ViewService;
   layoutService: LayoutService;
-  qPivotDataPages: EngineAPI.INxPivotPage[];
-  model: Model;
+  pageInfo: PageInfo;
+  pvData: Data;
+  dataModel: DataModel;
 }
 
 export const StickyPivotTable = ({
-  model,
   rect,
   constraints,
   viewService,
   layoutService,
-  qPivotDataPages,
+  pageInfo,
+  dataModel,
+  pvData: { headersData, measureData, topDimensionData, leftDimensionData },
 }: PivotTableProps): JSX.Element => {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
@@ -41,18 +41,7 @@ export const StickyPivotTable = ({
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
-  const tableRect = useTableRect(rect, layoutService);
-
-  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
-    qPivotDataPages,
-    layoutService
-  );
-
-  const dataModel = useDataModel({
-    model,
-    nextPageHandler,
-  });
-
+  const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
   const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
     layoutService,
     tableRect,
@@ -67,6 +56,13 @@ export const StickyPivotTable = ({
       }
     }
   }, [layoutService]);
+
+  useLayoutEffect(() => {
+    if (scrollableContainerRef.current && !dataModel.isLoading) {
+      scrollableContainerRef.current.scrollLeft = 0;
+      scrollableContainerRef.current.scrollTop = 0;
+    }
+  }, [pageInfo.currentPage, dataModel.isLoading]);
 
   const onScrollHandler = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {

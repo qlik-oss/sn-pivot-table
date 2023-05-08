@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import { PageInfo } from "../hooks/use-pivot-table";
 import type { PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
@@ -6,6 +7,8 @@ export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
 export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<boolean>;
+
+export type FetchNewPage = (pageInfo: PageInfo) => Promise<boolean>;
 
 export type List = Record<number, Cell>;
 
@@ -25,10 +28,12 @@ export interface Point {
 
 export interface DataModel {
   fetchMoreData: FetchMoreData;
+  fetchNewPage: FetchNewPage;
   collapseLeft: ExpandOrCollapser;
   collapseTop: ExpandOrCollapser;
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
+  isLoading: boolean;
 }
 
 export interface ItemData {
@@ -107,6 +112,7 @@ export interface Data {
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
   nextPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
+  newPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
 }
 
 export interface ExtendedSelections extends stardust.ObjectSelections {

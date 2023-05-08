@@ -3,14 +3,22 @@ import extractTopGrid from "./extract-top";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
 
-export const addPageToTopDimensionData = (
-  prevData: TopDimensionData,
-  nextDataPage: EngineAPI.INxPivotPage
-): TopDimensionData => {
+interface AddPageToTopDimensionDataProps {
+  prevData: TopDimensionData;
+  nextDataPage: EngineAPI.INxPivotPage;
+  isNewPage?: boolean;
+}
+
+export const addPageToTopDimensionData = ({
+  prevData,
+  nextDataPage,
+  isNewPage,
+}: AddPageToTopDimensionDataProps): TopDimensionData => {
   const { qTop, qArea } = nextDataPage;
   if (!qTop.length) return prevData;
 
-  const grid = extractTopGrid(prevData.grid, qTop, qArea, false);
+  // TODO: isNewPage probably is not required until we get pagination in X axis
+  const grid = extractTopGrid(isNewPage ? [] : prevData.grid, qTop, qArea, false);
   assignDistanceToNextCell(grid, "x", prevData.layoutSize);
 
   return {

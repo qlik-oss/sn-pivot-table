@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
   useConstraints,
-  useEffect,
   useElement,
   useMemo,
   useModel,
@@ -13,12 +12,12 @@ import {
 import ext from "./ext";
 import useLayoutService from "./hooks/use-layout-service";
 import useLoadDataPages from "./hooks/use-load-data-pages";
+import usePivotTable from "./hooks/use-pivot-table";
 import useReactRoot from "./hooks/use-react-root";
 import useSnapshot from "./hooks/use-snapshot";
 import { useTranslations } from "./hooks/use-translations";
 import useViewService from "./hooks/use-view-service";
 import useWaitForFonts from "./hooks/use-wait-for-fonts";
-import render from "./pivot-table/Root";
 import createDataDefinition from "./qae/data-definition";
 import initialProperties from "./qae/initial-properties";
 import createStyleService from "./services/style-service";
@@ -61,48 +60,21 @@ export default function supernova(env: Galaxy) {
 
       rect = useSnapshot({ layoutService, viewService, rect, model });
 
-      useEffect(() => {
-        if (
-          !isLoading &&
-          model &&
-          rect?.width &&
-          rect?.height &&
-          constraints &&
-          selections &&
-          viewService &&
-          layoutService &&
-          styleService &&
-          isFontLoaded
-        ) {
-          render(reactRoot, {
-            model,
-            rect,
-            constraints,
-            selections,
-            viewService,
-            layoutService,
-            qPivotDataPages,
-            styleService,
-            translator,
-          });
-        }
-      }, [
-        model,
+      usePivotTable({
+        isLoading,
+        isFontLoaded,
+        reactRoot,
         rect,
-        rect?.width,
-        rect?.height,
+        model,
         constraints,
         selections,
         viewService,
         layoutService,
-        isLoading,
         qPivotDataPages,
         styleService,
-        reactRoot,
-        isFontLoaded,
         translator,
         language,
-      ]);
+      });
     },
   };
 }

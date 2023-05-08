@@ -1,9 +1,12 @@
 import { useMemo } from "react";
 import type { LayoutService, Rect } from "../../types/types";
-import { DISCLAIMER_HEIGHT } from "../constants";
+import { DISCLAIMER_HEIGHT, PAGINATION_HEIGHT } from "../constants";
 
-export const useTableRect = (rect: Rect, layoutService: LayoutService) =>
-  useMemo(
-    () => (layoutService.hasLimitedData ? { ...rect, height: rect.height - DISCLAIMER_HEIGHT } : rect),
-    [rect, layoutService]
-  );
+export const useTableRect = (rect: Rect, layoutService: LayoutService, shouldShowPagination: boolean) =>
+  useMemo(() => {
+    let height = rect.height;
+    if (layoutService.hasLimitedData) height -= DISCLAIMER_HEIGHT;
+    if (shouldShowPagination) height -= PAGINATION_HEIGHT;
+
+    return { ...rect, height };
+  }, [rect, layoutService, shouldShowPagination]);

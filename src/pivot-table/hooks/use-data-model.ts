@@ -1,15 +1,25 @@
 /*  eslint-disable no-param-reassign */
 import { useCallback, useMemo } from "react";
 import { Q_PATH } from "../../constants";
+import { PageInfo } from "../../hooks/use-pivot-table";
+import initialProperties from "../../qae/initial-properties";
 import type { Model } from "../../types/QIX";
 import type { DataModel, ExpandOrCollapser, FetchMoreData } from "../../types/types";
+import { FetchNewPage } from "../../types/types";
 
 interface UseDataModelProps {
   model: Model;
   nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
+  newPageHandler: (page: EngineAPI.INxPivotPage) => void;
+  pageInfo: PageInfo;
 }
 
-export default function useDataModel({ model, nextPageHandler }: UseDataModelProps): DataModel {
+export default function useDataModel({
+  model,
+  nextPageHandler,
+  newPageHandler,
+  pageInfo,
+}: UseDataModelProps): DataModel {
   const ref = useMemo(() => ({ isLoading: false }), []);
   const genericObjectModel = model as EngineAPI.IGenericObject | undefined;
 
@@ -42,22 +52,19 @@ export default function useDataModel({ model, nextPageHandler }: UseDataModelPro
   );
 
   const fetchMoreData = useCallback<FetchMoreData>(
-    async (left: number, top: number, width: number, height: number): Promise<boolean> => {
+    async (left, top, width, height) => {
       if (!genericObjectModel?.getHyperCubePivotData) return false;
       if (ref.isLoading) return false;
-
       ref.isLoading = true;
-
       try {
         const nextArea = {
           qLeft: left,
-          qTop: top,
+          qTop: pageInfo.currentPage * pageInfo.rowsPerPage + top,
           qWidth: width,
           qHeight: height,
         };
         const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, [nextArea]);
         nextPageHandler(pivotPage);
-
         ref.isLoading = false;
         return true;
       } catch (error) {
@@ -66,18 +73,45 @@ export default function useDataModel({ model, nextPageHandler }: UseDataModelPro
         return false;
       }
     },
-    [genericObjectModel, nextPageHandler, ref]
+    [genericObjectModel, nextPageHandler, pageInfo, ref]
+  );
+
+  const fetchNewPage = useCallback<FetchNewPage>(
+    async (pageInfo): Promise<boolean> => {
+      if (!genericObjectModel?.getHyperCubePivotData) return false;
+      if (ref.isLoading) return false;
+      ref.isLoading = true;
+      try {
+        const nextArea = {
+          qLeft: 0,
+          qTop: pageInfo.currentPage * pageInfo.rowsPerPage,
+          qWidth: initialProperties.qHyperCubeDef.qInitialDataFetch[0].qWidth,
+          qHeight: initialProperties.qHyperCubeDef.qInitialDataFetch[0].qHeight,
+        };
+        const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, [nextArea]);
+        newPageHandler(pivotPage);
+        ref.isLoading = false;
+        return true;
+      } catch (error) {
+        console.error(error);
+        ref.isLoading = false;
+        return false;
+      }
+    },
+    [genericObjectModel, newPageHandler, ref]
   );
 
   const dataModel = useMemo<DataModel>(
     () => ({
       fetchMoreData,
+      fetchNewPage,
       collapseLeft,
       collapseTop,
       expandLeft,
       expandTop,
+      isLoading: ref.isLoading,
     }),
-    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop]
+    [fetchMoreData, fetchNewPage, collapseLeft, collapseTop, expandLeft, expandTop, ref.isLoading]
   );
 
   return dataModel;
