@@ -23,8 +23,9 @@ export const Wrapper = (props: WrapperProps): JSX.Element => {
   const {
     model,
     translator,
+    pageInfo,
+    updatePageInfo,
     layoutService: { hasLimitedData },
-    pageInfo: { shouldShowPagination },
     pvData: { newPageHandler, nextPageHandler },
   } = props;
 
@@ -32,15 +33,15 @@ export const Wrapper = (props: WrapperProps): JSX.Element => {
     model,
     newPageHandler,
     nextPageHandler,
-    pageInfo: props.pageInfo,
+    pageInfo,
   });
 
   return (
     <>
       <StickyPivotTable {...props} dataModel={dataModel} />
       {hasLimitedData && <Disclaimer styleService={styleService} translator={translator} />}
-      {shouldShowPagination && (
-        <Pagination pageInfo={props.pageInfo} updatePageInfo={props.updatePageInfo} dataModel={dataModel} />
+      {pageInfo.shouldShowPagination && (
+        <Pagination pageInfo={pageInfo} updatePageInfo={updatePageInfo} dataModel={dataModel} />
       )}
     </>
   );

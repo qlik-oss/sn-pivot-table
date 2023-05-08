@@ -76,14 +76,14 @@ export default function useDataModel({
   );
 
   const fetchNewPage = useCallback<FetchNewPage>(
-    async (pageInfo): Promise<boolean> => {
+    async (latestPageInfo): Promise<boolean> => {
       if (!genericObjectModel?.getHyperCubePivotData) return false;
       if (ref.isLoading) return false;
       ref.isLoading = true;
       try {
         const nextArea = {
           qLeft: 0,
-          qTop: pageInfo.currentPage * pageInfo.rowsPerPage,
+          qTop: latestPageInfo.currentPage * latestPageInfo.rowsPerPage,
           qWidth: initialProperties.qHyperCubeDef.qInitialDataFetch[0].qWidth,
           qHeight: initialProperties.qHyperCubeDef.qInitialDataFetch[0].qHeight,
         };

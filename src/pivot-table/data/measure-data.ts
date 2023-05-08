@@ -6,7 +6,7 @@ const createNewGrid = (
   prevData: EngineAPI.INxPivotValuePoint[][],
   nextData: EngineAPI.INxPivotValuePoint[][],
   pageInfo: PageInfo,
-  isNewPage: boolean = false
+  isNewPage = false
 ) => {
   const data = [...prevData];
   nextData.forEach((row, rowIndex) => {

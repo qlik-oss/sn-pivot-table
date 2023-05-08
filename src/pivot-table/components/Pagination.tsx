@@ -35,9 +35,9 @@ export const Pagination = ({ pageInfo, updatePageInfo, dataModel }: PaginationPr
   const isFirstPage = currentPage === 0;
   const isLastPage = currentPage === totalPages - 1;
 
-  const handleChangePage = (currentPage: number) => {
-    updatePageInfo({ currentPage });
-    dataModel.fetchNewPage({ ...pageInfo, currentPage });
+  const handleChangePage = async (page: number) => {
+    updatePageInfo({ currentPage: page });
+    await dataModel.fetchNewPage({ ...pageInfo, currentPage: page });
   };
 
   const actionButtons = [
@@ -57,7 +57,9 @@ export const Pagination = ({ pageInfo, updatePageInfo, dataModel }: PaginationPr
       </span>
       <div style={buttonsStyle}>
         {actionButtons.map(({ label, ...rest }) => (
-          <button {...rest}>{label}</button>
+          <button {...rest} type="button">
+            {label}
+          </button>
         ))}
       </div>
     </div>

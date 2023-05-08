@@ -1,4 +1,4 @@
-import { stardust, useEffect, useState } from "@nebula.js/stardust";
+import { useEffect, useState, type stardust } from "@nebula.js/stardust";
 import type { Root } from "react-dom/client";
 import render from "../pivot-table/Root";
 import { MAX_ROW_COUNT } from "../pivot-table/constants";
@@ -6,7 +6,7 @@ import { usePVData } from "../pivot-table/data/use-pv-data";
 import type { Model } from "../types/QIX";
 import type { ExtendedSelections, ExtendedTranslator, LayoutService, StyleService, ViewService } from "../types/types";
 
-interface usePivotTable {
+interface UsePivotTableProps {
   model: Model;
   rect: stardust.Rect;
   constraints: stardust.Constraints;
@@ -44,7 +44,7 @@ const usePivotTable = ({
   isFontLoaded,
   translator,
   language,
-}: usePivotTable) => {
+}: UsePivotTableProps) => {
   const {
     size,
     layout: {
@@ -52,9 +52,8 @@ const usePivotTable = ({
     },
   } = layoutService;
 
-  const qcy = layoutService.layout.qHyperCube.qSize.qcy;
-  const rowsPerPage = qcy <= MAX_ROW_COUNT ? qcy : MAX_ROW_COUNT;
-  const totalPages = Math.ceil(qcy / rowsPerPage);
+  const rowsPerPage = qSize.qcy <= MAX_ROW_COUNT ? qSize.qcy : MAX_ROW_COUNT;
+  const totalPages = Math.ceil(qSize.qcy / rowsPerPage);
 
   const [pageInfo, setPageInfo] = useState<PageInfo>({
     currentPage: 0,
@@ -65,8 +64,6 @@ const usePivotTable = ({
   });
 
   const pvData = usePVData({ qPivotDataPages, layoutService, pageInfo });
-
-  const updatePageInfo = (args: Partial<PageInfo>) => setPageInfo({ ...pageInfo, ...args });
 
   useEffect(() => {
     const isReadyToRender =
@@ -94,10 +91,10 @@ const usePivotTable = ({
       layoutService,
       qPivotDataPages,
       styleService,
-      pageInfo,
-      updatePageInfo,
       pvData,
       translator,
+      pageInfo,
+      updatePageInfo: (args: Partial<PageInfo>) => setPageInfo({ ...pageInfo, ...args }),
     });
   }, [
     model,
@@ -114,7 +111,7 @@ const usePivotTable = ({
     reactRoot,
     isFontLoaded,
     pageInfo,
-    updatePageInfo,
+    setPageInfo,
     pvData,
     translator,
     language,

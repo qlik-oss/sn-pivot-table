@@ -7,24 +7,24 @@ import type {
   MeasureData,
   TopDimensionData,
 } from "../../../types/types";
-import createHeadersData from "../../data/headers-data";
+import createHeadersData from "../headers-data";
 import {
   addPageToLeftDimensionData,
   createLeftDimensionData,
   type AddPageToLeftDimensionDataProps,
-} from "../../data/left-dimension-data";
-import { addPageToMeasureData, createMeasureData, type AddPageToMeasureDataProps } from "../../data/measure-data";
+} from "../left-dimension-data";
+import { addPageToMeasureData, createMeasureData, type AddPageToMeasureDataProps } from "../measure-data";
 import {
   addPageToTopDimensionData,
   createTopDimensionData,
   type AddPageToTopDimensionDataProps,
-} from "../../data/top-dimension-data";
+} from "../top-dimension-data";
 import { usePVData } from "../use-pv-data";
 
-jest.mock("../../data/top-dimension-data");
-jest.mock("../../data/measure-data");
-jest.mock("../../data/left-dimension-data");
-jest.mock("../../data/headers-data");
+jest.mock("../top-dimension-data");
+jest.mock("../measure-data");
+jest.mock("../left-dimension-data");
+jest.mock("../headers-data");
 
 describe("usePvData", () => {
   // Top data mockes

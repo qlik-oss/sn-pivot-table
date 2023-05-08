@@ -8,7 +8,7 @@ const extractLeftGrid = (
   qLeft: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage,
   isSnapshot: boolean,
-  isNewPage: boolean = false,
+  isNewPage: boolean,
   pageInfo: PageInfo
 ): Grid => {
   if (!qLeft.length) {
@@ -21,9 +21,9 @@ const extractLeftGrid = (
     root: Cell | null,
     parent: Cell | null,
     nodes: EngineAPI.INxPivotDimensionCell[],
-    colIdx = 0,
-    isNewPage: boolean = false,
-    pageInfo: PageInfo
+    newPage: boolean,
+    pgInfo: PageInfo,
+    colIdx = 0
   ) {
     if (!grid[colIdx]) {
       grid[colIdx] = {};
@@ -32,7 +32,7 @@ const extractLeftGrid = (
     nodes.forEach((node, currRowIdx) => {
       rowIdx += currRowIdx === 0 ? 0 : 1;
       // if new page start from 0 else consider items that might be skipped based on current page
-      const startPosition = isNewPage ? 0 : qArea.qTop - pageInfo.currentPage * pageInfo.rowsPerPage;
+      const startPosition = newPage ? 0 : qArea.qTop - pgInfo.currentPage * pgInfo.rowsPerPage;
       // Start position + current page position - previous tail size,
       const y = startPosition + rowIdx - node.qUp;
       const cell = createCell(node, parent, root, colIdx, y, isSnapshot);
@@ -40,14 +40,14 @@ const extractLeftGrid = (
       grid[colIdx][y] = cell;
 
       if (node.qSubNodes.length) {
-        recursiveExtract(root || cell, cell, node.qSubNodes, colIdx + 1, isNewPage, pageInfo);
+        recursiveExtract(root || cell, cell, node.qSubNodes, newPage, pgInfo, colIdx + 1);
       } else {
         cell.parent?.incrementLeafCount();
       }
     });
   }
 
-  recursiveExtract(null, null, qLeft, 0, isNewPage, pageInfo);
+  recursiveExtract(null, null, qLeft, isNewPage, pageInfo, 0);
 
   return grid;
 };

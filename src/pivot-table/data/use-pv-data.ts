@@ -13,13 +13,13 @@ import { addPageToLeftDimensionData, createLeftDimensionData } from "./left-dime
 import { addPageToMeasureData, createMeasureData } from "./measure-data";
 import { addPageToTopDimensionData, createTopDimensionData } from "./top-dimension-data";
 
-interface usePVDataProps {
+interface UsePVDataProps {
   qPivotDataPages: EngineAPI.INxPivotPage[];
   layoutService: LayoutService;
   pageInfo: PageInfo;
 }
 
-export const usePVData = ({ qPivotDataPages, layoutService, pageInfo }: usePVDataProps): Data => {
+export const usePVData = ({ qPivotDataPages, layoutService, pageInfo }: UsePVDataProps): Data => {
   const { qHyperCube, snapshotData } = layoutService.layout;
   const dataPage = snapshotData?.content?.qPivotDataPages?.[0] ?? qHyperCube.qPivotDataPages[0];
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
