@@ -1,3 +1,6 @@
+import * as nebula from "@nebula.js/stardust";
+import { act, renderHook } from "@testing-library/react";
+import React from "react";
 import type { PageInfo } from "../../../hooks/use-pivot-table";
 import type {
   HeadersData,
@@ -20,26 +23,11 @@ import {
 } from "../top-dimension-data";
 import { usePVData } from "../use-pv-data";
 
-const useState = (arg: EngineAPI.INxPivotPage | (() => void)) => {
-  let state = typeof arg === "function" ? arg() : arg;
-  const stateSetter = (callback: EngineAPI.INxPivotPage | (() => void)) => {
-    state = typeof callback === "function" ? callback() : callback;
-  };
-  return [state, stateSetter];
-};
-
-const useEffect = (callback: () => void) => {
-  callback();
-  return [];
-};
-
-const useMemo = (callback: () => void) => callback();
-
 jest.mock("@nebula.js/stardust", () => ({
   __esModule: true,
-  useState,
-  useEffect,
-  useMemo,
+  useState: () => {},
+  useEffect: () => {},
+  useMemo: () => {},
 }));
 jest.mock("../top-dimension-data");
 jest.mock("../measure-data");
@@ -140,14 +128,21 @@ describe("usePvData", () => {
     mockedCreateLeftDimensionData.mockReturnValue(leftDimensionData);
 
     mockedCreateHeadersData.mockReturnValue(headersData);
+
+    jest.spyOn(nebula, "useEffect").mockImplementation(React.useEffect);
+    jest.spyOn(nebula, "useMemo").mockImplementation(React.useMemo);
+    jest.spyOn(nebula, "useState").mockImplementation(React.useState);
   });
 
   afterEach(() => {
+    jest.clearAllMocks();
     jest.resetAllMocks();
   });
 
   test("should return data", () => {
-    const result = usePVData({ qPivotDataPages, layoutService, pageInfo });
+    const {
+      result: { current: result },
+    } = renderHook(() => usePVData({ qPivotDataPages, layoutService, pageInfo }));
 
     expect(result.headersData).toBe(headersData);
     expect(result.measureData).toBe(measureData);
@@ -155,14 +150,29 @@ describe("usePvData", () => {
     expect(result.leftDimensionData).toBe(leftDimensionData);
   });
 
-  test.skip("calling nextPageHandler should trigger data updates", () => {
-    const result = usePVData({ qPivotDataPages, layoutService, pageInfo });
+  test("calling nextPageHandler should trigger data updates", () => {
+    const {
+      result: { current: result },
+    } = renderHook(() => usePVData({ qPivotDataPages, layoutService, pageInfo }));
     const nextPage = {} as EngineAPI.INxPivotPage;
 
-    result.nextPageHandler(nextPage);
+    act(() => {
+      result.nextPageHandler(nextPage);
+    });
 
-    expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith(topDimensionData, nextPage);
-    expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith(leftDimensionData, nextPage);
-    expect(mockedAddPageToMeasureData).toHaveBeenCalledWith(measureData, nextPage);
+    expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith({
+      prevData: topDimensionData,
+      nextDataPage: nextPage,
+    });
+    expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith({
+      prevData: leftDimensionData,
+      nextDataPage: nextPage,
+      pageInfo,
+    });
+    expect(mockedAddPageToMeasureData).toHaveBeenCalledWith({
+      prevData: measureData,
+      nextDataPage: nextPage,
+      pageInfo,
+    });
   });
 });
