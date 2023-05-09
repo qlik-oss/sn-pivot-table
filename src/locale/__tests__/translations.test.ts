@@ -9,6 +9,7 @@ describe("translations", () => {
     let translator: stardust.Translator;
     beforeEach(() => {
       translator = {
+        language: () => "sv_SE",
         get: () => "SNPivotTable_LimitedData",
         add: jest.fn(),
       };
