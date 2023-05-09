@@ -97,6 +97,11 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
   snapshotData?: SnapshotData;
 }
 
+export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
+  cId?: string;
+  qLibraryId?: string;
+}
+
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;
 
 export default NxDimCellType;
