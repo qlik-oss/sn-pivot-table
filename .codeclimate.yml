@@ -6,6 +6,12 @@ checks:
   method-complexity:
     config:
       threshold: 10
+  similar-code:
+    config:
+      threshold: 65
+  identical-code:
+    config:
+      threshold: 65
 exclude_patterns:
   - "src/**/*.test.ts"
   - "src/**/*.test.tsx"
