@@ -1,0 +1,15 @@
+version: "2"
+checks:
+  method-lines:
+    config:
+      threshold: 100
+  method-complexity:
+    config:
+      threshold: 10
+exclude_patterns:
+  - "src/**/*.test.ts"
+  - "src/**/*.test.tsx"
+  - "*config*"
+  - "test/**/__fixtures__"
+  - "theme"
+  - "mashup-example"
