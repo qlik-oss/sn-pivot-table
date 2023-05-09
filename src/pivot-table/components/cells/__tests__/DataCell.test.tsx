@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import NxDimCellType from "../../../../types/QIX";
 import type { GridItemData, LayoutService } from "../../../../types/types";
+import { NULL_BACKGROUND_COLOR } from "../../shared-styles";
 import DataCell, { testId } from "../DataCell";
 
 describe("DataCell", () => {
@@ -50,7 +51,7 @@ describe("DataCell", () => {
     expect(screen.getByText(layoutService.getNullValueText())).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0]).toHaveStyle({
       justifyContent: "center",
-      backgroundColor: "#f2f2f2",
+      backgroundColor: NULL_BACKGROUND_COLOR,
     } as Record<string, unknown>);
   });
 });

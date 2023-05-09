@@ -7,13 +7,8 @@ import type { Cell, DataModel, ItemData, LayoutService, StyleService } from "../
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import type { SelectionModel } from "../../../hooks/use-selections-model";
-import DimensionCell, {
-  lockedFromSelectionStyle,
-  selectedStyle,
-  testId,
-  testIdCollapseIcon,
-  testIdExpandIcon,
-} from "../DimensionCell";
+import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from "../DimensionCell";
+import { lockedFromSelectionStyle, selectedStyle } from "../utils/get-dimension-cell-style";
 // eslint-disable-next-line jest/no-mocks-import
 import dataModelMock from "./__mocks__/data-model-mock";
 
