@@ -8,7 +8,7 @@ import {
   DEFAULT_LINE_CLAMP,
   LINE_HEIGHT_COEFFICIENT,
 } from "../pivot-table/constants";
-import type { Component } from "../types/QIX";
+import type { Component, PaletteColor } from "../types/QIX";
 import type { ExtendedTheme, LayoutService, StyleService } from "../types/types";
 
 const BASE_PATH = "object.pivotTable";
@@ -42,6 +42,9 @@ export interface Styling {
 
 const resolveFontSize = (fontSize: number | undefined) => (fontSize ? `${fontSize}px` : undefined);
 
+const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) =>
+  color ? theme.getColorPickerColor(color) : undefined;
+
 const fontSizeToCellHeight = (fontSize: string, lineClamp: number) =>
   +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
 
@@ -59,8 +62,8 @@ const createSectionStyling = (
     resolveFontSize(section?.fontSize) ?? theme.getStyle(BASE_PATH, path, Attribute.FontSize) ?? DEFAULT_FONT_SIZE;
   // TODO: no way of setting fontFamily in the styling panel yet
   const fontFamily = theme.getStyle(BASE_PATH, path, Attribute.FontFamily) ?? DEFAULT_FONT_FAMILY;
-  // TODO: resolve color
-  const color = section?.fontColor?.color ?? theme.getStyle(BASE_PATH, path, Attribute.Color) ?? DEFAULT_FONT_COLOR;
+  const color =
+    resolveColor(theme, section?.fontColor) ?? theme.getStyle(BASE_PATH, path, Attribute.Color) ?? DEFAULT_FONT_COLOR;
 
   return { fontSize, fontFamily, color };
 };
