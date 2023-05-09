@@ -28,7 +28,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
    */
   const cell = isLast ? list[index] : Object.values(list)[index];
 
-  if (cell === undefined) {
+  if (cell === undefined || cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {
     return <EmptyCell style={style} index={index} isLastRow={isLastRow} isLastColumn={isLastColumn} />;
   }
 
@@ -54,10 +54,6 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
         isLastColumn={isLastColumn}
       />
     );
-  }
-
-  if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {
-    return <EmptyCell style={style} index={index} isLastRow={isLastRow} isLastColumn={isLastColumn} />;
   }
 
   return (
