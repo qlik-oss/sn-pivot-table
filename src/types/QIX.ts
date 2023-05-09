@@ -40,8 +40,8 @@ export interface RowHeight {
 }
 
 export interface PaletteColor {
-  index?: number | undefined;
-  color?: string | undefined;
+  index?: number;
+  color?: string;
 }
 export interface Component {
   key: "general" | "theme";
