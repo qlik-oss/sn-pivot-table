@@ -29,8 +29,8 @@ describe("left dimension data", () => {
     },
   } as LayoutService;
   const pageInfo = {
-    currentPage: 1,
-    rowsPerPage: 100,
+    currentPage: 0,
+    rowsPerPage: 50,
   } as PageInfo;
 
   beforeEach(() => {

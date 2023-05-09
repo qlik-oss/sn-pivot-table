@@ -8,8 +8,8 @@ describe("extractLeftGrid", () => {
   const qArea = { qTop: 1 } as EngineAPI.INxDataAreaPage;
   const grid = [] as Cell[][];
   const pageInfo = {
-    currentPage: 1,
-    rowsPerPage: 100,
+    currentPage: 0,
+    rowsPerPage: 50,
   } as PageInfo;
 
   test("should handle empty qLeft array", () => {

@@ -22,8 +22,8 @@ describe("useDataModel", () => {
     nextPageHandler = jest.fn();
     newPageHandler = jest.fn();
     pageInfo = {
-      currentPage: 1,
-      rowsPerPage: 100,
+      currentPage: 0,
+      rowsPerPage: 50,
     } as PageInfo;
   });
 
