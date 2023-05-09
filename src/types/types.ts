@@ -14,6 +14,11 @@ export type List = Record<number, Cell>;
 
 export type Grid = List[];
 
+export type HeaderTitle = {
+  id: string;
+  title: string;
+};
+
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
 
 export interface Rect {
@@ -102,7 +107,7 @@ export interface LeftDimensionData {
 }
 
 export interface HeadersData {
-  data: (null | string)[][];
+  data: (null | HeaderTitle)[][];
   size: Point;
 }
 

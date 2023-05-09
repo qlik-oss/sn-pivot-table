@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import type { HeadersData } from "../../../types/types";
+import type { HeaderTitle, HeadersData } from "../../../types/types";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 
 interface HeaderGridProps {
@@ -20,15 +20,18 @@ const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridPr
 
   return (
     <div style={containerStyle}>
-      {headersData.data.map((col, colIndex) => (
-        <DimensionTitleCell
-          // eslint-disable-next-line react/no-array-index-key
-          key={`${colIndex}-${col[col.length - 1] as string}`} // TODO Use a better key
-          cell={col[col.length - 1] as string}
-          style={{ width: columnWidthCallback(colIndex), height: rowHight }}
-          isLastColumn={colIndex === headersData.size.x - 1}
-        />
-      ))}
+      {headersData.data.map((col, colIndex) => {
+        const cell = col[col.length - 1] as HeaderTitle;
+
+        return (
+          <DimensionTitleCell
+            key={cell.id}
+            cell={cell.title}
+            style={{ width: columnWidthCallback(colIndex), height: rowHight }}
+            isLastColumn={colIndex === headersData.size.x - 1}
+          />
+        );
+      })}
     </div>
   );
 };

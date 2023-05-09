@@ -6,6 +6,7 @@ import {
   DEFAULT_FONT_SIZE,
   DEFAULT_LINE_CLAMP,
 } from "../../pivot-table/constants";
+import type { PaletteColor } from "../../types/QIX";
 import type { ExtendedTheme, LayoutService } from "../../types/types";
 import createStyleService from "../style-service";
 
@@ -13,6 +14,7 @@ describe("style-service", () => {
   const themeValue = "18px"; // Choosing a value that works for the cellHeight calculation
   let fontSize: number;
   let color: string;
+  let colorFromPalette: string;
   let linesCount: number;
   let layoutServiceMock: LayoutService;
   let themeMock: ExtendedTheme;
@@ -20,9 +22,12 @@ describe("style-service", () => {
   beforeEach(() => {
     fontSize = 15;
     color = "#ff0000";
+    colorFromPalette = "#00ff00";
     linesCount = 2;
     themeMock = {
       getStyle: () => themeValue,
+      getColorPickerColor: (paletteColor: PaletteColor) =>
+        paletteColor.index && paletteColor.index > -1 ? colorFromPalette : color,
     } as unknown as ExtendedTheme;
     layoutServiceMock = {
       layout: {
@@ -47,7 +52,7 @@ describe("style-service", () => {
     } as LayoutService;
   });
 
-  test("should resolve layout styles, except fontFamily that use theme and bgColor that uses default", () => {
+  test("should resolve style from layout, except fontFamily that use theme and bgColor that uses default", () => {
     const styleService = createStyleService(themeMock, layoutServiceMock);
     expect(styleService).toEqual({
       header: {
@@ -67,7 +72,19 @@ describe("style-service", () => {
     });
   });
 
-  test("should resolve theme styles, except bgColor and lineClamp that uses default", () => {
+  test("should resolve style from layout with indexed colors", () => {
+    layoutServiceMock = {
+      layout: {
+        components: [{ key: "theme", content: { fontColor: { index: 1 } }, header: { fontColor: { index: 1 } } }],
+      },
+    } as LayoutService;
+
+    const styleService = createStyleService(themeMock, layoutServiceMock);
+    expect(styleService.header.color).toEqual(colorFromPalette);
+    expect(styleService.content.color).toEqual(colorFromPalette);
+  });
+
+  test("should resolve style from theme, except bgColor and lineClamp that uses default", () => {
     layoutServiceMock.layout.components = [];
 
     const styleService = createStyleService(themeMock, layoutServiceMock);
@@ -89,7 +106,7 @@ describe("style-service", () => {
     });
   });
 
-  test("should resolve default styles", () => {
+  test("should resolve style from defaults", () => {
     layoutServiceMock.layout.components = [];
     themeMock.getStyle = () => undefined;
 

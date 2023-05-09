@@ -40,8 +40,8 @@ export interface RowHeight {
 }
 
 export interface PaletteColor {
-  index: number;
-  color: string | null;
+  index?: number;
+  color?: string;
 }
 export interface Component {
   key: "general" | "theme";
@@ -95,6 +95,11 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
   nullValueRepresentation?: NullValueRepresentation;
   title?: string;
   snapshotData?: SnapshotData;
+}
+
+export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
+  cId?: string;
+  qLibraryId?: string;
 }
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;

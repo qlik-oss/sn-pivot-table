@@ -1,3 +1,4 @@
+import type { HeaderTitle } from "../../../types/types";
 import extractHeaders from "../extract-headers";
 import createHeadersData from "../headers-data";
 
@@ -12,7 +13,12 @@ describe("create headers data", () => {
   });
 
   test("should return correct headers data", () => {
-    const headers = [["a", "b"]];
+    const headers = [
+      [
+        { id: "a", title: "a" },
+        { id: "b", title: "b" },
+      ],
+    ];
     mockedExtractHeaders.mockReturnValue(headers);
 
     const headersData = createHeadersData(qHyperCube, 1, [0, 1]);
@@ -23,7 +29,7 @@ describe("create headers data", () => {
   });
 
   test("should handle when there are no headers", () => {
-    const headers = [] as string[][];
+    const headers = [] as HeaderTitle[][];
     mockedExtractHeaders.mockReturnValue(headers);
 
     const headersData = createHeadersData(qHyperCube, 1, [0, 1]);
