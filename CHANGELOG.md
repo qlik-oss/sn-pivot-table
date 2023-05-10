@@ -1,3 +1,33 @@
+# [2.0.0-alpha.0](https://github.com/qlik-oss/sn-pivot-table/compare/v1.0.2...v2.0.0-alpha.0) (2023-05-10)
+
+
+### Bug Fixes
+
+* borders ([#253](https://github.com/qlik-oss/sn-pivot-table/issues/253)) ([df47ba6](https://github.com/qlik-oss/sn-pivot-table/commit/df47ba663313e268bb49c010542d8465e0f956ce))
+* dimension title cell key ([#255](https://github.com/qlik-oss/sn-pivot-table/issues/255)) ([996fa48](https://github.com/qlik-oss/sn-pivot-table/commit/996fa484c30c2befcefb75f2ce24575adbde055e))
+* expand or collapse data fetch ([#245](https://github.com/qlik-oss/sn-pivot-table/issues/245)) ([f36a35a](https://github.com/qlik-oss/sn-pivot-table/commit/f36a35ad49a923aca05403534e747cfea04904c4))
+* extract memoized component out of functional components ([#235](https://github.com/qlik-oss/sn-pivot-table/issues/235)) ([181b5d6](https://github.com/qlik-oss/sn-pivot-table/commit/181b5d6a470cf773fd0e514baaa61eee00437f07))
+* icon size ([#246](https://github.com/qlik-oss/sn-pivot-table/issues/246)) ([0c4e147](https://github.com/qlik-oss/sn-pivot-table/commit/0c4e1470d8007a136ba00495624003e414dba2b3))
+* replace anti-pattern usuage of `useMemo` with `useOnPropsChange` ([#231](https://github.com/qlik-oss/sn-pivot-table/issues/231)) ([123449f](https://github.com/qlik-oss/sn-pivot-table/commit/123449fba1cb77b9f936cf6a0bd25aef6501ef51))
+* resolve palette colors ([#258](https://github.com/qlik-oss/sn-pivot-table/issues/258)) ([3e3801b](https://github.com/qlik-oss/sn-pivot-table/commit/3e3801b9861e2275d89829759d31976a60962465))
+
+
+### Features
+
+* add general styling panel ([#233](https://github.com/qlik-oss/sn-pivot-table/issues/233)) ([a2c5056](https://github.com/qlik-oss/sn-pivot-table/commit/a2c5056ef46bc72a77d781b54f12a46114249e13))
+* Calculate row height of column headers based on value from styling panel ([#234](https://github.com/qlik-oss/sn-pivot-table/issues/234)) ([df374ea](https://github.com/qlik-oss/sn-pivot-table/commit/df374eaac70f758e03c350acb827cd73cbd265ab))
+* cell height based on font size ([#244](https://github.com/qlik-oss/sn-pivot-table/issues/244)) ([2e34bc1](https://github.com/qlik-oss/sn-pivot-table/commit/2e34bc131dfb3e1232bf094192eb2cf70efeecf2))
+* limit column count ([#247](https://github.com/qlik-oss/sn-pivot-table/issues/247)) ([93cc9ad](https://github.com/qlik-oss/sn-pivot-table/commit/93cc9adb054aadbf4d0122ceeb5898714cfc4684))
+* limited data disclaimer ([#249](https://github.com/qlik-oss/sn-pivot-table/issues/249)) ([5fafab3](https://github.com/qlik-oss/sn-pivot-table/commit/5fafab301c2198f04874200add7b84117774ab9e))
+* line clamp for cells ([#236](https://github.com/qlik-oss/sn-pivot-table/issues/236)) ([3693206](https://github.com/qlik-oss/sn-pivot-table/commit/36932061d01874e922e821921aca9e0ca5d6f954))
+* line clamp for grid cells ([#240](https://github.com/qlik-oss/sn-pivot-table/issues/240)) ([06f4000](https://github.com/qlik-oss/sn-pivot-table/commit/06f40001e1c0d08b84ee6b4b6e592e59d54c6344))
+* locale ([#251](https://github.com/qlik-oss/sn-pivot-table/issues/251)) ([24451bd](https://github.com/qlik-oss/sn-pivot-table/commit/24451bdc487b9bd9b8620caf80fb997410f42f78))
+* scroll directly to end ([#237](https://github.com/qlik-oss/sn-pivot-table/issues/237)) ([64ee36d](https://github.com/qlik-oss/sn-pivot-table/commit/64ee36d93f7608d83dede32960d3c86b5bab7526))
+* styling from layout ([#248](https://github.com/qlik-oss/sn-pivot-table/issues/248)) ([585216a](https://github.com/qlik-oss/sn-pivot-table/commit/585216a619e814fd8761c5f670211544660f7ef3))
+* wait for fonts ([#242](https://github.com/qlik-oss/sn-pivot-table/issues/242)) ([0f0352f](https://github.com/qlik-oss/sn-pivot-table/commit/0f0352f06fea56f177aaffed25d1409fdfd817fc))
+
+
+
 ## [1.0.2](https://github.com/qlik-oss/sn-pivot-table/compare/v1.0.1...v1.0.2) (2022-11-30)
 
 
