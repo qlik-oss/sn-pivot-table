@@ -44,7 +44,7 @@
     "test:unit": "jest",
     "types:check": "tsc --noEmit",
     "preversion": "yarn build",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && yarn spec && git add api-specifications CHANGELOG.md src/locale/all.json"
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && yarn spec && git add api-specifications CHANGELOG.md"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
