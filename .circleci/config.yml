@@ -211,7 +211,7 @@ workflows:
             - build
       - types:
           requires:
-            - install
+            - build
       - api-spec:
           requires:
             - install

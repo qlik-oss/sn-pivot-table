@@ -14,3 +14,4 @@ core/esm/
 test/rendering/artifacts
 test/rendering/test-report
 test/rendering/state.json
+src/locale/all.json

@@ -1,6 +1,6 @@
 {
   "name": "@nebula.js/sn-pivot-table",
-  "version": "1.0.2",
+  "version": "2.0.0-alpha.1",
   "description": "Pivot table supernova",
   "keywords": [
     "qlik",
@@ -86,10 +86,10 @@
     "@babel/preset-typescript": "7.21.5",
     "@commitlint/cli": "17.6.3",
     "@commitlint/config-conventional": "17.6.3",
-    "@nebula.js/cli": "4.0.0",
-    "@nebula.js/cli-build": "4.0.0",
-    "@nebula.js/cli-sense": "4.0.0",
-    "@nebula.js/cli-serve": "4.0.0",
+    "@nebula.js/cli": "4.0.2",
+    "@nebula.js/cli-build": "4.0.2",
+    "@nebula.js/cli-sense": "4.0.2",
+    "@nebula.js/cli-serve": "4.0.2",
     "@playwright/test": "1.33.0",
     "@qlik/eslint-config": "0.0.12",
     "@qlik/eslint-config-react": "0.0.12",
