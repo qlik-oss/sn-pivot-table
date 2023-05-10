@@ -1,3 +1,7 @@
+# [2.0.0-alpha.1](https://github.com/qlik-oss/sn-pivot-table/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-05-10)
+
+
+
 # [2.0.0-alpha.0](https://github.com/qlik-oss/sn-pivot-table/compare/v1.0.2...v2.0.0-alpha.0) (2023-05-10)
 
 
