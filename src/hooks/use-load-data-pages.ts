@@ -76,10 +76,10 @@ const useLoadDataPages = (model: Model, layoutService: LayoutService, viewServic
           // TODO handle error
           console.error(error);
         }
-      } else {
-        // when we get new page
-        setDataPages(qHyperCube.qPivotDataPages);
       }
+    } else if (qHyperCube.qPivotDataPages.length && !snapshotData) {
+      // when we get new page
+      setDataPages(qHyperCube.qPivotDataPages);
     } else {
       // use snapshot data
       setDataPages(layoutService.layout.snapshotData?.content?.qPivotDataPages || []);
