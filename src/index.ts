@@ -1,27 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import {
-  useConstraints,
-  useElement,
-  useMemo,
-  useModel,
-  useRect,
-  useSelections,
-  useStaleLayout,
-  useTheme,
-} from "@nebula.js/stardust";
 import ext from "./ext";
-import useLayoutService from "./hooks/use-layout-service";
-import usePivotTable from "./hooks/use-pivot-table";
-import useReactRoot from "./hooks/use-react-root";
-import useSnapshot from "./hooks/use-snapshot";
-import { useTranslations } from "./hooks/use-translations";
-import useViewService from "./hooks/use-view-service";
-import useWaitForFonts from "./hooks/use-wait-for-fonts";
+import useRender from "./hooks/use-render";
 import createDataDefinition from "./qae/data-definition";
 import initialProperties from "./qae/initial-properties";
-import createStyleService from "./services/style-service";
-import type { Model, PivotLayout } from "./types/QIX";
-import type { ExtendedSelections, ExtendedTheme, Galaxy } from "./types/types";
+import type { Galaxy } from "./types/types";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function supernova(env: Galaxy) {
@@ -34,43 +16,7 @@ export default function supernova(env: Galaxy) {
     },
     ext: ext(env),
     component() {
-      const element = useElement();
-      const reactRoot = useReactRoot(element);
-      const layout = useStaleLayout() as PivotLayout;
-      const model = useModel() as Model;
-      let rect = useRect();
-      const constraints = useConstraints();
-      const viewService = useViewService();
-      const layoutService = useLayoutService(layout);
-      const selections = useSelections() as ExtendedSelections;
-      const theme = useTheme() as ExtendedTheme;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);
-      const fonts = useMemo(
-        () => [
-          `600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,
-          `${styleService.content.fontSize} ${styleService.content.fontFamily}`,
-        ],
-        [styleService]
-      );
-      const isFontLoaded = useWaitForFonts(fonts);
-      const { translator, language } = useTranslations();
-
-      rect = useSnapshot({ layoutService, viewService, rect, model });
-
-      usePivotTable({
-        isFontLoaded,
-        reactRoot,
-        rect,
-        model,
-        constraints,
-        selections,
-        viewService,
-        layoutService,
-        styleService,
-        translator,
-        language,
-      });
+      useRender();
     },
   };
 }
