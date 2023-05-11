@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import ext from "./ext";
 import useRender from "./hooks/use-render";
 import createDataDefinition from "./qae/data-definition";
