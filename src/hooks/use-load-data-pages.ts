@@ -24,27 +24,12 @@ const shouldFetchAdditionalData = (
 };
 
 const isMissingLayoutData = (layoutService: LayoutService): boolean => {
-  const { qHyperCube } = layoutService.layout;
-  // if qPivotDataPages is array
-  if (Array.isArray(qHyperCube.qPivotDataPages)) {
-    if (
-      // if qPivotDataPages not contains data
-      qHyperCube.qPivotDataPages.length === 0 ||
-      // if qPivotDataPages has data but it is empty
-      qHyperCube.qPivotDataPages[0].qData.length === 0 ||
-      // ???
-      (qHyperCube.qPivotDataPages[0].qArea.qWidth < DEFAULT_PAGE_SIZE &&
-        qHyperCube.qSize.qcx !== qHyperCube.qPivotDataPages[0].qArea.qWidth) ||
-      // ???
-      (qHyperCube.qPivotDataPages[0].qArea.qHeight < DEFAULT_PAGE_SIZE &&
-        qHyperCube.qSize.qcy !== qHyperCube.qPivotDataPages[0].qArea.qHeight)
-    ) {
-      return true;
-    }
-    return true;
-  }
+  const {
+    qHyperCube: { qPivotDataPages, qSize },
+  } = layoutService.layout;
+  const { qWidth, qHeight } = qPivotDataPages[0]?.qArea ?? { qWidth: 0, qHeight: 0 };
 
-  return false;
+  return qWidth < Math.min(DEFAULT_PAGE_SIZE, qSize.qcx) || qHeight < Math.min(DEFAULT_PAGE_SIZE, qSize.qcy);
 };
 
 const useLoadDataPages = (model: Model, layoutService: LayoutService, viewService: ViewService): UseLoadDataPages => {
@@ -57,32 +42,29 @@ const useLoadDataPages = (model: Model, layoutService: LayoutService, viewServic
   const [qPivotDataPages, setDataPages] = useState<EngineAPI.INxPivotPage[]>([]);
 
   usePromise(async () => {
-    if ((model as EngineAPI.IGenericObject)?.getHyperCubePivotData && !snapshotData) {
-      // If a cell have been expanded. Fetch data to the last scrolled position.
-      // otherwise check if we need to fetch
-      if (shouldFetchAdditionalData(qLastExpandedPos, viewService) || isMissingLayoutData(layoutService)) {
-        try {
-          const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [
-            {
-              qLeft: qLastExpandedPos ? viewService.gridColumnStartIndex : 0,
-              qTop: qLastExpandedPos ? viewService.gridRowStartIndex : 0,
-              qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
-              qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
-            },
-          ]);
-
-          setDataPages([...qHyperCube.qPivotDataPages, ...pivotPages]);
-        } catch (error) {
-          // TODO handle error
-          console.error(error);
-        }
-      }
-    } else if (qHyperCube.qPivotDataPages.length && !snapshotData) {
-      // when we get new page
-      setDataPages(qHyperCube.qPivotDataPages);
-    } else {
-      // use snapshot data
+    if (layoutService.isSnapshot) {
       setDataPages(layoutService.layout.snapshotData?.content?.qPivotDataPages || []);
+    } else if (
+      (model as EngineAPI.IGenericObject)?.getHyperCubePivotData &&
+      (shouldFetchAdditionalData(qLastExpandedPos, viewService) || isMissingLayoutData(layoutService))
+    ) {
+      try {
+        const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [
+          {
+            qLeft: qLastExpandedPos ? viewService.gridColumnStartIndex : 0,
+            qTop: qLastExpandedPos ? viewService.gridRowStartIndex : 0,
+            qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
+            qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
+          },
+        ]);
+
+        setDataPages([...qHyperCube.qPivotDataPages, ...pivotPages]);
+      } catch (error) {
+        // TODO handle error
+        console.error(error);
+      }
+    } else if (qHyperCube.qPivotDataPages.length) {
+      setDataPages(qHyperCube.qPivotDataPages);
     }
 
     ref.isLoading = false;

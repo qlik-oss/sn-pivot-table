@@ -1,7 +1,6 @@
-import { useEffect, useState, type stardust } from "@nebula.js/stardust";
+import { useEffect, type stardust } from "@nebula.js/stardust";
 import type { Root } from "react-dom/client";
 import render from "../pivot-table/Root";
-import { MAX_ROW_COUNT } from "../pivot-table/constants";
 import type { Model } from "../types/QIX";
 import type { ExtendedSelections, ExtendedTranslator, LayoutService, StyleService, ViewService } from "../types/types";
 import useLoadDataPages from "./use-load-data-pages";
@@ -20,14 +19,6 @@ interface UsePivotTableProps {
   language: string;
 }
 
-export interface PageInfo {
-  currentPage: number;
-  shouldShowPagination: boolean;
-  totalPages: number;
-  rowsPerPage: number;
-  totalRowCount: number;
-}
-
 const usePivotTable = ({
   model,
   rect,
@@ -41,24 +32,6 @@ const usePivotTable = ({
   translator,
   language,
 }: UsePivotTableProps) => {
-  const {
-    size,
-    layout: {
-      qHyperCube: { qSize },
-    },
-  } = layoutService;
-
-  const rowsPerPage = Math.min(qSize.qcy, MAX_ROW_COUNT);
-  const totalPages = Math.ceil(qSize.qcy / rowsPerPage);
-
-  const [pageInfo, setPageInfo] = useState<PageInfo>({
-    currentPage: 0,
-    shouldShowPagination: qSize.qcy > size.y,
-    totalPages,
-    rowsPerPage,
-    totalRowCount: qSize.qcy,
-  });
-
   const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
 
   useEffect(() => {
@@ -73,7 +46,6 @@ const usePivotTable = ({
       layoutService &&
       styleService &&
       !!qPivotDataPages &&
-      pageInfo &&
       isFontLoaded;
 
     if (!isReadyToRender) return;
@@ -103,10 +75,8 @@ const usePivotTable = ({
     styleService,
     reactRoot,
     isFontLoaded,
-    setPageInfo,
     translator,
     language,
-    pageInfo,
   ]);
 };
 
