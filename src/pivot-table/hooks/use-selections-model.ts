@@ -40,17 +40,17 @@ export default function useSelectionsModel(selections: ExtendedSelections): Sele
     (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
       switch (qType) {
         case NxSelectionCellType.NX_CELL_LEFT:
-          return !!selected.find((cell) => {
-            if (cell.qType === NxSelectionCellType.NX_CELL_TOP) return true;
-            if (cell.qType === NxSelectionCellType.NX_CELL_LEFT && cell.qCol !== qCol) return true;
-            return false;
-          });
+          return !!selected.find(
+            (cell) =>
+              cell.qType === NxSelectionCellType.NX_CELL_TOP ||
+              (cell.qType === NxSelectionCellType.NX_CELL_LEFT && cell.qCol !== qCol)
+          );
         case NxSelectionCellType.NX_CELL_TOP:
-          return !!selected.find((cell) => {
-            if (cell.qType === NxSelectionCellType.NX_CELL_LEFT) return true;
-            if (cell.qType === NxSelectionCellType.NX_CELL_TOP && cell.qRow !== qRow) return true;
-            return false;
-          });
+          return !!selected.find(
+            (cell) =>
+              cell.qType === NxSelectionCellType.NX_CELL_LEFT ||
+              (cell.qType === NxSelectionCellType.NX_CELL_TOP && cell.qRow !== qRow)
+          );
         default:
           return false;
       }
