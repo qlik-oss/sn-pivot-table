@@ -70,9 +70,13 @@ const TopGrid = ({
 
   const getItemSizeCallback = (list: List, isLast: boolean) => (colIndex: number) => {
     const cell = isLast ? list[colIndex] : Object.values(list)[colIndex];
+    const measureInfoCount = qMeasureInfo.length;
+
+    if (colIndex === 0 && cell?.x > 0) {
+      return ((cell.leafCount + cell.x) / measureInfoCount) * allMeasuresWidth;
+    }
 
     if (cell?.leafCount > 0) {
-      const measureInfoCount = qMeasureInfo.length;
       return ((cell.leafCount + cell.distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
     }
 

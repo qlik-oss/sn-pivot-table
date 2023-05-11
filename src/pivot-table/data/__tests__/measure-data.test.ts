@@ -8,11 +8,36 @@ describe("measure data", () => {
           [{}, {}],
           [{}, {}],
         ],
-        qArea: { qWidth: 1, qHeight: 2, qLeft: 3, qTop: 4 },
+        qArea: { qWidth: 2, qHeight: 2, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
       const data = createMeasureData(dataPage);
 
-      expect(data).toEqual(dataPage.qData);
+      expect(data).toEqual([
+        [{}, {}],
+        [{}, {}],
+      ]);
+      expect(data).not.toBe(dataPage.qData); // Should not be referentially equal
+    });
+
+    test("should return correct data when not starting at qTop zero index", () => {
+      const dataPage = {
+        qData: [[{}, {}]],
+        qArea: { qWidth: 2, qHeight: 1, qLeft: 0, qTop: 1 },
+      } as unknown as EngineAPI.INxPivotPage;
+      const data = createMeasureData(dataPage);
+
+      expect(data).toEqual([undefined, [{}, {}]]);
+      expect(data).not.toBe(dataPage.qData); // Should not be referentially equal
+    });
+
+    test("should return correct data when not starting at qLeft zero index", () => {
+      const dataPage = {
+        qData: [[{}, {}]],
+        qArea: { qWidth: 2, qHeight: 1, qLeft: 1, qTop: 0 },
+      } as unknown as EngineAPI.INxPivotPage;
+      const data = createMeasureData(dataPage);
+
+      expect(data).toEqual([[undefined, {}, {}]]);
       expect(data).not.toBe(dataPage.qData); // Should not be referentially equal
     });
   });
