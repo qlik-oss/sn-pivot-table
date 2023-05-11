@@ -44,8 +44,12 @@ const listStyle: React.CSSProperties = {
   willChange: "auto",
 };
 
-const getItemSizeCallback = (list: List, cellHeight: number) => (rowIndex: number) => {
-  const cell = Object.values(list)[rowIndex];
+const getItemSizeCallback = (list: List, cellHeight: number, isLast: boolean) => (rowIndex: number) => {
+  const cell = isLast ? list[rowIndex] : Object.values(list)[rowIndex];
+
+  if (rowIndex === 0 && cell?.y > 0) {
+    return (cell.leafCount + cell.y) * cellHeight;
+  }
 
   if (cell?.leafCount > 0) {
     return (cell.leafCount + cell.distanceToNextCell) * cellHeight;
@@ -101,7 +105,7 @@ const LeftGrid = ({
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
-            itemSize={getItemSizeCallback(list, contentCellHeight)}
+            itemSize={getItemSizeCallback(list, contentCellHeight, isLastColumn)}
             layout="vertical"
             itemData={{
               layoutService,
