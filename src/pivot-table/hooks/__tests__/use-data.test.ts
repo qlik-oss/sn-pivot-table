@@ -1,41 +1,56 @@
+import * as nebula from "@nebula.js/stardust";
 import { act, renderHook } from "@testing-library/react";
+import React from "react";
 import type {
   HeadersData,
   LayoutService,
   LeftDimensionData,
   MeasureData,
+  PageInfo,
   TopDimensionData,
 } from "../../../types/types";
 import createHeadersData from "../../data/headers-data";
-import { addPageToLeftDimensionData, createLeftDimensionData } from "../../data/left-dimension-data";
-import { addPageToMeasureData, createMeasureData } from "../../data/measure-data";
-import { addPageToTopDimensionData, createTopDimensionData } from "../../data/top-dimension-data";
+import {
+  addPageToLeftDimensionData,
+  createLeftDimensionData,
+  type AddPageToLeftDimensionDataProps,
+} from "../../data/left-dimension-data";
+import { addPageToMeasureData, createMeasureData, type AddPageToMeasureDataProps } from "../../data/measure-data";
+import {
+  addPageToTopDimensionData,
+  createTopDimensionData,
+  type AddPageToTopDimensionDataProps,
+} from "../../data/top-dimension-data";
 import useData from "../use-data";
 
-jest.mock("../../data/top-dimension-data");
-jest.mock("../../data/measure-data");
-jest.mock("../../data/left-dimension-data");
-jest.mock("../../data/headers-data");
+jest.mock("@nebula.js/stardust", () => ({
+  __esModule: true,
+  useState: () => {},
+  useEffect: () => {},
+  useMemo: () => {},
+}));
+jest.mock("../top-dimension-data");
+jest.mock("../measure-data");
+jest.mock("../left-dimension-data");
+jest.mock("../headers-data");
 
 describe("useData", () => {
   // Top data mockes
-  let mockedAddPageToTopDimensionData: jest.MockedFunction<
-    (prevData: TopDimensionData, nextDataPage: EngineAPI.INxPivotPage) => TopDimensionData
-  >;
+  let mockedAddPageToTopDimensionData: jest.MockedFunction<(args: AddPageToTopDimensionDataProps) => TopDimensionData>;
   let mockedCreateTopDimensionData: jest.MockedFunction<
     (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService) => TopDimensionData
   >;
   // Measure data mocks
-  let mockedAddPageToMeasureData: jest.MockedFunction<
-    (prevData: MeasureData, nextDataPage: EngineAPI.INxPivotPage) => MeasureData
+  let mockedAddPageToMeasureData: jest.MockedFunction<(args: AddPageToMeasureDataProps) => MeasureData>;
+  let mockedCreateMeasureData: jest.MockedFunction<
+    (dataPage: EngineAPI.INxPivotPage, pageInfo: PageInfo) => MeasureData
   >;
-  let mockedCreateMeasureData: jest.MockedFunction<(dataPage: EngineAPI.INxPivotPage) => MeasureData>;
   // Left data mocks
   let mockedAddPageToLeftDimensionData: jest.MockedFunction<
-    (prevData: LeftDimensionData, nextDataPage: EngineAPI.INxPivotPage) => LeftDimensionData
+    (args: AddPageToLeftDimensionDataProps) => LeftDimensionData
   >;
   let mockedCreateLeftDimensionData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService) => LeftDimensionData
+    (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService, pageInfo: PageInfo) => LeftDimensionData
   >;
   // Header data mocks
   let mockedCreateHeadersData: jest.MockedFunction<
@@ -50,6 +65,7 @@ describe("useData", () => {
   let qPivotDataPages: EngineAPI.INxPivotPage[];
   let qHyperCube: EngineAPI.IHyperCube;
   let layoutService: LayoutService;
+  let pageInfo: PageInfo;
 
   beforeEach(() => {
     mockedAddPageToTopDimensionData = addPageToTopDimensionData as jest.MockedFunction<
@@ -99,6 +115,11 @@ describe("useData", () => {
       size: { x: 3, y: 4 },
     } as HeadersData;
 
+    pageInfo = {
+      currentPage: 0,
+      rowsPerPage: 100,
+    } as PageInfo;
+
     mockedAddPageToTopDimensionData.mockReturnValue(topDimensionData);
     mockedCreateTopDimensionData.mockReturnValue(topDimensionData);
 
@@ -109,6 +130,10 @@ describe("useData", () => {
     mockedCreateLeftDimensionData.mockReturnValue(leftDimensionData);
 
     mockedCreateHeadersData.mockReturnValue(headersData);
+
+    jest.spyOn(nebula, "useEffect").mockImplementation(React.useEffect);
+    jest.spyOn(nebula, "useMemo").mockImplementation(React.useMemo);
+    jest.spyOn(nebula, "useState").mockImplementation(React.useState);
   });
 
   afterEach(() => {
@@ -116,7 +141,7 @@ describe("useData", () => {
   });
 
   test("should return data", () => {
-    const { result } = renderHook(() => useData(qPivotDataPages, layoutService));
+    const { result } = renderHook(() => useData(qPivotDataPages, layoutService, pageInfo));
 
     expect(result.current.headersData).toBe(headersData);
     expect(result.current.measureData).toBe(measureData);
@@ -125,7 +150,7 @@ describe("useData", () => {
   });
 
   test("calling nextPageHandler should trigger data updates", () => {
-    const { result } = renderHook(() => useData(qPivotDataPages, layoutService));
+    const { result } = renderHook(() => useData(qPivotDataPages, layoutService, pageInfo));
     const nextPage = {} as EngineAPI.INxPivotPage;
 
     act(() => {

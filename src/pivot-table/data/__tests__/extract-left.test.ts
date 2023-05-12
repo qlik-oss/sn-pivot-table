@@ -1,16 +1,20 @@
 import NxDimCellType from "../../../types/QIX";
-import type { Cell } from "../../../types/types";
+import type { Cell, PageInfo } from "../../../types/types";
 import extractLeftGrid from "../extract-left";
 import createNodes from "./test-helper";
 
 describe("extractLeftGrid", () => {
   const qArea = { qTop: 1 } as EngineAPI.INxDataAreaPage;
   const grid = [] as Cell[][];
+  const pageInfo = {
+    currentPage: 0,
+    rowsPerPage: 100,
+  } as PageInfo;
 
   test("should handle empty qLeft array", () => {
     const qLeft: EngineAPI.INxPivotDimensionCell[] = [];
 
-    const left = extractLeftGrid(grid, qLeft, qArea, false);
+    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, false);
 
     expect(left).toHaveLength(0);
   });
@@ -18,7 +22,7 @@ describe("extractLeftGrid", () => {
   test("should extract left data with no nodes expanded", () => {
     const rowCount = 3;
     const qLeft = createNodes(rowCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    const left = extractLeftGrid(grid, qLeft, qArea, false);
+    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, false);
 
     expect(left).toMatchSnapshot();
   });
@@ -30,7 +34,7 @@ describe("extractLeftGrid", () => {
     const subNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
     qLeft[0].qSubNodes = subNodes;
     qLeft[0].qCanCollapse = true;
-    const left = extractLeftGrid(grid, qLeft, qArea, false);
+    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, false);
 
     expect(left).toMatchSnapshot();
   });
@@ -52,7 +56,7 @@ describe("extractLeftGrid", () => {
     qLeft[2].qSubNodes[1].qSubNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
     qLeft[2].qSubNodes[1].qCanCollapse = true;
 
-    const left = extractLeftGrid(grid, qLeft, qArea, false);
+    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, false);
 
     expect(left).toMatchSnapshot();
   });
@@ -60,7 +64,7 @@ describe("extractLeftGrid", () => {
   test("should extract left data when in snapshot mode", () => {
     const rowCount = 3;
     const qLeft = createNodes(rowCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    const left = extractLeftGrid(grid, qLeft, qArea, true);
+    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, true);
 
     expect(left).toMatchSnapshot();
   });
