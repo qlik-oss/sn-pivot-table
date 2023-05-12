@@ -179,3 +179,11 @@ export interface Galaxy {
     };
   };
 }
+
+export interface PageInfo {
+  currentPage: number;
+  shouldShowPagination: boolean;
+  totalPages: number;
+  rowsPerPage: number;
+  totalRowCount: number;
+}

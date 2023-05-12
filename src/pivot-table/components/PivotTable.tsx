@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import type { Model } from "../../types/QIX";
-import type { LayoutService, Rect, ViewService } from "../../types/types";
+import type { LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
@@ -24,6 +24,7 @@ export interface PivotTableProps {
   layoutService: LayoutService;
   qPivotDataPages: EngineAPI.INxPivotPage[];
   model: Model;
+  pageInfo: PageInfo;
 }
 
 export const StickyPivotTable = ({
@@ -33,6 +34,7 @@ export const StickyPivotTable = ({
   viewService,
   layoutService,
   qPivotDataPages,
+  pageInfo,
 }: PivotTableProps): JSX.Element => {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
@@ -41,7 +43,7 @@ export const StickyPivotTable = ({
   const dataGridRef = useRef<VariableSizeGrid>(null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
-  const tableRect = useTableRect(rect, layoutService);
+  const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
