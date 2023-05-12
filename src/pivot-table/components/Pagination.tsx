@@ -4,7 +4,6 @@ import { PAGINATION_HEIGHT } from "../constants";
 
 interface PaginationProps {
   pageInfo: PageInfo;
-  // dataModel: DataModel;
   updatePageInfo: (args: Partial<PageInfo>) => void;
 }
 
@@ -28,22 +27,17 @@ const buttonsStyle: React.CSSProperties = {
   alignItems: "center",
 };
 
-export const Pagination = ({ pageInfo, updatePageInfo /*dataModel*/ }: PaginationProps) => {
+export const Pagination = ({ pageInfo, updatePageInfo }: PaginationProps) => {
   const { totalPages, rowsPerPage, currentPage, totalRowCount } = pageInfo;
 
   const isFirstPage = currentPage === 0;
   const isLastPage = currentPage === totalPages - 1;
 
-  const handleChangePage = async (page: number) => {
-    updatePageInfo({ currentPage: page });
-    // await dataModel.fetchNewPage({ ...pageInfo, currentPage: page });
-  };
-
   const actionButtons = [
-    { key: 1, label: "first", disabled: isFirstPage, onClick: () => handleChangePage(0) },
-    { key: 2, label: "prev", disabled: isFirstPage, onClick: () => handleChangePage(currentPage - 1) },
-    { key: 3, label: "next", disabled: isLastPage, onClick: () => handleChangePage(currentPage + 1) },
-    { key: 4, label: "last", disabled: isLastPage, onClick: () => handleChangePage(totalPages - 1) },
+    { key: 1, label: "first", disabled: isFirstPage, onClick: () => updatePageInfo({ currentPage: 0 }) },
+    { key: 2, label: "prev", disabled: isFirstPage, onClick: () => updatePageInfo({ currentPage: currentPage - 1 }) },
+    { key: 3, label: "next", disabled: isLastPage, onClick: () => updatePageInfo({ currentPage: currentPage + 1 }) },
+    { key: 4, label: "last", disabled: isLastPage, onClick: () => updatePageInfo({ currentPage: totalPages - 1 }) },
   ];
 
   return (

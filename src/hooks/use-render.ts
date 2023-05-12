@@ -8,16 +8,15 @@ import {
   useRect,
   useSelections,
   useStaleLayout,
-  useState,
   useTheme,
 } from "@nebula.js/stardust";
 import render from "../pivot-table/Root";
-import { MAX_ROW_COUNT } from "../pivot-table/constants";
 import createStyleService from "../services/style-service";
 import type { Model, PivotLayout } from "../types/QIX";
 import type { ExtendedSelections, ExtendedTheme, PageInfo } from "../types/types";
 import useLayoutService from "./use-layout-service";
 import useLoadDataPages from "./use-load-data-pages";
+import usePagination from "./use-pagination";
 import useReactRoot from "./use-react-root";
 import useSnapshot from "./use-snapshot";
 import useTranslations from "./use-translations";
@@ -36,7 +35,8 @@ const useRender = () => {
   const selections = useSelections() as ExtendedSelections;
   const theme = useTheme() as ExtendedTheme;
   const { translator, language } = useTranslations();
-  const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
+  const { pageInfo, setPageInfo } = usePagination(layoutService);
+  const { qPivotDataPages, isLoading } = useLoadDataPages({ model, layoutService, viewService, pageInfo });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);
   const fonts = useMemo(
@@ -47,23 +47,6 @@ const useRender = () => {
     [styleService]
   );
   const isFontLoaded = useWaitForFonts(fonts);
-
-  const {
-    size,
-    layout: {
-      qHyperCube: { qSize },
-    },
-  } = layoutService;
-  const rowsPerPage = Math.min(qSize.qcy, MAX_ROW_COUNT);
-  const totalPages = Math.ceil(qSize.qcy / rowsPerPage);
-
-  const [pageInfo, setPageInfo] = useState<PageInfo>({
-    currentPage: 0,
-    shouldShowPagination: qSize.qcy > size.y,
-    totalPages,
-    rowsPerPage,
-    totalRowCount: qSize.qcy,
-  });
 
   useEffect(() => {
     const isReadyToRender =

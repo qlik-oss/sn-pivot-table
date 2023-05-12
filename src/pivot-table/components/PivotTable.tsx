@@ -47,12 +47,14 @@ export const StickyPivotTable = ({
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
-    layoutService
+    layoutService,
+    pageInfo
   );
 
   const dataModel = useDataModel({
     model,
     nextPageHandler,
+    pageInfo,
   });
 
   const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
@@ -69,6 +71,13 @@ export const StickyPivotTable = ({
       }
     }
   }, [layoutService]);
+
+  useLayoutEffect(() => {
+    if (scrollableContainerRef.current && !dataModel.isLoading) {
+      scrollableContainerRef.current.scrollLeft = 0;
+      scrollableContainerRef.current.scrollTop = 0;
+    }
+  }, [pageInfo.currentPage, dataModel.isLoading]);
 
   const onScrollHandler = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
