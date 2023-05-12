@@ -1,7 +1,6 @@
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import NxDimCellType from "../../types/QIX";
 import type { LayoutService, LeftDimensionData, Rect } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
@@ -38,11 +37,8 @@ export default function useColumnWidth(
   const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
   const hasPseudoDimOnLeft = useMemo(
-    () =>
-      leftDimensionData.grid.some(
-        (column) => column[0] !== null && column[0].ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO
-      ),
-    [leftDimensionData.grid]
+    () => leftDimensionData.dimensionInfoIndexMap.some((dimIndex) => dimIndex === PSEUDO_DIMENSION_INDEX),
+    [leftDimensionData.dimensionInfoIndexMap]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {

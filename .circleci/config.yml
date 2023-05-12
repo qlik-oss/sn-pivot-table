@@ -60,8 +60,17 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          name: Unit tests
-          command: yarn run test:unit
+          name: Run unit tests and publish to codeclimate
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
+            yarn test:unit --runInBand --coverage --reporters=default --reporters=jest-junit
+            ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./coverage/junit/
+      - store_artifacts:
+          path: coverage
 
   rendering-tests:
     <<: *defaults
@@ -202,7 +211,7 @@ workflows:
             - build
       - types:
           requires:
-            - install
+            - build
       - api-spec:
           requires:
             - install

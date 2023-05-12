@@ -1,11 +1,11 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
-import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import type { DataModel, LayoutService, List, TopDimensionData } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
+import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
@@ -70,21 +70,17 @@ const TopGrid = ({
 
   const getItemSizeCallback = (list: List, isLast: boolean) => (colIndex: number) => {
     const cell = isLast ? list[colIndex] : Object.values(list)[colIndex];
+    const measureInfoCount = qMeasureInfo.length;
+
+    if (colIndex === 0 && cell?.x > 0) {
+      return ((cell.leafCount + cell.x) / measureInfoCount) * allMeasuresWidth;
+    }
 
     if (cell?.leafCount > 0) {
-      const measureInfoCount = qMeasureInfo.length;
       return ((cell.leafCount + cell.distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
     }
 
     return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell?.x ?? colIndex));
-  };
-
-  const getKey = (rowIndex: number): string => {
-    const dimIndex = topDimensionData.dimensionInfoIndexMap[rowIndex];
-    if (dimIndex === PSEUDO_DIMENSION_INDEX) {
-      return "-1";
-    }
-    return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
   };
 
   const totalWidth = layoutService.size.x * (allMeasuresWidth / qMeasureInfo.length);
@@ -99,10 +95,11 @@ const TopGrid = ({
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
+        const key = getKey(topDimensionData.dimensionInfoIndexMap[topRowIndex], qDimensionInfo);
 
         return (
           <VariableSizeList
-            key={getKey(topRowIndex)}
+            key={key}
             ref={setListRef(topGridRef, topRowIndex)}
             style={listStyle}
             height={rowHightCallback()}

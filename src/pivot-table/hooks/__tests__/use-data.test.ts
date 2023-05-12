@@ -67,7 +67,7 @@ describe("useData", () => {
 
     mockedCreateHeadersData = createHeadersData as jest.MockedFunction<typeof createHeadersData>;
 
-    qPivotDataPages = [{} as EngineAPI.INxPivotPage];
+    qPivotDataPages = [{}, {}] as EngineAPI.INxPivotPage[];
     qHyperCube = {
       qPivotDataPages: [],
       qSize: { qcx: 10, qcy: 20 },
@@ -95,7 +95,7 @@ describe("useData", () => {
     } as TopDimensionData;
 
     headersData = {
-      data: [["value"]],
+      data: [[{ id: "value", title: "value" }]],
       size: { x: 3, y: 4 },
     } as HeadersData;
 

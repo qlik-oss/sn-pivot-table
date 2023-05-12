@@ -1,12 +1,12 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import type { DataModel, LayoutService, LeftDimensionData, List } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
+import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
@@ -44,8 +44,12 @@ const listStyle: React.CSSProperties = {
   willChange: "auto",
 };
 
-const getItemSizeCallback = (list: List, cellHeight: number) => (rowIndex: number) => {
-  const cell = Object.values(list)[rowIndex];
+const getItemSizeCallback = (list: List, cellHeight: number, isLast: boolean) => (rowIndex: number) => {
+  const cell = isLast ? list[rowIndex] : Object.values(list)[rowIndex];
+
+  if (rowIndex === 0 && cell?.y > 0) {
+    return (cell.leafCount + cell.y) * cellHeight;
+  }
 
   if (cell?.leafCount > 0) {
     return (cell.leafCount + cell.distanceToNextCell) * cellHeight;
@@ -80,14 +84,6 @@ const LeftGrid = ({
     }
   }, [getScrollTop, layoutService, leftGridRef]);
 
-  const getKey = (colIndex: number): string => {
-    const dimIndex = leftDimensionData.dimensionInfoIndexMap[colIndex];
-    if (dimIndex === PSEUDO_DIMENSION_INDEX) {
-      return "-1";
-    }
-    return `${qDimensionInfo[dimIndex].qFallbackTitle}-${dimIndex}`;
-  };
-
   const totalHeight = layoutService.size.y * contentCellHeight;
 
   if (leftDimensionData.columnCount === 0) {
@@ -99,16 +95,17 @@ const LeftGrid = ({
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
+        const key = getKey(leftDimensionData.dimensionInfoIndexMap[colIndex], qDimensionInfo);
 
         return (
           <VariableSizeList
-            key={getKey(colIndex)}
+            key={key}
             ref={setListRef(leftGridRef, colIndex)}
             style={listStyle}
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
-            itemSize={getItemSizeCallback(list, contentCellHeight)}
+            itemSize={getItemSizeCallback(list, contentCellHeight, isLastColumn)}
             layout="vertical"
             itemData={{
               layoutService,

@@ -14,26 +14,38 @@ import { addPageToTopDimensionData, createTopDimensionData } from "../data/top-d
 import useOnPropsChange from "./use-on-props-change";
 
 const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: LayoutService): Data => {
-  const { qHyperCube, snapshotData } = layoutService.layout;
-  const dataPage = snapshotData?.content?.qPivotDataPages?.[0] ?? qHyperCube.qPivotDataPages[0];
+  const { qHyperCube } = layoutService.layout;
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
-  const deriveMeasureDataFromProps = useCallback(() => {
-    const newData = createMeasureData(dataPage);
-    // Resolve qPivotDataPages here as well, otherwise there could be double renders
-    return qPivotDataPages.reduce((nextData, page) => addPageToMeasureData(nextData, page), newData);
-  }, [dataPage, qPivotDataPages]);
 
-  const deriveTopDimensionDataFromProps = useCallback(() => {
-    const newData = createTopDimensionData(dataPage, layoutService);
-    // Resolve qPivotDataPages here as well, otherwise there could be double renders
-    return qPivotDataPages.reduce((nextData, page) => addPageToTopDimensionData(nextData, page), newData);
-  }, [dataPage, layoutService, qPivotDataPages]);
+  const deriveMeasureDataFromProps = useCallback(
+    () =>
+      qPivotDataPages
+        .slice(1)
+        .reduce((nextData, page) => addPageToMeasureData(nextData, page), createMeasureData(qPivotDataPages[0])),
+    [qPivotDataPages]
+  );
 
-  const deriveLeftDimensionDataFromProps = useCallback(() => {
-    const newData = createLeftDimensionData(dataPage, layoutService);
-    // Resolve qPivotDataPages here as well, otherwise there could be double renders
-    return qPivotDataPages.reduce((nextData, page) => addPageToLeftDimensionData(nextData, page), newData);
-  }, [dataPage, layoutService, qPivotDataPages]);
+  const deriveTopDimensionDataFromProps = useCallback(
+    () =>
+      qPivotDataPages
+        .slice(1)
+        .reduce(
+          (nextData, page) => addPageToTopDimensionData(nextData, page),
+          createTopDimensionData(qPivotDataPages[0], layoutService)
+        ),
+    [layoutService, qPivotDataPages]
+  );
+
+  const deriveLeftDimensionDataFromProps = useCallback(
+    () =>
+      qPivotDataPages
+        .slice(1)
+        .reduce(
+          (nextData, page) => addPageToLeftDimensionData(nextData, page),
+          createLeftDimensionData(qPivotDataPages[0], layoutService)
+        ),
+    [layoutService, qPivotDataPages]
+  );
 
   const [measureData, setMeasureData] = useState<MeasureData>(() => deriveMeasureDataFromProps());
   const [topDimensionData, setTopDimensionData] = useState<TopDimensionData>(() => deriveTopDimensionDataFromProps());

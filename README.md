@@ -1,4 +1,6 @@
 [![CircleCI](https://circleci.com/gh/qlik-oss/sn-pivot-table.svg?style=shield)](https://circleci.com/gh/qlik-oss/sn-pivot-table)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3cdd48efedd802f9fccf/maintainability)](https://codeclimate.com/github/qlik-oss/sn-pivot-table/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3cdd48efedd802f9fccf/test_coverage)](https://codeclimate.com/github/qlik-oss/sn-pivot-table/test_coverage)
 
 # sn-pivot-table
 

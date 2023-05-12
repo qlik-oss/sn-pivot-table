@@ -2,7 +2,7 @@ import { useMemo, useTranslator } from "@nebula.js/stardust";
 import registerLocale from "../locale/src";
 import type { ExtendedTranslator } from "../types/types";
 
-export const useTranslations = () => {
+const useTranslations = () => {
   const translator = useTranslator() as ExtendedTranslator;
   const language = translator.language();
 
@@ -11,3 +11,5 @@ export const useTranslations = () => {
 
   return { translator, language };
 };
+
+export default useTranslations;
