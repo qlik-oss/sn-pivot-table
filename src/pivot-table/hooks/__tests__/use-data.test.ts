@@ -29,10 +29,10 @@ jest.mock("@nebula.js/stardust", () => ({
   useEffect: () => {},
   useMemo: () => {},
 }));
-jest.mock("../top-dimension-data");
-jest.mock("../measure-data");
-jest.mock("../left-dimension-data");
-jest.mock("../headers-data");
+jest.mock("../../data/top-dimension-data");
+jest.mock("../../data/measure-data");
+jest.mock("../../data/left-dimension-data");
+jest.mock("../../data/headers-data");
 
 describe("useData", () => {
   // Top data mockes
@@ -157,8 +157,19 @@ describe("useData", () => {
       result.current.nextPageHandler(nextPage);
     });
 
-    expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith(topDimensionData, nextPage);
-    expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith(leftDimensionData, nextPage);
-    expect(mockedAddPageToMeasureData).toHaveBeenCalledWith(measureData, nextPage);
+    expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith({
+      prevData: topDimensionData,
+      nextDataPage: nextPage,
+    });
+    expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith({
+      prevData: leftDimensionData,
+      nextDataPage: nextPage,
+      pageInfo,
+    });
+    expect(mockedAddPageToMeasureData).toHaveBeenCalledWith({
+      prevData: measureData,
+      nextDataPage: nextPage,
+      pageInfo,
+    });
   });
 });
