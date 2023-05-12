@@ -1,11 +1,12 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, LeftDimensionData, List } from "../../../types/types";
+import type { DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
+import { getRowHeightHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
@@ -42,20 +43,6 @@ const listStyle: React.CSSProperties = {
    * be fixed in some other way.
    */
   willChange: "auto",
-};
-
-const getItemSizeCallback = (list: List, cellHeight: number, isLast: boolean) => (rowIndex: number) => {
-  const cell = isLast ? list[rowIndex] : Object.values(list)[rowIndex];
-
-  if (rowIndex === 0 && cell?.y > 0) {
-    return (cell.leafCount + cell.y) * cellHeight;
-  }
-
-  if (cell?.leafCount > 0) {
-    return (cell.leafCount + cell.distanceToNextCell) * cellHeight;
-  }
-
-  return cellHeight;
 };
 
 const LeftGrid = ({
@@ -105,7 +92,7 @@ const LeftGrid = ({
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
-            itemSize={getItemSizeCallback(list, contentCellHeight, isLastColumn)}
+            itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn)}
             layout="vertical"
             itemData={{
               layoutService,

@@ -1,10 +1,11 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, List, TopDimensionData } from "../../../types/types";
+import type { DataModel, LayoutService, TopDimensionData } from "../../../types/types";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
+import { getColumnWidthHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
@@ -68,21 +69,6 @@ const TopGrid = ({
     [getMeasureInfoWidth, qMeasureInfo]
   );
 
-  const getItemSizeCallback = (list: List, isLast: boolean) => (colIndex: number) => {
-    const cell = isLast ? list[colIndex] : Object.values(list)[colIndex];
-    const measureInfoCount = qMeasureInfo.length;
-
-    if (colIndex === 0 && cell?.x > 0) {
-      return ((cell.leafCount + cell.x) / measureInfoCount) * allMeasuresWidth;
-    }
-
-    if (cell?.leafCount > 0) {
-      return ((cell.leafCount + cell.distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
-    }
-
-    return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell?.x ?? colIndex));
-  };
-
   const totalWidth = layoutService.size.x * (allMeasuresWidth / qMeasureInfo.length);
 
   if (topDimensionData.rowCount === 0) {
@@ -105,7 +91,7 @@ const TopGrid = ({
             height={rowHightCallback()}
             width={width}
             itemCount={itemCount}
-            itemSize={getItemSizeCallback(list, isLastRow)}
+            itemSize={getColumnWidthHandler({ list, isLastRow, layoutService, getMeasureInfoWidth, allMeasuresWidth })}
             layout="horizontal"
             itemData={{
               layoutService,
