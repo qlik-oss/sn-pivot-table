@@ -7,8 +7,7 @@ export const NULL_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.05)";
 export const DARK_BORDER_COLOR = "rgba(0, 0, 0, 0.60)";
 export const LIGHT_BORDER_COLOR = "rgba(0, 0, 0, 0.15)";
 
-export const borderStyle: Pick<React.CSSProperties, "borderColor" | "borderStyle"> = {
-  borderColor: LIGHT_BORDER_COLOR,
+export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
   borderStyle: "solid",
 };
 
@@ -72,18 +71,18 @@ export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "posit
   top: 4,
 };
 
-export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean) => {
+export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean, borderColor: string) => {
   if (isLastRow && isLastColumn) {
     return cellStyle;
   }
 
   if (isLastRow) {
-    return borderRightStyle;
+    return { ...borderRightStyle, borderColor };
   }
 
   if (isLastColumn) {
-    return borderBottomStyle;
+    return { ...borderBottomStyle, borderColor };
   }
 
-  return borderBottomRightStyle;
+  return { ...borderBottomRightStyle, borderColor };
 };

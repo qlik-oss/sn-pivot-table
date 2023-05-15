@@ -19,9 +19,75 @@ export const TestWithProvider = (props: Props) => {
       removeListener: () => undefined,
     } as unknown as ExtendedSelections,
     styleService = {
-      header: { color: "white", fontSize: "16px", fontFamily: "Arial" },
-      content: { color: "white", fontSize: "12px", fontFamily: "sans-serif" },
-      backgroundColor: "red",
+      header: {
+        fontSize: "12px",
+        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        background: "transparent",
+        rowTitle: {
+          color: "#404040",
+          background: "transparent",
+        },
+        columnTitle: {
+          color: "#404040",
+          background: "transparent",
+        },
+      },
+      content: {
+        fontSize: "12px",
+        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        color: "rgba(0, 0, 0, 0.55)",
+        background: "transparent",
+        nullValue: {
+          color: "#404040",
+          background: "rgba(0, 0, 0, 0.05)",
+        },
+        totalValue: {
+          color: "#404040",
+          background: "transparent",
+        },
+      },
+      rowContent: {
+        fontSize: "12px",
+        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        color: "#404040",
+        background: "transparent",
+        nullValue: {
+          color: "#404040",
+          background: "rgba(0, 0, 0, 0.05)",
+        },
+        totalLabel: {
+          color: "#404040",
+          background: "transparent",
+        },
+        measureLabel: {
+          color: "rgba(0, 0, 0, 0.55)",
+          background: "transparent",
+        },
+      },
+      columnContent: {
+        fontSize: "12px",
+        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        color: "#404040",
+        background: "transparent",
+        nullValue: {
+          color: "#404040",
+          background: "rgba(0, 0, 0, 0.05)",
+        },
+        totalLabel: {
+          color: "#404040",
+          background: "transparent",
+        },
+        measureLabel: {
+          color: "rgba(0, 0, 0, 0.55)",
+          background: "transparent",
+        },
+      },
+      grid: {
+        rowHeight: "compact",
+        lineCount: 1,
+        border: "rgba(0, 0, 0, 0.15)",
+        divider: "rgba(0, 0, 0, 0.6)",
+      },
       lineClamp: 1,
       headerCellHeight: DEFAULT_CELL_HEIGHT,
       contentCellHeight: DEFAULT_CELL_HEIGHT,

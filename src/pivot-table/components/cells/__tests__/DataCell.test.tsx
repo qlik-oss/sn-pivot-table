@@ -5,6 +5,8 @@ import type { GridItemData, LayoutService } from "../../../../types/types";
 import { NULL_BACKGROUND_COLOR } from "../../shared-styles";
 import DataCell, { testId } from "../DataCell";
 
+jest.mock("../../../contexts/StyleProvider");
+
 describe("DataCell", () => {
   let cell: EngineAPI.INxPivotValuePoint;
   let data: GridItemData;

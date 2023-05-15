@@ -3,7 +3,7 @@ import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
 import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { NULL_BACKGROUND_COLOR, NULL_TEXT_COLOR, getBorderStyle, getLineClampStyle, textStyle } from "../shared-styles";
+import { NULL_BACKGROUND_COLOR, getBorderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
 
 export interface MeasureCellProps {
@@ -43,13 +43,14 @@ export const testId = "measure-cell";
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
+  const { fontFamily, fontSize, color, background } = styleService.content;
   const { grid, layoutService } = data;
   const cell = grid[rowIndex]?.[columnIndex];
   const isLastRow = rowIndex === layoutService.size.y - 1;
   const isLastColumn = columnIndex === layoutService.size.x - 1;
 
   if (!cell) {
-    return <EmptyCell style={style} isLastRow={isLastRow} isLastColumn={isLastColumn} />;
+    return <EmptyCell style={{ ...style, background }} isLastRow={isLastRow} isLastColumn={isLastColumn} />;
   }
 
   const { qText, qType } = cell;
@@ -57,8 +58,8 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const text = isNull ? layoutService.getNullValueText() : qText;
   const isNumeric = isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
-    ...(isNull ? nilStyle : numericStyle),
-    ...getBorderStyle(isLastRow, isLastColumn),
+    ...(isNull ? { ...nilStyle, ...styleService.content.nullValue } : { ...numericStyle, color, background }),
+    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
     display: "flex",
     justifyContent: isNumeric ? "flex-end" : "center",
   };
@@ -69,10 +70,10 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
         <span
           style={{
             ...textStyle,
-            ...styleService.content,
             ...(!isNumeric && getGridTextClampStyle(styleService.lineClamp)),
-            ...(isNull ? { color: NULL_TEXT_COLOR } : undefined),
             alignSelf: "flex-start",
+            fontFamily,
+            fontSize,
           }}
         >
           {text}

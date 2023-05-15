@@ -47,7 +47,7 @@ const getStylingPanelConfig = () => ({
                       max: 300,
                       defaultValue(data: unknown, handler: unknown, args: Args) {
                         const currentTheme = args.theme.current();
-                        const fontSize = currentTheme.object?.pivotTable?.header?.fontSize ?? currentTheme.fontSize;
+                        const fontSize = currentTheme.object?.pivotTableV2?.header?.fontSize ?? currentTheme.fontSize;
                         return parseInt(fontSize, 10);
                       },
                       change(data: Component) {
@@ -57,6 +57,7 @@ const getStylingPanelConfig = () => ({
                         }
                       },
                     },
+                    // TODO Support both row and column styling
                     headerFontColor: {
                       show: true,
                       ref: "header.fontColor",
@@ -65,7 +66,7 @@ const getStylingPanelConfig = () => ({
                       defaultValue(data: unknown, handler: unknown, args: Args) {
                         const currentTheme = args.theme.current();
                         return {
-                          color: currentTheme.object?.pivotTable?.header?.color ?? currentTheme.color,
+                          color: currentTheme.object?.pivotTableV2?.header?.rowTitle?.color ?? currentTheme.color,
                         };
                       },
                       dualOutput: true,
@@ -98,7 +99,7 @@ const getStylingPanelConfig = () => ({
                       defaultValue(data: unknown, handler: unknown, args: Args) {
                         const currentTheme = args.theme.current();
                         return parseInt(
-                          currentTheme.object?.pivotTable?.content?.fontSize ?? currentTheme.fontSize,
+                          currentTheme.object?.pivotTableV2?.content?.fontSize ?? currentTheme.fontSize,
                           10
                         );
                       },
@@ -116,7 +117,7 @@ const getStylingPanelConfig = () => ({
                       defaultValue(data: unknown, handler: unknown, args: Args) {
                         const currentTheme = args.theme.current();
                         return {
-                          color: currentTheme.object?.pivotTable?.content?.color ?? currentTheme.color,
+                          color: currentTheme.object?.pivotTableV2?.content?.color ?? currentTheme.color,
                         };
                       },
                       dualOutput: true,

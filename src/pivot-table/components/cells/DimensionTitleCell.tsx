@@ -15,25 +15,24 @@ const labelTextStyle: React.CSSProperties = {
   flexGrow: 1,
 };
 
-const backgroundColor = "rgba(0, 0, 0, 0.02)"; // TODO Set from PP or Theme
-
 export const testId = "title-cell";
 
 const DimensionTitleCell = ({ cell, style, isLastColumn }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
+  const { fontSize, fontFamily } = styleService.header;
 
   return (
     <div
       title={cell}
       style={{
         ...style,
-        ...getBorderStyle(true, isLastColumn),
+        ...getBorderStyle(true, isLastColumn, styleService.grid.border),
+        ...styleService.header.rowTitle,
         display: "flex",
-        backgroundColor,
       }}
       data-testid={testId}
     >
-      <div style={{ ...labelTextStyle, ...styleService.header }}>{cell}</div>
+      <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell}</div>
     </div>
   );
 };
