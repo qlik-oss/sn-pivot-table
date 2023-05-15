@@ -188,7 +188,9 @@ const DimensionCell = ({
     >
       <div style={{ ...cellStyle, ...stickyCell, alignSelf: isLeftColumn ? "flex-start" : "flex-end" }}>
         {cellIcon}
-        <span style={{ ...getDimTextStyle(styleService.lineClamp), ...serviceStyle }}>{text}</span>
+        <span style={{ ...getDimTextStyle(styleService.lineClamp), ...serviceStyle }}>{`${
+          isLeftColumn && `c${rowIndex}`
+        } ${text}`}</span>
       </div>
     </div>
   );

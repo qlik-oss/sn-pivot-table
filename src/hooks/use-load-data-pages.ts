@@ -56,12 +56,11 @@ const useLoadDataPages: UseLoadDataPages = ({ model, layoutService, viewService,
       try {
         const fetchArea: EngineAPI.INxPage = {
           qLeft: qLastExpandedPos ? viewService.gridColumnStartIndex : 0,
-          qTop: qLastExpandedPos ? viewService.gridRowStartIndex : pageInfo.currentPage * pageInfo.rowsPerPage,
+          qTop: pageInfo.currentPage * pageInfo.rowsPerPage + (qLastExpandedPos ? viewService.gridRowStartIndex : 0),
           qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
           qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
         };
         const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [fetchArea]);
-
         setDataPages(pivotPages);
       } catch (error) {
         // TODO handle error
