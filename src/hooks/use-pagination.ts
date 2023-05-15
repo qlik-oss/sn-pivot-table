@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import { useState } from "@nebula.js/stardust";
+import { useEffect, useState } from "@nebula.js/stardust";
 import { MAX_ROW_COUNT } from "../pivot-table/constants";
 import type { LayoutService, PageInfo } from "../types/types";
 
@@ -10,6 +10,14 @@ interface UsePagination {
   };
 }
 
+const getPageMeta = (qcy: number) => {
+  const rowsPerPage = Math.min(qcy, MAX_ROW_COUNT);
+  const totalPages = Math.ceil(qcy / rowsPerPage);
+  const totalRowCount = qcy;
+
+  return { rowsPerPage, totalPages, totalRowCount };
+};
+
 const usePagination: UsePagination = (layoutService) => {
   const {
     size,
@@ -17,16 +25,19 @@ const usePagination: UsePagination = (layoutService) => {
       qHyperCube: { qSize },
     },
   } = layoutService;
-  const rowsPerPage = Math.min(qSize.qcy, MAX_ROW_COUNT);
-  const totalPages = Math.ceil(qSize.qcy / rowsPerPage);
 
   const [pageInfo, setPageInfo] = useState<PageInfo>({
     currentPage: 0,
     shouldShowPagination: qSize.qcy > size.y,
-    totalPages,
-    rowsPerPage,
-    totalRowCount: qSize.qcy,
+    ...getPageMeta(qSize.qcy),
   });
+
+  useEffect(() => {
+    setPageInfo((prev) => ({
+      ...prev,
+      ...getPageMeta(layoutService.layout.qHyperCube.qSize.qcy),
+    }));
+  }, [layoutService.layout.qHyperCube.qSize.qcy, setPageInfo]);
 
   return {
     pageInfo,
