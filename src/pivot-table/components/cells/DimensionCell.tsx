@@ -6,7 +6,7 @@ import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
-import { getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
+import { getContainerStyle, getInnerContainerStyle, getTextStyle } from "./utils/get-dimension-cell-style";
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -27,43 +27,6 @@ interface OnExpandOrCollapseProps {
   dataModel: DataModel | undefined;
   isActive: boolean;
 }
-
-const containerStyle: React.CSSProperties = {
-  color: "#595959",
-};
-
-const cellStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-};
-
-const getDimTextStyle = (clampCount: number): React.CSSProperties => ({
-  ...textStyle,
-  fontWeight: "bold",
-  marginLeft: 4,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  ...getLineClampStyle(clampCount),
-});
-
-const nullStyle: React.CSSProperties = {
-  backgroundColor: "#f2f2f2",
-};
-
-export const selectedStyle: React.CSSProperties = {
-  backgroundColor: "#0aaf54",
-  color: "white",
-};
-
-export const lockedFromSelectionStyle: React.CSSProperties = {
-  backgroundImage: "repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)",
-  color: "#bebebe",
-};
-
-export const selectableCellStyle: React.CSSProperties = {
-  cursor: "pointer",
-};
 
 export const testId = "dim-cell";
 export const testIdExpandIcon = "expand-icon";
@@ -134,11 +97,19 @@ const DimensionCell = ({
   const isCellLocked =
     isLocked(selectionCellType, rowIndex, colIndex) ||
     layoutService.isDimensionLocked(selectionCellType, rowIndex, colIndex);
-  const appliedSelectedStyle = isSelected(selectionCellType, rowIndex, colIndex) ? selectedStyle : {};
-  const appliedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
   const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active || isNull;
-  const appliedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
-  const appliedNullStyle = isNull ? nullStyle : {};
+  const isCellSelected = isSelected(selectionCellType, rowIndex, colIndex);
+  const resolvedTextStyle = getTextStyle({ isLeftColumn, styleService, qCanExpand, qCanCollapse, isCellSelected });
+  const resolvedInnerContainerStyle = getInnerContainerStyle(isLeftColumn);
+  const resolvedContainerStyle = getContainerStyle({
+    style,
+    isCellLocked,
+    isNull,
+    isLastColumn,
+    isLastRow,
+    isNonSelectableCell,
+    isCellSelected,
+  });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, rowIndex, colIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
   const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
@@ -167,16 +138,7 @@ const DimensionCell = ({
   return (
     <div
       title={text}
-      style={{
-        ...style,
-        ...containerStyle,
-        ...appliedSelectedStyle,
-        ...appliedLockedSelectionStyle,
-        ...appliedSelectableCellStyle,
-        ...getBorderStyle(isLastRow, isLastColumn),
-        ...appliedNullStyle,
-        display: "flex",
-      }}
+      style={resolvedContainerStyle}
       aria-hidden="true"
       onClick={onClickHandler}
       onKeyUp={NOOP_KEY_HANDLER}
@@ -186,11 +148,9 @@ const DimensionCell = ({
       data-row-idx={rowIndex}
       data-column-idx={colIndex}
     >
-      <div style={{ ...cellStyle, ...stickyCell, alignSelf: isLeftColumn ? "flex-start" : "flex-end" }}>
+      <div style={resolvedInnerContainerStyle}>
         {cellIcon}
-        <span style={{ ...getDimTextStyle(styleService.lineClamp), ...serviceStyle }}>{`${
-          isLeftColumn && `c${rowIndex}`
-        } ${text}`}</span>
+        <span style={resolvedTextStyle}>{text}</span>
       </div>
     </div>
   );

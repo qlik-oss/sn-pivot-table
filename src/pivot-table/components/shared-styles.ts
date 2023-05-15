@@ -1,12 +1,18 @@
 import type React from "react";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
-const borderStyle: React.CSSProperties = {
-  borderColor: "rgba(0, 0, 0, 0.15)",
+export const DATA_TEXT_COLOR = "rgba(0, 0, 0, 0.55)";
+export const NULL_TEXT_COLOR = "#404040";
+export const NULL_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.05)";
+export const DARK_BORDER_COLOR = "rgba(0, 0, 0, 0.60)";
+export const LIGHT_BORDER_COLOR = "rgba(0, 0, 0, 0.15)";
+
+export const borderStyle: Pick<React.CSSProperties, "borderColor" | "borderStyle"> = {
+  borderColor: LIGHT_BORDER_COLOR,
   borderStyle: "solid",
 };
 
-export const cellStyle: React.CSSProperties = {
+export const cellStyle: Pick<React.CSSProperties, "boxSizing" | "padding"> = {
   boxSizing: "border-box",
   padding: 4,
 };
@@ -47,7 +53,7 @@ export const textStyle: React.CSSProperties = {
 
 export const gridBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
-  borderColor: "rgba(0, 0, 0, 0.60)",
+  borderColor: DARK_BORDER_COLOR,
 };
 
 export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
@@ -58,7 +64,7 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   lineBreak: "anywhere",
 });
 
-export const stickyCell: React.CSSProperties = {
+export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "position" | "left" | "top"> = {
   width: "fit-content",
   maxWidth: "100%",
   position: "sticky",

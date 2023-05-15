@@ -48,9 +48,6 @@ const useRender = () => {
   );
   const isFontLoaded = useWaitForFonts(fonts);
 
-  // console.log("qLastExpandedPos:", layoutService.layout.qHyperCube.qLastExpandedPos);
-  // console.log("qSize: ", layoutService.layout.qHyperCube.qSize);
-
   useEffect(() => {
     const isReadyToRender =
       !isLoading &&

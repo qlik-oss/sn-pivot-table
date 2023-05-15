@@ -19,8 +19,7 @@ export const addPageToLeftDimensionData = ({
   if (!qLeft.length) return prevData;
 
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, false);
-  // console.log({ grid });
-  // assignDistanceToNextCell(grid, "y", prevData.layoutSize);
+  assignDistanceToNextCell(grid, "y", prevData.layoutSize);
 
   return {
     ...prevData,

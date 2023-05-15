@@ -10,8 +10,12 @@ interface LabelCellProps {
 
 const labelTextStyle: React.CSSProperties = {
   ...textStyle,
-  fontStyle: "italic",
+  fontWeight: "600",
+  alignSelf: "flex-end",
+  flexGrow: 1,
 };
+
+const backgroundColor = "rgba(0, 0, 0, 0.02)"; // TODO Set from PP or Theme
 
 export const testId = "title-cell";
 
@@ -19,8 +23,17 @@ const DimensionTitleCell = ({ cell, style, isLastColumn }: LabelCellProps): JSX.
   const styleService = useStyleContext();
 
   return (
-    <div title={cell} style={{ ...style, ...getBorderStyle(true, isLastColumn), display: "flex" }} data-testid={testId}>
-      <div style={{ ...labelTextStyle, ...styleService.header, alignSelf: "flex-end", flexGrow: 1 }}>{cell}</div>
+    <div
+      title={cell}
+      style={{
+        ...style,
+        ...getBorderStyle(true, isLastColumn),
+        display: "flex",
+        backgroundColor,
+      }}
+      data-testid={testId}
+    >
+      <div style={{ ...labelTextStyle, ...styleService.header }}>{cell}</div>
     </div>
   );
 };
