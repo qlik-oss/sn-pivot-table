@@ -1,7 +1,7 @@
+import { Colors } from "../pivot-table/components/shared-styles";
 import {
   CELL_PADDING_HEIGHT,
   DEFAULT_CELL_HEIGHT,
-  DEFAULT_FONT_COLOR,
   DEFAULT_FONT_FAMILY,
   DEFAULT_FONT_SIZE,
   DEFAULT_LINE_CLAMP,
@@ -81,21 +81,21 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         color:
           resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.Header, Path.RowTitle], Attribute.Color) ??
-          DEFAULT_FONT_COLOR,
+          Colors.PrimaryText,
         background:
           resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.Background]) ??
           getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
-          "transparent",
+          Colors.Black3,
       },
       columnTitle: {
         color:
           resolveColor(theme, headerStyling?.[Path.ColumnTitle]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.Header, Path.ColumnTitle], Attribute.Color) ??
-          DEFAULT_FONT_COLOR,
+          Colors.PrimaryText,
         background:
           resolveColor(theme, headerStyling?.[Path.ColumnTitle]?.[Attribute.Background]) ??
           getThemeStyle([Path.Header, Path.ColumnTitle], Attribute.Background) ??
-          "transparent",
+          Colors.Black3,
       },
     },
     content: {
@@ -110,30 +110,30 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, contentStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.Content], Attribute.Color) ??
-        "rgba(0, 0, 0, 0.55)",
+        Colors.Black55,
       background:
         resolveColor(theme, contentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.Content], Attribute.Background) ??
-        "transparent",
+        Colors.Transparent,
       nullValue: {
         color:
           resolveColor(theme, contentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.Content, Path.NullValue], Attribute.Color) ??
-          DEFAULT_FONT_COLOR,
+          Colors.PrimaryText,
         background:
           resolveColor(theme, contentStyling?.[Path.NullValue]?.[Attribute.Background]) ??
           getThemeStyle([Path.Content, Path.NullValue], Attribute.Background) ??
-          "rgba(0, 0, 0, 0.05)",
+          Colors.Black5,
       },
       totalValue: {
         color:
           resolveColor(theme, contentStyling?.[Path.TotalValue]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.Content, Path.TotalValue], Attribute.Color) ??
-          DEFAULT_FONT_COLOR,
+          Colors.PrimaryText,
         background:
           resolveColor(theme, contentStyling?.[Path.TotalValue]?.[Attribute.Background]) ??
           getThemeStyle([Path.Content, Path.TotalValue], Attribute.Background) ??
-          "transparent",
+          Colors.Transparent,
       },
     },
     rowContent: {
@@ -148,40 +148,40 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, rowContentStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.RowContent], Attribute.Color) ??
-        DEFAULT_FONT_COLOR,
+        Colors.PrimaryText,
       background:
         resolveColor(theme, rowContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.RowContent], Attribute.Background) ??
-        "transparent",
+        Colors.Transparent,
       nullValue: {
         color:
           resolveColor(theme, rowContentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.RowContent, Path.NullValue], Attribute.Color) ??
-          DEFAULT_FONT_COLOR,
+          Colors.PrimaryText,
         background:
           resolveColor(theme, rowContentStyling?.[Path.NullValue]?.[Attribute.Background]) ??
           getThemeStyle([Path.RowContent, Path.NullValue], Attribute.Background) ??
-          "rgba(0, 0, 0, 0.05)",
+          Colors.Black5,
       },
       totalLabel: {
         color:
           resolveColor(theme, rowContentStyling?.[Path.TotalLabel]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.RowContent, Path.TotalLabel], Attribute.Color) ??
-          DEFAULT_FONT_COLOR,
+          Colors.PrimaryText,
         background:
           resolveColor(theme, rowContentStyling?.[Path.TotalLabel]?.[Attribute.Background]) ??
           getThemeStyle([Path.RowContent, Path.TotalLabel], Attribute.Background) ??
-          "transparent",
+          Colors.Transparent,
       },
       measureLabel: {
         color:
           resolveColor(theme, rowContentStyling?.[Path.MeasureLabel]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.RowContent, Path.MeasureLabel], Attribute.Color) ??
-          "rgba(0, 0, 0, 0.55)",
+          Colors.Black55,
         background:
           resolveColor(theme, rowContentStyling?.[Path.MeasureLabel]?.[Attribute.Background]) ??
           getThemeStyle([Path.RowContent, Path.MeasureLabel], Attribute.Background) ??
-          "transparent",
+          Colors.Transparent,
       },
     },
     columnContent: {
@@ -196,7 +196,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, columnContentStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.ColumnContent], Attribute.Color) ??
-        DEFAULT_FONT_COLOR,
+        Colors.PrimaryText,
       background:
         resolveColor(theme, columnContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.ColumnContent], Attribute.Background) ??
@@ -205,39 +205,38 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         color:
           resolveColor(theme, columnContentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.ColumnContent, Path.NullValue], Attribute.Color) ??
-          DEFAULT_FONT_COLOR,
+          Colors.PrimaryText,
         background:
           resolveColor(theme, columnContentStyling?.[Path.NullValue]?.[Attribute.Background]) ??
           getThemeStyle([Path.ColumnContent, Path.NullValue], Attribute.Background) ??
-          "rgba(0, 0, 0, 0.05)",
+          Colors.Black5,
       },
       totalLabel: {
         color:
           resolveColor(theme, columnContentStyling?.[Path.TotalLabel]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.ColumnContent, Path.TotalLabel], Attribute.Color) ??
-          DEFAULT_FONT_COLOR,
+          Colors.PrimaryText,
         background:
           resolveColor(theme, columnContentStyling?.[Path.TotalLabel]?.[Attribute.Background]) ??
           getThemeStyle([Path.ColumnContent, Path.TotalLabel], Attribute.Background) ??
-          "transparent",
+          Colors.Transparent,
       },
       measureLabel: {
         color:
           resolveColor(theme, columnContentStyling?.[Path.MeasureLabel]?.[Attribute.FontColor]) ??
           getThemeStyle([Path.ColumnContent, Path.MeasureLabel], Attribute.Color) ??
-          "rgba(0, 0, 0, 0.55)",
+          Colors.Black55,
         background:
           resolveColor(theme, columnContentStyling?.[Path.MeasureLabel]?.[Attribute.Background]) ??
           getThemeStyle([Path.ColumnContent, Path.MeasureLabel], Attribute.Background) ??
-          "transparent",
+          Colors.Transparent,
       },
     },
     grid: {
       rowHeight: gridStyling?.[Attribute.RowHeight] ?? getThemeStyle([Path.Grid], Attribute.RowHeight) ?? "compact",
       lineCount: gridStyling?.[Attribute.LineCount] ?? getThemeStyle([Path.Grid], Attribute.LineCount) ?? 1,
-      border: gridStyling?.[Attribute.Border] ?? getThemeStyle([Path.Grid], Attribute.Border) ?? "rgba(0, 0, 0, 0.15)",
-      divider:
-        gridStyling?.[Attribute.Divider] ?? getThemeStyle([Path.Grid], Attribute.Divider) ?? "rgba(0, 0, 0, 0.6)",
+      border: gridStyling?.[Attribute.Border] ?? getThemeStyle([Path.Grid], Attribute.Border) ?? Colors.Black15,
+      divider: gridStyling?.[Attribute.Divider] ?? getThemeStyle([Path.Grid], Attribute.Divider) ?? Colors.Black60,
     },
   } as StyleService;
 

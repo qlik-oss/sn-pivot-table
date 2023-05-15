@@ -24,11 +24,11 @@ module.exports = {
                 background: "transparent",
                 rowTitle: {
                   color: "#404040",
-                  background: "transparent",
+                  background: "rgba(0, 0, 0, 0.03)",
                 },
                 columnTitle: {
                   color: "#404040",
-                  background: "transparent",
+                  background: "rgba(0, 0, 0, 0.03)",
                 },
               },
               content: {

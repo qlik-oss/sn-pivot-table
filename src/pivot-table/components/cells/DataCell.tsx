@@ -3,7 +3,7 @@ import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
 import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { NULL_BACKGROUND_COLOR, getBorderStyle, getLineClampStyle, textStyle } from "../shared-styles";
+import { getBorderStyle, getLineClampStyle, textStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
 
 export interface MeasureCellProps {
@@ -22,7 +22,6 @@ const numericStyle: React.CSSProperties = {
 
 const nilStyle: React.CSSProperties = {
   alignItems: "center",
-  backgroundColor: NULL_BACKGROUND_COLOR,
   display: "flex",
   flexDirection: "row",
   height: "100%",

@@ -244,8 +244,8 @@ describe("style-service", () => {
         fontSize: "12px",
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
         background: "transparent",
-        rowTitle: { color: "#404040", background: "transparent" },
-        columnTitle: { color: "#404040", background: "transparent" },
+        rowTitle: { color: "#404040", background: "rgba(0, 0, 0, 0.03)" },
+        columnTitle: { color: "#404040", background: "rgba(0, 0, 0, 0.03)" },
       },
       content: {
         fontSize: "12px",
