@@ -84,11 +84,39 @@ export interface Args {
   };
 }
 
-export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
+export enum ColumnWidthType {
+  Auto = "auto",
+  fitToContent = "fitToContent",
+  Pixels = "pixels",
+  Percentage = "percentage",
+}
+
+export interface ColumnWidth {
+  type: ColumnWidthType;
+  pixels?: number;
+  percentage?: number;
+}
+
+export interface ExtendedNxDimensionInfo extends EngineAPI.INxDimensionInfo {
+  columnWidth: ColumnWidth;
+}
+
+export interface ExtendedNxMeasureInfo extends EngineAPI.INxMeasureInfo {
+  columnWidth: ColumnWidth;
+}
+
+export interface ExtendedHyperCube extends Omit<EngineAPI.IHyperCube, "qDimensionInfo" | "qMeasureInfo"> {
+  qColumnOrder: number[];
+  qDimensionInfo: ExtendedNxDimensionInfo[];
+  qMeasureInfo: ExtendedNxMeasureInfo[];
+}
+
+export interface PivotLayout extends Omit<EngineAPI.IGenericHyperCubeLayout, "qHyperCube"> {
   nullValueRepresentation?: NullValueRepresentation;
   title: string;
   snapshotData?: SnapshotData;
   components?: Component[];
+  qHyperCube: ExtendedHyperCube;
 }
 
 export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {

@@ -49,7 +49,11 @@ export default function useColumnWidth(
         return pseudoDimensionWidth / rect.width;
       }
 
-      const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo[dimIndex];
+      const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo[dimIndex];
+      if (typeof columnWidth?.type === "string" && columnWidth?.type !== "auto" && columnWidth?.pixels) {
+        return columnWidth.pixels / rect.width;
+      }
+
       const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
       const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
       const w = Math.max(

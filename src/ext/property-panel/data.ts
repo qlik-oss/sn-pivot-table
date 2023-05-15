@@ -1,3 +1,4 @@
+import { ColumnWidthType } from "../../types/QIX";
 import type { Galaxy } from "../../types/types";
 
 export interface Args {
@@ -25,6 +26,62 @@ function isTotalsVisible(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown,
   const idx = args.properties.qHyperCubeDef.qDimensions.indexOf(itemData);
   return idx === 0 || idx >= noOfLeftDims;
 }
+
+const columnResize = {
+  type: {
+    type: "string",
+    component: "dropdown",
+    ref: "qDef.columnWidth.type",
+    translation: "Object.Table.Column.Width",
+    options: [
+      {
+        value: ColumnWidthType.Auto,
+        translation: "Common.Auto",
+      },
+      // {
+      //   value: ColumnWidthType.fitToContent,
+      //   translation: "Object.Table.Column.FitToContent",
+      // },
+      {
+        value: ColumnWidthType.Pixels,
+        translation: "Object.Table.Column.Pixels",
+      },
+      // {
+      //   value: ColumnWidthType.Percentage,
+      //   translation: "Object.Table.Column.Percentage",
+      // },
+    ],
+    defaultValue: ColumnWidthType.Auto,
+  },
+  sizePixels: {
+    ref: "qDef.columnWidth.pixels",
+    translation: "Object.Table.Column.Pixels",
+    type: "number",
+    expression: "optional",
+    defaultValue: 200,
+    show: (data) => data.qDef.columnWidth?.type === ColumnWidthType.Pixels,
+    // change(data) {
+    //   data.qDef.columnWidth.pixels =
+    //     data.qDef.columnWidth.pixels === undefined
+    //       ? data.qDef.columnWidth.pixels
+    //       : Math.max(1, Math.min(MAX_COLUMN_WIDTH, data.qDef.columnWidth.pixels));
+    // },
+  },
+  // sizePercentage: {
+  //   ref: "qDef.columnWidth.percentage",
+  //   translation: "Object.Table.Column.Percentage",
+  //   type: "number",
+  //   expression: "optional",
+  //   defaultValue: 20,
+  //   show: (data) => data.qDef.columnWidth?.type === ColumnWidthType.PERCENTAGE,
+  //   change(data) {
+  //     data.qDef.columnWidth.percentage =
+  //       data.qDef.columnWidth.percentage === undefined
+  //         ? data.qDef.columnWidth.percentage
+  //         : Math.max(1, Math.min(MAX_COLUMN_PERCENTAGE_WIDTH, data.qDef.columnWidth.percentage));
+  //   },
+  // },
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createData = (env: Galaxy): Record<string, any> => {
@@ -123,6 +180,7 @@ const createData = (env: Galaxy): Record<string, any> => {
               return typeof val === "string" && val.trim().length > 0;
             },
           },
+          ...columnResize,
         },
       },
       measures: {
