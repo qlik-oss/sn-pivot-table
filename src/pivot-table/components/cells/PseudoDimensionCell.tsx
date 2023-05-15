@@ -1,7 +1,7 @@
 import React from "react";
 import type { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
+import { DATA_TEXT_COLOR, getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -42,7 +42,9 @@ const PseudoDimensionCell = ({ cell, style, isLeftColumn, isLastRow, isLastColum
       style={{ ...style, ...getBorderStyle(isLastRow, isLastColumn), ...containerStyle }}
       data-testid={testId}
     >
-      <div style={{ ...getTextStyle(styleService.lineClamp), ...serviceStyle, ...stickyCell }}>{cell.ref.qText}</div>
+      <div style={{ ...getTextStyle(styleService.lineClamp), ...serviceStyle, ...stickyCell, color: DATA_TEXT_COLOR }}>
+        {cell.ref.qText}
+      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ interface LabelCellProps {
 
 const labelTextStyle: React.CSSProperties = {
   ...textStyle,
-  fontWeight: "bold",
+  fontWeight: "600",
 };
 
 export const testId = "totals-cell";
