@@ -66,7 +66,7 @@ const LeftGrid = ({
     if (leftGridRef.current) {
       leftGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
     }
-  }, [dataModel, width, height, leftDimensionData, leftGridRef]);
+  }, [dataModel, width, height, leftDimensionData, leftGridRef, contentCellHeight]);
 
   useLayoutEffect(() => {
     if (leftGridRef.current) {
