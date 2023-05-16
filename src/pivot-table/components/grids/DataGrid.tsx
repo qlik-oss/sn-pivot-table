@@ -110,6 +110,7 @@ const DataGrid = ({
   const resolvedGridStyle = {
     ...(layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions),
     borderColor: divider,
+    willChange: "auto",
   };
 
   useOnPropsChange(() => {

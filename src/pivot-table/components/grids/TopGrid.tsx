@@ -27,6 +27,7 @@ interface TopGridProps {
 
 const listStyle: React.CSSProperties = {
   overflow: "hidden",
+  willChange: "auto",
 };
 
 const containerStyle: React.CSSProperties = {
