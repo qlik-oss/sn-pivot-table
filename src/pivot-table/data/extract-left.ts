@@ -27,12 +27,12 @@ const extractLeftGrid = (
       grid[colIdx] = {};
     }
 
-    nodes.forEach((node, currRowIdx) => {
-      rowIdx += currRowIdx === 0 ? 0 : 1;
+    nodes.forEach((node, idx) => {
+      rowIdx += idx === 0 ? 0 : 1;
       // consider items that might be skipped based on current page
       const startPosition = qArea.qTop - pgInfo.currentPage * pgInfo.rowsPerPage;
       // Start position + current page position - previous tail size,
-      const y = startPosition + rowIdx - node.qUp;
+      const y = Math.max(0, startPosition + rowIdx - node.qUp);
       const cell = createCell(node, parent, root, colIdx, y, isSnapshot);
 
       grid[colIdx][y] = cell;
