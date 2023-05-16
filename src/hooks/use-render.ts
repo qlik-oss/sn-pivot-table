@@ -29,13 +29,13 @@ const useRender = () => {
   const layout = useStaleLayout() as PivotLayout;
   const model = useModel() as Model;
   const constraints = useConstraints();
-  const viewService = useViewService();
   const layoutService = useLayoutService(layout);
-  const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
   const selections = useSelections() as ExtendedSelections;
   const theme = useTheme() as ExtendedTheme;
   const { translator, language } = useTranslations();
   const { pageInfo, setPageInfo } = usePagination(layoutService);
+  const viewService = useViewService(pageInfo);
+  const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
   const { qPivotDataPages, isLoading } = useLoadDataPages({ model, layoutService, viewService, pageInfo });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);

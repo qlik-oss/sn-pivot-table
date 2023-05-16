@@ -43,7 +43,7 @@ const useLoadDataPages: UseLoadDataPages = ({ model, layoutService, viewService,
   // Need to keep track of loading state to prevent double renders when a new layout is recieved, ex after expanding or collapesing.
   // A double render would cause the scroll position to be lost
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const ref = useMemo(() => ({ isLoading: true }), [layoutService]);
+  const ref = useMemo(() => ({ isLoading: true }), [layoutService, pageInfo]);
   const [qPivotDataPages, setDataPages] = useState<EngineAPI.INxPivotPage[]>([]);
 
   usePromise(async () => {

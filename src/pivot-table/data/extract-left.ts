@@ -33,7 +33,8 @@ const extractLeftGrid = (
       const startPosition = qArea.qTop - pgInfo.currentPage * pgInfo.rowsPerPage;
       // Start position + current page position - previous tail size,
       const y = Math.max(0, startPosition + rowIdx - node.qUp);
-      const cell = createCell(node, parent, root, colIdx, y, isSnapshot);
+      const dataY = qArea.qTop + rowIdx - node.qUp;
+      const cell = createCell(node, parent, root, colIdx, y, dataY, isSnapshot);
 
       grid[colIdx][y] = cell;
 
