@@ -99,7 +99,7 @@ module.exports = {
               header: {
                 fontSize: "14px",
                 fontFamily: "Arial",
-                background: "#ccc",
+                background: "cadetblue",
                 rowTitle: {
                   color: "aqua",
                   background: "blue",
