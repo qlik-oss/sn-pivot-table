@@ -1,5 +1,4 @@
 import type { stardust } from "@nebula.js/stardust";
-import type { StylingOptions } from "../services/style-services/types";
 import type { PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
@@ -164,6 +163,51 @@ export interface Galaxy {
       isUnsupportedFeature: (f: string) => boolean;
     };
   };
+}
+
+interface FontStyling {
+  fontSize: string;
+  fontFamily: string;
+  color: string;
+}
+
+export interface CellStyling {
+  color: string;
+  background: string;
+}
+
+interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
+  background: string;
+  rowTitle: CellStyling;
+  columnTitle: CellStyling;
+}
+
+interface MeasureContentStyling extends FontStyling {
+  background: string;
+  nullValue: CellStyling;
+  totalValue: CellStyling;
+}
+
+interface DimensionContentStyling extends FontStyling {
+  background: string;
+  nullValue: CellStyling;
+  totalLabel: CellStyling;
+  measureLabel: CellStyling;
+}
+
+interface GridStyling {
+  rowHeight: "compact";
+  lineCount: number;
+  border: string;
+  divider: string;
+}
+
+export interface StylingOptions {
+  header: HeaderStyling;
+  content: MeasureContentStyling;
+  rowContent: DimensionContentStyling;
+  columnContent: DimensionContentStyling;
+  grid: GridStyling;
 }
 
 export interface StyleService extends StylingOptions {

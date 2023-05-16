@@ -1,4 +1,4 @@
-import type { StylingOptions } from "../services/style-services/types";
+import type { StylingOptions } from "./types";
 
 enum NxDimCellType {
   NX_DIM_CELL_VALUE = "V",
