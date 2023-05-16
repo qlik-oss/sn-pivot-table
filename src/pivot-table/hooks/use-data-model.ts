@@ -77,9 +77,8 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
       collapseTop,
       expandLeft,
       expandTop,
-      isLoading: ref.isLoading,
     }),
-    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop, ref.isLoading]
+    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop]
   );
 
   return dataModel;

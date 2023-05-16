@@ -34,7 +34,6 @@ export interface DataModel {
   collapseTop: ExpandOrCollapser;
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
-  isLoading: boolean;
 }
 
 export interface ItemData {
