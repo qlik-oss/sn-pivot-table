@@ -54,6 +54,7 @@ const TopGrid = ({
 }: TopGridProps): JSX.Element | null => {
   const {
     grid: { divider },
+    headerCellHeight,
   } = useStyleContext();
   const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
   const resolvedContainerStyle = {
@@ -65,7 +66,7 @@ const TopGrid = ({
     if (topGridRef.current) {
       topGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
     }
-  }, [dataModel, width, height, topDimensionData, topGridRef]);
+  }, [dataModel, width, height, topDimensionData, topGridRef, headerCellHeight]);
 
   useLayoutEffect(() => {
     if (topGridRef.current) {

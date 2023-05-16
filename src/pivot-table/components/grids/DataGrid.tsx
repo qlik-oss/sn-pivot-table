@@ -105,6 +105,7 @@ const DataGrid = ({
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
+    contentCellHeight,
   } = useStyleContext();
   const { qMeasureInfo } = layoutService.layout.qHyperCube;
   const resolvedGridStyle = {
@@ -123,7 +124,7 @@ const DataGrid = ({
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }
-  }, [width, height, dataGridRef]);
+  }, [width, height, dataGridRef, contentCellHeight]);
 
   const onItemsRendered = useCallback(
     async ({
