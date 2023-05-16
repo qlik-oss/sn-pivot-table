@@ -21,7 +21,6 @@ export const getRowHeightHandler =
 
     if (cell?.leafCount > 0) {
       const res = (cell.leafCount + cell.distanceToNextCell) * cellHeight;
-      // console.log({ res, leafCount: cell.leafCount, dis: cell.distanceToNextCell });
       return res;
     }
 
