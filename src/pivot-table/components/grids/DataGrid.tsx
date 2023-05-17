@@ -63,7 +63,7 @@ const isMissingData = (
   return false;
 };
 
-const debouncedFetchMoreData: FetchModeData = throttler(
+const throttledFetchMoreData: FetchModeData = throttler(
   async (
     dataModel: DataModel,
     measureData: MeasureData,
@@ -140,7 +140,7 @@ const DataGrid = ({
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
-      await debouncedFetchMoreData(
+      await throttledFetchMoreData(
         dataModel,
         measureData,
         overscanColumnStartIndex,
