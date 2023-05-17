@@ -154,21 +154,6 @@ export interface DataService {
   size: PivotDataSize;
 }
 
-type StyleProperties = {
-  fontSize: string;
-  fontFamily: string;
-  color: string;
-};
-
-export interface StyleService {
-  header: StyleProperties;
-  content: StyleProperties;
-  backgroundColor: string;
-  lineClamp: number;
-  headerCellHeight: number;
-  contentCellHeight: number;
-}
-
 export interface Galaxy {
   translator: {
     get: (str: string) => string;
@@ -178,4 +163,55 @@ export interface Galaxy {
       isUnsupportedFeature: (f: string) => boolean;
     };
   };
+}
+
+interface FontStyling {
+  fontSize: string;
+  fontFamily: string;
+  color: string;
+}
+
+export interface CellStyling {
+  color: string;
+  background: string;
+}
+
+interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
+  background: string;
+  rowTitle: CellStyling;
+  columnTitle: CellStyling;
+}
+
+interface MeasureContentStyling extends FontStyling {
+  background: string;
+  nullValue: CellStyling;
+  totalValue: CellStyling;
+}
+
+interface DimensionContentStyling extends FontStyling {
+  background: string;
+  nullValue: CellStyling;
+  totalLabel: CellStyling;
+  measureLabel: CellStyling;
+}
+
+interface GridStyling {
+  rowHeight: "compact";
+  lineCount: number;
+  border: string;
+  divider: string;
+}
+
+export interface StylingOptions {
+  header: HeaderStyling;
+  content: MeasureContentStyling;
+  rowContent: DimensionContentStyling;
+  columnContent: DimensionContentStyling;
+  grid: GridStyling;
+}
+
+export interface StyleService extends StylingOptions {
+  headerCellHeight: number;
+  contentCellHeight: number;
+  lineClamp: number;
 }

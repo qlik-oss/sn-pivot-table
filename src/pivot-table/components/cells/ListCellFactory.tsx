@@ -3,6 +3,7 @@ import { areEqual } from "react-window";
 import { TOTALS_CELL } from "../../../constants";
 import NxDimCellType from "../../../types/QIX";
 import type { ListItemData } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
 import DimensionCell from "./DimensionCell";
 import EmptyCell from "./EmptyCell";
 import PseudoDimensionCell from "./PseudoDimensionCell";
@@ -15,6 +16,7 @@ interface ListCallbackProps {
 }
 
 const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
+  const styleService = useStyleContext();
   const { list, isLeftColumn = false, isLast, itemCount } = data;
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
@@ -29,7 +31,10 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   const cell = isLast ? list[index] : Object.values(list)[index];
 
   if (cell === undefined || cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {
-    return <EmptyCell style={style} index={index} isLastRow={isLastRow} isLastColumn={isLastColumn} />;
+    const background = isLeftColumn ? styleService.rowContent.background : styleService.columnContent.background;
+    return (
+      <EmptyCell style={{ ...style, background }} index={index} isLastRow={isLastRow} isLastColumn={isLastColumn} />
+    );
   }
 
   if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {

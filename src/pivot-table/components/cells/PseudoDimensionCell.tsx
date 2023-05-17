@@ -1,7 +1,7 @@
 import React from "react";
 import type { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { DATA_TEXT_COLOR, getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
+import { getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -33,18 +33,31 @@ export const testId = "pseudo-dimension-cell";
 
 const PseudoDimensionCell = ({ cell, style, isLeftColumn, isLastRow, isLastColumn }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
-  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
+  const serviceStyle = isLeftColumn
+    ? {
+        fontSize: styleService.rowContent.fontSize,
+        fontFamily: styleService.rowContent.fontFamily,
+        ...styleService.rowContent.measureLabel,
+      }
+    : {
+        fontSize: styleService.columnContent.fontSize,
+        fontFamily: styleService.columnContent.fontFamily,
+        ...styleService.columnContent.measureLabel,
+      };
   const containerStyle = isLeftColumn ? leftContainerStyle : topContainerStyle;
 
   return (
     <div
       title={cell.ref.qText}
-      style={{ ...style, ...getBorderStyle(isLastRow, isLastColumn), ...containerStyle }}
+      style={{
+        ...style,
+        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
+        ...containerStyle,
+        ...serviceStyle,
+      }}
       data-testid={testId}
     >
-      <div style={{ ...getTextStyle(styleService.lineClamp), ...serviceStyle, ...stickyCell, color: DATA_TEXT_COLOR }}>
-        {cell.ref.qText}
-      </div>
+      <div style={{ ...getTextStyle(styleService.lineClamp), ...stickyCell }}>{cell.ref.qText}</div>
     </div>
   );
 };

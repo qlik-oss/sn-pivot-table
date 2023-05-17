@@ -20,11 +20,15 @@ export const testId = "totals-cell";
 
 const TotalsCell = ({ cell, style, isLeftColumn, isLastRow, isLastColumn }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
-  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
+  const serviceStyle = isLeftColumn ? styleService.rowContent.totalLabel : styleService.columnContent.totalLabel;
+  const { fontSize, fontFamily } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
 
   return (
-    <div style={{ ...style, ...getBorderStyle(isLastRow, isLastColumn) }} data-testid={testId}>
-      <div style={{ ...labelTextStyle, ...serviceStyle }}>{cell.ref.qText}</div>
+    <div
+      style={{ ...style, ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border), ...serviceStyle }}
+      data-testid={testId}
+    >
+      <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.ref.qText}</div>
     </div>
   );
 };

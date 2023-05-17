@@ -3,6 +3,7 @@ import { debouncer } from "qlik-chart-modules";
 import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
 import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedDataCell from "../cells/DataCell";
 import { gridBorderStyle } from "../shared-styles";
@@ -102,7 +103,16 @@ const DataGrid = ({
   layoutService,
   measureData,
 }: DataGridProps): JSX.Element | null => {
+  const {
+    grid: { divider },
+    contentCellHeight,
+  } = useStyleContext();
   const { qMeasureInfo } = layoutService.layout.qHyperCube;
+  const resolvedGridStyle = {
+    ...(layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions),
+    borderColor: divider,
+    willChange: "auto",
+  };
 
   useOnPropsChange(() => {
     if (dataGridRef.current) {
@@ -114,7 +124,7 @@ const DataGrid = ({
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }
-  }, [width, height, dataGridRef]);
+  }, [width, height, dataGridRef, contentCellHeight]);
 
   const onItemsRendered = useCallback(
     async ({
@@ -159,7 +169,7 @@ const DataGrid = ({
   return (
     <VariableSizeGrid
       ref={dataGridRef}
-      style={layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions}
+      style={resolvedGridStyle}
       columnCount={layoutService.size.x}
       columnWidth={getColumnWidth}
       height={height}

@@ -3,6 +3,8 @@ import React from "react";
 import type { Cell } from "../../../../types/types";
 import PseudoDimensionCell, { testId } from "../PseudoDimensionCell";
 
+jest.mock("../../../contexts/StyleProvider");
+
 test("should render on the top", () => {
   const cell = { ref: { qText: "test" } } as Cell;
   const style: React.CSSProperties = {

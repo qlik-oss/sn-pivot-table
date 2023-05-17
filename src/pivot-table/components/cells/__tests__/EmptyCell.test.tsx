@@ -2,6 +2,8 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import EmptyCell, { testId } from "../EmptyCell";
 
+jest.mock("../../../contexts/StyleProvider");
+
 test("should render", () => {
   const style: React.CSSProperties = {
     position: "absolute",
