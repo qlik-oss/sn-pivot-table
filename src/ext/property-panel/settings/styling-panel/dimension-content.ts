@@ -3,10 +3,11 @@ import { Colors } from "../../../../pivot-table/components/shared-styles";
 import { createColorPickerItem } from "./utils/create-color-picker-item";
 import { createFontFamilyItem } from "./utils/create-font-family-item";
 import { createFontSizeItem } from "./utils/create-font-size-item";
+import { makeFirstLetterUpperCase } from "./utils/to-value-label";
 
 export const getDimensionSection = (type: "rowContent" | "columnContent", translator: stardust.Translator) => ({
   component: "panel-section",
-  translation: `properties.${type}`,
+  translation: `properties.${makeFirstLetterUpperCase(type)}`,
   items: {
     content: {
       component: "items",
@@ -36,26 +37,34 @@ export const getDimensionSection = (type: "rowContent" | "columnContent", transl
         ),
 
         // Null value styling
+        nullValues: {
+          component: "header",
+          label: translator.get("library.colors.nullvalues"),
+        },
         nullValueFontColor: createColorPickerItem(
           `${type}.nullValue.fontColor`,
-          "properties.nullValue.fontColor",
+          "properties.fontColor",
           (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.nullValue?.color ?? currentTheme.color
         ),
         nullValueBackground: createColorPickerItem(
           `${type}.nullValue.background`,
-          "properties.nullValue.background",
+          "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.nullValue?.background ?? Colors.Transparent
         ),
 
         // Total label styling
+        totalsHeader: {
+          component: "header",
+          label: translator.get("properties.totals"),
+        },
         totalLabelFontColor: createColorPickerItem(
           `${type}.totalLabel.fontColor`,
-          "properties.totalLabel.fontColor",
+          "properties.fontColor",
           (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.totalLabel?.color ?? currentTheme.color
         ),
         totalLabelBackground: createColorPickerItem(
           `${type}.totalLabel.background`,
-          "properties.totalLabel.background",
+          "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.totalLabel?.background ?? Colors.Transparent
         ),
       },

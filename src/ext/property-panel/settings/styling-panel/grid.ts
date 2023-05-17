@@ -32,7 +32,7 @@ export const gridSection = {
         ),
         divider: createColorPickerItem(
           "grid.divider",
-          "properties.divider",
+          "properties.Divider",
           (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.divider ?? Colors.Black60
         ),
       },

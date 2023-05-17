@@ -31,26 +31,34 @@ export const headerSection = (translator: stardust.Translator) => ({
         ),
 
         // Row title styling
+        rowTitleHeader: {
+          component: "header",
+          label: translator.get("Common.Rows"),
+        },
         rowTitleFontColor: createColorPickerItem(
           "header.rowTitle.fontColor",
-          "properties.fontColorRowTitle",
+          "properties.fontColor",
           (currentTheme) => currentTheme.object?.pivotTableV2?.header?.rowTitle?.color ?? currentTheme.color
         ),
         rowTitleBackground: createColorPickerItem(
           "header.rowTitle.background",
-          "properties.backgroundRowTitle",
+          "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.header?.rowTitle?.background ?? Colors.Transparent
         ),
 
         // Column title styling
+        columntTitleHeader: {
+          component: "header",
+          label: translator.get("Common.Columns"),
+        },
         columnTitleFontColor: createColorPickerItem(
           "header.columnTitle.fontColor",
-          "properties.fontColorColumnTitle",
+          "properties.fontColor",
           (currentTheme) => currentTheme.object?.pivotTableV2?.header?.columnTitle?.color ?? currentTheme.color
         ),
         columnTitleBackground: createColorPickerItem(
           "header.columnTitle.background",
-          "properties.backgroundColumnTitle",
+          "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.header?.columnTitle?.background ?? Colors.Transparent
         ),
       },

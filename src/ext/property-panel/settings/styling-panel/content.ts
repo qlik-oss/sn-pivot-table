@@ -35,28 +35,35 @@ export const contentSection = (translator: stardust.Translator) => ({
           "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.content?.background ?? Colors.Transparent
         ),
-
         // Null value styling
+        nullValues: {
+          component: "header",
+          label: translator.get("library.colors.nullvalues"),
+        },
         nullValueFontColor: createColorPickerItem(
           "content.nullValue.fontColor",
-          "properties.nullValue.fontColor",
+          "properties.fontColor",
           (currentTheme) => currentTheme.object?.pivotTableV2?.content?.nullValue?.color ?? currentTheme.color
         ),
         nullValueBackground: createColorPickerItem(
           "content.nullValue.background",
-          "properties.nullValue.background",
+          "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.content?.nullValue?.background ?? Colors.Transparent
         ),
 
         // Total value styling
+        totalsHeader: {
+          component: "header",
+          label: translator.get("properties.totals"),
+        },
         totalValueFontColor: createColorPickerItem(
           "content.totalValue.fontColor",
-          "properties.totalValue.fontColor",
+          "properties.fontColor",
           (currentTheme) => currentTheme.object?.pivotTableV2?.content?.totalValue?.color ?? currentTheme.color
         ),
         totalValueBackground: createColorPickerItem(
           "content.totalValue.background",
-          "properties.totalValue.background",
+          "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.content?.totalValue?.background ?? Colors.Transparent
         ),
       },
