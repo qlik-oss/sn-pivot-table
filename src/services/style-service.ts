@@ -257,7 +257,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT
   );
-  console.log("%c styleService", "color: orangered", styleService);
+
   return styleService;
 };
 
