@@ -1,29 +1,70 @@
-import type { Args, Component, CurrentTheme } from "../../../../../types/QIX";
+import type { stardust } from "@nebula.js/stardust";
+import type { Args, CurrentTheme } from "../../../../../types/QIX";
+import { toValueLabel } from "./to-value-label";
 
-type SupportedSections = "header" | "content" | "rowContent" | "columnContent";
+type ThemeAccessor = (currentTheme: CurrentTheme) => string;
 
-export const createFontSizeItem = (
-  ref: string,
-  translation: string,
-  themeAccessor: (theme: CurrentTheme) => string
-) => ({
-  component: "integer",
+interface Props {
+  ref: string;
+  themeAccessor: ThemeAccessor;
+  translator: stardust.Translator;
+}
+
+const DEFAULT_FONT_SIZES: string[] = [
+  "10px",
+  "11px",
+  "12px",
+  "13px",
+  "14px",
+  "15px",
+  "16px",
+  "17px",
+  "18px",
+  "19px",
+  "20px",
+  "21px",
+  "22px",
+  "23px",
+  "24px",
+];
+
+const getFontSizes = (currentValue: string, currentTheme: CurrentTheme, translator: stardust.Translator) => {
+  const defaultThemeFontSize = currentTheme.fontSize;
+  const customFontSizes = currentTheme.fontSizes ?? [];
+  const themeFontSizes = Array.from(new Set([currentValue, defaultThemeFontSize, ...customFontSizes]));
+  const themeSection = [
+    {
+      value: "ThemeHeader",
+      label: translator.get("properties.themeFontSizes"),
+      metaText: translator.get("properties.theme"),
+      groupHeader: true,
+    },
+    ...themeFontSizes
+      .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
+      .map((fontSize) => toValueLabel(fontSize, false)),
+  ];
+  const allSizesSection = [
+    {
+      value: "DefaultHeader",
+      label: translator.get("properties.allFontSizes"),
+      metaText: translator.get("properties.default"),
+      groupHeader: true,
+    },
+    ...DEFAULT_FONT_SIZES.filter((fontSize) => !themeFontSizes.includes(fontSize)).map((fontSize) =>
+      toValueLabel(fontSize, false)
+    ),
+  ];
+
+  return [...themeSection, ...(allSizesSection.length > 1 ? allSizesSection : [])];
+};
+
+export const createFontSizeItem = ({ ref, themeAccessor, translator }: Props) => ({
+  component: "dropdown",
   ref,
-  translation,
-  width: "auto",
-  min: 5,
-  max: 300,
-  defaultValue(data: unknown, handler: unknown, args: Args) {
+  options: (data: unknown, handler: unknown, args: Args) => {
     const currentTheme = args.theme.current();
-    const fontSize = themeAccessor(currentTheme);
-    return parseInt(fontSize, 10);
+    const currentValue = themeAccessor(currentTheme);
+    return getFontSizes(currentValue, currentTheme, translator);
   },
-  change(data: Component) {
-    const dataPath = ref.split(".")[0] as SupportedSections;
-    const fontSize = data?.[dataPath]?.fontSize;
-    if (fontSize) {
-      // eslint-disable-next-line no-param-reassign
-      data[dataPath].fontSize = Math.max(5, Math.min(300, Math.floor(fontSize)));
-    }
-  },
+  defaultValue: (data: unknown, handler: unknown, args: Args) => themeAccessor(args.theme.current()),
 });

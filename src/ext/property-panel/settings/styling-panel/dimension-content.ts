@@ -1,8 +1,10 @@
+import type { stardust } from "@nebula.js/stardust";
 import { Colors } from "../../../../pivot-table/components/shared-styles";
 import { createColorPickerItem } from "./utils/create-color-picker-item";
+import { createFontFamilyItem } from "./utils/create-font-family-item";
 import { createFontSizeItem } from "./utils/create-font-size-item";
 
-export const getDimensionSection = (type: "rowContent" | "columnContent") => ({
+export const getDimensionSection = (type: "rowContent" | "columnContent", translator: stardust.Translator) => ({
   component: "panel-section",
   translation: `properties.${type}`,
   items: {
@@ -11,11 +13,17 @@ export const getDimensionSection = (type: "rowContent" | "columnContent") => ({
       ref: "components",
       key: "theme",
       items: {
-        fontSize: createFontSizeItem(
-          `${type}.fontSize`,
-          "properties.fontSize",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.fontSize ?? currentTheme.fontSize
-        ),
+        fontSize: createFontSizeItem({
+          ref: `${type}.fontSize`,
+          themeAccessor: (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.fontSize ?? currentTheme.fontSize,
+          translator,
+        }),
+        fontFamily: createFontFamilyItem({
+          ref: `${type}.fontFamily`,
+          themeAccessor: (currentTheme) =>
+            currentTheme.object?.pivotTableV2?.[type]?.fontFamily ?? currentTheme.fontFamily,
+          translator,
+        }),
         fontColor: createColorPickerItem(
           `${type}.fontColor`,
           "properties.fontColor",

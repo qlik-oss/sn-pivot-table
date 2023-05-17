@@ -1,8 +1,10 @@
+import type { stardust } from "@nebula.js/stardust";
 import { Colors } from "../../../../pivot-table/components/shared-styles";
 import { createColorPickerItem } from "./utils/create-color-picker-item";
+import { createFontFamilyItem } from "./utils/create-font-family-item";
 import { createFontSizeItem } from "./utils/create-font-size-item";
 
-export const headerSection = {
+export const headerSection = (translator: stardust.Translator) => ({
   translation: "properties.Header",
   component: "panel-section",
   items: {
@@ -11,11 +13,17 @@ export const headerSection = {
       ref: "components",
       key: "theme",
       items: {
-        fontSize: createFontSizeItem(
-          "header.fontSize",
-          "properties.fontSize",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.header?.fontSize ?? currentTheme.fontSize
-        ),
+        fontSize: createFontSizeItem({
+          ref: "header.fontSize",
+          themeAccessor: (currentTheme) => currentTheme.object?.pivotTableV2?.header?.fontSize ?? currentTheme.fontSize,
+          translator,
+        }),
+        fontFamily: createFontFamilyItem({
+          ref: "header.fontFamily",
+          translator,
+          themeAccessor: (currentTheme) =>
+            currentTheme.object?.pivotTableV2?.header?.fontFamily ?? currentTheme.fontFamily,
+        }),
         background: createColorPickerItem(
           "header.background",
           "properties.background",
@@ -48,4 +56,4 @@ export const headerSection = {
       },
     },
   },
-};
+});

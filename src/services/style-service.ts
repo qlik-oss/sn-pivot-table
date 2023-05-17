@@ -40,7 +40,7 @@ enum Attribute {
   Divider = "divider",
 }
 
-const resolveFontSize = (fontSize: number | undefined) => (fontSize ? `${fontSize}px` : undefined);
+const resolveFontSize = (fontSize: string | undefined) => (fontSize ? `${parseInt(fontSize, 10)}px` : undefined);
 
 const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) =>
   color ? theme.getColorPickerColor(color) : undefined;
@@ -257,7 +257,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT
   );
-
+  console.log("%c styleService", "color: orangered", styleService);
   return styleService;
 };
 

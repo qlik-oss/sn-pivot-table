@@ -1,5 +1,6 @@
 // import { TOTAL_MODE_ON } from '../../constants';
 
+import type { stardust } from "@nebula.js/stardust";
 import { getStylingPanelConfig } from "./styling-panel";
 
 interface ExtendedVisualizationHyperCubeDef extends EngineAPI.IVisualizationHyperCubeDef {
@@ -14,7 +15,7 @@ export interface Emitter {
   $emit: (method: string, props: ExtendedGenericHyperCubeProperties) => void;
 }
 
-const getRowStylesConfig = () => ({
+export const getRowStylesConfig = () => ({
   type: "items",
   items: {
     nullValueText: {
@@ -58,16 +59,16 @@ const getRowStylesConfig = () => ({
   },
 });
 
-const settings = {
+const settings = (translator: stardust.Translator) => ({
   uses: "settings",
   items: {
     presentation: {
       type: "items",
       translation: "properties.presentation",
       grouped: true,
-      items: [getStylingPanelConfig(), getRowStylesConfig()],
+      items: [getStylingPanelConfig(translator), getRowStylesConfig()],
     },
   },
-};
+});
 
 export default settings;

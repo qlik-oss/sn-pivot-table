@@ -1,9 +1,10 @@
+import type { stardust } from "@nebula.js/stardust";
 import { contentSection } from "./content";
 import { getDimensionSection } from "./dimension-content";
 import { gridSection } from "./grid";
 import { headerSection } from "./header";
 
-export const getStylingPanelConfig = () => ({
+export const getStylingPanelConfig = (translator: stardust.Translator) => ({
   type: "items",
   items: [
     {
@@ -15,10 +16,10 @@ export const getStylingPanelConfig = () => ({
       useGeneral: true,
       defaultValue: [],
       items: {
-        headerSection,
-        contentSection,
-        rowContentSection: getDimensionSection("rowContent"),
-        columnContentSection: getDimensionSection("columnContent"),
+        headerSection: headerSection(translator),
+        contentSection: contentSection(translator),
+        rowContentSection: getDimensionSection("rowContent", translator),
+        columnContentSection: getDimensionSection("columnContent", translator),
         gridSection,
       },
     },

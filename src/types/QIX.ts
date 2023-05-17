@@ -56,14 +56,14 @@ export interface Component {
   rowHeight?: RowHeight;
   header: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     background?: PaletteColor;
     rowTitle?: ComponentCellStyling;
     columnTitle?: ComponentCellStyling;
   };
   content: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     fontColor?: PaletteColor;
     background?: PaletteColor;
     nullValue?: ComponentCellStyling;
@@ -71,7 +71,7 @@ export interface Component {
   };
   rowContent: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     fontColor?: PaletteColor;
     background?: PaletteColor;
     nullValue?: ComponentCellStyling;
@@ -80,7 +80,7 @@ export interface Component {
   };
   columnContent: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     fontColor?: PaletteColor;
     background?: PaletteColor;
     nullValue?: ComponentCellStyling;
