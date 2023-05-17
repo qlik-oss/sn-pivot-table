@@ -1,3 +1,6 @@
+import { Colors } from "../../../../pivot-table/components/shared-styles";
+import { createColorPickerItem } from "./utils/create-color-picker-item";
+
 export const gridSection = {
   translation: "properties.filterpane.grid",
   component: "panel-section",
@@ -7,7 +10,7 @@ export const gridSection = {
       ref: "components",
       key: "theme",
       items: {
-        rowHeightWrapper: {
+        lineCount: {
           component: "inline-wrapper",
           items: {
             rowHeight: {
@@ -22,6 +25,16 @@ export const gridSection = {
             },
           },
         },
+        border: createColorPickerItem(
+          "grid.border",
+          "properties.border",
+          (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.border ?? Colors.Black15
+        ),
+        divider: createColorPickerItem(
+          "grid.divider",
+          "properties.divider",
+          (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.divider ?? Colors.Black60
+        ),
       },
     },
   },

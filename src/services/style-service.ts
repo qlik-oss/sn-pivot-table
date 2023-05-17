@@ -234,9 +234,16 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     },
     grid: {
       rowHeight: gridStyling?.[Attribute.RowHeight] ?? getThemeStyle([Path.Grid], Attribute.RowHeight) ?? "compact",
-      lineCount: gridStyling?.[Attribute.LineCount] ?? getThemeStyle([Path.Grid], Attribute.LineCount) ?? 1,
-      border: gridStyling?.[Attribute.Border] ?? getThemeStyle([Path.Grid], Attribute.Border) ?? Colors.Black15,
-      divider: gridStyling?.[Attribute.Divider] ?? getThemeStyle([Path.Grid], Attribute.Divider) ?? Colors.Black60,
+      lineCount:
+        gridStyling?.[Attribute.LineCount] ?? getThemeStyle([Path.Grid], Attribute.LineCount) ?? DEFAULT_LINE_CLAMP,
+      border:
+        resolveColor(theme, gridStyling?.[Attribute.Border]) ??
+        getThemeStyle([Path.Grid], Attribute.Border) ??
+        Colors.Black15,
+      divider:
+        resolveColor(theme, gridStyling?.[Attribute.Divider]) ??
+        getThemeStyle([Path.Grid], Attribute.Divider) ??
+        Colors.Black60,
     },
   } as StyleService;
 

@@ -54,14 +54,14 @@ interface ComponentCellStyling {
 export interface Component {
   key: "general" | "theme";
   rowHeight?: RowHeight;
-  header?: {
+  header: {
     fontFamily?: string;
     fontSize?: number;
     background?: PaletteColor;
     rowTitle?: ComponentCellStyling;
     columnTitle?: ComponentCellStyling;
   };
-  content?: {
+  content: {
     fontFamily?: string;
     fontSize?: number;
     fontColor?: PaletteColor;
@@ -90,8 +90,8 @@ export interface Component {
   grid: {
     rowHeight?: "compact";
     lineCount?: number;
-    border?: string;
-    divider?: string;
+    border?: PaletteColor;
+    divider?: PaletteColor;
   };
 }
 
@@ -100,7 +100,9 @@ export interface CurrentTheme {
     pivotTableV2?: StylingOptions;
   };
   fontSize: string;
+  fontSizes?: string[];
   fontFamily: string;
+  fontFamilies?: string[];
   color: string;
 }
 
