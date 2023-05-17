@@ -74,7 +74,7 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
     setMeasureData((prevData) => addPageToMeasureData({ prevData, nextDataPage: nextPage, pageInfo }));
     setTopDimensionData((prevData) => addPageToTopDimensionData({ prevData, nextDataPage: nextPage }));
     setLeftDimensionData((prevData) => addPageToLeftDimensionData({ prevData, nextDataPage: nextPage, pageInfo }));
-  }, [nextPage, pageInfo]);
+  }, [nextPage, pageInfo.currentPage, pageInfo.rowsPerPage]);
 
   const headersData = useMemo<HeadersData>(
     () => createHeadersData(qHyperCube, topDimensionData.rowCount, leftDimensionData.dimensionInfoIndexMap),
