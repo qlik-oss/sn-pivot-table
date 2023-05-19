@@ -18,6 +18,7 @@ interface DataGridProps {
   viewService: ViewService;
   layoutService: LayoutService;
   measureData: MeasureData;
+  dataRowCount: number;
 }
 
 type FetchModeData = (
@@ -102,6 +103,7 @@ const DataGrid = ({
   viewService,
   layoutService,
   measureData,
+  dataRowCount,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -173,7 +175,7 @@ const DataGrid = ({
       columnCount={layoutService.size.x}
       columnWidth={getColumnWidth}
       height={height}
-      rowCount={layoutService.size.y}
+      rowCount={dataRowCount}
       rowHeight={rowHightCallback}
       width={width}
       itemData={

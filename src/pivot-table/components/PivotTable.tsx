@@ -102,7 +102,12 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  const totalDataHeight = layoutService.size.y * contentCellHeight + GRID_BORDER;
+  const dataRowCount = Math.min(
+    layoutService.layout.qHyperCube.qSize.qcy - pageInfo.currentPage * pageInfo.rowsPerPage,
+    pageInfo.rowsPerPage
+  );
+
+  const totalDataHeight = dataRowCount * contentCellHeight + GRID_BORDER;
   const containerHeight = totalDataHeight + headerCellHeight * topDimensionData.rowCount;
   const headerGridHeight = headerCellHeight * headersData.size.y;
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
@@ -150,6 +155,7 @@ export const StickyPivotTable = ({
             getScrollTop={getScrollTop}
             layoutService={layoutService}
             leftDimensionData={leftDimensionData}
+            dataRowCount={dataRowCount}
           />
 
           <DataGrid
@@ -162,6 +168,7 @@ export const StickyPivotTable = ({
             viewService={viewService}
             layoutService={layoutService}
             measureData={measureData}
+            dataRowCount={dataRowCount}
           />
         </StickyContainer>
       </FullSizeContainer>

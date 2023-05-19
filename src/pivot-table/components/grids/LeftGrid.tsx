@@ -8,7 +8,6 @@ import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
-import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
 
@@ -22,6 +21,7 @@ interface LeftGridProps {
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
+  dataRowCount: number;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -55,6 +55,7 @@ const LeftGrid = ({
   getScrollTop,
   layoutService,
   leftDimensionData,
+  dataRowCount,
 }: LeftGridProps): JSX.Element | null => {
   const { qDimensionInfo } = layoutService.layout.qHyperCube;
   const {
@@ -74,8 +75,6 @@ const LeftGrid = ({
     }
   }, [getScrollTop, layoutService, leftGridRef]);
 
-  const totalHeight = layoutService.size.y * contentCellHeight;
-
   if (leftDimensionData.columnCount === 0) {
     return null;
   }
@@ -84,7 +83,6 @@ const LeftGrid = ({
     <div style={{ ...containerStyle, borderColor: divider }}>
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
-        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
         const key = getKey(leftDimensionData.dimensionInfoIndexMap[colIndex], qDimensionInfo);
 
         return (
@@ -94,7 +92,7 @@ const LeftGrid = ({
             style={listStyle}
             height={height}
             width={getLeftColumnWidth(colIndex)}
-            itemCount={itemCount}
+            itemCount={dataRowCount}
             itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn)}
             layout="vertical"
             itemData={{
@@ -104,10 +102,9 @@ const LeftGrid = ({
               list,
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,
-              itemCount,
+              itemCount: dataRowCount,
             }}
             itemKey={getItemKey}
-            estimatedItemSize={estimatedItemSize}
           >
             {MemoizedListCellFactory}
           </VariableSizeList>
