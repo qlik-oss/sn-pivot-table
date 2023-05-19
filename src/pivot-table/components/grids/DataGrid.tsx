@@ -81,7 +81,6 @@ const throttledFetchMoreData: FetchModeData = throttler(
     );
 
     if (shouldFetchData) {
-      console.log("fetch more");
       await dataModel.fetchMoreData(
         overscanColumnStartIndex,
         overscanRowStartIndex,

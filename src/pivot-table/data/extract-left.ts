@@ -35,8 +35,6 @@ const extractLeftGrid = (
       const dataY = qArea.qTop + rowIdx - node.qUp;
       const cell = createCell(node, parent, root, colIdx, y, dataY, isSnapshot);
 
-      colIdx === 0 && console.log(">>>", { y, dataY, cell, cellName: node.qText });
-
       grid[colIdx][y] = cell;
 
       if (node.qSubNodes.length) {

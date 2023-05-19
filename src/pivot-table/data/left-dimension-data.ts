@@ -18,7 +18,6 @@ export const addPageToLeftDimensionData = ({
   const { qLeft, qArea } = nextDataPage;
   if (!qLeft.length) return prevData;
 
-  console.log(">>> Add");
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, false);
   assignDistanceToNextCell(grid, "y", prevData.layoutSize);
 
@@ -37,7 +36,6 @@ export const createLeftDimensionData = (
   const { qHyperCube } = layoutService.layout;
   const { qArea, qLeft } = dataPage;
   const { qEffectiveInterColumnSortOrder } = qHyperCube;
-  console.log(">>> create");
   const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService.isSnapshot);
   assignDistanceToNextCell(grid, "y", layoutService.size);
   const dimensionInfoIndexMap = grid.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));

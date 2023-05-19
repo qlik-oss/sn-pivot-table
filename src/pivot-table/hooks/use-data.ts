@@ -92,8 +92,6 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
     setNextPage(page);
   }, []);
 
-  console.log({ leftDimensionData });
-
   return {
     headersData,
     measureData,

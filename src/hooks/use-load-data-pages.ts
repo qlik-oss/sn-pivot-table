@@ -60,9 +60,7 @@ const useLoadDataPages: UseLoadDataPages = ({ model, layoutService, viewService,
           qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
           qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
         };
-        console.log("LOAD DATA PAGES", fetchArea);
         const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [fetchArea]);
-        console.log("LOAD DATA PAGES", { pivotPages });
         setDataPages(pivotPages);
       } catch (error) {
         // TODO handle error
