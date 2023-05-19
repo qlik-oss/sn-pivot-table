@@ -3,9 +3,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import NxDimCellType, { NxSelectionCellType } from "../../../../types/QIX";
-import type { Cell, DataModel, ItemData, LayoutService, StyleService } from "../../../../types/types";
+import type { Cell, DataModel, ItemData, LayoutService } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
-import { useStyleContext } from "../../../contexts/StyleProvider";
 import type { SelectionModel } from "../../../hooks/use-selections-model";
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from "../DimensionCell";
 import { lockedFromSelectionStyle, selectedStyle } from "../utils/get-dimension-cell-style";
@@ -39,7 +38,6 @@ describe("DimensionCell", () => {
   let isSelectedSpy: jest.MockedFunction<() => boolean>;
   let isLockedSpy: jest.MockedFunction<() => boolean>;
   let mockedSelectionModel: SelectionModel;
-  let mockedUseStyleContext: jest.MockedFunction<() => StyleService>;
   let layoutService: LayoutService;
 
   afterEach(() => {
@@ -60,18 +58,6 @@ describe("DimensionCell", () => {
     };
     mockedSelectionContext = useSelectionsContext as jest.MockedFunction<typeof useSelectionsContext>;
     mockedSelectionContext.mockReturnValue(mockedSelectionModel);
-
-    mockedUseStyleContext = useStyleContext as jest.MockedFunction<typeof useStyleContext>;
-    mockedUseStyleContext.mockReturnValue({
-      header: {
-        fontSize: "size",
-        fontFamily: "font",
-      },
-      content: {
-        fontSize: "size",
-        fontFamily: "font",
-      },
-    } as unknown as StyleService);
 
     constraints = {
       active: false,

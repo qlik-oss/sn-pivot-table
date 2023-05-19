@@ -15,6 +15,7 @@ jest.mock("../DimensionCell");
 jest.mock("../EmptyCell");
 jest.mock("../PseudoDimensionCell");
 jest.mock("../TotalsCell");
+jest.mock("../../../contexts/StyleProvider");
 
 describe("ListCellFactory", () => {
   const style: React.CSSProperties = {
@@ -106,7 +107,10 @@ describe("ListCellFactory", () => {
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
-    expect(mockEmptyCell).toHaveBeenCalledWith({ style, index, isLastRow: false, isLastColumn: true }, {});
+    expect(mockEmptyCell).toHaveBeenCalledWith(
+      { style: { ...style, background: "transparent" }, index, isLastRow: false, isLastColumn: true },
+      {}
+    );
   });
 
   test("should render undefined cell", () => {
@@ -119,7 +123,10 @@ describe("ListCellFactory", () => {
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
-    expect(mockEmptyCell).toHaveBeenCalledWith({ style, index, isLastRow: true, isLastColumn: false }, {});
+    expect(mockEmptyCell).toHaveBeenCalledWith(
+      { style: { ...style, background: "transparent" }, index, isLastRow: true, isLastColumn: false },
+      {}
+    );
   });
 
   describe("isLastRow and isLastColumn", () => {

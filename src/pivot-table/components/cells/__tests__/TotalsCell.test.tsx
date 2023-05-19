@@ -3,6 +3,8 @@ import React from "react";
 import type { Cell } from "../../../../types/types";
 import TotalsCell, { testId } from "../TotalsCell";
 
+jest.mock("../../../contexts/StyleProvider");
+
 test("should render", () => {
   const style: React.CSSProperties = {
     position: "absolute",

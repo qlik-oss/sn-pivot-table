@@ -6,7 +6,6 @@ const dataModelMock = (): DataModel => ({
   collapseTop: () => {},
   expandLeft: () => {},
   expandTop: () => {},
-  isLoading: false,
 });
 
 export default dataModelMock;

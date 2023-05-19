@@ -99,7 +99,14 @@ const DimensionCell = ({
     layoutService.isDimensionLocked(selectionCellType, rowIndex, colIndex);
   const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active || isNull;
   const isCellSelected = isSelected(selectionCellType, rowIndex, colIndex);
-  const resolvedTextStyle = getTextStyle({ isLeftColumn, styleService, qCanExpand, qCanCollapse, isCellSelected });
+  const resolvedTextStyle = getTextStyle({
+    isLeftColumn,
+    styleService,
+    qCanExpand,
+    qCanCollapse,
+    isCellSelected,
+    isNull,
+  });
   const resolvedInnerContainerStyle = getInnerContainerStyle(isLeftColumn);
   const resolvedContainerStyle = getContainerStyle({
     style,
@@ -109,16 +116,18 @@ const DimensionCell = ({
     isLastRow,
     isNonSelectableCell,
     isCellSelected,
+    styleService,
+    isLeftColumn,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.dataY, colIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
-  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
+  const serviceStyle = isLeftColumn ? styleService.rowContent : styleService.columnContent;
   let cellIcon = null;
 
   if (qCanExpand) {
     cellIcon = (
       <PlusIcon
-        color={serviceStyle.color}
+        color={isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdExpandIcon}
         onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.dataY, colIndex, constraints, isActive })}
@@ -127,7 +136,7 @@ const DimensionCell = ({
   } else if (qCanCollapse) {
     cellIcon = (
       <MinusIcon
-        color={serviceStyle.color}
+        color={isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdCollapseIcon}
         onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.dataY, colIndex, constraints, isActive })}

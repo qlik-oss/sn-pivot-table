@@ -42,6 +42,10 @@ const useRender = () => {
   const fonts = useMemo(
     () => [
       `600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,
+      `600 ${styleService.columnContent.fontSize} ${styleService.columnContent.fontFamily}`,
+      `${styleService.columnContent.fontSize} ${styleService.columnContent.fontFamily}`,
+      `600 ${styleService.rowContent.fontSize} ${styleService.rowContent.fontFamily}`,
+      `${styleService.rowContent.fontSize} ${styleService.rowContent.fontFamily}`,
       `${styleService.content.fontSize} ${styleService.content.fontFamily}`,
     ],
     [styleService]

@@ -2,6 +2,8 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
 
+jest.mock("../../../contexts/StyleProvider");
+
 test("should render", () => {
   const cell = "test value";
   const style: React.CSSProperties = {

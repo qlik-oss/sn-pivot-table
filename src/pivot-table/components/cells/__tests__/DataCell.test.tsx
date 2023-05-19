@@ -2,8 +2,10 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import NxDimCellType from "../../../../types/QIX";
 import type { GridItemData, LayoutService } from "../../../../types/types";
-import { NULL_BACKGROUND_COLOR } from "../../shared-styles";
+import { Colors } from "../../shared-styles";
 import DataCell, { testId } from "../DataCell";
+
+jest.mock("../../../contexts/StyleProvider");
 
 describe("DataCell", () => {
   let cell: EngineAPI.INxPivotValuePoint;
@@ -51,7 +53,7 @@ describe("DataCell", () => {
     expect(screen.getByText(layoutService.getNullValueText())).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0]).toHaveStyle({
       justifyContent: "center",
-      backgroundColor: NULL_BACKGROUND_COLOR,
+      backgroundColor: Colors.Black5,
     } as Record<string, unknown>);
   });
 });
