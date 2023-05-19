@@ -83,6 +83,7 @@ describe("DimensionCell", () => {
     };
 
     cell = {
+      dataY: 0,
       ref: {
         qText,
         qCanExpand: false,
