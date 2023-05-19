@@ -56,7 +56,9 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
           qWidth: width,
           qHeight: height,
         };
+        console.log("fetch More", nextArea);
         const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, [nextArea]);
+        console.log("fetch More", { pivotPage });
         nextPageHandler(pivotPage);
 
         ref.isLoading = false;

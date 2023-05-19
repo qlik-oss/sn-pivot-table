@@ -74,7 +74,14 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
     setMeasureData((prevData) => addPageToMeasureData({ prevData, nextDataPage: nextPage, pageInfo }));
     setTopDimensionData((prevData) => addPageToTopDimensionData({ prevData, nextDataPage: nextPage }));
     setLeftDimensionData((prevData) => addPageToLeftDimensionData({ prevData, nextDataPage: nextPage, pageInfo }));
-  }, [nextPage, pageInfo.currentPage, pageInfo.rowsPerPage]);
+    // we dont need dependency of pageInfo
+    // this causes a rerender to add unrelevant data into grids
+    // the reson for why we dont need it as dependancy is because
+    // when a page changes -> we fetch new data (in supernova level) and trigger a new render
+    // that means the entire react tree will be recreated -> so pageInfo here will be the most updated one!
+    // and adding it as a dependency will trigger this hook that would result in extra unrelevant data (basically previous batch/page)
+    // being added in to grids
+  }, [nextPage]);
 
   const headersData = useMemo<HeadersData>(
     () => createHeadersData(qHyperCube, topDimensionData.rowCount, leftDimensionData.dimensionInfoIndexMap),
@@ -84,6 +91,8 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
     setNextPage(page);
   }, []);
+
+  console.log({ leftDimensionData });
 
   return {
     headersData,
