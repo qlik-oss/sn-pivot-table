@@ -159,7 +159,7 @@ const DimensionCell = ({
     >
       <div style={resolvedInnerContainerStyle}>
         {cellIcon}
-        <span style={resolvedTextStyle}>{`${isLeftColumn && `c${rowIndex}`} ${text}`}</span>
+        <span style={resolvedTextStyle}>{text}</span>
       </div>
     </div>
   );
