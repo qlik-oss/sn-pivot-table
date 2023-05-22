@@ -8,7 +8,7 @@ import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
-import { useTableRect } from "../hooks/use-table-rect";
+import useTableRect from "../hooks/use-table-rect";
 import FullSizeContainer from "./containers/FullSizeContainer";
 import ScrollableContainer from "./containers/ScrollableContainer";
 import StickyContainer from "./containers/StickyContainer";

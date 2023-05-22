@@ -9,7 +9,7 @@ interface DisclaimerProps {
   translator: stardust.Translator;
 }
 
-export const Disclaimer = ({ styleService, translator }: DisclaimerProps): JSX.Element => {
+const Disclaimer = ({ styleService, translator }: DisclaimerProps): JSX.Element => {
   const text = translator.get("SNPivotTable.LimitedData");
   const { fontFamily } = styleService.content; // TODO Resolve from root of theme?
 
@@ -30,3 +30,5 @@ export const Disclaimer = ({ styleService, translator }: DisclaimerProps): JSX.E
     </div>
   );
 };
+
+export default Disclaimer;

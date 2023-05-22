@@ -1,7 +1,7 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import { useStyleContext } from "../contexts/StyleProvider";
-import { Disclaimer } from "./Disclaimer";
+import Disclaimer from "./Disclaimer";
 import { StickyPivotTable, type PivotTableProps } from "./PivotTable";
 
 export interface WrapperProps extends PivotTableProps {
