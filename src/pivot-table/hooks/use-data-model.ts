@@ -4,7 +4,7 @@ import { Q_PATH } from "../../constants";
 import type { Model } from "../../types/QIX";
 import type { DataModel, ExpandOrCollapser, FetchMoreData, PageInfo } from "../../types/types";
 
-interface UseDataModelProps {
+export interface UseDataModelProps {
   model: Model;
   nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
   pageInfo: PageInfo;

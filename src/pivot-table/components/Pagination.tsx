@@ -27,6 +27,9 @@ const buttonsStyle: React.CSSProperties = {
   alignItems: "center",
 };
 
+export const testIdPageInfo = "page-info";
+export const testIdDataRange = "data-range-info";
+
 export const Pagination = ({ pageInfo, updatePageInfo }: PaginationProps) => {
   const { totalPages, rowsPerPage, currentPage, totalRowCount } = pageInfo;
 
@@ -42,15 +45,15 @@ export const Pagination = ({ pageInfo, updatePageInfo }: PaginationProps) => {
 
   return (
     <div style={containerStyle}>
-      <span style={infoBoxStyle}>
+      <span style={infoBoxStyle} data-testid={testIdPageInfo}>
         page: <b>{currentPage + 1}</b> of <b>{totalPages}</b>
       </span>
-      <span style={infoBoxStyle}>
+      <span style={infoBoxStyle} data-testid={testIdDataRange}>
         {currentPage * rowsPerPage + 1} - {Math.min((currentPage + 1) * rowsPerPage, totalRowCount)} of {totalRowCount}
       </span>
       <div style={buttonsStyle}>
         {actionButtons.map(({ label, ...rest }) => (
-          <button {...rest} type="button">
+          <button {...rest} data-testid={`${label}`} type="button">
             {label}
           </button>
         ))}

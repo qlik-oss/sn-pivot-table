@@ -11,7 +11,7 @@ interface UseLoadDataPages {
   };
 }
 
-const shouldFetchAdditionalData = (
+export const shouldFetchAdditionalData = (
   qLastExpandedPos: EngineAPI.INxCellPosition | undefined,
   viewService: ViewService
 ) => {
@@ -25,7 +25,7 @@ const shouldFetchAdditionalData = (
   );
 };
 
-const isMissingLayoutData = (layoutService: LayoutService, pageInfo: PageInfo): boolean => {
+export const isMissingLayoutData = (layoutService: LayoutService, pageInfo: PageInfo): boolean => {
   const {
     qHyperCube: { qPivotDataPages, qSize },
   } = layoutService.layout;

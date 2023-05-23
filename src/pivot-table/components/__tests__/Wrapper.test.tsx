@@ -24,6 +24,9 @@ describe("Wrapper", () => {
       get: () => disclaimerText,
     } as unknown as ExtendedTranslator;
     pageInfo = {
+      currentPage: 0,
+      rowsPerPage: 50,
+      totalPages: 100,
       shouldShowPagination: false,
     } as PageInfo;
   });
@@ -46,5 +49,33 @@ describe("Wrapper", () => {
       </TestWithProvider>
     );
     expect(screen.queryByText(disclaimerText)).toBeNull();
+  });
+
+  test("should render with pagination", () => {
+    pageInfo.shouldShowPagination = true;
+    const { queryAllByRole, queryByText } = render(
+      <TestWithProvider>
+        <Wrapper {...({ layoutService, translator, pageInfo } as unknown as WrapperProps)} />
+      </TestWithProvider>
+    );
+
+    expect(queryAllByRole("button").length).toBe(4);
+    ["first", "prev", "next", "last"].forEach((btn) => {
+      expect(queryByText(btn)).toBeInTheDocument();
+    });
+  });
+
+  test("should render with out pagination", () => {
+    pageInfo.shouldShowPagination = false;
+    const { queryAllByRole, queryByText } = render(
+      <TestWithProvider>
+        <Wrapper {...({ layoutService, translator, pageInfo } as unknown as WrapperProps)} />
+      </TestWithProvider>
+    );
+
+    expect(queryAllByRole("button").length).toBe(0);
+    ["first", "prev", "next", "last"].forEach((btn) => {
+      expect(queryByText(btn)).not.toBeInTheDocument();
+    });
   });
 });
