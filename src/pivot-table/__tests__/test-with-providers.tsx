@@ -1,5 +1,5 @@
 import React from "react";
-import type { ExtendedSelections, LayoutService } from "../../types/types";
+import type { ExtendedSelections } from "../../types/types";
 import type { RootProps } from "../Root";
 import { DEFAULT_CELL_HEIGHT } from "../constants";
 import SelectionsProvider from "../contexts/SelectionsProvider";
@@ -9,7 +9,7 @@ interface Props extends Partial<RootProps> {
   children: JSX.Element;
 }
 
-export const TestWithProvider = (props: Props) => {
+const TestWithProvider = (props: Props) => {
   const {
     children,
     selections = {
@@ -92,15 +92,6 @@ export const TestWithProvider = (props: Props) => {
       headerCellHeight: DEFAULT_CELL_HEIGHT,
       contentCellHeight: DEFAULT_CELL_HEIGHT,
     },
-    layoutService = {
-      layout: {},
-      getNullValueText: () => "-",
-      getMeasureInfoIndexFromCellIndex: () => 0,
-      isDimensionLocked: () => false,
-      size: { x: 1, y: 2 },
-      isSnapshot: false,
-      hasLimitedData: false,
-    } as unknown as LayoutService,
   } = props;
 
   return (
@@ -109,3 +100,5 @@ export const TestWithProvider = (props: Props) => {
     </SelectionsProvider>
   );
 };
+
+export default TestWithProvider;
