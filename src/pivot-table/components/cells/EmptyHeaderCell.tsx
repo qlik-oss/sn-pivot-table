@@ -10,7 +10,7 @@ const innerStyle: React.CSSProperties = {
   width: "100%",
 };
 
-export const EmptyHeaderCell = ({ columnWidths }: Props) => (
+const EmptyHeaderCell = ({ columnWidths }: Props) => (
   <div
     style={{
       gridColumn: `span ${columnWidths.length}`,
@@ -19,3 +19,5 @@ export const EmptyHeaderCell = ({ columnWidths }: Props) => (
     <div style={innerStyle} />
   </div>
 );
+
+export default EmptyHeaderCell;

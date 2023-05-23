@@ -61,7 +61,8 @@ export default function useDataModel({ model, nextPageHandler }: UseDataModelPro
         ref.isLoading = false;
         return true;
       } catch (error) {
-        console.error(error);
+        // TODO handle error
+        console.error(error); // eslint-disable-line
         ref.isLoading = false;
         return false;
       }
