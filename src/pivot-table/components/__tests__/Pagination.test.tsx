@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import type { PageInfo } from "../../../types/types";
-import { Pagination, testIdDataRange, testIdPageInfo } from "../Pagination";
+import Pagination, { testIdDataRange, testIdPageInfo } from "../Pagination";
 
 describe("<Pagination />", () => {
   let pageInfo: PageInfo;

@@ -30,7 +30,7 @@ const buttonsStyle: React.CSSProperties = {
 export const testIdPageInfo = "page-info";
 export const testIdDataRange = "data-range-info";
 
-export const Pagination = ({ pageInfo, updatePageInfo }: PaginationProps) => {
+const Pagination = ({ pageInfo, updatePageInfo }: PaginationProps) => {
   const { totalPages, rowsPerPage, currentPage, totalRowCount } = pageInfo;
 
   const isFirstPage = currentPage === 0;
@@ -61,3 +61,5 @@ export const Pagination = ({ pageInfo, updatePageInfo }: PaginationProps) => {
     </div>
   );
 };
+
+export default Pagination;
