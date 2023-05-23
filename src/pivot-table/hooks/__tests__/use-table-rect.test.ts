@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { LayoutService, Rect } from "../../../types/types";
 import { DISCLAIMER_HEIGHT, PAGINATION_HEIGHT } from "../../constants";
-import { useTableRect } from "../use-table-rect";
+import useTableRect from "../use-table-rect";
 
 describe("use-table-rect", () => {
   let rect: Rect;
