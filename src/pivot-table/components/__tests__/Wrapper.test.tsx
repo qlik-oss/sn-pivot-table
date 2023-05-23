@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import type { ExtendedTranslator, LayoutService, PageInfo } from "../../../types/types";
-import { TestWithProvider } from "../../__tests__/test-with-providers";
+import TestWithProvider from "../../__tests__/test-with-providers";
 import { StickyPivotTable } from "../PivotTable";
 import type { WrapperProps } from "../Wrapper";
 import { Wrapper } from "../Wrapper";

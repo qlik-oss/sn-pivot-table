@@ -64,7 +64,7 @@ const useLoadDataPages: UseLoadDataPages = ({ model, layoutService, viewService,
         setDataPages(pivotPages);
       } catch (error) {
         // TODO handle error
-        console.error(error);
+        console.error(error); // eslint-disable-line
       }
     } else if (qHyperCube.qPivotDataPages.length) {
       setDataPages(qHyperCube.qPivotDataPages);
