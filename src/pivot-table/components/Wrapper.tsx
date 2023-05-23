@@ -3,7 +3,7 @@ import React from "react";
 import type { PageInfo } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import Disclaimer from "./Disclaimer";
-import { Pagination } from "./Pagination";
+import Pagination from "./Pagination";
 import { StickyPivotTable, type PivotTableProps } from "./PivotTable";
 
 export interface WrapperProps extends PivotTableProps {
