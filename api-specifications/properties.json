@@ -1,5 +1,5 @@
 {
-  "scriptappy": "1.0.0",
+  "scriptappy": "1.1.0",
   "info": {
     "name": "@nebula.js/sn-pivot-table:properties",
     "description": "Pivot Table generic object definition",
@@ -17,41 +17,9 @@
       ],
       "kind": "object",
       "entries": {
-        "components": {
-          "description": "Holds general styling",
-          "nullable": true,
-          "kind": "array",
-          "items": {
-            "type": "#/definitions/Component"
-          }
-        },
-        "footnote": {
-          "description": "Visualization footnote",
-          "optional": true,
-          "defaultValue": "",
-          "kind": "union",
-          "items": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "StringExpression"
-            }
-          ],
-          "type": "any"
-        },
-        "nullValueRepresentation": {
-          "description": "Null value properties",
-          "optional": true,
-          "kind": "object",
-          "entries": {
-            "text": {
-              "description": "Null value text",
-              "optional": true,
-              "defaultValue": "-",
-              "type": "string"
-            }
-          }
+        "version": {
+          "description": "Current version of this generic object definition",
+          "type": "string"
         },
         "qHyperCubeDef": {
           "extends": [
@@ -77,16 +45,16 @@
                 "type": "NxMeasure"
               }
             },
-            "qShowTotalsAbove": {
-              "defaultValue": true,
-              "type": "boolean"
-            },
             "qSuppressMissing": {
               "defaultValue": true,
               "type": "boolean"
             },
             "qSuppressZero": {
               "defaultValue": false,
+              "type": "boolean"
+            },
+            "qShowTotalsAbove": {
+              "defaultValue": true,
               "type": "boolean"
             }
           }
@@ -96,21 +64,6 @@
           "optional": true,
           "defaultValue": true,
           "type": "boolean"
-        },
-        "subtitle": {
-          "description": "Visualization subtitle",
-          "optional": true,
-          "defaultValue": "",
-          "kind": "union",
-          "items": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "StringExpression"
-            }
-          ],
-          "type": "any"
         },
         "title": {
           "description": "Visualization title",
@@ -124,12 +77,56 @@
             {
               "type": "StringExpression"
             }
-          ],
-          "type": "any"
+          ]
         },
-        "version": {
-          "description": "Current version of this generic object definition",
-          "type": "string"
+        "subtitle": {
+          "description": "Visualization subtitle",
+          "optional": true,
+          "defaultValue": "",
+          "kind": "union",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "StringExpression"
+            }
+          ]
+        },
+        "footnote": {
+          "description": "Visualization footnote",
+          "optional": true,
+          "defaultValue": "",
+          "kind": "union",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "StringExpression"
+            }
+          ]
+        },
+        "nullValueRepresentation": {
+          "description": "Null value properties",
+          "optional": true,
+          "entries": {
+            "text": {
+              "description": "Null value text",
+              "optional": true,
+              "defaultValue": "-",
+              "type": "string"
+            }
+          },
+          "kind": "object"
+        },
+        "components": {
+          "description": "Holds general styling",
+          "nullable": true,
+          "kind": "array",
+          "items": {
+            "type": "#/definitions/Component"
+          }
         }
       }
     }
@@ -137,85 +134,97 @@
   "definitions": {
     "Component": {
       "description": "General styling for all columns.\nSplit up into header and content (body) styling.\nIf any property is not set, default values specific for each property is used.",
-      "kind": "object",
-      "entries": {
-        "key": {
-          "description": "This should be set to `theme`",
-          "type": "string"
-        },
-        "content": {
-          "optional": true,
-          "type": "#/definitions/ContentStyling"
-        },
-        "header": {
-          "optional": true,
-          "type": "#/definitions/HeaderStyling"
+      "kind": "alias",
+      "items": {
+        "kind": "object",
+        "entries": {
+          "key": {
+            "description": "This should be set to `theme`",
+            "type": "string"
+          },
+          "content": {
+            "optional": true,
+            "type": "#/definitions/ContentStyling"
+          },
+          "header": {
+            "optional": true,
+            "type": "#/definitions/HeaderStyling"
+          }
         }
       }
     },
     "ContentStyling": {
       "description": "Holds properties for font size, font color and hover styling.",
-      "kind": "object",
-      "entries": {
-        "fontSize": {
-          "description": "Defaults to `14`",
-          "optional": true,
-          "type": "number"
-        },
-        "fontColor": {
-          "description": "Defaults to `#404040`",
-          "optional": true,
-          "type": "#/definitions/PaletteColor"
-        },
-        "hoverEffect": {
-          "description": "Toggles hover effect",
-          "optional": true,
-          "type": "boolean"
-        },
-        "hoverColor": {
-          "description": "Background hover color. Uses `#f4f4f4` if no hover colors are set, is transparent if only `hoverFontColor` is set",
-          "optional": true,
-          "type": "#/definitions/PaletteColor"
-        },
-        "hoverFontColor": {
-          "description": "When only `hoverColor` is set, this is adjusted to either `#f4f4f4` or `#ffffff` for optimal contrast",
-          "optional": true,
-          "type": "#/definitions/PaletteColor"
-        },
-        "padding": {
-          "description": "Css setting for the cell padding, defaults to `4px 12px`",
-          "optional": true,
-          "type": "string"
+      "kind": "alias",
+      "items": {
+        "kind": "object",
+        "entries": {
+          "fontSize": {
+            "description": "Defaults to `14`",
+            "optional": true,
+            "type": "number"
+          },
+          "fontColor": {
+            "description": "Defaults to `#404040`",
+            "optional": true,
+            "type": "#/definitions/PaletteColor"
+          },
+          "hoverEffect": {
+            "description": "Toggles hover effect",
+            "optional": true,
+            "type": "boolean"
+          },
+          "hoverColor": {
+            "description": "Background hover color. Uses `#f4f4f4` if no hover colors are set, is transparent if only `hoverFontColor` is set",
+            "optional": true,
+            "type": "#/definitions/PaletteColor"
+          },
+          "hoverFontColor": {
+            "description": "When only `hoverColor` is set, this is adjusted to either `#f4f4f4` or `#ffffff` for optimal contrast",
+            "optional": true,
+            "type": "#/definitions/PaletteColor"
+          },
+          "padding": {
+            "description": "Css setting for the cell padding, defaults to `4px 12px`",
+            "optional": true,
+            "type": "string"
+          }
         }
       }
     },
     "HeaderStyling": {
       "description": "Holds properties for font size and color.",
-      "kind": "object",
-      "entries": {
-        "fontSize": {
-          "description": "Defaults to `14`",
-          "optional": true,
-          "type": "number"
-        },
-        "fontColor": {
-          "description": "Defaults to `#404040`",
-          "optional": true,
-          "type": "#/definitions/PaletteColor"
+      "kind": "alias",
+      "items": {
+        "kind": "object",
+        "entries": {
+          "fontSize": {
+            "description": "Defaults to `14`",
+            "optional": true,
+            "type": "number"
+          },
+          "fontColor": {
+            "description": "Defaults to `#404040`",
+            "optional": true,
+            "type": "#/definitions/PaletteColor"
+          }
         }
       }
     },
     "PaletteColor": {
       "description": "Color information structure. Holds the actual color and index in palette",
-      "kind": "object",
-      "entries": {
-        "color": {
-          "description": "Color as hex string (mandatory if index: -1)",
-          "type": "string"
-        },
-        "index": {
-          "description": "Index in palette",
-          "type": "number"
+      "kind": "alias",
+      "items": {
+        "kind": "object",
+        "entries": {
+          "color": {
+            "description": "Color as hex string (mandatory if index: -1)",
+            "type": "string"
+          },
+          "index": {
+            "description": "Index in palette",
+            "type": "number"
+          }
         }
       }
     }
