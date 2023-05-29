@@ -11,6 +11,8 @@ interface PropertyPanelDefinition {
 }
 
 export default function create(env: Galaxy): PropertyPanelDefinition {
+  const { translator } = env;
+
   return {
     type: "items",
     component: "accordion",
@@ -18,7 +20,7 @@ export default function create(env: Galaxy): PropertyPanelDefinition {
       data: createData(env),
       sorting,
       addons,
-      settings,
+      settings: settings(translator),
     },
   };
 }

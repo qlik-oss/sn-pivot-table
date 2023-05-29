@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+import type { stardust } from "@nebula.js/stardust";
 import type { Args } from "../data";
 import createData from "../data";
 
 describe("data", () => {
+  const translator = { get: (str) => str } as stardust.Translator;
   let data: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   beforeEach(() => {
     data = createData({
-      translator: { get: (str) => str },
+      translator,
       anything: { sense: { isUnsupportedFeature: () => false } },
     });
   });
@@ -79,7 +81,7 @@ describe("data", () => {
 
       test("should not show totalMode and totalsLabel when feature is not supported", () => {
         data = createData({
-          translator: { get: (str) => str },
+          translator,
           anything: { sense: { isUnsupportedFeature: (f) => f === "totals" } },
         });
         expect(data.items.dimensions.items.totalMode.show).toBe(false);
