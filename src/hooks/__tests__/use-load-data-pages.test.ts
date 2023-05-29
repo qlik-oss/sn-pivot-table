@@ -6,20 +6,7 @@ import type { Model } from "../../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../../types/types";
 import useLoadDataPages, { isMissingLayoutData, shouldFetchAdditionalData } from "../use-load-data-pages";
 
-const usePromiseResult: Promise<void> | undefined = Promise.resolve();
-let usePromiseError: Error | undefined;
-
-const usePromise = (callback: () => void) => {
-  callback();
-  return [usePromiseResult, usePromiseError];
-};
-
-jest.mock("@nebula.js/stardust", () => ({
-  __esModule: true,
-  useState: () => {},
-  useMemo: () => {},
-  usePromise,
-}));
+jest.mock("@nebula.js/stardust");
 
 describe("useLoadDataPages", () => {
   let layoutService: LayoutService;
@@ -165,8 +152,7 @@ describe("useLoadDataPages", () => {
   describe("useLoadDataPages", () => {
     let getHyperCubePivotDataMock: jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>;
 
-    const renderer = () =>
-      renderHook(() => useLoadDataPages({ model, layoutService, viewService, pageInfo })).result.current;
+    const renderer = () => renderHook(() => useLoadDataPages({ model, layoutService, viewService, pageInfo }));
 
     beforeEach(() => {
       getHyperCubePivotDataMock = jest.fn();

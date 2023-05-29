@@ -5,11 +5,7 @@ import { MAX_ROW_COUNT } from "../../pivot-table/constants";
 import type { LayoutService } from "../../types/types";
 import usePagination from "../use-pagination";
 
-jest.mock("@nebula.js/stardust", () => ({
-  __esModule: true,
-  useState: () => {},
-  useEffect: () => {},
-}));
+jest.mock("@nebula.js/stardust");
 
 describe("usePagination", () => {
   let layoutService: LayoutService;
