@@ -50,8 +50,8 @@ export default function useColumnWidth(
       }
 
       const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo[dimIndex];
-      if (typeof columnWidth?.type === "string" && columnWidth?.type !== "auto" && columnWidth?.pixels) {
-        return columnWidth.pixels / rect.width;
+      if (typeof columnWidth?.type === "string" && columnWidth?.type !== "auto") {
+        return (columnWidth.pixels || 200) / rect.width;
       }
 
       const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
