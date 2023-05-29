@@ -13,7 +13,7 @@ import {
 import render from "../pivot-table/Root";
 import createStyleService from "../services/style-service";
 import type { Model, PivotLayout } from "../types/QIX";
-import type { ExtendedSelections, ExtendedTheme, PageInfo } from "../types/types";
+import type { ExtendedSelections, ExtendedTheme } from "../types/types";
 import useLayoutService from "./use-layout-service";
 import useLoadDataPages from "./use-load-data-pages";
 import usePagination from "./use-pagination";
@@ -33,7 +33,7 @@ const useRender = () => {
   const selections = useSelections() as ExtendedSelections;
   const theme = useTheme() as ExtendedTheme;
   const { translator, language } = useTranslations();
-  const { pageInfo, setPageInfo } = usePagination(layoutService);
+  const { pageInfo, updatePageInfo } = usePagination(layoutService);
   const viewService = useViewService(pageInfo);
   const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
   const { qPivotDataPages, isLoading } = useLoadDataPages({ model, layoutService, viewService, pageInfo });
@@ -79,7 +79,7 @@ const useRender = () => {
       styleService,
       translator,
       pageInfo,
-      updatePageInfo: (args: Partial<PageInfo>) => setPageInfo({ ...pageInfo, ...args }),
+      updatePageInfo,
     });
   }, [
     model,
@@ -98,7 +98,7 @@ const useRender = () => {
     translator,
     language,
     pageInfo,
-    setPageInfo,
+    updatePageInfo,
   ]);
 };
 
