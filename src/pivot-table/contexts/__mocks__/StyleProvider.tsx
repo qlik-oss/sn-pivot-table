@@ -1,3 +1,5 @@
+import React from "react";
+
 export const useStyleContext = () => ({
   lineClamp: 1,
   header: {
@@ -42,3 +44,7 @@ export const useStyleContext = () => ({
   headerCellHeight: 24,
   contentCellHeight: 24,
 });
+
+const StyleProvider = (): JSX.Element => <div />;
+
+export default StyleProvider;

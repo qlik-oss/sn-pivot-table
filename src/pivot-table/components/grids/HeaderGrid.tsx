@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import type { HeaderTitle, HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
-import { EmptyHeaderCell } from "../cells/EmptyHeaderCell";
+import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
 interface HeaderGridProps {
   columnWidthCallback: (index: number) => number;

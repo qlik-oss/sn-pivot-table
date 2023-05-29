@@ -1,5 +1,5 @@
 /*  eslint-disable no-param-reassign */
-import { debouncer } from "qlik-chart-modules";
+import { throttler } from "qlik-chart-modules";
 import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
 import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
@@ -63,7 +63,7 @@ const isMissingData = (
   return false;
 };
 
-const debouncedFetchMoreData: FetchModeData = debouncer(
+const throttledFetchMoreData: FetchModeData = throttler(
   async (
     dataModel: DataModel,
     measureData: MeasureData,
@@ -89,7 +89,7 @@ const debouncedFetchMoreData: FetchModeData = debouncer(
       );
     }
   },
-  150
+  100
 );
 
 const DataGrid = ({
@@ -140,7 +140,7 @@ const DataGrid = ({
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
-      await debouncedFetchMoreData(
+      await throttledFetchMoreData(
         dataModel,
         measureData,
         overscanColumnStartIndex,
