@@ -1,12 +1,15 @@
-import type { stardust } from "@nebula.js/stardust";
 import { useEffect, useState } from "@nebula.js/stardust";
 import { MAX_ROW_COUNT } from "../pivot-table/constants";
 import type { LayoutService, PageInfo } from "../types/types";
 
+interface UpdatePageInfo {
+  (args: Partial<PageInfo>): void;
+}
+
 interface UsePagination {
   (layoutService: LayoutService): {
     pageInfo: PageInfo;
-    setPageInfo: stardust.SetStateFn<PageInfo>;
+    updatePageInfo: UpdatePageInfo;
   };
 }
 
@@ -39,9 +42,11 @@ const usePagination: UsePagination = (layoutService) => {
     }));
   }, [layoutService.layout.qHyperCube.qSize.qcy, setPageInfo]);
 
+  const updatePageInfo: UpdatePageInfo = (args) => setPageInfo({ ...pageInfo, ...args });
+
   return {
     pageInfo,
-    setPageInfo,
+    updatePageInfo,
   };
 };
 
