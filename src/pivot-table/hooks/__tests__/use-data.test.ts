@@ -1,6 +1,4 @@
-import * as nebula from "@nebula.js/stardust";
 import { act, renderHook } from "@testing-library/react";
-import React from "react";
 import type {
   HeadersData,
   LayoutService,
@@ -23,12 +21,6 @@ import {
 } from "../../data/top-dimension-data";
 import useData from "../use-data";
 
-jest.mock("@nebula.js/stardust", () => ({
-  __esModule: true,
-  useState: () => {},
-  useEffect: () => {},
-  useMemo: () => {},
-}));
 jest.mock("../../data/top-dimension-data");
 jest.mock("../../data/measure-data");
 jest.mock("../../data/left-dimension-data");
@@ -130,10 +122,6 @@ describe("useData", () => {
     mockedCreateLeftDimensionData.mockReturnValue(leftDimensionData);
 
     mockedCreateHeadersData.mockReturnValue(headersData);
-
-    jest.spyOn(nebula, "useEffect").mockImplementation(React.useEffect);
-    jest.spyOn(nebula, "useMemo").mockImplementation(React.useMemo);
-    jest.spyOn(nebula, "useState").mockImplementation(React.useState);
   });
 
   afterEach(() => {
