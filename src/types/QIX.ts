@@ -54,16 +54,16 @@ interface ComponentCellStyling {
 export interface Component {
   key: "general" | "theme";
   rowHeight?: RowHeight;
-  header?: {
+  header: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     background?: PaletteColor;
     rowTitle?: ComponentCellStyling;
     columnTitle?: ComponentCellStyling;
   };
-  content?: {
+  content: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     fontColor?: PaletteColor;
     background?: PaletteColor;
     nullValue?: ComponentCellStyling;
@@ -71,7 +71,7 @@ export interface Component {
   };
   rowContent: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     fontColor?: PaletteColor;
     background?: PaletteColor;
     nullValue?: ComponentCellStyling;
@@ -80,7 +80,7 @@ export interface Component {
   };
   columnContent: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     fontColor?: PaletteColor;
     background?: PaletteColor;
     nullValue?: ComponentCellStyling;
@@ -90,8 +90,8 @@ export interface Component {
   grid: {
     rowHeight?: "compact";
     lineCount?: number;
-    border?: string;
-    divider?: string;
+    border?: PaletteColor;
+    divider?: PaletteColor;
   };
 }
 
@@ -100,7 +100,9 @@ export interface CurrentTheme {
     pivotTableV2?: StylingOptions;
   };
   fontSize: string;
+  fontSizes?: string[];
   fontFamily: string;
+  fontFamilies?: string[];
   color: string;
 }
 

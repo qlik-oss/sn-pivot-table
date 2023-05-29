@@ -1,5 +1,5 @@
 import { PSEUDO_DIMENSION_INDEX } from "../constants";
-import { MAX_COLUMN_COUNT } from "../pivot-table/constants";
+import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../pivot-table/constants";
 import { NxSelectionCellType, type PivotLayout } from "../types/QIX";
 import type { LayoutService } from "../types/types";
 
@@ -12,7 +12,7 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
   const snapshotDataPage = snapshotData?.content?.qPivotDataPages?.[0]?.qArea ?? { qWidth: 0, qHeight: 0 };
   const size = {
     x: isSnapshot ? snapshotDataPage.qWidth : Math.min(layout.qHyperCube.qSize.qcx, MAX_COLUMN_COUNT),
-    y: isSnapshot ? snapshotDataPage.qHeight : layout.qHyperCube.qSize.qcy,
+    y: isSnapshot ? snapshotDataPage.qHeight : Math.min(layout.qHyperCube.qSize.qcy, MAX_ROW_COUNT),
   };
 
   return {

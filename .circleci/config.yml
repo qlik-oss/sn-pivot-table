@@ -182,6 +182,7 @@ jobs:
             -e CREDENTIALS_S3_SECRETKEY="$APICULTURIST_S3"
             -e CREDENTIALS_GITHUB="$APICULTURIST_GITHUB"
             -e CREDENTIALS_COLONY="$APICULTURIST_TOKEN"
+            -e PRE_RELEASE=true
             ghcr.io/qlik-download/api-compliance
   locale:
     <<: *defaults

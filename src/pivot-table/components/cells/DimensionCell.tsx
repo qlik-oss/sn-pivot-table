@@ -119,7 +119,7 @@ const DimensionCell = ({
     styleService,
     isLeftColumn,
   });
-  const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, rowIndex, colIndex);
+  const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.dataY, colIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
   const serviceStyle = isLeftColumn ? styleService.rowContent : styleService.columnContent;
   let cellIcon = null;
@@ -130,7 +130,7 @@ const DimensionCell = ({
         color={isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdExpandIcon}
-        onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
+        onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.dataY, colIndex, constraints, isActive })}
       />
     );
   } else if (qCanCollapse) {
@@ -139,7 +139,7 @@ const DimensionCell = ({
         color={isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdCollapseIcon}
-        onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex, colIndex, constraints, isActive })}
+        onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.dataY, colIndex, constraints, isActive })}
       />
     );
   }

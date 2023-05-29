@@ -57,7 +57,8 @@ export interface ListItemData extends ItemData {
 export interface Cell {
   ref: EngineAPI.INxPivotDimensionCell;
   x: number;
-  y: number;
+  y: number; // position of cell in page
+  dataY: number; // position of cell in dataset
   parent: Cell | null;
   root: Cell | null;
   leafCount: number;
@@ -155,14 +156,20 @@ export interface DataService {
 }
 
 export interface Galaxy {
-  translator: {
-    get: (str: string) => string;
-  };
+  translator: stardust.Translator;
   anything: {
     sense: {
       isUnsupportedFeature: (f: string) => boolean;
     };
   };
+}
+
+export interface PageInfo {
+  currentPage: number;
+  shouldShowPagination: boolean;
+  totalPages: number;
+  rowsPerPage: number;
+  totalRowCount: number;
 }
 
 interface FontStyling {

@@ -3,10 +3,15 @@ import extractTopGrid from "./extract-top";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-map";
 
-export const addPageToTopDimensionData = (
-  prevData: TopDimensionData,
-  nextDataPage: EngineAPI.INxPivotPage
-): TopDimensionData => {
+export interface AddPageToTopDimensionDataProps {
+  prevData: TopDimensionData;
+  nextDataPage: EngineAPI.INxPivotPage;
+}
+
+export const addPageToTopDimensionData = ({
+  prevData,
+  nextDataPage,
+}: AddPageToTopDimensionDataProps): TopDimensionData => {
   const { qTop, qArea } = nextDataPage;
   if (!qTop.length) return prevData;
 

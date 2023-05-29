@@ -135,10 +135,9 @@ const DataGrid = ({
       overscanRowStartIndex,
       overscanRowStopIndex,
       visibleColumnStartIndex,
-      visibleRowStartIndex,
     }: GridOnItemsRenderedProps) => {
       viewService.gridColumnStartIndex = visibleColumnStartIndex;
-      viewService.gridRowStartIndex = visibleRowStartIndex;
+      viewService.gridRowStartIndex = overscanRowStartIndex;
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
