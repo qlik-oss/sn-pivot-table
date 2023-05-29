@@ -156,9 +156,7 @@ export interface DataService {
 }
 
 export interface Galaxy {
-  translator: {
-    get: (str: string) => string;
-  };
+  translator: stardust.Translator;
   anything: {
     sense: {
       isUnsupportedFeature: (f: string) => boolean;

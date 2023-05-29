@@ -1,3 +1,4 @@
+import { DEFAULT_FONT_FAMILY } from "../../pivot-table/constants";
 import type { PaletteColor } from "../../types/QIX";
 import type { ExtendedTheme, LayoutService } from "../../types/types";
 import createStyleService from "../style-service";
@@ -174,8 +175,8 @@ describe("style-service", () => {
       grid: {
         rowHeight: "compact",
         lineCount: linesCount,
-        border: "borderColor",
-        divider: "dividerColor",
+        border: color,
+        divider: color,
       },
       lineClamp: linesCount,
       headerCellHeight: 48,
@@ -242,14 +243,14 @@ describe("style-service", () => {
       lineClamp: 1,
       header: {
         fontSize: "12px",
-        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontFamily: DEFAULT_FONT_FAMILY,
         background: "transparent",
         rowTitle: { color: "#404040", background: "rgba(0, 0, 0, 0.03)" },
         columnTitle: { color: "#404040", background: "rgba(0, 0, 0, 0.03)" },
       },
       content: {
         fontSize: "12px",
-        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontFamily: DEFAULT_FONT_FAMILY,
         color: "rgba(0, 0, 0, 0.55)",
         background: "transparent",
         nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
@@ -257,7 +258,7 @@ describe("style-service", () => {
       },
       rowContent: {
         fontSize: "12px",
-        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontFamily: DEFAULT_FONT_FAMILY,
         color: "#404040",
         background: "transparent",
         nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
@@ -266,7 +267,7 @@ describe("style-service", () => {
       },
       columnContent: {
         fontSize: "12px",
-        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontFamily: DEFAULT_FONT_FAMILY,
         color: "#404040",
         background: "transparent",
         nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
