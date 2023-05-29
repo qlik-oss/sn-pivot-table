@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import type { Args, CurrentTheme } from "../../../../../types/QIX";
 import { toValueLabel } from "./to-value-label";
 
-type ThemeAccessor = (currentTheme: CurrentTheme) => string;
+export type ThemeAccessor = (currentTheme: CurrentTheme) => string;
 
 interface Props {
   ref: string;
@@ -10,7 +10,7 @@ interface Props {
   translator: stardust.Translator;
 }
 
-const DEFAULT_FONT_SIZES: string[] = [
+export const DEFAULT_FONT_SIZES: string[] = [
   "10px",
   "11px",
   "12px",

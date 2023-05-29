@@ -3,7 +3,7 @@ import { DEFAULT_FONT_FAMILY } from "../../../../../pivot-table/constants";
 import type { Args, CurrentTheme } from "../../../../../types/QIX";
 import { toValueLabel } from "./to-value-label";
 
-type ThemeAccessor = (currentTheme: CurrentTheme) => string;
+export type ThemeAccessor = (currentTheme: CurrentTheme) => string;
 
 interface Props {
   ref: string;
@@ -11,7 +11,7 @@ interface Props {
   translator: stardust.Translator;
 }
 
-const DEFAULT_FONT_FAMILIES: string[] = [
+export const DEFAULT_FONT_FAMILIES: string[] = [
   "American Typewriter, serif",
   "Andalé Mono, monospace",
   "Arial Black, sans-serif",
