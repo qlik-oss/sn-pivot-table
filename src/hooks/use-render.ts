@@ -16,6 +16,7 @@ import type { Model, PivotLayout } from "../types/QIX";
 import type { ExtendedSelections, ExtendedTheme } from "../types/types";
 import useLayoutService from "./use-layout-service";
 import useLoadDataPages from "./use-load-data-pages";
+import usePagination from "./use-pagination";
 import useReactRoot from "./use-react-root";
 import useSnapshot from "./use-snapshot";
 import useTranslations from "./use-translations";
@@ -28,13 +29,14 @@ const useRender = () => {
   const layout = useStaleLayout() as PivotLayout;
   const model = useModel() as Model;
   const constraints = useConstraints();
-  const viewService = useViewService();
   const layoutService = useLayoutService(layout);
-  const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
   const selections = useSelections() as ExtendedSelections;
   const theme = useTheme() as ExtendedTheme;
   const { translator, language } = useTranslations();
-  const { qPivotDataPages, isLoading } = useLoadDataPages(model, layoutService, viewService);
+  const { pageInfo, updatePageInfo } = usePagination(layoutService);
+  const viewService = useViewService(pageInfo);
+  const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
+  const { qPivotDataPages, isLoading } = useLoadDataPages({ model, layoutService, viewService, pageInfo });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);
   const fonts = useMemo(
@@ -76,6 +78,8 @@ const useRender = () => {
       qPivotDataPages,
       styleService,
       translator,
+      pageInfo,
+      updatePageInfo,
     });
   }, [
     model,
@@ -93,6 +97,8 @@ const useRender = () => {
     isFontLoaded,
     translator,
     language,
+    pageInfo,
+    updatePageInfo,
   ]);
 };
 

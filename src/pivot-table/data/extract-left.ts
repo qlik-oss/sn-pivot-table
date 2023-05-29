@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 
-import type { Cell, Grid } from "../../types/types";
+import type { Cell, Grid, PageInfo } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
 const extractLeftGrid = (
   grid: Grid,
   qLeft: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage,
+  pageInfo: PageInfo,
   isSnapshot: boolean
 ): Grid => {
   if (!qLeft.length) {
@@ -25,10 +26,14 @@ const extractLeftGrid = (
       grid[colIdx] = {};
     }
 
-    nodes.forEach((node, currRowIdx) => {
-      rowIdx += currRowIdx === 0 ? 0 : 1;
-      const y = qArea.qTop + rowIdx - node.qUp; // Start position + current page position - previous tail size,
-      const cell = createCell(node, parent, root, colIdx, y, isSnapshot);
+    nodes.forEach((node, idx) => {
+      rowIdx += idx === 0 ? 0 : 1;
+      // consider items that might be skipped based on current page
+      const startPosition = qArea.qTop - pageInfo.currentPage * pageInfo.rowsPerPage;
+      // Start position + current page position - previous tail size,
+      const y = Math.max(0, startPosition + rowIdx - node.qUp);
+      const dataY = qArea.qTop + rowIdx - node.qUp;
+      const cell = createCell(node, parent, root, colIdx, y, dataY, isSnapshot);
 
       grid[colIdx][y] = cell;
 
@@ -40,7 +45,7 @@ const extractLeftGrid = (
     });
   }
 
-  recursiveExtract(null, null, qLeft);
+  recursiveExtract(null, null, qLeft, 0);
 
   return grid;
 };

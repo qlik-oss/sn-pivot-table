@@ -6,11 +6,13 @@ const createCell = (
   root: Cell | null,
   x: number,
   y: number,
+  dataY: number,
   isSnapshot: boolean
 ): Cell => ({
   ref: node,
   x,
-  y,
+  y, // position of cell in page
+  dataY, // position of cell in dataset
   parent,
   root,
   leafCount: isSnapshot ? 0 : node.qUp + node.qDown,

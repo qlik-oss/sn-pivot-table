@@ -5,6 +5,7 @@ import type {
   LayoutService,
   LeftDimensionData,
   MeasureData,
+  PageInfo,
   TopDimensionData,
 } from "../../types/types";
 import createHeadersData from "../data/headers-data";
@@ -13,7 +14,7 @@ import { addPageToMeasureData, createMeasureData } from "../data/measure-data";
 import { addPageToTopDimensionData, createTopDimensionData } from "../data/top-dimension-data";
 import useOnPropsChange from "./use-on-props-change";
 
-const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: LayoutService): Data => {
+const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: LayoutService, pageInfo: PageInfo): Data => {
   const { qHyperCube } = layoutService.layout;
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
 
@@ -21,8 +22,11 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
     () =>
       qPivotDataPages
         .slice(1)
-        .reduce((nextData, page) => addPageToMeasureData(nextData, page), createMeasureData(qPivotDataPages[0])),
-    [qPivotDataPages]
+        .reduce(
+          (prevData, nextDataPage) => addPageToMeasureData({ prevData, nextDataPage, pageInfo }),
+          createMeasureData(qPivotDataPages[0], pageInfo)
+        ),
+    [qPivotDataPages, pageInfo]
   );
 
   const deriveTopDimensionDataFromProps = useCallback(
@@ -30,7 +34,7 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
       qPivotDataPages
         .slice(1)
         .reduce(
-          (nextData, page) => addPageToTopDimensionData(nextData, page),
+          (prevData, nextDataPage) => addPageToTopDimensionData({ prevData, nextDataPage }),
           createTopDimensionData(qPivotDataPages[0], layoutService)
         ),
     [layoutService, qPivotDataPages]
@@ -41,10 +45,10 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
       qPivotDataPages
         .slice(1)
         .reduce(
-          (nextData, page) => addPageToLeftDimensionData(nextData, page),
-          createLeftDimensionData(qPivotDataPages[0], layoutService)
+          (prevData, nextDataPage) => addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo }),
+          createLeftDimensionData(qPivotDataPages[0], layoutService, pageInfo)
         ),
-    [layoutService, qPivotDataPages]
+    [layoutService, qPivotDataPages, pageInfo]
   );
 
   const [measureData, setMeasureData] = useState<MeasureData>(() => deriveMeasureDataFromProps());
@@ -67,9 +71,16 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
 
   useOnPropsChange(() => {
     if (!nextPage) return;
-    setMeasureData((prev) => addPageToMeasureData(prev, nextPage));
-    setTopDimensionData((prev) => addPageToTopDimensionData(prev, nextPage));
-    setLeftDimensionData((prev) => addPageToLeftDimensionData(prev, nextPage));
+    setMeasureData((prevData) => addPageToMeasureData({ prevData, nextDataPage: nextPage, pageInfo }));
+    setTopDimensionData((prevData) => addPageToTopDimensionData({ prevData, nextDataPage: nextPage }));
+    setLeftDimensionData((prevData) => addPageToLeftDimensionData({ prevData, nextDataPage: nextPage, pageInfo }));
+    // we dont need dependency of pageInfo
+    // this causes a rerender to add unrelevant data into grids
+    // the reson for why we dont need it as dependancy is because
+    // when a page changes -> we fetch new data (in supernova level) and trigger a new render
+    // that means the entire react tree will be recreated -> so pageInfo here will be the most updated one!
+    // and adding it as a dependency will trigger this hook that would result in extra unrelevant data (basically previous batch/page)
+    // being added in to grids
   }, [nextPage]);
 
   const headersData = useMemo<HeadersData>(

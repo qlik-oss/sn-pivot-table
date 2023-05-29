@@ -50,7 +50,7 @@ describe("top dimension data", () => {
     test("should add page to data", () => {
       const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
-      const data = createTopDimensionData(dataPage, layoutService);
+      const prevData = createTopDimensionData(dataPage, layoutService);
       const nextDataPage = {
         qTop: [{}],
         qArea: {
@@ -58,9 +58,9 @@ describe("top dimension data", () => {
           qLeft: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToTopDimensionData(data, nextDataPage);
+      const nextData = addPageToTopDimensionData({ prevData, nextDataPage });
 
-      expect(nextData).not.toBe(data);
+      expect(nextData).not.toBe(prevData);
       expect(nextData.grid).toEqual(nextTop);
       expect(nextData.dimensionInfoIndexMap).toEqual([0]);
       expect(nextData.rowCount).toEqual(1);
@@ -69,7 +69,7 @@ describe("top dimension data", () => {
     test("should return previous page if qLeft is an empty array", () => {
       const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
-      const data = createTopDimensionData(dataPage, layoutService);
+      const prevData = createTopDimensionData(dataPage, layoutService);
       const nextDataPage = {
         qTop: [],
         qArea: {
@@ -77,9 +77,9 @@ describe("top dimension data", () => {
           qLeft: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToTopDimensionData(data, nextDataPage);
+      const nextData = addPageToTopDimensionData({ prevData, nextDataPage });
 
-      expect(nextData).toBe(data);
+      expect(nextData).toBe(prevData);
     });
   });
 });
