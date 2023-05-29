@@ -1,10 +1,10 @@
 import type { stardust } from "@nebula.js/stardust";
 import { Colors } from "../../../../pivot-table/components/shared-styles";
-import { createColorPickerItem } from "./utils/create-color-picker-item";
-import { createFontFamilyItem } from "./utils/create-font-family-item";
-import { createFontSizeItem } from "./utils/create-font-size-item";
+import createColorPickerItem from "./utils/create-color-picker-item";
+import createFontFamilyItem from "./utils/create-font-family-item";
+import createFontSizeItem from "./utils/create-font-size-item";
 
-export const contentSection = (translator: stardust.Translator) => ({
+const contentSection = (translator: stardust.Translator) => ({
   component: "panel-section",
   translation: "properties.Content",
   items: {
@@ -70,3 +70,5 @@ export const contentSection = (translator: stardust.Translator) => ({
     },
   },
 });
+
+export default contentSection;

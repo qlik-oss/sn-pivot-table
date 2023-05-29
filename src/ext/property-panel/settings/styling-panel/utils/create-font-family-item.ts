@@ -64,7 +64,7 @@ const getFontFamilies = (currentValue: string, currentTheme: CurrentTheme, trans
   return [...themeSection, ...(allFontsSection.length > 1 ? allFontsSection : [])];
 };
 
-export const createFontFamilyItem = ({ ref, themeAccessor, translator }: Props) => ({
+const createFontFamilyItem = ({ ref, themeAccessor, translator }: Props) => ({
   component: "dropdown",
   ref,
   options: (data: unknown, handler: unknown, args: Args) => {
@@ -74,3 +74,5 @@ export const createFontFamilyItem = ({ ref, themeAccessor, translator }: Props) 
   },
   defaultValue: (data: unknown, handler: unknown, args: Args) => themeAccessor(args.theme.current()),
 });
+
+export default createFontFamilyItem;

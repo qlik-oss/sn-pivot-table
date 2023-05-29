@@ -1,7 +1,7 @@
 import { Colors } from "../../../../pivot-table/components/shared-styles";
-import { createColorPickerItem } from "./utils/create-color-picker-item";
+import createColorPickerItem from "./utils/create-color-picker-item";
 
-export const gridSection = {
+const gridSection = {
   translation: "properties.filterpane.grid",
   component: "panel-section",
   items: {
@@ -39,3 +39,5 @@ export const gridSection = {
     },
   },
 };
+
+export default gridSection;

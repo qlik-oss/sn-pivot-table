@@ -1,7 +1,5 @@
-// import { TOTAL_MODE_ON } from '../../constants';
-
 import type { stardust } from "@nebula.js/stardust";
-import { getStylingPanelConfig } from "./styling-panel";
+import getStylingPanelConfig from "./styling-panel";
 
 interface ExtendedVisualizationHyperCubeDef extends EngineAPI.IVisualizationHyperCubeDef {
   qExpansionState: unknown[];
@@ -39,11 +37,6 @@ export const getRowStylesConfig = () => ({
         return properties.qHyperCubeDef?.qDimensions?.some((qDim) => qDim.qOtherTotalSpec?.qTotalMode === "TOTAL_EXPR");
       },
     },
-    // indentMode: {
-    //   ref: 'qHyperCubeDef.qIndentMode',
-    //   type: 'boolean',
-    //   translation: 'properties.pivot.indentMode',
-    // },
     resetProperties: {
       type: "object",
       component: "button",

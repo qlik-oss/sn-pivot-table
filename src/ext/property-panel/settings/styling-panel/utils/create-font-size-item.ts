@@ -58,7 +58,7 @@ const getFontSizes = (currentValue: string, currentTheme: CurrentTheme, translat
   return [...themeSection, ...(allSizesSection.length > 1 ? allSizesSection : [])];
 };
 
-export const createFontSizeItem = ({ ref, themeAccessor, translator }: Props) => ({
+const createFontSizeItem = ({ ref, themeAccessor, translator }: Props) => ({
   component: "dropdown",
   ref,
   options: (data: unknown, handler: unknown, args: Args) => {
@@ -68,3 +68,5 @@ export const createFontSizeItem = ({ ref, themeAccessor, translator }: Props) =>
   },
   defaultValue: (data: unknown, handler: unknown, args: Args) => themeAccessor(args.theme.current()),
 });
+
+export default createFontSizeItem;

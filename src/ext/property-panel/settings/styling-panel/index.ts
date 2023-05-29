@@ -1,10 +1,10 @@
 import type { stardust } from "@nebula.js/stardust";
-import { contentSection } from "./content";
-import { getDimensionSection } from "./dimension-content";
-import { gridSection } from "./grid";
-import { headerSection } from "./header";
+import contentSection from "./content";
+import getDimensionSection from "./dimension-content";
+import gridSection from "./grid";
+import headerSection from "./header";
 
-export const getStylingPanelConfig = (translator: stardust.Translator) => ({
+const getStylingPanelConfig = (translator: stardust.Translator) => ({
   type: "items",
   items: [
     {
@@ -25,3 +25,5 @@ export const getStylingPanelConfig = (translator: stardust.Translator) => ({
     },
   ],
 });
+
+export default getStylingPanelConfig;

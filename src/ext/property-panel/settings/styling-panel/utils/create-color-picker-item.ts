@@ -1,13 +1,8 @@
 import type { Args, CurrentTheme } from "../../../../../types/QIX";
 
-export const createColorPickerItem = (
-  ref: string,
-  translation: string,
-  themeAccessor: (theme: CurrentTheme) => string
-) => ({
+const createColorPickerItem = (ref: string, translation: string, themeAccessor: (theme: CurrentTheme) => string) => ({
   ref,
   translation,
-  // show: true,
   dualOutput: true,
   type: "object",
   component: "color-picker",
@@ -17,3 +12,5 @@ export const createColorPickerItem = (
     return { color: themeAccessor(currentTheme) };
   },
 });
+
+export default createColorPickerItem;
