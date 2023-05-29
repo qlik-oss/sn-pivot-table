@@ -32,7 +32,7 @@ const gridSection = {
         ),
         divider: createColorPickerItem(
           "grid.divider",
-          "properties.Divider",
+          "properties.pivot.divider",
           (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.divider ?? Colors.Black60
         ),
       },

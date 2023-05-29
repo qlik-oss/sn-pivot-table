@@ -3,11 +3,10 @@ import { Colors } from "../../../../pivot-table/components/shared-styles";
 import createColorPickerItem from "./utils/create-color-picker-item";
 import createFontFamilyItem from "./utils/create-font-family-item";
 import createFontSizeItem from "./utils/create-font-size-item";
-import { makeFirstLetterUpperCase } from "./utils/to-value-label";
 
 const getDimensionSection = (type: "rowContent" | "columnContent", translator: stardust.Translator) => ({
   component: "panel-section",
-  translation: `properties.${makeFirstLetterUpperCase(type)}`,
+  translation: `properties.pivot.${type}`,
   items: {
     content: {
       component: "items",
