@@ -28,7 +28,7 @@ const extractTopGrid = (
     nodes.forEach((node, currColIdx) => {
       colIdx += currColIdx === 0 ? 0 : 1;
       const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous tail size
-      const cell = createCell(node, parent, root, x, rowIdx, -1, isSnapshot);
+      const cell = createCell(node, parent, root, x, rowIdx, rowIdx, isSnapshot);
 
       grid[rowIdx][x] = cell;
 
