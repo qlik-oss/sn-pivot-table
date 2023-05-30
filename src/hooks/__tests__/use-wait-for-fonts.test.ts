@@ -1,24 +1,12 @@
+import * as nebula from "@nebula.js/stardust";
 import useWaitForFonts from "../use-wait-for-fonts";
 
-let usePromiseResult: Promise<void> | undefined = Promise.resolve();
-let usePromiseError: Error | undefined;
-
-const usePromise = (callback: () => void) => {
-  callback();
-  return [usePromiseResult, usePromiseError];
-};
-
-jest.mock("@nebula.js/stardust", () => ({
-  __esModule: true,
-  usePromise,
-}));
+jest.mock("@nebula.js/stardust");
 
 describe("useWaitForFonts", () => {
   let loadSpy: jest.SpyInstance<Promise<FontFace[]>, [font: string, text?: string | undefined], unknown>;
 
   beforeEach(() => {
-    usePromiseResult = Promise.resolve();
-    usePromiseError = undefined;
     loadSpy = jest.spyOn(global.document.fonts, "load");
   });
 
@@ -36,8 +24,14 @@ describe("useWaitForFonts", () => {
   });
 
   test("should return true when an error occured", () => {
-    usePromiseError = new Error("test");
-    usePromiseResult = undefined;
+    const usePromiseResult: Promise<void> = Promise.resolve();
+    const usePromiseError: Error = new Error("test");
+    const usePromiseMock = (callback: () => void): [Promise<void>, Error] => {
+      callback();
+      return [usePromiseResult, usePromiseError];
+    };
+
+    jest.spyOn(nebula, "usePromise").mockImplementation(usePromiseMock);
 
     const isFontLoaded = useWaitForFonts(["12px Arial", "600 12px Arial"]);
 

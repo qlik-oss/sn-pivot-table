@@ -36,19 +36,26 @@ describe("left dimension data", () => {
     jest.resetAllMocks();
   });
 
-  describe("create", () => {
+  describe("create left dimension data", () => {
     test("should return correct data", () => {
       const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractLeft.mockReturnValue(mockedReturnValue);
       const data = createLeftDimensionData(dataPage, layoutService, pageInfo);
 
+      expect(mockedExtractLeft).toHaveBeenCalledWith(
+        [],
+        dataPage.qLeft,
+        dataPage.qArea,
+        pageInfo,
+        layoutService.isSnapshot
+      );
       expect(data.grid).toEqual(mockedReturnValue);
       expect(data.dimensionInfoIndexMap).toEqual([0]);
       expect(data.columnCount).toEqual(1);
     });
   });
 
-  describe("add page to", () => {
+  describe("add page to left dimension data", () => {
     test("should add page to data", () => {
       const nextLeft = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractLeft.mockReturnValue(nextLeft);
@@ -62,6 +69,13 @@ describe("left dimension data", () => {
       } as unknown as EngineAPI.INxPivotPage;
       const nextData = addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo });
 
+      expect(mockedExtractLeft).toHaveBeenCalledWith(
+        [],
+        dataPage.qLeft,
+        dataPage.qArea,
+        pageInfo,
+        layoutService.isSnapshot
+      );
       expect(nextData.grid).toEqual(nextLeft);
       expect(nextData.dimensionInfoIndexMap).toEqual([0]);
       expect(nextData.columnCount).toEqual(1);
