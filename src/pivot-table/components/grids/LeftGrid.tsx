@@ -8,6 +8,7 @@ import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
+import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
 
@@ -21,7 +22,6 @@ interface LeftGridProps {
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
-  dataRowCount: number;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -55,7 +55,6 @@ const LeftGrid = ({
   getScrollTop,
   layoutService,
   leftDimensionData,
-  dataRowCount,
 }: LeftGridProps): JSX.Element | null => {
   const { qDimensionInfo } = layoutService.layout.qHyperCube;
   const {
@@ -75,6 +74,8 @@ const LeftGrid = ({
     }
   }, [getScrollTop, layoutService, leftGridRef]);
 
+  const totalHeight = layoutService.size.y * contentCellHeight;
+
   if (leftDimensionData.columnCount === 0) {
     return null;
   }
@@ -84,6 +85,7 @@ const LeftGrid = ({
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
         const key = getKey(leftDimensionData.dimensionInfoIndexMap[colIndex], qDimensionInfo);
+        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
 
         return (
           <VariableSizeList
@@ -92,7 +94,7 @@ const LeftGrid = ({
             style={listStyle}
             height={height}
             width={getLeftColumnWidth(colIndex)}
-            itemCount={dataRowCount}
+            itemCount={itemCount}
             itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn)}
             layout="vertical"
             itemData={{
@@ -102,9 +104,10 @@ const LeftGrid = ({
               list,
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,
-              itemCount: dataRowCount,
+              itemCount,
             }}
             itemKey={getItemKey}
+            estimatedItemSize={estimatedItemSize}
           >
             {MemoizedListCellFactory}
           </VariableSizeList>

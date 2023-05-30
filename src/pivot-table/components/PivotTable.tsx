@@ -166,7 +166,6 @@ export const StickyPivotTable = ({
             getScrollTop={getScrollTop}
             layoutService={layoutService}
             leftDimensionData={leftDimensionData}
-            dataRowCount={dataRowCount}
           />
 
           <DataGrid
@@ -179,7 +178,6 @@ export const StickyPivotTable = ({
             viewService={viewService}
             layoutService={layoutService}
             measureData={measureData}
-            dataRowCount={dataRowCount}
           />
         </StickyContainer>
       </FullSizeContainer>
