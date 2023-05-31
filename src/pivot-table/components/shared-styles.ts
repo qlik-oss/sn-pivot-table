@@ -74,13 +74,18 @@ export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "posit
   top: 4,
 };
 
-export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean, borderColor: string) => {
+export const getBorderStyle = (
+  isLastRow: boolean,
+  isLastColumn: boolean,
+  borderColor: string,
+  isLeftColumn?: boolean
+) => {
   if (isLastRow && isLastColumn) {
     return cellStyle;
   }
 
   if (isLastRow) {
-    return { ...borderBottomRightStyle, borderColor };
+    return { ...(isLeftColumn ? borderBottomRightStyle : borderRightStyle), borderColor };
   }
 
   if (isLastColumn) {

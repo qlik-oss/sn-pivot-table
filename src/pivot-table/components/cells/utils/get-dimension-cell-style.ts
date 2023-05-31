@@ -66,7 +66,7 @@ export const getContainerStyle = ({
     ...style,
     ...resolvedLockedSelectionStyle,
     ...resolvedSelectableCellStyle,
-    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
+    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, isLeftColumn),
     ...resolvedNullStyle,
     ...resolvedSelectedStyle,
     display: "flex",

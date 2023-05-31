@@ -51,7 +51,7 @@ const PseudoDimensionCell = ({ cell, style, isLeftColumn, isLastRow, isLastColum
       title={cell.ref.qText}
       style={{
         ...style,
-        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
+        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, isLeftColumn),
         ...containerStyle,
         ...serviceStyle,
       }}
