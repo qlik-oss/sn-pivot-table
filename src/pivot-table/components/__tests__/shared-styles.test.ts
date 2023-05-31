@@ -1,10 +1,4 @@
-import {
-  borderBottomRightStyle,
-  borderBottomStyle,
-  borderRightStyle,
-  cellStyle,
-  getBorderStyle,
-} from "../shared-styles";
+import { borderBottomRightStyle, borderBottomStyle, cellStyle, getBorderStyle } from "../shared-styles";
 
 const borderColor = "red";
 
@@ -15,7 +9,7 @@ describe("Shared styles", () => {
     });
 
     test("should resolve style for last row", () => {
-      expect(getBorderStyle(true, false, borderColor)).toEqual({ ...borderRightStyle, borderColor });
+      expect(getBorderStyle(true, false, borderColor)).toEqual({ ...borderBottomRightStyle, borderColor });
     });
 
     test("should resolve style for last column", () => {

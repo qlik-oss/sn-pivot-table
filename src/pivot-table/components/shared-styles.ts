@@ -80,7 +80,7 @@ export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean, border
   }
 
   if (isLastRow) {
-    return { ...borderRightStyle, borderColor };
+    return { ...borderBottomRightStyle, borderColor };
   }
 
   if (isLastColumn) {

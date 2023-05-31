@@ -56,7 +56,7 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
 }: LeftGridProps): JSX.Element | null => {
-  const { qDimensionInfo } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
   const {
     contentCellHeight,
     grid: { divider },
@@ -95,7 +95,7 @@ const LeftGrid = ({
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
-            itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn)}
+            itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
             layout="vertical"
             itemData={{
               layoutService,
