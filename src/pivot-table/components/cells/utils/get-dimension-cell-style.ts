@@ -38,10 +38,11 @@ export const lockedFromSelectionStyle: Pick<React.CSSProperties, "color" | "back
   color: "#bebebe",
 };
 
-const cellStyle: Pick<React.CSSProperties, "display" | "flexDirection" | "alignItems"> = {
+const cellStyle: Pick<React.CSSProperties, "display" | "flexDirection" | "alignItems" | "gap"> = {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
+  gap: "4px",
 };
 
 export const getContainerStyle = ({
@@ -96,7 +97,6 @@ export const getTextStyle = ({
     ...(isNull && { color: nullValue.color }),
     ...(isCellSelected && { color: selectedStyle.color }),
     fontWeight: qCanExpand || qCanCollapse ? "600" : undefined,
-    marginLeft: 4,
     overflow: "hidden",
     textOverflow: "ellipsis",
     ...getLineClampStyle(styleService.lineClamp),
