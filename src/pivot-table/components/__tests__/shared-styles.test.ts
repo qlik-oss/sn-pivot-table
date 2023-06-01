@@ -9,7 +9,7 @@ describe("Shared styles", () => {
     });
 
     test("should resolve style for last row", () => {
-      expect(getBorderStyle(true, false, borderColor, false)).toEqual({ ...borderBottomRightStyle, borderColor });
+      expect(getBorderStyle(true, false, borderColor, true)).toEqual({ ...borderBottomRightStyle, borderColor });
     });
 
     test("should resolve style for last column", () => {
