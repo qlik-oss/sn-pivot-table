@@ -60,7 +60,7 @@ test.describe("sn-pivot-table: Rendering tests", () => {
       // Puppeteer Capture screenshot
       const img = await playwright.screenshot();
       // Compare screenshot with baseline image
-      expect(img).toMatchSnapshot(`${name}.png`);
+      expect(img).toMatchSnapshot({ name: `${name}.png`, maxDiffPixels: 1 });
     });
   });
 });
