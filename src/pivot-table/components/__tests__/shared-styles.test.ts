@@ -1,15 +1,29 @@
-import { borderBottomRightStyle, borderBottomStyle, cellStyle, getBorderStyle } from "../shared-styles";
+import {
+  borderBottomRightStyle,
+  borderBottomStyle,
+  borderRightStyle,
+  cellStyle,
+  getBorderStyle,
+} from "../shared-styles";
 
 const borderColor = "red";
 
 describe("Shared styles", () => {
   describe("getBorderStyle", () => {
+    test("should resolve style for last row and last column while `showLastRowBorderBottom` is true", () => {
+      expect(getBorderStyle(true, true, borderColor, true)).toEqual({ ...borderBottomStyle, borderColor });
+    });
+
     test("should resolve style for last row and last column", () => {
       expect(getBorderStyle(true, true, borderColor, false)).toBe(cellStyle);
     });
 
-    test("should resolve style for last row", () => {
+    test("should resolve style for last row while `showLastRowBorderBottom` is true", () => {
       expect(getBorderStyle(true, false, borderColor, true)).toEqual({ ...borderBottomRightStyle, borderColor });
+    });
+
+    test("should resolve style for last row", () => {
+      expect(getBorderStyle(true, false, borderColor, false)).toEqual({ ...borderRightStyle, borderColor });
     });
 
     test("should resolve style for last column", () => {
