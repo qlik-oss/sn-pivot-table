@@ -50,6 +50,7 @@ describe("ListCellFactory", () => {
       constraints,
       isLast: false,
       itemCount: 1,
+      showLastRowBorderBottom: false,
     };
   });
 
