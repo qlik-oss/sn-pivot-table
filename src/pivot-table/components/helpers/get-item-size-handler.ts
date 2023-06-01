@@ -23,7 +23,7 @@ export const getRowHeightHandler =
       const isLastRow = cell.dataY === qcy - cell.leafCount;
 
       // if it is last row -> consider subtracting cell.ref.qUp from leafcounts
-      // for cases when some of the leafnodes rendered in one page and rest in last page
+      // for cases when some of the leafnodes rendered in one page and rest in next/last page
       return (cell.leafCount - (isLastRow ? cell.ref.qUp : 0) + cell.distanceToNextCell) * cellHeight;
     }
 
