@@ -43,13 +43,20 @@ export const testId = "measure-cell";
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
   const { fontFamily, fontSize, color, background } = styleService.content;
-  const { grid, layoutService } = data;
+  const { grid, layoutService, showLastRowBorderBottom } = data;
   const cell = grid[rowIndex]?.[columnIndex];
   const isLastRow = rowIndex === layoutService.size.y - 1;
   const isLastColumn = columnIndex === layoutService.size.x - 1;
 
   if (!cell) {
-    return <EmptyCell style={{ ...style, background }} isLastRow={isLastRow} isLastColumn={isLastColumn} />;
+    return (
+      <EmptyCell
+        style={{ ...style, background }}
+        isLastRow={isLastRow}
+        isLastColumn={isLastColumn}
+        showLastRowBorderBottom={showLastRowBorderBottom}
+      />
+    );
   }
 
   const { qText, qType } = cell;
@@ -58,7 +65,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const isNumeric = isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
     ...(isNull ? { ...nilStyle, ...styleService.content.nullValue } : { ...numericStyle, color, background }),
-    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
+    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
     display: "flex",
     justifyContent: isNumeric ? "flex-end" : "center",
   };

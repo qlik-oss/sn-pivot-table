@@ -78,19 +78,25 @@ export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
-  isLeftColumn?: boolean
+  showLastRowBorderBottom: boolean
 ) => {
-  if (isLastRow && isLastColumn) {
-    return cellStyle;
-  }
+  switch (true) {
+    case isLastRow && isLastColumn && showLastRowBorderBottom:
+      return { ...borderBottomStyle, borderColor };
 
-  if (isLastRow) {
-    return { ...(isLeftColumn ? borderBottomRightStyle : borderRightStyle), borderColor };
-  }
+    case isLastRow && isLastColumn:
+      return cellStyle;
 
-  if (isLastColumn) {
-    return { ...borderBottomStyle, borderColor };
-  }
+    case isLastRow && showLastRowBorderBottom:
+      return { ...borderBottomRightStyle, borderColor };
 
-  return { ...borderBottomRightStyle, borderColor };
+    case isLastRow:
+      return { ...borderRightStyle, borderColor };
+
+    case isLastColumn:
+      return { ...borderBottomStyle, borderColor };
+
+    default:
+      return { ...borderBottomRightStyle, borderColor };
+  }
 };

@@ -23,6 +23,7 @@ interface TopGridProps {
   getScrollLeft: () => number;
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
+  showLastRowBorderBottom: boolean;
 }
 
 const listStyle: React.CSSProperties = {
@@ -51,6 +52,7 @@ const TopGrid = ({
   getScrollLeft,
   layoutService,
   topDimensionData,
+  showLastRowBorderBottom,
 }: TopGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -110,6 +112,7 @@ const TopGrid = ({
               list,
               isLast: isLastRow && !layoutService.layout.snapshotData,
               itemCount,
+              showLastRowBorderBottom,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

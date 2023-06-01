@@ -17,7 +17,7 @@ interface ListCallbackProps {
 
 const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
   const styleService = useStyleContext();
-  const { list, isLeftColumn = false, isLast, itemCount } = data;
+  const { list, isLeftColumn = false, isLast, itemCount, showLastRowBorderBottom } = data;
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
 
@@ -33,7 +33,13 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   if (cell === undefined || cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {
     const background = isLeftColumn ? styleService.rowContent.background : styleService.columnContent.background;
     return (
-      <EmptyCell style={{ ...style, background }} index={index} isLastRow={isLastRow} isLastColumn={isLastColumn} />
+      <EmptyCell
+        style={{ ...style, background }}
+        index={index}
+        isLastRow={isLastRow}
+        isLastColumn={isLastColumn}
+        showLastRowBorderBottom={showLastRowBorderBottom}
+      />
     );
   }
 
@@ -45,6 +51,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
         isLeftColumn={isLeftColumn}
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
+        showLastRowBorderBottom={showLastRowBorderBottom}
       />
     );
   }

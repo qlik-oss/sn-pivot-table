@@ -3,8 +3,8 @@ export const DEFAULT_FONT_FAMILY = "Source Sans Pro, Arial, sans-serif";
 export const DEFAULT_CELL_HEIGHT = 24;
 export const DEFAULT_LINE_CLAMP = 1;
 
-export const MAX_ROW_COUNT = 15_000;
-export const MAX_COLUMN_COUNT = 15_000;
+export const MAX_ROW_COUNT = 100;
+export const MAX_COLUMN_COUNT = 100;
 export const LINE_HEIGHT_COEFFICIENT = 4 / 3;
 export const CELL_PADDING_HEIGHT = 8;
 export const DISCLAIMER_HEIGHT = 22;

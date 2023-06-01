@@ -126,6 +126,10 @@ export const StickyPivotTable = ({
   const leftGridHeight = Math.min(tableRect.height - headerGridHeight, totalDataHeight);
   const dataGridHeight = Math.min(tableRect.height - topGridHeight, totalDataHeight);
 
+  const howManyRowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
+  const howManyRowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
+  const showLastRowBorderBottom = howManyRowsInCurrentPage < howManyRowsCanFitInTableViewPort;
+
   return (
     <ScrollableContainer
       ref={scrollableContainerRef}
@@ -154,6 +158,7 @@ export const StickyPivotTable = ({
             getScrollLeft={getScrollLeft}
             layoutService={layoutService}
             topDimensionData={topDimensionData}
+            showLastRowBorderBottom={false}
           />
 
           <LeftGrid
@@ -166,6 +171,7 @@ export const StickyPivotTable = ({
             getScrollTop={getScrollTop}
             layoutService={layoutService}
             leftDimensionData={leftDimensionData}
+            showLastRowBorderBottom={showLastRowBorderBottom}
           />
 
           <DataGrid
@@ -178,6 +184,7 @@ export const StickyPivotTable = ({
             viewService={viewService}
             layoutService={layoutService}
             measureData={measureData}
+            showLastRowBorderBottom={showLastRowBorderBottom}
           />
         </StickyContainer>
       </FullSizeContainer>

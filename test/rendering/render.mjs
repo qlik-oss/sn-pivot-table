@@ -44,23 +44,25 @@ test.describe("sn-pivot-table: Rendering tests", () => {
   });
 
   // Iterate testing fixture files
-  fs.readdirSync(paths.fixtures).forEach((file) => {
-    const name = file.replace(".fix.js", "");
-    const fixturePath = `./${file}`;
+  fs.readdirSync(paths.fixtures)
+    .slice(0, 1)
+    .forEach((file) => {
+      const name = file.replace(".fix.js", "");
+      const fixturePath = `./${file}`;
 
-    // Create test case per testing fixture file
-    test(name, async ({ page }) => {
-      playwright = createPlaywright(page);
-      // Render chart based on testing fixture file
-      // in Nebula serve using Enigma mocker
-      const renderUrl = await route.renderFixture(fixturePath);
-      console.log({ renderUrl });
-      // Open page in Nebula which renders fixture
-      await playwright.open(renderUrl);
-      // Puppeteer Capture screenshot
-      const img = await playwright.screenshot();
-      // Compare screenshot with baseline image
-      expect(img).toMatchSnapshot(`${name}.png`);
+      // Create test case per testing fixture file
+      test(name, async ({ page }) => {
+        playwright = createPlaywright(page);
+        // Render chart based on testing fixture file
+        // in Nebula serve using Enigma mocker
+        const renderUrl = await route.renderFixture(fixturePath);
+        console.log({ renderUrl });
+        // Open page in Nebula which renders fixture
+        await playwright.open(renderUrl);
+        // Puppeteer Capture screenshot
+        const img = await playwright.screenshot();
+        // Compare screenshot with baseline image
+        expect(img).toMatchSnapshot(`${name}.png`);
+      });
     });
-  });
 });

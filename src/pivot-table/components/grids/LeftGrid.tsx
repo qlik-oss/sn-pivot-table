@@ -22,6 +22,7 @@ interface LeftGridProps {
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
+  showLastRowBorderBottom: boolean;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -55,6 +56,7 @@ const LeftGrid = ({
   getScrollTop,
   layoutService,
   leftDimensionData,
+  showLastRowBorderBottom,
 }: LeftGridProps): JSX.Element | null => {
   const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
   const {
@@ -105,6 +107,7 @@ const LeftGrid = ({
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,
               itemCount,
+              showLastRowBorderBottom,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}
