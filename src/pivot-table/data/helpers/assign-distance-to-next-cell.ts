@@ -13,7 +13,7 @@ const assignDistanceToNextCell = (data: Grid, direction: "x" | "y", size: Point,
       } else {
         const gridLen = Object.values(data[data.length - 1]).length;
         const isLastPage = pageInfo && pageInfo.currentPage === pageInfo.totalPages - 1;
-        // if is in last page + grid length (total rows) is less than rows per page => no distance to next cell (should be 0)
+        // if in last page + grid length (total rows) is less than rows per page => distanceToNextCell should be 0
         if (direction === "y" && isLastPage && gridLen < pageInfo.rowsPerPage) {
           cell.distanceToNextCell = 0;
         } else {
