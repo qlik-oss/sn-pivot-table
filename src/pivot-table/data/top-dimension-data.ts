@@ -6,16 +6,18 @@ import createDimInfoToIndexMapCallback from "./helpers/dimension-info-to-index-m
 export interface AddPageToTopDimensionDataProps {
   prevData: TopDimensionData;
   nextDataPage: EngineAPI.INxPivotPage;
+  layoutService: LayoutService;
 }
 
 export const addPageToTopDimensionData = ({
   prevData,
   nextDataPage,
+  layoutService,
 }: AddPageToTopDimensionDataProps): TopDimensionData => {
   const { qTop, qArea } = nextDataPage;
   if (!qTop.length) return prevData;
 
-  const grid = extractTopGrid(prevData.grid, qTop, qArea, false);
+  const grid = extractTopGrid(prevData.grid, qTop, qArea, layoutService);
   assignDistanceToNextCell(grid, "x", prevData.layoutSize);
 
   return {
@@ -32,7 +34,7 @@ export const createTopDimensionData = (
   const { qHyperCube } = layoutService.layout;
   const { qArea, qTop } = dataPage;
   const { qEffectiveInterColumnSortOrder, qNoOfLeftDims } = qHyperCube;
-  const grid = extractTopGrid([], qTop, qArea, layoutService.isSnapshot);
+  const grid = extractTopGrid([], qTop, qArea, layoutService);
   assignDistanceToNextCell(grid, "x", layoutService.size);
   const dimensionInfoIndexMap = grid.map(
     createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder)

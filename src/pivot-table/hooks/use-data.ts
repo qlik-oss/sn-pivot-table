@@ -23,10 +23,10 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
       qPivotDataPages
         .slice(1)
         .reduce(
-          (prevData, nextDataPage) => addPageToMeasureData({ prevData, nextDataPage, pageInfo }),
-          createMeasureData(qPivotDataPages[0], pageInfo)
+          (prevData, nextDataPage) => addPageToMeasureData({ prevData, nextDataPage, pageInfo, layoutService }),
+          createMeasureData(qPivotDataPages[0], pageInfo, layoutService)
         ),
-    [qPivotDataPages, pageInfo]
+    [qPivotDataPages, pageInfo, layoutService]
   );
 
   const deriveTopDimensionDataFromProps = useCallback(
@@ -34,7 +34,7 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
       qPivotDataPages
         .slice(1)
         .reduce(
-          (prevData, nextDataPage) => addPageToTopDimensionData({ prevData, nextDataPage }),
+          (prevData, nextDataPage) => addPageToTopDimensionData({ prevData, nextDataPage, layoutService }),
           createTopDimensionData(qPivotDataPages[0], layoutService)
         ),
     [layoutService, qPivotDataPages]
@@ -45,7 +45,7 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
       qPivotDataPages
         .slice(1)
         .reduce(
-          (prevData, nextDataPage) => addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo }),
+          (prevData, nextDataPage) => addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo, layoutService }),
           createLeftDimensionData(qPivotDataPages[0], layoutService, pageInfo)
         ),
     [layoutService, qPivotDataPages, pageInfo]
@@ -71,9 +71,11 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
 
   useOnPropsChange(() => {
     if (!nextPage) return;
-    setMeasureData((prevData) => addPageToMeasureData({ prevData, nextDataPage: nextPage, pageInfo }));
-    setTopDimensionData((prevData) => addPageToTopDimensionData({ prevData, nextDataPage: nextPage }));
-    setLeftDimensionData((prevData) => addPageToLeftDimensionData({ prevData, nextDataPage: nextPage, pageInfo }));
+    setMeasureData((prevData) => addPageToMeasureData({ prevData, nextDataPage: nextPage, pageInfo, layoutService }));
+    setTopDimensionData((prevData) => addPageToTopDimensionData({ prevData, nextDataPage: nextPage, layoutService }));
+    setLeftDimensionData((prevData) =>
+      addPageToLeftDimensionData({ prevData, nextDataPage: nextPage, pageInfo, layoutService })
+    );
     // we dont need dependency of pageInfo
     // this causes a rerender to add unrelevant data into grids
     // the reson for why we dont need it as dependancy is because

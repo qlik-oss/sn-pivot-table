@@ -1,4 +1,12 @@
-import type { Cell } from "../../../types/types";
+import type { Cell, ExprColorIdx } from "../../../types/types";
+import { resolveToRGBAorRGB } from "./color-utils";
+
+const resolveExpressionColor = (node: EngineAPI.INxPivotDimensionCell, exprColorIdx: 0 | 1 | -1) => {
+  const colorValue = (node.qAttrExps as unknown as EngineAPI.INxAttributeExpressionValues)?.qValues?.[exprColorIdx]
+    ?.qText;
+
+  return colorValue ? resolveToRGBAorRGB(colorValue) : undefined;
+};
 
 const createCell = (
   node: EngineAPI.INxPivotDimensionCell,
@@ -7,7 +15,8 @@ const createCell = (
   x: number,
   y: number,
   dataY: number,
-  isSnapshot: boolean
+  isSnapshot: boolean,
+  exprColorIds: ExprColorIdx
 ): Cell => ({
   ref: node,
   x,
@@ -16,6 +25,8 @@ const createCell = (
   parent,
   root,
   leafCount: isSnapshot ? 0 : node.qUp + node.qDown,
+  foregroundColor: resolveExpressionColor(node, exprColorIds.foregroundColorIdx),
+  backgroundColor: resolveExpressionColor(node, exprColorIds.backgroundColorIdx),
   distanceToNextCell: 0,
   incrementLeafCount() {
     this.leafCount += 1;

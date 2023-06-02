@@ -67,7 +67,7 @@ const useRender = () => {
       isFontLoaded;
 
     if (!isReadyToRender) return;
-
+    console.log("%c layoutService", "color: orangered", layoutService);
     render(reactRoot, {
       model,
       rect,

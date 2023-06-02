@@ -7,6 +7,32 @@ export interface Args {
 const TOTAL_MODE_OFF = "TOTAL_OFF";
 const TOTAL_MODE_EXPR = "TOTAL_EXPR";
 
+const cellColoring = {
+  component: "attribute-expression-reference",
+  defaultValue: [],
+  ref: "qAttributeExpressions",
+  items: [
+    {
+      component: "expression",
+      ref: "qExpression",
+      expressionType: "measure",
+      translation: "Object.Table.Measure.BackgroundExpression",
+      defaultValue: "",
+      id: "cellBackgroundColor",
+      tid: "tableColorBgByExpression",
+    },
+    {
+      component: "expression",
+      ref: "qExpression",
+      expressionType: "measure",
+      translation: "Object.Table.Measure.ForegroundExpression",
+      defaultValue: "",
+      id: "cellForegroundColor",
+      tid: "tableColorByExpression",
+    },
+  ],
+};
+
 function isTotalsVisible(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown, args: Args): boolean {
   // always visible if qIndentMode is not enabled
   if (!args.properties.qHyperCubeDef.qIndentMode) {
@@ -123,6 +149,7 @@ const createData = (env: Galaxy): Record<string, any> => {
               return typeof val === "string" && val.trim().length > 0;
             },
           },
+          cellColoring,
         },
       },
       measures: {
@@ -161,6 +188,7 @@ const createData = (env: Galaxy): Record<string, any> => {
             type: "string",
             show: false,
           },
+          cellColoring,
           // numberFormatting: TODO
         },
       },

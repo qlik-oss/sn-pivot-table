@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
-import type { Cell, Grid, PageInfo } from "../../types/types";
+import type { ExtendedNxAttrExprInfo } from "../../types/QIX";
+import type { Cell, Grid, LayoutService, PageInfo } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
 const extractLeftGrid = (
@@ -8,7 +9,7 @@ const extractLeftGrid = (
   qLeft: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage,
   pageInfo: PageInfo,
-  isSnapshot: boolean
+  layoutService: LayoutService
 ): Grid => {
   if (!qLeft.length) {
     return grid;
@@ -33,7 +34,16 @@ const extractLeftGrid = (
       // Start position + current page position - previous tail size,
       const y = Math.max(0, startPosition + rowIdx - node.qUp);
       const dataY = qArea.qTop + rowIdx - node.qUp;
-      const cell = createCell(node, parent, root, colIdx, y, dataY, isSnapshot);
+      const cell = createCell(
+        node,
+        parent,
+        root,
+        colIdx,
+        y,
+        dataY,
+        layoutService.isSnapshot,
+        layoutService.colorByExpressionIndex.leftDimensions[colIdx]
+      );
 
       grid[colIdx][y] = cell;
 

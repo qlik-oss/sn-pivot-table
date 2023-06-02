@@ -1,9 +1,10 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import NxDimCellType, { NxSelectionCellType } from "../../../types/QIX";
-import type { Cell, DataModel, ItemData } from "../../../types/types";
+import NxDimCellType, { NxSelectionCellType, type ExtendedNxAttrExprInfo } from "../../../types/QIX";
+import type { Cell, DataModel, ItemData, LayoutService, ListItemData } from "../../../types/types";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { resolveToRGBAorRGB } from "../../data/helpers/color-utils";
 import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
 import { getContainerStyle, getInnerContainerStyle, getTextStyle } from "./utils/get-dimension-cell-style";
@@ -13,7 +14,7 @@ export interface DimensionCellProps {
   rowIndex: number;
   colIndex: number;
   style: React.CSSProperties;
-  data: ItemData;
+  data: ListItemData;
   isLeftColumn: boolean;
   isLastRow: boolean;
   isLastColumn: boolean;
@@ -106,6 +107,7 @@ const DimensionCell = ({
     qCanCollapse,
     isCellSelected,
     isNull,
+    foregroundColor: cell.foregroundColor,
   });
   const resolvedInnerContainerStyle = getInnerContainerStyle(isLeftColumn);
   const resolvedContainerStyle = getContainerStyle({
@@ -118,6 +120,7 @@ const DimensionCell = ({
     isCellSelected,
     styleService,
     isLeftColumn,
+    backgroundColor: cell.backgroundColor,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.dataY, colIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
@@ -127,7 +130,7 @@ const DimensionCell = ({
   if (qCanExpand) {
     cellIcon = (
       <PlusIcon
-        color={isNull ? serviceStyle.nullValue.color : serviceStyle.color}
+        color={isNull ? serviceStyle.nullValue.color : (resolvedTextStyle.color as string)}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdExpandIcon}
         onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.dataY, colIndex, constraints, isActive })}
@@ -136,7 +139,7 @@ const DimensionCell = ({
   } else if (qCanCollapse) {
     cellIcon = (
       <MinusIcon
-        color={isNull ? serviceStyle.nullValue.color : serviceStyle.color}
+        color={isNull ? serviceStyle.nullValue.color : (resolvedTextStyle.color as string)}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdCollapseIcon}
         onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.dataY, colIndex, constraints, isActive })}

@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import type { PivotLayout } from "./QIX";
+import type { ExtendedPivotValuePoint, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -17,6 +17,8 @@ export type HeaderTitle = {
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
+
+export type ExprColorIdx = { foregroundColorIdx: -1 | 0 | 1; backgroundColorIdx: -1 | 0 | 1 };
 
 export interface Rect {
   width: number;
@@ -43,7 +45,7 @@ export interface ItemData {
 }
 
 export interface GridItemData extends ItemData {
-  grid: EngineAPI.INxPivotValuePoint[][];
+  grid: ExtendedPivotValuePoint[][];
   isLeftColumn?: boolean;
 }
 
@@ -59,6 +61,8 @@ export interface Cell {
   x: number;
   y: number; // position of cell in page
   dataY: number; // position of cell in dataset
+  foregroundColor?: string;
+  backgroundColor?: string;
   parent: Cell | null;
   root: Cell | null;
   leafCount: number;
@@ -144,6 +148,11 @@ export interface LayoutService {
   isSnapshot: boolean;
   hasLimitedData: boolean;
   hasLeftDimensions: boolean;
+  colorByExpressionIndex: {
+    leftDimensions: ExprColorIdx[];
+    topDimensions: ExprColorIdx[];
+    measures: ExprColorIdx[];
+  };
 }
 
 export interface DataService {

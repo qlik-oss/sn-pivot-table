@@ -9,6 +9,7 @@ interface GetTextStyle {
   qCanCollapse: boolean;
   isCellSelected: boolean;
   isNull: boolean;
+  foregroundColor?: string;
 }
 
 interface GetContainerStyle {
@@ -21,6 +22,7 @@ interface GetContainerStyle {
   isCellSelected: boolean;
   styleService: StyleService;
   isLeftColumn: boolean;
+  backgroundColor?: string;
 }
 
 export const selectedStyle: Pick<React.CSSProperties, "color" | "background"> = {
@@ -55,12 +57,13 @@ export const getContainerStyle = ({
   isCellSelected,
   styleService,
   isLeftColumn,
+  backgroundColor,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
   const resolvedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
   const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
   const { nullValue, background } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
-  const resolvedNullStyle = isNull ? nullValue : { background };
+  const resolvedNullStyle = isNull ? nullValue : { background: backgroundColor ?? background };
 
   return {
     ...style,
@@ -86,6 +89,7 @@ export const getTextStyle = ({
   qCanExpand,
   isCellSelected,
   isNull,
+  foregroundColor,
 }: GetTextStyle): React.CSSProperties => {
   const { nullValue, totalLabel, measureLabel, background, ...serviceStyle } = isLeftColumn
     ? styleService.rowContent
@@ -94,6 +98,7 @@ export const getTextStyle = ({
   return {
     ...serviceStyle,
     ...textStyle,
+    ...(foregroundColor && { color: foregroundColor }),
     ...(isNull && { color: nullValue.color }),
     ...(isCellSelected && { color: selectedStyle.color }),
     fontWeight: qCanExpand || qCanCollapse ? "600" : undefined,

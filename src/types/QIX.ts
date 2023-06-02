@@ -133,3 +133,12 @@ export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;
 
 export default NxDimCellType;
+
+export interface ExtendedNxAttrExprInfo extends EngineAPI.INxAttrExprInfo {
+  id: string;
+}
+
+export interface ExtendedPivotValuePoint extends EngineAPI.INxPivotValuePoint {
+  foregroundColor?: string;
+  backgroundColor?: string;
+}
