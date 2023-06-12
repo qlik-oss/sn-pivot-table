@@ -1817,6 +1817,13 @@
   optionalDependencies:
     fsevents "2.3.2"
 
+"@qlik-trial/sprout@2.51.0":
+  version "2.51.0"
+  resolved "https://npm.pkg.github.com/download/@qlik-trial/sprout/2.51.0/9e27a31ab3b96481fb677ec22ddeef9f98f52c75#9e27a31ab3b96481fb677ec22ddeef9f98f52c75"
+  integrity sha512-7Mtqy1hZYzWw1I2lmwNju46mJxB8f0oRpSxY4OXqSuTiVKxWmoRGSt3hljSALSd3dN2EnPakKiMEDWPvrUEHBQ==
+  optionalDependencies:
+    "@swc/core-linux-x64-gnu" "1.3.60"
+
 "@qlik/eslint-config-base@0.0.15":
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/@qlik/eslint-config-base/-/eslint-config-base-0.0.15.tgz#a81cdb376052489b0055f048b10df4bc6e958b24"
@@ -2015,6 +2022,11 @@
   integrity sha512-SwUDyjWnah1AaNl7kxsa7cfLhlTYoiyhDAIgyh+El30YvXs/o7OLXpYH88Zdhyx9JExKrmHDJ+10bwIcY80Jmw==
   dependencies:
     "@sinonjs/commons" "^2.0.0"
+
+"@swc/core-linux-x64-gnu@1.3.60":
+  version "1.3.60"
+  resolved "https://registry.yarnpkg.com/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.3.60.tgz#998850b1ad8c5eb137a3c914ce9e62e4ac006dbb"
+  integrity sha512-WJt/X6HHM3/TszckRA7UKMXec3FHYsB9xswQbIYxN4bfTQodu3Rc8bmpHYtFO7ScMLrhY+RljHLK6wclPvaEXw==
 
 "@testing-library/dom@^9.0.0":
   version "9.2.0"

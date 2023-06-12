@@ -91,6 +91,7 @@
     "@nebula.js/cli-sense": "4.0.3",
     "@nebula.js/cli-serve": "4.0.3",
     "@playwright/test": "1.34.0",
+    "@qlik-trial/sprout": "2.51.0",
     "@qlik/eslint-config": "0.0.16",
     "@qlik/eslint-config-react": "0.0.15",
     "@qlik/prettier-config": "0.1.2",
@@ -124,7 +125,8 @@
     "typescript": "5.0.4"
   },
   "peerDependencies": {
-    "@nebula.js/stardust": ">=4.0.3"
+    "@nebula.js/stardust": ">=4.0.3",
+    "@qlik-trial/sprout": ">=2.51.0"
   },
   "engines": {
     "node": ">=16"
