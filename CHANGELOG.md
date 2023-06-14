@@ -1,3 +1,23 @@
+# [2.0.0](https://github.com/qlik-oss/sn-pivot-table/compare/v2.0.0-alpha.1...v2.0.0) (2023-06-14)
+
+
+### Bug Fixes
+
+* cell text alignment ([#290](https://github.com/qlik-oss/sn-pivot-table/issues/290)) ([77f217e](https://github.com/qlik-oss/sn-pivot-table/commit/77f217e32d43ffcc380821c7a8b7a95c2febae3c))
+* data fetch frequency on scroll ([#280](https://github.com/qlik-oss/sn-pivot-table/issues/280)) ([4e2b984](https://github.com/qlik-oss/sn-pivot-table/commit/4e2b9840497158085779389fb14d98c23223052b))
+* expand top grid issue ([#289](https://github.com/qlik-oss/sn-pivot-table/issues/289)) ([068d2b7](https://github.com/qlik-oss/sn-pivot-table/commit/068d2b7a826f8a6d5df695da746e2ce024c6d50b))
+* remove min and max width for svg element ([#288](https://github.com/qlik-oss/sn-pivot-table/issues/288)) ([49611db](https://github.com/qlik-oss/sn-pivot-table/commit/49611db079bfecd4d62f2672a9771b6dafe5b22d))
+
+
+### Features
+
+* cell styling ([#265](https://github.com/qlik-oss/sn-pivot-table/issues/265)) ([9832d50](https://github.com/qlik-oss/sn-pivot-table/commit/9832d509db1762ec96ec7bf9f1a91de463af6a2b))
+* pagination (synced with new way of data fetching) ([#275](https://github.com/qlik-oss/sn-pivot-table/issues/275)) ([b71d67e](https://github.com/qlik-oss/sn-pivot-table/commit/b71d67e6eb8809beec8096cfae3251956e66cfb1))
+* styling panel theme v2 ([#279](https://github.com/qlik-oss/sn-pivot-table/issues/279)) ([ae2330e](https://github.com/qlik-oss/sn-pivot-table/commit/ae2330e7f25fa9a9d069979a2452eafff67df8ad))
+* theme v2 ([#278](https://github.com/qlik-oss/sn-pivot-table/issues/278)) ([5c231c0](https://github.com/qlik-oss/sn-pivot-table/commit/5c231c0447d7ea57942d3b4695f09726b032a03c))
+
+
+
 # [2.0.0-alpha.1](https://github.com/qlik-oss/sn-pivot-table/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-05-10)
 
 
