@@ -57,7 +57,8 @@ export interface ListItemData extends ItemData {
 export interface Cell {
   ref: EngineAPI.INxPivotDimensionCell;
   x: number;
-  y: number;
+  y: number; // position of cell in page
+  dataY: number; // position of cell in dataset
   parent: Cell | null;
   root: Cell | null;
   leafCount: number;
@@ -154,28 +155,70 @@ export interface DataService {
   size: PivotDataSize;
 }
 
-type StyleProperties = {
-  fontSize: string;
-  fontFamily: string;
-  color: string;
-};
-
-export interface StyleService {
-  header: StyleProperties;
-  content: StyleProperties;
-  backgroundColor: string;
-  lineClamp: number;
-  headerCellHeight: number;
-  contentCellHeight: number;
-}
-
 export interface Galaxy {
-  translator: {
-    get: (str: string) => string;
-  };
+  translator: stardust.Translator;
   anything: {
     sense: {
       isUnsupportedFeature: (f: string) => boolean;
     };
   };
+}
+
+export interface PageInfo {
+  currentPage: number;
+  shouldShowPagination: boolean;
+  totalPages: number;
+  rowsPerPage: number;
+  totalRowCount: number;
+}
+
+interface FontStyling {
+  fontSize: string;
+  fontFamily: string;
+  color: string;
+}
+
+export interface CellStyling {
+  color: string;
+  background: string;
+}
+
+interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
+  background: string;
+  rowTitle: CellStyling;
+  columnTitle: CellStyling;
+}
+
+interface MeasureContentStyling extends FontStyling {
+  background: string;
+  nullValue: CellStyling;
+  totalValue: CellStyling;
+}
+
+interface DimensionContentStyling extends FontStyling {
+  background: string;
+  nullValue: CellStyling;
+  totalLabel: CellStyling;
+  measureLabel: CellStyling;
+}
+
+interface GridStyling {
+  rowHeight: "compact";
+  lineCount: number;
+  border: string;
+  divider: string;
+}
+
+export interface StylingOptions {
+  header: HeaderStyling;
+  content: MeasureContentStyling;
+  rowContent: DimensionContentStyling;
+  columnContent: DimensionContentStyling;
+  grid: GridStyling;
+}
+
+export interface StyleService extends StylingOptions {
+  headerCellHeight: number;
+  contentCellHeight: number;
+  lineClamp: number;
 }

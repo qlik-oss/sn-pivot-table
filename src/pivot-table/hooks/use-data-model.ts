@@ -2,14 +2,15 @@
 import { useCallback, useMemo } from "react";
 import { Q_PATH } from "../../constants";
 import type { Model } from "../../types/QIX";
-import type { DataModel, ExpandOrCollapser, FetchMoreData } from "../../types/types";
+import type { DataModel, ExpandOrCollapser, FetchMoreData, PageInfo } from "../../types/types";
 
-interface UseDataModelProps {
+export interface UseDataModelProps {
   model: Model;
   nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
+  pageInfo: PageInfo;
 }
 
-export default function useDataModel({ model, nextPageHandler }: UseDataModelProps): DataModel {
+export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDataModelProps): DataModel {
   const ref = useMemo(() => ({ isLoading: false }), []);
   const genericObjectModel = model as EngineAPI.IGenericObject | undefined;
 
@@ -51,7 +52,7 @@ export default function useDataModel({ model, nextPageHandler }: UseDataModelPro
       try {
         const nextArea = {
           qLeft: left,
-          qTop: top,
+          qTop: pageInfo.currentPage * pageInfo.rowsPerPage + top,
           qWidth: width,
           qHeight: height,
         };
@@ -61,12 +62,13 @@ export default function useDataModel({ model, nextPageHandler }: UseDataModelPro
         ref.isLoading = false;
         return true;
       } catch (error) {
-        console.error(error);
+        // TODO handle error
+        console.error(error); // eslint-disable-line
         ref.isLoading = false;
         return false;
       }
     },
-    [genericObjectModel, nextPageHandler, ref]
+    [genericObjectModel, nextPageHandler, ref, pageInfo]
   );
 
   const dataModel = useMemo<DataModel>(

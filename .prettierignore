@@ -12,3 +12,5 @@ test-report
 api-specifications
 CHANGELOG.md
 src/locale/all.json
+test/rendering/artifacts
+.vscode/

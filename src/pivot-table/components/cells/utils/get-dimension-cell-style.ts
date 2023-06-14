@@ -1,6 +1,6 @@
 import type React from "react";
 import type { StyleService } from "../../../../types/types";
-import { NULL_BACKGROUND_COLOR, getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../../shared-styles";
+import { getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../../shared-styles";
 
 interface GetTextStyle {
   isLeftColumn: boolean;
@@ -8,6 +8,7 @@ interface GetTextStyle {
   qCanExpand: boolean;
   qCanCollapse: boolean;
   isCellSelected: boolean;
+  isNull: boolean;
 }
 
 interface GetContainerStyle {
@@ -18,10 +19,12 @@ interface GetContainerStyle {
   isLastRow: boolean;
   isLastColumn: boolean;
   isCellSelected: boolean;
+  styleService: StyleService;
+  isLeftColumn: boolean;
 }
 
-export const selectedStyle: Pick<React.CSSProperties, "color" | "backgroundColor"> = {
-  backgroundColor: "#0aaf54",
+export const selectedStyle: Pick<React.CSSProperties, "color" | "background"> = {
+  background: "#0aaf54",
   color: "white",
 };
 
@@ -29,23 +32,17 @@ export const selectableCellStyle: Pick<React.CSSProperties, "cursor"> = {
   cursor: "pointer",
 };
 
+// Locked background image does not work great with cells that have colorful backgrounds
 export const lockedFromSelectionStyle: Pick<React.CSSProperties, "color" | "backgroundImage"> = {
   backgroundImage: "repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)",
   color: "#bebebe",
 };
 
-const nullStyle: Pick<React.CSSProperties, "backgroundColor"> = {
-  backgroundColor: NULL_BACKGROUND_COLOR,
-};
-
-const cellStyle: Pick<React.CSSProperties, "display" | "flexDirection" | "alignItems"> = {
+const cellStyle: Pick<React.CSSProperties, "display" | "flexDirection" | "alignItems" | "gap"> = {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-};
-
-const containerStyle: Pick<React.CSSProperties, "color"> = {
-  color: "#595959",
+  gap: "4px",
 };
 
 export const getContainerStyle = ({
@@ -56,20 +53,22 @@ export const getContainerStyle = ({
   isLastRow,
   isNonSelectableCell,
   isCellSelected,
+  styleService,
+  isLeftColumn,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
   const resolvedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
   const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
-  const resolvedNullStyle = isNull ? nullStyle : {};
+  const { nullValue, background } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
+  const resolvedNullStyle = isNull ? nullValue : { background };
 
   return {
     ...style,
-    ...containerStyle,
-    ...resolvedSelectedStyle,
     ...resolvedLockedSelectionStyle,
     ...resolvedSelectableCellStyle,
-    ...getBorderStyle(isLastRow, isLastColumn),
+    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
     ...resolvedNullStyle,
+    ...resolvedSelectedStyle,
     display: "flex",
   };
 };
@@ -86,15 +85,18 @@ export const getTextStyle = ({
   qCanCollapse,
   qCanExpand,
   isCellSelected,
+  isNull,
 }: GetTextStyle): React.CSSProperties => {
-  const serviceStyle = isLeftColumn ? styleService.content : styleService.header;
+  const { nullValue, totalLabel, measureLabel, background, ...serviceStyle } = isLeftColumn
+    ? styleService.rowContent
+    : styleService.columnContent;
 
   return {
     ...serviceStyle,
     ...textStyle,
-    ...(isCellSelected ? { color: selectedStyle.color } : {}),
+    ...(isNull && { color: nullValue.color }),
+    ...(isCellSelected && { color: selectedStyle.color }),
     fontWeight: qCanExpand || qCanCollapse ? "600" : undefined,
-    marginLeft: 4,
     overflow: "hidden",
     textOverflow: "ellipsis",
     ...getLineClampStyle(styleService.lineClamp),

@@ -1,14 +1,17 @@
 import type React from "react";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
-export const DATA_TEXT_COLOR = "rgba(0, 0, 0, 0.55)";
-export const NULL_TEXT_COLOR = "#404040";
-export const NULL_BACKGROUND_COLOR = "rgba(0, 0, 0, 0.05)";
-export const DARK_BORDER_COLOR = "rgba(0, 0, 0, 0.60)";
-export const LIGHT_BORDER_COLOR = "rgba(0, 0, 0, 0.15)";
+export enum Colors {
+  PrimaryText = "#404040",
+  Black3 = "rgba(0, 0, 0, 0.03)",
+  Black5 = "rgba(0, 0, 0, 0.05)",
+  Black15 = "rgba(0, 0, 0, 0.15)",
+  Black55 = "rgba(0, 0, 0, 0.55)",
+  Black60 = "rgba(0, 0, 0, 0.6)",
+  Transparent = "transparent",
+}
 
-export const borderStyle: Pick<React.CSSProperties, "borderColor" | "borderStyle"> = {
-  borderColor: LIGHT_BORDER_COLOR,
+export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
   borderStyle: "solid",
 };
 
@@ -53,7 +56,6 @@ export const textStyle: React.CSSProperties = {
 
 export const gridBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
-  borderColor: DARK_BORDER_COLOR,
 };
 
 export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
@@ -72,18 +74,18 @@ export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "posit
   top: 4,
 };
 
-export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean) => {
+export const getBorderStyle = (isLastRow: boolean, isLastColumn: boolean, borderColor: string) => {
   if (isLastRow && isLastColumn) {
     return cellStyle;
   }
 
   if (isLastRow) {
-    return borderRightStyle;
+    return { ...borderRightStyle, borderColor };
   }
 
   if (isLastColumn) {
-    return borderBottomStyle;
+    return { ...borderBottomStyle, borderColor };
   }
 
-  return borderBottomRightStyle;
+  return { ...borderBottomRightStyle, borderColor };
 };

@@ -1,7 +1,8 @@
 import React, { memo } from "react";
 import type { HeaderTitle, HeadersData } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
-import { EmptyHeaderCell } from "../cells/EmptyHeaderCell";
+import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
 interface HeaderGridProps {
   columnWidthCallback: (index: number) => number;
@@ -11,9 +12,12 @@ interface HeaderGridProps {
 
 const containerStyle: React.CSSProperties = {
   display: "grid",
+  background: "red",
 };
 
 const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridProps): JSX.Element | null => {
+  const styleService = useStyleContext();
+
   if (headersData.size.x === 0) {
     return null;
   }
@@ -27,6 +31,7 @@ const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridPr
         ...containerStyle,
         gridTemplateColumns: columnWidths.map((w) => `${w}px`).join(" "),
         gridTemplateRows: hasMultipleRows ? `1fr ${rowHight}px` : undefined,
+        background: styleService.header.background,
       }}
     >
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}

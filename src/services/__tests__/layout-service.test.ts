@@ -1,4 +1,4 @@
-import { MAX_COLUMN_COUNT } from "../../pivot-table/constants";
+import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../pivot-table/constants";
 import type { PivotLayout, SnapshotData } from "../../types/QIX";
 import type { LayoutService } from "../../types/types";
 import createLayoutService from "../layout-service";
@@ -126,6 +126,12 @@ describe("createLayoutService", () => {
       layout.qHyperCube.qSize.qcx = MAX_COLUMN_COUNT + 1;
       const service = create();
       expect(service.size).toEqual({ x: MAX_COLUMN_COUNT, y: layout.qHyperCube.qSize.qcy });
+    });
+
+    test("should return limited row size", () => {
+      layout.qHyperCube.qSize.qcy = MAX_ROW_COUNT + 1;
+      const service = create();
+      expect(service.size).toEqual({ x: layout.qHyperCube.qSize.qcx, y: MAX_ROW_COUNT });
     });
 
     test("should return size for snapshot", () => {

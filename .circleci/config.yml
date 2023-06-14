@@ -24,6 +24,9 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_yarn_cache
+      - run: |
+          npm config set @qlik-trial:registry https://npm.pkg.github.com/
+          npm config set "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN"
       - run: yarn install --frozen-lockfile
       - save_cache: *save_yarn_cache
       - store_artifacts:
@@ -182,6 +185,7 @@ jobs:
             -e CREDENTIALS_S3_SECRETKEY="$APICULTURIST_S3"
             -e CREDENTIALS_GITHUB="$APICULTURIST_GITHUB"
             -e CREDENTIALS_COLONY="$APICULTURIST_TOKEN"
+            -e PRE_RELEASE=true
             ghcr.io/qlik-download/api-compliance
   locale:
     <<: *defaults

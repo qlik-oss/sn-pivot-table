@@ -1,3 +1,5 @@
+import type { StylingOptions } from "./types";
+
 enum NxDimCellType {
   NX_DIM_CELL_VALUE = "V",
   NX_DIM_CELL_EMPTY = "E",
@@ -43,38 +45,64 @@ export interface PaletteColor {
   index?: number;
   color?: string;
 }
+
+interface ComponentCellStyling {
+  background?: PaletteColor;
+  fontColor?: PaletteColor;
+}
+
 export interface Component {
   key: "general" | "theme";
   rowHeight?: RowHeight;
-  header?: {
+  header: {
     fontFamily?: string;
-    fontSize?: number;
-    fontColor?: PaletteColor;
+    fontSize?: string;
+    background?: PaletteColor;
+    rowTitle?: ComponentCellStyling;
+    columnTitle?: ComponentCellStyling;
   };
-  content?: {
+  content: {
     fontFamily?: string;
-    fontSize?: number;
+    fontSize?: string;
     fontColor?: PaletteColor;
+    background?: PaletteColor;
+    nullValue?: ComponentCellStyling;
+    totalValue?: ComponentCellStyling;
+  };
+  rowContent: {
+    fontFamily?: string;
+    fontSize?: string;
+    fontColor?: PaletteColor;
+    background?: PaletteColor;
+    nullValue?: ComponentCellStyling;
+    totalLabel?: ComponentCellStyling;
+    measureLabel?: ComponentCellStyling;
+  };
+  columnContent: {
+    fontFamily?: string;
+    fontSize?: string;
+    fontColor?: PaletteColor;
+    background?: PaletteColor;
+    nullValue?: ComponentCellStyling;
+    totalLabel?: ComponentCellStyling;
+    measureLabel?: ComponentCellStyling;
+  };
+  grid: {
+    rowHeight?: "compact";
+    lineCount?: number;
+    border?: PaletteColor;
+    divider?: PaletteColor;
   };
 }
 
 export interface CurrentTheme {
   object?: {
-    pivotTable?: {
-      header?: {
-        fontSize?: string;
-        fontFamily?: string;
-        color?: string;
-      };
-      content?: {
-        fontSize?: string;
-        fontFamily?: string;
-        color?: string;
-      };
-    };
+    pivotTableV2?: StylingOptions;
   };
   fontSize: string;
+  fontSizes?: string[];
   fontFamily: string;
+  fontFamilies?: string[];
   color: string;
 }
 

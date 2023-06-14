@@ -2,6 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, TopDimensionData } from "../../../types/types";
+import { useStyleContext } from "../../contexts/StyleProvider";
 import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -27,6 +28,7 @@ interface TopGridProps {
 
 const listStyle: React.CSSProperties = {
   overflow: "hidden",
+  willChange: "auto",
 };
 
 const containerStyle: React.CSSProperties = {
@@ -52,13 +54,21 @@ const TopGrid = ({
   topDimensionData,
   leafWidth,
 }: TopGridProps): JSX.Element | null => {
+  const {
+    grid: { divider },
+    headerCellHeight,
+  } = useStyleContext();
   const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
+  const resolvedContainerStyle = {
+    ...(layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders),
+    borderColor: divider,
+  };
 
   useOnPropsChange(() => {
     if (topGridRef.current) {
       topGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
     }
-  }, [dataModel, width, height, topDimensionData, topGridRef]);
+  }, [dataModel, width, height, topDimensionData, topGridRef, headerCellHeight]);
 
   useLayoutEffect(() => {
     if (topGridRef.current) {
@@ -80,7 +90,7 @@ const TopGrid = ({
   }
 
   return (
-    <div style={layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders}>
+    <div style={resolvedContainerStyle}>
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
