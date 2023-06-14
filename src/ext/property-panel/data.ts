@@ -46,10 +46,10 @@ const columnResize = {
         value: ColumnWidthType.Pixels,
         translation: "Object.Table.Column.Pixels",
       },
-      // {
-      //   value: ColumnWidthType.Percentage,
-      //   translation: "Object.Table.Column.Percentage",
-      // },
+      {
+        value: ColumnWidthType.Percentage,
+        translation: "Object.Table.Column.Percentage",
+      },
     ],
     defaultValue: ColumnWidthType.Auto,
   },
@@ -67,20 +67,20 @@ const columnResize = {
     //       : Math.max(1, Math.min(MAX_COLUMN_WIDTH, data.qDef.columnWidth.pixels));
     // },
   },
-  // sizePercentage: {
-  //   ref: "qDef.columnWidth.percentage",
-  //   translation: "Object.Table.Column.Percentage",
-  //   type: "number",
-  //   expression: "optional",
-  //   defaultValue: 20,
-  //   show: (data) => data.qDef.columnWidth?.type === ColumnWidthType.PERCENTAGE,
-  //   change(data) {
-  //     data.qDef.columnWidth.percentage =
-  //       data.qDef.columnWidth.percentage === undefined
-  //         ? data.qDef.columnWidth.percentage
-  //         : Math.max(1, Math.min(MAX_COLUMN_PERCENTAGE_WIDTH, data.qDef.columnWidth.percentage));
-  //   },
-  // },
+  sizePercentage: {
+    ref: "qDef.columnWidth.percentage",
+    translation: "Object.Table.Column.Percentage",
+    type: "number",
+    expression: "optional",
+    defaultValue: 20,
+    show: (data) => data.qDef.columnWidth?.type === ColumnWidthType.Percentage,
+    // change(data) {
+    //   data.qDef.columnWidth.percentage =
+    //     data.qDef.columnWidth.percentage === undefined
+    //       ? data.qDef.columnWidth.percentage
+    //       : Math.max(1, Math.min(MAX_COLUMN_PERCENTAGE_WIDTH, data.qDef.columnWidth.percentage));
+    // },
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -219,6 +219,7 @@ const createData = (env: Galaxy): Record<string, any> => {
             type: "string",
             show: false,
           },
+          ...columnResize,
           // numberFormatting: TODO
         },
       },

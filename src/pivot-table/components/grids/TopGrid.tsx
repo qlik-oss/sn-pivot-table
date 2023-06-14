@@ -22,6 +22,7 @@ interface TopGridProps {
   getScrollLeft: () => number;
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
+  leafWidth: number;
 }
 
 const listStyle: React.CSSProperties = {
@@ -49,6 +50,7 @@ const TopGrid = ({
   getScrollLeft,
   layoutService,
   topDimensionData,
+  leafWidth,
 }: TopGridProps): JSX.Element | null => {
   const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
 
@@ -64,12 +66,13 @@ const TopGrid = ({
     }
   }, [layoutService, getScrollLeft, topGridRef]);
 
+  // Not sure if this is needed, we will solely depend on the width of the leaf and the number of leafes
   const allMeasuresWidth = useMemo(
     () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
     [getMeasureInfoWidth, qMeasureInfo]
   );
 
-  const totalWidth = layoutService.size.x * (allMeasuresWidth / qMeasureInfo.length);
+  const totalWidth = layoutService.size.x * leafWidth; // (allMeasuresWidth / qMeasureInfo.length);
 
   if (topDimensionData.rowCount === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
@@ -91,7 +94,15 @@ const TopGrid = ({
             height={rowHightCallback()}
             width={width}
             itemCount={itemCount}
-            itemSize={getColumnWidthHandler({ list, isLastRow, layoutService, getMeasureInfoWidth, allMeasuresWidth })}
+            itemSize={getColumnWidthHandler({
+              list,
+              isLastRow,
+              layoutService,
+              getMeasureInfoWidth,
+              allMeasuresWidth,
+              leafWidth,
+              isPseudo: key === "-1",
+            })}
             layout="horizontal"
             itemData={{
               layoutService,

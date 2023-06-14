@@ -13,11 +13,12 @@ interface ColumnWidthHook {
   getLeftColumnWidth: (index: number) => number;
   getDataColumnWidth: (index: number) => number;
   getMeasureInfoWidth: (index: number) => number;
+  leafWidth: number;
   getTotalWidth: () => number;
 }
 
 export const EXPAND_ICON_WIDTH = 30;
-const MIN_COLUMN_WIDTH = 100;
+const MIN_COLUMN_WIDTH = 30;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 
 export default function useColumnWidth(
@@ -50,8 +51,11 @@ export default function useColumnWidth(
       }
 
       const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo[dimIndex];
-      if (typeof columnWidth?.type === "string" && columnWidth?.type !== "auto") {
+      if (columnWidth?.type === "pixels") {
         return (columnWidth.pixels || 200) / rect.width;
+      }
+      if (columnWidth?.type === "percentage") {
+        return ((columnWidth?.percentage || 20) * MAX_RATIO_OF_TOTAL_WIDTH) / 100;
       }
 
       const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
@@ -111,8 +115,17 @@ export default function useColumnWidth(
     () =>
       memoize((measureInfoIndex: number) => {
         const getWidth = (index: number, includeTitleWidth = true) => {
-          const { qApprMaxGlyphCount, qFallbackTitle } = qMeasureInfo[index];
+          const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = qMeasureInfo[index];
           const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
+
+          if (columnWidth?.type === "pixels") {
+            const specifiedWidth = columnWidth.pixels || 200;
+            return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
+          }
+          if (columnWidth?.type === "percentage") {
+            const specifiedWidth = (rightGridWidth * (columnWidth?.percentage || 20)) / 100;
+            return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
+          }
 
           return Math.max(
             MIN_COLUMN_WIDTH,
@@ -138,6 +151,50 @@ export default function useColumnWidth(
       hasPseudoDimOnLeft,
     ]
   );
+
+  const leafWidth = useMemo(() => {
+    const sortOrder = layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder;
+    const lastIndex = sortOrder[sortOrder.length - 1];
+
+    if (lastIndex === -1) {
+      const allMeasuresWidth = qMeasureInfo.reduce(
+        (totalWidth, measure, index) => totalWidth + memoizedGetMeasureInfoWidth(index),
+        0
+      );
+
+      return allMeasuresWidth / qMeasureInfo.length;
+    }
+
+    const { columnWidth, qApprMaxGlyphCount } = qDimensionInfo[lastIndex];
+    if (columnWidth?.type === "pixels") {
+      const specifiedWidth = columnWidth.pixels || 200;
+      return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
+    }
+    if (columnWidth?.type === "percentage") {
+      const specifiedWidth = (rightGridWidth * (columnWidth?.percentage || 20)) / 100;
+      return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
+    }
+    const availableWidth = preCalcTotalDataColumnWidth >= rightGridWidth ? 0 : rightGridWidth;
+
+    return Math.max(
+      MIN_COLUMN_WIDTH,
+      availableWidth / layoutService.size.x,
+      estimateWidthForContent(qApprMaxGlyphCount)
+    );
+
+    // if (hasPseudoDimOnLeft) {
+    //   return Math.max(...qMeasureInfo.map((m, index) => getWidth(index, false)));
+    // }
+  }, [
+    layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder,
+    layoutService.size.x,
+    qDimensionInfo,
+    preCalcTotalDataColumnWidth,
+    rightGridWidth,
+    estimateWidthForContent,
+    qMeasureInfo,
+    memoizedGetMeasureInfoWidth,
+  ]);
 
   const getDataColumnWidth = useCallback(
     (colIndex: number) => {
@@ -168,6 +225,7 @@ export default function useColumnWidth(
     getLeftColumnWidth,
     getDataColumnWidth,
     getMeasureInfoWidth: memoizedGetMeasureInfoWidth,
+    leafWidth,
     getTotalWidth,
   };
 }
