@@ -1,7 +1,7 @@
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, LayoutService, PageInfo, VisibleDimensionInfo } from "../../../types/types";
+import createNodes from "../../__tests__/test-helper";
 import extractLeftGrid from "../extract-left";
-import createNodes from "./test-helper";
 
 describe("extractLeftGrid", () => {
   let layoutService: LayoutService;

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import serve from "@nebula.js/cli-serve";
 import { expect, test } from "@playwright/test";
 import fs from "fs";
@@ -60,7 +61,7 @@ test.describe("sn-pivot-table: Rendering tests", () => {
       // Puppeteer Capture screenshot
       const img = await playwright.screenshot();
       // Compare screenshot with baseline image
-      expect(img).toMatchSnapshot({ name: `${name}.png`, threshold: 0.25 });
+      expect(img).toMatchSnapshot({ name: `${name}.png` });
     });
   });
 });

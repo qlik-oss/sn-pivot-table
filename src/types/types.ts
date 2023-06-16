@@ -11,16 +11,23 @@ export type List = Record<number, Cell>;
 
 export type Grid = List[];
 
-export type HeaderTitle = {
-  id: string;
+export type HeaderType = "left" | "top" | "left_last" | "top_last";
+
+export type PseudoDimensionIndex = -1;
+
+export type Header = {
+  id: string | PseudoDimensionIndex;
   title: string;
+  approximateMaxGlyphCount: number;
+  type: HeaderType;
+  includeMeasures: boolean;
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
 
 export type IsTotalCellAt = (x: number, y: number) => boolean;
 
-export type VisibleDimensionInfo = ExtendedDimensionInfo | -1;
+export type VisibleDimensionInfo = ExtendedDimensionInfo | PseudoDimensionIndex;
 
 export interface Rect {
   width: number;
@@ -30,6 +37,11 @@ export interface Rect {
 export interface Point {
   x: number;
   y: number;
+}
+
+export interface GridSize {
+  rows: number;
+  cols: number;
 }
 
 export interface DataModel {
@@ -109,8 +121,8 @@ export interface LeftDimensionData {
 }
 
 export interface HeadersData {
-  data: (null | HeaderTitle)[][];
-  size: Point;
+  data: (null | Header)[][];
+  size: GridSize;
 }
 
 export interface Data {
@@ -150,6 +162,7 @@ export interface LayoutService {
   isSnapshot: boolean;
   hasLimitedData: boolean;
   hasLeftDimensions: boolean;
+  hasTopDimensions: boolean;
   showTotalsAbove: boolean;
 }
 

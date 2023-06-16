@@ -1,4 +1,5 @@
 import type React from "react";
+import type { HeaderType } from "../../types/types";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 export enum Colors {
@@ -74,25 +75,63 @@ export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "posit
   top: 4,
 };
 
+export const getHeaderBorderStyle = (
+  isLastRow: boolean,
+  isLastColumn: boolean,
+  isFirstColumn: boolean,
+  borderColor: string,
+  headerType: HeaderType
+): React.CSSProperties => {
+  const borderWidths: React.CSSProperties = {
+    borderTopWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+  };
+
+  switch (headerType) {
+    case "top":
+      borderWidths.borderBottomWidth = 1;
+      borderWidths.borderLeftWidth = isFirstColumn ? 0 : 1;
+      break;
+    case "top_last":
+      borderWidths.borderBottomWidth = isLastRow ? 1 : 2;
+      borderWidths.borderLeftWidth = isFirstColumn ? 0 : 1;
+      break;
+    case "left":
+      borderWidths.borderRightWidth = 1;
+      break;
+    case "left_last":
+      borderWidths.borderRightWidth = isLastColumn ? 0 : 1;
+      break;
+    default:
+      break;
+  }
+  return {
+    ...cellStyle,
+    ...borderStyle,
+    ...borderWidths,
+    borderColor,
+  };
+};
+
 export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
   showLastRowBorderBottom: boolean
 ) => {
-  if (isLastRow && isLastColumn && showLastRowBorderBottom) {
-    return { ...borderBottomStyle, borderColor };
-  }
-
   if (isLastRow && isLastColumn) {
+    if (showLastRowBorderBottom) {
+      return { ...borderBottomStyle, borderColor };
+    }
     return cellStyle;
   }
 
-  if (isLastRow && showLastRowBorderBottom) {
-    return { ...borderBottomRightStyle, borderColor };
-  }
-
   if (isLastRow) {
+    if (showLastRowBorderBottom) {
+      return { ...borderBottomRightStyle, borderColor };
+    }
     return { ...borderRightStyle, borderColor };
   }
 

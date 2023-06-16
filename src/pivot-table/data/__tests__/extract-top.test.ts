@@ -1,18 +1,21 @@
+import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, LayoutService, VisibleDimensionInfo } from "../../../types/types";
+import createNodes, { createDims } from "../../__tests__/test-helper";
 import extractTopGrid from "../extract-top";
-import createNodes from "./test-helper";
 
 describe("extractTop", () => {
   let layoutService: LayoutService;
   const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
-  const grid = [] as Cell[][];
-  const visibleTopDimensionInfo: VisibleDimensionInfo[] = [];
+  let grid: Cell[][];
+  let visibleTopDimensionInfo: VisibleDimensionInfo[];
 
   beforeEach(() => {
     layoutService = {
       isSnapshot: false,
     } as unknown as LayoutService;
+    visibleTopDimensionInfo = [];
+    grid = [];
   });
 
   test("should handle empty qTop array", () => {
@@ -50,6 +53,26 @@ describe("extractTop", () => {
     const subNodesCount = 2;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
     qTop[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    qTop[0].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+
+    qTop[1].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    qTop[1].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+
+    qTop[2].qSubNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
+    qTop[2].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    qTop[2].qSubNodes[1].qSubNodes = createNodes(2, NxDimCellType.NX_DIM_CELL_NORMAL);
+
+    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo);
+
+    expect(top).toMatchSnapshot();
+  });
+
+  test("should extract top data when data tree has a depth of 2 and first dimension is pseudo", () => {
+    visibleTopDimensionInfo = createDims(PSEUDO_DIMENSION_INDEX, 1, 2);
+    const colCount = 3;
+    const subNodesCount = 2;
+    const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_PSEUDO);
+    qTop[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_NORMAL);
     qTop[0].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
 
     qTop[1].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);

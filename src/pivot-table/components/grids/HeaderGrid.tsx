@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import type { HeaderTitle, HeadersData } from "../../../types/types";
+import type { HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
@@ -10,6 +10,8 @@ interface HeaderGridProps {
   headersData: HeadersData;
 }
 
+export const testId = "header-grid";
+
 const containerStyle: React.CSSProperties = {
   display: "grid",
   background: "red",
@@ -18,35 +20,52 @@ const containerStyle: React.CSSProperties = {
 const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
-  if (headersData.size.x === 0) {
+  if (headersData.size.cols === 0) {
     return null;
   }
 
-  const hasMultipleRows = headersData.size.y > 1;
-  const columnWidths = headersData.data.map((_, colIndex) => columnWidthCallback(colIndex));
+  const columnWidths = headersData.data[0].map((_, colIndex) => columnWidthCallback(colIndex));
 
   return (
     <div
+      data-testid={testId}
       style={{
         ...containerStyle,
         gridTemplateColumns: columnWidths.map((w) => `${w}px`).join(" "),
-        gridTemplateRows: hasMultipleRows ? `1fr ${rowHight}px` : undefined,
+        gridTemplateRows: headersData.data.map(() => `${rowHight}px`).join(" "),
         background: styleService.header.background,
       }}
     >
-      {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
-      {headersData.data.map((col, colIndex) => {
-        const cell = col[col.length - 1] as HeaderTitle;
+      {headersData.size.rows > 1 && headersData.size.cols > 1 && (
+        <EmptyHeaderCell
+          style={{
+            gridColumn: `span ${headersData.size.cols - 1}`,
+            gridRow: `span ${headersData.size.rows - 1}`,
+          }}
+        />
+      )}
+      {headersData.data.map((row, rowIndex) =>
+        row.reduce((previousValue: JSX.Element[], cell, colIndex) => {
+          if (cell) {
+            const gridArea = `${rowIndex + 1} / ${colIndex + 1}`;
 
-        return (
-          <DimensionTitleCell
-            key={cell.id}
-            cell={cell.title}
-            style={{ width: columnWidths[colIndex], height: rowHight }}
-            isLastColumn={colIndex === headersData.size.x - 1}
-          />
-        );
-      })}
+            previousValue.push(
+              <DimensionTitleCell
+                key={cell.id}
+                title={cell.title}
+                type={cell.type}
+                style={{
+                  gridArea,
+                }}
+                isLastRow={rowIndex === headersData.size.rows - 1}
+                isLastColumn={colIndex === headersData.size.cols - 1}
+                isFirstColumn={colIndex === 0}
+              />
+            );
+          }
+          return previousValue;
+        }, [])
+      )}
     </div>
   );
 };

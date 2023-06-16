@@ -1,11 +1,15 @@
 import React from "react";
+import type { HeaderType } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { getBorderStyle, textStyle } from "../shared-styles";
+import { getHeaderBorderStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
-  cell: string;
+  title: string;
+  type: HeaderType;
   style: React.CSSProperties;
+  isLastRow: boolean;
   isLastColumn: boolean;
+  isFirstColumn: boolean;
 }
 
 const labelTextStyle: React.CSSProperties = {
@@ -17,22 +21,30 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = "title-cell";
 
-const DimensionTitleCell = ({ cell, style, isLastColumn }: LabelCellProps): JSX.Element => {
+const DimensionTitleCell = ({
+  title,
+  type,
+  style,
+  isLastRow,
+  isLastColumn,
+  isFirstColumn,
+}: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const { fontSize, fontFamily } = styleService.header;
+  const headerStyle = type === "left" ? styleService.header.rowTitle : styleService.header.columnTitle;
 
   return (
     <div
-      title={cell}
+      title={title}
       style={{
         ...style,
-        ...getBorderStyle(true, isLastColumn, styleService.grid.border, false),
-        ...styleService.header.rowTitle,
+        ...getHeaderBorderStyle(isLastRow, isLastColumn, isFirstColumn, styleService.grid.border, type),
+        ...headerStyle,
         display: "flex",
       }}
       data-testid={testId}
     >
-      <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell}</div>
+      <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{title}</div>
     </div>
   );
 };

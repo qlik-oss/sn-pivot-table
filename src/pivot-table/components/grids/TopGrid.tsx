@@ -62,7 +62,9 @@ const TopGrid = ({
   } = useStyleContext();
   const { qMeasureInfo } = layoutService.layout.qHyperCube;
   const resolvedContainerStyle = {
-    ...(layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders),
+    ...(layoutService.hasLeftDimensions || layoutService.hasTopDimensions
+      ? containerStyle
+      : containerStyleWithoutBorders),
     borderColor: divider,
   };
 
@@ -95,7 +97,10 @@ const TopGrid = ({
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
-        const key = getKey(visibleTopDimensionInfo[topRowIndex]);
+        const key =
+          topRowIndex < visibleTopDimensionInfo.length
+            ? getKey(visibleTopDimensionInfo[topRowIndex])
+            : `empty${topRowIndex}`;
 
         return (
           <VariableSizeList

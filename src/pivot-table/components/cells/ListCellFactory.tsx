@@ -9,7 +9,7 @@ import EmptyCell from "./EmptyCell";
 import PseudoDimensionCell from "./PseudoDimensionCell";
 import TotalsCell from "./TotalsCell";
 
-interface ListCallbackProps {
+export interface ListCallbackProps {
   index: number;
   style: React.CSSProperties;
   data: ListItemData;
