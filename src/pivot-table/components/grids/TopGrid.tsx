@@ -62,7 +62,9 @@ const TopGrid = ({
   } = useStyleContext();
   const { qMeasureInfo } = layoutService.layout.qHyperCube;
   const resolvedContainerStyle = {
-    ...(layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders),
+    ...(layoutService.hasLeftDimensions || layoutService.hasTopDimensions
+      ? containerStyle
+      : containerStyleWithoutBorders),
     borderColor: divider,
   };
 

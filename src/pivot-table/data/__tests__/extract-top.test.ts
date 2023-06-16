@@ -1,7 +1,7 @@
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, LayoutService, VisibleDimensionInfo } from "../../../types/types";
+import createNodes from "../../__tests__/test-helper";
 import extractTopGrid from "../extract-top";
-import createNodes from "./test-helper";
 
 describe("extractTop", () => {
   let layoutService: LayoutService;

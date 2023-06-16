@@ -43,7 +43,7 @@ const gridStyleWithLeftDimensions: React.CSSProperties = {
 
 const gridStyleWithoutLeftDimensions: React.CSSProperties = {
   ...gridStyle,
-  borderWidth: "1px 0px 0px 0px",
+  borderWidth: "1px 0px 0px 1px",
 };
 
 const isMissingData = (

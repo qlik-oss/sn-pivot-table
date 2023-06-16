@@ -92,18 +92,18 @@ const useData = (
         visibleLeftDimensionInfo,
       })
     );
-    // we dont need dependency of pageInfo
-    // this causes a rerender to add unrelevant data into grids
-    // the reson for why we dont need it as dependancy is because
+    // we don't need dependency of pageInfo
+    // this causes a rerender to add irrelevant data into grids
+    // the reason for why we don't need it as dependency is because
     // when a page changes -> we fetch new data (in supernova level) and trigger a new render
     // that means the entire react tree will be recreated -> so pageInfo here will be the most updated one!
-    // and adding it as a dependency will trigger this hook that would result in extra unrelevant data (basically previous batch/page)
+    // and adding it as a dependency will trigger this hook that would result in extra irrelevant data (basically previous batch/page)
     // being added in to grids
   }, [nextPage]);
 
   const headersData = useMemo<HeadersData>(
-    () => createHeadersData(topDimensionData.rowCount, visibleLeftDimensionInfo),
-    [topDimensionData.rowCount, visibleLeftDimensionInfo]
+    () => createHeadersData(visibleTopDimensionInfo, visibleLeftDimensionInfo),
+    [visibleTopDimensionInfo, visibleLeftDimensionInfo]
   );
 
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {

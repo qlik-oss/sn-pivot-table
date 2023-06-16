@@ -4,6 +4,8 @@ import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, LeftDimensionData, VisibleDimensionInfo } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import EmptyCell from "../cells/EmptyCell";
+import type { ListCallbackProps } from "../cells/ListCellFactory";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
@@ -12,7 +14,7 @@ import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
 import { gridBorderStyle } from "../shared-styles";
 
-interface LeftGridProps {
+export interface LeftGridProps {
   dataModel: DataModel;
   leftGridRef: React.RefObject<VariableSizeList[]>;
   getLeftColumnWidth: (index: number) => number;
@@ -25,6 +27,8 @@ interface LeftGridProps {
   showLastRowBorderBottom: boolean;
   visibleLeftDimensionInfo: VisibleDimensionInfo[];
 }
+
+export const testId = "left-grid";
 
 const containerStyle: React.CSSProperties = {
   display: "flex",
@@ -40,12 +44,16 @@ const listStyle: React.CSSProperties = {
    * as there was issues with rendering border when the width of the react-window "list" was
    * a floating point number.
    *
-   * If performance issues arrise when scrolling, this may need to be change back the "transform"
+   * If performance issues arise when scrolling, this may need to be change back the "transform"
    * again to resolve those performance issues, but the issue with rendering border will need to
    * be fixed in some other way.
    */
   willChange: "auto",
 };
+
+const EmptyRowFactory = ({ index, style }: ListCallbackProps): JSX.Element => (
+  <EmptyCell index={index} style={{ ...style }} isLastRow isLastColumn showLastRowBorderBottom />
+);
 
 const LeftGrid = ({
   dataModel,
@@ -80,44 +88,61 @@ const LeftGrid = ({
 
   const totalHeight = layoutService.size.y * contentCellHeight;
 
-  if (leftDimensionData.columnCount === 0) {
-    return null;
-  }
+  // let data;
+  // if (leftDimensionData.columnCount === 0) {
+  //   data = []
+  //   // return (
+  //   //   <div data-testid={testId} style={{ ...containerStyle, borderColor: divider, height }}>
+  //   //     <EmptyCell style={{ width: "100%" }} isLastRow isLastColumn showLastRowBorderBottom />
+  //   //   </div>
+  //   // );
+  // } else {
+  //   data = leftDimensionData;
+  // }
+
+  const emptyColumn = () => (
+    <VariableSizeList height={height} itemCount={1} itemSize={() => contentCellHeight} width={width}>
+      {EmptyRowFactory}
+    </VariableSizeList>
+  );
+
+  const columns = () =>
+    leftDimensionData.grid.map((list, colIndex) => {
+      const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
+      const key = getKey(visibleLeftDimensionInfo[colIndex]);
+      const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
+
+      return (
+        <VariableSizeList
+          key={key}
+          ref={setListRef(leftGridRef, colIndex)}
+          style={listStyle}
+          height={height}
+          width={getLeftColumnWidth(colIndex)}
+          itemCount={itemCount}
+          itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
+          layout="vertical"
+          itemData={{
+            layoutService,
+            dataModel,
+            constraints,
+            list,
+            isLeftColumn: true,
+            isLast: isLastColumn && !layoutService.layout.snapshotData,
+            itemCount,
+            showLastRowBorderBottom,
+          }}
+          itemKey={getItemKey}
+          estimatedItemSize={estimatedItemSize}
+        >
+          {MemoizedListCellFactory}
+        </VariableSizeList>
+      );
+    });
 
   return (
-    <div style={{ ...containerStyle, borderColor: divider }}>
-      {leftDimensionData.grid.map((list, colIndex) => {
-        const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
-        const key = getKey(visibleLeftDimensionInfo[colIndex]);
-        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
-
-        return (
-          <VariableSizeList
-            key={key}
-            ref={setListRef(leftGridRef, colIndex)}
-            style={listStyle}
-            height={height}
-            width={getLeftColumnWidth(colIndex)}
-            itemCount={itemCount}
-            itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
-            layout="vertical"
-            itemData={{
-              layoutService,
-              dataModel,
-              constraints,
-              list,
-              isLeftColumn: true,
-              isLast: isLastColumn && !layoutService.layout.snapshotData,
-              itemCount,
-              showLastRowBorderBottom,
-            }}
-            itemKey={getItemKey}
-            estimatedItemSize={estimatedItemSize}
-          >
-            {MemoizedListCellFactory}
-          </VariableSizeList>
-        );
-      })}
+    <div data-testid={testId} style={{ ...containerStyle, borderColor: divider }}>
+      {leftDimensionData.columnCount === 0 ? emptyColumn() : columns()}
     </div>
   );
 };

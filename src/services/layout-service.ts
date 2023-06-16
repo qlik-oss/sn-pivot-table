@@ -33,6 +33,7 @@ const createLayoutService = (
     hasLeftDimensions: layout.qHyperCube.qNoOfLeftDims !== 0,
     // qShowTotalsAbove is not available on the layout, so it's read from effective properties instead
     showTotalsAbove: !!effectiveProperties?.qHyperCubeDef?.qShowTotalsAbove,
+    hasTopDimensions: layout.qHyperCube.qDimensionInfo.length - Math.max(0, layout.qHyperCube.qNoOfLeftDims) !== 0,
   };
 };
 

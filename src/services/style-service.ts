@@ -85,7 +85,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         background:
           resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.Background]) ??
           getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
-          Colors.Black3,
+          Colors.Transparent,
       },
       columnTitle: {
         color:
@@ -95,7 +95,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         background:
           resolveColor(theme, headerStyling?.[Path.ColumnTitle]?.[Attribute.Background]) ??
           getThemeStyle([Path.Header, Path.ColumnTitle], Attribute.Background) ??
-          Colors.Black3,
+          Colors.Transparent,
       },
     },
     content: {
@@ -247,16 +247,22 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     },
   } as StyleService;
 
-  styleService["headerCellHeight"] = Math.max(
-    fontSizeToCellHeight(styleService.header.fontSize, lineClamp),
-    fontSizeToCellHeight(styleService.columnContent.fontSize, lineClamp),
-    DEFAULT_CELL_HEIGHT
-  );
-  styleService["contentCellHeight"] = Math.max(
-    fontSizeToCellHeight(styleService.content.fontSize, lineClamp),
-    fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
-    DEFAULT_CELL_HEIGHT
-  );
+  styleService["headerCellHeight"] =
+    Math.round(
+      Math.max(
+        fontSizeToCellHeight(styleService.header.fontSize, lineClamp),
+        fontSizeToCellHeight(styleService.columnContent.fontSize, lineClamp),
+        DEFAULT_CELL_HEIGHT
+      ) * 50
+    ) / 50;
+  styleService["contentCellHeight"] =
+    Math.round(
+      Math.max(
+        fontSizeToCellHeight(styleService.content.fontSize, lineClamp),
+        fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
+        DEFAULT_CELL_HEIGHT
+      ) * 50
+    ) / 50;
 
   return styleService;
 };

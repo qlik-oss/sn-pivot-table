@@ -1,23 +1,70 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { HeaderTitle, VisibleDimensionInfo } from "../../types/types";
+import type { Header, HeaderType, VisibleDimensionInfo } from "../../types/types";
 import getKey from "../components/helpers/get-key";
+import getTitle from "../components/helpers/get-title";
+import { create, transpose } from "./helpers/matrix";
 
+/**
+ * Creates a matrix containing dimension headers for header grid. rows x columns
+ */
 const extractHeaders = (
-  rowCount: number,
-  visibleLeftDimensionInfo: VisibleDimensionInfo[]
-): (null | HeaderTitle)[][] => {
-  const matrix: (null | HeaderTitle)[][] = Array(visibleLeftDimensionInfo.length)
-    .fill(null)
-    .map(() => Array.from({ length: rowCount }, () => null));
+  visibleTopDimensions: VisibleDimensionInfo[],
+  visibleLeftDimensions: VisibleDimensionInfo[]
+): (null | Header)[][] => {
+  type DimensionInfoIndexMapMatrixRow = {
+    visibleDimensions: VisibleDimensionInfo[];
+    type: "left" | "top";
+  };
 
-  visibleLeftDimensionInfo.forEach((qDimensionInfo, colIdx) => {
-    if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
-      matrix[colIdx][rowCount - 1] = { id: "PSEUDO-DIM", title: "" };
-    } else {
-      const id: string = getKey(qDimensionInfo);
-      matrix[colIdx][rowCount - 1] = { id, title: qDimensionInfo.qFallbackTitle };
-    }
-  });
+  const createMatrix = (
+    lastRow: DimensionInfoIndexMapMatrixRow,
+    lastCol: DimensionInfoIndexMapMatrixRow
+  ): (null | Header)[][] => {
+    const extractHeaderTitle = (type: HeaderType, dimension: VisibleDimensionInfo, lastDimension: boolean): Header => {
+      const header = {
+        id: getKey(dimension),
+        title: getTitle(dimension),
+        approximateMaxGlyphCount: dimension === PSEUDO_DIMENSION_INDEX ? 0 : dimension.qApprMaxGlyphCount,
+        type: lastDimension ? (`${type}_last` as HeaderType) : type,
+      };
+      return header;
+    };
+
+    const lastColPruned =
+      lastCol.visibleDimensions.at(-1) === PSEUDO_DIMENSION_INDEX
+        ? lastCol.visibleDimensions.slice(0, -1)
+        : lastCol.visibleDimensions;
+    const rowCount = lastColPruned.length + 1;
+    const colCount = Math.max(1, lastRow.visibleDimensions.length);
+    const matrix: (null | Header)[][] = create(rowCount, colCount);
+
+    lastRow.visibleDimensions.forEach((dimension, i, array) => {
+      matrix[rowCount - 1][i] = extractHeaderTitle(lastRow.type, dimension, i === array.length - 1);
+    });
+
+    lastColPruned.forEach((dimension, i, array) => {
+      matrix[i][colCount - 1] = extractHeaderTitle(lastCol.type, dimension, i === array.length - 1);
+    });
+
+    return matrix;
+  };
+
+  let matrix: (null | Header)[][];
+
+  // if pseudo dimension is in top map, create left x top matrix
+  // else if pseudo dimension is in left map or if there is none pseudo dimension, create top x left matrix and then transpose
+  if (visibleTopDimensions.length === 0 || visibleTopDimensions.includes(PSEUDO_DIMENSION_INDEX)) {
+    matrix = createMatrix(
+      { visibleDimensions: visibleLeftDimensions, type: "left" },
+      { visibleDimensions: visibleTopDimensions, type: "top" }
+    );
+  } else {
+    matrix = createMatrix(
+      { visibleDimensions: visibleTopDimensions, type: "top" },
+      { visibleDimensions: visibleLeftDimensions, type: "left" }
+    );
+    matrix = transpose(matrix);
+  }
 
   return matrix;
 };

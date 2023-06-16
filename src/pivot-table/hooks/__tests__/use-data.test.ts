@@ -28,7 +28,7 @@ jest.mock("../../data/left-dimension-data");
 jest.mock("../../data/headers-data");
 
 describe("useData", () => {
-  // Top data mockes
+  // Top data mocks
   let mockedAddPageToTopDimensionData: jest.MockedFunction<(args: AddPageToTopDimensionDataProps) => TopDimensionData>;
   let mockedCreateTopDimensionData: jest.MockedFunction<
     (
@@ -56,7 +56,7 @@ describe("useData", () => {
   >;
   // Header data mocks
   let mockedCreateHeadersData: jest.MockedFunction<
-    (rowCount: number, sortedLeftDimensionInfo: VisibleDimensionInfo[]) => HeadersData
+    (visibleTopDimensionInfo: VisibleDimensionInfo[], visibleLeftDimensionInfo: VisibleDimensionInfo[]) => HeadersData
   >;
 
   let topDimensionData: TopDimensionData;
@@ -114,7 +114,7 @@ describe("useData", () => {
 
     headersData = {
       data: [[{ id: "value", title: "value" }]],
-      size: { x: 3, y: 4 },
+      size: { cols: 3, rows: 4 },
     } as HeadersData;
 
     pageInfo = {
