@@ -24,6 +24,9 @@ jobs:
     steps:
       - checkout
       - restore_cache: *restore_yarn_cache
+      - run: |
+          npm config set @qlik-trial:registry https://npm.pkg.github.com/
+          npm config set "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN"
       - run: yarn install --frozen-lockfile
       - save_cache: *save_yarn_cache
       - store_artifacts:
