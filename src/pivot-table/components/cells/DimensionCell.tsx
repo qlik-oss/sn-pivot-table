@@ -100,10 +100,10 @@ const DimensionCell = ({
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
   const isCellLocked =
-    isLocked(selectionCellType, rowIndex, colIndex) ||
-    layoutService.isDimensionLocked(selectionCellType, rowIndex, colIndex);
+    isLocked(selectionCellType, cell.dataY, colIndex) ||
+    layoutService.isDimensionLocked(selectionCellType, cell.dataY, colIndex);
   const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active || isNull;
-  const isCellSelected = isSelected(selectionCellType, rowIndex, colIndex);
+  const isCellSelected = isSelected(selectionCellType, cell.dataY, colIndex);
   const resolvedTextStyle = getTextStyle({
     isLeftColumn,
     styleService,
