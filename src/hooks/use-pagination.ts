@@ -42,6 +42,16 @@ const usePagination: UsePagination = (layoutService) => {
     }));
   }, [layoutService.layout.qHyperCube.qSize.qcy, setPageInfo]);
 
+  useEffect(() => {
+    const { currentPage, totalPages } = pageInfo;
+
+    // currPage is base 0 and totalPages always includes remainder rows in last page
+    // so we need to consider both of them for prevent landing in missing page
+    if (currentPage + 1 > totalPages) {
+      setPageInfo({ ...pageInfo, currentPage: totalPages - 1 });
+    }
+  }, [pageInfo]);
+
   const updatePageInfo: UpdatePageInfo = (args) => setPageInfo({ ...pageInfo, ...args });
 
   return {
