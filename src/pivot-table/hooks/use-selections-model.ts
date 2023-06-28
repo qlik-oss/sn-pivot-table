@@ -24,19 +24,20 @@ export default function useSelectionsModel(
   const [selected, setSelected] = useState<SelectedPivotCell[]>([]);
 
   useEffect(() => {
-    const clearSelections = () => {
+    const clearSelections = () => setSelected([]);
+    const clearSelectionAndResetPage = () => {
       setSelected([]);
       updatePageInfo({ currentPage: 0 });
     };
     selections.on("deactivated", clearSelections);
     selections.on("canceled", clearSelections);
-    selections.on("confirmed", clearSelections);
+    selections.on("confirmed", clearSelectionAndResetPage);
     selections.on("cleared", clearSelections);
 
     return () => {
       selections.removeListener("deactivated", clearSelections);
       selections.removeListener("canceled", clearSelections);
-      selections.removeListener("confirmed", clearSelections);
+      selections.removeListener("confirmed", clearSelectionAndResetPage);
       selections.removeListener("cleared", clearSelections);
     };
   }, [selections, updatePageInfo]);
