@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import type { Grid, Point } from "../../../types/types";
+import type { Grid, PageInfo, Point } from "../../../types/types";
 
-const assignDistanceToNextCell = (data: Grid, direction: "x" | "y", size: Point) => {
+const assignDistanceToNextCell = (data: Grid, direction: "x" | "y", size: Point, pageInfo?: PageInfo) => {
   data.slice(0, -1).forEach((list) => {
     Object.values(list).forEach((cell, index, cells) => {
       const nextSibling = cells[index + 1];
@@ -11,10 +11,17 @@ const assignDistanceToNextCell = (data: Grid, direction: "x" | "y", size: Point)
         // position 1337.
         cell.distanceToNextCell = nextSibling[direction] - (cell[direction] + cell.leafCount);
       } else {
-        // This is what enables the dimensions with branch nodes to be fully scrollable.
-        // By "faking" the distanceToNextCell for the last cell to include all other cells
-        // the react-window list can render with a full size.
-        cell.distanceToNextCell = size[direction] - (cell[direction] + cell.leafCount);
+        const gridLen = Object.values(data[data.length - 1]).length;
+        const isLastPage = pageInfo && pageInfo.currentPage === pageInfo.totalPages - 1;
+        // if in last page + grid length (total rows) is less than rows per page => distanceToNextCell should be 0
+        if (direction === "y" && isLastPage && gridLen < pageInfo.rowsPerPage) {
+          cell.distanceToNextCell = 0;
+        } else {
+          // This is what enables the dimensions with branch nodes to be fully scrollable.
+          // By "faking" the distanceToNextCell for the last cell to include all other cells
+          // the react-window list can render with a full size.
+          cell.distanceToNextCell = size[direction] - (cell[direction] + cell.leafCount);
+        }
       }
     });
   });

@@ -9,6 +9,7 @@ interface LabelCellProps {
   isLeftColumn: boolean;
   isLastRow: boolean;
   isLastColumn: boolean;
+  showLastRowBorderBottom: boolean;
 }
 
 const topContainerStyle: React.CSSProperties = {
@@ -31,7 +32,14 @@ const getTextStyle = (clampCount: number): React.CSSProperties => ({
 
 export const testId = "pseudo-dimension-cell";
 
-const PseudoDimensionCell = ({ cell, style, isLeftColumn, isLastRow, isLastColumn }: LabelCellProps): JSX.Element => {
+const PseudoDimensionCell = ({
+  cell,
+  style,
+  isLeftColumn,
+  isLastRow,
+  isLastColumn,
+  showLastRowBorderBottom,
+}: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const serviceStyle = isLeftColumn
     ? {
@@ -51,7 +59,7 @@ const PseudoDimensionCell = ({ cell, style, isLeftColumn, isLastRow, isLastColum
       title={cell.ref.qText}
       style={{
         ...style,
-        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
+        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
         ...containerStyle,
         ...serviceStyle,
       }}

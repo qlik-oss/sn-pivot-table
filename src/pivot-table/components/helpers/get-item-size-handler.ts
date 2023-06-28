@@ -11,16 +11,20 @@ interface ColumnWidthHandlerProps {
 type ItemSizeHandler = (index: number) => number;
 
 export const getRowHeightHandler =
-  (list: List, cellHeight: number, isLast: boolean): ItemSizeHandler =>
+  (list: List, cellHeight: number, isLastColumn: boolean, qcy: number): ItemSizeHandler =>
   (rowIndex: number) => {
-    const cell = isLast ? list[rowIndex] : Object.values(list)[rowIndex];
+    const cell = isLastColumn ? list[rowIndex] : Object.values(list)[rowIndex];
 
     if (rowIndex === 0 && cell?.y > 0) {
       return (cell.leafCount + cell.y) * cellHeight;
     }
 
     if (cell?.leafCount > 0) {
-      return (cell.leafCount + cell.distanceToNextCell) * cellHeight;
+      const isLastRow = cell.dataY === qcy - cell.leafCount;
+
+      // if it is last row -> consider subtracting cell.ref.qUp from leafcounts
+      // for cases when some of the leafnodes rendered in one page and rest in next/last page
+      return (cell.leafCount - (isLastRow ? cell.ref.qUp : 0) + cell.distanceToNextCell) * cellHeight;
     }
 
     return cellHeight;

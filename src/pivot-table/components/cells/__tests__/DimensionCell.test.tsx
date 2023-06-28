@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import NxDimCellType, { NxSelectionCellType } from "../../../../types/QIX";
-import type { Cell, DataModel, ItemData, LayoutService } from "../../../../types/types";
+import type { Cell, DataModel, LayoutService, ListItemData } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import type { SelectionModel } from "../../../hooks/use-selections-model";
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from "../DimensionCell";
@@ -17,7 +17,7 @@ jest.mock("../../../contexts/StyleProvider");
 describe("DimensionCell", () => {
   let constraints: stardust.Constraints;
   let dataModel: DataModel;
-  let data: ItemData;
+  let data: ListItemData;
   let cell: Cell;
   const style: React.CSSProperties = {
     position: "absolute",
@@ -80,7 +80,8 @@ describe("DimensionCell", () => {
       layoutService,
       dataModel,
       constraints,
-    };
+      showLastRowBorderBottom: false,
+    } as ListItemData;
 
     cell = {
       dataY: 0,

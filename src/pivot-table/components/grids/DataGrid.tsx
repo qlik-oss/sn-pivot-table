@@ -18,6 +18,7 @@ interface DataGridProps {
   viewService: ViewService;
   layoutService: LayoutService;
   measureData: MeasureData;
+  showLastRowBorderBottom: boolean;
 }
 
 type FetchModeData = (
@@ -102,6 +103,7 @@ const DataGrid = ({
   viewService,
   layoutService,
   measureData,
+  showLastRowBorderBottom,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -180,6 +182,7 @@ const DataGrid = ({
           layoutService,
           grid: measureData,
           dataModel,
+          showLastRowBorderBottom,
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}
