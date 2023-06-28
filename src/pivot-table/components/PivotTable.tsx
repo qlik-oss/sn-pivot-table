@@ -126,9 +126,9 @@ export const StickyPivotTable = ({
   const leftGridHeight = Math.min(tableRect.height - headerGridHeight, totalDataHeight);
   const dataGridHeight = Math.min(tableRect.height - topGridHeight, totalDataHeight);
 
-  const howManyRowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
-  const howManyRowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
-  const showLastRowBorderBottom = howManyRowsInCurrentPage < howManyRowsCanFitInTableViewPort;
+  const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
+  const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
+  const showLastRowBorderBottom = rowsInCurrentPage < rowsCanFitInTableViewPort;
 
   return (
     <ScrollableContainer
