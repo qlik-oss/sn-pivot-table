@@ -50,7 +50,7 @@ describe("usePagination", () => {
     const { result, rerender } = renderer();
 
     // get total pages based on layout info
-    const totalPages = layoutService.layout.qHyperCube.qSize.qcy / layoutService.size.y;
+    const totalPages = Math.ceil(layoutService.layout.qHyperCube.qSize.qcy / MAX_ROW_COUNT);
 
     // update the page to last page + 100 more pages (some thing out of curr pagination boundary)
     act(() => {
