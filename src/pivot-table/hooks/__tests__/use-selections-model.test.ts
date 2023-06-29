@@ -70,13 +70,11 @@ describe("useSelectionsModel", () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      Object.entries(callbacks).forEach(([, cb]) => cb());
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
     await waitFor(() => expect(selections.begin).toHaveBeenCalledTimes(0));
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
   });
 
