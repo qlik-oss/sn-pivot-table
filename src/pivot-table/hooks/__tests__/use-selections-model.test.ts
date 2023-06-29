@@ -87,7 +87,7 @@ describe("useSelectionsModel", () => {
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
-    // trigger callback only if eventKey is "confirmed"
+    // trigger confirm callback
     act(() => callbacks.confirmed());
 
     // make sure it's been called 2 times
