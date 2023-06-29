@@ -83,15 +83,13 @@ describe("useSelectionsModel", () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      callbacks.confirmed();
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
+
+      // trigger confirm callback
+      callbacks.confirmed();
     });
 
-    // trigger confirm callback
-    act(() => callbacks.confirmed());
-
-    // make sure it's been called 2 times
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
   });
 
   test("should de-select cell", async () => {
