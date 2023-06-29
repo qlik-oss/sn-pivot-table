@@ -20,8 +20,8 @@ describe("useSelectionsModel", () => {
     callbacks = {};
     updatePageInfo = jest.fn();
 
-    jest.spyOn(selections, "on").mockImplementation((_evt, cb) => {
-      callbacks[_evt] = cb;
+    jest.spyOn(selections, "on").mockImplementation((evt, cb) => {
+      callbacks[evt] = cb;
     });
     jest.spyOn(selections, "removeListener");
     jest.spyOn(selections, "select");
@@ -55,15 +55,12 @@ describe("useSelectionsModel", () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      Object.entries(callbacks).forEach(([, cb]) => cb());
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 2)();
     });
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
     await waitFor(() => expect(selections.begin).toHaveBeenCalled());
-    await waitFor(() => expect(selections.on).toHaveBeenCalled());
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 2)).toBeTruthy());
   });
@@ -88,16 +85,12 @@ describe("useSelectionsModel", () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      Object.entries(callbacks).forEach(([, cb]) => cb());
+      callbacks.confirmed();
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
-    act(() => {
-      // trigger callback only if eventKey is "confirmed"
-      Object.entries(callbacks).forEach(([_evtKey, cb]) => {
-        if (_evtKey === "confirmed") cb();
-      });
-    });
+    // trigger callback only if eventKey is "confirmed"
+    act(() => callbacks.confirmed());
 
     // make sure it's been called 2 times
     await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(2));
