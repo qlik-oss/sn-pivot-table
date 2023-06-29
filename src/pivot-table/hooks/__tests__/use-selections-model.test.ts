@@ -57,7 +57,7 @@ describe("useSelectionsModel", () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     await waitFor(() => expect(selections.begin).toHaveBeenCalled());
     await waitFor(() => expect(selections.on).toHaveBeenCalled());
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledWith({ currentPage: 0 }));
+    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 2)).toBeTruthy());
   });
@@ -72,7 +72,7 @@ describe("useSelectionsModel", () => {
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
     await waitFor(() => expect(selections.begin).toHaveBeenCalledTimes(0));
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledWith({ currentPage: 0 }));
+    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
   });
 
@@ -83,14 +83,14 @@ describe("useSelectionsModel", () => {
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
+    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledWith({ currentPage: 0 }));
 
     await act(async () => {
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledWith({ currentPage: 0 }));
+    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy());
   });
 
