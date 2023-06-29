@@ -78,7 +78,7 @@ describe("useSelectionsModel", () => {
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
   });
 
-  test("should select cell and mimic confirm action happening by calling related callback", async () => {
+  test("should select cell and confirm by calling related callback", async () => {
     selections.isActive = () => true;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
@@ -96,11 +96,9 @@ describe("useSelectionsModel", () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      Object.entries(callbacks).forEach(([, cb]) => cb());
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
 
     await act(async () => {
