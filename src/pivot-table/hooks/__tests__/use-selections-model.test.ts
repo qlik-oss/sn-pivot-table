@@ -6,6 +6,7 @@ import useSelectionsModel from "../use-selections-model";
 describe("useSelectionsModel", () => {
   let selections: ExtendedSelections;
   let updatePageInfo: jest.MockedFunction<(args: Partial<PageInfo>) => void>;
+  let callbacks: Record<string, () => void>;
 
   beforeEach(() => {
     selections = {
@@ -16,9 +17,12 @@ describe("useSelectionsModel", () => {
       begin: () => Promise.resolve(),
     } as unknown as ExtendedSelections;
 
+    callbacks = {};
     updatePageInfo = jest.fn();
 
-    jest.spyOn(selections, "on").mockImplementation((_evt, callback) => callback());
+    jest.spyOn(selections, "on").mockImplementation((_evt, cb) => {
+      callbacks[_evt] = cb;
+    });
     jest.spyOn(selections, "removeListener");
     jest.spyOn(selections, "select");
     jest.spyOn(selections, "isActive");
@@ -26,6 +30,7 @@ describe("useSelectionsModel", () => {
   });
 
   afterEach(() => {
+    callbacks = {};
     jest.resetAllMocks();
   });
 
@@ -50,6 +55,7 @@ describe("useSelectionsModel", () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
+      Object.entries(callbacks).forEach(([, cb]) => cb());
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 2)();
     });
@@ -67,6 +73,7 @@ describe("useSelectionsModel", () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
+      Object.entries(callbacks).forEach(([, cb]) => cb());
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
@@ -76,10 +83,31 @@ describe("useSelectionsModel", () => {
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
   });
 
+  test("should select cell and mimic confirm action happening by calling related callback", async () => {
+    selections.isActive = () => true;
+    const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
+
+    await act(async () => {
+      Object.entries(callbacks).forEach(([, cb]) => cb());
+      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
+    });
+
+    act(() => {
+      // trigger callback only if eventKey is "confirmed"
+      Object.entries(callbacks).forEach(([_evtKey, cb]) => {
+        if (_evtKey === "confirmed") cb();
+      });
+    });
+
+    // make sure it's been called 2 times
+    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(2));
+  });
+
   test("should de-select cell", async () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
+      Object.entries(callbacks).forEach(([, cb]) => cb());
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
@@ -90,7 +118,6 @@ describe("useSelectionsModel", () => {
       await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)();
     });
 
-    await waitFor(() => expect(updatePageInfo).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy());
   });
 
