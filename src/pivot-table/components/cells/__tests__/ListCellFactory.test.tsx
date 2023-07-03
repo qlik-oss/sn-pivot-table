@@ -58,7 +58,7 @@ describe("ListCellFactory", () => {
     const index = 0;
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
-    cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+    cell = { x: 1, dataY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
     data.list[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
@@ -148,7 +148,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, dataY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLeftColumn = true;
         data.isLast = true;
@@ -165,7 +165,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, dataY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLeftColumn = true;
         data.isLast = false;
@@ -185,7 +185,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, dataY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
 
         render(<ListCellFactory index={index} style={style} data={data} />);
@@ -200,7 +200,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, dataY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLast = false;
         data.itemCount = 2;
