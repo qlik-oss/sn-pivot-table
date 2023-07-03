@@ -15,12 +15,12 @@ export const getRowHeightHandler =
   (rowIndex: number) => {
     const cell = isLastColumn ? list[rowIndex] : Object.values(list)[rowIndex];
 
-    if (rowIndex === 0 && cell?.y > 0) {
-      return (cell.leafCount + cell.y) * cellHeight;
+    if (rowIndex === 0 && cell?.dataY > 0) {
+      return (cell.leafCount + cell.dataY) * cellHeight;
     }
 
     if (cell?.leafCount > 0) {
-      const isLastRow = cell.dataY === qcy - cell.leafCount;
+      const isLastRow = cell.y === qcy - cell.leafCount;
 
       // if it is last row -> consider subtracting cell.ref.qUp from leafcounts
       // for cases when some of the leafnodes rendered in one page and rest in next/last page

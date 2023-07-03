@@ -11,8 +11,8 @@ const createCell = (
 ): Cell => ({
   ref: node,
   x,
-  y, // position of cell in page
-  dataY, // position of cell in dataset
+  y, // Y index of cell in dataset
+  dataY, // Y index of cell in page
   parent,
   root,
   leafCount: isSnapshot ? 0 : node.qUp + node.qDown,
