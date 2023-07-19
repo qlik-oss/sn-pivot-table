@@ -1,9 +1,9 @@
 import type { stardust } from "@nebula.js/stardust";
+import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
