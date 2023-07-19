@@ -9,5 +9,5 @@ module.exports = {
   setupFilesAfterEnv: ["<rootDir>/jest/setup.js"],
   testEnvironment: "jsdom",
   testMatch: ["**/src/**/__tests__/*.test.ts?(x)"],
-  transformIgnorePatterns: ["<rootDir>/node_modules/(?!(@qlik-trial/sprout)/)"],
+  transformIgnorePatterns: ["<rootDir>/node_modules/(?!(@qlik-trial/sprout|@qlik-oss/nebula-table-utils)/)"],
 };
