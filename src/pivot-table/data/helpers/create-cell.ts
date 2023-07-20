@@ -6,13 +6,17 @@ const createCell = (
   root: Cell | null,
   x: number,
   y: number,
-  dataY: number,
+  pageY: number,
   isSnapshot: boolean
 ): Cell => ({
   ref: node,
   x,
-  y, // Y index of cell in dataset
-  dataY, // Y index of cell in page
+  y,
+  // TODO:
+  // pageX might change to reflect x in current x axis page
+  // when we implement horizontal pagination feature (exactly like the relation btw y and pageY)
+  pageX: x,
+  pageY,
   parent,
   root,
   leafCount: isSnapshot ? 0 : node.qUp + node.qDown,
