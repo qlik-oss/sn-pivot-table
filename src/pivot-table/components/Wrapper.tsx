@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import { HeadCellMenu } from "@qlik-oss/nebula-table-utils/lib/components";
 import React from "react";
 import type { PageInfo } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
@@ -22,6 +23,7 @@ export const Wrapper = (props: WrapperProps): JSX.Element => {
 
   return (
     <>
+      <HeadCellMenu />
       <StickyPivotTable {...props} />
       {hasLimitedData && <Disclaimer styleService={styleService} translator={translator} />}
       {pageInfo.shouldShowPagination && <Pagination pageInfo={pageInfo} updatePageInfo={updatePageInfo} />}
