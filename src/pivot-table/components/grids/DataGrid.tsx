@@ -1,10 +1,10 @@
 /*  eslint-disable no-param-reassign */
+import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import { throttler } from "qlik-chart-modules";
 import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
 import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedDataCell from "../cells/DataCell";
 import { gridBorderStyle } from "../shared-styles";
 
@@ -18,6 +18,7 @@ interface DataGridProps {
   viewService: ViewService;
   layoutService: LayoutService;
   measureData: MeasureData;
+  showLastRowBorderBottom: boolean;
   leafWidth: number;
 }
 
@@ -103,6 +104,7 @@ const DataGrid = ({
   viewService,
   layoutService,
   measureData,
+  showLastRowBorderBottom,
   leafWidth,
 }: DataGridProps): JSX.Element | null => {
   const {
@@ -187,6 +189,7 @@ const DataGrid = ({
           layoutService,
           grid: measureData,
           dataModel,
+          showLastRowBorderBottom,
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}

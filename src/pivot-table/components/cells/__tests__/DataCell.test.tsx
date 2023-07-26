@@ -56,4 +56,10 @@ describe("DataCell", () => {
       backgroundColor: Colors.Black5,
     } as Record<string, unknown>);
   });
+
+  test("should return empty cell", () => {
+    data = { ...data, grid: [[]] };
+    const { container } = render(<DataCell data={data} style={style} columnIndex={0} rowIndex={0} />);
+    expect(container.firstChild).toHaveAttribute("data-testid", "empty-cell");
+  });
 });

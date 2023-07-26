@@ -45,6 +45,7 @@ export interface ItemData {
 export interface GridItemData extends ItemData {
   grid: EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
+  showLastRowBorderBottom: boolean;
 }
 
 export interface ListItemData extends ItemData {
@@ -52,6 +53,7 @@ export interface ListItemData extends ItemData {
   isLeftColumn?: boolean;
   isLast: boolean;
   itemCount: number;
+  showLastRowBorderBottom: boolean;
 }
 
 export interface Cell {

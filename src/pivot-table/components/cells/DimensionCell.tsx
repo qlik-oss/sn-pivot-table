@@ -1,7 +1,7 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import NxDimCellType, { NxSelectionCellType } from "../../../types/QIX";
-import type { Cell, DataModel, ItemData } from "../../../types/types";
+import type { Cell, DataModel, ListItemData } from "../../../types/types";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";
@@ -13,7 +13,7 @@ export interface DimensionCellProps {
   rowIndex: number;
   colIndex: number;
   style: React.CSSProperties;
-  data: ItemData;
+  data: ListItemData;
   isLeftColumn: boolean;
   isLastRow: boolean;
   isLastColumn: boolean;
@@ -89,16 +89,21 @@ const DimensionCell = ({
   isLastColumn,
 }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand, qType } = cell.ref;
-  const { constraints = { active: false, passive: false, select: false }, dataModel, layoutService } = data;
+  const {
+    constraints = { active: false, passive: false, select: false },
+    dataModel,
+    layoutService,
+    showLastRowBorderBottom,
+  } = data;
   const styleService = useStyleContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
   const isCellLocked =
-    isLocked(selectionCellType, rowIndex, colIndex) ||
-    layoutService.isDimensionLocked(selectionCellType, rowIndex, colIndex);
+    isLocked(selectionCellType, cell.dataY, colIndex) ||
+    layoutService.isDimensionLocked(selectionCellType, cell.dataY, colIndex);
   const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active || isNull;
-  const isCellSelected = isSelected(selectionCellType, rowIndex, colIndex);
+  const isCellSelected = isSelected(selectionCellType, cell.dataY, colIndex);
   const resolvedTextStyle = getTextStyle({
     isLeftColumn,
     styleService,
@@ -118,6 +123,7 @@ const DimensionCell = ({
     isCellSelected,
     styleService,
     isLeftColumn,
+    showLastRowBorderBottom,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.dataY, colIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;

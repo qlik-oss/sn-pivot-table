@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Q_PATH } from "../../constants";
 import { NxSelectionCellType } from "../../types/QIX";
-import type { ExtendedSelections } from "../../types/types";
+import type { ExtendedSelections, PageInfo } from "../../types/types";
 
 export interface SelectionModel {
   select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => Promise<void>;
@@ -16,25 +16,31 @@ export interface SelectedPivotCell {
   qCol: number;
 }
 
-export default function useSelectionsModel(selections: ExtendedSelections): SelectionModel {
+export default function useSelectionsModel(
+  selections: ExtendedSelections,
+  updatePageInfo: (args: Partial<PageInfo>) => void
+): SelectionModel {
   const isActive = selections.isActive();
   const [selected, setSelected] = useState<SelectedPivotCell[]>([]);
 
   useEffect(() => {
     const clearSelections = () => setSelected([]);
-    const confirmOrCancelSelections = () => setSelected([]);
+    const clearSelectionAndResetPage = () => {
+      setSelected([]);
+      updatePageInfo({ currentPage: 0 });
+    };
     selections.on("deactivated", clearSelections);
-    selections.on("canceled", confirmOrCancelSelections);
-    selections.on("confirmed", confirmOrCancelSelections);
+    selections.on("canceled", clearSelections);
+    selections.on("confirmed", clearSelectionAndResetPage);
     selections.on("cleared", clearSelections);
 
     return () => {
       selections.removeListener("deactivated", clearSelections);
-      selections.removeListener("canceled", confirmOrCancelSelections);
-      selections.removeListener("confirmed", confirmOrCancelSelections);
+      selections.removeListener("canceled", clearSelections);
+      selections.removeListener("confirmed", clearSelectionAndResetPage);
       selections.removeListener("cleared", clearSelections);
     };
-  }, [selections]);
+  }, [selections, updatePageInfo]);
 
   const isLocked = useCallback(
     (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {

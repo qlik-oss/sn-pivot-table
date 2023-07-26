@@ -26,7 +26,7 @@ const DimensionTitleCell = ({ cell, style, isLastColumn }: LabelCellProps): JSX.
       title={cell}
       style={{
         ...style,
-        ...getBorderStyle(true, isLastColumn, styleService.grid.border),
+        ...getBorderStyle(true, isLastColumn, styleService.grid.border, false),
         ...styleService.header.rowTitle,
         display: "flex",
       }}

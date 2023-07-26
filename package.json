@@ -1,6 +1,6 @@
 {
   "name": "@nebula.js/sn-pivot-table",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0",
   "description": "Pivot table supernova",
   "keywords": [
     "qlik",
@@ -24,19 +24,20 @@
     "sn-pivot-table-ext"
   ],
   "scripts": {
-    "build": "yarn run locale:generate && node ./scripts/build.js --core --ext",
-    "build:dev": "yarn run locale:generate && node ./scripts/build.js --core --ext --mode development",
-    "build:watch": "yarn run locale:generate && node ./scripts/build.js --mode development -w",
+    "build": "node ./scripts/build.js --core --ext",
+    "build:dev": "node ./scripts/build.js --core --ext --mode development",
+    "build:watch": "node ./scripts/build.js --mode development -w",
     "copy:ext": "node ./scripts/copy-ext.js",
     "format:check": "prettier --check '**' --ignore-unknown",
     "format:write": "prettier --write '**' --ignore-unknown",
+    "postinstall": "yarn locale:generate",
     "lint": "eslint src/",
     "locale:generate": "node src/locale/scripts/generate-all.mjs",
     "locale:verify": "node src/locale/tools/verify-translations.mjs",
     "prepare": "husky install",
     "sense": "nebula sense",
     "spec": "npx @scriptappy/cli from-jsdoc -c ./scriptappy.config.js",
-    "start": "yarn run locale:generate && nebula serve  --type sn-pivot-table",
+    "start": "nebula serve  --type sn-pivot-table",
     "start:mfe": "nebula serve --mfe  --type sn-pivot-table",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",
@@ -91,6 +92,7 @@
     "@nebula.js/cli-sense": "4.0.3",
     "@nebula.js/cli-serve": "4.0.3",
     "@playwright/test": "1.34.0",
+    "@qlik-oss/nebula-table-utils": "1.1.0",
     "@qlik-trial/sprout": "2.51.0",
     "@qlik/eslint-config": "0.0.16",
     "@qlik/eslint-config-react": "0.0.15",
@@ -128,6 +130,7 @@
     "@nebula.js/stardust": ">=4.0.3",
     "@qlik-trial/sprout": ">=2.51.0"
   },
+  "packageManager": "yarn@1.22.19",
   "engines": {
     "node": ">=16"
   },

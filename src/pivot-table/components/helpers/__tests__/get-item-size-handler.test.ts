@@ -11,9 +11,10 @@ describe("getItemSizeHandler", () => {
 
   describe("getRowHeightHandler", () => {
     const cellHeight = 24;
+    const qcy = 100;
 
     test("should return a size when cell is undefined", () => {
-      const handler = getRowHeightHandler(list, cellHeight, false);
+      const handler = getRowHeightHandler(list, cellHeight, false, qcy);
 
       expect(handler(0)).toEqual(cellHeight);
     });
@@ -25,7 +26,7 @@ describe("getItemSizeHandler", () => {
         leafCount,
         distanceToNextCell: 0,
       } as Cell;
-      const handler = getRowHeightHandler(list, cellHeight, false);
+      const handler = getRowHeightHandler(list, cellHeight, false, qcy);
 
       expect(handler(0)).toEqual(cellHeight * leafCount);
     });
@@ -38,7 +39,7 @@ describe("getItemSizeHandler", () => {
         leafCount,
         distanceToNextCell,
       } as Cell;
-      const handler = getRowHeightHandler(list, cellHeight, false);
+      const handler = getRowHeightHandler(list, cellHeight, false, qcy);
 
       expect(handler(0)).toEqual(cellHeight * (leafCount + distanceToNextCell));
     });
@@ -51,7 +52,7 @@ describe("getItemSizeHandler", () => {
         leafCount,
         y,
       } as Cell;
-      const handler = getRowHeightHandler(list, cellHeight, false);
+      const handler = getRowHeightHandler(list, cellHeight, false, qcy);
 
       expect(handler(0)).toEqual(cellHeight * (leafCount + y));
     });

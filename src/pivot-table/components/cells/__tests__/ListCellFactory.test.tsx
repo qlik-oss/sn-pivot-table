@@ -50,6 +50,7 @@ describe("ListCellFactory", () => {
       constraints,
       isLast: false,
       itemCount: 1,
+      showLastRowBorderBottom: false,
     };
   });
 
@@ -78,7 +79,7 @@ describe("ListCellFactory", () => {
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith(
-      { style, cell, isLeftColumn: false, isLastRow: false, isLastColumn: true },
+      { style, cell, isLeftColumn: false, isLastRow: false, isLastColumn: true, showLastRowBorderBottom: false },
       {}
     );
   });
@@ -108,7 +109,13 @@ describe("ListCellFactory", () => {
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockEmptyCell).toHaveBeenCalledWith(
-      { style: { ...style, background: "transparent" }, index, isLastRow: false, isLastColumn: true },
+      {
+        style: { ...style, background: "transparent" },
+        index,
+        isLastRow: false,
+        isLastColumn: true,
+        showLastRowBorderBottom: false,
+      },
       {}
     );
   });
@@ -124,7 +131,13 @@ describe("ListCellFactory", () => {
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockEmptyCell).toHaveBeenCalledWith(
-      { style: { ...style, background: "transparent" }, index, isLastRow: true, isLastColumn: false },
+      {
+        style: { ...style, background: "transparent" },
+        index,
+        isLastRow: true,
+        isLastColumn: false,
+        showLastRowBorderBottom: false,
+      },
       {}
     );
   });
