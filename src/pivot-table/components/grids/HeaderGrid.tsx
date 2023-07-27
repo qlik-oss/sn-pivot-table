@@ -1,3 +1,4 @@
+import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
 import type { HeaderTitle, HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
@@ -8,6 +9,7 @@ interface HeaderGridProps {
   columnWidthCallback: (index: number) => number;
   rowHight: number;
   headersData: HeadersData;
+  translator: stardust.Translator;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -15,7 +17,12 @@ const containerStyle: React.CSSProperties = {
   background: "red",
 };
 
-const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridProps): JSX.Element | null => {
+const HeaderGrid = ({
+  columnWidthCallback,
+  rowHight,
+  headersData,
+  translator,
+}: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
   if (headersData.size.x === 0) {
@@ -24,6 +31,8 @@ const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridPr
 
   const hasMultipleRows = headersData.size.y > 1;
   const columnWidths = headersData.data.map((_, colIndex) => columnWidthCallback(colIndex));
+
+  console.log({ headersData });
 
   return (
     <div
@@ -44,6 +53,7 @@ const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridPr
             cell={cell.title}
             style={{ width: columnWidths[colIndex], height: rowHight }}
             isLastColumn={colIndex === headersData.size.x - 1}
+            translator={translator}
           />
         );
       })}
