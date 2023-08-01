@@ -38,10 +38,10 @@ const columnResize = {
         value: ColumnWidthType.Auto,
         translation: "Common.Auto",
       },
-      // {
-      //   value: ColumnWidthType.fitToContent,
-      //   translation: "Object.Table.Column.FitToContent",
-      // },
+      {
+        value: ColumnWidthType.FitToContent,
+        translation: "Object.Table.Column.FitToContent",
+      },
       {
         value: ColumnWidthType.Pixels,
         translation: "Object.Table.Column.Pixels",

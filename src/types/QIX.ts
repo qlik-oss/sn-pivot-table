@@ -114,7 +114,7 @@ export interface Args {
 
 export enum ColumnWidthType {
   Auto = "auto",
-  fitToContent = "fitToContent",
+  FitToContent = "fitToContent",
   Pixels = "pixels",
   Percentage = "percentage",
 }

@@ -57,8 +57,9 @@ export const StickyPivotTable = ({
     pageInfo,
   });
 
-  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth, leafWidth } =
-    useColumnWidth(layoutService, tableRect, leftDimensionData);
+  const topGridLeafIndex = topDimensionData.dimensionInfoIndexMap[topDimensionData.dimensionInfoIndexMap.length - 1];
+  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, totalWidth, leafWidth } =
+    useColumnWidth(layoutService, tableRect, leftDimensionData, topGridLeafIndex);
 
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
@@ -134,7 +135,7 @@ export const StickyPivotTable = ({
       onScroll={onScrollHandler}
       constraints={constraints}
     >
-      <FullSizeContainer width={getTotalWidth()} height={containerHeight}>
+      <FullSizeContainer width={totalWidth} height={containerHeight}>
         <StickyContainer
           rect={tableRect}
           leftColumnsWidth={leftGridWidth}
@@ -184,6 +185,7 @@ export const StickyPivotTable = ({
             measureData={measureData}
             showLastRowBorderBottom={showLastRowBorderBottom}
             leafWidth={leafWidth}
+            topGridLeafIndex={topGridLeafIndex}
           />
         </StickyContainer>
       </FullSizeContainer>

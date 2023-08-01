@@ -20,6 +20,7 @@ interface DataGridProps {
   measureData: MeasureData;
   showLastRowBorderBottom: boolean;
   leafWidth: number;
+  topGridLeafIndex: number;
 }
 
 type FetchModeData = (
@@ -106,6 +107,7 @@ const DataGrid = ({
   measureData,
   showLastRowBorderBottom,
   leafWidth,
+  topGridLeafIndex,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -158,11 +160,10 @@ const DataGrid = ({
   // TODO: MAke this depend on leaf instead
   const getColumnWidth = useCallback(
     (index: number) => {
-      const sortOrder = layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder;
-      const isLeafMeasure = sortOrder[sortOrder.length - 1] === -1;
+      const isLeafMeasure = topGridLeafIndex === -1;
       return isLeafMeasure ? getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)) : leafWidth;
     },
-    [getMeasureInfoWidth, layoutService, leafWidth]
+    [layoutService, getMeasureInfoWidth, topGridLeafIndex, leafWidth]
   );
 
   const allMeasuresWidth = useMemo(
