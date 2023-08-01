@@ -1,7 +1,7 @@
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import { ColumnWidthType } from "../../types/QIX";
+import { ColumnWidthType, type ExtendedNxDimensionInfo, type ExtendedNxMeasureInfo } from "../../types/QIX";
 import type { LayoutService, LeftDimensionData, Rect, TopDimensionData } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
@@ -33,6 +33,7 @@ export default function useColumnWidth(
   topGridLeafIndex: number
 ): ColumnWidthHook {
   const styleService = useStyleContext();
+  // TODO: use the correct fonts, looks like we need at least 4 functions
   const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
     styleService.content.fontSize,
     styleService.content.fontFamily
@@ -46,6 +47,11 @@ export default function useColumnWidth(
   const hasPseudoDimOnLeft = useMemo(
     () => leftDimensionData.dimensionInfoIndexMap.some((dimIndex) => dimIndex === PSEUDO_DIMENSION_INDEX),
     [leftDimensionData.dimensionInfoIndexMap]
+  );
+
+  const getCollapseExpandIconSize = useCallback(
+    (index: number) => (index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0),
+    [qNoOfLeftDims]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
@@ -68,13 +74,14 @@ export default function useColumnWidth(
       }
 
       // fit to content
-      const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
-      const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
       const w = Math.max(
         measureTextForHeader(qFallbackTitle),
-        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize
+        estimateWidthForContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index)
       );
       return w / rect.width;
+
+      // TODO: What does auto mean in this case? there is not width that things can fit to.
+      // You could do 75% but that is not a very useful case
     });
 
     const sumOfRatios = ratios.reduce((sum, r) => sum + r, 0);
@@ -83,14 +90,14 @@ export default function useColumnWidth(
     const multiplier = MAX_RATIO_OF_TOTAL_WIDTH / sumOfRatios;
     return ratios.map((r) => r * multiplier);
   }, [
-    estimateWidthForContent,
-    measureTextForContent,
-    measureTextForHeader,
     leftDimensionData.dimensionInfoIndexMap,
-    rect.width,
     qDimensionInfo,
+    measureTextForHeader,
+    estimateWidthForContent,
+    getCollapseExpandIconSize,
+    rect.width,
     qMeasureInfo,
-    qNoOfLeftDims,
+    measureTextForContent,
   ]);
 
   const getLeftColumnWidth = useCallback(
@@ -105,62 +112,57 @@ export default function useColumnWidth(
 
   const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth - GRID_BORDER), [leftGridWidth, rect.width]);
 
+  const getWidth = useCallback(
+    (info: ExtendedNxDimensionInfo | ExtendedNxMeasureInfo, includeTitleWidth = true) => {
+      const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = info;
+      let specifiedWidth: number;
+
+      switch (columnWidth?.type) {
+        case ColumnWidthType.Pixels: {
+          specifiedWidth = columnWidth.pixels || DEFAULT_PIXEL_VALUE;
+          break;
+        }
+        case ColumnWidthType.Percentage: {
+          specifiedWidth = (rightGridWidth * (columnWidth?.percentage || DEFAULT_PERCENTAGE_VALUE)) / 100;
+          break;
+        }
+        case ColumnWidthType.Auto: {
+          specifiedWidth = rightGridWidth / layoutService.size.x;
+          break;
+        }
+        case ColumnWidthType.FitToContent: {
+          specifiedWidth = Math.max(
+            estimateWidthForContent(qApprMaxGlyphCount),
+            includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
+          );
+          break;
+        }
+        default:
+          // TODO ERROR HANDLING
+          specifiedWidth = 0;
+          break;
+      }
+
+      return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
+    },
+    [rightGridWidth, layoutService.size.x, estimateWidthForContent, measureTextForHeader]
+  );
+
   const memoizedGetMeasureInfoWidth = useMemo(
     () =>
       memoize((measureInfoIndex: number) => {
-        // TODO: getWidth is exactly what we do for the dimensions as well, should be able to extract this
-        const getWidth = (index: number, includeTitleWidth = true) => {
-          const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = qMeasureInfo[index];
-          let specifiedWidth: number;
-
-          switch (columnWidth?.type) {
-            case ColumnWidthType.Pixels: {
-              specifiedWidth = columnWidth.pixels || DEFAULT_PIXEL_VALUE;
-              break;
-            }
-            case ColumnWidthType.Percentage: {
-              specifiedWidth = (rightGridWidth * (columnWidth?.percentage || DEFAULT_PERCENTAGE_VALUE)) / 100;
-              break;
-            }
-            case ColumnWidthType.Auto: {
-              specifiedWidth = rightGridWidth / layoutService.size.x;
-              break;
-            }
-            case ColumnWidthType.FitToContent: {
-              specifiedWidth = Math.max(
-                estimateWidthForContent(qApprMaxGlyphCount),
-                includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
-              );
-              break;
-            }
-            default:
-              // TODO ERROR HANDLING
-              specifiedWidth = 0;
-              break;
-          }
-
-          return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
-        };
-
         if (hasPseudoDimOnLeft) {
           // TODO: look into why this is excluding the title width, shouldn't it only depend on the title?
-          return Math.max(...qMeasureInfo.map((m, index) => getWidth(index, false)));
+          return Math.max(...qMeasureInfo.map((m) => getWidth(m, false)));
         }
 
-        return getWidth(measureInfoIndex);
+        return getWidth(qMeasureInfo[measureInfoIndex]);
       }),
-    [
-      rightGridWidth,
-      layoutService.size.x,
-      estimateWidthForContent,
-      measureTextForHeader,
-      qMeasureInfo,
-      hasPseudoDimOnLeft,
-    ]
+    [getWidth, hasPseudoDimOnLeft, qMeasureInfo]
   );
 
   const leafWidth = useMemo(() => {
-    const leavesAreMeasures = topGridLeafIndex === -1;
+    const leavesAreMeasures = topGridLeafIndex === PSEUDO_DIMENSION_INDEX;
 
     if (leavesAreMeasures) {
       const allMeasuresWidth = qMeasureInfo.reduce(
@@ -171,44 +173,8 @@ export default function useColumnWidth(
       return allMeasuresWidth / qMeasureInfo.length;
     }
 
-    const { columnWidth, qApprMaxGlyphCount, qFallbackTitle } = qDimensionInfo[topGridLeafIndex];
-    let specifiedWidth: number;
-
-    switch (columnWidth?.type) {
-      case ColumnWidthType.Pixels: {
-        specifiedWidth = columnWidth.pixels || DEFAULT_PIXEL_VALUE;
-        break;
-      }
-      case ColumnWidthType.Percentage: {
-        specifiedWidth = (rightGridWidth * (columnWidth?.percentage || DEFAULT_PERCENTAGE_VALUE)) / 100;
-        break;
-      }
-      case ColumnWidthType.Auto: {
-        specifiedWidth = rightGridWidth / layoutService.size.x;
-        break;
-      }
-      case ColumnWidthType.FitToContent: {
-        specifiedWidth = Math.max(estimateWidthForContent(qApprMaxGlyphCount), measureTextForHeader(qFallbackTitle));
-        break;
-      }
-      default:
-        // TODO ERROR HANDLING
-        specifiedWidth = 0;
-        break;
-    }
-
-    // TODO: compensate for padding and icon?
-    return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
-  }, [
-    topGridLeafIndex,
-    qDimensionInfo,
-    qMeasureInfo,
-    memoizedGetMeasureInfoWidth,
-    rightGridWidth,
-    layoutService.size.x,
-    estimateWidthForContent,
-    measureTextForHeader,
-  ]);
+    return getWidth(qDimensionInfo[topGridLeafIndex]);
+  }, [topGridLeafIndex, getWidth, qDimensionInfo, qMeasureInfo, memoizedGetMeasureInfoWidth]);
 
   const totalWidth = useMemo(
     () => leftGridWidth + layoutService.size.x * leafWidth,
