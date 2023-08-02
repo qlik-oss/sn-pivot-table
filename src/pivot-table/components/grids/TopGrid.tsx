@@ -24,7 +24,7 @@ interface TopGridProps {
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
   showLastRowBorderBottom: boolean;
-  leafWidth: number;
+  getLeafWidth: (index?: number) => number;
 }
 
 const listStyle: React.CSSProperties = {
@@ -54,7 +54,7 @@ const TopGrid = ({
   layoutService,
   topDimensionData,
   showLastRowBorderBottom,
-  leafWidth,
+  getLeafWidth,
 }: TopGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -84,7 +84,7 @@ const TopGrid = ({
     [getMeasureInfoWidth, qMeasureInfo]
   );
 
-  const totalWidth = layoutService.size.x * leafWidth; // (allMeasuresWidth / qMeasureInfo.length);
+  const totalWidth = layoutService.size.x * getLeafWidth(); // (allMeasuresWidth / qMeasureInfo.length);
 
   if (topDimensionData.rowCount === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
@@ -109,11 +109,8 @@ const TopGrid = ({
             itemSize={getColumnWidthHandler({
               list,
               isLastRow,
-              layoutService,
-              getMeasureInfoWidth,
+              getLeafWidth,
               allMeasuresWidth,
-              leafWidth,
-              isPseudo: key === "-1",
             })}
             layout="horizontal"
             itemData={{

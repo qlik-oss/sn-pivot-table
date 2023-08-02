@@ -1,13 +1,10 @@
-import type { LayoutService, List } from "../../../types/types";
+import type { List } from "../../../types/types";
 
 interface ColumnWidthHandlerProps {
   list: List;
-  layoutService: LayoutService;
   isLastRow: boolean;
+  getLeafWidth: (index?: number) => number;
   allMeasuresWidth: number;
-  getMeasureInfoWidth: (index: number) => number;
-  leafWidth: number;
-  isPseudo: boolean;
 }
 
 type ItemSizeHandler = (index: number) => number;
@@ -33,15 +30,7 @@ export const getRowHeightHandler =
   };
 
 export const getColumnWidthHandler =
-  ({
-    list,
-    isLastRow,
-    layoutService,
-    allMeasuresWidth,
-    getMeasureInfoWidth,
-    leafWidth,
-    isPseudo,
-  }: ColumnWidthHandlerProps): ItemSizeHandler =>
+  ({ list, isLastRow, getLeafWidth, allMeasuresWidth }: ColumnWidthHandlerProps): ItemSizeHandler =>
   (colIndex: number) => {
     const cell = isLastRow ? list[colIndex] : Object.values(list)[colIndex];
     // const measureInfoCount = layoutService.layout.qHyperCube.qMeasureInfo.length;
@@ -53,10 +42,8 @@ export const getColumnWidthHandler =
 
     // all rows except bottom one
     if (cell?.leafCount > 0) {
-      return (cell.leafCount + cell.distanceToNextCell) * leafWidth;
+      return (cell.leafCount + cell.distanceToNextCell) * getLeafWidth();
     }
 
-    return isPseudo
-      ? getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell?.x ?? colIndex))
-      : leafWidth;
+    return getLeafWidth(cell?.x ?? colIndex);
   };

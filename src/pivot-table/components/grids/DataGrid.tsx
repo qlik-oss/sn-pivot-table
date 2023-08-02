@@ -1,7 +1,7 @@
 /*  eslint-disable no-param-reassign */
 import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import { throttler } from "qlik-chart-modules";
-import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
+import React, { memo, useCallback, useLayoutEffect } from "react";
 import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
@@ -11,7 +11,6 @@ import { gridBorderStyle } from "../shared-styles";
 interface DataGridProps {
   dataModel: DataModel;
   dataGridRef: React.RefObject<VariableSizeGrid>;
-  getMeasureInfoWidth: (index: number) => number;
   height: number;
   rowHightCallback: () => number;
   width: number;
@@ -19,8 +18,7 @@ interface DataGridProps {
   layoutService: LayoutService;
   measureData: MeasureData;
   showLastRowBorderBottom: boolean;
-  leafWidth: number;
-  topGridLeafIndex: number;
+  getLeafWidth: (index?: number) => number;
 }
 
 type FetchModeData = (
@@ -98,7 +96,6 @@ const throttledFetchMoreData: FetchModeData = throttler(
 const DataGrid = ({
   dataModel,
   dataGridRef,
-  getMeasureInfoWidth,
   height,
   rowHightCallback,
   width,
@@ -106,14 +103,12 @@ const DataGrid = ({
   layoutService,
   measureData,
   showLastRowBorderBottom,
-  leafWidth,
-  topGridLeafIndex,
+  getLeafWidth,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
     contentCellHeight,
   } = useStyleContext();
-  const { qMeasureInfo } = layoutService.layout.qHyperCube;
   const resolvedGridStyle = {
     ...(layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions),
     borderColor: divider,
@@ -157,20 +152,6 @@ const DataGrid = ({
     [viewService, dataModel, measureData]
   );
 
-  // TODO: MAke this depend on leaf instead
-  const getColumnWidth = useCallback(
-    (index: number) => {
-      const isLeafMeasure = topGridLeafIndex === -1;
-      return isLeafMeasure ? getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)) : leafWidth;
-    },
-    [layoutService, getMeasureInfoWidth, topGridLeafIndex, leafWidth]
-  );
-
-  const allMeasuresWidth = useMemo(
-    () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
-    [getMeasureInfoWidth, qMeasureInfo]
-  );
-
   if (layoutService.size.x === 0) {
     return null;
   }
@@ -180,7 +161,7 @@ const DataGrid = ({
       ref={dataGridRef}
       style={resolvedGridStyle}
       columnCount={layoutService.size.x}
-      columnWidth={getColumnWidth}
+      columnWidth={getLeafWidth}
       height={height}
       rowCount={layoutService.size.y}
       rowHeight={rowHightCallback}
@@ -195,7 +176,7 @@ const DataGrid = ({
       }
       onItemsRendered={onItemsRendered}
       estimatedRowHeight={rowHightCallback()}
-      estimatedColumnWidth={allMeasuresWidth / qMeasureInfo.length}
+      estimatedColumnWidth={getLeafWidth()}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>

@@ -185,19 +185,19 @@ export interface CellStyling {
   background: string;
 }
 
-interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
+export interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
   background: string;
   rowTitle: CellStyling;
   columnTitle: CellStyling;
 }
 
-interface MeasureContentStyling extends FontStyling {
+export interface MeasureContentStyling extends FontStyling {
   background: string;
   nullValue: CellStyling;
   totalValue: CellStyling;
 }
 
-interface DimensionContentStyling extends FontStyling {
+export interface DimensionContentStyling extends FontStyling {
   background: string;
   nullValue: CellStyling;
   totalLabel: CellStyling;

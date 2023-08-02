@@ -2,7 +2,15 @@ import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import { ColumnWidthType, type ExtendedNxDimensionInfo, type ExtendedNxMeasureInfo } from "../../types/QIX";
-import type { LayoutService, LeftDimensionData, Rect, TopDimensionData } from "../../types/types";
+import type {
+  DimensionContentStyling,
+  HeaderStyling,
+  LayoutService,
+  LeftDimensionData,
+  MeasureContentStyling,
+  Rect,
+  TopDimensionData,
+} from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
@@ -14,7 +22,7 @@ interface ColumnWidthHook {
   getLeftColumnWidth: (index: number) => number;
   // getDataColumnWidth: (index: number) => number;
   getMeasureInfoWidth: (index: number) => number;
-  leafWidth: number;
+  getLeafWidth: (index?: number) => number;
   // getTotalWidth: () => number;
   totalWidth: number;
   showRightBorder: boolean;
@@ -26,32 +34,38 @@ const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 const DEFAULT_PIXEL_VALUE = 200;
 const DEFAULT_PERCENTAGE_VALUE = 20;
 
+// TODO: refactor and move this to use-measure-text file
+const useMeasureAndEstimate = (styling: HeaderStyling | MeasureContentStyling | DimensionContentStyling) =>
+  useMeasureText(styling["fontSize"], styling["fontFamily"]);
+
 export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
   leftDimensionData: LeftDimensionData,
-  topGridLeafIndex: number
+  topDimensionData: TopDimensionData
 ): ColumnWidthHook {
   const styleService = useStyleContext();
-  // TODO: use the correct fonts, looks like we need at least 4 functions
-  const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
-    styleService.content.fontSize,
-    styleService.content.fontFamily
+  const { measureText: measureTextForHeader } = useMeasureAndEstimate(styleService.header);
+  const { estimateWidth: estimateWidthForRowContent } = useMeasureAndEstimate(styleService.rowContent);
+  const { measureText: measureTextForColumnContent, estimateWidth: estimateWidthForColumnContent } =
+    useMeasureAndEstimate(styleService.columnContent);
+  const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureAndEstimate(
+    styleService.content
   );
-  const { measureText: measureTextForHeader } = useMeasureText(
-    styleService.header.fontSize,
-    styleService.header.fontFamily
-  );
+
   const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
-  const hasPseudoDimOnLeft = useMemo(
-    () => leftDimensionData.dimensionInfoIndexMap.some((dimIndex) => dimIndex === PSEUDO_DIMENSION_INDEX),
-    [leftDimensionData.dimensionInfoIndexMap]
-  );
+  const leafRowIndex = topDimensionData.dimensionInfoIndexMap[topDimensionData.dimensionInfoIndexMap.length - 1];
+  const topGridLeavesIsPseudo = leafRowIndex === PSEUDO_DIMENSION_INDEX;
 
   const getCollapseExpandIconSize = useCallback(
     (index: number) => (index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0),
     [qNoOfLeftDims]
+  );
+
+  const hasPseudoDimOnLeft = useMemo(
+    () => leftDimensionData.dimensionInfoIndexMap.some((dimIndex) => dimIndex === PSEUDO_DIMENSION_INDEX),
+    [leftDimensionData.dimensionInfoIndexMap]
   );
 
   const leftColumnWidthsRatios = useMemo(() => {
@@ -76,7 +90,7 @@ export default function useColumnWidth(
       // fit to content
       const w = Math.max(
         measureTextForHeader(qFallbackTitle),
-        estimateWidthForContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index)
+        estimateWidthForRowContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index)
       );
       return w / rect.width;
 
@@ -93,7 +107,7 @@ export default function useColumnWidth(
     leftDimensionData.dimensionInfoIndexMap,
     qDimensionInfo,
     measureTextForHeader,
-    estimateWidthForContent,
+    estimateWidthForRowContent,
     getCollapseExpandIconSize,
     rect.width,
     qMeasureInfo,
@@ -127,14 +141,23 @@ export default function useColumnWidth(
           break;
         }
         case ColumnWidthType.Auto: {
+          // TODO: we might need to redo this in the pseudo dimension case, since if not all measure are set to auto
+          // you don't fill upp the width anyway
           specifiedWidth = rightGridWidth / layoutService.size.x;
           break;
         }
         case ColumnWidthType.FitToContent: {
-          specifiedWidth = Math.max(
-            estimateWidthForContent(qApprMaxGlyphCount),
-            includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
-          );
+          if (topGridLeavesIsPseudo) {
+            specifiedWidth = Math.max(
+              estimateWidthForContent(qApprMaxGlyphCount),
+              includeTitleWidth ? measureTextForColumnContent(qFallbackTitle) : 0
+            );
+          } else {
+            specifiedWidth = Math.max(
+              Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
+              estimateWidthForColumnContent(qApprMaxGlyphCount)
+            );
+          }
           break;
         }
         default:
@@ -145,14 +168,21 @@ export default function useColumnWidth(
 
       return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
     },
-    [rightGridWidth, layoutService.size.x, estimateWidthForContent, measureTextForHeader]
+    [
+      rightGridWidth,
+      layoutService.size.x,
+      topGridLeavesIsPseudo,
+      estimateWidthForContent,
+      measureTextForColumnContent,
+      qMeasureInfo,
+      estimateWidthForColumnContent,
+    ]
   );
 
   const memoizedGetMeasureInfoWidth = useMemo(
     () =>
       memoize((measureInfoIndex: number) => {
         if (hasPseudoDimOnLeft) {
-          // TODO: look into why this is excluding the title width, shouldn't it only depend on the title?
           return Math.max(...qMeasureInfo.map((m) => getWidth(m, false)));
         }
 
@@ -161,36 +191,43 @@ export default function useColumnWidth(
     [getWidth, hasPseudoDimOnLeft, qMeasureInfo]
   );
 
-  const leafWidth = useMemo(() => {
-    const leavesAreMeasures = topGridLeafIndex === PSEUDO_DIMENSION_INDEX;
-
-    if (leavesAreMeasures) {
+  const averageLeafWidth = useMemo(() => {
+    if (topGridLeavesIsPseudo) {
       const allMeasuresWidth = qMeasureInfo.reduce(
-        (totalWidth, measure, index) => totalWidth + memoizedGetMeasureInfoWidth(index),
+        (totalWidth, _, index) => totalWidth + memoizedGetMeasureInfoWidth(index),
         0
       );
 
       return allMeasuresWidth / qMeasureInfo.length;
     }
+    return getWidth(qDimensionInfo[leafRowIndex]);
+  }, [topGridLeavesIsPseudo, qDimensionInfo, leafRowIndex, getWidth, qMeasureInfo, memoizedGetMeasureInfoWidth]);
 
-    return getWidth(qDimensionInfo[topGridLeafIndex]);
-  }, [topGridLeafIndex, getWidth, qDimensionInfo, qMeasureInfo, memoizedGetMeasureInfoWidth]);
+  const getLeafWidth = useCallback(
+    /**
+     * Gets the average leaf width for the bottom row in the top grid
+     * If the bottom row is measures and you pass an index for that measure, it will return the specific width for that measure
+     */
+    (index?: number) =>
+      topGridLeavesIsPseudo && index !== undefined
+        ? memoizedGetMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index))
+        : averageLeafWidth,
+    [averageLeafWidth, layoutService, memoizedGetMeasureInfoWidth, topGridLeavesIsPseudo]
+  );
 
   const totalWidth = useMemo(
-    () => leftGridWidth + layoutService.size.x * leafWidth,
-    [leafWidth, leftGridWidth, layoutService.size.x]
+    () => leftGridWidth + layoutService.size.x * averageLeafWidth,
+    [averageLeafWidth, leftGridWidth, layoutService.size.x]
   );
 
   const showRightBorder = useMemo(() => totalWidth < layoutService.size.x, [totalWidth, layoutService.size.x]);
-
-  console.log("leafWidth", leafWidth);
 
   return {
     leftGridWidth,
     rightGridWidth,
     getLeftColumnWidth,
     getMeasureInfoWidth: memoizedGetMeasureInfoWidth,
-    leafWidth,
+    getLeafWidth,
     totalWidth,
     showRightBorder,
   };
