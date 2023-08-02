@@ -18,12 +18,9 @@ import useMeasureText from "./use-measure-text";
 interface ColumnWidthHook {
   leftGridWidth: number;
   rightGridWidth: number;
-  // totalMeasureInfoColumnWidth: number;
   getLeftColumnWidth: (index: number) => number;
-  // getDataColumnWidth: (index: number) => number;
   getMeasureInfoWidth: (index: number) => number;
   getLeafWidth: (index?: number) => number;
-  // getTotalWidth: () => number;
   totalWidth: number;
   showRightBorder: boolean;
 }

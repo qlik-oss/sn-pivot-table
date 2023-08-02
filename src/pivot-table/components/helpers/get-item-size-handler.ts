@@ -4,7 +4,6 @@ interface ColumnWidthHandlerProps {
   list: List;
   isLastRow: boolean;
   getLeafWidth: (index?: number) => number;
-  allMeasuresWidth: number;
 }
 
 type ItemSizeHandler = (index: number) => number;
@@ -30,7 +29,7 @@ export const getRowHeightHandler =
   };
 
 export const getColumnWidthHandler =
-  ({ list, isLastRow, getLeafWidth, allMeasuresWidth }: ColumnWidthHandlerProps): ItemSizeHandler =>
+  ({ list, isLastRow, getLeafWidth }: ColumnWidthHandlerProps): ItemSizeHandler =>
   (colIndex: number) => {
     const cell = isLastRow ? list[colIndex] : Object.values(list)[colIndex];
     // const measureInfoCount = layoutService.layout.qHyperCube.qMeasureInfo.length;

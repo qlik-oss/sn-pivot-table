@@ -148,7 +148,6 @@ export const StickyPivotTable = ({
             dataModel={dataModel}
             constraints={constraints}
             topGridRef={topGridRef}
-            getMeasureInfoWidth={getMeasureInfoWidth}
             rowHightCallback={headerCellRowHightCallback}
             width={rightGridWidth}
             height={topGridHeight}
