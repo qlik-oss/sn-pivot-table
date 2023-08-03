@@ -26,10 +26,16 @@ interface ColumnWidthHook {
 }
 
 export const EXPAND_ICON_WIDTH = 30;
-const MIN_COLUMN_WIDTH = 30;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
-const DEFAULT_PIXEL_VALUE = 200;
-const DEFAULT_PERCENTAGE_VALUE = 20;
+
+export enum ColumnWidthValues {
+  PixelsMin = 30,
+  PixelsMax = 7680,
+  PixelsDefault = 200,
+  PercentageMin = 1,
+  PercentageMax = 100,
+  PercentageDefault = 20,
+}
 
 // TODO: refactor and move this to use-measure-text file
 const useMeasureAndEstimate = (styling: HeaderStyling | MeasureContentStyling | DimensionContentStyling) =>
@@ -76,12 +82,12 @@ export default function useColumnWidth(
       const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo[dimIndex];
       // percentage
       if (columnWidth?.type === "pixels") {
-        return (columnWidth.pixels || DEFAULT_PIXEL_VALUE) / rect.width;
+        return (columnWidth.pixels || ColumnWidthValues.PixelsDefault) / rect.width;
       }
       // pixels
       if (columnWidth?.type === "percentage") {
-        // TODO: do we want the percentage value to represent the entire chart or just the 75 precent that you can occupy with the left side
-        return ((columnWidth?.percentage || DEFAULT_PERCENTAGE_VALUE) * MAX_RATIO_OF_TOTAL_WIDTH) / 100;
+        // TODO: do we want the percentage value to represent the entire chart or just the 75% that you can occupy with the left side
+        return ((columnWidth?.percentage || ColumnWidthValues.PercentageDefault) * MAX_RATIO_OF_TOTAL_WIDTH) / 100;
       }
 
       // fit to content
@@ -112,6 +118,7 @@ export default function useColumnWidth(
   ]);
 
   const getLeftColumnWidth = useCallback(
+    // TODO: There is no minimum check here, need to do it in a smart way to not make the left grid too wide
     (index: number) => leftColumnWidthsRatios[index] * rect.width,
     [leftColumnWidthsRatios, rect.width]
   );
@@ -130,11 +137,11 @@ export default function useColumnWidth(
 
       switch (columnWidth?.type) {
         case ColumnWidthType.Pixels: {
-          specifiedWidth = columnWidth.pixels || DEFAULT_PIXEL_VALUE;
+          specifiedWidth = columnWidth.pixels || ColumnWidthValues.PixelsDefault;
           break;
         }
         case ColumnWidthType.Percentage: {
-          specifiedWidth = (rightGridWidth * (columnWidth?.percentage || DEFAULT_PERCENTAGE_VALUE)) / 100;
+          specifiedWidth = (rightGridWidth * (columnWidth?.percentage || ColumnWidthValues.PercentageDefault)) / 100;
           break;
         }
         case ColumnWidthType.Auto: {
@@ -163,7 +170,7 @@ export default function useColumnWidth(
           break;
       }
 
-      return Math.max(MIN_COLUMN_WIDTH, specifiedWidth);
+      return Math.max(ColumnWidthValues.PixelsMin, specifiedWidth);
     },
     [
       rightGridWidth,

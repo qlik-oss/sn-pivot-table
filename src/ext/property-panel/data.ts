@@ -1,4 +1,5 @@
-import { ColumnWidthType } from "../../types/QIX";
+import { ColumnWidthValues } from "../../pivot-table/hooks/use-column-width";
+import { ColumnWidthType, type ColumnWidth, type DimensionOrMeasure } from "../../types/QIX";
 import type { Galaxy } from "../../types/types";
 
 export interface Args {
@@ -14,7 +15,7 @@ function isTotalsVisible(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown,
     return true;
   }
 
-  // shoulde be visible for first dimension in left tree.
+  // should be visible for first dimension in left tree.
   // should not be visible for remaining dimensions in left tree.
   const pseudoIdx = args.properties.qHyperCubeDef.qInterColumnSortOrder.indexOf(-1);
 
@@ -27,6 +28,7 @@ function isTotalsVisible(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown,
   return idx === 0 || idx >= noOfLeftDims;
 }
 
+// TODO: scope this out to common repo, don't see any differences in properties of default values atm
 const columnResize = {
   type: {
     type: "string",
@@ -58,28 +60,34 @@ const columnResize = {
     translation: "Object.Table.Column.Pixels",
     type: "number",
     expression: "optional",
-    defaultValue: 200,
-    show: (data) => data.qDef.columnWidth?.type === ColumnWidthType.Pixels,
-    // change(data) {
-    //   data.qDef.columnWidth.pixels =
-    //     data.qDef.columnWidth.pixels === undefined
-    //       ? data.qDef.columnWidth.pixels
-    //       : Math.max(1, Math.min(MAX_COLUMN_WIDTH, data.qDef.columnWidth.pixels));
-    // },
+    defaultValue: ColumnWidthValues.PixelsDefault,
+    show: (data: { qDef: { columnWidth: ColumnWidth } }) => data.qDef.columnWidth?.type === ColumnWidthType.Pixels,
+    change(data: { qDef: { columnWidth: ColumnWidth } }) {
+      if (data.qDef.columnWidth.pixels !== undefined) {
+        // eslint-disable-next-line no-param-reassign
+        data.qDef.columnWidth.pixels = Math.max(
+          ColumnWidthValues.PixelsMin,
+          Math.min(ColumnWidthValues.PixelsMax, data.qDef.columnWidth.pixels)
+        );
+      }
+    },
   },
   sizePercentage: {
     ref: "qDef.columnWidth.percentage",
     translation: "Object.Table.Column.Percentage",
     type: "number",
     expression: "optional",
-    defaultValue: 20,
-    show: (data) => data.qDef.columnWidth?.type === ColumnWidthType.Percentage,
-    // change(data) {
-    //   data.qDef.columnWidth.percentage =
-    //     data.qDef.columnWidth.percentage === undefined
-    //       ? data.qDef.columnWidth.percentage
-    //       : Math.max(1, Math.min(MAX_COLUMN_PERCENTAGE_WIDTH, data.qDef.columnWidth.percentage));
-    // },
+    defaultValue: ColumnWidthValues.PercentageDefault,
+    show: (data: DimensionOrMeasure) => data.qDef.columnWidth?.type === ColumnWidthType.Percentage,
+    change: (data: DimensionOrMeasure) => {
+      if (data.qDef.columnWidth.percentage !== undefined) {
+        // eslint-disable-next-line no-param-reassign
+        data.qDef.columnWidth.percentage = Math.max(
+          ColumnWidthValues.PercentageMin,
+          Math.min(ColumnWidthValues.PercentageMax, data.qDef.columnWidth.percentage)
+        );
+      }
+    },
   },
 };
 

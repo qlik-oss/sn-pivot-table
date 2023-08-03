@@ -161,3 +161,16 @@ export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;
 
 export default NxDimCellType;
+
+// types for properties
+export interface ExtendedInlineDimensionDef extends EngineAPI.INxInlineDimensionDef {
+  columnWidth: ColumnWidth;
+}
+
+export interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
+  columnWidth: ColumnWidth;
+}
+
+export interface DimensionOrMeasure {
+  qDef: ExtendedInlineDimensionDef | ExtendedInlineMeasureDef;
+}
