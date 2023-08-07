@@ -12,7 +12,6 @@ const createCell = (
   ref: node,
   x,
   y,
-  // TODO:
   // pageX might change to reflect x in current x axis page
   // when we implement horizontal pagination feature (exactly like the relation btw y and pageY)
   pageX: x,

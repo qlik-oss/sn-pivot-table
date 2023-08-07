@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import type { Grid, PageInfo, Point } from "../../../types/types";
 
-const assignDistanceToNextCell = (data: Grid, dirKey: "x" | "pageY", size: Point, pageInfo?: PageInfo) => {
+const assignDistanceToNextCell = (data: Grid, dirKey: "pageX" | "pageY", size: Point, pageInfo?: PageInfo) => {
   data.slice(0, -1).forEach((list) => {
     Object.values(list).forEach((cell, index, cells) => {
       const nextSibling = cells[index + 1];
