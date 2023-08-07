@@ -39,6 +39,7 @@
     "spec": "npx @scriptappy/cli from-jsdoc -c ./scriptappy.config.js",
     "start": "nebula serve  --type sn-pivot-table",
     "start:mfe": "nebula serve --mfe  --type sn-pivot-table",
+    "test:e2e": "yarn test:rendering",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",
     "test:rendering": "playwright test",
