@@ -9,6 +9,15 @@
     {
       "depTypeList": ["engines"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": [
+        "@qlik/eslint-config",
+        "@qlik/eslint-config-react",
+        "@qlik/prettier-config",
+        "@qlik/tsconfig"
+      ],
+      "dependencyDashboardApproval": true
     }
   ]
 }
