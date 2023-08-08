@@ -1,3 +1,20 @@
+# [2.1.0](https://github.com/qlik-oss/sn-pivot-table/compare/v2.0.0...v2.1.0) (2023-08-08)
+
+
+### Bug Fixes
+
+* missing page ([#303](https://github.com/qlik-oss/sn-pivot-table/issues/303)) ([cbfea8e](https://github.com/qlik-oss/sn-pivot-table/commit/cbfea8ea4ced6521f1903d76412e149ee43bdce2))
+* pagination last page empty rows issue + last row border bottom ([#281](https://github.com/qlik-oss/sn-pivot-table/issues/281)) ([645bf32](https://github.com/qlik-oss/sn-pivot-table/commit/645bf32eb97b1f12029624cf5cc9b192fe6a1e3c))
+* selection confirm should reset page to the first one ([#302](https://github.com/qlik-oss/sn-pivot-table/issues/302)) ([d05d74a](https://github.com/qlik-oss/sn-pivot-table/commit/d05d74a6b6f6e7204ba44aef90cff027da99f0c5))
+* selection in other pages ([#301](https://github.com/qlik-oss/sn-pivot-table/issues/301)) ([8cfdb93](https://github.com/qlik-oss/sn-pivot-table/commit/8cfdb93a0ac695a58307ecc5e2e5b237c1faa9b4))
+
+
+### Features
+
+* `useOnPropsChange` from `@qlik-oss/nebula-table-utils` ([#309](https://github.com/qlik-oss/sn-pivot-table/issues/309)) ([82439f4](https://github.com/qlik-oss/sn-pivot-table/commit/82439f477da378db682752e80e6eef166aaa74b8))
+
+
+
 # [2.0.0](https://github.com/qlik-oss/sn-pivot-table/compare/v2.0.0-alpha.1...v2.0.0) (2023-06-14)
 
 
