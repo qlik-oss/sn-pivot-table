@@ -84,7 +84,7 @@ describe("DimensionCell", () => {
     } as ListItemData;
 
     cell = {
-      dataY: 0,
+      y: 0,
       ref: {
         qText,
         qCanExpand: false,

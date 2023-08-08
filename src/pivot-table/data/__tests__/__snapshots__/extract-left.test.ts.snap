@@ -4,10 +4,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
 [
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
+      "pageX": 0,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -37,10 +38,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
+      "pageX": 0,
+      "pageY": 1,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -70,10 +72,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 1,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 6,
+      "pageX": 0,
+      "pageY": 2,
       "parent": null,
       "ref": {
         "qCanCollapse": true,
@@ -127,10 +130,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 2,
     },
     "3": {
-      "dataY": 3,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 3,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -146,15 +150,17 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
   },
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 0,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -199,10 +205,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -235,15 +242,17 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 1,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 1,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -288,10 +297,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 1,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -324,15 +334,17 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 1,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 2,
       "parent": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -401,10 +413,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -461,15 +474,17 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 2,
     },
     "3": {
-      "dataY": 3,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
+      "pageX": 1,
+      "pageY": 3,
       "parent": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -546,10 +561,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -608,20 +624,23 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
   },
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 0,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 0,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -666,10 +685,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -709,10 +729,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -745,20 +766,23 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 1,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 1,
         "parent": {
-          "dataY": 1,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 1,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -803,10 +827,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
-          "dataY": 1,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 1,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -846,10 +871,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 1,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -882,20 +908,23 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 1,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 2,
       "parent": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 2,
         "parent": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -964,10 +993,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -1031,10 +1061,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -1091,20 +1122,23 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 2,
     },
     "3": {
-      "dataY": 3,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 3,
       "parent": {
-        "dataY": 3,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
+        "pageX": 1,
+        "pageY": 3,
         "parent": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -1181,10 +1215,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -1248,10 +1283,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -1308,20 +1344,23 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 3,
     },
     "4": {
-      "dataY": 4,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 4,
       "parent": {
-        "dataY": 3,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
+        "pageX": 1,
+        "pageY": 3,
         "parent": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -1398,10 +1437,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -1465,10 +1505,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -1532,10 +1573,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
 [
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
+      "pageX": 0,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -1549,10 +1591,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
+      "pageX": 0,
+      "pageY": 1,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -1566,10 +1609,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 1,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 0,
+      "pageX": 0,
+      "pageY": 2,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -1583,10 +1627,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 2,
     },
     "3": {
-      "dataY": 3,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 3,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -1602,15 +1647,17 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
   },
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 0,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1655,10 +1702,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1691,15 +1739,17 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 1,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 1,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1744,10 +1794,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 1,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1780,15 +1831,17 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 1,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 2,
       "parent": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -1857,10 +1910,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -1917,15 +1971,17 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 2,
     },
     "3": {
-      "dataY": 3,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
+      "pageX": 1,
+      "pageY": 3,
       "parent": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -2002,10 +2058,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -2064,20 +2121,23 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
   },
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 0,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 0,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2122,10 +2182,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2165,10 +2226,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -2201,20 +2263,23 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 1,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 1,
         "parent": {
-          "dataY": 1,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 1,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2259,10 +2324,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 1,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 1,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2302,10 +2368,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 1,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -2338,20 +2405,23 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 1,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 2,
       "parent": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 2,
         "parent": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -2420,10 +2490,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -2487,10 +2558,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -2547,20 +2619,23 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 2,
     },
     "3": {
-      "dataY": 3,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 3,
       "parent": {
-        "dataY": 3,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
+        "pageX": 1,
+        "pageY": 3,
         "parent": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -2637,10 +2712,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -2704,10 +2780,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -2764,20 +2841,23 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 3,
     },
     "4": {
-      "dataY": 4,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 4,
       "parent": {
-        "dataY": 3,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
+        "pageX": 1,
+        "pageY": 3,
         "parent": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -2854,10 +2934,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 2,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
           "leafCount": 6,
+          "pageX": 0,
+          "pageY": 2,
           "parent": null,
           "ref": {
             "qCanCollapse": true,
@@ -2921,10 +3002,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 2,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 6,
+        "pageX": 0,
+        "pageY": 2,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -2988,10 +3070,11 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
 [
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 5,
+      "pageX": 0,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qCanCollapse": true,
@@ -3021,10 +3104,11 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 1,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -3038,10 +3122,11 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "y": 1,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 2,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -3055,10 +3140,11 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "y": 2,
     },
     "3": {
-      "dataY": 3,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 3,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -3074,15 +3160,17 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
   },
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 1,
+      "pageY": 0,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -3119,10 +3207,11 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -3155,15 +3244,17 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 1,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -3200,10 +3291,11 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
         "leafCount": 5,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -3243,10 +3335,11 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
 [
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -3260,10 +3353,11 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
       "y": 0,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 1,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -3277,10 +3371,11 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
       "y": 1,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 2,
       "parent": null,
       "ref": {
         "qDown": 2,

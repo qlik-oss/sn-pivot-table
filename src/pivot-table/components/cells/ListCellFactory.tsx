@@ -72,7 +72,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     <DimensionCell
       cell={cell}
       data={data}
-      rowIndex={cell.y}
+      rowIndex={cell.pageY}
       colIndex={cell.x}
       style={style}
       isLeftColumn={isLeftColumn}

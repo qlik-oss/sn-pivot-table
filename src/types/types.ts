@@ -58,9 +58,10 @@ export interface ListItemData extends ItemData {
 
 export interface Cell {
   ref: EngineAPI.INxPivotDimensionCell;
-  x: number;
-  y: number; // position of cell in page
-  dataY: number; // position of cell in dataset
+  x: number; // x position of cell in dataset
+  y: number; // y position of cell in dataset
+  pageX: number; // X position of cell in page
+  pageY: number; // Y position of cell in page
   parent: Cell | null;
   root: Cell | null;
   leafCount: number;
