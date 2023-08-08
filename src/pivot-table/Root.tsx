@@ -20,7 +20,7 @@ const render = (reactRoot: Root, props: RootProps): void => {
 
   reactRoot.render(
     <React.StrictMode>
-      <SelectionsProvider selections={selections}>
+      <SelectionsProvider selections={selections} updatePageInfo={props.updatePageInfo}>
         <StyleProvider styleService={styleService}>
           <Wrapper {...props} />
         </StyleProvider>

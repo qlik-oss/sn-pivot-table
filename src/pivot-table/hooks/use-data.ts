@@ -1,3 +1,4 @@
+import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import { useCallback, useMemo, useState } from "react";
 import type {
   Data,
@@ -12,7 +13,6 @@ import createHeadersData from "../data/headers-data";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../data/left-dimension-data";
 import { addPageToMeasureData, createMeasureData } from "../data/measure-data";
 import { addPageToTopDimensionData, createTopDimensionData } from "../data/top-dimension-data";
-import useOnPropsChange from "./use-on-props-change";
 
 const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: LayoutService, pageInfo: PageInfo): Data => {
   const { qHyperCube } = layoutService.layout;

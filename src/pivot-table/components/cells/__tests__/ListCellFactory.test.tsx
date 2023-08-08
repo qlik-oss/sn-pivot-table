@@ -50,6 +50,7 @@ describe("ListCellFactory", () => {
       constraints,
       isLast: false,
       itemCount: 1,
+      showLastRowBorderBottom: false,
     };
   });
 
@@ -57,7 +58,7 @@ describe("ListCellFactory", () => {
     const index = 0;
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
-    cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+    cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
     data.list[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
@@ -78,7 +79,7 @@ describe("ListCellFactory", () => {
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith(
-      { style, cell, isLeftColumn: false, isLastRow: false, isLastColumn: true },
+      { style, cell, isLeftColumn: false, isLastRow: false, isLastColumn: true, showLastRowBorderBottom: false },
       {}
     );
   });
@@ -108,7 +109,13 @@ describe("ListCellFactory", () => {
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockEmptyCell).toHaveBeenCalledWith(
-      { style: { ...style, background: "transparent" }, index, isLastRow: false, isLastColumn: true },
+      {
+        style: { ...style, background: "transparent" },
+        index,
+        isLastRow: false,
+        isLastColumn: true,
+        showLastRowBorderBottom: false,
+      },
       {}
     );
   });
@@ -124,7 +131,13 @@ describe("ListCellFactory", () => {
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockEmptyCell).toHaveBeenCalledWith(
-      { style: { ...style, background: "transparent" }, index, isLastRow: true, isLastColumn: false },
+      {
+        style: { ...style, background: "transparent" },
+        index,
+        isLastRow: true,
+        isLastColumn: false,
+        showLastRowBorderBottom: false,
+      },
       {}
     );
   });
@@ -135,7 +148,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLeftColumn = true;
         data.isLast = true;
@@ -152,7 +165,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLeftColumn = true;
         data.isLast = false;
@@ -172,7 +185,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
 
         render(<ListCellFactory index={index} style={style} data={data} />);
@@ -187,7 +200,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLast = false;
         data.itemCount = 2;

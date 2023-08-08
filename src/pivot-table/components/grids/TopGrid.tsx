@@ -1,9 +1,9 @@
 import type { stardust } from "@nebula.js/stardust";
+import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, TopDimensionData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import { getColumnWidthHandler } from "../helpers/get-item-size-handler";
@@ -23,6 +23,7 @@ interface TopGridProps {
   getScrollLeft: () => number;
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
+  showLastRowBorderBottom: boolean;
 }
 
 const listStyle: React.CSSProperties = {
@@ -51,6 +52,7 @@ const TopGrid = ({
   getScrollLeft,
   layoutService,
   topDimensionData,
+  showLastRowBorderBottom,
 }: TopGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -110,6 +112,7 @@ const TopGrid = ({
               list,
               isLast: isLastRow && !layoutService.layout.snapshotData,
               itemCount,
+              showLastRowBorderBottom,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

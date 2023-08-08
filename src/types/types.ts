@@ -47,6 +47,7 @@ export interface ItemData {
 export interface GridItemData extends ItemData {
   grid: ExtendedPivotValuePoint[][];
   isLeftColumn?: boolean;
+  showLastRowBorderBottom: boolean;
 }
 
 export interface ListItemData extends ItemData {
@@ -54,15 +55,17 @@ export interface ListItemData extends ItemData {
   isLeftColumn?: boolean;
   isLast: boolean;
   itemCount: number;
+  showLastRowBorderBottom: boolean;
 }
 
 export interface Cell {
   ref: EngineAPI.INxPivotDimensionCell;
-  x: number;
-  y: number; // position of cell in page
-  dataY: number; // position of cell in dataset
   foregroundColor?: string;
   backgroundColor?: string;
+  x: number; // x position of cell in dataset
+  y: number; // y position of cell in dataset
+  pageX: number; // X position of cell in page
+  pageY: number; // Y position of cell in page
   parent: Cell | null;
   root: Cell | null;
   leafCount: number;

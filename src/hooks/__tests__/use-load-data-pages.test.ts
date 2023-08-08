@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as nebula from "@nebula.js/stardust";
 import { renderHook } from "@testing-library/react";
 import React from "react";

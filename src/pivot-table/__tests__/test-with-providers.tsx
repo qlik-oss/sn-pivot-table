@@ -18,6 +18,7 @@ const TestWithProvider = (props: Props) => {
       on: () => undefined,
       removeListener: () => undefined,
     } as unknown as ExtendedSelections,
+    updatePageInfo = () => undefined,
     styleService = {
       header: {
         fontSize: "12px",
@@ -95,7 +96,7 @@ const TestWithProvider = (props: Props) => {
   } = props;
 
   return (
-    <SelectionsProvider selections={selections}>
+    <SelectionsProvider selections={selections} updatePageInfo={updatePageInfo}>
       <StyleProvider styleService={styleService}>{children}</StyleProvider>
     </SelectionsProvider>
   );

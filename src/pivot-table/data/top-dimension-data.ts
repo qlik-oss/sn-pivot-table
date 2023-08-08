@@ -18,7 +18,7 @@ export const addPageToTopDimensionData = ({
   if (!qTop.length) return prevData;
 
   const grid = extractTopGrid(prevData.grid, qTop, qArea, layoutService);
-  assignDistanceToNextCell(grid, "x", prevData.layoutSize);
+  assignDistanceToNextCell(grid, "pageX", prevData.layoutSize);
 
   return {
     ...prevData,
@@ -35,7 +35,7 @@ export const createTopDimensionData = (
   const { qArea, qTop } = dataPage;
   const { qEffectiveInterColumnSortOrder, qNoOfLeftDims } = qHyperCube;
   const grid = extractTopGrid([], qTop, qArea, layoutService);
-  assignDistanceToNextCell(grid, "x", layoutService.size);
+  assignDistanceToNextCell(grid, "pageX", layoutService.size);
   const dimensionInfoIndexMap = grid.map(
     createDimInfoToIndexMapCallback(qNoOfLeftDims, qEffectiveInterColumnSortOrder)
   );

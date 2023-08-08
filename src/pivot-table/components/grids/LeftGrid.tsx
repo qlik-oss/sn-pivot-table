@@ -1,9 +1,9 @@
 import type { stardust } from "@nebula.js/stardust";
+import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import useOnPropsChange from "../../hooks/use-on-props-change";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
@@ -22,6 +22,7 @@ interface LeftGridProps {
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
+  showLastRowBorderBottom: boolean;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -55,8 +56,9 @@ const LeftGrid = ({
   getScrollTop,
   layoutService,
   leftDimensionData,
+  showLastRowBorderBottom,
 }: LeftGridProps): JSX.Element | null => {
-  const { qDimensionInfo } = layoutService.layout.qHyperCube;
+  const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
   const {
     contentCellHeight,
     grid: { divider },
@@ -84,8 +86,8 @@ const LeftGrid = ({
     <div style={{ ...containerStyle, borderColor: divider }}>
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
-        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
         const key = getKey(leftDimensionData.dimensionInfoIndexMap[colIndex], qDimensionInfo);
+        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
 
         return (
           <VariableSizeList
@@ -95,7 +97,7 @@ const LeftGrid = ({
             height={height}
             width={getLeftColumnWidth(colIndex)}
             itemCount={itemCount}
-            itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn)}
+            itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
             layout="vertical"
             itemData={{
               layoutService,
@@ -105,6 +107,7 @@ const LeftGrid = ({
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,
               itemCount,
+              showLastRowBorderBottom,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

@@ -25,7 +25,7 @@ const TotalsCell = ({ cell, style, isLeftColumn, isLastRow, isLastColumn }: Labe
 
   return (
     <div
-      style={{ ...style, ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border), ...serviceStyle }}
+      style={{ ...style, ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, false), ...serviceStyle }}
       data-testid={testId}
     >
       <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.ref.qText}</div>

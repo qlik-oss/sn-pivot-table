@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-
-import type { ExtendedNxAttrExprInfo } from "../../types/QIX";
 import type { Cell, Grid, LayoutService, PageInfo } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
@@ -32,20 +30,20 @@ const extractLeftGrid = (
       // consider items that might be skipped based on current page
       const startPosition = qArea.qTop - pageInfo.currentPage * pageInfo.rowsPerPage;
       // Start position + current page position - previous tail size,
-      const y = Math.max(0, startPosition + rowIdx - node.qUp);
-      const dataY = qArea.qTop + rowIdx - node.qUp;
+      const pageY = Math.max(0, startPosition + rowIdx - node.qUp);
+      const y = qArea.qTop + rowIdx - node.qUp;
       const cell = createCell(
         node,
         parent,
         root,
         colIdx,
         y,
-        dataY,
+        pageY,
         layoutService.isSnapshot,
         layoutService.colorByExpressionIndex.leftDimensions[colIdx]
       );
 
-      grid[colIdx][y] = cell;
+      grid[colIdx][pageY] = cell;
 
       if (node.qSubNodes.length) {
         recursiveExtract(root || cell, cell, node.qSubNodes, colIdx + 1);
