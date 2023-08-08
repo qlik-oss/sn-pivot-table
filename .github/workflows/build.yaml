@@ -29,3 +29,12 @@ jobs:
             prerelease: true
           }
         ]
+
+  locale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup workspace
+        uses: qlik-oss/sn-gh-workflows/actions/setup@v1
+
+      - name: Verify locale
+        run: yarn locale:verify
