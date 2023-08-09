@@ -17,7 +17,7 @@
         "@qlik/prettier-config",
         "@qlik/tsconfig"
       ],
-      "dependencyDashboardApproval": true
+      "enabled": false
     }
   ]
 }
