@@ -1,16 +1,24 @@
 import NxDimCellType from "../../../types/QIX";
-import type { Cell } from "../../../types/types";
+import type { Cell, LayoutService } from "../../../types/types";
 import extractTopGrid from "../extract-top";
 import createNodes from "./test-helper";
 
 describe("extractTop", () => {
+  let layoutService: LayoutService;
   const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
   const grid = [] as Cell[][];
+
+  beforeEach(() => {
+    layoutService = {
+      isSnapshot: false,
+      sortedTopDimensionInfo: [],
+    } as unknown as LayoutService;
+  });
 
   test("should handle empty qTop array", () => {
     const qTop: EngineAPI.INxPivotDimensionCell[] = [];
 
-    const top = extractTopGrid(grid, qTop, qArea, false);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService);
 
     expect(top).toHaveLength(0);
   });
@@ -19,7 +27,7 @@ describe("extractTop", () => {
     const colCount = 3;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTopGrid(grid, qTop, qArea, false);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService);
 
     expect(top).toMatchSnapshot();
   });
@@ -32,7 +40,7 @@ describe("extractTop", () => {
     qTop[0].qSubNodes = subNodes;
     qTop[0].qCanCollapse = true;
 
-    const top = extractTopGrid(grid, qTop, qArea, false);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService);
 
     expect(top).toMatchSnapshot();
   });
@@ -51,16 +59,17 @@ describe("extractTop", () => {
     qTop[2].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
     qTop[2].qSubNodes[1].qSubNodes = createNodes(2, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTopGrid(grid, qTop, qArea, false);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService);
 
     expect(top).toMatchSnapshot();
   });
 
   test("should extract top data when in snapshot mode", () => {
+    layoutService.isSnapshot = true;
     const colCount = 3;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTopGrid(grid, qTop, qArea, true);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService);
 
     expect(top).toMatchSnapshot();
   });

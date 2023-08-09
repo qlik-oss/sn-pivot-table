@@ -1,3 +1,4 @@
+import type { PseudoDimension } from "../../../types/QIX";
 import type { Cell } from "../../../types/types";
 
 const createCell = (
@@ -7,7 +8,8 @@ const createCell = (
   x: number,
   y: number,
   pageY: number,
-  isSnapshot: boolean
+  isSnapshot: boolean,
+  dimensionInfo: EngineAPI.INxDimensionInfo | PseudoDimension
 ): Cell => ({
   ref: node,
   x,
@@ -20,6 +22,7 @@ const createCell = (
   root,
   leafCount: isSnapshot ? 0 : node.qUp + node.qDown,
   distanceToNextCell: 0,
+  isLockedByDimension: typeof dimensionInfo === "object" && dimensionInfo.qLocked,
   incrementLeafCount() {
     this.leafCount += 1;
     if (parent) {

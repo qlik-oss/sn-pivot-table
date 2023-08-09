@@ -30,7 +30,8 @@ describe("left dimension data", () => {
     layout: {
       qHyperCube,
     },
-  } as LayoutService;
+    sortedLeftDimensionInfo: [],
+  } as unknown as LayoutService;
 
   beforeEach(() => {
     jest.resetAllMocks();
@@ -42,13 +43,7 @@ describe("left dimension data", () => {
       mockedExtractLeft.mockReturnValue(mockedReturnValue);
       const data = createLeftDimensionData(dataPage, layoutService, pageInfo);
 
-      expect(mockedExtractLeft).toHaveBeenCalledWith(
-        [],
-        dataPage.qLeft,
-        dataPage.qArea,
-        pageInfo,
-        layoutService.isSnapshot
-      );
+      expect(mockedExtractLeft).toHaveBeenCalledWith([], dataPage.qLeft, dataPage.qArea, pageInfo, layoutService);
       expect(data.grid).toEqual(mockedReturnValue);
       expect(data.dimensionInfoIndexMap).toEqual([0]);
       expect(data.columnCount).toEqual(1);
@@ -67,15 +62,9 @@ describe("left dimension data", () => {
           qTop: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo });
+      const nextData = addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo, layoutService });
 
-      expect(mockedExtractLeft).toHaveBeenCalledWith(
-        [],
-        dataPage.qLeft,
-        dataPage.qArea,
-        pageInfo,
-        layoutService.isSnapshot
-      );
+      expect(mockedExtractLeft).toHaveBeenCalledWith([], dataPage.qLeft, dataPage.qArea, pageInfo, layoutService);
       expect(nextData.grid).toEqual(nextLeft);
       expect(nextData.dimensionInfoIndexMap).toEqual([0]);
       expect(nextData.columnCount).toEqual(1);
@@ -92,7 +81,7 @@ describe("left dimension data", () => {
           qTop: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo });
+      const nextData = addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo, layoutService });
 
       expect(nextData).toBe(prevData);
     });

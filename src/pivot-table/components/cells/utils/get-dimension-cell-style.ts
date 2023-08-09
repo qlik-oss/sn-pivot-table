@@ -33,9 +33,9 @@ export const selectableCellStyle: Pick<React.CSSProperties, "cursor"> = {
   cursor: "pointer",
 };
 
-// Locked background image does not work great with cells that have colorful backgrounds
-export const lockedFromSelectionStyle: Pick<React.CSSProperties, "color" | "backgroundImage"> = {
-  backgroundImage: "repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)",
+// Locked background does override any background color set by the user via theming or styling panel
+export const lockedFromSelectionStyle: Pick<React.CSSProperties, "color" | "background"> = {
+  background: "repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)",
   color: "#bebebe",
 };
 
@@ -66,11 +66,11 @@ export const getContainerStyle = ({
 
   return {
     ...style,
-    ...resolvedLockedSelectionStyle,
     ...resolvedSelectableCellStyle,
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
     ...resolvedNullStyle,
     ...resolvedSelectedStyle,
+    ...resolvedLockedSelectionStyle,
     display: "flex",
   };
 };

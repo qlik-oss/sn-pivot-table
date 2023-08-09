@@ -19,6 +19,8 @@ export enum NxSelectionCellType {
   NX_CELL_LEFT = "L",
 }
 
+export type PseudoDimension = -1;
+
 type Size = {
   w: number;
   h: number;
@@ -128,6 +130,9 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
 export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
   cId?: string;
   qLibraryId?: string;
+  qCardinalities: {
+    qHypercubeCardinal: number;
+  };
 }
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;

@@ -148,11 +148,13 @@ describe("useData", () => {
     expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith({
       prevData: topDimensionData,
       nextDataPage: nextPage,
+      layoutService,
     });
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith({
       prevData: leftDimensionData,
       nextDataPage: nextPage,
       pageInfo,
+      layoutService,
     });
     expect(mockedAddPageToMeasureData).toHaveBeenCalledWith({
       prevData: measureData,
