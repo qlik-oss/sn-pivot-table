@@ -44,9 +44,7 @@
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",
     "test:rendering": "playwright test",
     "test:unit": "jest",
-    "types:check": "tsc --noEmit",
-    "preversion": "yarn build",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && yarn spec && git add api-specifications CHANGELOG.md"
+    "types:check": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -109,7 +107,6 @@
     "@types/react-dom": "18.2.7",
     "@types/react-window": "1.8.5",
     "babel-eslint": "10.1.0",
-    "conventional-changelog-cli": "2.2.2",
     "eslint": "8.47.0",
     "globby": "13.2.2",
     "husky": "8.0.3",
