@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import type { ExtendedDimensionInfo, PivotLayout } from "./QIX";
+import type { ExtendedDimensionInfo, PivotLayout, PseudoDimension } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -147,8 +147,8 @@ export interface LayoutService {
   isSnapshot: boolean;
   hasLimitedData: boolean;
   hasLeftDimensions: boolean;
-  sortedLeftDimensionInfo: (ExtendedDimensionInfo | -1)[];
-  sortedTopDimensionInfo: (ExtendedDimensionInfo | -1)[];
+  sortedLeftDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[];
+  sortedTopDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[];
 }
 
 export interface DataService {
