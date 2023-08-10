@@ -110,7 +110,7 @@
     "@types/react-dom": "18.2.7",
     "@types/react-window": "1.8.5",
     "babel-eslint": "10.1.0",
-    "conventional-changelog-cli": "2.2.2",
+    "conventional-changelog-cli": "3.0.0",
     "eslint": "8.46.0",
     "globby": "13.2.2",
     "husky": "8.0.3",
