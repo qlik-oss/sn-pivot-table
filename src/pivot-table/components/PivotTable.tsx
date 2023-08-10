@@ -1,8 +1,8 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
-import type { Layout, VariableSizeGrid, VariableSizeList } from "react-window";
-import type { Model, PivotLayout } from "../../types/QIX";
-import type { LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
+import type { VariableSizeGrid, VariableSizeList } from "react-window";
+import type { Model } from "../../types/QIX";
+import type { ChangeSortOrder, LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
@@ -26,6 +26,7 @@ export interface PivotTableProps {
   model: Model;
   pageInfo: PageInfo;
   translator: stardust.Translator;
+  changeSortOrder: ChangeSortOrder;
 }
 
 export const StickyPivotTable = ({
@@ -37,6 +38,7 @@ export const StickyPivotTable = ({
   qPivotDataPages,
   pageInfo,
   translator,
+  changeSortOrder,
 }: PivotTableProps): JSX.Element => {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
@@ -152,6 +154,7 @@ export const StickyPivotTable = ({
             rowHight={headerCellHeight}
             headersData={headersData}
             translator={translator}
+            changeSortOrder={changeSortOrder}
           />
 
           <TopGrid

@@ -2,7 +2,7 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import { type Root } from "react-dom/client";
-import type { ExtendedSelections, PageInfo, StyleService } from "../types/types";
+import type { ChangeSortOrder, ExtendedSelections, PageInfo, StyleService } from "../types/types";
 import type { PivotTableProps } from "./components/PivotTable";
 import { Wrapper } from "./components/Wrapper";
 import SelectionsProvider from "./contexts/SelectionsProvider";
@@ -13,6 +13,7 @@ export interface RootProps extends PivotTableProps {
   styleService: StyleService;
   translator: stardust.Translator;
   updatePageInfo: (args: Partial<PageInfo>) => void;
+  changeSortOrder: ChangeSortOrder;
 }
 
 const render = (reactRoot: Root, props: RootProps): void => {

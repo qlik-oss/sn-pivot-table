@@ -224,3 +224,29 @@ export interface StyleService extends StylingOptions {
   contentCellHeight: number;
   lineClamp: number;
 }
+
+export interface Column {
+  id: string;
+  isDim: boolean;
+  qLibraryId?: string;
+  fieldId: string;
+  isLocked: boolean;
+  colIdx: number;
+  pageColIdx: number;
+  selectionColIdx: number;
+  label: string;
+  headTextAlign: Align;
+  totalsTextAlign: Align;
+  bodyTextAlign: "auto" | Align;
+  stylingIDs: string[];
+  sortDirection: SortDirection;
+  qReverseSort: boolean;
+  totalInfo: string;
+  qApprMaxGlyphCount: number;
+  columnWidth: undefined; // TODO: fix
+}
+
+export type Align = "left" | "center" | "right";
+export type SortDirection = "A" | "D";
+
+export type ChangeSortOrder = (column: Column, sortOrder?: SortDirection) => Promise<boolean>;

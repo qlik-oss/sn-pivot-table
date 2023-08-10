@@ -1,6 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import type { PageInfo } from "../../types/types";
+import type { ChangeSortOrder, PageInfo } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
 import Disclaimer from "./Disclaimer";
 import Pagination from "./Pagination";
@@ -9,6 +9,7 @@ import { StickyPivotTable, type PivotTableProps } from "./PivotTable";
 export interface WrapperProps extends PivotTableProps {
   translator: stardust.Translator;
   updatePageInfo: (args: Partial<PageInfo>) => void;
+  changeSortOrder: ChangeSortOrder;
 }
 
 export const Wrapper = (props: WrapperProps): JSX.Element => {

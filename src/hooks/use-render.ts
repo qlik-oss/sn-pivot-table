@@ -19,6 +19,7 @@ import useLoadDataPages from "./use-load-data-pages";
 import usePagination from "./use-pagination";
 import useReactRoot from "./use-react-root";
 import useSnapshot from "./use-snapshot";
+import useSorting from "./use-sorting";
 import useTranslations from "./use-translations";
 import useViewService from "./use-view-service";
 import useWaitForFonts from "./use-wait-for-fonts";
@@ -51,6 +52,7 @@ const useRender = () => {
     [styleService]
   );
   const isFontLoaded = useWaitForFonts(fonts);
+  const { changeSortOrder } = useSorting(model);
 
   useEffect(() => {
     const isReadyToRender =
@@ -80,6 +82,7 @@ const useRender = () => {
       translator,
       pageInfo,
       updatePageInfo,
+      changeSortOrder,
     });
   }, [
     model,
@@ -99,6 +102,7 @@ const useRender = () => {
     language,
     pageInfo,
     updatePageInfo,
+    changeSortOrder,
   ]);
 };
 
