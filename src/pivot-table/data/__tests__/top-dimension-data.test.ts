@@ -41,7 +41,6 @@ describe("top dimension data", () => {
       const data = createTopDimensionData(dataPage, layoutService);
 
       expect(data.grid).toEqual(mockedReturnValue);
-      expect(data.dimensionInfoIndexMap).toEqual([0]);
       expect(data.rowCount).toEqual(1);
     });
   });
@@ -62,7 +61,6 @@ describe("top dimension data", () => {
 
       expect(nextData).not.toBe(prevData);
       expect(nextData.grid).toEqual(nextTop);
-      expect(nextData.dimensionInfoIndexMap).toEqual([0]);
       expect(nextData.rowCount).toEqual(1);
     });
 

@@ -86,8 +86,8 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
   }, [nextPage]);
 
   const headersData = useMemo<HeadersData>(
-    () => createHeadersData(qHyperCube, topDimensionData.rowCount, leftDimensionData.dimensionInfoIndexMap),
-    [qHyperCube, topDimensionData.rowCount, leftDimensionData.dimensionInfoIndexMap]
+    () => createHeadersData(topDimensionData.rowCount, layoutService.sortedLeftDimensionInfo),
+    [topDimensionData.rowCount, layoutService.sortedLeftDimensionInfo]
   );
 
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {

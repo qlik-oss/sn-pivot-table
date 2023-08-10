@@ -58,7 +58,7 @@ const LeftGrid = ({
   leftDimensionData,
   showLastRowBorderBottom,
 }: LeftGridProps): JSX.Element | null => {
-  const { qDimensionInfo, qSize } = layoutService.layout.qHyperCube;
+  const { qSize } = layoutService.layout.qHyperCube;
   const {
     contentCellHeight,
     grid: { divider },
@@ -86,7 +86,7 @@ const LeftGrid = ({
     <div style={{ ...containerStyle, borderColor: divider }}>
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
-        const key = getKey(leftDimensionData.dimensionInfoIndexMap[colIndex], qDimensionInfo);
+        const key = getKey(layoutService.sortedLeftDimensionInfo[colIndex]);
         const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
 
         return (

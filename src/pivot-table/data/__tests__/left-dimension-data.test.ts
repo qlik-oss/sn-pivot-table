@@ -45,7 +45,6 @@ describe("left dimension data", () => {
 
       expect(mockedExtractLeft).toHaveBeenCalledWith([], dataPage.qLeft, dataPage.qArea, pageInfo, layoutService);
       expect(data.grid).toEqual(mockedReturnValue);
-      expect(data.dimensionInfoIndexMap).toEqual([0]);
       expect(data.columnCount).toEqual(1);
     });
   });
@@ -66,7 +65,6 @@ describe("left dimension data", () => {
 
       expect(mockedExtractLeft).toHaveBeenCalledWith([], dataPage.qLeft, dataPage.qArea, pageInfo, layoutService);
       expect(nextData.grid).toEqual(nextLeft);
-      expect(nextData.dimensionInfoIndexMap).toEqual([0]);
       expect(nextData.columnCount).toEqual(1);
     });
 

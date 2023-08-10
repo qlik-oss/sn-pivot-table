@@ -87,21 +87,17 @@ export interface PivotData {
   topGrid: Cell[][];
   data: EngineAPI.INxPivotValuePoint[][];
   headers: (null | string)[][];
-  leftDimensionInfoIndexMap: number[];
-  topDimensionInfoIndexMap: number[];
   size: PivotDataSize;
 }
 
 export interface TopDimensionData {
   grid: Grid;
-  dimensionInfoIndexMap: number[];
   rowCount: number;
   layoutSize: Point;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
-  dimensionInfoIndexMap: number[];
   columnCount: number;
   layoutSize: Point;
 }
@@ -147,6 +143,7 @@ export interface LayoutService {
   isSnapshot: boolean;
   hasLimitedData: boolean;
   hasLeftDimensions: boolean;
+  hasPseudoDimOnLeft: boolean;
   sortedLeftDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[];
   sortedTopDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[];
 }

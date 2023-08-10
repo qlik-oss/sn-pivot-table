@@ -13,8 +13,8 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
     x: isSnapshot ? snapshotDataPage.qWidth : Math.min(layout.qHyperCube.qSize.qcx, MAX_COLUMN_COUNT),
     y: isSnapshot ? snapshotDataPage.qHeight : Math.min(layout.qHyperCube.qSize.qcy, MAX_ROW_COUNT),
   };
-
   const { sortedLeftDimensionInfo, sortedTopDimensionInfo } = getSortedDimensionInfo(layout);
+  const hasPseudoDimOnLeft = sortedLeftDimensionInfo.some((dimInfo) => dimInfo === PSEUDO_DIMENSION_INDEX);
 
   return {
     layout,
@@ -31,6 +31,7 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
     isSnapshot,
     hasLimitedData: !isSnapshot && size.x < layout.qHyperCube.qSize.qcx,
     hasLeftDimensions: layout.qHyperCube.qNoOfLeftDims !== 0,
+    hasPseudoDimOnLeft,
     sortedLeftDimensionInfo,
     sortedTopDimensionInfo,
   };

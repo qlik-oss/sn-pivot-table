@@ -1,4 +1,5 @@
 import { renderHook } from "@testing-library/react";
+import type { ExtendedDimensionInfo } from "../../../types/QIX";
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, LayoutService, LeftDimensionData, Rect } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
@@ -27,7 +28,6 @@ describe("useColumnWidth", () => {
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
     leftDimensionData = {
       grid: [{ 0: cell }, { 0: cell }, { 0: cell }],
-      dimensionInfoIndexMap: [0, 1, 2],
       columnCount: 3,
       layoutSize: { x: 3, y: 1 },
     } as LeftDimensionData;
@@ -44,6 +44,7 @@ describe("useColumnWidth", () => {
         x: 3,
         y: 1,
       },
+      sortedLeftDimensionInfo: [dimInfo, dimInfo, dimInfo],
     } as unknown as LayoutService;
 
     mockedMeasureText = {
@@ -80,10 +81,10 @@ describe("useColumnWidth", () => {
     test("should return left and right grid width with dimension and pseudo dimension cells", () => {
       const cell = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
       const pCell = { ref: { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } } as Cell;
-      const dimInfo = { qApprMaxGlyphCount: 1 } as EngineAPI.INxDimensionInfo;
+      const dimInfo = { qApprMaxGlyphCount: 1 } as ExtendedDimensionInfo;
       const meaInfo = { qFallbackTitle: 1 } as unknown as EngineAPI.INxMeasureInfo;
       leftDimensionData.grid = [{ 0: cell }, { 0: pCell }, { 0: cell }];
-      leftDimensionData.dimensionInfoIndexMap = [0, -1, 1];
+      layoutService.sortedLeftDimensionInfo = [dimInfo, -1, dimInfo];
       layoutService.layout.qHyperCube.qDimensionInfo = [dimInfo, dimInfo, dimInfo];
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo];
 

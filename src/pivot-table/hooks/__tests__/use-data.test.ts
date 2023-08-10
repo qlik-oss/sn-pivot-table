@@ -1,4 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
+import type { ExtendedDimensionInfo, PseudoDimension } from "../../../types/QIX";
 import type {
   HeadersData,
   LayoutService,
@@ -46,7 +47,7 @@ describe("useData", () => {
   >;
   // Header data mocks
   let mockedCreateHeadersData: jest.MockedFunction<
-    (qHyperCube: EngineAPI.IHyperCube, rowCount: number, dimensionInfoIndexMap: number[]) => HeadersData
+    (rowCount: number, sortedLeftDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[]) => HeadersData
   >;
 
   let topDimensionData: TopDimensionData;
@@ -90,14 +91,12 @@ describe("useData", () => {
 
     leftDimensionData = {
       grid: [{}],
-      dimensionInfoIndexMap: [0, 1, 2],
       columnCount: 3,
       layoutSize: layoutService.size,
     } as LeftDimensionData;
 
     topDimensionData = {
       grid: [{}],
-      dimensionInfoIndexMap: [0, 1, 2],
       rowCount: 4,
       layoutSize: layoutService.size,
     } as TopDimensionData;

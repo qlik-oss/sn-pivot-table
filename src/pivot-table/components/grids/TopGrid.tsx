@@ -58,7 +58,7 @@ const TopGrid = ({
     grid: { divider },
     headerCellHeight,
   } = useStyleContext();
-  const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
+  const { qMeasureInfo } = layoutService.layout.qHyperCube;
   const resolvedContainerStyle = {
     ...(layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders),
     borderColor: divider,
@@ -93,7 +93,7 @@ const TopGrid = ({
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
-        const key = getKey(topDimensionData.dimensionInfoIndexMap[topRowIndex], qDimensionInfo);
+        const key = getKey(layoutService.sortedTopDimensionInfo[topRowIndex]);
 
         return (
           <VariableSizeList

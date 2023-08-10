@@ -1,23 +1,22 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { ExtendedDimensionInfo } from "../../types/QIX";
+import type { ExtendedDimensionInfo, PseudoDimension } from "../../types/QIX";
 import type { HeaderTitle } from "../../types/types";
+import getKey from "../components/helpers/get-key";
 
 const extractHeaders = (
-  qDim: EngineAPI.INxDimensionInfo[],
   rowCount: number,
-  dimensionInfoIndex: number[]
+  sortedLeftDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[]
 ): (null | HeaderTitle)[][] => {
-  const matrix: (null | HeaderTitle)[][] = Array(dimensionInfoIndex.length)
+  const matrix: (null | HeaderTitle)[][] = Array(sortedLeftDimensionInfo.length)
     .fill(null)
     .map(() => Array.from({ length: rowCount }, () => null));
 
-  dimensionInfoIndex.forEach((dimIndex, colIdx) => {
-    if (dimIndex === PSEUDO_DIMENSION_INDEX) {
+  sortedLeftDimensionInfo.forEach((qDimensionInfo, colIdx) => {
+    if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
       matrix[colIdx][rowCount - 1] = { id: "PSEUDO-DIM", title: "" };
     } else {
-      const dimInfo = qDim[dimIndex] as ExtendedDimensionInfo;
-      const id: string = dimInfo.cId ?? dimInfo.qLibraryId ?? `${dimIndex}-${dimInfo.qFallbackTitle}`;
-      matrix[colIdx][rowCount - 1] = { id, title: qDim[dimIndex].qFallbackTitle };
+      const id: string = getKey(qDimensionInfo);
+      matrix[colIdx][rowCount - 1] = { id, title: qDimensionInfo.qFallbackTitle };
     }
   });
 
