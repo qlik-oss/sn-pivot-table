@@ -58,7 +58,7 @@ describe("top dimension data", () => {
           qLeft: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToTopDimensionData({ prevData, nextDataPage });
+      const nextData = addPageToTopDimensionData({ prevData, nextDataPage, layoutService });
 
       expect(nextData).not.toBe(prevData);
       expect(nextData.grid).toEqual(nextTop);
@@ -77,7 +77,7 @@ describe("top dimension data", () => {
           qLeft: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToTopDimensionData({ prevData, nextDataPage });
+      const nextData = addPageToTopDimensionData({ prevData, nextDataPage, layoutService });
 
       expect(nextData).toBe(prevData);
     });

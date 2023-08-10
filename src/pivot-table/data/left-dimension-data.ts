@@ -8,17 +8,19 @@ export interface AddPageToLeftDimensionDataProps {
   nextDataPage: EngineAPI.INxPivotPage;
   pageInfo: PageInfo;
   isNewPage?: boolean;
+  layoutService: LayoutService;
 }
 
 export const addPageToLeftDimensionData = ({
   prevData,
   nextDataPage,
   pageInfo,
+  layoutService,
 }: AddPageToLeftDimensionDataProps): LeftDimensionData => {
   const { qLeft, qArea } = nextDataPage;
   if (!qLeft.length) return prevData;
 
-  const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, false);
+  const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, layoutService);
   assignDistanceToNextCell(grid, "pageY", prevData.layoutSize, pageInfo);
 
   return {
@@ -36,7 +38,7 @@ export const createLeftDimensionData = (
   const { qHyperCube } = layoutService.layout;
   const { qArea, qLeft } = dataPage;
   const { qEffectiveInterColumnSortOrder } = qHyperCube;
-  const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService.isSnapshot);
+  const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService);
   assignDistanceToNextCell(grid, "pageY", layoutService.size, pageInfo);
   const dimensionInfoIndexMap = grid.map(createDimInfoToIndexMapCallback(0, qEffectiveInterColumnSortOrder));
 
