@@ -45,7 +45,7 @@ export const StickyPivotTable = ({
   const currentScrollTop = useRef<number>(0);
   const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
 
-  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
+  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler, isTotalCellAt } = useData(
     qPivotDataPages,
     layoutService,
     pageInfo
@@ -185,6 +185,7 @@ export const StickyPivotTable = ({
             layoutService={layoutService}
             measureData={measureData}
             showLastRowBorderBottom={showLastRowBorderBottom}
+            isTotalCellAt={isTotalCellAt}
           />
         </StickyContainer>
       </FullSizeContainer>
