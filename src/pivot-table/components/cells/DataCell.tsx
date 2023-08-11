@@ -55,6 +55,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
         showLastRowBorderBottom={showLastRowBorderBottom}
+        index={rowIndex}
       />
     );
   }
