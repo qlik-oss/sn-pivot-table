@@ -2,7 +2,7 @@ import React from "react";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle } from "../shared-styles";
 
-interface EmptyCellProps {
+export interface EmptyCellProps {
   style: React.CSSProperties;
   index?: number;
   isLastRow: boolean;
@@ -23,6 +23,10 @@ const EmptyCell = ({ style, index, isLastRow, isLastColumn, showLastRowBorderBot
       data-index={index}
     />
   );
+};
+
+EmptyCell.defaultProps = {
+  index: 0,
 };
 
 export default EmptyCell;
