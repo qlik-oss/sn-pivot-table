@@ -2,7 +2,14 @@ import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import type { Model } from "../../types/QIX";
-import type { ChangeSortOrder, LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
+import type {
+  ChangeActivelySortedColumn,
+  ChangeSortOrder,
+  LayoutService,
+  PageInfo,
+  Rect,
+  ViewService,
+} from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
@@ -27,6 +34,7 @@ export interface PivotTableProps {
   pageInfo: PageInfo;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
+  changeActivelySortedColumn: ChangeActivelySortedColumn;
 }
 
 export const StickyPivotTable = ({
@@ -39,6 +47,7 @@ export const StickyPivotTable = ({
   pageInfo,
   translator,
   changeSortOrder,
+  changeActivelySortedColumn,
 }: PivotTableProps): JSX.Element => {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
@@ -54,6 +63,8 @@ export const StickyPivotTable = ({
     layoutService,
     pageInfo
   );
+
+  console.log(JSON.stringify(headersData.data, null, 2));
 
   const dataModel = useDataModel({
     model,
@@ -155,6 +166,7 @@ export const StickyPivotTable = ({
             headersData={headersData}
             translator={translator}
             changeSortOrder={changeSortOrder}
+            changeActivelySortedColumn={changeActivelySortedColumn}
           />
 
           <TopGrid

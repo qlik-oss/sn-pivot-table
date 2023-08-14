@@ -2,7 +2,15 @@ import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik-oss/nebula-table-util
 import React, { useRef, useState } from "react";
 
 import type { stardust } from "@nebula.js/stardust";
-import type { Align, ChangeSortOrder, Column, HeaderTitle, HeadersData, SortDirection } from "../../../types/types";
+import type {
+  Align,
+  ChangeActivelySortedColumn,
+  ChangeSortOrder,
+  Column,
+  HeaderTitle,
+  HeadersData,
+  SortDirection,
+} from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
@@ -12,6 +20,7 @@ interface LabelCellProps {
   isLastColumn: boolean;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
+  changeActivelySortedColumn: ChangeActivelySortedColumn;
 }
 
 const labelTextStyle: React.CSSProperties = {
@@ -29,6 +38,7 @@ const DimensionTitleCell = ({
   isLastColumn,
   translator,
   changeSortOrder,
+  changeActivelySortedColumn,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const { fontSize, fontFamily } = styleService.header;
@@ -41,14 +51,14 @@ const DimensionTitleCell = ({
   const mockedColumnData: Column = {
     id: cell.id,
     isDim,
-    fieldId: "someFieldId",
+    fieldId: cell.fieldId,
     label: "right",
     headTextAlign: "right" as Align,
     sortDirection: cell.sortDirection,
 
     colIdx: cell.colIdx,
     qReverseSort: cell.qReverseSort,
-    activelySortedColumn: true,
+    activelySortedColumnIndex: cell.activelySortedColumnIndex,
   };
 
   const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
@@ -88,6 +98,7 @@ const DimensionTitleCell = ({
             }}
             isColumnSorted={cell.isColumnSorted}
             sortFromMenu={sortFromMenu}
+            changeActivelySortedColumn={changeActivelySortedColumn}
           />
           <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
         </>

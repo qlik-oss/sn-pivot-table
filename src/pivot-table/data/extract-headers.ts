@@ -1,9 +1,9 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { ExtendedDimensionInfo } from "../../types/QIX";
+import type { ExtendedDimensionInfo, HyperCube } from "../../types/QIX";
 import type { HeaderTitle } from "../../types/types";
 
 const extractHeaders = (
-  hyperCube: EngineAPI.IHyperCube,
+  hyperCube: HyperCube,
   rowCount: number,
   dimensionInfoIndex: number[]
 ): (null | HeaderTitle)[][] => {
@@ -17,9 +17,10 @@ const extractHeaders = (
         id: "PSEUDO-DIM",
         colIdx: -1,
         title: "",
-        qReverseSort: undefined,
         sortDirection: "A",
         isColumnSorted: false,
+        fieldId: "",
+        activelySortedColumnIndex: false,
       };
     } else {
       const dimInfo = hyperCube.qDimensionInfo[dimIndex] as ExtendedDimensionInfo;
@@ -30,7 +31,12 @@ const extractHeaders = (
         title: dimInfo.qFallbackTitle,
         qReverseSort: dimInfo?.qReverseSort,
         sortDirection: dimInfo.qSortIndicator && dimInfo.qSortIndicator !== "N" ? dimInfo.qSortIndicator : "A",
+        // TODO:
+        // think about removing this
         isColumnSorted: hyperCube.qEffectiveInterColumnSortOrder[0] === dimIndex,
+        qLibraryId: dimInfo.qLibraryId,
+        fieldId: dimInfo.qGroupFieldDefs[dimInfo.qGroupPos],
+        activelySortedColumnIndex: dimIndex === (hyperCube.activelySortedColumnIndex || 0),
       };
     }
   });

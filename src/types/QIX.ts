@@ -113,6 +113,7 @@ export interface Args {
 }
 
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
+  qHyperCube: HyperCube;
   nullValueRepresentation?: NullValueRepresentation;
   title: string;
   snapshotData?: SnapshotData;
@@ -128,6 +129,10 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
 export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
   cId?: string;
   qLibraryId?: string;
+}
+
+export interface HyperCube extends EngineAPI.IHyperCube {
+  activelySortedColumnIndex: number;
 }
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;

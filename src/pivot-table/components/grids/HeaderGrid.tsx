@@ -1,6 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
-import type { ChangeSortOrder, HeaderTitle, HeadersData } from "../../../types/types";
+import type { ChangeActivelySortedColumn, ChangeSortOrder, HeaderTitle, HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
@@ -11,6 +11,7 @@ interface HeaderGridProps {
   headersData: HeadersData;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
+  changeActivelySortedColumn: ChangeActivelySortedColumn;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -24,6 +25,7 @@ const HeaderGrid = ({
   headersData,
   translator,
   changeSortOrder,
+  changeActivelySortedColumn,
 }: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
@@ -54,6 +56,7 @@ const HeaderGrid = ({
             isLastColumn={colIndex === headersData.size.x - 1}
             translator={translator}
             changeSortOrder={changeSortOrder}
+            changeActivelySortedColumn={changeActivelySortedColumn}
             cell={cell}
           />
         );

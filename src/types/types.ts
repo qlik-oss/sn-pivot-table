@@ -17,9 +17,13 @@ export type HeaderTitle = {
   id: string;
   title: string;
   sortDirection: SortDirection;
-  qReverseSort: boolean | undefined;
+  qReverseSort?: boolean;
   isColumnSorted: boolean;
   colIdx: number;
+
+  fieldId: string;
+  qLibraryId?: string;
+  activelySortedColumnIndex: boolean;
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
@@ -243,10 +247,11 @@ export interface Column {
   isDim: boolean;
   colIdx: number;
   qReverseSort?: boolean;
-  activelySortedColumn: boolean;
+  activelySortedColumnIndex: boolean;
 }
 
 export type Align = "left" | "center" | "right";
 export type SortDirection = "A" | "D";
 
 export type ChangeSortOrder = (column: Column, sortOrder: SortDirection) => Promise<boolean>;
+export type ChangeActivelySortedColumn = (column: Omit<Column, "activelySortedColumnIndex">) => Promise<boolean>;
