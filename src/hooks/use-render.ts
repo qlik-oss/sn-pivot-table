@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import {
   useConstraints,
   useEffect,
@@ -37,7 +36,6 @@ const useRender = () => {
   const viewService = useViewService(pageInfo);
   const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
   const { qPivotDataPages, isLoading } = useLoadDataPages({ model, layoutService, viewService, pageInfo });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);
   const fonts = useMemo(
     () => [
