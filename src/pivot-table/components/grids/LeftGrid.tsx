@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, LeftDimensionData } from "../../../types/types";
+import type { DataModel, LayoutService, LeftDimensionData, VisibleDimensionInfo } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -23,6 +23,7 @@ interface LeftGridProps {
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
   showLastRowBorderBottom: boolean;
+  visibleLeftDimensionInfo: VisibleDimensionInfo[];
 }
 
 const containerStyle: React.CSSProperties = {
@@ -57,6 +58,7 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
   showLastRowBorderBottom,
+  visibleLeftDimensionInfo,
 }: LeftGridProps): JSX.Element | null => {
   const { qSize } = layoutService.layout.qHyperCube;
   const {
@@ -86,7 +88,7 @@ const LeftGrid = ({
     <div style={{ ...containerStyle, borderColor: divider }}>
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
-        const key = getKey(layoutService.sortedLeftDimensionInfo[colIndex]);
+        const key = getKey(visibleLeftDimensionInfo[colIndex]);
         const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
 
         return (

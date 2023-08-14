@@ -1,13 +1,9 @@
-import type { ExtendedDimensionInfo, PseudoDimension } from "../../types/QIX";
-import type { HeadersData } from "../../types/types";
+import type { HeadersData, VisibleDimensionInfo } from "../../types/types";
 import extractHeaders from "./extract-headers";
 
-const createHeadersData = (
-  rowCount: number,
-  sortedLeftDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[]
-): HeadersData => {
+const createHeadersData = (rowCount: number, visibleLeftDimensionInfo: VisibleDimensionInfo[]): HeadersData => {
   // rowCount cannot be 0, as it couse issue when there is no top data but there is left data
-  const data = extractHeaders(Math.max(rowCount, 1), sortedLeftDimensionInfo);
+  const data = extractHeaders(Math.max(rowCount, 1), visibleLeftDimensionInfo);
 
   return {
     data,

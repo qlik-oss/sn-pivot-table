@@ -1,7 +1,7 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
-import type { ExtendedDimensionInfo, PseudoDimension } from "../../../types/QIX";
+import type { VisibleDimensionInfo } from "../../../types/types";
 
-const getKey = (qDimensionInfo: ExtendedDimensionInfo | PseudoDimension): string => {
+const getKey = (qDimensionInfo: VisibleDimensionInfo): string => {
   if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
     return "-1";
   }

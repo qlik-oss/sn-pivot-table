@@ -1,5 +1,5 @@
 import NxDimCellType from "../../../types/QIX";
-import type { Cell, Grid, LayoutService } from "../../../types/types";
+import type { Cell, Grid, LayoutService, VisibleDimensionInfo } from "../../../types/types";
 import extractTopGrid from "../extract-top";
 import { addPageToTopDimensionData, createTopDimensionData } from "../top-dimension-data";
 
@@ -29,6 +29,7 @@ describe("top dimension data", () => {
       qHyperCube,
     },
   } as LayoutService;
+  const visibleTopDimensionInfo: VisibleDimensionInfo[] = [];
 
   beforeEach(() => {
     jest.resetAllMocks();
@@ -38,7 +39,7 @@ describe("top dimension data", () => {
     test("should return correct data", () => {
       const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(mockedReturnValue);
-      const data = createTopDimensionData(dataPage, layoutService);
+      const data = createTopDimensionData(dataPage, layoutService, visibleTopDimensionInfo);
 
       expect(data.grid).toEqual(mockedReturnValue);
       expect(data.rowCount).toEqual(1);
@@ -49,7 +50,7 @@ describe("top dimension data", () => {
     test("should add page to data", () => {
       const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
-      const prevData = createTopDimensionData(dataPage, layoutService);
+      const prevData = createTopDimensionData(dataPage, layoutService, visibleTopDimensionInfo);
       const nextDataPage = {
         qTop: [{}],
         qArea: {
@@ -57,7 +58,7 @@ describe("top dimension data", () => {
           qLeft: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToTopDimensionData({ prevData, nextDataPage, layoutService });
+      const nextData = addPageToTopDimensionData({ prevData, nextDataPage, layoutService, visibleTopDimensionInfo });
 
       expect(nextData).not.toBe(prevData);
       expect(nextData.grid).toEqual(nextTop);
@@ -67,7 +68,7 @@ describe("top dimension data", () => {
     test("should return previous page if qLeft is an empty array", () => {
       const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
-      const prevData = createTopDimensionData(dataPage, layoutService);
+      const prevData = createTopDimensionData(dataPage, layoutService, visibleTopDimensionInfo);
       const nextDataPage = {
         qTop: [],
         qArea: {
@@ -75,7 +76,7 @@ describe("top dimension data", () => {
           qLeft: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToTopDimensionData({ prevData, nextDataPage, layoutService });
+      const nextData = addPageToTopDimensionData({ prevData, nextDataPage, layoutService, visibleTopDimensionInfo });
 
       expect(nextData).toBe(prevData);
     });

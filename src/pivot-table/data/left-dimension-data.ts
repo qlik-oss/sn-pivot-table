@@ -1,4 +1,4 @@
-import type { LayoutService, LeftDimensionData, PageInfo } from "../../types/types";
+import type { LayoutService, LeftDimensionData, PageInfo, VisibleDimensionInfo } from "../../types/types";
 import extractLeftGrid from "./extract-left";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 
@@ -8,6 +8,7 @@ export interface AddPageToLeftDimensionDataProps {
   pageInfo: PageInfo;
   isNewPage?: boolean;
   layoutService: LayoutService;
+  visibleLeftDimensionInfo: VisibleDimensionInfo[];
 }
 
 export const addPageToLeftDimensionData = ({
@@ -15,11 +16,12 @@ export const addPageToLeftDimensionData = ({
   nextDataPage,
   pageInfo,
   layoutService,
+  visibleLeftDimensionInfo,
 }: AddPageToLeftDimensionDataProps): LeftDimensionData => {
   const { qLeft, qArea } = nextDataPage;
   if (!qLeft.length) return prevData;
 
-  const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, layoutService);
+  const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
   assignDistanceToNextCell(grid, "pageY", prevData.layoutSize, pageInfo);
 
   return {
@@ -32,10 +34,11 @@ export const addPageToLeftDimensionData = ({
 export const createLeftDimensionData = (
   dataPage: EngineAPI.INxPivotPage,
   layoutService: LayoutService,
-  pageInfo: PageInfo
+  pageInfo: PageInfo,
+  visibleLeftDimensionInfo: VisibleDimensionInfo[]
 ): LeftDimensionData => {
   const { qArea, qLeft } = dataPage;
-  const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService);
+  const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
   assignDistanceToNextCell(grid, "pageY", layoutService.size, pageInfo);
 
   return {

@@ -1,7 +1,7 @@
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { LayoutService, LeftDimensionData, Rect } from "../../types/types";
+import type { LayoutService, LeftDimensionData, Rect, VisibleDimensionInfo } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
@@ -23,11 +23,10 @@ const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
-  leftDimensionData: LeftDimensionData
+  leftDimensionData: LeftDimensionData,
+  visibleLeftDimensionInfo: VisibleDimensionInfo[]
 ): ColumnWidthHook {
   const {
-    sortedLeftDimensionInfo,
-    hasPseudoDimOnLeft,
     size,
     layout: {
       qHyperCube: { qMeasureInfo, qNoOfLeftDims },
@@ -43,8 +42,10 @@ export default function useColumnWidth(
     styleService.header.fontFamily
   );
 
+  const hasPseudoDimOnLeft = useMemo(() => visibleLeftDimensionInfo.includes(-1), [visibleLeftDimensionInfo]);
+
   const leftColumnWidthsRatios = useMemo(() => {
-    const ratios = sortedLeftDimensionInfo.map((qDimensionInfo, index) => {
+    const ratios = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
 
@@ -70,7 +71,7 @@ export default function useColumnWidth(
     estimateWidthForContent,
     measureTextForContent,
     measureTextForHeader,
-    sortedLeftDimensionInfo,
+    visibleLeftDimensionInfo,
     rect.width,
     qMeasureInfo,
     qNoOfLeftDims,

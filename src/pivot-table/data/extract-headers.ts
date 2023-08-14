@@ -1,17 +1,16 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { ExtendedDimensionInfo, PseudoDimension } from "../../types/QIX";
-import type { HeaderTitle } from "../../types/types";
+import type { HeaderTitle, VisibleDimensionInfo } from "../../types/types";
 import getKey from "../components/helpers/get-key";
 
 const extractHeaders = (
   rowCount: number,
-  sortedLeftDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[]
+  visibleLeftDimensionInfo: VisibleDimensionInfo[]
 ): (null | HeaderTitle)[][] => {
-  const matrix: (null | HeaderTitle)[][] = Array(sortedLeftDimensionInfo.length)
+  const matrix: (null | HeaderTitle)[][] = Array(visibleLeftDimensionInfo.length)
     .fill(null)
     .map(() => Array.from({ length: rowCount }, () => null));
 
-  sortedLeftDimensionInfo.forEach((qDimensionInfo, colIdx) => {
+  visibleLeftDimensionInfo.forEach((qDimensionInfo, colIdx) => {
     if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
       matrix[colIdx][rowCount - 1] = { id: "PSEUDO-DIM", title: "" };
     } else {
