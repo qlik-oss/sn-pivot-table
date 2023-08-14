@@ -1,5 +1,4 @@
 import { act, renderHook } from "@testing-library/react";
-import type { ExtendedDimensionInfo } from "../../../types/QIX";
 import type {
   HeadersData,
   LayoutService,
