@@ -3,7 +3,7 @@ import type { ExtendedDimensionInfo } from "../../types/QIX";
 import type { HeaderTitle } from "../../types/types";
 
 const extractHeaders = (
-  qDim: EngineAPI.INxDimensionInfo[],
+  hyperCube: EngineAPI.IHyperCube,
   rowCount: number,
   dimensionInfoIndex: number[]
 ): (null | HeaderTitle)[][] => {
@@ -13,11 +13,25 @@ const extractHeaders = (
 
   dimensionInfoIndex.forEach((dimIndex, colIdx) => {
     if (dimIndex === PSEUDO_DIMENSION_INDEX) {
-      matrix[colIdx][rowCount - 1] = { id: "PSEUDO-DIM", title: "" };
+      matrix[colIdx][rowCount - 1] = {
+        id: "PSEUDO-DIM",
+        colIdx: -1,
+        title: "",
+        qReverseSort: undefined,
+        sortDirection: "A",
+        isColumnSorted: false,
+      };
     } else {
-      const dimInfo = qDim[dimIndex] as ExtendedDimensionInfo;
+      const dimInfo = hyperCube.qDimensionInfo[dimIndex] as ExtendedDimensionInfo;
       const id: string = dimInfo.cId ?? dimInfo.qLibraryId ?? `${dimIndex}-${dimInfo.qFallbackTitle}`;
-      matrix[colIdx][rowCount - 1] = { id, title: qDim[dimIndex].qFallbackTitle };
+      matrix[colIdx][rowCount - 1] = {
+        id,
+        colIdx: dimIndex,
+        title: dimInfo.qFallbackTitle,
+        qReverseSort: dimInfo?.qReverseSort,
+        sortDirection: dimInfo.qSortIndicator && dimInfo.qSortIndicator !== "N" ? dimInfo.qSortIndicator : "A",
+        isColumnSorted: hyperCube.qEffectiveInterColumnSortOrder[0] === dimIndex,
+      };
     }
   });
 

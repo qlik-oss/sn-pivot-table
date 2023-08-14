@@ -6,9 +6,8 @@ const createHeadersData = (
   rowCount: number,
   dimensionInfoIndexMap: number[]
 ): HeadersData => {
-  const { qDimensionInfo } = qHyperCube;
   // rowCount cannot be 0, as it couse issue when there is no top data but there is left data
-  const data = extractHeaders(qDimensionInfo, Math.max(rowCount, 1), dimensionInfoIndexMap);
+  const data = extractHeaders(qHyperCube, Math.max(rowCount, 1), dimensionInfoIndexMap);
 
   return {
     data,

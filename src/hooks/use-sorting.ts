@@ -1,8 +1,8 @@
 import type { Model } from "../types/QIX";
-import type { Column } from "../types/types";
+import type { Column, SortDirection } from "../types/types";
 
 interface UseSortingApi {
-  changeSortOrder: (column: Column) => Promise<boolean>;
+  changeSortOrder: (column: Column, newSortDirection: SortDirection) => Promise<boolean>;
 }
 
 interface UseSorting {
@@ -11,17 +11,19 @@ interface UseSorting {
 
 const useSorting: UseSorting = (model) => {
   const api = {
-    changeSortOrder: async (column: Column) => {
+    changeSortOrder: async (column: Column, newSortDirection: SortDirection) => {
       if (!model) throw new Error("No Model provided!");
 
       const { isDim, colIdx, qReverseSort } = column;
       const patches: EngineAPI.INxPatch[] = [];
 
-      patches.push({
-        qPath: `/qHyperCubeDef/${isDim ? "qDimensions" : "qMeasures"}/${colIdx}/qDef/qReverseSort`,
-        qOp: "Replace",
-        qValue: (!qReverseSort).toString(),
-      });
+      if ((newSortDirection === "D" && !qReverseSort) || (newSortDirection === "A" && qReverseSort)) {
+        patches.push({
+          qPath: `/qHyperCubeDef/${isDim ? "qDimensions" : "qMeasures"}/${colIdx}/qDef/qReverseSort`,
+          qOp: "Replace",
+          qValue: (!qReverseSort).toString(),
+        });
+      }
 
       try {
         await model.applyPatches(patches, true);

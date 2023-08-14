@@ -11,9 +11,15 @@ export type List = Record<number, Cell>;
 
 export type Grid = List[];
 
+// TODO:
+// this should be HeaderCell OR Column
 export type HeaderTitle = {
   id: string;
   title: string;
+  sortDirection: SortDirection;
+  qReverseSort: boolean | undefined;
+  isColumnSorted: boolean;
+  colIdx: number;
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
@@ -227,26 +233,20 @@ export interface StyleService extends StylingOptions {
 
 export interface Column {
   id: string;
-  isDim: boolean;
   qLibraryId?: string;
   fieldId: string;
-  isLocked: boolean;
-  colIdx: number;
-  pageColIdx: number;
-  selectionColIdx: number;
   label: string;
   headTextAlign: Align;
-  totalsTextAlign: Align;
-  bodyTextAlign: "auto" | Align;
-  stylingIDs: string[];
   sortDirection: SortDirection;
-  qReverseSort: boolean;
-  totalInfo: string;
-  qApprMaxGlyphCount: number;
-  columnWidth: undefined; // TODO: fix
+
+  // sorting in PVT
+  isDim: boolean;
+  colIdx: number;
+  qReverseSort?: boolean;
+  activelySortedColumn: boolean;
 }
 
 export type Align = "left" | "center" | "right";
 export type SortDirection = "A" | "D";
 
-export type ChangeSortOrder = (column: Column, sortOrder?: SortDirection) => Promise<boolean>;
+export type ChangeSortOrder = (column: Column, sortOrder: SortDirection) => Promise<boolean>;

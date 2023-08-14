@@ -50,13 +50,11 @@ const HeaderGrid = ({
         return (
           <DimensionTitleCell
             key={cell.id}
-            cell={cell.title}
             style={{ width: columnWidths[colIndex], height: rowHight }}
             isLastColumn={colIndex === headersData.size.x - 1}
             translator={translator}
-            colIndex={colIndex}
-            isDim={cell.id !== "PSEUDO-DIM"}
             changeSortOrder={changeSortOrder}
+            cell={cell}
           />
         );
       })}

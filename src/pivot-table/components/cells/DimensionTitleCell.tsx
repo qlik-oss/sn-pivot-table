@@ -2,18 +2,16 @@ import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik-oss/nebula-table-util
 import React, { useRef, useState } from "react";
 
 import type { stardust } from "@nebula.js/stardust";
-import type { Align, ChangeSortOrder, Column, SortDirection } from "../../../types/types";
+import type { Align, ChangeSortOrder, Column, HeaderTitle, HeadersData, SortDirection } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
-  cell: string;
+  cell: HeaderTitle;
   style: React.CSSProperties;
   isLastColumn: boolean;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
-  colIndex: number;
-  isDim: boolean;
 }
 
 const labelTextStyle: React.CSSProperties = {
@@ -31,46 +29,36 @@ const DimensionTitleCell = ({
   isLastColumn,
   translator,
   changeSortOrder,
-  colIndex,
-  isDim,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
 
-  const [qReverseSort, setQReverseSort] = useState(false);
+  const isDim = cell.id !== "PSEUDO-DIM";
 
   // TODO:
   // basically we need a unified way of column data in both SNT and PVT
   const mockedColumnData: Column = {
-    id: "idOne",
+    id: cell.id,
     isDim,
-    colIdx: colIndex,
-    qReverseSort,
     fieldId: "someFieldId",
-    isLocked: false,
-    pageColIdx: 0,
-    selectionColIdx: 0,
     label: "right",
     headTextAlign: "right" as Align,
-    totalsTextAlign: "right" as Align,
-    bodyTextAlign: "auto" as Align,
-    stylingIDs: ["one", "two"],
-    sortDirection: "A" as SortDirection,
-    totalInfo: "totlaInfo",
-    qApprMaxGlyphCount: 2,
-    columnWidth: undefined,
+    sortDirection: cell.sortDirection,
+
+    colIdx: cell.colIdx,
+    qReverseSort: cell.qReverseSort,
+    activelySortedColumn: true,
   };
 
-  const sortFromMenu = async (evt: React.MouseEvent) => {
+  const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
     evt.stopPropagation();
-    await changeSortOrder(mockedColumnData);
-    setQReverseSort(!qReverseSort);
+    await changeSortOrder(mockedColumnData, newSortDirection);
   };
 
   return (
     <div
-      title={cell}
+      title={cell.title}
       style={{
         ...style,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border, false),
@@ -83,7 +71,7 @@ const DimensionTitleCell = ({
       }}
       data-testid={testId}
     >
-      <div style={{ ...labelTextStyle, fontSize, fontFamily, alignSelf: "center" }}>{cell}</div>
+      <div style={{ ...labelTextStyle, fontSize, fontFamily, alignSelf: "center" }}>{cell.title}</div>
 
       {isDim && (
         <>
@@ -98,7 +86,7 @@ const DimensionTitleCell = ({
             menuAvailabilityFlags={{
               [MenuAvailabilityFlags.SORTING]: true,
             }}
-            isColumnSorted={false}
+            isColumnSorted={cell.isColumnSorted}
             sortFromMenu={sortFromMenu}
           />
           <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
