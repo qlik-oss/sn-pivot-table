@@ -166,7 +166,6 @@ describe("useData", () => {
       prevData: topDimensionData,
       nextDataPage: nextPage,
       layoutService,
-      visibleLeftDimensionInfo,
       visibleTopDimensionInfo,
     });
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith({
@@ -175,7 +174,6 @@ describe("useData", () => {
       pageInfo,
       layoutService,
       visibleLeftDimensionInfo,
-      visibleTopDimensionInfo,
     });
     expect(mockedAddPageToMeasureData).toHaveBeenCalledWith({
       prevData: measureData,
