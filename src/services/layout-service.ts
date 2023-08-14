@@ -32,6 +32,7 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
     hasLimitedData: !isSnapshot && size.x < layout.qHyperCube.qSize.qcx,
     hasLeftDimensions: layout.qHyperCube.qNoOfLeftDims !== 0,
     hasPseudoDimOnLeft,
+    // Consumed by "color by expression", "is dimension locked" and headers
     sortedLeftDimensionInfo,
     sortedTopDimensionInfo,
   };
