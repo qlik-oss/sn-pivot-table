@@ -82,48 +82,6 @@ describe("createLayoutService", () => {
     });
   });
 
-  describe("sortedLeftDimensionInfo", () => {
-    test("should only include visibile dimensions and pseudo dimension", () => {
-      layout.qHyperCube.qEffectiveInterColumnSortOrder = [1, -1, 0, 2];
-      layout.qHyperCube.qNoOfLeftDims = 4;
-      layout.qHyperCube.qDimensionInfo = [
-        getDimensionInfo({ isVisible: true }),
-        getDimensionInfo({ isVisible: true }),
-        getDimensionInfo({ isVisible: false }),
-      ];
-
-      const service = create();
-
-      expect(service.sortedTopDimensionInfo).toEqual([]);
-      expect(service.sortedLeftDimensionInfo).toEqual([
-        layout.qHyperCube.qDimensionInfo[layout.qHyperCube.qEffectiveInterColumnSortOrder[0]],
-        -1,
-        layout.qHyperCube.qDimensionInfo[layout.qHyperCube.qEffectiveInterColumnSortOrder[2]],
-      ]);
-    });
-  });
-
-  describe("sortedTopDimensionInfo", () => {
-    test("should only include visibile dimensions and pseudo dimension", () => {
-      layout.qHyperCube.qEffectiveInterColumnSortOrder = [1, -1, 0, 2];
-      layout.qHyperCube.qNoOfLeftDims = 0;
-      layout.qHyperCube.qDimensionInfo = [
-        getDimensionInfo({ isVisible: true }),
-        getDimensionInfo({ isVisible: true }),
-        getDimensionInfo({ isVisible: false }),
-      ];
-
-      const service = create();
-
-      expect(service.sortedLeftDimensionInfo).toEqual([]);
-      expect(service.sortedTopDimensionInfo).toEqual([
-        layout.qHyperCube.qDimensionInfo[layout.qHyperCube.qEffectiveInterColumnSortOrder[0]],
-        -1,
-        layout.qHyperCube.qDimensionInfo[layout.qHyperCube.qEffectiveInterColumnSortOrder[2]],
-      ]);
-    });
-  });
-
   describe("size", () => {
     test("should return size", () => {
       const service = create();

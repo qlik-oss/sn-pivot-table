@@ -1,5 +1,4 @@
-import type { PseudoDimension } from "../../../types/QIX";
-import type { Cell } from "../../../types/types";
+import type { Cell, VisibleDimensionInfo } from "../../../types/types";
 
 const createCell = (
   node: EngineAPI.INxPivotDimensionCell,
@@ -9,7 +8,7 @@ const createCell = (
   y: number,
   pageY: number,
   isSnapshot: boolean,
-  dimensionInfo: EngineAPI.INxDimensionInfo | PseudoDimension
+  dimensionInfo: VisibleDimensionInfo
 ): Cell => ({
   ref: node,
   x,

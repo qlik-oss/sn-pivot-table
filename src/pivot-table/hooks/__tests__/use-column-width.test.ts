@@ -1,6 +1,7 @@
 import { renderHook } from "@testing-library/react";
+import type { ExtendedDimensionInfo } from "../../../types/QIX";
 import NxDimCellType from "../../../types/QIX";
-import type { Cell, LayoutService, LeftDimensionData, Rect } from "../../../types/types";
+import type { Cell, LayoutService, LeftDimensionData, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import useColumnWidth, { EXPAND_ICON_WIDTH } from "../use-column-width";
 import useMeasureText, { type MeasureTextHook } from "../use-measure-text";
@@ -14,6 +15,7 @@ describe("useColumnWidth", () => {
   let leftDimensionData: LeftDimensionData;
   let mockedMeasureText: MeasureTextHook;
   let layoutService: LayoutService;
+  let visibleLeftDimensionInfo: VisibleDimensionInfo[];
 
   beforeEach(() => {
     const cell = {
@@ -27,7 +29,6 @@ describe("useColumnWidth", () => {
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
     leftDimensionData = {
       grid: [{ 0: cell }, { 0: cell }, { 0: cell }],
-      dimensionInfoIndexMap: [0, 1, 2],
       columnCount: 3,
       layoutSize: { x: 3, y: 1 },
     } as LeftDimensionData;
@@ -46,6 +47,8 @@ describe("useColumnWidth", () => {
       },
     } as unknown as LayoutService;
 
+    visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfo] as VisibleDimensionInfo[];
+
     mockedMeasureText = {
       measureText: jest.fn() as jest.MockedFunction<(text: string) => number>,
       estimateWidth: jest.fn() as jest.MockedFunction<(length: number) => number>,
@@ -63,7 +66,9 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(25);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.leftGridWidth).toBe((50 + EXPAND_ICON_WIDTH) * 2 + 50);
       expect(result.current.rightGridWidth).toBe(80 - GRID_BORDER);
     });
@@ -72,7 +77,9 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(25);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.leftGridWidth).toBe(150);
       expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
     });
@@ -80,17 +87,19 @@ describe("useColumnWidth", () => {
     test("should return left and right grid width with dimension and pseudo dimension cells", () => {
       const cell = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
       const pCell = { ref: { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } } as Cell;
-      const dimInfo = { qApprMaxGlyphCount: 1 } as EngineAPI.INxDimensionInfo;
+      const dimInfo = { qApprMaxGlyphCount: 1 } as ExtendedDimensionInfo;
       const meaInfo = { qFallbackTitle: 1 } as unknown as EngineAPI.INxMeasureInfo;
       leftDimensionData.grid = [{ 0: cell }, { 0: pCell }, { 0: cell }];
-      leftDimensionData.dimensionInfoIndexMap = [0, -1, 1];
+      visibleLeftDimensionInfo = [dimInfo, -1, dimInfo];
       layoutService.layout.qHyperCube.qDimensionInfo = [dimInfo, dimInfo, dimInfo];
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo];
 
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(35);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.leftGridWidth).toBe(150);
       expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
     });
@@ -99,7 +108,9 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.leftGridWidth).toBe(rect.width * 0.75);
       expect(result.current.rightGridWidth).toBe(rect.width * 0.25 - GRID_BORDER);
     });
@@ -113,7 +124,9 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(75);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(5);
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.getLeftColumnWidth(0)).toBe(25 + EXPAND_ICON_WIDTH);
       expect(result.current.getLeftColumnWidth(1)).toBe(50 + EXPAND_ICON_WIDTH);
       expect(result.current.getLeftColumnWidth(2)).toBe(75);
@@ -126,7 +139,9 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
       layoutService.size.x = 3;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.getDataColumnWidth(0)).toBe(100);
       expect(result.current.getDataColumnWidth(1)).toBe(100);
       expect(result.current.getDataColumnWidth(2)).toBe(100);
@@ -138,7 +153,9 @@ describe("useColumnWidth", () => {
       layoutService.size.x = 3;
       rect.width = 600;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.getDataColumnWidth(0)).toBeCloseTo(169.666);
       expect(result.current.getDataColumnWidth(1)).toBeCloseTo(169.666);
       expect(result.current.getDataColumnWidth(2)).toBeCloseTo(169.666);
@@ -165,7 +182,9 @@ describe("useColumnWidth", () => {
       layoutService.size.x = 3;
       rect.width = 600;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.getDataColumnWidth(0)).toBe(600);
       expect(result.current.getDataColumnWidth(1)).toBe(200);
       expect(result.current.getDataColumnWidth(2)).toBe(150);
@@ -177,7 +196,9 @@ describe("useColumnWidth", () => {
       layoutService.size.x = 3;
       rect.width = 600;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.getDataColumnWidth(0)).toBe(150);
       expect(result.current.getDataColumnWidth(1)).toBe(150);
       expect(result.current.getDataColumnWidth(2)).toBe(150);
@@ -189,7 +210,9 @@ describe("useColumnWidth", () => {
       layoutService.size.x = 3;
       rect.width = 600;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.getDataColumnWidth(0)).toBe(250);
       expect(result.current.getDataColumnWidth(1)).toBe(250);
       expect(result.current.getDataColumnWidth(2)).toBe(250);
@@ -202,7 +225,9 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(100);
       layoutService.size.x = 30;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.getTotalWidth()).toBe(150 + 30 * 100);
     });
   });
@@ -213,7 +238,9 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(175);
       layoutService.size.x = 30;
 
-      const { result } = renderHook(() => useColumnWidth(layoutService, rect, leftDimensionData));
+      const { result } = renderHook(() =>
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+      );
       expect(result.current.totalMeasureInfoColumnWidth).toBe(175 * 3);
     });
   });

@@ -19,8 +19,6 @@ export enum NxSelectionCellType {
   NX_CELL_LEFT = "L",
 }
 
-export type PseudoDimension = -1;
-
 type Size = {
   w: number;
   h: number;

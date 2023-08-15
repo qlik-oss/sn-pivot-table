@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import type { ExtendedDimensionInfo, PivotLayout, PseudoDimension } from "./QIX";
+import type { ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -17,6 +17,8 @@ export type HeaderTitle = {
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
+
+export type VisibleDimensionInfo = ExtendedDimensionInfo | -1;
 
 export interface Rect {
   width: number;
@@ -87,21 +89,17 @@ export interface PivotData {
   topGrid: Cell[][];
   data: EngineAPI.INxPivotValuePoint[][];
   headers: (null | string)[][];
-  leftDimensionInfoIndexMap: number[];
-  topDimensionInfoIndexMap: number[];
   size: PivotDataSize;
 }
 
 export interface TopDimensionData {
   grid: Grid;
-  dimensionInfoIndexMap: number[];
   rowCount: number;
   layoutSize: Point;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
-  dimensionInfoIndexMap: number[];
   columnCount: number;
   layoutSize: Point;
 }
@@ -147,8 +145,6 @@ export interface LayoutService {
   isSnapshot: boolean;
   hasLimitedData: boolean;
   hasLeftDimensions: boolean;
-  sortedLeftDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[];
-  sortedTopDimensionInfo: (ExtendedDimensionInfo | PseudoDimension)[];
 }
 
 export interface DataService {

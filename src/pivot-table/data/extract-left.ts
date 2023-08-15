@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import type { Cell, Grid, LayoutService, PageInfo } from "../../types/types";
+import type { Cell, Grid, LayoutService, PageInfo, VisibleDimensionInfo } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
 const extractLeftGrid = (
@@ -8,7 +8,8 @@ const extractLeftGrid = (
   qLeft: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage,
   pageInfo: PageInfo,
-  layoutService: LayoutService
+  layoutService: LayoutService,
+  visibleLeftDimensionInfo: VisibleDimensionInfo[]
 ): Grid => {
   if (!qLeft.length) {
     return grid;
@@ -41,7 +42,7 @@ const extractLeftGrid = (
         y,
         pageY,
         layoutService.isSnapshot,
-        layoutService.sortedLeftDimensionInfo[colIdx]
+        visibleLeftDimensionInfo[colIdx]
       );
 
       grid[colIdx][pageY] = cell;

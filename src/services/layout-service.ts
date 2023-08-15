@@ -2,7 +2,6 @@ import { PSEUDO_DIMENSION_INDEX } from "../constants";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../pivot-table/constants";
 import { type PivotLayout } from "../types/QIX";
 import type { LayoutService } from "../types/types";
-import getSortedDimensionInfo from "./utils/get-sorted-dimension-info";
 
 const createLayoutService = (layout: PivotLayout): LayoutService => {
   const { qHyperCube, nullValueRepresentation, snapshotData } = layout;
@@ -13,8 +12,6 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
     x: isSnapshot ? snapshotDataPage.qWidth : Math.min(layout.qHyperCube.qSize.qcx, MAX_COLUMN_COUNT),
     y: isSnapshot ? snapshotDataPage.qHeight : Math.min(layout.qHyperCube.qSize.qcy, MAX_ROW_COUNT),
   };
-
-  const { sortedLeftDimensionInfo, sortedTopDimensionInfo } = getSortedDimensionInfo(layout);
 
   return {
     layout,
@@ -31,8 +28,6 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
     isSnapshot,
     hasLimitedData: !isSnapshot && size.x < layout.qHyperCube.qSize.qcx,
     hasLeftDimensions: layout.qHyperCube.qNoOfLeftDims !== 0,
-    sortedLeftDimensionInfo,
-    sortedTopDimensionInfo,
   };
 };
 
