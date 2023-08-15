@@ -18,12 +18,11 @@ export type HeaderTitle = {
   title: string;
   sortDirection: SortDirection;
   qReverseSort?: boolean;
-  isColumnSorted: boolean;
   colIdx: number;
 
   fieldId: string;
   qLibraryId?: string;
-  activelySortedColumnIndex: boolean;
+  isActivelySorted: boolean;
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
@@ -235,6 +234,13 @@ export interface StyleService extends StylingOptions {
   lineClamp: number;
 }
 
+export type ActivelySortedColumn = {
+  colIdx: number;
+  fieldId: string;
+  qLibraryId?: string;
+  sortDirection: SortDirection;
+};
+
 export interface Column {
   id: string;
   qLibraryId?: string;
@@ -247,11 +253,11 @@ export interface Column {
   isDim: boolean;
   colIdx: number;
   qReverseSort?: boolean;
-  activelySortedColumnIndex: boolean;
+  isActivelySorted?: boolean;
 }
 
 export type Align = "left" | "center" | "right";
 export type SortDirection = "A" | "D";
 
 export type ChangeSortOrder = (column: Column, sortOrder: SortDirection) => Promise<boolean>;
-export type ChangeActivelySortedColumn = (column: Omit<Column, "activelySortedColumnIndex">) => Promise<boolean>;
+export type ChangeActivelySortedColumn = (column: Omit<Column, "isActivelySorted">) => Promise<boolean>;

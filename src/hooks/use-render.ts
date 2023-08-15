@@ -54,8 +54,6 @@ const useRender = () => {
   const isFontLoaded = useWaitForFonts(fonts);
   const { changeSortOrder, changeActivelySortedColumn } = useSorting(model, layout.qHyperCube);
 
-  // console.log({ hyperCube: layout.qHyperCube, activelySortedColumnIndex: layout.qHyperCube.activelySortedColumnIndex });
-
   useEffect(() => {
     const isReadyToRender =
       !isLoading &&

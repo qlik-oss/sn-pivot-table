@@ -18,9 +18,8 @@ const extractHeaders = (
         colIdx: -1,
         title: "",
         sortDirection: "A",
-        isColumnSorted: false,
         fieldId: "",
-        activelySortedColumnIndex: false,
+        isActivelySorted: false,
       };
     } else {
       const dimInfo = hyperCube.qDimensionInfo[dimIndex] as ExtendedDimensionInfo;
@@ -31,12 +30,9 @@ const extractHeaders = (
         title: dimInfo.qFallbackTitle,
         qReverseSort: dimInfo?.qReverseSort,
         sortDirection: dimInfo.qSortIndicator && dimInfo.qSortIndicator !== "N" ? dimInfo.qSortIndicator : "A",
-        // TODO:
-        // think about removing this
-        isColumnSorted: hyperCube.qEffectiveInterColumnSortOrder[0] === dimIndex,
         qLibraryId: dimInfo.qLibraryId,
         fieldId: dimInfo.qGroupFieldDefs[dimInfo.qGroupPos],
-        activelySortedColumnIndex: dimIndex === (hyperCube.activelySortedColumnIndex || 0),
+        isActivelySorted: dimIndex === (hyperCube.activelySortedColumn?.colIdx || 0),
       };
     }
   });

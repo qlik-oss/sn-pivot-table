@@ -36,19 +36,18 @@ const useSorting: UseSorting = (model, qHyperCube) => {
       }
     },
 
-    changeActivelySortedColumn: async (column: Omit<Column, "activelySortedColumnIndex">) => {
-      console.log({ column });
+    changeActivelySortedColumn: async (column: Column) => {
       if (!model) throw new Error("No Model provided!");
 
-      const { colIdx } = column;
-      const isActivelySortedColExistsOnDim = qHyperCube.activelySortedColumnIndex;
+      const { colIdx, qLibraryId, fieldId, sortDirection } = column;
+      const isActivelySortedColExists = qHyperCube.activelySortedColumn;
       let patch: EngineAPI.INxPatch[] = [];
 
       patch = [
         {
-          qPath: `/qHyperCubeDef/activelySortedColumnIndex`,
-          qOp: isActivelySortedColExistsOnDim ? "Replace" : "Add",
-          qValue: JSON.stringify(colIdx),
+          qPath: `/qHyperCubeDef/activelySortedColumn`,
+          qOp: isActivelySortedColExists ? "Replace" : "Add",
+          qValue: JSON.stringify({ colIdx, qLibraryId, fieldId, sortDirection }),
         },
       ];
 

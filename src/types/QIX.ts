@@ -1,4 +1,4 @@
-import type { StylingOptions } from "./types";
+import type { ActivelySortedColumn, StylingOptions } from "./types";
 
 enum NxDimCellType {
   NX_DIM_CELL_VALUE = "V",
@@ -132,7 +132,7 @@ export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
 }
 
 export interface HyperCube extends EngineAPI.IHyperCube {
-  activelySortedColumnIndex: number;
+  activelySortedColumn: ActivelySortedColumn;
 }
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;

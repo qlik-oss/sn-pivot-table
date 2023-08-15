@@ -64,8 +64,6 @@ export const StickyPivotTable = ({
     pageInfo
   );
 
-  console.log(JSON.stringify(headersData.data, null, 2));
-
   const dataModel = useDataModel({
     model,
     nextPageHandler,

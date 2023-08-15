@@ -52,13 +52,14 @@ const DimensionTitleCell = ({
     id: cell.id,
     isDim,
     fieldId: cell.fieldId,
+    qLibraryId: cell.qLibraryId,
     label: "right",
     headTextAlign: "right" as Align,
     sortDirection: cell.sortDirection,
 
     colIdx: cell.colIdx,
     qReverseSort: cell.qReverseSort,
-    activelySortedColumnIndex: cell.activelySortedColumnIndex,
+    isActivelySorted: cell.isActivelySorted,
   };
 
   const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
@@ -96,7 +97,6 @@ const DimensionTitleCell = ({
             menuAvailabilityFlags={{
               [MenuAvailabilityFlags.SORTING]: true,
             }}
-            isColumnSorted={cell.isColumnSorted}
             sortFromMenu={sortFromMenu}
             changeActivelySortedColumn={changeActivelySortedColumn}
           />
