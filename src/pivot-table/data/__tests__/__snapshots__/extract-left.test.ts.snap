@@ -6,6 +6,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 4,
       "pageX": 0,
@@ -41,6 +42,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 4,
       "pageX": 0,
@@ -76,6 +78,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "2": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 6,
       "pageX": 0,
@@ -135,6 +138,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "3": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 0,
@@ -156,6 +160,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 4,
       "pageX": 1,
@@ -163,6 +168,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -213,6 +219,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -251,6 +258,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 4,
       "pageX": 1,
@@ -258,6 +266,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -308,6 +317,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -346,6 +356,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "2": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 4,
       "pageX": 1,
@@ -353,6 +364,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -427,6 +439,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -489,6 +502,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "3": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 5,
       "pageX": 1,
@@ -496,6 +510,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -578,6 +593,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -642,6 +658,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -649,6 +666,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 1,
@@ -656,6 +674,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 4,
           "pageX": 0,
@@ -706,6 +725,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 4,
           "pageX": 0,
@@ -751,6 +771,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -789,6 +810,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -796,6 +818,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 1,
@@ -803,6 +826,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 4,
           "pageX": 0,
@@ -853,6 +877,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 4,
           "pageX": 0,
@@ -898,6 +923,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -936,6 +962,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "2": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -943,6 +970,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 1,
@@ -950,6 +978,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -1024,6 +1053,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -1093,6 +1123,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -1155,6 +1186,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "3": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -1162,6 +1194,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 5,
         "pageX": 1,
@@ -1169,6 +1202,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -1251,6 +1285,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -1320,6 +1355,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -1382,6 +1418,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "4": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -1389,6 +1426,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 5,
         "pageX": 1,
@@ -1396,6 +1434,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -1478,6 +1517,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -1547,6 +1587,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -1616,6 +1657,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 0,
       "pageX": 0,
@@ -1635,6 +1677,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 0,
       "pageX": 0,
@@ -1654,6 +1697,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "2": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 0,
       "pageX": 0,
@@ -1673,6 +1717,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "3": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 0,
@@ -1694,6 +1739,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 4,
       "pageX": 1,
@@ -1701,6 +1747,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -1751,6 +1798,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -1789,6 +1837,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 4,
       "pageX": 1,
@@ -1796,6 +1845,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -1846,6 +1896,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -1884,6 +1935,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "2": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 4,
       "pageX": 1,
@@ -1891,6 +1943,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -1965,6 +2018,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -2027,6 +2081,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "3": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 5,
       "pageX": 1,
@@ -2034,6 +2089,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -2116,6 +2172,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -2180,6 +2237,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -2187,6 +2245,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 1,
@@ -2194,6 +2253,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 4,
           "pageX": 0,
@@ -2244,6 +2304,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 4,
           "pageX": 0,
@@ -2289,6 +2350,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -2327,6 +2389,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -2334,6 +2397,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 1,
@@ -2341,6 +2405,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 4,
           "pageX": 0,
@@ -2391,6 +2456,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 4,
           "pageX": 0,
@@ -2436,6 +2502,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 0,
@@ -2474,6 +2541,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "2": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -2481,6 +2549,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 4,
         "pageX": 1,
@@ -2488,6 +2557,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -2562,6 +2632,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -2631,6 +2702,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -2693,6 +2765,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "3": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -2700,6 +2773,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 5,
         "pageX": 1,
@@ -2707,6 +2781,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -2789,6 +2864,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -2858,6 +2934,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -2920,6 +2997,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "4": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 2,
@@ -2927,6 +3005,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 5,
         "pageX": 1,
@@ -2934,6 +3013,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "parent": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -3016,6 +3096,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "root": {
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "isTotalCell": false,
           "leafCount": 6,
           "pageX": 0,
@@ -3085,6 +3166,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 6,
         "pageX": 0,
@@ -3154,6 +3236,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 5,
       "pageX": 0,
@@ -3189,6 +3272,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 0,
@@ -3208,6 +3292,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "2": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 0,
@@ -3227,6 +3312,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "3": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 0,
@@ -3248,6 +3334,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 1,
@@ -3255,6 +3342,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 5,
         "pageX": 0,
@@ -3297,6 +3385,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 5,
         "pageX": 0,
@@ -3335,6 +3424,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 1,
@@ -3342,6 +3432,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "parent": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 5,
         "pageX": 0,
@@ -3384,6 +3475,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "root": {
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "isTotalCell": false,
         "leafCount": 5,
         "pageX": 0,
@@ -3429,6 +3521,7 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
     "0": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 0,
@@ -3448,6 +3541,7 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
     "1": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 0,
@@ -3467,6 +3561,7 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
     "2": {
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "isTotalCell": false,
       "leafCount": 3,
       "pageX": 0,

@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import type { PivotLayout } from "./QIX";
+import type { ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -19,6 +19,8 @@ export type HeaderTitle = {
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
 
 export type IsTotalCellAt = (x: number, y: number) => boolean;
+
+export type VisibleDimensionInfo = ExtendedDimensionInfo | -1;
 
 export interface Rect {
   width: number;
@@ -71,6 +73,7 @@ export interface Cell {
   distanceToNextCell: number;
   incrementLeafCount: () => void;
   isTotalCell: boolean;
+  isLockedByDimension: boolean;
 }
 
 export interface PivotDataSize {
@@ -90,21 +93,17 @@ export interface PivotData {
   topGrid: Cell[][];
   data: EngineAPI.INxPivotValuePoint[][];
   headers: (null | string)[][];
-  leftDimensionInfoIndexMap: number[];
-  topDimensionInfoIndexMap: number[];
   size: PivotDataSize;
 }
 
 export interface TopDimensionData {
   grid: Grid;
-  dimensionInfoIndexMap: number[];
   rowCount: number;
   layoutSize: Point;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
-  dimensionInfoIndexMap: number[];
   columnCount: number;
   layoutSize: Point;
 }
@@ -145,7 +144,6 @@ export interface ViewService {
 
 export interface LayoutService {
   layout: PivotLayout;
-  isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
   getNullValueText: () => string;
   size: Point;

@@ -128,6 +128,9 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
 export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
   cId?: string;
   qLibraryId?: string;
+  qCardinalities: {
+    qHypercubeCardinal: number;
+  };
 }
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;

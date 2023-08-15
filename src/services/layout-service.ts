@@ -1,13 +1,11 @@
 import { PSEUDO_DIMENSION_INDEX } from "../constants";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../pivot-table/constants";
-import { NxSelectionCellType, type PivotLayout } from "../types/QIX";
+import { type PivotLayout } from "../types/QIX";
 import type { LayoutService } from "../types/types";
 
 const createLayoutService = (layout: PivotLayout): LayoutService => {
   const { qHyperCube, nullValueRepresentation, snapshotData } = layout;
-  const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo, qDimensionInfo } = qHyperCube;
-  const leftDimensions = qDimensionInfo.slice(0, qNoOfLeftDims);
-  const topDimensions = qDimensionInfo.slice(qNoOfLeftDims);
+  const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;
   const isSnapshot = !!snapshotData;
   const snapshotDataPage = snapshotData?.content?.qPivotDataPages?.[0]?.qArea ?? { qWidth: 0, qHeight: 0 };
   const size = {
@@ -25,17 +23,6 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
       }
 
       return index % qMeasureInfo.length;
-    },
-    isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
-      if (qType === NxSelectionCellType.NX_CELL_LEFT) {
-        return !!leftDimensions[qCol]?.qLocked;
-      }
-
-      if (qType === NxSelectionCellType.NX_CELL_TOP) {
-        return !!topDimensions[qRow]?.qLocked;
-      }
-
-      return false;
     },
     size,
     isSnapshot,

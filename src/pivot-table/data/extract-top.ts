@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign */
 
-import type { Cell, Grid } from "../../types/types";
+import type { Cell, Grid, LayoutService, VisibleDimensionInfo } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
 const extractTopGrid = (
   grid: Grid,
   qTop: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage,
-  isSnapshot: boolean
+  layoutService: LayoutService,
+  visibleTopDimensionInfo: VisibleDimensionInfo[]
 ): Grid => {
   if (!qTop.length) {
     return grid;
@@ -28,7 +29,16 @@ const extractTopGrid = (
     nodes.forEach((node, currColIdx) => {
       colIdx += currColIdx === 0 ? 0 : 1;
       const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous tail size
-      const cell = createCell(node, parent, root, x, rowIdx, rowIdx, isSnapshot);
+      const cell = createCell(
+        node,
+        parent,
+        root,
+        x,
+        rowIdx,
+        rowIdx,
+        layoutService.isSnapshot,
+        visibleTopDimensionInfo[rowIdx]
+      );
 
       grid[rowIdx][x] = cell;
 

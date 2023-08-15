@@ -99,9 +99,7 @@ const DimensionCell = ({
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellLocked =
-    isLocked(selectionCellType, cell.y, colIndex) ||
-    layoutService.isDimensionLocked(selectionCellType, cell.y, colIndex);
+  const isCellLocked = isLocked(selectionCellType, cell.y, colIndex) || cell.isLockedByDimension;
   const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active || isNull;
   const isCellSelected = isSelected(selectionCellType, cell.y, colIndex);
   const resolvedTextStyle = getTextStyle({
