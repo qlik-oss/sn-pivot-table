@@ -103,7 +103,7 @@ const useData = (
 
   const headersData = useMemo<HeadersData>(
     () => createHeadersData(topDimensionData.rowCount, visibleLeftDimensionInfo),
-    [topDimensionData.rowCount, visibleLeftDimensionInfo]
+    [topDimensionData.rowCount]
   );
 
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
