@@ -3,7 +3,7 @@ import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
 import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { getBorderStyle } from "../shared-styles";
+import { getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
 import { containerStyle, getCellStyle, getTextStyle } from "./utils/get-measure-cell-style";
 
@@ -19,7 +19,14 @@ export const testId = "measure-cell";
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
   const { background } = styleService.content;
-  const { grid, layoutService, showLastRowBorderBottom, isTotalCellAt } = data;
+  const {
+    grid,
+    layoutService,
+    showLastRowBorderBottom,
+    shouldShowTotalCellBottomDivider,
+    shouldShowTotalCellRightDivider,
+    isTotalCellAt,
+  } = data;
   const cell = grid[rowIndex]?.[columnIndex];
   const isLastRow = rowIndex === layoutService.size.y - 1;
   const isLastColumn = columnIndex === layoutService.size.x - 1;
@@ -32,6 +39,8 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
         isLastColumn={isLastColumn}
         showLastRowBorderBottom={showLastRowBorderBottom}
         index={rowIndex}
+        cell={undefined}
+        isLeftColumn={false}
       />
     );
   }
@@ -44,6 +53,11 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const cellStyle = {
     ...getCellStyle(styleService, isNull, isTotalCell),
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
+    ...getTotalCellDividerStyle({
+      bottomDivider: shouldShowTotalCellBottomDivider(rowIndex),
+      rightDivider: shouldShowTotalCellRightDivider(columnIndex),
+      borderColor: styleService.grid.divider,
+    }),
     display: "flex",
     justifyContent: isNumeric ? "flex-end" : "center",
   };

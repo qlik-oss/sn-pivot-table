@@ -110,12 +110,7 @@ const useData = (
     setNextPage(page);
   }, []);
 
-  const isTotalCellAt = useCallback(
-    (x: number, y: number) =>
-      topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotalCell ||
-      leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotalCell,
-    [topDimensionData, leftDimensionData]
-  );
+  useOnPropsChange(() => console.log({ leftDimensionData, topDimensionData }), [leftDimensionData, topDimensionData]);
 
   return {
     headersData,
@@ -123,7 +118,6 @@ const useData = (
     topDimensionData,
     leftDimensionData,
     nextPageHandler,
-    isTotalCellAt,
   };
 };
 

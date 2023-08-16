@@ -1,7 +1,8 @@
 import React from "react";
 import type { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { getBorderStyle, textStyle } from "../shared-styles";
+import { shouldShowTotalCellDivider } from "../../hooks/use-is-total-cell";
+import { getBorderStyle, getTotalCellDividerStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   style: React.CSSProperties;
@@ -23,9 +24,21 @@ const TotalsCell = ({ cell, style, isLeftColumn, isLastRow, isLastColumn }: Labe
   const serviceStyle = isLeftColumn ? styleService.rowContent.totalLabel : styleService.columnContent.totalLabel;
   const { fontSize, fontFamily } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
 
+  const showTotalCellDivider = shouldShowTotalCellDivider(cell);
+  const totalCellDividerStyle = getTotalCellDividerStyle({
+    bottomDivider: showTotalCellDivider && isLeftColumn,
+    rightDivider: showTotalCellDivider && !isLeftColumn,
+    borderColor: styleService.grid.divider,
+  });
+
   return (
     <div
-      style={{ ...style, ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, false), ...serviceStyle }}
+      style={{
+        ...style,
+        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, false),
+        ...serviceStyle,
+        ...totalCellDividerStyle,
+      }}
       data-testid={testId}
     >
       <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.ref.qText}</div>

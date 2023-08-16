@@ -35,7 +35,6 @@ describe("DataCell", () => {
       grid: [[cell]],
       layoutService,
       showLastRowBorderBottom: false,
-      isTotalCellAt: () => false,
     } as GridItemData;
 
     renderDataCell = () =>
