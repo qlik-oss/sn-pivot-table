@@ -40,8 +40,9 @@ export const isMissingLayoutData = (layoutService: LayoutService, pageInfo: Page
 const useLoadDataPages: UseLoadDataPages = ({ model, layoutService, viewService, pageInfo }) => {
   const { qHyperCube, snapshotData } = layoutService.layout;
   const { qLastExpandedPos } = qHyperCube;
-  // Need to keep track of loading state to prevent double renders when a new layout is recieved, ex after expanding or collapesing.
+  // Need to keep track of loading state to prevent double renders when a new layout is received, ex after expanding or collapsing.
   // A double render would cause the scroll position to be lost
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const ref = useMemo(() => ({ isLoading: true }), [layoutService, pageInfo]);
   const [qPivotDataPages, setDataPages] = useState<EngineAPI.INxPivotPage[]>([]);
 

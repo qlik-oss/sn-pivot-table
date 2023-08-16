@@ -15,6 +15,7 @@ export default function supernova(env: Galaxy) {
     },
     ext: ext(env),
     component() {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       useRender();
     },
   };

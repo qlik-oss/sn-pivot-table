@@ -36,7 +36,7 @@ const useRender = () => {
   const viewService = useViewService(pageInfo);
   const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
   const { qPivotDataPages, isLoading } = useLoadDataPages({ model, layoutService, viewService, pageInfo });
-  const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);
+  const styleService = useMemo(() => createStyleService(theme, layoutService), [theme, layoutService]);
   const fonts = useMemo(
     () => [
       `600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,
