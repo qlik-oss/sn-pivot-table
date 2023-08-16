@@ -8,13 +8,20 @@ import type {
   MeasureData,
   PageInfo,
   TopDimensionData,
+  VisibleDimensionInfo,
 } from "../../types/types";
 import createHeadersData from "../data/headers-data";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../data/left-dimension-data";
 import { addPageToMeasureData, createMeasureData } from "../data/measure-data";
 import { addPageToTopDimensionData, createTopDimensionData } from "../data/top-dimension-data";
 
-const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: LayoutService, pageInfo: PageInfo): Data => {
+const useData = (
+  qPivotDataPages: EngineAPI.INxPivotPage[],
+  layoutService: LayoutService,
+  pageInfo: PageInfo,
+  visibleLeftDimensionInfo: VisibleDimensionInfo[],
+  visibleTopDimensionInfo: VisibleDimensionInfo[]
+): Data => {
   const { qHyperCube } = layoutService.layout;
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
 
@@ -34,10 +41,11 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
       qPivotDataPages
         .slice(1)
         .reduce(
-          (prevData, nextDataPage) => addPageToTopDimensionData({ prevData, nextDataPage }),
-          createTopDimensionData(qPivotDataPages[0], layoutService)
+          (prevData, nextDataPage) =>
+            addPageToTopDimensionData({ prevData, nextDataPage, layoutService, visibleTopDimensionInfo }),
+          createTopDimensionData(qPivotDataPages[0], layoutService, visibleTopDimensionInfo)
         ),
-    [layoutService, qPivotDataPages]
+    [layoutService, qPivotDataPages, visibleTopDimensionInfo]
   );
 
   const deriveLeftDimensionDataFromProps = useCallback(
@@ -45,10 +53,11 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
       qPivotDataPages
         .slice(1)
         .reduce(
-          (prevData, nextDataPage) => addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo }),
-          createLeftDimensionData(qPivotDataPages[0], layoutService, pageInfo)
+          (prevData, nextDataPage) =>
+            addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo, layoutService, visibleLeftDimensionInfo }),
+          createLeftDimensionData(qPivotDataPages[0], layoutService, pageInfo, visibleLeftDimensionInfo)
         ),
-    [layoutService, qPivotDataPages, pageInfo]
+    [qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo]
   );
 
   const [measureData, setMeasureData] = useState<MeasureData>(() => deriveMeasureDataFromProps());
@@ -72,8 +81,18 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
   useOnPropsChange(() => {
     if (!nextPage) return;
     setMeasureData((prevData) => addPageToMeasureData({ prevData, nextDataPage: nextPage, pageInfo }));
-    setTopDimensionData((prevData) => addPageToTopDimensionData({ prevData, nextDataPage: nextPage }));
-    setLeftDimensionData((prevData) => addPageToLeftDimensionData({ prevData, nextDataPage: nextPage, pageInfo }));
+    setTopDimensionData((prevData) =>
+      addPageToTopDimensionData({ prevData, nextDataPage: nextPage, layoutService, visibleTopDimensionInfo })
+    );
+    setLeftDimensionData((prevData) =>
+      addPageToLeftDimensionData({
+        prevData,
+        nextDataPage: nextPage,
+        pageInfo,
+        layoutService,
+        visibleLeftDimensionInfo,
+      })
+    );
     // we dont need dependency of pageInfo
     // this causes a rerender to add unrelevant data into grids
     // the reson for why we dont need it as dependancy is because
@@ -84,8 +103,8 @@ const useData = (qPivotDataPages: EngineAPI.INxPivotPage[], layoutService: Layou
   }, [nextPage]);
 
   const headersData = useMemo<HeadersData>(
-    () => createHeadersData(qHyperCube, topDimensionData.rowCount, leftDimensionData.dimensionInfoIndexMap),
-    [qHyperCube, topDimensionData.rowCount, leftDimensionData.dimensionInfoIndexMap]
+    () => createHeadersData(qHyperCube, topDimensionData.rowCount, visibleLeftDimensionInfo),
+    [qHyperCube, topDimensionData.rowCount, visibleLeftDimensionInfo]
   );
 
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {

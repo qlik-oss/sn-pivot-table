@@ -129,6 +129,9 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
 export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
   cId?: string;
   qLibraryId?: string;
+  qCardinalities: {
+    qHypercubeCardinal: number;
+  };
 }
 
 export interface HyperCube extends EngineAPI.IHyperCube {

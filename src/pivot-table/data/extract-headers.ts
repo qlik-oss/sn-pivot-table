@@ -1,18 +1,19 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { ExtendedDimensionInfo, HyperCube } from "../../types/QIX";
-import type { HeaderTitle } from "../../types/types";
+import type { HyperCube } from "../../types/QIX";
+import type { HeaderTitle, VisibleDimensionInfo } from "../../types/types";
+import getKey from "../components/helpers/get-key";
 
 const extractHeaders = (
   hyperCube: HyperCube,
   rowCount: number,
-  dimensionInfoIndex: number[]
+  visibleLeftDimensionInfo: VisibleDimensionInfo[]
 ): (null | HeaderTitle)[][] => {
-  const matrix: (null | HeaderTitle)[][] = Array(dimensionInfoIndex.length)
+  const matrix: (null | HeaderTitle)[][] = Array(visibleLeftDimensionInfo.length)
     .fill(null)
     .map(() => Array.from({ length: rowCount }, () => null));
 
-  dimensionInfoIndex.forEach((dimIndex, colIdx) => {
-    if (dimIndex === PSEUDO_DIMENSION_INDEX) {
+  visibleLeftDimensionInfo.forEach((qDimensionInfo, colIdx) => {
+    if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
       matrix[colIdx][rowCount - 1] = {
         id: "PSEUDO-DIM",
         colIdx: -1,
@@ -22,17 +23,17 @@ const extractHeaders = (
         isActivelySorted: false,
       };
     } else {
-      const dimInfo = hyperCube.qDimensionInfo[dimIndex] as ExtendedDimensionInfo;
-      const id: string = dimInfo.cId ?? dimInfo.qLibraryId ?? `${dimIndex}-${dimInfo.qFallbackTitle}`;
+      const id: string = getKey(qDimensionInfo);
       matrix[colIdx][rowCount - 1] = {
         id,
-        colIdx: dimIndex,
-        title: dimInfo.qFallbackTitle,
-        qReverseSort: dimInfo?.qReverseSort,
-        sortDirection: dimInfo.qSortIndicator && dimInfo.qSortIndicator !== "N" ? dimInfo.qSortIndicator : "A",
-        qLibraryId: dimInfo.qLibraryId,
-        fieldId: dimInfo.qGroupFieldDefs[dimInfo.qGroupPos],
-        isActivelySorted: dimIndex === (hyperCube.activelySortedColumn?.colIdx || 0),
+        colIdx: colIdx, // TODO: find index here
+        title: qDimensionInfo.qFallbackTitle,
+        qReverseSort: qDimensionInfo?.qReverseSort,
+        sortDirection:
+          qDimensionInfo.qSortIndicator && qDimensionInfo.qSortIndicator !== "N" ? qDimensionInfo.qSortIndicator : "A",
+        qLibraryId: qDimensionInfo.qLibraryId,
+        fieldId: qDimensionInfo.qGroupFieldDefs[qDimensionInfo.qGroupPos],
+        isActivelySorted: colIdx === (hyperCube.activelySortedColumn?.colIdx || 0), // TODO: find index here
       };
     }
   });

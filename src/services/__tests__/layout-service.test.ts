@@ -5,7 +5,13 @@ import createLayoutService from "../layout-service";
 
 const getMeasureInfo = () => ({} as EngineAPI.INxMeasureInfo);
 
-const getDimensionInfo = (qLocked: boolean) => ({ qLocked } as EngineAPI.INxDimensionInfo);
+const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible?: boolean }) =>
+  ({
+    qLocked: !qLocked,
+    qCardinalities: {
+      qHypercubeCardinal: isVisible ? 1 : 0,
+    },
+  } as unknown as EngineAPI.INxDimensionInfo);
 
 describe("createLayoutService", () => {
   let layout: PivotLayout;
@@ -18,7 +24,10 @@ describe("createLayoutService", () => {
         qNoOfLeftDims: 1,
         qEffectiveInterColumnSortOrder: [0, 1, -1],
         qMeasureInfo: [getMeasureInfo()],
-        qDimensionInfo: [{ qLocked: false }, { qLocked: false }],
+        qDimensionInfo: [
+          getDimensionInfo({ qLocked: false, isVisible: true }),
+          getDimensionInfo({ qLocked: false, isVisible: true }),
+        ],
         qSize: {
           qcx: 100,
           qcy: 200,
@@ -70,49 +79,6 @@ describe("createLayoutService", () => {
       expect(service.getMeasureInfoIndexFromCellIndex(3)).toEqual(0);
       expect(service.getMeasureInfoIndexFromCellIndex(4)).toEqual(1);
       expect(service.getMeasureInfoIndexFromCellIndex(5)).toEqual(2);
-    });
-  });
-
-  describe("isDimensionLocked", () => {
-    test("should return true when left dimension is locked", () => {
-      layout.qHyperCube.qDimensionInfo = [getDimensionInfo(true), getDimensionInfo(false)];
-      const service = create();
-      expect(service.isDimensionLocked("L", 0, 0)).toEqual(true);
-    });
-
-    test("should return false when left dimension is not locked", () => {
-      layout.qHyperCube.qDimensionInfo = [getDimensionInfo(false), getDimensionInfo(true)];
-      const service = create();
-      expect(service.isDimensionLocked("L", 0, 0)).toEqual(false);
-    });
-
-    test("should return false when dimension index does not exist for tyoe L", () => {
-      layout.qHyperCube.qDimensionInfo = [];
-      const service = create();
-      expect(service.isDimensionLocked("L", 0, 0)).toEqual(false);
-    });
-
-    test("should return true when top dimension is locked", () => {
-      layout.qHyperCube.qDimensionInfo = [getDimensionInfo(false), getDimensionInfo(true)];
-      const service = create();
-      expect(service.isDimensionLocked("T", 0, 0)).toEqual(true);
-    });
-
-    test("should return false when top dimension is not locked", () => {
-      layout.qHyperCube.qDimensionInfo = [getDimensionInfo(true), getDimensionInfo(false)];
-      const service = create();
-      expect(service.isDimensionLocked("T", 0, 0)).toEqual(false);
-    });
-
-    test("should return false when dimension index does not exist for type T", () => {
-      layout.qHyperCube.qDimensionInfo = [];
-      const service = create();
-      expect(service.isDimensionLocked("T", 0, 0)).toEqual(false);
-    });
-
-    test("should return false when cell type is not supported", () => {
-      const service = create();
-      expect(service.isDimensionLocked("D", 0, 0)).toEqual(false);
     });
   });
 

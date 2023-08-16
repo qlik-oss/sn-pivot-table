@@ -47,14 +47,14 @@ describe("getItemSizeHandler", () => {
     test("should return a size for cell when first row does not exist in list", () => {
       const index = 1;
       const leafCount = 10;
-      const y = 1;
+      const pageY = 1;
       list[index] = {
         leafCount,
-        y,
+        pageY,
       } as Cell;
       const handler = getRowHeightHandler(list, cellHeight, false, qcy);
 
-      expect(handler(0)).toEqual(cellHeight * (leafCount + y));
+      expect(handler(0)).toEqual(cellHeight * (leafCount + pageY));
     });
   });
 

@@ -1,4 +1,6 @@
 import type NxDimCellType from "../../../types/QIX";
+import type { ExtendedDimensionInfo } from "../../../types/QIX";
+import type { VisibleDimensionInfo } from "../../../types/types";
 
 function createNode(qElemNo: number, qType: NxDimCellType): EngineAPI.INxPivotDimensionCell {
   return {
@@ -13,3 +15,9 @@ function createNode(qElemNo: number, qType: NxDimCellType): EngineAPI.INxPivotDi
 export default function createNodes(count: number, type: NxDimCellType): EngineAPI.INxPivotDimensionCell[] {
   return Array.from({ length: count }, (_, idx: number) => createNode(idx, type));
 }
+
+export const createDimInfo = (length: number): VisibleDimensionInfo[] =>
+  Array.from(
+    { length },
+    (_, idx: number) => ({ cId: `id-${idx}`, qFallbackTitle: `dim ${idx}` } as unknown as ExtendedDimensionInfo)
+  );

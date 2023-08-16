@@ -84,7 +84,7 @@ describe("DimensionCell", () => {
     } as ListItemData;
 
     cell = {
-      dataY: 0,
+      y: 0,
       ref: {
         qText,
         qCanExpand: false,
@@ -384,7 +384,7 @@ describe("DimensionCell", () => {
       test("should not be possible to select cell when dimension is locked", async () => {
         const rowIdx = 0;
         const colIdx = 1;
-        (layoutService.isDimensionLocked as jest.Mock<unknown, unknown[]>).mockReturnValue(true);
+        cell.isLockedByDimension = true;
         cell.ref.qCanCollapse = true;
 
         render(
@@ -402,7 +402,6 @@ describe("DimensionCell", () => {
 
         await userEvent.click(screen.getByText(qText));
 
-        expect(layoutService.isDimensionLocked).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
         expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
@@ -662,7 +661,7 @@ describe("DimensionCell", () => {
       test("should not be possible to select cell when dimension is locked", async () => {
         const rowIdx = 0;
         const colIdx = 1;
-        (layoutService.isDimensionLocked as jest.Mock<unknown, unknown[]>).mockReturnValue(true);
+        cell.isLockedByDimension = true;
         cell.ref.qCanCollapse = true;
 
         render(
@@ -680,7 +679,6 @@ describe("DimensionCell", () => {
 
         await userEvent.click(screen.getByText(qText));
 
-        expect(layoutService.isDimensionLocked).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
         expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);

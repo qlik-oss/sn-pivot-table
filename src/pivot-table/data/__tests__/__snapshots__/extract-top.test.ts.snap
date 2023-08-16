@@ -4,10 +4,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
 [
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 4,
+      "pageX": 0,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -37,10 +39,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 0,
     },
     "1": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -70,10 +74,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 0,
     },
     "2": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 6,
+      "pageX": 2,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -125,10 +131,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 0,
     },
     "3": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 3,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -144,15 +152,19 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
   },
   {
     "0": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 4,
+      "pageX": 0,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -197,10 +209,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -233,15 +247,19 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 1,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -286,10 +304,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -322,15 +342,19 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 1,
     },
     "2": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 4,
+      "pageX": 2,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -397,10 +421,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -455,15 +481,19 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 1,
     },
     "3": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 5,
+      "pageX": 3,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -537,10 +567,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -597,20 +629,26 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
   },
   {
     "0": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -655,10 +693,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -698,10 +738,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -734,20 +776,26 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 2,
     },
     "1": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 1,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 4,
+          "pageX": 1,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -792,10 +840,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 4,
+          "pageX": 1,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -835,10 +885,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -871,20 +923,26 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 2,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 2,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -951,10 +1009,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -1016,10 +1076,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1074,20 +1136,26 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 2,
     },
     "3": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 3,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 5,
+        "pageX": 3,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -1161,10 +1229,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -1226,10 +1296,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1284,20 +1356,26 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 2,
     },
     "4": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 4,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 5,
+        "pageX": 3,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -1371,10 +1449,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -1436,10 +1516,12 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1501,10 +1583,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
 [
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 0,
+      "pageX": 0,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -1518,10 +1602,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 0,
     },
     "1": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 0,
+      "pageX": 1,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -1535,10 +1621,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 0,
     },
     "2": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 0,
+      "pageX": 2,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -1552,10 +1640,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 0,
     },
     "3": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 3,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -1571,15 +1661,19 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
   },
   {
     "0": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 4,
+      "pageX": 0,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1624,10 +1718,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1660,15 +1756,19 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 1,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 4,
+      "pageX": 1,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1713,10 +1813,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1749,15 +1851,19 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 1,
     },
     "2": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 4,
+      "pageX": 2,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1824,10 +1930,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1882,15 +1990,19 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 1,
     },
     "3": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 5,
+      "pageX": 3,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -1964,10 +2076,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -2024,20 +2138,26 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
   },
   {
     "0": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2082,10 +2202,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 4,
+          "pageX": 0,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2125,10 +2247,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -2161,20 +2285,26 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 2,
     },
     "1": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 1,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 4,
+          "pageX": 1,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2219,10 +2349,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 4,
+          "pageX": 1,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2262,10 +2394,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 1,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -2298,20 +2432,26 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 2,
     },
     "2": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 4,
+        "pageX": 2,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2378,10 +2518,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2443,10 +2585,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -2501,20 +2645,26 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 2,
     },
     "3": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 3,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 5,
+        "pageX": 3,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2588,10 +2738,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2653,10 +2805,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -2711,20 +2865,26 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 2,
     },
     "4": {
-      "dataY": 2,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 4,
+      "pageY": 2,
       "parent": {
-        "dataY": 1,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 5,
+        "pageX": 3,
+        "pageY": 1,
         "parent": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2798,10 +2958,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
-          "dataY": 0,
           "distanceToNextCell": 0,
           "incrementLeafCount": [Function],
+          "isLockedByDimension": false,
           "leafCount": 6,
+          "pageX": 2,
+          "pageY": 0,
           "parent": null,
           "ref": {
             "qDown": 2,
@@ -2863,10 +3025,12 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 6,
+        "pageX": 2,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qDown": 2,
@@ -2928,10 +3092,12 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
 [
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 5,
+      "pageX": 0,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qCanCollapse": true,
@@ -2961,10 +3127,12 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "y": 0,
     },
     "1": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 1,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -2978,10 +3146,12 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "y": 0,
     },
     "2": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -2995,10 +3165,12 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "y": 0,
     },
     "3": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 3,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -3014,15 +3186,19 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
   },
   {
     "0": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 5,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -3059,10 +3235,12 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 5,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -3095,15 +3273,19 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "y": 1,
     },
     "1": {
-      "dataY": 1,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 1,
+      "pageY": 1,
       "parent": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 5,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -3140,10 +3322,12 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         "qUp": 1,
       },
       "root": {
-        "dataY": 0,
         "distanceToNextCell": 0,
         "incrementLeafCount": [Function],
+        "isLockedByDimension": false,
         "leafCount": 5,
+        "pageX": 0,
+        "pageY": 0,
         "parent": null,
         "ref": {
           "qCanCollapse": true,
@@ -3183,10 +3367,12 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
 [
   {
     "0": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 0,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -3200,10 +3386,12 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
       "y": 0,
     },
     "1": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 1,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,
@@ -3217,10 +3405,12 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
       "y": 0,
     },
     "2": {
-      "dataY": 0,
       "distanceToNextCell": 0,
       "incrementLeafCount": [Function],
+      "isLockedByDimension": false,
       "leafCount": 3,
+      "pageX": 2,
+      "pageY": 0,
       "parent": null,
       "ref": {
         "qDown": 2,

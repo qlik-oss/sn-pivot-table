@@ -1,4 +1,4 @@
-import type { Cell } from "../../../types/types";
+import type { Cell, VisibleDimensionInfo } from "../../../types/types";
 
 const createCell = (
   node: EngineAPI.INxPivotDimensionCell,
@@ -6,17 +6,22 @@ const createCell = (
   root: Cell | null,
   x: number,
   y: number,
-  dataY: number,
-  isSnapshot: boolean
+  pageY: number,
+  isSnapshot: boolean,
+  dimensionInfo: VisibleDimensionInfo
 ): Cell => ({
   ref: node,
   x,
-  y, // position of cell in page
-  dataY, // position of cell in dataset
+  y,
+  // pageX might change to reflect x in current x axis page
+  // when we implement horizontal pagination feature (exactly like the relation btw y and pageY)
+  pageX: x,
+  pageY,
   parent,
   root,
   leafCount: isSnapshot ? 0 : node.qUp + node.qDown,
   distanceToNextCell: 0,
+  isLockedByDimension: typeof dimensionInfo === "object" && dimensionInfo.qLocked,
   incrementLeafCount() {
     this.leafCount += 1;
     if (parent) {

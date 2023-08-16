@@ -1,7 +1,7 @@
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { LayoutService, LeftDimensionData, Rect } from "../../types/types";
+import type { LayoutService, LeftDimensionData, Rect, VisibleDimensionInfo } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
@@ -23,8 +23,15 @@ const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
-  leftDimensionData: LeftDimensionData
+  leftDimensionData: LeftDimensionData,
+  visibleLeftDimensionInfo: VisibleDimensionInfo[]
 ): ColumnWidthHook {
+  const {
+    size,
+    layout: {
+      qHyperCube: { qMeasureInfo, qNoOfLeftDims },
+    },
+  } = layoutService;
   const styleService = useStyleContext();
   const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
     styleService.content.fontSize,
@@ -34,22 +41,18 @@ export default function useColumnWidth(
     styleService.header.fontSize,
     styleService.header.fontFamily
   );
-  const { qDimensionInfo, qMeasureInfo, qNoOfLeftDims } = layoutService.layout.qHyperCube;
 
-  const hasPseudoDimOnLeft = useMemo(
-    () => leftDimensionData.dimensionInfoIndexMap.some((dimIndex) => dimIndex === PSEUDO_DIMENSION_INDEX),
-    [leftDimensionData.dimensionInfoIndexMap]
-  );
+  const hasPseudoDimOnLeft = useMemo(() => visibleLeftDimensionInfo.includes(-1), [visibleLeftDimensionInfo]);
 
   const leftColumnWidthsRatios = useMemo(() => {
-    const ratios = leftDimensionData.dimensionInfoIndexMap.map((dimIndex, index) => {
-      if (dimIndex === PSEUDO_DIMENSION_INDEX) {
+    const ratios = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+      if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
 
         return pseudoDimensionWidth / rect.width;
       }
 
-      const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo[dimIndex];
+      const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo;
       const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
       const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
       const w = Math.max(
@@ -68,9 +71,8 @@ export default function useColumnWidth(
     estimateWidthForContent,
     measureTextForContent,
     measureTextForHeader,
-    leftDimensionData.dimensionInfoIndexMap,
+    visibleLeftDimensionInfo,
     rect.width,
-    qDimensionInfo,
     qMeasureInfo,
     qNoOfLeftDims,
   ]);
@@ -112,7 +114,7 @@ export default function useColumnWidth(
 
           return Math.max(
             MIN_COLUMN_WIDTH,
-            availableWidth / layoutService.size.x,
+            availableWidth / size.x,
             estimateWidthForContent(qApprMaxGlyphCount),
             includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
           );
@@ -126,7 +128,7 @@ export default function useColumnWidth(
       }),
     [
       rightGridWidth,
-      layoutService.size.x,
+      size.x,
       preCalcTotalDataColumnWidth,
       estimateWidthForContent,
       measureTextForHeader,
@@ -145,11 +147,11 @@ export default function useColumnWidth(
 
   const getTotalWidth = useCallback(
     () =>
-      Array.from({ length: layoutService.size.x }, () => null).reduce(
+      Array.from({ length: size.x }, () => null).reduce(
         (width, _, index) => width + getDataColumnWidth(index),
         leftGridWidth
       ),
-    [getDataColumnWidth, leftGridWidth, layoutService.size.x]
+    [getDataColumnWidth, leftGridWidth, size.x]
   );
 
   const totalMeasureInfoColumnWidth = useMemo(

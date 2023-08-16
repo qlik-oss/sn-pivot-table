@@ -1,5 +1,5 @@
 {
-  "extends": ["qlik-oss"],
+  "extends": ["qlik-oss", ":dependencyDashboard"],
   "circleci": {
     "ignoreDeps": []
   },
@@ -8,6 +8,15 @@
   "packageRules": [
     {
       "depTypeList": ["engines"],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": [
+        "@qlik/eslint-config",
+        "@qlik/eslint-config-react",
+        "@qlik/prettier-config",
+        "@qlik/tsconfig"
+      ],
       "enabled": false
     }
   ]
