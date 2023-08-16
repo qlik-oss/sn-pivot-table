@@ -1,14 +1,14 @@
-import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik-oss/nebula-table-utils/lib/components/HeadCellMenu";
-import React, { useRef, useState } from "react";
-
 import type { stardust } from "@nebula.js/stardust";
+import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik-oss/nebula-table-utils/lib/components/HeadCellMenu";
+import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
+import Descending from "@qlik-trial/sprout/icons/react/Descending";
+import React, { useRef } from "react";
 import type {
   Align,
   ChangeActivelySortedColumn,
   ChangeSortOrder,
   Column,
   HeaderTitle,
-  HeadersData,
   SortDirection,
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
@@ -23,10 +23,22 @@ interface LabelCellProps {
   changeActivelySortedColumn: ChangeActivelySortedColumn;
 }
 
+const baseFlex: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+const labelWrapperStyle: React.CSSProperties = {
+  ...baseFlex,
+  width: "fit-content",
+  flexDirection: "row",
+};
+
 const labelTextStyle: React.CSSProperties = {
   ...textStyle,
   fontWeight: "600",
-  alignSelf: "flex-end",
+  alignSelf: "center",
   flexGrow: 1,
 };
 
@@ -82,7 +94,14 @@ const DimensionTitleCell = ({
       }}
       data-testid={testId}
     >
-      <div style={{ ...labelTextStyle, fontSize, fontFamily, alignSelf: "center" }}>{cell.title}</div>
+      <div style={{ ...labelWrapperStyle }}>
+        <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
+        {cell.isActivelySorted && (
+          <div style={{ ...baseFlex, marginLeft: "8px" }}>
+            {cell.sortDirection === "A" ? <Ascending height="12px" /> : <Descending height="12px" />}
+          </div>
+        )}
+      </div>
 
       {isDim && (
         <>
