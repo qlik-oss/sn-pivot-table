@@ -6,7 +6,7 @@ const useTranslations = () => {
   const translator = useTranslator() as ExtendedTranslator;
   const language = translator.language();
 
-  useMemo(() => registerLocale(translator), [translator, language]);
+  useMemo(() => registerLocale(translator), [translator]);
 
   return { translator, language };
 };
