@@ -26,14 +26,14 @@ const extractHeaders = (
       const id: string = getKey(qDimensionInfo);
       matrix[colIdx][rowCount - 1] = {
         id,
-        colIdx: colIdx, // TODO: find index here
+        colIdx,
         title: qDimensionInfo.qFallbackTitle,
         qReverseSort: qDimensionInfo?.qReverseSort,
         sortDirection:
           qDimensionInfo.qSortIndicator && qDimensionInfo.qSortIndicator !== "N" ? qDimensionInfo.qSortIndicator : "A",
         qLibraryId: qDimensionInfo.qLibraryId,
         fieldId: qDimensionInfo.qGroupFieldDefs[qDimensionInfo.qGroupPos],
-        isActivelySorted: colIdx === (hyperCube.activelySortedColumn?.colIdx || 0), // TODO: find index here
+        isActivelySorted: colIdx === (hyperCube.activelySortedColumn?.colIdx || 0),
       };
     }
   });

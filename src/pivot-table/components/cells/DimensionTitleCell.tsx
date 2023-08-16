@@ -40,6 +40,7 @@ const labelTextStyle: React.CSSProperties = {
   fontWeight: "600",
   alignSelf: "center",
   flexGrow: 1,
+  paddingLeft: "8px",
 };
 
 export const testId = "title-cell";
@@ -105,8 +106,7 @@ const DimensionTitleCell = ({
 
       {isDim && (
         <>
-          {/* TODO: fix typing
-          // @ts-ignore */}
+          {/* @ts-expect-error TODO: fix typing */}
           <HeadCellMenu
             column={mockedColumnData}
             translator={translator}
