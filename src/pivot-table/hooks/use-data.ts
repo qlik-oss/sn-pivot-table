@@ -110,8 +110,6 @@ const useData = (
     setNextPage(page);
   }, []);
 
-  useOnPropsChange(() => console.log({ leftDimensionData, topDimensionData }), [leftDimensionData, topDimensionData]);
-
   return {
     headersData,
     measureData,

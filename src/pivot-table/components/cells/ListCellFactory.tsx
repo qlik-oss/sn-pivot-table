@@ -30,6 +30,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
 
   if (cell === undefined || cell.isEmptyCell) {
     const background = isLeftColumn ? styleService.rowContent.background : styleService.columnContent.background;
+
     return (
       <EmptyCell
         cell={cell}

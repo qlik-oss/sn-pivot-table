@@ -36,22 +36,21 @@ const createCell = (
         parent.incrementLeafCount();
       }
     },
+    // Having "parent.isTotalCell" means that it enough that any ancestors is a total cell,
+    // which is needed for the Total cell highlight use case.
     isTotalCell: node.qType === NxDimCellType.NX_DIM_CELL_TOTAL || !!parent?.isTotalCell,
-    // isTotalCell: node.qElemNo === -1 || !!parent?.isTotalCell,
-    isEmptyCell: node.qElemNo === -4,
-    isNullCell: node.qElemNo === -2,
+    isEmptyCell: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
+    isNullCell: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
     isPseudoDimensionCell: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
+    // A getter because child nodes are added as cells are being created. It has to be resolved when it's called.
     get isLastChild(): boolean {
-      // A getter because child nodes are added as cells are being created. It has to be resolved when it's used.
+      // Root is considedered last child for the total cell divider use case
       if (root === null) {
         return true;
       }
 
-      // if (parent === null) {
-      //   return false;
-      // }
-
-      // Having "parent.isLastChild" means that all ancestors also have to be the last child
+      // Having "parent.isLastChild" means that all ancestors also have to be the last child,
+      // which is needed for the Total cell divider use case.
       return parent?.children[parent.children.length - 1] === cell && parent.isLastChild;
     },
   };
