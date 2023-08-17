@@ -3,12 +3,12 @@ import type { Model, PivotLayout } from "../types/QIX";
 
 const useEffectiveProperties = (model: Model, layout: PivotLayout) =>
   usePromise<EngineAPI.IGenericObjectProperties | undefined>(async () => {
-    if (layout.snapshotData) {
+    if (model === undefined || layout.snapshotData || !("getEffectiveProperties" in model)) {
       // Is snapshot
       return {} as EngineAPI.IGenericObjectProperties;
     }
 
-    return (model as EngineAPI.IGenericObject).getEffectiveProperties();
+    return model.getEffectiveProperties();
   }, [model, layout]);
 
 export default useEffectiveProperties;

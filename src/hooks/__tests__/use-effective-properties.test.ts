@@ -24,7 +24,7 @@ describe("useEffectiveProperties", () => {
     } as Model;
   });
 
-  test("should load and return effective properties", async () => {
+  test("should fetch and return effective properties", async () => {
     effectiveProperties = {} as EngineAPI.IGenericObjectProperties;
     const { result } = renderHook(() => useEffectiveProperties(model, layout));
 
@@ -36,9 +36,36 @@ describe("useEffectiveProperties", () => {
     });
   });
 
-  test("should not load effective properties for a snapshot", async () => {
+  test("should not fetch effective properties for a snapshot", async () => {
     effectiveProperties = {} as EngineAPI.IGenericObjectProperties;
     layout.snapshotData = {} as SnapshotData;
+    const { result } = renderHook(() => useEffectiveProperties(model, layout));
+
+    await waitFor(async () => {
+      const [pendingProps] = result.current;
+      const props = await (pendingProps as unknown as Promise<EngineAPI.IGenericObjectProperties>);
+
+      expect(props).toEqual({});
+    });
+  });
+
+  test("should not fetch effective properties when model is undefined", async () => {
+    effectiveProperties = {} as EngineAPI.IGenericObjectProperties;
+    layout.snapshotData = {} as SnapshotData;
+    const { result } = renderHook(() => useEffectiveProperties(undefined, layout));
+
+    await waitFor(async () => {
+      const [pendingProps] = result.current;
+      const props = await (pendingProps as unknown as Promise<EngineAPI.IGenericObjectProperties>);
+
+      expect(props).toEqual({});
+    });
+  });
+
+  test("should not fetch effective properties when model does not have getEffectiveProperties method", async () => {
+    effectiveProperties = {} as EngineAPI.IGenericObjectProperties;
+    layout.snapshotData = {} as SnapshotData;
+    model = {} as EngineAPI.IGenericBookmark;
     const { result } = renderHook(() => useEffectiveProperties(model, layout));
 
     await waitFor(async () => {
