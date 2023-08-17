@@ -45,7 +45,9 @@ export const useShouldShowTotalCellRightDivider = (topDimensionData: TopDimensio
 export const useIsTotalCellAt = (leftDimensionData: LeftDimensionData, topDimensionData: TopDimensionData) =>
   useCallback(
     (x: number, y: number) =>
-      topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotalCell ||
-      leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotalCell,
+      !!(
+        topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotalCell ||
+        leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotalCell
+      ),
     [topDimensionData, leftDimensionData]
   );
