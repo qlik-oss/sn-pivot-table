@@ -71,7 +71,7 @@ const useLoadDataPages: UseLoadDataPages = ({ model, layoutService, viewService,
     }
 
     ref.isLoading = false;
-  }, [layoutService.layout, model, viewService, snapshotData, pageInfo]);
+  }, [layoutService, model, viewService, snapshotData, pageInfo]);
 
   return {
     qPivotDataPages,

@@ -145,6 +145,7 @@ export interface LayoutService {
   isSnapshot: boolean;
   hasLimitedData: boolean;
   hasLeftDimensions: boolean;
+  showTotalsAbove: boolean;
 }
 
 export interface DataService {
