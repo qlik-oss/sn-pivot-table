@@ -16,6 +16,7 @@ const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible
 describe("createLayoutService", () => {
   let layout: PivotLayout;
   let create: () => LayoutService;
+  let effectiveProperties: EngineAPI.IGenericObjectProperties | undefined;
 
   beforeEach(() => {
     layout = {
@@ -35,7 +36,7 @@ describe("createLayoutService", () => {
       },
     } as PivotLayout;
 
-    create = () => createLayoutService(layout);
+    create = () => createLayoutService(layout, effectiveProperties);
   });
 
   describe("getNullValueText", () => {
@@ -137,6 +138,33 @@ describe("createLayoutService", () => {
       layout.qHyperCube.qNoOfLeftDims = 0;
       const service = create();
       expect(service.hasLeftDimensions).toBe(false);
+    });
+  });
+
+  describe("showTotalsAbove", () => {
+    test("should be false when property is false", () => {
+      effectiveProperties = {
+        qHyperCubeDef: { qShowTotalsAbove: false },
+      } as unknown as EngineAPI.IGenericObjectProperties;
+
+      const service = create();
+      expect(service.showTotalsAbove).toBe(false);
+    });
+
+    test("should be true when property is true", () => {
+      effectiveProperties = {
+        qHyperCubeDef: { qShowTotalsAbove: true },
+      } as unknown as EngineAPI.IGenericObjectProperties;
+
+      const service = create();
+      expect(service.showTotalsAbove).toBe(true);
+    });
+
+    test("should be false when effective properties is undefined", () => {
+      effectiveProperties = undefined;
+
+      const service = create();
+      expect(service.showTotalsAbove).toBe(false);
     });
   });
 });

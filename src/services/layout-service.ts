@@ -3,7 +3,10 @@ import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../pivot-table/constants";
 import { type PivotLayout } from "../types/QIX";
 import type { LayoutService } from "../types/types";
 
-const createLayoutService = (layout: PivotLayout): LayoutService => {
+const createLayoutService = (
+  layout: PivotLayout,
+  effectiveProperties: EngineAPI.IGenericObjectProperties | undefined
+): LayoutService => {
   const { qHyperCube, nullValueRepresentation, snapshotData } = layout;
   const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;
   const isSnapshot = !!snapshotData;
@@ -28,6 +31,8 @@ const createLayoutService = (layout: PivotLayout): LayoutService => {
     isSnapshot,
     hasLimitedData: !isSnapshot && size.x < layout.qHyperCube.qSize.qcx,
     hasLeftDimensions: layout.qHyperCube.qNoOfLeftDims !== 0,
+    // qShowTotalsAbove is not available on the layout, so it's read from effective properties instead
+    showTotalsAbove: !!effectiveProperties?.qHyperCubeDef?.qShowTotalsAbove,
   };
 };
 
