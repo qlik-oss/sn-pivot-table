@@ -1,14 +1,13 @@
-/*  eslint-disable no-param-reassign */
-import { useMemo, usePromise, useState } from "@nebula.js/stardust";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../constants";
 import type { Model } from "../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../types/types";
+import useFetch from "./use-fetch";
 
-interface UseLoadDataPages {
-  (args: { model: Model; layoutService: LayoutService; viewService: ViewService; pageInfo: PageInfo }): {
-    isLoading: boolean;
-    qPivotDataPages: EngineAPI.INxPivotPage[];
-  };
+interface Props {
+  model: Model;
+  layoutService: LayoutService;
+  viewService: ViewService;
+  pageInfo: PageInfo;
 }
 
 export const shouldFetchAdditionalData = (
@@ -37,46 +36,30 @@ export const isMissingLayoutData = (layoutService: LayoutService, pageInfo: Page
   return qWidth < Math.min(DEFAULT_PAGE_SIZE, qSize.qcx) || qHeight < Math.min(DEFAULT_PAGE_SIZE, qSize.qcy);
 };
 
-const useLoadDataPages: UseLoadDataPages = ({ model, layoutService, viewService, pageInfo }) => {
-  const { qHyperCube, snapshotData } = layoutService.layout;
-  const { qLastExpandedPos } = qHyperCube;
+const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props) =>
   // Need to keep track of loading state to prevent double renders when a new layout is received, ex after expanding or collapsing.
   // A double render would cause the scroll position to be lost
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const ref = useMemo(() => ({ isLoading: true }), [layoutService, pageInfo]);
-  const [qPivotDataPages, setDataPages] = useState<EngineAPI.INxPivotPage[]>([]);
 
-  usePromise(async () => {
+  useFetch<EngineAPI.INxPivotPage[]>(async () => {
+    const { qHyperCube } = layoutService.layout;
+    const { qLastExpandedPos } = qHyperCube;
+
     if (layoutService.isSnapshot) {
-      setDataPages(layoutService.layout.snapshotData?.content?.qPivotDataPages || []);
-    } else if (
+      return layoutService.layout.snapshotData?.content?.qPivotDataPages || [];
+    }
+
+    if (
       (model as EngineAPI.IGenericObject)?.getHyperCubePivotData &&
       (shouldFetchAdditionalData(qLastExpandedPos, viewService) || isMissingLayoutData(layoutService, pageInfo))
     ) {
-      try {
-        const fetchArea: EngineAPI.INxPage = {
-          qLeft: qLastExpandedPos ? viewService.gridColumnStartIndex : 0,
-          qTop: pageInfo.currentPage * pageInfo.rowsPerPage + (qLastExpandedPos ? viewService.gridRowStartIndex : 0),
-          qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
-          qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
-        };
-        const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [fetchArea]);
-        setDataPages(pivotPages);
-      } catch (error) {
-        // TODO handle error
-        console.error(error); // eslint-disable-line
-      }
-    } else if (qHyperCube.qPivotDataPages.length) {
-      setDataPages(qHyperCube.qPivotDataPages);
+      const fetchArea: EngineAPI.INxPage = {
+        qLeft: qLastExpandedPos ? viewService.gridColumnStartIndex : 0,
+        qTop: pageInfo.currentPage * pageInfo.rowsPerPage + (qLastExpandedPos ? viewService.gridRowStartIndex : 0),
+        qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
+        qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
+      };
+      return (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [fetchArea]);
     }
-
-    ref.isLoading = false;
-  }, [layoutService, model, viewService, snapshotData, pageInfo]);
-
-  return {
-    qPivotDataPages,
-    isLoading: ref.isLoading,
-  };
-};
-
+    return qHyperCube.qPivotDataPages;
+  }, [layoutService, model, viewService, pageInfo]);
 export default useLoadDataPages;
