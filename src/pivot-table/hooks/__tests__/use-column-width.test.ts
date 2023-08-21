@@ -199,11 +199,18 @@ describe("useColumnWidth", () => {
       setupTestData([1, -1], [0]);
 
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(25);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockImplementation(
+        (text: string) => {
+          let w = 0;
+          if (text.startsWith("dim")) w = 50;
+          if (text.startsWith("m")) w = 75;
+          return w;
+        }
+      );
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, headerData));
       expect(result.current.getLeftColumnWidth(0)).toBe(50);
-      expect(result.current.getLeftColumnWidth(1)).toBe(50);
+      expect(result.current.getLeftColumnWidth(1)).toBe(75);
     });
 
     /**
@@ -214,7 +221,14 @@ describe("useColumnWidth", () => {
       setupTestData([1], [0, -1]);
 
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(25);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockImplementation(
+        (text: string) => {
+          let w = 0;
+          if (text.startsWith("dim")) w = 50;
+          if (text.startsWith("m")) w = 75;
+          return w;
+        }
+      );
 
       const { result } = renderHook(() => useColumnWidth(layoutService, rect, headerData));
       expect(result.current.getLeftColumnWidth(0)).toBe(50);

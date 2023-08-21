@@ -15,8 +15,8 @@ describe("create headers data", () => {
   test("should return correct headers data", () => {
     const headers: Header[][] = [
       [
-        { id: "a", title: "a", type: "left", approximateMaxGlyphCount: 1 },
-        { id: "b", title: "b", type: "left", approximateMaxGlyphCount: 1 },
+        { id: "a", title: "a", type: "left", approximateMaxGlyphCount: 1, includeMeasures: false },
+        { id: "b", title: "b", type: "left", approximateMaxGlyphCount: 1, includeMeasures: false },
       ],
     ];
     mockedExtractHeaders.mockReturnValue(headers);

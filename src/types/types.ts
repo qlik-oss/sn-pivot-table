@@ -20,6 +20,7 @@ export type Header = {
   title: string;
   approximateMaxGlyphCount: number;
   type: HeaderType;
+  includeMeasures: boolean;
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];

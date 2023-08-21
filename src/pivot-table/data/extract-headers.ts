@@ -20,30 +20,38 @@ const extractHeaders = (
     lastRow: DimensionInfoIndexMapMatrixRow,
     lastCol: DimensionInfoIndexMapMatrixRow
   ): (null | Header)[][] => {
-    const extractHeaderTitle = (type: HeaderType, dimension: VisibleDimensionInfo, lastDimension: boolean): Header => {
+    const extractHeaderTitle = (
+      type: HeaderType,
+      dimension: VisibleDimensionInfo,
+      lastDimension: boolean,
+      includeMeasures: boolean
+    ): Header => {
       const header = {
         id: getKey(dimension),
         title: getTitle(dimension),
         approximateMaxGlyphCount: dimension === PSEUDO_DIMENSION_INDEX ? 0 : dimension.qApprMaxGlyphCount,
         type: lastDimension ? (`${type}_last` as HeaderType) : type,
+        includeMeasures,
       };
       return header;
     };
 
-    const lastColPruned =
-      lastCol.visibleDimensions.at(-1) === PSEUDO_DIMENSION_INDEX
-        ? lastCol.visibleDimensions.slice(0, -1)
-        : lastCol.visibleDimensions;
+    let includeMeasures = false;
+    let lastColPruned = lastCol.visibleDimensions;
+    if (lastCol.visibleDimensions.at(-1) === PSEUDO_DIMENSION_INDEX) {
+      lastColPruned = lastCol.visibleDimensions.slice(0, -1);
+      includeMeasures = lastCol.type === "left";
+    }
     const rowCount = lastColPruned.length + 1;
     const colCount = Math.max(1, lastRow.visibleDimensions.length);
     const matrix: (null | Header)[][] = create(rowCount, colCount);
 
     lastRow.visibleDimensions.forEach((dimension, i, array) => {
-      matrix[rowCount - 1][i] = extractHeaderTitle(lastRow.type, dimension, i === array.length - 1);
+      matrix[rowCount - 1][i] = extractHeaderTitle(lastRow.type, dimension, i === array.length - 1, includeMeasures);
     });
 
     lastColPruned.forEach((dimension, i, array) => {
-      matrix[i][colCount - 1] = extractHeaderTitle(lastCol.type, dimension, i === array.length - 1);
+      matrix[i][colCount - 1] = extractHeaderTitle(lastCol.type, dimension, i === array.length - 1, includeMeasures);
     });
 
     return matrix;

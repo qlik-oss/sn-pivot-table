@@ -37,8 +37,8 @@ test("should render 2 left dimensions and 0 top", () => {
     size: { rows: 1, cols: 2 },
     data: [
       [
-        { id: "1", title: "1", type: "left", approximateMaxGlyphCount: 1 },
-        { id: "2", title: "2", type: "left_last", approximateMaxGlyphCount: 1 },
+        { id: "1", title: "1", type: "left", approximateMaxGlyphCount: 1, includeMeasures: false },
+        { id: "2", title: "2", type: "left_last", approximateMaxGlyphCount: 1, includeMeasures: false },
       ],
     ],
   };
@@ -57,10 +57,10 @@ test("should render 2 left dimensions and one top dimension", () => {
   const headersData: HeadersData = {
     size: { rows: 2, cols: 2 },
     data: [
-      [null, { id: "3", title: "3", type: "top_last", approximateMaxGlyphCount: 1 }],
+      [null, { id: "3", title: "3", type: "top_last", approximateMaxGlyphCount: 1, includeMeasures: false }],
       [
-        { id: "1", title: "1", type: "left", approximateMaxGlyphCount: 1 },
-        { id: "2", title: "2", type: "left_last", approximateMaxGlyphCount: 1 },
+        { id: "1", title: "1", type: "left", approximateMaxGlyphCount: 1, includeMeasures: false },
+        { id: "2", title: "2", type: "left_last", approximateMaxGlyphCount: 1, includeMeasures: false },
       ],
     ],
   };
@@ -79,8 +79,8 @@ test("should render 0 left dimensions and 2 top", () => {
   const headersData: HeadersData = {
     size: { rows: 2, cols: 1 },
     data: [
-      [{ id: "1", title: "1", type: "top", approximateMaxGlyphCount: 1 }],
-      [{ id: "2", title: "2", type: "top_last", approximateMaxGlyphCount: 1 }],
+      [{ id: "1", title: "1", type: "top", approximateMaxGlyphCount: 1, includeMeasures: false }],
+      [{ id: "2", title: "2", type: "top_last", approximateMaxGlyphCount: 1, includeMeasures: false }],
     ],
   };
 

@@ -64,9 +64,9 @@ export default function useColumnWidth(
     //   );
     //   return w / rect.width;
     // });
-    const measureHeader = (header: Header | null): number => {
+    const measureHeader = (_column: number, _row: number, header: Header | null): number => {
       if (header === null) return 0;
-      if (header.id === PSEUDO_DIMENSION_INDEX) {
+      if (header.id === PSEUDO_DIMENSION_INDEX && header.type.startsWith("left")) {
         const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
 
         return pseudoDimensionWidth / rect.width;
@@ -80,7 +80,7 @@ export default function useColumnWidth(
         estimateWidthForContent(approximateMaxGlyphCount) + collapseExpandIconSize
       );
 
-      if (header.type === "top_last") {
+      if (header.type === "top_last" && header.includeMeasures) {
         w = Math.max(w, ...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
       }
 
@@ -91,7 +91,7 @@ export default function useColumnWidth(
     for (let column = 0; column < headersData.size.cols; column++) {
       let columnWidth = 0;
       for (let row = 0; row < headersData.size.rows; row++) {
-        columnWidth = Math.max(columnWidth, measureHeader(headersData.data[row][column]));
+        columnWidth = Math.max(columnWidth, measureHeader(column, row, headersData.data[row][column]));
       }
       ratios.push(columnWidth);
     }
@@ -183,10 +183,10 @@ export default function useColumnWidth(
     return qMeasureInfo.reduce(
       (width, { qApprMaxGlyphCount, qFallbackTitle }) =>
         width +
-        Math.max(MIN_COLUMN_WIDTH, estimateWidthForContent(qApprMaxGlyphCount), measureTextForHeader(qFallbackTitle)),
+        Math.max(MIN_COLUMN_WIDTH, estimateWidthForContent(qApprMaxGlyphCount), measureTextForContent(qFallbackTitle)),
       0
     );
-  }, [qMeasureInfo, estimateWidthForContent, measureTextForHeader, hasPseudoDimOnLeft]);
+  }, [qMeasureInfo, estimateWidthForContent, measureTextForContent, hasPseudoDimOnLeft]);
 
   const memoizedGetMeasureInfoWidth = useMemo(
     () =>
@@ -199,7 +199,7 @@ export default function useColumnWidth(
             MIN_COLUMN_WIDTH,
             availableWidth / size.x,
             estimateWidthForContent(qApprMaxGlyphCount),
-            includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
+            includeTitleWidth ? measureTextForContent(qFallbackTitle) : 0
           );
         };
 
@@ -214,7 +214,7 @@ export default function useColumnWidth(
       size.x,
       preCalcTotalDataColumnWidth,
       estimateWidthForContent,
-      measureTextForHeader,
+      measureTextForContent,
       qMeasureInfo,
       hasPseudoDimOnLeft,
     ]
