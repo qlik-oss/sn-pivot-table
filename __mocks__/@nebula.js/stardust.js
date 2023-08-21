@@ -1,8 +1,14 @@
 const { useState, useMemo, useEffect } = require("react");
 
 const usePromise = (callback) => {
-  callback();
-  return [Promise.resolve(), undefined];
+  const [result, setResult] = useState();
+  const [error, setError] = useState();
+
+  callback()
+    .then((response) => setResult(response))
+    .catch((e) => setError(e));
+
+  return [result, error];
 };
 
 const mockedStardust = {

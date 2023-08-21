@@ -1,23 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import * as nebula from "@nebula.js/stardust";
-import { renderHook } from "@testing-library/react";
-import React from "react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../../constants";
 import type { Model } from "../../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../../types/types";
 import useLoadDataPages, { isMissingLayoutData, shouldFetchAdditionalData } from "../use-load-data-pages";
-
-jest.mock("@nebula.js/stardust");
 
 describe("useLoadDataPages", () => {
   let layoutService: LayoutService;
   let viewService: ViewService;
   let pageInfo: PageInfo;
   let model: Model;
-
-  let useStateSetterMock: jest.MockedFunction<any>;
-  let useState: () => any;
-
   let qLastExpandedPos: EngineAPI.INxCellPosition | undefined;
 
   beforeEach(() => {
@@ -42,12 +33,6 @@ describe("useLoadDataPages", () => {
       currentPage: 0,
       rowsPerPage: 100,
     } as PageInfo;
-
-    useStateSetterMock = jest.fn();
-    useState = () => [undefined, useStateSetterMock]; // eslint-disable-line
-
-    jest.spyOn(nebula, "useState").mockImplementation(useState);
-    jest.spyOn(nebula, "useMemo").mockImplementation(React.useMemo);
   });
 
   describe("shouldFetchAdditionalData", () => {
@@ -162,13 +147,12 @@ describe("useLoadDataPages", () => {
       } as unknown as Model;
     });
 
-    test("should set `qPivotDataPages` from layout if there was any", () => {
-      renderer();
-      expect(useStateSetterMock).toHaveBeenCalledTimes(1);
-      expect(useStateSetterMock).toHaveBeenCalledWith(layoutService.layout.qHyperCube.qPivotDataPages);
+    test("should set `qPivotDataPages` from layout if there was any", async () => {
+      const { result } = renderer();
+      await waitFor(() => expect(result.current[0]).toEqual(layoutService.layout.qHyperCube.qPivotDataPages));
     });
 
-    test("should return snapshotData if it is available", () => {
+    test("should return snapshotData if it is available", async () => {
       const fakeSnapshotData = {
         content: { qPivotDataPages: [{ pivotData: true }] },
         object: { size: { w: 100, h: 100 } },
@@ -179,23 +163,22 @@ describe("useLoadDataPages", () => {
         layout: { ...layoutService.layout, snapshotData: fakeSnapshotData },
       } as unknown as LayoutService;
 
-      renderer();
+      const { result } = renderer();
 
-      expect(useStateSetterMock).toHaveBeenCalledTimes(1);
-      expect(useStateSetterMock).toHaveBeenCalledWith(fakeSnapshotData.content.qPivotDataPages);
+      await waitFor(() => expect(result.current[0]).toEqual(fakeSnapshotData.content.qPivotDataPages));
     });
 
     describe("should fetch data and return data", () => {
-      test("should not try to fetch data if there is no `getHyperCubePivotData` on model", () => {
+      test("should not try to fetch data if there is no `getHyperCubePivotData` on model", async () => {
         model = {
           getHyperCubePivotData: undefined,
         } as unknown as Model;
         renderer();
 
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(0);
+        await waitFor(() => expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(0));
       });
 
-      test("should fetch data if only `shouldFetchAdditionalData()` returns true", () => {
+      test("should fetch data if only `shouldFetchAdditionalData()` returns true", async () => {
         viewService = {
           ...viewService,
           gridColumnStartIndex: 50,
@@ -214,18 +197,20 @@ describe("useLoadDataPages", () => {
         } as LayoutService;
 
         renderer();
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
-          {
-            qLeft: viewService.gridColumnStartIndex,
-            qTop: 0,
-            qWidth: viewService.gridWidth,
-            qHeight: DEFAULT_PAGE_SIZE,
-          },
-        ]);
+        await waitFor(() => {
+          expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
+          expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
+            {
+              qLeft: viewService.gridColumnStartIndex,
+              qTop: 0,
+              qWidth: viewService.gridWidth,
+              qHeight: DEFAULT_PAGE_SIZE,
+            },
+          ]);
+        });
       });
 
-      test("should fetch data if only `isMissingLayoutData()` returns true", () => {
+      test("should fetch data if only `isMissingLayoutData()` returns true", async () => {
         // make isMissingLayoutData() returns true by fake arguments
         layoutService = {
           layout: {
@@ -237,18 +222,20 @@ describe("useLoadDataPages", () => {
         } as LayoutService;
 
         renderer();
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
-          {
-            qLeft: viewService.gridColumnStartIndex,
-            qTop: 0,
-            qWidth: DEFAULT_PAGE_SIZE,
-            qHeight: DEFAULT_PAGE_SIZE,
-          },
-        ]);
+        await waitFor(() => {
+          expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
+          expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
+            {
+              qLeft: viewService.gridColumnStartIndex,
+              qTop: 0,
+              qWidth: DEFAULT_PAGE_SIZE,
+              qHeight: DEFAULT_PAGE_SIZE,
+            },
+          ]);
+        });
       });
 
-      test("should fetch data and conside pagination", () => {
+      test("should fetch data and conside pagination", async () => {
         // make isMissingLayoutData() returns true by fake arguments
         pageInfo = {
           ...pageInfo,
@@ -256,18 +243,20 @@ describe("useLoadDataPages", () => {
         };
 
         renderer();
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
-          {
-            qLeft: viewService.gridColumnStartIndex,
-            qTop: pageInfo.currentPage * pageInfo.rowsPerPage + 0,
-            qWidth: DEFAULT_PAGE_SIZE,
-            qHeight: DEFAULT_PAGE_SIZE,
-          },
-        ]);
+        await waitFor(() => {
+          expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
+          expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
+            {
+              qLeft: viewService.gridColumnStartIndex,
+              qTop: pageInfo.currentPage * pageInfo.rowsPerPage + 0,
+              qWidth: DEFAULT_PAGE_SIZE,
+              qHeight: DEFAULT_PAGE_SIZE,
+            },
+          ]);
+        });
       });
 
-      test("should fetch data and conside pagination and qLastExpandedPos if any expanded", () => {
+      test("should fetch data and conside pagination and qLastExpandedPos if any expanded", async () => {
         // make isMissingLayoutData() returns true by fake arguments
         pageInfo = {
           ...pageInfo,
@@ -290,15 +279,17 @@ describe("useLoadDataPages", () => {
         } as LayoutService;
 
         renderer();
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
-        expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
-          {
-            qLeft: viewService.gridColumnStartIndex,
-            qTop: pageInfo.currentPage * pageInfo.rowsPerPage + viewService.gridRowStartIndex,
-            qWidth: DEFAULT_PAGE_SIZE,
-            qHeight: DEFAULT_PAGE_SIZE,
-          },
-        ]);
+        await waitFor(() => {
+          expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
+          expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
+            {
+              qLeft: viewService.gridColumnStartIndex,
+              qTop: pageInfo.currentPage * pageInfo.rowsPerPage + viewService.gridRowStartIndex,
+              qWidth: DEFAULT_PAGE_SIZE,
+              qHeight: DEFAULT_PAGE_SIZE,
+            },
+          ]);
+        });
       });
     });
   });
