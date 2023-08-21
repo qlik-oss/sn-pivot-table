@@ -98,7 +98,7 @@ describe("useLoadDataPages", () => {
         ...pageInfo,
         currentPage: 5,
       };
-      expect(isMissingLayoutData(layoutService, pageInfo)).toBe(true);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
     });
 
     test("should return true if we are missing data in x axis (columns)", () => {
@@ -110,7 +110,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService, pageInfo)).toBe(true);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
     });
 
     test("should return true if we are missing data in y axis (rows)", () => {
@@ -122,7 +122,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService, pageInfo)).toBe(true);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
     });
 
     test("should return false if both axis are fulfilled with data", () => {
@@ -134,7 +134,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService, pageInfo)).toBe(false);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(false);
     });
 
     test("should return fallback to default `qArea` if it is not provided (an enforced fetch trigger basically)", () => {
@@ -146,7 +146,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService, pageInfo)).toBe(true);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
     });
   });
 

@@ -2,10 +2,10 @@ import type { Model, PivotLayout } from "../types/QIX";
 import useFetch from "./use-fetch";
 
 const useEffectiveProperties = (model: Model, layout: PivotLayout) =>
-  useFetch<EngineAPI.IGenericObjectProperties>(async () => {
+  useFetch<EngineAPI.IGenericObjectProperties | undefined>(async () => {
     if (model === undefined || layout.snapshotData || !("getEffectiveProperties" in model)) {
       // Is snapshot
-      return {} as EngineAPI.IGenericObjectProperties;
+      return undefined;
     }
 
     return model.getEffectiveProperties();

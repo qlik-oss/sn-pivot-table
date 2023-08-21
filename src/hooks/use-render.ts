@@ -9,7 +9,6 @@ import {
   useStaleLayout,
   useTheme,
 } from "@nebula.js/stardust";
-import useDebug from "../debug/use-nebula-debug";
 import render from "../pivot-table/Root";
 import createStyleService from "../services/style-service";
 import type { Model, PivotLayout } from "../types/QIX";
@@ -54,21 +53,6 @@ const useRender = () => {
     [styleService]
   );
   const isFontLoaded = useWaitForFonts(fonts);
-
-  useDebug("render", {
-    isLoading,
-    model,
-    rect,
-    constraints,
-    selections,
-    viewService,
-    layoutService,
-    styleService,
-    qPivotDataPages,
-    effectiveProperties,
-    isLoadingEffectiveProperties,
-    isFontLoaded,
-  });
 
   useEffect(() => {
     const isReadyToRender =
