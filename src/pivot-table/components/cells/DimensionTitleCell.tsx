@@ -1,7 +1,7 @@
 import type { stardust } from "@nebula.js/stardust";
-import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik-oss/nebula-table-utils/lib/components/HeadCellMenu";
 import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
 import Descending from "@qlik-trial/sprout/icons/react/Descending";
+import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
 import React, { useRef } from "react";
 import type {
   Align,
@@ -106,9 +106,8 @@ const DimensionTitleCell = ({
 
       {isDim && (
         <>
-          {/* @ts-expect-error TODO: fix typing */}
           <HeadCellMenu
-            column={mockedColumnData}
+            headerData={mockedColumnData}
             translator={translator}
             tabIndex={-1}
             anchorRef={anchorRef}
@@ -116,8 +115,7 @@ const DimensionTitleCell = ({
             menuAvailabilityFlags={{
               [MenuAvailabilityFlags.SORTING]: true,
             }}
-            sortFromMenu={sortFromMenu}
-            changeActivelySortedColumn={changeActivelySortedColumn}
+            sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader: changeActivelySortedColumn }}
           />
           <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
         </>
