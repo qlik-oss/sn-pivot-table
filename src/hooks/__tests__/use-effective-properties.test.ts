@@ -1,9 +1,6 @@
-import * as nebula from "@nebula.js/stardust";
 import { renderHook, waitFor } from "@testing-library/react";
 import type { Model, PivotLayout, SnapshotData } from "../../types/QIX";
 import useEffectiveProperties from "../use-effective-properties";
-
-jest.mock("@nebula.js/stardust");
 
 describe("useEffectiveProperties", () => {
   let model: Model;
@@ -11,9 +8,6 @@ describe("useEffectiveProperties", () => {
   let effectiveProperties: EngineAPI.IGenericObjectProperties;
 
   beforeEach(() => {
-    const usePromiseMock = (factory: () => Promise<unknown>) => [factory()] as unknown as [unknown, Error];
-    jest.spyOn(nebula, "usePromise").mockImplementation(usePromiseMock);
-
     effectiveProperties = {
       qShowTotalsAbove: true,
     } as unknown as EngineAPI.IGenericObjectProperties;
@@ -24,13 +18,16 @@ describe("useEffectiveProperties", () => {
     } as Model;
   });
 
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   test("should fetch and return effective properties", async () => {
     effectiveProperties = {} as EngineAPI.IGenericObjectProperties;
     const { result } = renderHook(() => useEffectiveProperties(model, layout));
 
-    await waitFor(async () => {
-      const [pendingProps] = result.current;
-      const props = await (pendingProps as unknown as Promise<EngineAPI.IGenericObjectProperties>);
+    await waitFor(() => {
+      const [props] = result.current;
 
       expect(props).toBe(effectiveProperties);
     });
@@ -41,11 +38,10 @@ describe("useEffectiveProperties", () => {
     layout.snapshotData = {} as SnapshotData;
     const { result } = renderHook(() => useEffectiveProperties(model, layout));
 
-    await waitFor(async () => {
-      const [pendingProps] = result.current;
-      const props = await (pendingProps as unknown as Promise<EngineAPI.IGenericObjectProperties>);
+    await waitFor(() => {
+      const [props] = result.current;
 
-      expect(props).toEqual({});
+      expect(props).toEqual(undefined);
     });
   });
 
@@ -54,11 +50,10 @@ describe("useEffectiveProperties", () => {
     layout.snapshotData = {} as SnapshotData;
     const { result } = renderHook(() => useEffectiveProperties(undefined, layout));
 
-    await waitFor(async () => {
-      const [pendingProps] = result.current;
-      const props = await (pendingProps as unknown as Promise<EngineAPI.IGenericObjectProperties>);
+    await waitFor(() => {
+      const [props] = result.current;
 
-      expect(props).toEqual({});
+      expect(props).toEqual(undefined);
     });
   });
 
@@ -68,11 +63,10 @@ describe("useEffectiveProperties", () => {
     model = {} as EngineAPI.IGenericBookmark;
     const { result } = renderHook(() => useEffectiveProperties(model, layout));
 
-    await waitFor(async () => {
-      const [pendingProps] = result.current;
-      const props = await (pendingProps as unknown as Promise<EngineAPI.IGenericObjectProperties>);
+    await waitFor(() => {
+      const [props] = result.current;
 
-      expect(props).toEqual({});
+      expect(props).toEqual(undefined);
     });
   });
 });
