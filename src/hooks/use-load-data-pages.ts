@@ -61,7 +61,7 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props
       };
       return (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [fetchArea]);
     }
-    return qHyperCube.qPivotDataPages;
+    return qHyperCube.qPivotDataPages ?? [];
   }, [layout, isSnapshot, model, viewService, pageInfo.currentPage, pageInfo.rowsPerPage]); // By explicitly using layout, isSnapshot, pageInfo.currentPage and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
 };
 export default useLoadDataPages;
