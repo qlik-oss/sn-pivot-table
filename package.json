@@ -38,6 +38,7 @@
     "sense": "nebula sense",
     "spec": "npx @scriptappy/cli from-jsdoc -c ./scriptappy.config.js",
     "start": "nebula serve  --type sn-pivot-table",
+    "start:fixture": "nebula serve --entry . --type sn-pivot-table --open false --build false --fixturePath test/rendering/__fixtures__",
     "start:mfe": "nebula serve --mfe  --type sn-pivot-table",
     "test:e2e": "yarn test:rendering",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",

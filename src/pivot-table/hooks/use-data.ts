@@ -110,12 +110,20 @@ const useData = (
     setNextPage(page);
   }, []);
 
+  const isTotalCellAt = useCallback(
+    (x: number, y: number) =>
+      topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotalCell ||
+      leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotalCell,
+    [topDimensionData, leftDimensionData]
+  );
+
   return {
     headersData,
     measureData,
     topDimensionData,
     leftDimensionData,
     nextPageHandler,
+    isTotalCellAt,
   };
 };
 

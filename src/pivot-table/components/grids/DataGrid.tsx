@@ -3,7 +3,14 @@ import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import { throttler } from "qlik-chart-modules";
 import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
 import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
-import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
+import type {
+  DataModel,
+  GridItemData,
+  IsTotalCellAt,
+  LayoutService,
+  MeasureData,
+  ViewService,
+} from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedDataCell from "../cells/DataCell";
 import { gridBorderStyle } from "../shared-styles";
@@ -19,6 +26,7 @@ interface DataGridProps {
   layoutService: LayoutService;
   measureData: MeasureData;
   showLastRowBorderBottom: boolean;
+  isTotalCellAt: IsTotalCellAt;
 }
 
 type FetchModeData = (
@@ -104,6 +112,7 @@ const DataGrid = ({
   layoutService,
   measureData,
   showLastRowBorderBottom,
+  isTotalCellAt,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -183,6 +192,7 @@ const DataGrid = ({
           grid: measureData,
           dataModel,
           showLastRowBorderBottom,
+          isTotalCellAt,
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}

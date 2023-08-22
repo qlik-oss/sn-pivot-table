@@ -18,6 +18,8 @@ export type HeaderTitle = {
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
 
+export type IsTotalCellAt = (x: number, y: number) => boolean;
+
 export type VisibleDimensionInfo = ExtendedDimensionInfo | -1;
 
 export interface Rect {
@@ -48,6 +50,7 @@ export interface GridItemData extends ItemData {
   grid: EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
   showLastRowBorderBottom: boolean;
+  isTotalCellAt: IsTotalCellAt;
 }
 
 export interface ListItemData extends ItemData {
@@ -69,6 +72,7 @@ export interface Cell {
   leafCount: number;
   distanceToNextCell: number;
   incrementLeafCount: () => void;
+  isTotalCell: boolean;
   isLockedByDimension: boolean;
 }
 
@@ -115,6 +119,7 @@ export interface Data {
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
   nextPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
+  isTotalCellAt: IsTotalCellAt;
 }
 
 export interface ExtendedSelections extends stardust.ObjectSelections {

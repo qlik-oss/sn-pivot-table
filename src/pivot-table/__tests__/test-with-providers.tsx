@@ -36,15 +36,15 @@ const TestWithProvider = (props: Props) => {
       content: {
         fontSize: "12px",
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-        color: "rgba(0, 0, 0, 0.55)",
-        background: "transparent",
+        color: "contentColor",
+        background: "contentBackground",
         nullValue: {
-          color: "#404040",
-          background: "rgba(0, 0, 0, 0.05)",
+          color: "contentNullColor",
+          background: "contentNullBackground",
         },
         totalValue: {
-          color: "#404040",
-          background: "transparent",
+          color: "totalValueColor",
+          background: "totalValueBackground",
         },
       },
       rowContent: {
