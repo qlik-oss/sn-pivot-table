@@ -50,7 +50,8 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props
     }
 
     if (
-      (model as EngineAPI.IGenericObject)?.getHyperCubePivotData &&
+      model !== undefined &&
+      "getHyperCubePivotData" in model &&
       (shouldFetchAdditionalData(qLastExpandedPos, viewService) || isMissingLayoutData(layout, pageInfo))
     ) {
       const fetchArea: EngineAPI.INxPage = {
@@ -59,10 +60,11 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props
         qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
         qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
       };
-      return (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [fetchArea]);
+      return model.getHyperCubePivotData(Q_PATH, [fetchArea]);
     }
 
     return qHyperCube.qPivotDataPages ?? [];
-  }, [layout, isSnapshot, model, viewService, pageInfo.currentPage, pageInfo.rowsPerPage]); // By explicitly using layout, isSnapshot, pageInfo.currentPage and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
+    // By explicitly using layout, isSnapshot, pageInfo.currentPage and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
+  }, [layout, isSnapshot, model, viewService, pageInfo.currentPage, pageInfo.rowsPerPage]);
 };
 export default useLoadDataPages;
