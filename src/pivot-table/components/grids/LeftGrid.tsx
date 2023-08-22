@@ -116,7 +116,7 @@ const LeftGrid = ({
         <VariableSizeList
           key={key}
           ref={setListRef(leftGridRef, colIndex)}
-          style={listStyle}
+          style={{ ...listStyle, flexGrow: isLastColumn ? 1 : 0 }}
           height={height}
           width={getLeftColumnWidth(colIndex)}
           itemCount={itemCount}
