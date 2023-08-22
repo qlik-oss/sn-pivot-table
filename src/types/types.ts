@@ -260,4 +260,4 @@ export type Align = "left" | "center" | "right";
 export type SortDirection = "A" | "D";
 
 export type ChangeSortOrder = (column: Column, sortOrder: SortDirection) => Promise<boolean>;
-export type ChangeActivelySortedColumn = (column: Omit<Column, "isActivelySorted">) => Promise<boolean>;
+export type ChangeActivelySortedHeader = (column: Omit<Column, "isActivelySorted">) => Promise<boolean>;

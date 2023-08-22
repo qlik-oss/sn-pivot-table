@@ -54,7 +54,7 @@ const useRender = () => {
     [styleService]
   );
   const isFontLoaded = useWaitForFonts(fonts);
-  const { changeSortOrder, changeActivelySortedColumn } = useSorting(model, layout.qHyperCube);
+  const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layout.qHyperCube);
 
   useEffect(() => {
     const isReadyToRender =
@@ -86,7 +86,7 @@ const useRender = () => {
       pageInfo,
       updatePageInfo,
       changeSortOrder,
-      changeActivelySortedColumn,
+      changeActivelySortedHeader,
     });
   }, [
     model,
@@ -107,7 +107,7 @@ const useRender = () => {
     pageInfo,
     updatePageInfo,
     changeSortOrder,
-    changeActivelySortedColumn,
+    changeActivelySortedHeader,
     effectiveProperties,
   ]);
 };

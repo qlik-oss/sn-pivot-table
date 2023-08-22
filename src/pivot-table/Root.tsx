@@ -3,7 +3,7 @@ import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import { type Root } from "react-dom/client";
 import type {
-  ChangeActivelySortedColumn,
+  ChangeActivelySortedHeader,
   ChangeSortOrder,
   ExtendedSelections,
   PageInfo,
@@ -20,7 +20,7 @@ export interface RootProps extends PivotTableProps {
   translator: stardust.Translator;
   updatePageInfo: (args: Partial<PageInfo>) => void;
   changeSortOrder: ChangeSortOrder;
-  changeActivelySortedColumn: ChangeActivelySortedColumn;
+  changeActivelySortedHeader: ChangeActivelySortedHeader;
 }
 
 const render = (reactRoot: Root, props: RootProps): void => {

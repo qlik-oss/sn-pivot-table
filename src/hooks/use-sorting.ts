@@ -1,9 +1,9 @@
 import type { HyperCube, Model } from "../types/QIX";
-import type { ChangeActivelySortedColumn, ChangeSortOrder, Column, SortDirection } from "../types/types";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, Column, SortDirection } from "../types/types";
 
 interface UseSortingApi {
   changeSortOrder: ChangeSortOrder;
-  changeActivelySortedColumn: ChangeActivelySortedColumn;
+  changeActivelySortedHeader: ChangeActivelySortedHeader;
 }
 
 interface UseSorting {
@@ -36,7 +36,7 @@ const useSorting: UseSorting = (model, qHyperCube) => {
       }
     },
 
-    changeActivelySortedColumn: async (column: Column) => {
+    changeActivelySortedHeader: async (column: Column) => {
       if (!model) throw new Error("No Model provided!");
 
       const { colIdx, qLibraryId, fieldId, sortDirection } = column;

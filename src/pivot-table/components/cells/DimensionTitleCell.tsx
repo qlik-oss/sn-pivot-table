@@ -5,7 +5,7 @@ import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/li
 import React, { useRef } from "react";
 import type {
   Align,
-  ChangeActivelySortedColumn,
+  ChangeActivelySortedHeader,
   ChangeSortOrder,
   Column,
   HeaderTitle,
@@ -20,7 +20,7 @@ interface LabelCellProps {
   isLastColumn: boolean;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
-  changeActivelySortedColumn: ChangeActivelySortedColumn;
+  changeActivelySortedHeader: ChangeActivelySortedHeader;
 }
 
 const baseFlex: React.CSSProperties = {
@@ -51,7 +51,7 @@ const DimensionTitleCell = ({
   isLastColumn,
   translator,
   changeSortOrder,
-  changeActivelySortedColumn,
+  changeActivelySortedHeader,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const { fontSize, fontFamily } = styleService.header;
@@ -115,7 +115,7 @@ const DimensionTitleCell = ({
             menuAvailabilityFlags={{
               [MenuAvailabilityFlags.SORTING]: true,
             }}
-            sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader: changeActivelySortedColumn }}
+            sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader }}
           />
           <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
         </>

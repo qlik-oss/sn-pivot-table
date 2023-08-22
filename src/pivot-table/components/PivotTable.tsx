@@ -3,7 +3,7 @@ import React, { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import type { Model } from "../../types/QIX";
 import type {
-  ChangeActivelySortedColumn,
+  ChangeActivelySortedHeader,
   ChangeSortOrder,
   LayoutService,
   PageInfo,
@@ -35,7 +35,7 @@ export interface PivotTableProps {
   pageInfo: PageInfo;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
-  changeActivelySortedColumn: ChangeActivelySortedColumn;
+  changeActivelySortedHeader: ChangeActivelySortedHeader;
 }
 
 export const StickyPivotTable = ({
@@ -48,7 +48,7 @@ export const StickyPivotTable = ({
   pageInfo,
   translator,
   changeSortOrder,
-  changeActivelySortedColumn,
+  changeActivelySortedHeader,
 }: PivotTableProps): JSX.Element => {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
@@ -170,7 +170,7 @@ export const StickyPivotTable = ({
             headersData={headersData}
             translator={translator}
             changeSortOrder={changeSortOrder}
-            changeActivelySortedColumn={changeActivelySortedColumn}
+            changeActivelySortedHeader={changeActivelySortedHeader}
           />
 
           <TopGrid
