@@ -53,6 +53,19 @@ describe("useColumnWidth", () => {
   });
 
   describe("grid width", () => {
+    test("should return left and right grid widths with bad data", () => {
+      rect.width = 350;
+      headerData.data[0][headerData.data[0].length - 1] = null;
+      headerData.data[1][headerData.data[1].length - 1] = null;
+      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
+      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(25);
+
+      const { result } = renderHook(() => useColumnWidth(layoutService, rect, headerData));
+      const expectedLeftGridWidth = (50 + EXPAND_ICON_WIDTH) * 2 + 50 + 50;
+      expect(result.current.leftGridWidth).toBe(expectedLeftGridWidth);
+      expect(result.current.rightGridWidth).toBe(rect.width - expectedLeftGridWidth - GRID_BORDER);
+    });
+
     test("should return left and right grid widths with only dimension cells and glyph size > then text size", () => {
       rect.width = 350;
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);

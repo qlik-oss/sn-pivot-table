@@ -48,28 +48,12 @@ export default function useColumnWidth(
   // const hasPseudoDimOnTop = useMemo(() => visibleTopDimensionInfo.includes(-1), [visibleTopDimensionInfo]);
 
   const leftColumnWidthsRatios = useMemo(() => {
-    // const ratios = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
-    //   if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {m
-    //     const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
-
-    //     return pseudoDimensionWidth / rect.width;
-    //   }
-
-    //   const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo;
-    //   const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
-    //   const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
-    //   const w = Math.max(
-    //     measureTextForHeader(qFallbackTitle),
-    //     estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize
-    //   );
-    //   return w / rect.width;
-    // });
-    const measureHeader = (_column: number, _row: number, header: Header | null): number => {
+    const measureHeader = (header: Header | null): number => {
       if (header === null) return 0;
       if (header.id === PSEUDO_DIMENSION_INDEX && header.type.startsWith("left")) {
         const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
 
-        return pseudoDimensionWidth / rect.width;
+        return pseudoDimensionWidth;
       }
 
       const { title, approximateMaxGlyphCount } = header;
@@ -84,66 +68,31 @@ export default function useColumnWidth(
         w = Math.max(w, ...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
       }
 
-      return w / rect.width;
+      return w;
     };
 
     const ratios: number[] = [];
     for (let column = 0; column < headersData.size.cols; column++) {
       let columnWidth = 0;
       for (let row = 0; row < headersData.size.rows; row++) {
-        columnWidth = Math.max(columnWidth, measureHeader(column, row, headersData.data[row][column]));
+        columnWidth = Math.max(columnWidth, measureHeader(headersData.data[row][column]));
       }
-      ratios.push(columnWidth);
+      ratios.push(columnWidth / rect.width);
     }
 
-    // const ratios = headersData.data.at(-1)?.map((lastRowHeader, index) => {
-    //   if (lastRowHeader === null) return 0;
-    //   if (lastRowHeader.id === PSEUDO_DIMENSION_INDEX) {
-    //     const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
-
-    //     return pseudoDimensionWidth / rect.width;
-    //   }
-
-    //   const { title, approximateMaxGlyphCount } = lastRowHeader;
-    //   const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
-    //   const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
-    //   const w = Math.max(
-    //     measureTextForHeader(title),
-    //     estimateWidthForContent(approximateMaxGlyphCount) + collapseExpandIconSize
-    //   );
-    //   return w / rect.width;
-    // });
-
-    // Add one extra column for top headers if the pseudo dimension is in any position in the left dimension except for last
-    // if (visibleLeftDimensionInfo.length === 0) {
-    //   const topHeadersWidth = visibleTopDimensionInfo.reduce((previousWidth, qDimensionInfo) => {
-    //     if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
-    //       return previousWidth;
-    //     }
-    //     const { qFallbackTitle } = qDimensionInfo;
-    //     const w = Math.max(measureTextForHeader(qFallbackTitle), previousWidth);
-    //     return w / rect.width;
-    //   }, 0);
-
-    //   // try to squeeze the top headers as close as possible to the last left header
-    //   if (visibleLeftDimensionInfo.length > 0 && visibleLeftDimensionInfo.at(-1) === PSEUDO_DIMENSION_INDEX) {
-    //     const lastLeftDimensionInfo = visibleLeftDimensionInfo.at(-1) as VisibleDimensionInfo;
-    //     let lastLeftDimensionHeaderWidth = 0;
-    //     if (lastLeftDimensionInfo === PSEUDO_DIMENSION_INDEX) {
-    //       lastLeftDimensionHeaderWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
-    //     } else {
-    //       const { qFallbackTitle } = lastLeftDimensionInfo;
-    //       lastLeftDimensionHeaderWidth = measureTextForHeader(qFallbackTitle) / rect.width;
-    //     }
-
-    //     const buffer = Math.max(ratios[ratios.length - 1] - topHeadersWidth - lastLeftDimensionHeaderWidth, 0);
-    //     ratios[ratios.length - 1] = lastLeftDimensionHeaderWidth + buffer;
-    //   }
-
-    //   ratios.push(topHeadersWidth);
-    // }
-
-    if (ratios === undefined) return [];
+    // If the bottom last cell is of type top_last and that column doesn't contain measures that column can
+    // be squeezed into the previous one
+    const lastCell = headersData.data.at(-1)?.at(-1);
+    const lastLeftCell = headersData.data.at(-1)?.at(-2);
+    if (lastLeftCell && lastCell && lastCell.type === "top_last" && !lastCell.includeMeasures) {
+      const lastLeftHeaderWidth = measureTextForHeader(lastLeftCell.title) / rect.width;
+      const topHeadersWidth =
+        headersData.data.reduce(
+          (max, row) => Math.max(max, measureTextForHeader(row[row.length - 1] ? row[row.length - 1]!.title : "")),
+          0
+        ) / rect.width;
+      ratios[ratios.length - 2] -= Math.max(lastLeftHeaderWidth - topHeadersWidth, 0);
+    }
 
     const sumOfRatios = ratios.reduce((sum, r) => sum + r, 0);
     if (sumOfRatios < MAX_RATIO_OF_TOTAL_WIDTH) return ratios;
