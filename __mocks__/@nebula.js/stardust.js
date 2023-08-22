@@ -1,14 +1,32 @@
 const { useState, useMemo, useEffect } = require("react");
 
-const usePromise = (callback) => {
-  const [result, setResult] = useState();
-  const [error, setError] = useState();
+const usePromise = (callback, deps) => {
+  const [state, setState] = useState(() => ({
+    resolved: undefined,
+    rejected: undefined,
+    state: "pending",
+  }));
 
-  callback()
-    .then((response) => setResult(response))
-    .catch((e) => setError(e));
+  useEffect(() => {
+    callback()
+      .then((response) => {
+        setState({
+          resolved: response,
+          rejected: undefined,
+          state: "resolved",
+        });
+      })
+      .catch((e) => {
+        setState({
+          resolved: undefined,
+          rejected: e,
+          state: "resolved",
+        });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deps]);
 
-  return [result, error];
+  return [state.resolved, state.rejected];
 };
 
 const mockedStardust = {

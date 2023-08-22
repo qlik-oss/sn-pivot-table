@@ -1,19 +1,19 @@
-import { usePromise } from "@nebula.js/stardust";
+import { useMemo, usePromise } from "@nebula.js/stardust";
 
 export default function useFetch<T>(
   fetch: () => Promise<T>,
   deps: unknown[]
 ): [result: T | undefined, isLoading: boolean, error: Error | undefined] {
-  const [response, error] = usePromise(async () => {
-    const result = await fetch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const ref = useMemo<{ isLoading: boolean }>(() => ({ isLoading: true }), deps);
 
-    return {
-      result,
-      deps,
-    };
+  const [response, error] = usePromise(async () => {
+    try {
+      return await fetch();
+    } finally {
+      ref.isLoading = false;
+    }
   }, deps);
 
-  const isLoading = response === undefined || response.deps.some((dep, idx) => dep !== deps[idx]);
-
-  return [response?.result, isLoading, error];
+  return [response, ref.isLoading, error];
 }
