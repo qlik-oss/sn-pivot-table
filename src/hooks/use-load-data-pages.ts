@@ -46,7 +46,7 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props
     const { qLastExpandedPos } = qHyperCube;
 
     if (isSnapshot) {
-      return layout.snapshotData?.content?.qPivotDataPages || [];
+      return layout.snapshotData?.content?.qPivotDataPages ?? [];
     }
 
     if (

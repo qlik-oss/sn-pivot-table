@@ -66,7 +66,6 @@ const useRender = () => {
       layoutService &&
       styleService &&
       !!qPivotDataPages &&
-      effectiveProperties &&
       !isLoadingEffectiveProperties &&
       isFontLoaded;
 
