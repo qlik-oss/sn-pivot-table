@@ -18,8 +18,6 @@ export type HeaderTitle = {
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
 
-export type IsTotalCellAt = (x: number, y: number, root?: boolean) => boolean;
-
 export type VisibleDimensionInfo = ExtendedDimensionInfo | -1;
 
 export interface Rect {
@@ -50,7 +48,7 @@ export interface GridItemData extends ItemData {
   grid: EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
   showLastRowBorderBottom: boolean;
-  isTotalCellAt: (x: number, y: number) => boolean;
+  isTotalValue: (x: number, y: number) => boolean;
   shouldShowTotalCellBottomDivider: (y: number) => boolean;
   shouldShowTotalCellRightDivider: (x: number) => boolean;
 }

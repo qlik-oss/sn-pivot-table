@@ -14,7 +14,7 @@ import type {
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
-  useIsTotalCellAt,
+  useIsTotalValue,
   useShouldShowTotalCellBottomDivider,
   useShouldShowTotalCellRightDivider,
 } from "../../hooks/use-is-total-cell";
@@ -137,7 +137,7 @@ const DataGrid = ({
 
   const shouldShowTotalCellRightDivider = useShouldShowTotalCellRightDivider(topDimensionData);
 
-  const isTotalCellAt = useIsTotalCellAt(leftDimensionData, topDimensionData);
+  const isTotalValue = useIsTotalValue(leftDimensionData, topDimensionData);
 
   useOnPropsChange(() => {
     if (dataGridRef.current) {
@@ -206,7 +206,7 @@ const DataGrid = ({
           grid: measureData,
           dataModel,
           showLastRowBorderBottom,
-          isTotalCellAt,
+          isTotalValue,
           shouldShowTotalCellBottomDivider,
           shouldShowTotalCellRightDivider,
         } as GridItemData

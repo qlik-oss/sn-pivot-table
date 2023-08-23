@@ -25,7 +25,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
     showLastRowBorderBottom,
     shouldShowTotalCellBottomDivider,
     shouldShowTotalCellRightDivider,
-    isTotalCellAt,
+    isTotalValue,
   } = data;
   const cell = grid[rowIndex]?.[columnIndex];
   const isLastRow = rowIndex === layoutService.size.y - 1;
@@ -47,11 +47,11 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
 
   const { qText, qType } = cell;
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
-  const isTotalCell = !isNull && isTotalCellAt(columnIndex, rowIndex);
+  const isTotalValueCell = !isNull && isTotalValue(columnIndex, rowIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
   const isNumeric = isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
-    ...getCellStyle(styleService, isNull, isTotalCell),
+    ...getCellStyle(styleService, isNull, isTotalValueCell),
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
     ...getTotalCellDividerStyle({
       bottomDivider: shouldShowTotalCellBottomDivider(rowIndex),

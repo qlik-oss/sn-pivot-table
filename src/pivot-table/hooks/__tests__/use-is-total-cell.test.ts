@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import type { Cell, LeftDimensionData, TopDimensionData } from "../../../types/types";
 import {
   shouldShowTotalCellDivider,
-  useIsTotalCellAt,
+  useIsTotalValue,
   useShouldShowTotalCellBottomDivider,
   useShouldShowTotalCellRightDivider,
 } from "../use-is-total-cell";
@@ -102,27 +102,27 @@ describe("useIsTotalCell", () => {
 
     test("should resolve cell at coordinate when cell is total cell in left dimension data", () => {
       topDimensionData.grid[0][0] = { isTotalCell: false } as Cell;
-      const callback = renderHook(() => useIsTotalCellAt(leftDimensionData, topDimensionData)).result.current;
+      const callback = renderHook(() => useIsTotalValue(leftDimensionData, topDimensionData)).result.current;
 
       expect(callback(0, 0)).toBe(true);
     });
 
     test("should resolve cell at coordinate when cell is total cell in top dimension data", () => {
       leftDimensionData.grid[0][0] = { isTotalCell: false } as Cell;
-      const callback = renderHook(() => useIsTotalCellAt(leftDimensionData, topDimensionData)).result.current;
+      const callback = renderHook(() => useIsTotalValue(leftDimensionData, topDimensionData)).result.current;
 
       expect(callback(0, 0)).toBe(true);
     });
 
     test("should resolve cell at coordinate when cell is not total cell", () => {
       cell.isTotalCell = false;
-      const callback = renderHook(() => useIsTotalCellAt(leftDimensionData, topDimensionData)).result.current;
+      const callback = renderHook(() => useIsTotalValue(leftDimensionData, topDimensionData)).result.current;
 
       expect(callback(0, 0)).toBe(false);
     });
 
     test("should handle when no cell is at cooridnate", () => {
-      const callback = renderHook(() => useIsTotalCellAt(leftDimensionData, topDimensionData)).result.current;
+      const callback = renderHook(() => useIsTotalValue(leftDimensionData, topDimensionData)).result.current;
 
       expect(callback(999, 909)).toBe(false);
     });

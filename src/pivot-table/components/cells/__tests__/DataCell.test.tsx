@@ -37,7 +37,7 @@ describe("DataCell", () => {
       showLastRowBorderBottom: false,
       shouldShowTotalCellBottomDivider: () => false,
       shouldShowTotalCellRightDivider: () => false,
-      isTotalCellAt: () => false,
+      isTotalValue: () => false,
     } as GridItemData;
 
     renderDataCell = () =>
@@ -60,7 +60,7 @@ describe("DataCell", () => {
   });
 
   test("should render cell with total styling", () => {
-    data.isTotalCellAt = () => true;
+    data.isTotalValue = () => true;
     renderDataCell();
 
     expect(screen.getByText(cell.qText)).toBeInTheDocument();
