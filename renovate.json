@@ -11,12 +11,7 @@
       "enabled": false
     },
     {
-      "matchPackageNames": [
-        "@qlik/eslint-config",
-        "@qlik/eslint-config-react",
-        "@qlik/prettier-config",
-        "@qlik/tsconfig"
-      ],
+      "matchPackageNames": ["@qlik/prettier-config", "@qlik/tsconfig"],
       "enabled": false
     }
   ]
