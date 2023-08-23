@@ -11,7 +11,12 @@
       "enabled": false
     },
     {
-      "matchPackageNames": ["@qlik/prettier-config", "@qlik/tsconfig"],
+      "matchPackageNames": [
+        "@qlik/prettier-config",
+        "@qlik/tsconfig",
+        "@qlik-oss/nebula-table-utils",
+        "@qlik-trial/sprout"
+      ],
       "enabled": false
     }
   ]
