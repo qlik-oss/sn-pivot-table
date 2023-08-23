@@ -28,7 +28,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
    */
   const cell = isLast ? list[index] : Object.values(list)[index];
 
-  if (cell === undefined || cell.isEmptyCell) {
+  if (cell === undefined || cell.isEmpty) {
     const background = isLeftColumn ? styleService.rowContent.background : styleService.columnContent.background;
 
     return (
@@ -44,7 +44,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     );
   }
 
-  if (cell.isPseudoDimensionCell) {
+  if (cell.isPseudoDimension) {
     return (
       <PseudoDimensionCell
         cell={cell}
@@ -57,7 +57,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     );
   }
 
-  if (cell.isTotalCell) {
+  if (cell.isTotal) {
     return (
       <TotalsCell
         cell={cell}

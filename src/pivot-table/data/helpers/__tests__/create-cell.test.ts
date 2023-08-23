@@ -106,51 +106,51 @@ describe("createCell", () => {
     node.qType = NxDimCellType.NX_DIM_CELL_TOTAL;
     cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
 
-    expect(cell.isTotalCell).toBe(true);
-    expect(cell.isEmptyCell).toBe(false);
-    expect(cell.isNullCell).toBe(false);
-    expect(cell.isPseudoDimensionCell).toBe(false);
+    expect(cell.isTotal).toBe(true);
+    expect(cell.isEmpty).toBe(false);
+    expect(cell.isNull).toBe(false);
+    expect(cell.isPseudoDimension).toBe(false);
   });
 
   test("should fallback to resolving isTotalCell from parent cell", () => {
     node.qType = NxDimCellType.NX_DIM_CELL_PSEUDO;
-    parentCell.isTotalCell = true;
+    parentCell.isTotal = true;
     cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
 
-    expect(cell.isTotalCell).toBe(true);
-    expect(cell.isEmptyCell).toBe(false);
-    expect(cell.isNullCell).toBe(false);
-    expect(cell.isPseudoDimensionCell).toBe(true);
+    expect(cell.isTotal).toBe(true);
+    expect(cell.isEmpty).toBe(false);
+    expect(cell.isNull).toBe(false);
+    expect(cell.isPseudoDimension).toBe(true);
   });
 
   test("should resolve if isEmptyCell from qType", () => {
     node.qType = NxDimCellType.NX_DIM_CELL_EMPTY;
     cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
 
-    expect(cell.isTotalCell).toBe(false);
-    expect(cell.isEmptyCell).toBe(true);
-    expect(cell.isNullCell).toBe(false);
-    expect(cell.isPseudoDimensionCell).toBe(false);
+    expect(cell.isTotal).toBe(false);
+    expect(cell.isEmpty).toBe(true);
+    expect(cell.isNull).toBe(false);
+    expect(cell.isPseudoDimension).toBe(false);
   });
 
   test("should resolve if isNullCell from qType", () => {
     node.qType = NxDimCellType.NX_DIM_CELL_NULL;
     cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
 
-    expect(cell.isTotalCell).toBe(false);
-    expect(cell.isEmptyCell).toBe(false);
-    expect(cell.isNullCell).toBe(true);
-    expect(cell.isPseudoDimensionCell).toBe(false);
+    expect(cell.isTotal).toBe(false);
+    expect(cell.isEmpty).toBe(false);
+    expect(cell.isNull).toBe(true);
+    expect(cell.isPseudoDimension).toBe(false);
   });
 
   test("should resolve if isPseudoDimensionCell from qType", () => {
     node.qType = NxDimCellType.NX_DIM_CELL_PSEUDO;
     cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
 
-    expect(cell.isTotalCell).toBe(false);
-    expect(cell.isEmptyCell).toBe(false);
-    expect(cell.isNullCell).toBe(false);
-    expect(cell.isPseudoDimensionCell).toBe(true);
+    expect(cell.isTotal).toBe(false);
+    expect(cell.isEmpty).toBe(false);
+    expect(cell.isNull).toBe(false);
+    expect(cell.isPseudoDimension).toBe(true);
   });
 
   describe("isLastChild", () => {

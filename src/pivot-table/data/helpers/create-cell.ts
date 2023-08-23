@@ -36,12 +36,12 @@ const createCell = (
         parent.incrementLeafCount();
       }
     },
-    // Having "parent.isTotalCell" means that it enough that any ancestors is a total cell,
+    // Having "parent.isTotal" means that it's enough that any ancestors is a total cell,
     // which is needed for the Total cell highlight use case.
-    isTotalCell: node.qType === NxDimCellType.NX_DIM_CELL_TOTAL || !!parent?.isTotalCell,
-    isEmptyCell: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
-    isNullCell: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
-    isPseudoDimensionCell: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
+    isTotal: node.qType === NxDimCellType.NX_DIM_CELL_TOTAL || !!parent?.isTotal,
+    isEmpty: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
+    isNull: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
+    isPseudoDimension: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
     // A getter because child nodes are added as cells are being created. It has to be resolved when it's called.
     get isLastChild(): boolean {
       // Root is considedered last child for the total cell divider use case

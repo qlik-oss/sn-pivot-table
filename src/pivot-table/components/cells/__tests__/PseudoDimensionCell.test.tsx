@@ -6,7 +6,7 @@ import PseudoDimensionCell, { testId } from "../PseudoDimensionCell";
 jest.mock("../../../contexts/StyleProvider");
 
 test("should render on the top", () => {
-  const cell = { ref: { qText: "test" }, root: null, isPseudoDimensionCell: true } as Cell;
+  const cell = { ref: { qText: "test" }, root: null, isPseudoDimension: true } as Cell;
   const style: React.CSSProperties = {
     position: "absolute",
     left: "25px",
@@ -34,7 +34,7 @@ test("should render on the top", () => {
 });
 
 test("should render on the left", () => {
-  const cell = { ref: { qText: "test" }, root: null, isPseudoDimensionCell: true } as Cell;
+  const cell = { ref: { qText: "test" }, root: null, isPseudoDimension: true } as Cell;
   const style: React.CSSProperties = {
     position: "absolute",
     left: "25px",

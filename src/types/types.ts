@@ -73,10 +73,10 @@ export interface Cell {
   leafCount: number;
   distanceToNextCell: number;
   incrementLeafCount: () => void;
-  isTotalCell: boolean;
-  isEmptyCell: boolean;
-  isNullCell: boolean;
-  isPseudoDimensionCell: boolean;
+  isTotal: boolean;
+  isEmpty: boolean;
+  isNull: boolean;
+  isPseudoDimension: boolean;
   isLockedByDimension: boolean;
   isLastChild: boolean;
 }

@@ -73,7 +73,7 @@ describe("ListCellFactory", () => {
     const index = 0;
     const mockPseudoDimensionCell = PseudoDimensionCell as jest.MockedFunction<typeof PseudoDimensionCell>;
     mockPseudoDimensionCell.mockReturnValue(<div />);
-    cell = { ref: { qText }, isPseudoDimensionCell: true } as Cell;
+    cell = { ref: { qText }, isPseudoDimension: true } as Cell;
     data.list[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
@@ -88,7 +88,7 @@ describe("ListCellFactory", () => {
     const index = 0;
     const mockedTotalsCell = TotalsCell as jest.MockedFunction<typeof TotalsCell>;
     mockedTotalsCell.mockReturnValue(<div />);
-    cell = { ref: { qText }, isTotalCell: true } as Cell;
+    cell = { ref: { qText }, isTotal: true } as Cell;
     data.list[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
@@ -103,7 +103,7 @@ describe("ListCellFactory", () => {
     const index = 0;
     const mockEmptyCell = EmptyCell as jest.MockedFunction<typeof EmptyCell>;
     mockEmptyCell.mockReturnValue(<div />);
-    cell = { ref: { qText }, isEmptyCell: true } as Cell;
+    cell = { ref: { qText }, isEmpty: true } as Cell;
     data.list[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);

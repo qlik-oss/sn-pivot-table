@@ -99,7 +99,7 @@ const DimensionCell = ({
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
   const isCellLocked = isLocked(selectionCellType, cell.y, colIndex) || cell.isLockedByDimension;
-  const isNonSelectableCell = isCellLocked || cell.isEmptyCell || constraints.active || cell.isNullCell;
+  const isNonSelectableCell = isCellLocked || cell.isEmpty || constraints.active || cell.isNull;
   const isCellSelected = isSelected(selectionCellType, cell.y, colIndex);
   const resolvedTextStyle = getTextStyle({
     isLeftColumn,
@@ -107,13 +107,13 @@ const DimensionCell = ({
     qCanExpand,
     qCanCollapse,
     isCellSelected,
-    isNull: cell.isNullCell,
+    isNull: cell.isNull,
   });
   const resolvedInnerContainerStyle = getInnerContainerStyle(isLeftColumn);
   const resolvedContainerStyle = getContainerStyle({
     style,
     isCellLocked,
-    isNull: cell.isNullCell,
+    isNull: cell.isNull,
     isLastColumn,
     isLastRow,
     isNonSelectableCell,
@@ -123,14 +123,14 @@ const DimensionCell = ({
     showLastRowBorderBottom,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);
-  const text = cell.isNullCell ? layoutService.getNullValueText() : qText;
+  const text = cell.isNull ? layoutService.getNullValueText() : qText;
   const serviceStyle = isLeftColumn ? styleService.rowContent : styleService.columnContent;
   let cellIcon = null;
 
   if (qCanExpand) {
     cellIcon = (
       <PlusIcon
-        color={cell.isNullCell ? serviceStyle.nullValue.color : serviceStyle.color}
+        color={cell.isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdExpandIcon}
         onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, constraints, isActive })}
@@ -139,7 +139,7 @@ const DimensionCell = ({
   } else if (qCanCollapse) {
     cellIcon = (
       <MinusIcon
-        color={cell.isNullCell ? serviceStyle.nullValue.color : serviceStyle.color}
+        color={cell.isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdCollapseIcon}
         onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, constraints, isActive })}

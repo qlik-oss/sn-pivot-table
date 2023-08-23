@@ -9,15 +9,15 @@ export const shouldShowTotalCellDivider = (cell?: Cell) => {
   const rootCell = cell.root;
 
   if (rootCell === null) {
-    return cell.isTotalCell;
+    return cell.isTotal;
   }
 
   // Special case when the pseudo dimension is the first cell in a column or row
-  if (rootCell.isPseudoDimensionCell) {
+  if (rootCell.isPseudoDimension) {
     return false;
   }
 
-  return rootCell.isTotalCell && cell.isLastChild;
+  return rootCell.isTotal && cell.isLastChild;
 };
 
 export const useShouldShowTotalCellBottomDivider = (leftDimensionData: LeftDimensionData) =>
@@ -46,8 +46,8 @@ export const useIsTotalValue = (leftDimensionData: LeftDimensionData, topDimensi
   useCallback(
     (x: number, y: number) =>
       !!(
-        topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotalCell ||
-        leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotalCell
+        topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotal ||
+        leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotal
       ),
     [topDimensionData, leftDimensionData]
   );

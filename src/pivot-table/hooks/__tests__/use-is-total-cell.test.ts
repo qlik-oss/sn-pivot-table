@@ -14,7 +14,7 @@ describe("useIsTotalCell", () => {
   let topDimensionData: TopDimensionData;
 
   beforeEach(() => {
-    rootCell = { root: null, isTotalCell: true, isPseudoDimensionCell: false } as Cell;
+    rootCell = { root: null, isTotal: true, isPseudoDimension: false } as Cell;
     cell = { root: rootCell, isLastChild: true } as Cell;
 
     leftDimensionData = { grid: [[cell]] } as unknown as LeftDimensionData;
@@ -35,8 +35,8 @@ describe("useIsTotalCell", () => {
     });
 
     test("should return false if root cell is pseudo dimension cell", () => {
-      cell.isTotalCell = true;
-      rootCell.isPseudoDimensionCell = true;
+      cell.isTotal = true;
+      rootCell.isPseudoDimension = true;
       const show = shouldShowTotalCellDivider(cell);
 
       expect(show).toBe(false);
@@ -44,7 +44,7 @@ describe("useIsTotalCell", () => {
 
     test("should return true if root cell is total cell and cell is last child", () => {
       cell.isLastChild = true;
-      rootCell.isTotalCell = true;
+      rootCell.isTotal = true;
       const show = shouldShowTotalCellDivider(cell);
 
       expect(show).toBe(true);
@@ -52,7 +52,7 @@ describe("useIsTotalCell", () => {
 
     test("should return false if root cell is not total cell and cell is last child", () => {
       cell.isLastChild = true;
-      rootCell.isTotalCell = false;
+      rootCell.isTotal = false;
       const show = shouldShowTotalCellDivider(cell);
 
       expect(show).toBe(false);
@@ -60,7 +60,7 @@ describe("useIsTotalCell", () => {
 
     test("should return false if root cell is total cell and cell is not last child", () => {
       cell.isLastChild = false;
-      rootCell.isTotalCell = true;
+      rootCell.isTotal = true;
       const show = shouldShowTotalCellDivider(cell);
 
       expect(show).toBe(false);
@@ -95,27 +95,27 @@ describe("useIsTotalCell", () => {
     });
   });
 
-  describe("useIsTotalCellAt", () => {
+  describe("useIsTotalValue", () => {
     beforeEach(() => {
-      cell.isTotalCell = true;
+      cell.isTotal = true;
     });
 
     test("should resolve cell at coordinate when cell is total cell in left dimension data", () => {
-      topDimensionData.grid[0][0] = { isTotalCell: false } as Cell;
+      topDimensionData.grid[0][0] = { isTotal: false } as Cell;
       const callback = renderHook(() => useIsTotalValue(leftDimensionData, topDimensionData)).result.current;
 
       expect(callback(0, 0)).toBe(true);
     });
 
     test("should resolve cell at coordinate when cell is total cell in top dimension data", () => {
-      leftDimensionData.grid[0][0] = { isTotalCell: false } as Cell;
+      leftDimensionData.grid[0][0] = { isTotal: false } as Cell;
       const callback = renderHook(() => useIsTotalValue(leftDimensionData, topDimensionData)).result.current;
 
       expect(callback(0, 0)).toBe(true);
     });
 
     test("should resolve cell at coordinate when cell is not total cell", () => {
-      cell.isTotalCell = false;
+      cell.isTotal = false;
       const callback = renderHook(() => useIsTotalValue(leftDimensionData, topDimensionData)).result.current;
 
       expect(callback(0, 0)).toBe(false);
