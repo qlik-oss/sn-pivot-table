@@ -1,14 +1,13 @@
-/*  eslint-disable no-param-reassign */
-import { useMemo, usePromise, useState } from "@nebula.js/stardust";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../constants";
-import type { Model } from "../types/QIX";
+import type { Model, PivotLayout } from "../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../types/types";
+import useFetch from "./use-fetch";
 
-interface UseLoadDataPages {
-  (args: { model: Model; layoutService: LayoutService; viewService: ViewService; pageInfo: PageInfo }): {
-    isLoading: boolean;
-    qPivotDataPages: EngineAPI.INxPivotPage[];
-  };
+interface Props {
+  model: Model;
+  layoutService: LayoutService;
+  viewService: ViewService;
+  pageInfo: PageInfo;
 }
 
 export const shouldFetchAdditionalData = (
@@ -25,10 +24,10 @@ export const shouldFetchAdditionalData = (
   );
 };
 
-export const isMissingLayoutData = (layoutService: LayoutService, pageInfo: PageInfo): boolean => {
+export const isMissingLayoutData = (layout: PivotLayout, pageInfo: PageInfo): boolean => {
   const {
     qHyperCube: { qPivotDataPages, qSize },
-  } = layoutService.layout;
+  } = layout;
   const { qTop, qWidth, qHeight } = qPivotDataPages[0]?.qArea ?? { qTop: 0, qWidth: 0, qHeight: 0 };
 
   // in case of new page -> return true
@@ -37,45 +36,35 @@ export const isMissingLayoutData = (layoutService: LayoutService, pageInfo: Page
   return qWidth < Math.min(DEFAULT_PAGE_SIZE, qSize.qcx) || qHeight < Math.min(DEFAULT_PAGE_SIZE, qSize.qcy);
 };
 
-const useLoadDataPages: UseLoadDataPages = ({ model, layoutService, viewService, pageInfo }) => {
-  const { qHyperCube, snapshotData } = layoutService.layout;
-  const { qLastExpandedPos } = qHyperCube;
-  // Need to keep track of loading state to prevent double renders when a new layout is recieved, ex after expanding or collapesing.
-  // A double render would cause the scroll position to be lost
-  const ref = useMemo(() => ({ isLoading: true }), [layoutService, pageInfo]);
-  const [qPivotDataPages, setDataPages] = useState<EngineAPI.INxPivotPage[]>([]);
+const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props) => {
+  const { layout, isSnapshot } = layoutService;
 
-  usePromise(async () => {
-    if (layoutService.isSnapshot) {
-      setDataPages(layoutService.layout.snapshotData?.content?.qPivotDataPages || []);
-    } else if (
-      (model as EngineAPI.IGenericObject)?.getHyperCubePivotData &&
-      (shouldFetchAdditionalData(qLastExpandedPos, viewService) || isMissingLayoutData(layoutService, pageInfo))
-    ) {
-      try {
-        const fetchArea: EngineAPI.INxPage = {
-          qLeft: qLastExpandedPos ? viewService.gridColumnStartIndex : 0,
-          qTop: pageInfo.currentPage * pageInfo.rowsPerPage + (qLastExpandedPos ? viewService.gridRowStartIndex : 0),
-          qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
-          qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
-        };
-        const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [fetchArea]);
-        setDataPages(pivotPages);
-      } catch (error) {
-        // TODO handle error
-        console.error(error); // eslint-disable-line
-      }
-    } else if (qHyperCube.qPivotDataPages.length) {
-      setDataPages(qHyperCube.qPivotDataPages);
+  // Need to keep track of loading state to prevent double renders when a new layout is received, ex after expanding or collapsing.
+  // A double render would cause the scroll position to be lost
+  return useFetch<EngineAPI.INxPivotPage[]>(async () => {
+    const { qHyperCube } = layout;
+    const { qLastExpandedPos } = qHyperCube;
+
+    if (isSnapshot) {
+      return layout.snapshotData?.content?.qPivotDataPages ?? [];
     }
 
-    ref.isLoading = false;
-  }, [layoutService.layout, model, viewService, snapshotData, pageInfo]);
+    if (
+      model !== undefined &&
+      "getHyperCubePivotData" in model &&
+      (shouldFetchAdditionalData(qLastExpandedPos, viewService) || isMissingLayoutData(layout, pageInfo))
+    ) {
+      const fetchArea: EngineAPI.INxPage = {
+        qLeft: qLastExpandedPos ? viewService.gridColumnStartIndex : 0,
+        qTop: pageInfo.currentPage * pageInfo.rowsPerPage + (qLastExpandedPos ? viewService.gridRowStartIndex : 0),
+        qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
+        qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
+      };
+      return model.getHyperCubePivotData(Q_PATH, [fetchArea]);
+    }
 
-  return {
-    qPivotDataPages,
-    isLoading: ref.isLoading,
-  };
+    return qHyperCube.qPivotDataPages ?? [];
+    // By explicitly using layout, isSnapshot, pageInfo.currentPage and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
+  }, [layout, isSnapshot, model, viewService, pageInfo.currentPage, pageInfo.rowsPerPage]);
 };
-
 export default useLoadDataPages;

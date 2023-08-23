@@ -112,10 +112,10 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.18.20.tgz#786c5f41f043b07afb1af37683d7c33668858f6d"
   integrity sha512-kTdfRcSiDfQca/y9QIkng02avJ+NCaQvrMejlsB3RRv5sE9rRoeBPISaZpKxHELzRxZyLvNts1P27W3wV+8geQ==
 
-"@nebula.js/stardust@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-4.3.0.tgz#83164ca3f6d66e396576a34d50d1194cf72f8e17"
-  integrity sha512-K+DEFvxs0dRz5LL1iBCpeNo0F4srbyKQ0o9PFMbIF1wQOYOYDb8pEprIu2hp7S5zS6f1aZz+GA0n0mQDbpgIsA==
+"@nebula.js/stardust@4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-4.4.0.tgz#c9cbc2d7b54c632df96e8560123f5d5f99a96dcc"
+  integrity sha512-Rb0Le4nIi/JgPeTmTqqRfjzwdLOt8aJbzzgLdJgHcDXAxxdgzP27m3GrdHwBN/ll/v6+l6sgfp+FcLoTYmxtOw==
   dependencies:
     "@types/qlik-engineapi" "12.67.13"
 
