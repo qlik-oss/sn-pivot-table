@@ -22,6 +22,7 @@ interface GetContainerStyle {
   styleService: StyleService;
   isLeftColumn: boolean;
   showLastRowBorderBottom: boolean;
+  showTotalCellDivider: boolean;
 }
 
 export const selectedStyle: Pick<React.CSSProperties, "color" | "background"> = {
@@ -57,17 +58,19 @@ export const getContainerStyle = ({
   styleService,
   isLeftColumn,
   showLastRowBorderBottom,
+  showTotalCellDivider,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
   const resolvedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
   const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
   const { nullValue, background } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
   const resolvedNullStyle = isNull ? nullValue : { background };
+  const borderColor = showTotalCellDivider ? styleService.grid.divider : styleService.grid.border;
 
   return {
     ...style,
     ...resolvedSelectableCellStyle,
-    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
+    ...getBorderStyle(isLastRow, isLastColumn, borderColor, showLastRowBorderBottom),
     ...resolvedNullStyle,
     ...resolvedSelectedStyle,
     ...resolvedLockedSelectionStyle,

@@ -30,6 +30,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const cell = grid[rowIndex]?.[columnIndex];
   const isLastRow = rowIndex === layoutService.size.y - 1;
   const isLastColumn = columnIndex === layoutService.size.x - 1;
+  const { showTotalsAbove } = layoutService;
 
   if (!cell) {
     return (
@@ -54,8 +55,8 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
     ...getCellStyle(styleService, isNull, isTotalValueCell),
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
     ...getTotalCellDividerStyle({
-      bottomDivider: shouldShowTotalCellBottomDivider(rowIndex),
-      rightDivider: shouldShowTotalCellRightDivider(columnIndex),
+      bottomDivider: shouldShowTotalCellBottomDivider(showTotalsAbove ? rowIndex : rowIndex + 1),
+      rightDivider: shouldShowTotalCellRightDivider(showTotalsAbove ? columnIndex : columnIndex + 1),
       borderColor: styleService.grid.divider,
     }),
     display: "flex",

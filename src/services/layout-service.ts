@@ -31,7 +31,8 @@ const createLayoutService = (
     isSnapshot,
     hasLimitedData: !isSnapshot && size.x < layout.qHyperCube.qSize.qcx,
     hasLeftDimensions: layout.qHyperCube.qNoOfLeftDims !== 0,
-    // qShowTotalsAbove is not available on the layout, so it's read from effective properties instead
+    // qShowTotalsAbove is not available on the layout, so it's read from effective properties instead.
+    // If not avaible in the effective properties, assume that it's set to false.
     showTotalsAbove: !!effectiveProperties?.qHyperCubeDef?.qShowTotalsAbove,
   };
 };

@@ -69,6 +69,7 @@ describe("DimensionCell", () => {
 
     layoutService = {
       isDimensionLocked: jest.fn().mockReturnValue(false),
+      showTotalsAbove: true,
     } as unknown as LayoutService;
 
     expandLeftSpy = jest.spyOn(dataModel, "expandLeft");
@@ -81,10 +82,14 @@ describe("DimensionCell", () => {
       dataModel,
       constraints,
       showLastRowBorderBottom: false,
+      list: {},
     } as ListItemData;
 
     cell = {
       y: 0,
+      x: 0,
+      pageY: 0,
+      pageX: 0,
       ref: {
         qText,
         qCanExpand: false,
@@ -109,7 +114,11 @@ describe("DimensionCell", () => {
     );
 
     expect(screen.getByText(qText)).toBeInTheDocument();
-    expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);
+    // Verify "border-right-color" to ensure that the total cell divider is not visible
+    expect(screen.getByTestId(testId)).toHaveStyle({ ...style, "border-right-color": "rgba(0, 0, 0, 0.15)" } as Record<
+      string,
+      unknown
+    >);
   });
 
   test("should not render expand or collapse icon if cell is not expandable or collapseable", () => {
@@ -131,6 +140,33 @@ describe("DimensionCell", () => {
 
     expect(screen.queryByTestId(testIdExpandIcon)).toBeNull();
     expect(screen.queryByTestId(testIdCollapseIcon)).toBeNull();
+  });
+
+  test("should render with total divider when next sibling is total cell and totals is shown below", () => {
+    layoutService.showTotalsAbove = false;
+    cell.ref.qCanExpand = false;
+    cell.ref.qCanCollapse = false;
+    const rootCell = { isTotal: true } as Cell;
+    const nextSibling = { root: rootCell, isLastChild: true } as unknown as Cell;
+    data.list[1] = nextSibling;
+
+    render(
+      <DimensionCell
+        cell={cell}
+        data={data}
+        rowIndex={0}
+        colIndex={0}
+        style={style}
+        isLeftColumn={false}
+        isLastRow={false}
+        isLastColumn={false}
+      />
+    );
+
+    expect(screen.getByTestId(testId)).toHaveStyle({ "border-right-color": "rgba(0, 0, 0, 0.6)" } as Record<
+      string,
+      unknown
+    >);
   });
 
   describe("left column interactions", () => {

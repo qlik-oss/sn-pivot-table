@@ -4,6 +4,7 @@ import { NxSelectionCellType } from "../../../types/QIX";
 import type { Cell, DataModel, ListItemData } from "../../../types/types";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { shouldShowTotalCellDivider } from "../../hooks/use-is-total-cell";
 import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
 import { getContainerStyle, getInnerContainerStyle, getTextStyle } from "./utils/get-dimension-cell-style";
@@ -94,7 +95,9 @@ const DimensionCell = ({
     dataModel,
     layoutService,
     showLastRowBorderBottom,
+    list,
   } = data;
+  const nextSibling = isLeftColumn ? list[cell.pageY + 1] : list[cell.pageX + 1];
   const styleService = useStyleContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
@@ -121,6 +124,7 @@ const DimensionCell = ({
     styleService,
     isLeftColumn,
     showLastRowBorderBottom,
+    showTotalCellDivider: !layoutService.showTotalsAbove && shouldShowTotalCellDivider(nextSibling),
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);
   const text = cell.isNull ? layoutService.getNullValueText() : qText;
