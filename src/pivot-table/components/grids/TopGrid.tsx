@@ -4,6 +4,7 @@ import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import EmptyCell from "../cells/EmptyCell";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
 import { getColumnWidthHandler } from "../helpers/get-item-size-handler";
@@ -125,6 +126,7 @@ const TopGrid = ({
           </VariableSizeList>
         );
       })}
+      <EmptyCell style={listStyle} index={0} isLastColumn isLastRow showLastRowBorderBottom />
     </div>
   );
 };
