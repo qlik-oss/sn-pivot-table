@@ -4,7 +4,7 @@ const createNewGrid = (
   qArea: EngineAPI.IRect,
   prevData: EngineAPI.INxPivotValuePoint[][],
   nextData: EngineAPI.INxPivotValuePoint[][],
-  pageInfo: PageInfo
+  pageInfo: PageInfo,
 ) => {
   const data = [...prevData];
   nextData.forEach((row, rowIndex) => {

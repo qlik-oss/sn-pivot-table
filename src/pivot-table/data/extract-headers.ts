@@ -4,7 +4,7 @@ import getKey from "../components/helpers/get-key";
 
 const extractHeaders = (
   rowCount: number,
-  visibleLeftDimensionInfo: VisibleDimensionInfo[]
+  visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): (null | HeaderTitle)[][] => {
   const matrix: (null | HeaderTitle)[][] = Array(visibleLeftDimensionInfo.length)
     .fill(null)

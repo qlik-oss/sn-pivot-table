@@ -38,7 +38,7 @@ describe("useFetch", () => {
     const { result } = renderHook(() =>
       useFetch(() => {
         throw error;
-      }, ["deps"])
+      }, ["deps"]),
     );
 
     await waitFor(() => {
@@ -77,7 +77,7 @@ describe("useFetch", () => {
     };
     const { result, rerender } = renderHook(
       ({ cb, deps }: { cb: () => Promise<unknown>; deps: unknown[] } = { cb: throwOnFirstRender, deps: ["deps"] }) =>
-        useFetch(cb, deps)
+        useFetch(cb, deps),
     );
 
     await waitFor(() => {

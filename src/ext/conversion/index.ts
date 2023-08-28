@@ -13,7 +13,7 @@ export function createImportProperties(env: Galaxy) {
     exportFormat: ExportFormat,
     initialProperties: EngineAPI.IGenericHyperCubeProperties,
     extension: unknown,
-    hypercubePath: string
+    hypercubePath: string,
   ): PropTree => {
     // Add color attribute expression
     const propTree = conversion.hypercube.importProperties({

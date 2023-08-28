@@ -28,12 +28,12 @@ const contentSection = (translator: stardust.Translator) => ({
         fontColor: createColorPickerItem(
           "content.fontColor",
           "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.color ?? currentTheme.color
+          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.color ?? currentTheme.color,
         ),
         background: createColorPickerItem(
           "content.background",
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.background ?? Colors.Transparent
+          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.background ?? Colors.Transparent,
         ),
         // Null value styling
         nullValues: {
@@ -43,12 +43,12 @@ const contentSection = (translator: stardust.Translator) => ({
         nullValueFontColor: createColorPickerItem(
           "content.nullValue.fontColor",
           "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.nullValue?.color ?? currentTheme.color
+          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.nullValue?.color ?? currentTheme.color,
         ),
         nullValueBackground: createColorPickerItem(
           "content.nullValue.background",
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.nullValue?.background ?? Colors.Transparent
+          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.nullValue?.background ?? Colors.Transparent,
         ),
 
         // Total value styling
@@ -59,12 +59,12 @@ const contentSection = (translator: stardust.Translator) => ({
         totalValueFontColor: createColorPickerItem(
           "content.totalValue.fontColor",
           "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.totalValue?.color ?? currentTheme.color
+          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.totalValue?.color ?? currentTheme.color,
         ),
         totalValueBackground: createColorPickerItem(
           "content.totalValue.background",
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.totalValue?.background ?? Colors.Transparent
+          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.totalValue?.background ?? Colors.Transparent,
         ),
       },
     },

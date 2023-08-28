@@ -57,7 +57,7 @@ const getFontFamilies = (currentValue: string, currentTheme: CurrentTheme, trans
       groupHeader: true,
     },
     ...DEFAULT_FONT_FAMILIES.filter((fontFamily) => !themeFontFamilies.includes(fontFamily)).map((fontFamily) =>
-      toValueLabel(fontFamily, true)
+      toValueLabel(fontFamily, true),
     ),
   ];
 

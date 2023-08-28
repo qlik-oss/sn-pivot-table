@@ -49,7 +49,7 @@ describe("left dimension data", () => {
         dataPage.qArea,
         pageInfo,
         layoutService,
-        visibleLeftDimensionInfo
+        visibleLeftDimensionInfo,
       );
       expect(data.grid).toEqual(mockedReturnValue);
       expect(data.columnCount).toEqual(1);
@@ -82,7 +82,7 @@ describe("left dimension data", () => {
         dataPage.qArea,
         pageInfo,
         layoutService,
-        visibleLeftDimensionInfo
+        visibleLeftDimensionInfo,
       );
       expect(nextData.grid).toEqual(nextLeft);
       expect(nextData.columnCount).toEqual(1);
