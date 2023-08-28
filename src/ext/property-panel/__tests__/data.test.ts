@@ -19,7 +19,7 @@ describe("data", () => {
     describe("libraryId", () => {
       test("should show when qLibraryId exists", () => {
         expect(
-          data.items.dimensions.items.libraryId.show({ qLibraryId: "123" } as EngineAPI.IHyperCubeDimensionDef)
+          data.items.dimensions.items.libraryId.show({ qLibraryId: "123" } as EngineAPI.IHyperCubeDimensionDef),
         ).toBe(true);
       });
 
@@ -35,7 +35,7 @@ describe("data", () => {
 
       test("should not show when qLibraryId exist", () => {
         expect(
-          data.items.dimensions.items.inlineDimension.show({ qLibraryId: "123" } as EngineAPI.IHyperCubeDimensionDef)
+          data.items.dimensions.items.inlineDimension.show({ qLibraryId: "123" } as EngineAPI.IHyperCubeDimensionDef),
         ).toBe(false);
       });
     });
@@ -165,7 +165,7 @@ describe("data", () => {
     describe("libraryId", () => {
       test("should show when qLibraryId exists", () => {
         expect(data.items.measures.items.libraryId.show({ qLibraryId: "123" } as EngineAPI.IHyperCubeMeasureDef)).toBe(
-          true
+          true,
         );
       });
 

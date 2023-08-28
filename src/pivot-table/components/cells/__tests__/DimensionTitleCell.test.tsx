@@ -27,8 +27,8 @@ test("should render", () => {
       style={style}
       isLastColumn={false}
       changeSortOrder={changeSortOrder}
-      changeActivelySortedColumn={changeActivelySortedColumn}
-    />
+      changeActivelySortedHeader={changeActivelySortedColumn}
+    />,
   );
 
   expect(screen.getByText(cell.title)).toBeInTheDocument();

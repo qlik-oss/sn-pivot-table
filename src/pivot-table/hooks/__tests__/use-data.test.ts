@@ -35,7 +35,7 @@ describe("useData", () => {
     (
       dataPage: EngineAPI.INxPivotPage,
       layoutService: LayoutService,
-      visibleTopDimensionInfo: VisibleDimensionInfo[]
+      visibleTopDimensionInfo: VisibleDimensionInfo[],
     ) => TopDimensionData
   >;
   // Measure data mocks
@@ -52,7 +52,7 @@ describe("useData", () => {
       dataPage: EngineAPI.INxPivotPage,
       layoutService: LayoutService,
       pageInfo: PageInfo,
-      visibleLeftDimensionInfo: VisibleDimensionInfo[]
+      visibleLeftDimensionInfo: VisibleDimensionInfo[],
     ) => LeftDimensionData
   >;
   // Header data mocks
@@ -144,7 +144,7 @@ describe("useData", () => {
 
   test("should return data", () => {
     const { result } = renderHook(() =>
-      useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo)
+      useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo),
     );
 
     expect(result.current.headersData).toBe(headersData);
@@ -155,7 +155,7 @@ describe("useData", () => {
 
   test("calling nextPageHandler should trigger data updates", () => {
     const { result } = renderHook(() =>
-      useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo)
+      useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo),
     );
     const nextPage = {} as EngineAPI.INxPivotPage;
 

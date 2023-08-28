@@ -61,12 +61,12 @@ export const StickyPivotTable = ({
 
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
 
-  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
+  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler, isTotalCellAt } = useData(
     qPivotDataPages,
     layoutService,
     pageInfo,
     visibleLeftDimensionInfo,
-    visibleTopDimensionInfo
+    visibleTopDimensionInfo,
   );
 
   const dataModel = useDataModel({
@@ -79,7 +79,7 @@ export const StickyPivotTable = ({
     layoutService,
     tableRect,
     leftDimensionData,
-    visibleLeftDimensionInfo
+    visibleLeftDimensionInfo,
   );
 
   useLayoutEffect(() => {
@@ -134,7 +134,7 @@ export const StickyPivotTable = ({
 
   const dataRowCount = Math.min(
     layoutService.layout.qHyperCube.qSize.qcy - pageInfo.currentPage * pageInfo.rowsPerPage,
-    pageInfo.rowsPerPage
+    pageInfo.rowsPerPage,
   );
 
   const totalDataHeight = dataRowCount * contentCellHeight + GRID_BORDER;
@@ -213,6 +213,7 @@ export const StickyPivotTable = ({
             layoutService={layoutService}
             measureData={measureData}
             showLastRowBorderBottom={showLastRowBorderBottom}
+            isTotalCellAt={isTotalCellAt}
           />
         </StickyContainer>
       </FullSizeContainer>

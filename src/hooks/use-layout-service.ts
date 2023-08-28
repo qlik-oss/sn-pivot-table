@@ -5,7 +5,7 @@ import type { LayoutService } from "../types/types";
 
 const useLayoutService = (
   layout: PivotLayout,
-  effectiveProperties: EngineAPI.IGenericObjectProperties | undefined
+  effectiveProperties: EngineAPI.IGenericObjectProperties | undefined,
 ): LayoutService => useMemo(() => createLayoutService(layout, effectiveProperties), [layout, effectiveProperties]);
 
 export default useLayoutService;

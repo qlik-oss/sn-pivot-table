@@ -19,7 +19,7 @@ describe("createFontFamilyItem", () => {
           ({
             fontFamily,
             fontFamilies,
-          } as CurrentTheme),
+          }) as CurrentTheme,
       },
     };
   });
@@ -265,7 +265,7 @@ describe("createFontFamilyItem", () => {
 
     expect(def.defaultValue(null, null, args)).toEqual(themeAccessorFontFamily);
     expect(
-      def.options(null, null, args).filter((f) => f.value === fontFamily || f.value === themeAccessorFontFamily)
+      def.options(null, null, args).filter((f) => f.value === fontFamily || f.value === themeAccessorFontFamily),
     ).toEqual([
       {
         value: fontFamily,

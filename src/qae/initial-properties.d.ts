@@ -18,7 +18,7 @@ declare const properties: {
         qLeft: 0;
         qWidth: 50;
         qHeight: 50;
-      }
+      },
     ];
     qIndentMode: boolean;
   };

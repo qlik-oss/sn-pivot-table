@@ -33,7 +33,7 @@ const render = (reactRoot: Root, props: RootProps): void => {
           <Wrapper {...props} />
         </StyleProvider>
       </SelectionsProvider>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 };
 

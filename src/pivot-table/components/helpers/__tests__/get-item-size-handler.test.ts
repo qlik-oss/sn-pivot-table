@@ -131,7 +131,7 @@ describe("getItemSizeHandler", () => {
       });
 
       expect(handler(index)).toEqual(
-        allMeasuresWidth * (leafCount / layoutService.layout.qHyperCube.qMeasureInfo.length)
+        allMeasuresWidth * (leafCount / layoutService.layout.qHyperCube.qMeasureInfo.length),
       );
     });
 
@@ -154,7 +154,7 @@ describe("getItemSizeHandler", () => {
       });
 
       expect(handler(index)).toEqual(
-        (allMeasuresWidth * (leafCount + distanceToNextCell)) / layoutService.layout.qHyperCube.qMeasureInfo.length
+        (allMeasuresWidth * (leafCount + distanceToNextCell)) / layoutService.layout.qHyperCube.qMeasureInfo.length,
       );
     });
 
@@ -178,7 +178,7 @@ describe("getItemSizeHandler", () => {
       });
 
       expect(handler(index)).toEqual(
-        (allMeasuresWidth * (leafCount + x)) / layoutService.layout.qHyperCube.qMeasureInfo.length
+        (allMeasuresWidth * (leafCount + x)) / layoutService.layout.qHyperCube.qMeasureInfo.length,
       );
     });
   });

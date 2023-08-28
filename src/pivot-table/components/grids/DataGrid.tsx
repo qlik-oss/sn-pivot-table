@@ -1,9 +1,16 @@
 /*  eslint-disable no-param-reassign */
-import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
+import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { throttler } from "qlik-chart-modules";
 import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
 import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
-import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
+import type {
+  DataModel,
+  GridItemData,
+  IsTotalCellAt,
+  LayoutService,
+  MeasureData,
+  ViewService,
+} from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedDataCell from "../cells/DataCell";
 import { gridBorderStyle } from "../shared-styles";
@@ -19,6 +26,7 @@ interface DataGridProps {
   layoutService: LayoutService;
   measureData: MeasureData;
   showLastRowBorderBottom: boolean;
+  isTotalCellAt: IsTotalCellAt;
 }
 
 type FetchModeData = (
@@ -27,7 +35,7 @@ type FetchModeData = (
   overscanColumnStartIndex: number,
   overscanColumnStopIndex: number,
   overscanRowStartIndex: number,
-  overscanRowStopIndex: number
+  overscanRowStopIndex: number,
 ) => Promise<void>;
 
 const gridStyle: React.CSSProperties = {
@@ -51,7 +59,7 @@ const isMissingData = (
   visibleColumnStartIndex: number,
   visibleColumnStopIndex: number,
   visibleRowStartIndex: number,
-  visibleRowStopIndex: number
+  visibleRowStopIndex: number,
 ) => {
   for (let rowIndex = visibleRowStartIndex; rowIndex <= visibleRowStopIndex; rowIndex++) {
     for (let colIndex = visibleColumnStartIndex; colIndex <= visibleColumnStopIndex; colIndex++) {
@@ -71,14 +79,14 @@ const throttledFetchMoreData: FetchModeData = throttler(
     overscanColumnStartIndex: number,
     overscanColumnStopIndex: number,
     overscanRowStartIndex: number,
-    overscanRowStopIndex: number
+    overscanRowStopIndex: number,
   ) => {
     const shouldFetchData = isMissingData(
       measureData,
       overscanColumnStartIndex,
       overscanColumnStopIndex,
       overscanRowStartIndex,
-      overscanRowStopIndex
+      overscanRowStopIndex,
     );
 
     if (shouldFetchData) {
@@ -86,11 +94,11 @@ const throttledFetchMoreData: FetchModeData = throttler(
         overscanColumnStartIndex,
         overscanRowStartIndex,
         overscanColumnStopIndex - overscanColumnStartIndex + 1,
-        overscanRowStopIndex - overscanRowStartIndex + 1
+        overscanRowStopIndex - overscanRowStartIndex + 1,
       );
     }
   },
-  100
+  100,
 );
 
 const DataGrid = ({
@@ -104,6 +112,7 @@ const DataGrid = ({
   layoutService,
   measureData,
   showLastRowBorderBottom,
+  isTotalCellAt,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -147,20 +156,20 @@ const DataGrid = ({
         overscanColumnStartIndex,
         overscanColumnStopIndex,
         overscanRowStartIndex,
-        overscanRowStopIndex
+        overscanRowStopIndex,
       );
     },
-    [viewService, dataModel, measureData]
+    [viewService, dataModel, measureData],
   );
 
   const getColumnWidth = useCallback(
     (index: number) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
-    [getMeasureInfoWidth, layoutService]
+    [getMeasureInfoWidth, layoutService],
   );
 
   const allMeasuresWidth = useMemo(
     () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
-    [getMeasureInfoWidth, qMeasureInfo]
+    [getMeasureInfoWidth, qMeasureInfo],
   );
 
   if (layoutService.size.x === 0) {
@@ -183,6 +192,7 @@ const DataGrid = ({
           grid: measureData,
           dataModel,
           showLastRowBorderBottom,
+          isTotalCellAt,
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}

@@ -1,3 +1,4 @@
+import NxDimCellType from "../../../types/QIX";
 import type { Cell, VisibleDimensionInfo } from "../../../types/types";
 
 const createCell = (
@@ -8,7 +9,7 @@ const createCell = (
   y: number,
   pageY: number,
   isSnapshot: boolean,
-  dimensionInfo: VisibleDimensionInfo
+  dimensionInfo: VisibleDimensionInfo,
 ): Cell => ({
   ref: node,
   x,
@@ -28,6 +29,7 @@ const createCell = (
       parent.incrementLeafCount();
     }
   },
+  isTotalCell: node.qType === NxDimCellType.NX_DIM_CELL_TOTAL || !!parent?.isTotalCell,
 });
 
 export default createCell;

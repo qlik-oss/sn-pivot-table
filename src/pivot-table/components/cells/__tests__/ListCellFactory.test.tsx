@@ -65,7 +65,7 @@ describe("ListCellFactory", () => {
 
     expect(mockDimensionCell).toHaveBeenCalledWith(
       { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: true },
-      {}
+      {},
     );
   });
 
@@ -80,7 +80,7 @@ describe("ListCellFactory", () => {
 
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith(
       { style, cell, isLeftColumn: false, isLastRow: false, isLastColumn: true, showLastRowBorderBottom: false },
-      {}
+      {},
     );
   });
 
@@ -95,7 +95,7 @@ describe("ListCellFactory", () => {
 
     expect(mockedTotalsCell).toHaveBeenCalledWith(
       { cell, style, isLeftColumn: false, isLastRow: false, isLastColumn: true },
-      {}
+      {},
     );
   });
 
@@ -116,7 +116,7 @@ describe("ListCellFactory", () => {
         isLastColumn: true,
         showLastRowBorderBottom: false,
       },
-      {}
+      {},
     );
   });
 
@@ -138,7 +138,7 @@ describe("ListCellFactory", () => {
         isLastColumn: false,
         showLastRowBorderBottom: false,
       },
-      {}
+      {},
     );
   });
 
@@ -157,7 +157,7 @@ describe("ListCellFactory", () => {
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
           { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: true, isLastRow: true, isLastColumn: true },
-          {}
+          {},
         );
       });
 
@@ -175,7 +175,7 @@ describe("ListCellFactory", () => {
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
           { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: true, isLastRow: false, isLastColumn: false },
-          {}
+          {},
         );
       });
     });
@@ -192,7 +192,7 @@ describe("ListCellFactory", () => {
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
           { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: true },
-          {}
+          {},
         );
       });
 
@@ -209,7 +209,7 @@ describe("ListCellFactory", () => {
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
           { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: false },
-          {}
+          {},
         );
       });
     });

@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
+import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../../types/types";
@@ -80,7 +80,7 @@ const TopGrid = ({
 
   const allMeasuresWidth = useMemo(
     () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
-    [getMeasureInfoWidth, qMeasureInfo]
+    [getMeasureInfoWidth, qMeasureInfo],
   );
 
   const totalWidth = layoutService.size.x * (allMeasuresWidth / qMeasureInfo.length);

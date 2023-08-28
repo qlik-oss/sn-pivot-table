@@ -3,7 +3,7 @@ import type { PivotLayout, SnapshotData } from "../../types/QIX";
 import type { LayoutService } from "../../types/types";
 import createLayoutService from "../layout-service";
 
-const getMeasureInfo = () => ({} as EngineAPI.INxMeasureInfo);
+const getMeasureInfo = () => ({}) as EngineAPI.INxMeasureInfo;
 
 const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible?: boolean }) =>
   ({
@@ -11,7 +11,7 @@ const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible
     qCardinalities: {
       qHypercubeCardinal: isVisible ? 1 : 0,
     },
-  } as unknown as EngineAPI.INxDimensionInfo);
+  }) as unknown as EngineAPI.INxDimensionInfo;
 
 describe("createLayoutService", () => {
   let layout: PivotLayout;
