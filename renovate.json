@@ -18,6 +18,10 @@
         "@qlik-trial/sprout"
       ],
       "enabled": false
+    },
+    {
+      "rangeStrategy": "bump",
+      "matchDepTypes": ["peerDependencies"]
     }
   ]
 }
