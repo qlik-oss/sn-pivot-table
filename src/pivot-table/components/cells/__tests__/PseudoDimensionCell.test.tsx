@@ -26,7 +26,7 @@ test("should render on the top", () => {
       isLastRow
       isLastColumn
       showLastRowBorderBottom
-    />
+    />,
   );
 
   expect(screen.getByText("test")).toBeInTheDocument();

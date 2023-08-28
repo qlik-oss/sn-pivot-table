@@ -39,7 +39,7 @@ const getVisibleDimensionTypes = (rootNodes: EngineAPI.INxPivotDimensionCell[]) 
 // Consumed by "color by expression", "is dimension locked" and headers
 const useVisibleDimensions = (
   layoutService: LayoutService,
-  qPivotDataPages: EngineAPI.INxPivotPage[]
+  qPivotDataPages: EngineAPI.INxPivotPage[],
 ): UseVisibleDimensions => {
   const { qHyperCube } = layoutService.layout;
   const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qDimensionInfo } = qHyperCube;
@@ -49,11 +49,11 @@ const useVisibleDimensions = (
     const visibileTopTypes = getVisibleDimensionTypes(qPivotDataPages[0]?.qTop ?? []);
 
     const visibleLeftDimensionInfo = visibileLeftTypes.map(
-      typeToDimension(qDimensionInfo, qEffectiveInterColumnSortOrder, 0)
+      typeToDimension(qDimensionInfo, qEffectiveInterColumnSortOrder, 0),
     );
 
     const visibleTopDimensionInfo = visibileTopTypes.map(
-      typeToDimension(qDimensionInfo, qEffectiveInterColumnSortOrder, qNoOfLeftDims)
+      typeToDimension(qDimensionInfo, qEffectiveInterColumnSortOrder, qNoOfLeftDims),
     );
 
     return {

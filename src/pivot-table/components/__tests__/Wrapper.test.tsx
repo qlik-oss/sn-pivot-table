@@ -36,7 +36,7 @@ describe("Wrapper", () => {
     render(
       <TestWithProvider>
         <Wrapper {...({ layoutService, translator, pageInfo } as unknown as WrapperProps)} />
-      </TestWithProvider>
+      </TestWithProvider>,
     );
     expect(screen.getByText(disclaimerText)).toBeVisible();
   });
@@ -46,7 +46,7 @@ describe("Wrapper", () => {
     render(
       <TestWithProvider>
         <Wrapper {...({ layoutService, translator, pageInfo } as unknown as WrapperProps)} />
-      </TestWithProvider>
+      </TestWithProvider>,
     );
     expect(screen.queryByText(disclaimerText)).toBeNull();
   });
@@ -56,7 +56,7 @@ describe("Wrapper", () => {
     const { queryAllByRole, queryByText } = render(
       <TestWithProvider>
         <Wrapper {...({ layoutService, translator, pageInfo } as unknown as WrapperProps)} />
-      </TestWithProvider>
+      </TestWithProvider>,
     );
 
     expect(queryAllByRole("button").length).toBe(4);
@@ -70,7 +70,7 @@ describe("Wrapper", () => {
     const { queryAllByRole, queryByText } = render(
       <TestWithProvider>
         <Wrapper {...({ layoutService, translator, pageInfo } as unknown as WrapperProps)} />
-      </TestWithProvider>
+      </TestWithProvider>,
     );
 
     expect(queryAllByRole("button").length).toBe(0);
