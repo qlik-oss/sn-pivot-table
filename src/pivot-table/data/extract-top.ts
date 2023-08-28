@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 
+import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import type { Cell, Grid, LayoutService, VisibleDimensionInfo } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
@@ -51,25 +52,10 @@ const extractTopGrid = (
   }
 
   recursiveExtract(null, null, qTop);
-  // const lastRow = grid[grid.length - 1];
-  // grid.push(
-  //   Object.keys(lastRow).map((key, index) => {
-  //     const cell = lastRow[index];
-  //     return createCell(
-  //       null,
-  //       cell,
-  //       cell,
-  //       index,
-  //       cell.y + 1,
-  //       cell.y + 1,
-  //       layoutService.isSnapshot,
-  //       PSEUDO_DIMENSION_INDEX
-  //     );
-  //   })
-  // );
-  // grid.push((grid as Cell[][])[grid.length - 1].map((cell, index) => {}))
-  // (grid as Cell[][])[grid.length - 1].map((cell, _index) => cell);
-  // grid.push(grid[grid.length - 1]);
+
+  // if pseudo index it present and not at that last position, add an extra empty line at the bottom
+  const pseudoIndexIndex = visibleTopDimensionInfo.indexOf(PSEUDO_DIMENSION_INDEX);
+  if (pseudoIndexIndex !== -1 && pseudoIndexIndex !== visibleTopDimensionInfo.length - 1) grid[grid.length] = {};
 
   return grid;
 };
