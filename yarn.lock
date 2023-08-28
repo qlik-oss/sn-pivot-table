@@ -1974,11 +1974,6 @@
   optionalDependencies:
     fsevents "2.3.2"
 
-"@qlik-oss/nebula-table-utils@1.1.0":
-  version "1.1.0"
-  resolved "https://npm.pkg.github.com/download/@qlik-oss/nebula-table-utils/1.1.0/b15b009f0d76f2a59d93059c7b72f5ee937fee40#b15b009f0d76f2a59d93059c7b72f5ee937fee40"
-  integrity sha512-8llQv/JOORozLJA2Whx1B8yNzpsQf47GeaXS2lOzUcKPVXXH1W9x6VHM5s3lXBhW5+kBBFgsxUIJsUumUwwJmQ==
-
 "@qlik-trial/sprout@3.4.0":
   version "3.4.0"
   resolved "https://npm.pkg.github.com/download/@qlik-trial/sprout/3.4.0/6034ef0f8d842a575806c9e1b7e6c246cc250021#6034ef0f8d842a575806c9e1b7e6c246cc250021"
@@ -2007,6 +2002,11 @@
     eslint-plugin-testing-library "6.0.0"
     eslint-plugin-vitest "0.2.8"
     svelte-eslint-parser "0.32.2"
+
+"@qlik/nebula-table-utils@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@qlik/nebula-table-utils/-/nebula-table-utils-2.0.0.tgz#b3a55663c08e942299cb99266dc3b76080492c79"
+  integrity sha512-LKMuPHtSDL+BelBWaq6Et+yfKthq8qx8GJ9MhKReS0/auKyuWgu8LGagHrVSorzbjkKI6XXmDtbyYUbtbxmDaw==
 
 "@qlik/prettier-config@0.3.0":
   version "0.3.0"
