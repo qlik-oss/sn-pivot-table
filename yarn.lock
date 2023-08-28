@@ -1910,12 +1910,12 @@
   resolved "https://npm.pkg.github.com/download/@qlik-oss/nebula-table-utils/1.1.0/b15b009f0d76f2a59d93059c7b72f5ee937fee40#b15b009f0d76f2a59d93059c7b72f5ee937fee40"
   integrity sha512-8llQv/JOORozLJA2Whx1B8yNzpsQf47GeaXS2lOzUcKPVXXH1W9x6VHM5s3lXBhW5+kBBFgsxUIJsUumUwwJmQ==
 
-"@qlik-trial/sprout@2.51.0":
-  version "2.51.0"
-  resolved "https://npm.pkg.github.com/download/@qlik-trial/sprout/2.51.0/9e27a31ab3b96481fb677ec22ddeef9f98f52c75#9e27a31ab3b96481fb677ec22ddeef9f98f52c75"
-  integrity sha512-7Mtqy1hZYzWw1I2lmwNju46mJxB8f0oRpSxY4OXqSuTiVKxWmoRGSt3hljSALSd3dN2EnPakKiMEDWPvrUEHBQ==
+"@qlik-trial/sprout@3.4.0":
+  version "3.4.0"
+  resolved "https://npm.pkg.github.com/download/@qlik-trial/sprout/3.4.0/6034ef0f8d842a575806c9e1b7e6c246cc250021#6034ef0f8d842a575806c9e1b7e6c246cc250021"
+  integrity sha512-aEs3z6PraEntIvWMmhfzX4YeZMP14v4SiWl0aDo0/1i9KcDVsUqmoeoZBLJdFG1aG8KJLRA0UPhb6ZFxiG4ubg==
   optionalDependencies:
-    "@swc/core-linux-x64-gnu" "1.3.60"
+    "@swc/core-linux-x64-gnu" "1.3.74"
 
 "@qlik/eslint-config@0.4.14":
   version "0.4.14"
@@ -1958,10 +1958,10 @@
     jsonwebtoken "9.0.0"
     ws "8.13.0"
 
-"@qlik/tsconfig@0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@qlik/tsconfig/-/tsconfig-0.1.3.tgz#3c45a006330297c15e7610fcd8647563af82ad7e"
-  integrity sha512-W00VUjz5Zy6vkLzF+EUJfy0wgMTKuXPcOgi7J41IYZU6K7+GypF9fRnt1GsMbbMSbruHnJ0EAKggwUtRnO/Apw==
+"@qlik/tsconfig@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@qlik/tsconfig/-/tsconfig-0.1.6.tgz#ba40a5a65b4a176eb339e3e4d31c0ab3104363b8"
+  integrity sha512-QvjyBX0YIWC/8wE/uHxWUp2lpg6BufYbDU84nHaf2gvNshivzgcG8J7WlJaWmJL8JM4d8XUWv5dq1QQaf3qtLw==
 
 "@rollup/plugin-babel@6.0.3":
   version "6.0.3"
@@ -2102,10 +2102,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@swc/core-linux-x64-gnu@1.3.60":
-  version "1.3.60"
-  resolved "https://registry.yarnpkg.com/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.3.60.tgz#998850b1ad8c5eb137a3c914ce9e62e4ac006dbb"
-  integrity sha512-WJt/X6HHM3/TszckRA7UKMXec3FHYsB9xswQbIYxN4bfTQodu3Rc8bmpHYtFO7ScMLrhY+RljHLK6wclPvaEXw==
+"@swc/core-linux-x64-gnu@1.3.74":
+  version "1.3.74"
+  resolved "https://registry.yarnpkg.com/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.3.74.tgz#a98d9a984d47404aa2de478dd3cd33dbd195bba2"
+  integrity sha512-LEXpcShF6DLTWJSiBhMSYZkLQ27UvaQ24fCFhoIV/R3dhYaUpHmIyLPPBNC82T03lB3ONUFVwrRw6fxDJ/f00A==
 
 "@testing-library/dom@^9.0.0":
   version "9.3.1"

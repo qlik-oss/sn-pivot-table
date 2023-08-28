@@ -11,7 +11,7 @@
       "enabled": false
     },
     {
-      "matchPackageNames": ["@qlik/tsconfig", "@qlik-oss/nebula-table-utils", "@qlik-trial/sprout"],
+      "matchPackageNames": ["@qlik-oss/nebula-table-utils", "@qlik-trial/sprout"],
       "enabled": false
     },
     {
