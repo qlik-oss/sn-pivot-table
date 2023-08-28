@@ -19,7 +19,7 @@ describe("useVisibleDimensions", () => {
 
   test("should handle empty qPivotDataPages", () => {
     const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = renderHook(() =>
-      useVisibleDimensions(layoutService, qPivotDataPages)
+      useVisibleDimensions(layoutService, qPivotDataPages),
     ).result.current;
     expect(visibleLeftDimensionInfo).toHaveLength(0);
     expect(visibleTopDimensionInfo).toHaveLength(0);
@@ -36,7 +36,7 @@ describe("useVisibleDimensions", () => {
       qHyperCube.qNoOfLeftDims = 4;
       qHyperCube.qDimensionInfo = [{}, {}, {}] as EngineAPI.INxDimensionInfo[];
       const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = renderHook(() =>
-        useVisibleDimensions(layoutService, qPivotDataPages)
+        useVisibleDimensions(layoutService, qPivotDataPages),
       ).result.current;
       expect(visibleTopDimensionInfo).toEqual([]);
       expect(visibleLeftDimensionInfo).toEqual([
@@ -57,7 +57,7 @@ describe("useVisibleDimensions", () => {
       qHyperCube.qNoOfLeftDims = 0;
       qHyperCube.qDimensionInfo = [{}, {}, {}] as EngineAPI.INxDimensionInfo[];
       const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = renderHook(() =>
-        useVisibleDimensions(layoutService, qPivotDataPages)
+        useVisibleDimensions(layoutService, qPivotDataPages),
       ).result.current;
       expect(visibleLeftDimensionInfo).toEqual([]);
       expect(visibleTopDimensionInfo).toEqual([

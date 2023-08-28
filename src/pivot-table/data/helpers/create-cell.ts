@@ -9,7 +9,7 @@ const createCell = (
   y: number,
   pageY: number,
   isSnapshot: boolean,
-  dimensionInfo: VisibleDimensionInfo
+  dimensionInfo: VisibleDimensionInfo,
 ): Cell => ({
   ref: node,
   x,

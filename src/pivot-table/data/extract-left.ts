@@ -9,7 +9,7 @@ const extractLeftGrid = (
   qArea: EngineAPI.INxDataAreaPage,
   pageInfo: PageInfo,
   layoutService: LayoutService,
-  visibleLeftDimensionInfo: VisibleDimensionInfo[]
+  visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): Grid => {
   if (!qLeft.length) {
     return grid;
@@ -21,7 +21,7 @@ const extractLeftGrid = (
     root: Cell | null,
     parent: Cell | null,
     nodes: EngineAPI.INxPivotDimensionCell[],
-    colIdx = 0
+    colIdx = 0,
   ) {
     if (!grid[colIdx]) {
       grid[colIdx] = {};
@@ -42,7 +42,7 @@ const extractLeftGrid = (
         y,
         pageY,
         layoutService.isSnapshot,
-        visibleLeftDimensionInfo[colIdx]
+        visibleLeftDimensionInfo[colIdx],
       );
 
       grid[colIdx][pageY] = cell;

@@ -78,7 +78,7 @@ export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
-  showLastRowBorderBottom: boolean
+  showLastRowBorderBottom: boolean,
 ) => {
   if (isLastRow && isLastColumn && showLastRowBorderBottom) {
     return { ...borderBottomStyle, borderColor };

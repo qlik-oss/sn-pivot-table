@@ -8,7 +8,7 @@ const extractTopGrid = (
   qTop: EngineAPI.INxPivotDimensionCell[],
   qArea: EngineAPI.INxDataAreaPage,
   layoutService: LayoutService,
-  visibleTopDimensionInfo: VisibleDimensionInfo[]
+  visibleTopDimensionInfo: VisibleDimensionInfo[],
 ): Grid => {
   if (!qTop.length) {
     return grid;
@@ -20,7 +20,7 @@ const extractTopGrid = (
     root: Cell | null,
     parent: Cell | null,
     nodes: EngineAPI.INxPivotDimensionCell[],
-    rowIdx = 0
+    rowIdx = 0,
   ): void {
     if (!grid[rowIdx]) {
       grid[rowIdx] = {};
@@ -37,7 +37,7 @@ const extractTopGrid = (
         rowIdx,
         rowIdx,
         layoutService.isSnapshot,
-        visibleTopDimensionInfo[rowIdx]
+        visibleTopDimensionInfo[rowIdx],
       );
 
       grid[rowIdx][x] = cell;

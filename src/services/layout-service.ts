@@ -5,7 +5,7 @@ import type { LayoutService } from "../types/types";
 
 const createLayoutService = (
   layout: PivotLayout,
-  effectiveProperties: EngineAPI.IGenericObjectProperties | undefined
+  effectiveProperties: EngineAPI.IGenericObjectProperties | undefined,
 ): LayoutService => {
   const { qHyperCube, nullValueRepresentation, snapshotData } = layout;
   const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;

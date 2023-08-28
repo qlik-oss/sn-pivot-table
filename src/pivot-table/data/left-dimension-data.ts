@@ -35,7 +35,7 @@ export const createLeftDimensionData = (
   dataPage: EngineAPI.INxPivotPage,
   layoutService: LayoutService,
   pageInfo: PageInfo,
-  visibleLeftDimensionInfo: VisibleDimensionInfo[]
+  visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): LeftDimensionData => {
   const { qArea, qLeft } = dataPage;
   const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
