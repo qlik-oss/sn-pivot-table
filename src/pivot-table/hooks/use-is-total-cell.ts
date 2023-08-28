@@ -28,7 +28,7 @@ export const useShouldShowTotalCellBottomDivider = (leftDimensionData: LeftDimen
 
       return shouldShowTotalCellDivider(cell);
     },
-    [leftDimensionData]
+    [leftDimensionData],
   );
 
 export const useShouldShowTotalCellRightDivider = (topDimensionData: TopDimensionData) =>
@@ -39,7 +39,7 @@ export const useShouldShowTotalCellRightDivider = (topDimensionData: TopDimensio
 
       return shouldShowTotalCellDivider(cell);
     },
-    [topDimensionData]
+    [topDimensionData],
   );
 
 export const useIsTotalValue = (leftDimensionData: LeftDimensionData, topDimensionData: TopDimensionData) =>
@@ -49,5 +49,5 @@ export const useIsTotalValue = (leftDimensionData: LeftDimensionData, topDimensi
         topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotal ||
         leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotal
       ),
-    [topDimensionData, leftDimensionData]
+    [topDimensionData, leftDimensionData],
   );

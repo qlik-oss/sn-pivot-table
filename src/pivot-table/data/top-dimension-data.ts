@@ -31,7 +31,7 @@ export const addPageToTopDimensionData = ({
 export const createTopDimensionData = (
   dataPage: EngineAPI.INxPivotPage,
   layoutService: LayoutService,
-  visibleTopDimensionInfo: VisibleDimensionInfo[]
+  visibleTopDimensionInfo: VisibleDimensionInfo[],
 ): TopDimensionData => {
   const { qArea, qTop } = dataPage;
   const grid = extractTopGrid([], qTop, qArea, layoutService, visibleTopDimensionInfo);

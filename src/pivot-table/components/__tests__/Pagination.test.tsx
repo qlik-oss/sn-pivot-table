@@ -27,10 +27,10 @@ describe("<Pagination />", () => {
     // TODO:
     // make sure of translations
     expect(screen.getByTestId(testIdPageInfo)).toHaveTextContent(
-      `page: ${pageInfo.currentPage + 1} of ${pageInfo.totalPages}`
+      `page: ${pageInfo.currentPage + 1} of ${pageInfo.totalPages}`,
     );
     expect(screen.getByTestId(testIdDataRange)).toHaveTextContent(
-      `${pageInfo.currentPage + 1} - ${pageInfo.rowsPerPage} of ${pageInfo.totalRowCount}`
+      `${pageInfo.currentPage + 1} - ${pageInfo.rowsPerPage} of ${pageInfo.totalRowCount}`,
     );
     expect(screen.queryAllByRole("button").length).toBe(4);
     ["first", "prev", "next", "last"].forEach((btn) => {

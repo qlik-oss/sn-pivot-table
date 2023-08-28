@@ -51,7 +51,7 @@ const getFontSizes = (currentValue: string, currentTheme: CurrentTheme, translat
       groupHeader: true,
     },
     ...DEFAULT_FONT_SIZES.filter((fontSize) => !themeFontSizes.includes(fontSize)).map((fontSize) =>
-      toValueLabel(fontSize, false)
+      toValueLabel(fontSize, false),
     ),
   ];
 

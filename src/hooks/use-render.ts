@@ -50,7 +50,7 @@ const useRender = () => {
       `${styleService.rowContent.fontSize} ${styleService.rowContent.fontFamily}`,
       `${styleService.content.fontSize} ${styleService.content.fontFamily}`,
     ],
-    [styleService]
+    [styleService],
   );
   const isFontLoaded = useWaitForFonts(fonts);
 

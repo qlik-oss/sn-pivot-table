@@ -22,7 +22,7 @@ test("should render", () => {
       isLastColumn={false}
       showLastRowBorderBottom={false}
       index={0}
-    />
+    />,
   );
 
   const elm = screen.getByTestId(testId);

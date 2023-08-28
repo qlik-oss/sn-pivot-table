@@ -42,7 +42,7 @@ type FetchModeData = (
   overscanColumnStartIndex: number,
   overscanColumnStopIndex: number,
   overscanRowStartIndex: number,
-  overscanRowStopIndex: number
+  overscanRowStopIndex: number,
 ) => Promise<void>;
 
 const gridStyle: React.CSSProperties = {
@@ -66,7 +66,7 @@ const isMissingData = (
   visibleColumnStartIndex: number,
   visibleColumnStopIndex: number,
   visibleRowStartIndex: number,
-  visibleRowStopIndex: number
+  visibleRowStopIndex: number,
 ) => {
   for (let rowIndex = visibleRowStartIndex; rowIndex <= visibleRowStopIndex; rowIndex++) {
     for (let colIndex = visibleColumnStartIndex; colIndex <= visibleColumnStopIndex; colIndex++) {
@@ -86,14 +86,14 @@ const throttledFetchMoreData: FetchModeData = throttler(
     overscanColumnStartIndex: number,
     overscanColumnStopIndex: number,
     overscanRowStartIndex: number,
-    overscanRowStopIndex: number
+    overscanRowStopIndex: number,
   ) => {
     const shouldFetchData = isMissingData(
       measureData,
       overscanColumnStartIndex,
       overscanColumnStopIndex,
       overscanRowStartIndex,
-      overscanRowStopIndex
+      overscanRowStopIndex,
     );
 
     if (shouldFetchData) {
@@ -101,11 +101,11 @@ const throttledFetchMoreData: FetchModeData = throttler(
         overscanColumnStartIndex,
         overscanRowStartIndex,
         overscanColumnStopIndex - overscanColumnStartIndex + 1,
-        overscanRowStopIndex - overscanRowStartIndex + 1
+        overscanRowStopIndex - overscanRowStartIndex + 1,
       );
     }
   },
-  100
+  100,
 );
 
 const DataGrid = ({
@@ -170,20 +170,20 @@ const DataGrid = ({
         overscanColumnStartIndex,
         overscanColumnStopIndex,
         overscanRowStartIndex,
-        overscanRowStopIndex
+        overscanRowStopIndex,
       );
     },
-    [viewService, dataModel, measureData]
+    [viewService, dataModel, measureData],
   );
 
   const getColumnWidth = useCallback(
     (index: number) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
-    [getMeasureInfoWidth, layoutService]
+    [getMeasureInfoWidth, layoutService],
   );
 
   const allMeasuresWidth = useMemo(
     () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
-    [getMeasureInfoWidth, qMeasureInfo]
+    [getMeasureInfoWidth, qMeasureInfo],
   );
 
   if (layoutService.size.x === 0) {
