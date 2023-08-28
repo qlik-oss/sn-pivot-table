@@ -13,6 +13,10 @@
     {
       "matchPackageNames": ["@qlik/tsconfig", "@qlik-oss/nebula-table-utils", "@qlik-trial/sprout"],
       "enabled": false
+    },
+    {
+      "rangeStrategy": "bump",
+      "matchDepTypes": ["peerDependencies"]
     }
   ]
 }
