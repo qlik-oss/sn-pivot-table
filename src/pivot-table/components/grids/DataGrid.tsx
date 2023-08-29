@@ -6,12 +6,18 @@ import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
 import type {
   DataModel,
   GridItemData,
-  IsTotalCellAt,
   LayoutService,
+  LeftDimensionData,
   MeasureData,
+  TopDimensionData,
   ViewService,
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import {
+  useIsTotalValue,
+  useShouldShowTotalCellBottomDivider,
+  useShouldShowTotalCellRightDivider,
+} from "../../hooks/use-is-total-cell";
 import MemoizedDataCell from "../cells/DataCell";
 import { gridBorderStyle } from "../shared-styles";
 
@@ -24,9 +30,10 @@ interface DataGridProps {
   viewService: ViewService;
   layoutService: LayoutService;
   measureData: MeasureData;
+  topDimensionData: TopDimensionData;
+  leftDimensionData: LeftDimensionData;
   showLastRowBorderBottom: boolean;
   getLeafWidth: (index?: number) => number;
-  isTotalCellAt: IsTotalCellAt;
 }
 
 type FetchModeData = (
@@ -110,9 +117,10 @@ const DataGrid = ({
   viewService,
   layoutService,
   measureData,
+  leftDimensionData,
+  topDimensionData,
   showLastRowBorderBottom,
   getLeafWidth,
-  isTotalCellAt,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -123,6 +131,12 @@ const DataGrid = ({
     borderColor: divider,
     willChange: "auto",
   };
+
+  const shouldShowTotalCellBottomDivider = useShouldShowTotalCellBottomDivider(leftDimensionData);
+
+  const shouldShowTotalCellRightDivider = useShouldShowTotalCellRightDivider(topDimensionData);
+
+  const isTotalValue = useIsTotalValue(leftDimensionData, topDimensionData);
 
   useOnPropsChange(() => {
     if (dataGridRef.current) {
@@ -181,7 +195,9 @@ const DataGrid = ({
           grid: measureData,
           dataModel,
           showLastRowBorderBottom,
-          isTotalCellAt,
+          isTotalValue,
+          shouldShowTotalCellBottomDivider,
+          shouldShowTotalCellRightDivider,
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}

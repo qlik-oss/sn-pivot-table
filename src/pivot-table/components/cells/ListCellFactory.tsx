@@ -1,7 +1,5 @@
 import React from "react";
 import { areEqual } from "react-window";
-import { TOTALS_CELL } from "../../../constants";
-import NxDimCellType from "../../../types/QIX";
 import type { ListItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import DimensionCell from "./DimensionCell";
@@ -30,20 +28,23 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
    */
   const cell = isLast ? list[index] : Object.values(list)[index];
 
-  if (cell === undefined || cell.ref.qType === NxDimCellType.NX_DIM_CELL_EMPTY) {
+  if (cell === undefined || cell.isEmpty) {
     const background = isLeftColumn ? styleService.rowContent.background : styleService.columnContent.background;
+
     return (
       <EmptyCell
+        cell={cell}
         style={{ ...style, background }}
         index={index}
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
         showLastRowBorderBottom={showLastRowBorderBottom}
+        isLeftColumn={isLeftColumn}
       />
     );
   }
 
-  if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_PSEUDO) {
+  if (cell.isPseudoDimension) {
     return (
       <PseudoDimensionCell
         cell={cell}
@@ -56,7 +57,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     );
   }
 
-  if (cell.ref.qType === NxDimCellType.NX_DIM_CELL_TOTAL && cell.ref.qElemNo === TOTALS_CELL) {
+  if (cell.isTotal) {
     return (
       <TotalsCell
         cell={cell}

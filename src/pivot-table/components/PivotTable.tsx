@@ -48,7 +48,7 @@ export const StickyPivotTable = ({
 
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
 
-  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler, isTotalCellAt } = useData(
+  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
     layoutService,
     pageInfo,
@@ -193,9 +193,10 @@ export const StickyPivotTable = ({
             viewService={viewService}
             layoutService={layoutService}
             measureData={measureData}
+            leftDimensionData={leftDimensionData}
+            topDimensionData={topDimensionData}
             showLastRowBorderBottom={showLastRowBorderBottom}
             getLeafWidth={getLeafWidth}
-            isTotalCellAt={isTotalCellAt}
           />
         </StickyContainer>
       </FullSizeContainer>

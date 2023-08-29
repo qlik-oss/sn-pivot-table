@@ -26,12 +26,12 @@ const getGridTextClampStyle = (clampCount: number): React.CSSProperties => ({
   ...getLineClampStyle(clampCount),
 });
 
-export const getCellStyle = (styleService: StyleService, isNull: boolean, isTotalCell: boolean) => {
+export const getCellStyle = (styleService: StyleService, isNull: boolean, isTotalValue: boolean) => {
   if (isNull) {
     return { ...nilStyle, ...styleService.content.nullValue };
   }
 
-  if (isTotalCell) {
+  if (isTotalValue) {
     return {
       ...numericStyle,
       color: styleService.content.totalValue.color,
