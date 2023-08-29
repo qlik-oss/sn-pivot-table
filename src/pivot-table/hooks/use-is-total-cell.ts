@@ -34,8 +34,7 @@ export const useShouldShowTotalCellBottomDivider = (leftDimensionData: LeftDimen
 export const useShouldShowTotalCellRightDivider = (topDimensionData: TopDimensionData) =>
   useCallback(
     (x: number) => {
-      const lastRowIndex = topDimensionData.grid.length - 1;
-      const cell = topDimensionData.grid[lastRowIndex]?.[x] as Cell | undefined;
+      const cell = topDimensionData.grid.at(-1)?.[x];
 
       return shouldShowTotalCellDivider(cell);
     },
@@ -45,9 +44,6 @@ export const useShouldShowTotalCellRightDivider = (topDimensionData: TopDimensio
 export const useIsTotalValue = (leftDimensionData: LeftDimensionData, topDimensionData: TopDimensionData) =>
   useCallback(
     (x: number, y: number) =>
-      !!(
-        topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotal ||
-        leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotal
-      ),
+      !!(topDimensionData.grid.at(-1)?.[x]?.isTotal || leftDimensionData.grid.at(-1)?.[y]?.isTotal),
     [topDimensionData, leftDimensionData],
   );

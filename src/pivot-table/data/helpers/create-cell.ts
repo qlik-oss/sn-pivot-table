@@ -51,7 +51,7 @@ const createCell = (
 
       // Having "parent.isLastChild" means that all ancestors also have to be the last child,
       // which is needed for the Total cell divider use case.
-      return parent?.children[parent.children.length - 1] === cell && parent.isLastChild;
+      return parent?.children.at(-1) === cell && parent.isLastChild;
     },
   };
 

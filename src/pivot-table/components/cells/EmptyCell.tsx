@@ -5,7 +5,8 @@ import { shouldShowTotalCellDivider } from "../../hooks/use-is-total-cell";
 import { getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 
 export interface EmptyCellProps {
-  cell: Cell | undefined;
+  // eslint-disable-next-line react/require-default-props
+  cell?: Cell;
   style: React.CSSProperties;
   index: number;
   isLastRow: boolean;

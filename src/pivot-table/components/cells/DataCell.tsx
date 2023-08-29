@@ -39,7 +39,6 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
         isLastColumn={isLastColumn}
         showLastRowBorderBottom={showLastRowBorderBottom}
         index={rowIndex}
-        cell={undefined}
         isLeftColumn={false}
       />
     );
