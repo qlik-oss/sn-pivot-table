@@ -20,7 +20,7 @@ const useData = (
   layoutService: LayoutService,
   pageInfo: PageInfo,
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
-  visibleTopDimensionInfo: VisibleDimensionInfo[]
+  visibleTopDimensionInfo: VisibleDimensionInfo[],
 ): Data => {
   const { qHyperCube } = layoutService.layout;
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
@@ -31,9 +31,9 @@ const useData = (
         .slice(1)
         .reduce(
           (prevData, nextDataPage) => addPageToMeasureData({ prevData, nextDataPage, pageInfo }),
-          createMeasureData(qPivotDataPages[0], pageInfo)
+          createMeasureData(qPivotDataPages[0], pageInfo),
         ),
-    [qPivotDataPages, pageInfo]
+    [qPivotDataPages, pageInfo],
   );
 
   const deriveTopDimensionDataFromProps = useCallback(
@@ -43,9 +43,9 @@ const useData = (
         .reduce(
           (prevData, nextDataPage) =>
             addPageToTopDimensionData({ prevData, nextDataPage, layoutService, visibleTopDimensionInfo }),
-          createTopDimensionData(qPivotDataPages[0], layoutService, visibleTopDimensionInfo)
+          createTopDimensionData(qPivotDataPages[0], layoutService, visibleTopDimensionInfo),
         ),
-    [layoutService, qPivotDataPages, visibleTopDimensionInfo]
+    [layoutService, qPivotDataPages, visibleTopDimensionInfo],
   );
 
   const deriveLeftDimensionDataFromProps = useCallback(
@@ -55,15 +55,15 @@ const useData = (
         .reduce(
           (prevData, nextDataPage) =>
             addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo, layoutService, visibleLeftDimensionInfo }),
-          createLeftDimensionData(qPivotDataPages[0], layoutService, pageInfo, visibleLeftDimensionInfo)
+          createLeftDimensionData(qPivotDataPages[0], layoutService, pageInfo, visibleLeftDimensionInfo),
         ),
-    [qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo]
+    [qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo],
   );
 
   const [measureData, setMeasureData] = useState<MeasureData>(() => deriveMeasureDataFromProps());
   const [topDimensionData, setTopDimensionData] = useState<TopDimensionData>(() => deriveTopDimensionDataFromProps());
   const [leftDimensionData, setLeftDimensionData] = useState<LeftDimensionData>(() =>
-    deriveLeftDimensionDataFromProps()
+    deriveLeftDimensionDataFromProps(),
   );
 
   useOnPropsChange(() => {
@@ -82,7 +82,7 @@ const useData = (
     if (!nextPage) return;
     setMeasureData((prevData) => addPageToMeasureData({ prevData, nextDataPage: nextPage, pageInfo }));
     setTopDimensionData((prevData) =>
-      addPageToTopDimensionData({ prevData, nextDataPage: nextPage, layoutService, visibleTopDimensionInfo })
+      addPageToTopDimensionData({ prevData, nextDataPage: nextPage, layoutService, visibleTopDimensionInfo }),
     );
     setLeftDimensionData((prevData) =>
       addPageToLeftDimensionData({
@@ -91,7 +91,7 @@ const useData = (
         pageInfo,
         layoutService,
         visibleLeftDimensionInfo,
-      })
+      }),
     );
     // we dont need dependency of pageInfo
     // this causes a rerender to add unrelevant data into grids
@@ -104,19 +104,12 @@ const useData = (
 
   const headersData = useMemo<HeadersData>(
     () => createHeadersData(qHyperCube, topDimensionData.rowCount, visibleLeftDimensionInfo),
-    [qHyperCube, topDimensionData.rowCount, visibleLeftDimensionInfo]
+    [qHyperCube, topDimensionData.rowCount, visibleLeftDimensionInfo],
   );
 
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
     setNextPage(page);
   }, []);
-
-  const isTotalCellAt = useCallback(
-    (x: number, y: number) =>
-      topDimensionData.grid[topDimensionData.grid.length - 1]?.[x]?.isTotalCell ||
-      leftDimensionData.grid[leftDimensionData.grid.length - 1]?.[y]?.isTotalCell,
-    [topDimensionData, leftDimensionData]
-  );
 
   return {
     headersData,
@@ -124,7 +117,6 @@ const useData = (
     topDimensionData,
     leftDimensionData,
     nextPageHandler,
-    isTotalCellAt,
   };
 };
 

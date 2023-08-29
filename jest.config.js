@@ -6,8 +6,8 @@
 module.exports = {
   collectCoverage: true,
   coverageDirectory: "coverage",
-  setupFilesAfterEnv: ["<rootDir>/jest/setup.js"],
+  setupFilesAfterEnv: ["<rootDir>/jest/setup.ts"],
   testEnvironment: "jsdom",
   testMatch: ["**/src/**/__tests__/*.test.ts?(x)"],
-  transformIgnorePatterns: ["<rootDir>/node_modules/(?!(@qlik-trial/sprout|@qlik-oss/nebula-table-utils)/)"],
+  transformIgnorePatterns: ["<rootDir>/node_modules/(?!(@qlik-trial/sprout|@qlik/nebula-table-utils)/)"],
 };

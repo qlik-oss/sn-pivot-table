@@ -27,5 +27,5 @@ export const createDimInfo = (length: number): VisibleDimensionInfo[] =>
         qSortIndicator: "A",
         qLibraryId: `id-${idx}`,
         qGroupFieldDefs: [`dim ${idx}`],
-      } as unknown as ExtendedDimensionInfo)
+      }) as unknown as ExtendedDimensionInfo,
   );

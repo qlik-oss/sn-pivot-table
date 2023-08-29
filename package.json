@@ -130,8 +130,8 @@
     "typescript": "5.2.2"
   },
   "peerDependencies": {
-    "@nebula.js/stardust": ">=4.4.0",
-    "@qlik-trial/sprout": ">=2.51.0"
+    "@nebula.js/stardust": "^4.4.0",
+    "@qlik-trial/sprout": "^3.4.0"
   },
   "packageManager": "yarn@1.22.19",
   "engines": {
