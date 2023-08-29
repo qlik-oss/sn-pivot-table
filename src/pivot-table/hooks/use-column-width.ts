@@ -24,7 +24,7 @@ export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
   leftDimensionData: LeftDimensionData,
-  visibleLeftDimensionInfo: VisibleDimensionInfo[]
+  visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): ColumnWidthHook {
   const {
     size,
@@ -35,11 +35,11 @@ export default function useColumnWidth(
   const styleService = useStyleContext();
   const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
     styleService.content.fontSize,
-    styleService.content.fontFamily
+    styleService.content.fontFamily,
   );
   const { measureText: measureTextForHeader } = useMeasureText(
     styleService.header.fontSize,
-    styleService.header.fontFamily
+    styleService.header.fontFamily,
   );
 
   const hasPseudoDimOnLeft = useMemo(() => visibleLeftDimensionInfo.includes(-1), [visibleLeftDimensionInfo]);
@@ -57,7 +57,7 @@ export default function useColumnWidth(
       const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
       const w = Math.max(
         measureTextForHeader(qFallbackTitle),
-        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize
+        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize,
       );
       return w / rect.width;
     });
@@ -79,12 +79,12 @@ export default function useColumnWidth(
 
   const getLeftColumnWidth = useCallback(
     (index: number) => leftColumnWidthsRatios[index] * rect.width,
-    [leftColumnWidthsRatios, rect.width]
+    [leftColumnWidthsRatios, rect.width],
   );
 
   const leftGridWidth = useMemo(
     () => leftDimensionData.grid.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
-    [leftDimensionData.grid, getLeftColumnWidth]
+    [leftDimensionData.grid, getLeftColumnWidth],
   );
 
   const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth - GRID_BORDER), [leftGridWidth, rect.width]);
@@ -93,7 +93,7 @@ export default function useColumnWidth(
       return qMeasureInfo.reduce(
         (currentMaxWidth, { qApprMaxGlyphCount }) =>
           Math.max(currentMaxWidth, MIN_COLUMN_WIDTH, estimateWidthForContent(qApprMaxGlyphCount)),
-        0
+        0,
       );
     }
 
@@ -101,7 +101,7 @@ export default function useColumnWidth(
       (width, { qApprMaxGlyphCount, qFallbackTitle }) =>
         width +
         Math.max(MIN_COLUMN_WIDTH, estimateWidthForContent(qApprMaxGlyphCount), measureTextForHeader(qFallbackTitle)),
-      0
+      0,
     );
   }, [qMeasureInfo, estimateWidthForContent, measureTextForHeader, hasPseudoDimOnLeft]);
 
@@ -116,7 +116,7 @@ export default function useColumnWidth(
             MIN_COLUMN_WIDTH,
             availableWidth / size.x,
             estimateWidthForContent(qApprMaxGlyphCount),
-            includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0
+            includeTitleWidth ? measureTextForHeader(qFallbackTitle) : 0,
           );
         };
 
@@ -134,7 +134,7 @@ export default function useColumnWidth(
       measureTextForHeader,
       qMeasureInfo,
       hasPseudoDimOnLeft,
-    ]
+    ],
   );
 
   const getDataColumnWidth = useCallback(
@@ -142,21 +142,21 @@ export default function useColumnWidth(
       const measureInfoIndex = colIndex % qMeasureInfo.length;
       return memoizedGetMeasureInfoWidth(measureInfoIndex);
     },
-    [memoizedGetMeasureInfoWidth, qMeasureInfo]
+    [memoizedGetMeasureInfoWidth, qMeasureInfo],
   );
 
   const getTotalWidth = useCallback(
     () =>
       Array.from({ length: size.x }, () => null).reduce(
         (width, _, index) => width + getDataColumnWidth(index),
-        leftGridWidth
+        leftGridWidth,
       ),
-    [getDataColumnWidth, leftGridWidth, size.x]
+    [getDataColumnWidth, leftGridWidth, size.x],
   );
 
   const totalMeasureInfoColumnWidth = useMemo(
     () => qMeasureInfo.reduce((width, _, index) => width + getDataColumnWidth(index), 0),
-    [qMeasureInfo, getDataColumnWidth]
+    [qMeasureInfo, getDataColumnWidth],
   );
 
   return {

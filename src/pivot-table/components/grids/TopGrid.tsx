@@ -80,7 +80,7 @@ const TopGrid = ({
 
   const allMeasuresWidth = useMemo(
     () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
-    [getMeasureInfoWidth, qMeasureInfo]
+    [getMeasureInfoWidth, qMeasureInfo],
   );
 
   const totalWidth = layoutService.size.x * (allMeasuresWidth / qMeasureInfo.length);

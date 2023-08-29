@@ -250,12 +250,12 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   styleService["headerCellHeight"] = Math.max(
     fontSizeToCellHeight(styleService.header.fontSize, lineClamp),
     fontSizeToCellHeight(styleService.columnContent.fontSize, lineClamp),
-    DEFAULT_CELL_HEIGHT
+    DEFAULT_CELL_HEIGHT,
   );
   styleService["contentCellHeight"] = Math.max(
     fontSizeToCellHeight(styleService.content.fontSize, lineClamp),
     fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
-    DEFAULT_CELL_HEIGHT
+    DEFAULT_CELL_HEIGHT,
   );
 
   return styleService;

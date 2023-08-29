@@ -67,7 +67,7 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(25);
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.leftGridWidth).toBe((50 + EXPAND_ICON_WIDTH) * 2 + 50);
       expect(result.current.rightGridWidth).toBe(80 - GRID_BORDER);
@@ -78,7 +78,7 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.leftGridWidth).toBe(150);
       expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
@@ -98,7 +98,7 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(35);
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.leftGridWidth).toBe(150);
       expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
@@ -109,7 +109,7 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.leftGridWidth).toBe(rect.width * 0.75);
       expect(result.current.rightGridWidth).toBe(rect.width * 0.25 - GRID_BORDER);
@@ -125,7 +125,7 @@ describe("useColumnWidth", () => {
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(5);
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.getLeftColumnWidth(0)).toBe(25 + EXPAND_ICON_WIDTH);
       expect(result.current.getLeftColumnWidth(1)).toBe(50 + EXPAND_ICON_WIDTH);
@@ -140,7 +140,7 @@ describe("useColumnWidth", () => {
       layoutService.size.x = 3;
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.getDataColumnWidth(0)).toBe(100);
       expect(result.current.getDataColumnWidth(1)).toBe(100);
@@ -154,7 +154,7 @@ describe("useColumnWidth", () => {
       rect.width = 600;
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.getDataColumnWidth(0)).toBeCloseTo(169.666);
       expect(result.current.getDataColumnWidth(1)).toBeCloseTo(169.666);
@@ -183,7 +183,7 @@ describe("useColumnWidth", () => {
       rect.width = 600;
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.getDataColumnWidth(0)).toBe(600);
       expect(result.current.getDataColumnWidth(1)).toBe(200);
@@ -197,7 +197,7 @@ describe("useColumnWidth", () => {
       rect.width = 600;
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.getDataColumnWidth(0)).toBe(150);
       expect(result.current.getDataColumnWidth(1)).toBe(150);
@@ -211,7 +211,7 @@ describe("useColumnWidth", () => {
       rect.width = 600;
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.getDataColumnWidth(0)).toBe(250);
       expect(result.current.getDataColumnWidth(1)).toBe(250);
@@ -226,7 +226,7 @@ describe("useColumnWidth", () => {
       layoutService.size.x = 30;
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.getTotalWidth()).toBe(150 + 30 * 100);
     });
@@ -239,7 +239,7 @@ describe("useColumnWidth", () => {
       layoutService.size.x = 30;
 
       const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo)
+        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
       expect(result.current.totalMeasureInfoColumnWidth).toBe(175 * 3);
     });

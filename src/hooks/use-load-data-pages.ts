@@ -12,7 +12,7 @@ interface Props {
 
 export const shouldFetchAdditionalData = (
   qLastExpandedPos: EngineAPI.INxCellPosition | undefined,
-  viewService: ViewService
+  viewService: ViewService,
 ) => {
   if (!qLastExpandedPos) {
     return false;

@@ -39,7 +39,7 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
 
       return memoizedMeasureText(MAGIC_DEFAULT_CHAR).width * length;
     },
-    [memoizedMeasureText]
+    [memoizedMeasureText],
   );
 
   const measureText = useCallback(
@@ -48,7 +48,7 @@ export default function useMeasureText(fontSize: string, fontFamily: string): Me
 
       return memoizedMeasureText(text).width + LEEWAY_WIDTH;
     },
-    [memoizedMeasureText]
+    [memoizedMeasureText],
   );
 
   return { estimateWidth, measureText };

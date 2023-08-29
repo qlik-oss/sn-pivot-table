@@ -44,7 +44,7 @@ describe("DataCell", () => {
       render(
         <TestWithProvider>
           <DataCell data={data} style={style} columnIndex={0} rowIndex={0} />
-        </TestWithProvider>
+        </TestWithProvider>,
       );
   });
 

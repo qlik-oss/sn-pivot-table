@@ -110,7 +110,7 @@ describe("DimensionCell", () => {
         isLeftColumn={false}
         isLastRow={false}
         isLastColumn={false}
-      />
+      />,
     );
 
     expect(screen.getByText(qText)).toBeInTheDocument();
@@ -135,7 +135,7 @@ describe("DimensionCell", () => {
         isLeftColumn={false}
         isLastRow={false}
         isLastColumn={false}
-      />
+      />,
     );
 
     expect(screen.queryByTestId(testIdExpandIcon)).toBeNull();
@@ -160,7 +160,7 @@ describe("DimensionCell", () => {
         isLeftColumn={false}
         isLastRow={false}
         isLastColumn={false}
-      />
+      />,
     );
 
     expect(screen.getByTestId(testId)).toHaveStyle({ "border-right-color": "rgba(0, 0, 0, 0.6)" } as Record<
@@ -184,7 +184,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -207,7 +207,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -235,7 +235,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -257,7 +257,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -280,7 +280,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -308,7 +308,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -333,7 +333,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -358,7 +358,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
@@ -382,7 +382,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -407,7 +407,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -433,7 +433,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -460,7 +460,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -483,7 +483,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -511,7 +511,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -533,7 +533,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -556,7 +556,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -584,7 +584,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -610,7 +610,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -635,7 +635,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
@@ -659,7 +659,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -684,7 +684,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -710,7 +710,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
-          />
+          />,
         );
 
         await userEvent.click(screen.getByText(qText));
