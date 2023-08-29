@@ -3,13 +3,20 @@ import type { PivotLayout, SnapshotData } from "../../types/QIX";
 import type { LayoutService } from "../../types/types";
 import createLayoutService from "../layout-service";
 
-const getMeasureInfo = () => ({} as EngineAPI.INxMeasureInfo);
+const getMeasureInfo = () => ({}) as EngineAPI.INxMeasureInfo;
 
-const getDimensionInfo = (qLocked: boolean) => ({ qLocked } as EngineAPI.INxDimensionInfo);
+const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible?: boolean }) =>
+  ({
+    qLocked: !qLocked,
+    qCardinalities: {
+      qHypercubeCardinal: isVisible ? 1 : 0,
+    },
+  }) as unknown as EngineAPI.INxDimensionInfo;
 
 describe("createLayoutService", () => {
   let layout: PivotLayout;
   let create: () => LayoutService;
+  let effectiveProperties: EngineAPI.IGenericObjectProperties | undefined;
 
   beforeEach(() => {
     layout = {
@@ -18,7 +25,10 @@ describe("createLayoutService", () => {
         qNoOfLeftDims: 1,
         qEffectiveInterColumnSortOrder: [0, 1, -1],
         qMeasureInfo: [getMeasureInfo()],
-        qDimensionInfo: [{ qLocked: false }, { qLocked: false }],
+        qDimensionInfo: [
+          getDimensionInfo({ qLocked: false, isVisible: true }),
+          getDimensionInfo({ qLocked: false, isVisible: true }),
+        ],
         qSize: {
           qcx: 100,
           qcy: 200,
@@ -26,7 +36,7 @@ describe("createLayoutService", () => {
       },
     } as PivotLayout;
 
-    create = () => createLayoutService(layout);
+    create = () => createLayoutService(layout, effectiveProperties);
   });
 
   describe("getNullValueText", () => {
@@ -70,49 +80,6 @@ describe("createLayoutService", () => {
       expect(service.getMeasureInfoIndexFromCellIndex(3)).toEqual(0);
       expect(service.getMeasureInfoIndexFromCellIndex(4)).toEqual(1);
       expect(service.getMeasureInfoIndexFromCellIndex(5)).toEqual(2);
-    });
-  });
-
-  describe("isDimensionLocked", () => {
-    test("should return true when left dimension is locked", () => {
-      layout.qHyperCube.qDimensionInfo = [getDimensionInfo(true), getDimensionInfo(false)];
-      const service = create();
-      expect(service.isDimensionLocked("L", 0, 0)).toEqual(true);
-    });
-
-    test("should return false when left dimension is not locked", () => {
-      layout.qHyperCube.qDimensionInfo = [getDimensionInfo(false), getDimensionInfo(true)];
-      const service = create();
-      expect(service.isDimensionLocked("L", 0, 0)).toEqual(false);
-    });
-
-    test("should return false when dimension index does not exist for tyoe L", () => {
-      layout.qHyperCube.qDimensionInfo = [];
-      const service = create();
-      expect(service.isDimensionLocked("L", 0, 0)).toEqual(false);
-    });
-
-    test("should return true when top dimension is locked", () => {
-      layout.qHyperCube.qDimensionInfo = [getDimensionInfo(false), getDimensionInfo(true)];
-      const service = create();
-      expect(service.isDimensionLocked("T", 0, 0)).toEqual(true);
-    });
-
-    test("should return false when top dimension is not locked", () => {
-      layout.qHyperCube.qDimensionInfo = [getDimensionInfo(true), getDimensionInfo(false)];
-      const service = create();
-      expect(service.isDimensionLocked("T", 0, 0)).toEqual(false);
-    });
-
-    test("should return false when dimension index does not exist for type T", () => {
-      layout.qHyperCube.qDimensionInfo = [];
-      const service = create();
-      expect(service.isDimensionLocked("T", 0, 0)).toEqual(false);
-    });
-
-    test("should return false when cell type is not supported", () => {
-      const service = create();
-      expect(service.isDimensionLocked("D", 0, 0)).toEqual(false);
     });
   });
 
@@ -171,6 +138,33 @@ describe("createLayoutService", () => {
       layout.qHyperCube.qNoOfLeftDims = 0;
       const service = create();
       expect(service.hasLeftDimensions).toBe(false);
+    });
+  });
+
+  describe("showTotalsAbove", () => {
+    test("should be false when property is false", () => {
+      effectiveProperties = {
+        qHyperCubeDef: { qShowTotalsAbove: false },
+      } as unknown as EngineAPI.IGenericObjectProperties;
+
+      const service = create();
+      expect(service.showTotalsAbove).toBe(false);
+    });
+
+    test("should be true when property is true", () => {
+      effectiveProperties = {
+        qHyperCubeDef: { qShowTotalsAbove: true },
+      } as unknown as EngineAPI.IGenericObjectProperties;
+
+      const service = create();
+      expect(service.showTotalsAbove).toBe(true);
+    });
+
+    test("should be false when effective properties is undefined", () => {
+      effectiveProperties = undefined;
+
+      const service = create();
+      expect(service.showTotalsAbove).toBe(false);
     });
   });
 });

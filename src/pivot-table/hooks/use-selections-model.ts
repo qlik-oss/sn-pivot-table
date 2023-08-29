@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Q_PATH } from "../../constants";
 import { NxSelectionCellType } from "../../types/QIX";
@@ -18,7 +19,7 @@ export interface SelectedPivotCell {
 
 export default function useSelectionsModel(
   selections: ExtendedSelections,
-  updatePageInfo: (args: Partial<PageInfo>) => void
+  updatePageInfo: (args: Partial<PageInfo>) => void,
 ): SelectionModel {
   const isActive = selections.isActive();
   const [selected, setSelected] = useState<SelectedPivotCell[]>([]);
@@ -49,19 +50,19 @@ export default function useSelectionsModel(
           return !!selected.find(
             (cell) =>
               cell.qType === NxSelectionCellType.NX_CELL_TOP ||
-              (cell.qType === NxSelectionCellType.NX_CELL_LEFT && cell.qCol !== qCol)
+              (cell.qType === NxSelectionCellType.NX_CELL_LEFT && cell.qCol !== qCol),
           );
         case NxSelectionCellType.NX_CELL_TOP:
           return !!selected.find(
             (cell) =>
               cell.qType === NxSelectionCellType.NX_CELL_LEFT ||
-              (cell.qType === NxSelectionCellType.NX_CELL_TOP && cell.qRow !== qRow)
+              (cell.qType === NxSelectionCellType.NX_CELL_TOP && cell.qRow !== qRow),
           );
         default:
           return false;
       }
     },
-    [selected]
+    [selected],
   );
 
   const select = useCallback(
@@ -93,13 +94,13 @@ export default function useSelectionsModel(
         return values;
       });
     },
-    [selections, isLocked]
+    [selections, isLocked],
   );
 
   const isSelected = useCallback(
     (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) =>
       !!selected.find((cell) => cell.qType === qType && cell.qRow === qRow && cell.qCol === qCol),
-    [selected]
+    [selected],
   );
 
   const model = useMemo(
@@ -109,7 +110,7 @@ export default function useSelectionsModel(
       isActive,
       isLocked,
     }),
-    [select, isSelected, isActive, isLocked]
+    [select, isSelected, isActive, isLocked],
   );
 
   return model;

@@ -156,6 +156,10 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
 export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
   cId?: string;
   qLibraryId?: string;
+  qCardinalities: {
+    qHypercubeCardinal: number;
+  };
+  columnWidth: ColumnWidth;
 }
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;

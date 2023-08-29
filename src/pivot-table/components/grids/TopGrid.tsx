@@ -1,8 +1,8 @@
 import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
-import React, { memo, useLayoutEffect, useMemo } from "react";
+import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, TopDimensionData } from "../../../types/types";
+import type { DataModel, LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -24,6 +24,7 @@ interface TopGridProps {
   topDimensionData: TopDimensionData;
   showLastRowBorderBottom: boolean;
   getLeafWidth: (index?: number) => number;
+  visibleTopDimensionInfo: VisibleDimensionInfo[];
 }
 
 const listStyle: React.CSSProperties = {
@@ -53,12 +54,12 @@ const TopGrid = ({
   topDimensionData,
   showLastRowBorderBottom,
   getLeafWidth,
+  visibleTopDimensionInfo,
 }: TopGridProps): JSX.Element | null => {
   const {
     grid: { divider },
     headerCellHeight,
   } = useStyleContext();
-  const { qDimensionInfo } = layoutService.layout.qHyperCube;
   const resolvedContainerStyle = {
     ...(layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders),
     borderColor: divider,
@@ -88,7 +89,7 @@ const TopGrid = ({
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
-        const key = getKey(topDimensionData.dimensionInfoIndexMap[topRowIndex], qDimensionInfo);
+        const key = getKey(visibleTopDimensionInfo[topRowIndex]);
 
         return (
           <VariableSizeList

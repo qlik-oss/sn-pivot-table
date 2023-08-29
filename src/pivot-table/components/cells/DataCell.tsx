@@ -3,8 +3,9 @@ import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
 import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { getBorderStyle, getLineClampStyle, textStyle } from "../shared-styles";
+import { getBorderStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
+import { containerStyle, getCellStyle, getTextStyle } from "./utils/get-measure-cell-style";
 
 export interface MeasureCellProps {
   columnIndex: number;
@@ -13,37 +14,12 @@ export interface MeasureCellProps {
   data: GridItemData;
 }
 
-const numericStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  height: "100%",
-};
-
-const nilStyle: React.CSSProperties = {
-  alignItems: "center",
-  display: "flex",
-  flexDirection: "row",
-  height: "100%",
-  backgroundClip: "padding-box",
-};
-
-const containerStyle: React.CSSProperties = {
-  justifyContent: "center",
-};
-
-const getGridTextClampStyle = (clampCount: number): React.CSSProperties => ({
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  ...getLineClampStyle(clampCount),
-});
-
 export const testId = "measure-cell";
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
-  const { fontFamily, fontSize, color, background } = styleService.content;
-  const { grid, layoutService, showLastRowBorderBottom } = data;
+  const { background } = styleService.content;
+  const { grid, layoutService, showLastRowBorderBottom, isTotalCellAt } = data;
   const cell = grid[rowIndex]?.[columnIndex];
   const isLastRow = rowIndex === layoutService.size.y - 1;
   const isLastColumn = columnIndex === layoutService.size.x - 1;
@@ -55,16 +31,18 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
         showLastRowBorderBottom={showLastRowBorderBottom}
+        index={rowIndex}
       />
     );
   }
 
   const { qText, qType } = cell;
   const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
+  const isTotalCell = !isNull && isTotalCellAt(columnIndex, rowIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
   const isNumeric = isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
-    ...(isNull ? { ...nilStyle, ...styleService.content.nullValue } : { ...numericStyle, color, background }),
+    ...getCellStyle(styleService, isNull, isTotalCell),
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
     display: "flex",
     justifyContent: isNumeric ? "flex-end" : "center",
@@ -73,17 +51,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   return (
     <div title={text} style={{ ...style, ...containerStyle }} data-testid={testId}>
       <div style={cellStyle}>
-        <span
-          style={{
-            ...textStyle,
-            ...(!isNumeric && getGridTextClampStyle(styleService.lineClamp)),
-            alignSelf: "flex-start",
-            fontFamily,
-            fontSize,
-          }}
-        >
-          {text}
-        </span>
+        <span style={getTextStyle(styleService, isNumeric)}>{text}</span>
       </div>
     </div>
   );

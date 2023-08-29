@@ -6,8 +6,6 @@ jest.mock("../extract-headers");
 const mockedExtractHeaders = extractHeaders as jest.MockedFunction<typeof extractHeaders>;
 
 describe("create headers data", () => {
-  const qHyperCube = { qDimensionInfo: [] } as unknown as EngineAPI.IHyperCube;
-
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -21,7 +19,7 @@ describe("create headers data", () => {
     ];
     mockedExtractHeaders.mockReturnValue(headers);
 
-    const headersData = createHeadersData(qHyperCube, 1, [0, 1]);
+    const headersData = createHeadersData(1, []);
 
     expect(headersData.data).toEqual(headers);
     expect(headersData.size.x).toBe(1);
@@ -32,7 +30,7 @@ describe("create headers data", () => {
     const headers = [] as HeaderTitle[][];
     mockedExtractHeaders.mockReturnValue(headers);
 
-    const headersData = createHeadersData(qHyperCube, 1, [0, 1]);
+    const headersData = createHeadersData(1, []);
 
     expect(headersData.data).toEqual(headers);
     expect(headersData.size.x).toBe(0);

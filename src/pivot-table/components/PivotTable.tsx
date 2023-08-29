@@ -9,6 +9,7 @@ import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
 import useTableRect from "../hooks/use-table-rect";
+import useVisibleDimensions from "../hooks/use-visible-dimensions";
 import FullSizeContainer from "./containers/FullSizeContainer";
 import ScrollableContainer from "./containers/ScrollableContainer";
 import StickyContainer from "./containers/StickyContainer";
@@ -45,10 +46,14 @@ export const StickyPivotTable = ({
   const currentScrollTop = useRef<number>(0);
   const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
 
-  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
+  const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
+
+  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler, isTotalCellAt } = useData(
     qPivotDataPages,
     layoutService,
-    pageInfo
+    pageInfo,
+    visibleLeftDimensionInfo,
+    visibleTopDimensionInfo,
   );
 
   const dataModel = useDataModel({
@@ -57,8 +62,14 @@ export const StickyPivotTable = ({
     pageInfo,
   });
 
-  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, totalWidth, getLeafWidth } =
-    useColumnWidth(layoutService, tableRect, leftDimensionData, topDimensionData);
+  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, totalWidth, getLeafWidth } = useColumnWidth(
+    layoutService,
+    tableRect,
+    leftDimensionData,
+    topDimensionData,
+    visibleLeftDimensionInfo,
+    visibleTopDimensionInfo,
+  );
 
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
@@ -112,7 +123,7 @@ export const StickyPivotTable = ({
 
   const dataRowCount = Math.min(
     layoutService.layout.qHyperCube.qSize.qcy - pageInfo.currentPage * pageInfo.rowsPerPage,
-    pageInfo.rowsPerPage
+    pageInfo.rowsPerPage,
   );
 
   const totalDataHeight = dataRowCount * contentCellHeight + GRID_BORDER;
@@ -156,6 +167,7 @@ export const StickyPivotTable = ({
             topDimensionData={topDimensionData}
             showLastRowBorderBottom={false}
             getLeafWidth={getLeafWidth}
+            visibleTopDimensionInfo={visibleTopDimensionInfo}
           />
 
           <LeftGrid
@@ -169,6 +181,7 @@ export const StickyPivotTable = ({
             layoutService={layoutService}
             leftDimensionData={leftDimensionData}
             showLastRowBorderBottom={showLastRowBorderBottom}
+            visibleLeftDimensionInfo={visibleLeftDimensionInfo}
           />
 
           <DataGrid
@@ -182,6 +195,7 @@ export const StickyPivotTable = ({
             measureData={measureData}
             showLastRowBorderBottom={showLastRowBorderBottom}
             getLeafWidth={getLeafWidth}
+            isTotalCellAt={isTotalCellAt}
           />
         </StickyContainer>
       </FullSizeContainer>

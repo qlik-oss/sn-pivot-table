@@ -58,14 +58,14 @@ describe("ListCellFactory", () => {
     const index = 0;
     const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
     mockDimensionCell.mockReturnValue(<div />);
-    cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+    cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
     data.list[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockDimensionCell).toHaveBeenCalledWith(
       { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: true },
-      {}
+      {},
     );
   });
 
@@ -80,7 +80,7 @@ describe("ListCellFactory", () => {
 
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith(
       { style, cell, isLeftColumn: false, isLastRow: false, isLastColumn: true, showLastRowBorderBottom: false },
-      {}
+      {},
     );
   });
 
@@ -95,7 +95,7 @@ describe("ListCellFactory", () => {
 
     expect(mockedTotalsCell).toHaveBeenCalledWith(
       { cell, style, isLeftColumn: false, isLastRow: false, isLastColumn: true },
-      {}
+      {},
     );
   });
 
@@ -116,7 +116,7 @@ describe("ListCellFactory", () => {
         isLastColumn: true,
         showLastRowBorderBottom: false,
       },
-      {}
+      {},
     );
   });
 
@@ -138,7 +138,7 @@ describe("ListCellFactory", () => {
         isLastColumn: false,
         showLastRowBorderBottom: false,
       },
-      {}
+      {},
     );
   });
 
@@ -148,7 +148,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLeftColumn = true;
         data.isLast = true;
@@ -157,7 +157,7 @@ describe("ListCellFactory", () => {
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
           { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: true, isLastRow: true, isLastColumn: true },
-          {}
+          {},
         );
       });
 
@@ -165,7 +165,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLeftColumn = true;
         data.isLast = false;
@@ -175,7 +175,7 @@ describe("ListCellFactory", () => {
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
           { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: true, isLastRow: false, isLastColumn: false },
-          {}
+          {},
         );
       });
     });
@@ -185,14 +185,14 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
 
         render(<ListCellFactory index={index} style={style} data={data} />);
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
           { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: true },
-          {}
+          {},
         );
       });
 
@@ -200,7 +200,7 @@ describe("ListCellFactory", () => {
         const index = 0;
         const mockDimensionCell = DimensionCell as jest.MockedFunction<typeof DimensionCell>;
         mockDimensionCell.mockReturnValue(<div />);
-        cell = { x: 1, y: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
+        cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
         data.isLast = false;
         data.itemCount = 2;
@@ -209,7 +209,7 @@ describe("ListCellFactory", () => {
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
           { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: false },
-          {}
+          {},
         );
       });
     });

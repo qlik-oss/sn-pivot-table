@@ -2,9 +2,9 @@ import React from "react";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle } from "../shared-styles";
 
-interface EmptyCellProps {
+export interface EmptyCellProps {
   style: React.CSSProperties;
-  index?: number;
+  index: number;
   isLastRow: boolean;
   isLastColumn: boolean;
   showLastRowBorderBottom: boolean;

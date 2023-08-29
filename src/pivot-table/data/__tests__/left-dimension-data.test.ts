@@ -1,5 +1,5 @@
 import NxDimCellType from "../../../types/QIX";
-import type { Cell, Grid, LayoutService, PageInfo } from "../../../types/types";
+import type { Cell, Grid, LayoutService, PageInfo, VisibleDimensionInfo } from "../../../types/types";
 import extractLeftGrid from "../extract-left";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../left-dimension-data";
 
@@ -30,7 +30,8 @@ describe("left dimension data", () => {
     layout: {
       qHyperCube,
     },
-  } as LayoutService;
+  } as unknown as LayoutService;
+  const visibleLeftDimensionInfo: VisibleDimensionInfo[] = [];
 
   beforeEach(() => {
     jest.resetAllMocks();
@@ -40,17 +41,17 @@ describe("left dimension data", () => {
     test("should return correct data", () => {
       const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractLeft.mockReturnValue(mockedReturnValue);
-      const data = createLeftDimensionData(dataPage, layoutService, pageInfo);
+      const data = createLeftDimensionData(dataPage, layoutService, pageInfo, visibleLeftDimensionInfo);
 
       expect(mockedExtractLeft).toHaveBeenCalledWith(
         [],
         dataPage.qLeft,
         dataPage.qArea,
         pageInfo,
-        layoutService.isSnapshot
+        layoutService,
+        visibleLeftDimensionInfo,
       );
       expect(data.grid).toEqual(mockedReturnValue);
-      expect(data.dimensionInfoIndexMap).toEqual([0]);
       expect(data.columnCount).toEqual(1);
     });
   });
@@ -59,7 +60,7 @@ describe("left dimension data", () => {
     test("should add page to data", () => {
       const nextLeft = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractLeft.mockReturnValue(nextLeft);
-      const prevData = createLeftDimensionData(dataPage, layoutService, pageInfo);
+      const prevData = createLeftDimensionData(dataPage, layoutService, pageInfo, visibleLeftDimensionInfo);
       const nextDataPage = {
         qLeft: [{}],
         qArea: {
@@ -67,24 +68,30 @@ describe("left dimension data", () => {
           qTop: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo });
+      const nextData = addPageToLeftDimensionData({
+        prevData,
+        nextDataPage,
+        pageInfo,
+        layoutService,
+        visibleLeftDimensionInfo,
+      });
 
       expect(mockedExtractLeft).toHaveBeenCalledWith(
         [],
         dataPage.qLeft,
         dataPage.qArea,
         pageInfo,
-        layoutService.isSnapshot
+        layoutService,
+        visibleLeftDimensionInfo,
       );
       expect(nextData.grid).toEqual(nextLeft);
-      expect(nextData.dimensionInfoIndexMap).toEqual([0]);
       expect(nextData.columnCount).toEqual(1);
     });
 
     test("should return previous page if qLeft is an empty array", () => {
       const nextLeft = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractLeft.mockReturnValue(nextLeft);
-      const prevData = createLeftDimensionData(dataPage, layoutService, pageInfo);
+      const prevData = createLeftDimensionData(dataPage, layoutService, pageInfo, visibleLeftDimensionInfo);
       const nextDataPage = {
         qLeft: [],
         qArea: {
@@ -92,7 +99,13 @@ describe("left dimension data", () => {
           qTop: 3,
         },
       } as unknown as EngineAPI.INxPivotPage;
-      const nextData = addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo });
+      const nextData = addPageToLeftDimensionData({
+        prevData,
+        nextDataPage,
+        pageInfo,
+        layoutService,
+        visibleLeftDimensionInfo,
+      });
 
       expect(nextData).toBe(prevData);
     });

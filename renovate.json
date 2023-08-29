@@ -1,14 +1,22 @@
 {
-  "extends": ["qlik-oss"],
+  "extends": ["qlik-oss", ":dependencyDashboard"],
   "circleci": {
     "ignoreDeps": []
   },
   "semanticCommits": true,
-  "rangeStrategy": "bump",
+  "rangeStrategy": "pin",
   "packageRules": [
     {
       "depTypeList": ["engines"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["@qlik-oss/nebula-table-utils", "@qlik-trial/sprout"],
+      "enabled": false
+    },
+    {
+      "rangeStrategy": "bump",
+      "matchDepTypes": ["peerDependencies"]
     }
   ]
 }

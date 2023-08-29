@@ -1,7 +1,7 @@
-import * as nebula from "@nebula.js/stardust";
+import { renderHook, waitFor } from "@testing-library/react";
 import useWaitForFonts from "../use-wait-for-fonts";
 
-jest.mock("@nebula.js/stardust");
+// jest.mock("@nebula.js/stardust");
 
 describe("useWaitForFonts", () => {
   let loadSpy: jest.SpyInstance<Promise<FontFace[]>, [font: string, text?: string | undefined], unknown>;
@@ -14,30 +14,26 @@ describe("useWaitForFonts", () => {
     jest.restoreAllMocks();
   });
 
-  test("should return true when fonts have been loaded", () => {
-    const isFontLoaded = useWaitForFonts(["12px Arial", "600 12px Arial"]);
+  test("should return true when fonts have been loaded", async () => {
+    const { result } = renderHook(() => useWaitForFonts(["12px Arial", "600 12px Arial"]));
 
-    expect(isFontLoaded).toBe(true);
+    await waitFor(() => {
+      expect(result.current).toBe(true);
 
-    expect(loadSpy).toHaveBeenCalledWith("12px Arial");
-    expect(loadSpy).toHaveBeenCalledWith("600 12px Arial");
+      expect(loadSpy).toHaveBeenCalledWith("12px Arial");
+      expect(loadSpy).toHaveBeenCalledWith("600 12px Arial");
+    });
   });
 
-  test("should return true when an error occured", () => {
-    const usePromiseResult: Promise<void> = Promise.resolve();
-    const usePromiseError: Error = new Error("test");
-    const usePromiseMock = (callback: () => void): [Promise<void>, Error] => {
-      callback();
-      return [usePromiseResult, usePromiseError];
-    };
+  test("should return true when an error occured", async () => {
+    loadSpy.mockRejectedValue(new Error());
+    const { result } = renderHook(() => useWaitForFonts(["12px Arial", "600 12px Arial"]));
 
-    jest.spyOn(nebula, "usePromise").mockImplementation(usePromiseMock);
+    await waitFor(() => {
+      expect(result.current).toBe(true);
 
-    const isFontLoaded = useWaitForFonts(["12px Arial", "600 12px Arial"]);
-
-    expect(isFontLoaded).toBe(true);
-
-    expect(loadSpy).toHaveBeenCalledWith("12px Arial");
-    expect(loadSpy).toHaveBeenCalledWith("600 12px Arial");
+      expect(loadSpy).toHaveBeenCalledWith("12px Arial");
+      expect(loadSpy).toHaveBeenCalledWith("600 12px Arial");
+    });
   });
 });
