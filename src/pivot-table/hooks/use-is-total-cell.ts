@@ -23,8 +23,7 @@ export const shouldShowTotalCellDivider = (cell?: Cell) => {
 export const useShouldShowTotalCellBottomDivider = (leftDimensionData: LeftDimensionData) =>
   useCallback(
     (y: number) => {
-      const lastColumnIndex = leftDimensionData.grid.length - 1;
-      const cell = leftDimensionData.grid[lastColumnIndex]?.[y] as Cell | undefined;
+      const cell = leftDimensionData.grid.at(-1)?.[y];
 
       return shouldShowTotalCellDivider(cell);
     },
