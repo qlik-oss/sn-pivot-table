@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
+import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../../types/types";
