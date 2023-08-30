@@ -87,7 +87,10 @@ export default function useColumnWidth(
     [leftDimensionData.grid, getLeftColumnWidth],
   );
 
-  const rightGridWidth = useMemo(() => Math.max(rect.width - leftGridWidth - GRID_BORDER), [leftGridWidth, rect.width]);
+  const rightGridWidth = useMemo(
+    () => Math.max(0, rect.width - leftGridWidth - GRID_BORDER),
+    [leftGridWidth, rect.width],
+  );
   const preCalcTotalDataColumnWidth = useMemo(() => {
     if (hasPseudoDimOnLeft) {
       return qMeasureInfo.reduce(
