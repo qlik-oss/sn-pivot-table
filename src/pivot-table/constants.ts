@@ -14,3 +14,4 @@ export const PAGINATION_HEIGHT = 28;
 export const HEADER_TEXT_MIN_WIDTH = 36;
 export const SORT_ICON_WIDTH = 20;
 export const MENU_ICON_WIDTH = 24;
+export const MIN_CELL_WIDTH = SORT_ICON_WIDTH + HEADER_TEXT_MIN_WIDTH + 4 + MENU_ICON_WIDTH; // 4px for grid gap

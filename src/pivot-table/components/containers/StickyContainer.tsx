@@ -1,10 +1,12 @@
 import React from "react";
 import type { Rect } from "../../../types/types";
+import { MIN_CELL_WIDTH } from "../../constants";
 
 interface StickyContainerProps {
   rect: Rect;
   children: JSX.Element | JSX.Element[];
   leftColumnsWidth: number;
+  leftColumnsCount: number;
   rightColumnsWidth: number;
   topRowsHeight: number;
   bottomRowsHeight: number;
@@ -14,6 +16,7 @@ const StickyContainer = ({
   rect,
   children,
   leftColumnsWidth,
+  leftColumnsCount,
   rightColumnsWidth,
   topRowsHeight,
   bottomRowsHeight,
@@ -26,7 +29,7 @@ const StickyContainer = ({
       top: 0,
       left: 0,
       gridTemplateColumns: leftColumnsWidth // If leftColumnsWidth is 0, this means no data exist for "headers" or "left"
-        ? `${leftColumnsWidth}px ${rightColumnsWidth}px`
+        ? `minmax(${MIN_CELL_WIDTH * leftColumnsCount}px , ${leftColumnsWidth}px) ${rightColumnsWidth}px`
         : `${rightColumnsWidth}px`,
       gridTemplateRows: `${topRowsHeight}px ${bottomRowsHeight}px`,
       width: rect.width,

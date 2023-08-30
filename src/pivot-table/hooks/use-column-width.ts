@@ -2,7 +2,7 @@ import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import type { LayoutService, LeftDimensionData, Rect, VisibleDimensionInfo } from "../../types/types";
-import { GRID_BORDER } from "../constants";
+import { GRID_BORDER, MIN_CELL_WIDTH } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText from "./use-measure-text";
 
@@ -78,7 +78,7 @@ export default function useColumnWidth(
   ]);
 
   const getLeftColumnWidth = useCallback(
-    (index: number) => leftColumnWidthsRatios[index] * rect.width,
+    (index: number) => Math.max(MIN_CELL_WIDTH, leftColumnWidthsRatios[index] * rect.width),
     [leftColumnWidthsRatios, rect.width],
   );
 
