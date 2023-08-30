@@ -2,12 +2,12 @@ import type { stardust } from "@nebula.js/stardust";
 import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
 import Descending from "@qlik-trial/sprout/icons/react/Descending";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import type {
   Align,
   ChangeActivelySortedHeader,
   ChangeSortOrder,
-  Column,
+  Header,
   HeaderTitle,
   SortDirection,
 } from "../../../types/types";
@@ -62,25 +62,25 @@ const DimensionTitleCell = ({
 
   const isDim = cell.id !== "PSEUDO-DIM";
 
-  // TODO:
-  // basically we need a unified way of column data in both SNT and PVT
-  const mockedColumnData: Column = {
-    id: cell.id,
-    isDim,
-    fieldId: cell.fieldId,
-    qLibraryId: cell.qLibraryId,
-    label: "right",
-    headTextAlign: "right" as Align,
-    sortDirection: cell.sortDirection,
-
-    colIdx: cell.colIdx,
-    qReverseSort: cell.qReverseSort,
-    isActivelySorted: cell.isActivelySorted,
-  };
+  const headerData = useMemo<Header>(
+    () => ({
+      id: cell.id,
+      isDim,
+      fieldId: cell.fieldId,
+      qLibraryId: cell.qLibraryId,
+      label: "right",
+      headTextAlign: "right" as Align,
+      sortDirection: cell.sortDirection,
+      colIdx: cell.colIdx,
+      qReverseSort: cell.qReverseSort,
+      isActivelySorted: cell.isActivelySorted,
+    }),
+    [cell, isDim],
+  );
 
   const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
     evt.stopPropagation();
-    await changeSortOrder(mockedColumnData, newSortDirection);
+    await changeSortOrder(headerData, newSortDirection);
   };
 
   return (
@@ -111,7 +111,7 @@ const DimensionTitleCell = ({
       {isDim && (
         <>
           <HeadCellMenu
-            headerData={mockedColumnData}
+            headerData={headerData}
             translator={translator}
             tabIndex={-1}
             anchorRef={anchorRef}

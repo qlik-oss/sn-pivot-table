@@ -12,7 +12,7 @@ export type List = Record<number, Cell>;
 export type Grid = List[];
 
 // TODO:
-// this should be HeaderCell OR Column
+// this should be HeaderCell
 export type HeaderTitle = {
   id: string;
   title: string;
@@ -250,7 +250,7 @@ export type ActivelySortedColumn = {
   sortDirection: SortDirection;
 };
 
-export interface Column {
+export interface Header {
   id: string;
   qLibraryId?: string;
   fieldId: string;
@@ -268,5 +268,5 @@ export interface Column {
 export type Align = "left" | "center" | "right";
 export type SortDirection = "A" | "D";
 
-export type ChangeSortOrder = (column: Column, sortOrder: SortDirection) => Promise<boolean>;
-export type ChangeActivelySortedHeader = (column: Omit<Column, "isActivelySorted">) => Promise<boolean>;
+export type ChangeSortOrder = (header: Header, sortOrder: SortDirection) => Promise<boolean>;
+export type ChangeActivelySortedHeader = (header: Omit<Header, "isActivelySorted">) => Promise<boolean>;

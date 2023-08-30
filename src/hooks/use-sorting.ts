@@ -1,5 +1,5 @@
 import type { HyperCube, Model } from "../types/QIX";
-import type { ChangeActivelySortedHeader, ChangeSortOrder, Column, SortDirection } from "../types/types";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, Header, SortDirection } from "../types/types";
 
 interface UseSortingApi {
   changeSortOrder: ChangeSortOrder;
@@ -12,10 +12,10 @@ interface UseSorting {
 
 const useSorting: UseSorting = (model, qHyperCube) => {
   const api = {
-    changeSortOrder: async (column: Column, newSortDirection: SortDirection) => {
+    changeSortOrder: async (header: Header, newSortDirection: SortDirection) => {
       if (!model) throw new Error("No Model provided!");
 
-      const { isDim, colIdx, qReverseSort } = column;
+      const { isDim, colIdx, qReverseSort } = header;
       const patches: EngineAPI.INxPatch[] = [];
       const index = isDim ? colIdx : colIdx - qHyperCube.qDimensionInfo.length;
 
@@ -36,10 +36,10 @@ const useSorting: UseSorting = (model, qHyperCube) => {
       }
     },
 
-    changeActivelySortedHeader: async (column: Column) => {
+    changeActivelySortedHeader: async (header: Header) => {
       if (!model) throw new Error("No Model provided!");
 
-      const { colIdx, qLibraryId, fieldId, sortDirection } = column;
+      const { colIdx, qLibraryId, fieldId, sortDirection } = header;
       const isActivelySortedColExists = qHyperCube.activelySortedColumn;
       let patch: EngineAPI.INxPatch[] = [];
 
