@@ -11,9 +11,7 @@ export type List = Record<number, Cell>;
 
 export type Grid = List[];
 
-// TODO:
-// this should be HeaderCell
-export type HeaderTitle = {
+export type HeaderCell = {
   id: string;
   title: string;
   sortDirection: SortDirection;
@@ -123,7 +121,7 @@ export interface LeftDimensionData {
 }
 
 export interface HeadersData {
-  data: (null | HeaderTitle)[][];
+  data: (null | HeaderCell)[][];
   size: Point;
 }
 

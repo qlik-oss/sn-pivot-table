@@ -1,5 +1,5 @@
 import type { HyperCube } from "../../../types/QIX";
-import type { HeaderTitle } from "../../../types/types";
+import type { HeaderCell } from "../../../types/types";
 import extractHeaders from "../extract-headers";
 import createHeadersData from "../headers-data";
 
@@ -21,7 +21,7 @@ describe("create headers data", () => {
       [
         { id: "a", title: "a" },
         { id: "b", title: "b" },
-      ] as HeaderTitle[],
+      ] as HeaderCell[],
     ];
     mockedExtractHeaders.mockReturnValue(headers);
 
@@ -33,7 +33,7 @@ describe("create headers data", () => {
   });
 
   test("should handle when there are no headers", () => {
-    const headers = [] as HeaderTitle[][];
+    const headers = [] as HeaderCell[][];
     mockedExtractHeaders.mockReturnValue(headers);
 
     const headersData = createHeadersData(hyperCube, 1, []);

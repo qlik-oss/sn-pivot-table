@@ -1,14 +1,14 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import type { HyperCube } from "../../types/QIX";
-import type { HeaderTitle, VisibleDimensionInfo } from "../../types/types";
+import type { HeaderCell, VisibleDimensionInfo } from "../../types/types";
 import getKey from "../components/helpers/get-key";
 
 const extractHeaders = (
   hyperCube: HyperCube,
   rowCount: number,
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
-): (null | HeaderTitle)[][] => {
-  const matrix: (null | HeaderTitle)[][] = Array(visibleLeftDimensionInfo.length)
+): (null | HeaderCell)[][] => {
+  const matrix: (null | HeaderCell)[][] = Array(visibleLeftDimensionInfo.length)
     .fill(null)
     .map(() => Array.from({ length: rowCount }, () => null));
 

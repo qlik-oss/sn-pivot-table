@@ -1,13 +1,13 @@
 import type { stardust } from "@nebula.js/stardust";
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import type { HeaderTitle } from "../../../../types/types";
+import type { HeaderCell } from "../../../../types/types";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
 
 jest.mock("../../../contexts/StyleProvider");
 
 test("should render", () => {
-  const cell = { title: "test value" } as HeaderTitle;
+  const cell = { title: "test value" } as HeaderCell;
   const translator = { get: (s) => s } as stardust.Translator;
   const changeSortOrder = jest.fn();
   const changeActivelySortedColumn = jest.fn();

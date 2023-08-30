@@ -1,6 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
-import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderTitle, HeadersData } from "../../../types/types";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell, HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
@@ -47,7 +47,7 @@ const HeaderGrid = ({
     >
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
       {headersData.data.map((col, colIndex) => {
-        const cell = col[col.length - 1] as HeaderTitle;
+        const cell = col[col.length - 1] as HeaderCell;
 
         return (
           <DimensionTitleCell

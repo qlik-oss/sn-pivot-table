@@ -8,15 +8,15 @@ import type {
   ChangeActivelySortedHeader,
   ChangeSortOrder,
   Header,
-  HeaderTitle,
+  HeaderCell,
   SortDirection,
 } from "../../../types/types";
 import { HEADER_TEXT_MIN_WIDTH, MENU_ICON_WIDTH, SORT_ICON_WIDTH } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
-interface LabelCellProps {
-  cell: HeaderTitle;
+interface DimensionTitleCellProps {
+  cell: HeaderCell;
   style: React.CSSProperties;
   isLastColumn: boolean;
   translator: stardust.Translator;
@@ -55,7 +55,7 @@ const DimensionTitleCell = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
-}: LabelCellProps): JSX.Element => {
+}: DimensionTitleCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
