@@ -31,8 +31,8 @@ const baseFlex: React.CSSProperties = {
 
 const labelWrapperStyle: React.CSSProperties = {
   ...baseFlex,
-  width: "fit-content",
   flexDirection: "row",
+  overflow: "hidden",
 };
 
 const labelTextStyle: React.CSSProperties = {
@@ -96,12 +96,12 @@ const DimensionTitleCell = ({
       data-testid={testId}
     >
       <div style={{ ...labelWrapperStyle }}>
-        <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
         {cell.isActivelySorted && (
           <div style={{ ...baseFlex, marginLeft: "8px" }}>
             {cell.sortDirection === "A" ? <Ascending height="12px" /> : <Descending height="12px" />}
           </div>
         )}
+        <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
       </div>
 
       {isDim && (
