@@ -1,4 +1,4 @@
-import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
+import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { useCallback, useMemo, useState } from "react";
 import type {
   Data,
