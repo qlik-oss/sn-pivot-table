@@ -59,6 +59,7 @@ export interface ListItemData extends ItemData {
   isLast: boolean;
   itemCount: number;
   showLastRowBorderBottom: boolean;
+  listValues: Cell[];
 }
 
 export interface Cell {
@@ -155,6 +156,7 @@ export interface LayoutService {
   hasLimitedData: boolean;
   hasLeftDimensions: boolean;
   showTotalsAbove: boolean;
+  hasPseudoDimOnLeft: boolean;
 }
 
 export interface DataService {

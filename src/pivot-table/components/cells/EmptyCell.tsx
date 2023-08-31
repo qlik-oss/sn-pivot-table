@@ -1,18 +1,15 @@
 import React from "react";
-import type { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { shouldShowTotalCellDivider } from "../../hooks/use-is-total-cell";
 import { getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 
 export interface EmptyCellProps {
-  // eslint-disable-next-line react/require-default-props
-  cell?: Cell;
   style: React.CSSProperties;
   index: number;
   isLastRow: boolean;
   isLastColumn: boolean;
   showLastRowBorderBottom: boolean;
   isLeftColumn: boolean;
+  showTotalCellDivider: boolean;
 }
 
 export const testId = "empty-cell";
@@ -23,14 +20,12 @@ const EmptyCell = ({
   isLastRow,
   isLastColumn,
   showLastRowBorderBottom,
-  cell,
   isLeftColumn,
+  showTotalCellDivider,
 }: EmptyCellProps): JSX.Element => {
   const {
     grid: { border, divider },
   } = useStyleContext();
-
-  const showTotalCellDivider = shouldShowTotalCellDivider(cell);
 
   return (
     <div

@@ -26,6 +26,7 @@ test("should render on the top", () => {
       isLastRow
       isLastColumn
       showLastRowBorderBottom
+      showTotalCellDivider={false}
     />,
   );
 
@@ -45,7 +46,17 @@ test("should render on the left", () => {
     alignItems: "flex-start",
   };
 
-  render(<PseudoDimensionCell cell={cell} style={style} isLeftColumn isLastRow isLastColumn showLastRowBorderBottom />);
+  render(
+    <PseudoDimensionCell
+      cell={cell}
+      style={style}
+      isLeftColumn
+      isLastRow
+      isLastColumn
+      showLastRowBorderBottom
+      showTotalCellDivider={false}
+    />,
+  );
 
   expect(screen.getByText("test")).toBeInTheDocument();
   expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);

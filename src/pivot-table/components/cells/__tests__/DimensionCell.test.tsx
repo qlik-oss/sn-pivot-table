@@ -110,6 +110,7 @@ describe("DimensionCell", () => {
         isLeftColumn={false}
         isLastRow={false}
         isLastColumn={false}
+        showTotalCellDivider={false}
       />,
     );
 
@@ -135,6 +136,7 @@ describe("DimensionCell", () => {
         isLeftColumn={false}
         isLastRow={false}
         isLastColumn={false}
+        showTotalCellDivider={false}
       />,
     );
 
@@ -160,6 +162,7 @@ describe("DimensionCell", () => {
         isLeftColumn={false}
         isLastRow={false}
         isLastColumn={false}
+        showTotalCellDivider={false}
       />,
     );
 
@@ -184,6 +187,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -207,6 +211,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -235,6 +240,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -257,6 +263,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -280,6 +287,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -308,6 +316,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -333,6 +342,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -358,6 +368,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -382,6 +393,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -407,6 +419,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -433,6 +446,7 @@ describe("DimensionCell", () => {
             isLeftColumn
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -460,6 +474,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -483,6 +498,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -511,6 +527,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -533,6 +550,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -556,6 +574,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -584,6 +603,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -610,6 +630,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -635,6 +656,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -659,6 +681,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -684,6 +707,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 
@@ -710,6 +734,7 @@ describe("DimensionCell", () => {
             isLeftColumn={false}
             isLastRow={false}
             isLastColumn={false}
+            showTotalCellDivider={false}
           />,
         );
 

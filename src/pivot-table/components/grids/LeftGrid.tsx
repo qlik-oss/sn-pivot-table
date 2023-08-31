@@ -89,7 +89,12 @@ const LeftGrid = ({
       {leftDimensionData.grid.map((list, colIndex) => {
         const isLastColumn = colIndex === leftDimensionData.columnCount - 1;
         const key = getKey(visibleLeftDimensionInfo[colIndex]);
-        const { itemCount, estimatedItemSize } = getListMeta(list, totalHeight, layoutService.size.y, isLastColumn);
+        const { itemCount, estimatedItemSize, listValues } = getListMeta(
+          list,
+          totalHeight,
+          layoutService.size.y,
+          isLastColumn,
+        );
 
         return (
           <VariableSizeList
@@ -110,6 +115,7 @@ const LeftGrid = ({
               isLast: isLastColumn && !layoutService.layout.snapshotData,
               itemCount,
               showLastRowBorderBottom,
+              listValues,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}
