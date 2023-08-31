@@ -30,7 +30,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
    */
   const cell = isLast ? list[index] : listValues[index];
   const showTotalCellDivider = shouldShowTotalCellDivider(
-    layoutService.showTotalsAbove ? cell : getNextCell(listValues, index, cell),
+    layoutService.showTotalsAbove ? cell : getNextCell(isLast ? list : listValues, index, cell),
   );
 
   if (cell === undefined || cell.isEmpty) {

@@ -1,4 +1,4 @@
-import type { Cell } from "../../../../types/types";
+import type { Cell, List } from "../../../../types/types";
 
 const getPseudoDimensionAdjustedIndex = (cell: Cell | null): number => {
   if (!cell || !cell.parent) {
@@ -12,7 +12,7 @@ const getPseudoDimensionAdjustedIndex = (cell: Cell | null): number => {
   return getPseudoDimensionAdjustedIndex(cell.parent);
 };
 
-const getNextCell = (list: Cell[], index: number, cell?: Cell) => {
+const getNextCell = (list: Cell[] | List, index: number, cell?: Cell) => {
   if (cell === undefined) {
     return undefined;
   }
