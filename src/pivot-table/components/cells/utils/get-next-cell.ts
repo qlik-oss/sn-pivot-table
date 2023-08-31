@@ -1,7 +1,7 @@
 import type { Cell } from "../../../../types/types";
 
 const getPseudoDimensionAdjustedIndex = (cell: Cell | null): number => {
-  if (cell === null || cell.parent === null) {
+  if (!cell || !cell.parent) {
     return 0;
   }
 

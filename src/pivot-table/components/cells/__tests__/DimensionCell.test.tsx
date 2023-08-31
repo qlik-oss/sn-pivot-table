@@ -162,7 +162,7 @@ describe("DimensionCell", () => {
         isLeftColumn={false}
         isLastRow={false}
         isLastColumn={false}
-        showTotalCellDivider={false}
+        showTotalCellDivider
       />,
     );
 

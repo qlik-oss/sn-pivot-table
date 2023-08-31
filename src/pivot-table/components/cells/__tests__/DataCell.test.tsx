@@ -29,7 +29,14 @@ describe("DataCell", () => {
     layoutService = {
       getNullValueText: () => "-",
       size: { x: 1, y: 2 },
-    } as LayoutService;
+      hasPseudoDimOnLeft: false,
+      showTotalsAbove: true,
+      layout: {
+        qHyperCube: {
+          qMeasureInfo: [],
+        },
+      },
+    } as unknown as LayoutService;
 
     data = {
       grid: [[cell]],
