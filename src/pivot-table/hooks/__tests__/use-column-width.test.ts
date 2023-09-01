@@ -2,8 +2,8 @@ import { renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo } from "../../../types/QIX";
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, LayoutService, LeftDimensionData, Rect, VisibleDimensionInfo } from "../../../types/types";
-import { GRID_BORDER, MIN_CELL_WIDTH } from "../../constants";
-import useColumnWidth from "../use-column-width";
+import { GRID_BORDER } from "../../constants";
+import useColumnWidth, { EXPAND_ICON_WIDTH } from "../use-column-width";
 import useMeasureText, { type MeasureTextHook } from "../use-measure-text";
 
 jest.mock("../use-measure-text");
@@ -25,7 +25,7 @@ describe("useColumnWidth", () => {
     } as Cell;
     const dimInfo = { qApprMaxGlyphCount: 1 } as EngineAPI.INxDimensionInfo;
     const meaInfo = { qFallbackTitle: 1, qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
-    rect = { width: 300, height: 100 };
+    rect = { width: 200, height: 100 };
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
     leftDimensionData = {
       grid: [{ 0: cell }, { 0: cell }, { 0: cell }],
@@ -69,10 +69,8 @@ describe("useColumnWidth", () => {
       const { result } = renderHook(() =>
         useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
-      expect(result.current.leftGridWidth).toBe(leftDimensionData.columnCount * MIN_CELL_WIDTH);
-      expect(result.current.rightGridWidth).toBe(
-        rect.width - GRID_BORDER - leftDimensionData.columnCount * MIN_CELL_WIDTH,
-      );
+      expect(result.current.leftGridWidth).toBe((50 + EXPAND_ICON_WIDTH) * 2 + 50);
+      expect(result.current.rightGridWidth).toBe(80 - GRID_BORDER);
     });
 
     test("should return left and right grid widths with only dimension cells and glyph size < then text size", () => {
@@ -82,10 +80,8 @@ describe("useColumnWidth", () => {
       const { result } = renderHook(() =>
         useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
-      expect(result.current.leftGridWidth).toBe(leftDimensionData.columnCount * MIN_CELL_WIDTH);
-      expect(result.current.rightGridWidth).toBe(
-        rect.width - GRID_BORDER - leftDimensionData.columnCount * MIN_CELL_WIDTH,
-      );
+      expect(result.current.leftGridWidth).toBe(150);
+      expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
     });
 
     test("should return left and right grid width with dimension and pseudo dimension cells", () => {
@@ -104,16 +100,11 @@ describe("useColumnWidth", () => {
       const { result } = renderHook(() =>
         useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
-      expect(result.current.leftGridWidth).toBe(leftDimensionData.columnCount * MIN_CELL_WIDTH);
-      expect(result.current.rightGridWidth).toBe(
-        rect.width - GRID_BORDER - leftDimensionData.columnCount * MIN_CELL_WIDTH,
-      );
+      expect(result.current.leftGridWidth).toBe(150);
+      expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
     });
 
-    // TODO:
-    // this tests are skipped because of the PVT rule of left grid might always respect 75% avaliable rect.width
-    // but we also need to consider a MIN_CELL_WIDTH for each cells in the left grid
-    test.skip("left grid can not take more space then 75% of the total width available", () => {
+    test("left grid can not take more space then 75% of the total width available", () => {
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
 
@@ -136,9 +127,9 @@ describe("useColumnWidth", () => {
       const { result } = renderHook(() =>
         useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
-      expect(result.current.getLeftColumnWidth(0)).toBe(MIN_CELL_WIDTH);
-      expect(result.current.getLeftColumnWidth(1)).toBe(MIN_CELL_WIDTH);
-      expect(result.current.getLeftColumnWidth(2)).toBe(MIN_CELL_WIDTH);
+      expect(result.current.getLeftColumnWidth(0)).toBe(25 + EXPAND_ICON_WIDTH);
+      expect(result.current.getLeftColumnWidth(1)).toBe(50 + EXPAND_ICON_WIDTH);
+      expect(result.current.getLeftColumnWidth(2)).toBe(75);
     });
   });
 
@@ -165,9 +156,9 @@ describe("useColumnWidth", () => {
       const { result } = renderHook(() =>
         useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
-      expect(result.current.getDataColumnWidth(0)).toBeCloseTo(115.666);
-      expect(result.current.getDataColumnWidth(1)).toBeCloseTo(115.666);
-      expect(result.current.getDataColumnWidth(2)).toBeCloseTo(115.666);
+      expect(result.current.getDataColumnWidth(0)).toBeCloseTo(169.666);
+      expect(result.current.getDataColumnWidth(1)).toBeCloseTo(169.666);
+      expect(result.current.getDataColumnWidth(2)).toBeCloseTo(169.666);
     });
 
     test("should not return data column width based of available right grid width when total data column width is larger than available right grid width", () => {
@@ -237,7 +228,7 @@ describe("useColumnWidth", () => {
       const { result } = renderHook(() =>
         useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
       );
-      expect(result.current.getTotalWidth()).toBe(leftDimensionData.columnCount * MIN_CELL_WIDTH + 30 * 100);
+      expect(result.current.getTotalWidth()).toBe(150 + 30 * 100);
     });
   });
 

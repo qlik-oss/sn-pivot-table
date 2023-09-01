@@ -160,7 +160,6 @@ export const StickyPivotTable = ({
         <StickyContainer
           rect={tableRect}
           leftColumnsWidth={leftGridWidth}
-          leftColumnsCount={leftDimensionData.columnCount}
           rightColumnsWidth={rightGridWidth}
           topRowsHeight={topGridHeight}
           bottomRowsHeight={dataGridHeight}

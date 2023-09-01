@@ -11,7 +11,6 @@ import type {
   HeaderCell,
   SortDirection,
 } from "../../../types/types";
-import { HEADER_TEXT_MIN_WIDTH, MENU_ICON_WIDTH, SORT_ICON_WIDTH } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
@@ -34,7 +33,6 @@ const labelWrapperStyle: React.CSSProperties = {
   ...baseFlex,
   flexDirection: "row",
   overflow: "hidden",
-  minWidth: SORT_ICON_WIDTH + HEADER_TEXT_MIN_WIDTH,
 };
 
 const labelTextStyle: React.CSSProperties = {
@@ -43,7 +41,6 @@ const labelTextStyle: React.CSSProperties = {
   alignSelf: "center",
   flexGrow: 1,
   paddingLeft: "8px",
-  minWidth: HEADER_TEXT_MIN_WIDTH,
 };
 
 export const testId = "title-cell";
@@ -95,7 +92,7 @@ const DimensionTitleCell = ({
         display: "grid",
         gridTemplateColumns: "1fr 24px",
         gridGap: "4px",
-        minWidth: SORT_ICON_WIDTH + HEADER_TEXT_MIN_WIDTH + MENU_ICON_WIDTH,
+        alignItems: "center",
       }}
       data-testid={testId}
     >
