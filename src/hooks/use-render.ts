@@ -19,7 +19,6 @@ import useLayoutService from "./use-layout-service";
 import useLoadDataPages from "./use-load-data-pages";
 import usePagination from "./use-pagination";
 import useSnapshot from "./use-snapshot";
-import useSorting from "./use-sorting";
 import useTranslations from "./use-translations";
 import useViewService from "./use-view-service";
 
@@ -53,7 +52,6 @@ const useRender = () => {
     [styleService],
   );
   const isFontLoaded = useWaitForFonts(fonts);
-  const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layout.qHyperCube);
 
   useEffect(() => {
     const isReadyToRender =
@@ -84,8 +82,6 @@ const useRender = () => {
       translator,
       pageInfo,
       updatePageInfo,
-      changeSortOrder,
-      changeActivelySortedHeader,
     });
   }, [
     model,
@@ -105,8 +101,6 @@ const useRender = () => {
     language,
     pageInfo,
     updatePageInfo,
-    changeSortOrder,
-    changeActivelySortedHeader,
     effectiveProperties,
     isLoadingEffectiveProperties,
   ]);

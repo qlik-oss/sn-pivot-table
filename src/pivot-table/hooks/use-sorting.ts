@@ -1,6 +1,6 @@
-import { useMemo } from "@nebula.js/stardust";
-import type { HyperCube, Model } from "../types/QIX";
-import type { ChangeActivelySortedHeader, ChangeSortOrder, Header, SortDirection } from "../types/types";
+import { useMemo } from "react";
+import type { HyperCube, Model } from "../../types/QIX";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, Header, SortDirection } from "../../types/types";
 
 interface UseSortingApi {
   changeSortOrder: ChangeSortOrder;

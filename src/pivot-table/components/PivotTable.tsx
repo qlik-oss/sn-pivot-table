@@ -2,19 +2,13 @@ import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import type { Model } from "../../types/QIX";
-import type {
-  ChangeActivelySortedHeader,
-  ChangeSortOrder,
-  LayoutService,
-  PageInfo,
-  Rect,
-  ViewService,
-} from "../../types/types";
+import type { LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
+import useSorting from "../hooks/use-sorting";
 import useTableRect from "../hooks/use-table-rect";
 import useVisibleDimensions from "../hooks/use-visible-dimensions";
 import FullSizeContainer from "./containers/FullSizeContainer";
@@ -34,8 +28,6 @@ export interface PivotTableProps {
   model: Model;
   pageInfo: PageInfo;
   translator: stardust.Translator;
-  changeSortOrder: ChangeSortOrder;
-  changeActivelySortedHeader: ChangeActivelySortedHeader;
 }
 
 export const StickyPivotTable = ({
@@ -47,8 +39,6 @@ export const StickyPivotTable = ({
   qPivotDataPages,
   pageInfo,
   translator,
-  changeSortOrder,
-  changeActivelySortedHeader,
 }: PivotTableProps): JSX.Element => {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
@@ -58,7 +48,7 @@ export const StickyPivotTable = ({
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
   const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
-
+  const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
