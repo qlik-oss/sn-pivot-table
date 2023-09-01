@@ -31,7 +31,7 @@ describe("use-sorting", () => {
     test("should throw error if there was no model", async () => {
       model = undefined as unknown as Model;
       const { changeSortOrder } = renderer();
-      expect(async () => await changeSortOrder(header, newSortDirection)).toThrow();
+      expect(async () => await changeSortOrder(header, newSortDirection)).toThrow;
     });
 
     test("should call applyPatches with correct column index for measures", async () => {
@@ -117,7 +117,7 @@ describe("use-sorting", () => {
     test("should throw error if there was no model", async () => {
       model = undefined as unknown as Model;
       const { changeActivelySortedHeader } = renderer();
-      expect(async () => await changeActivelySortedHeader(header)).toThrow();
+      expect(async () => await changeActivelySortedHeader(header)).toThrow;
     });
 
     test("should call applyPatches using correct operation if `activelySortedColumn` is already exists on hypercube", async () => {
