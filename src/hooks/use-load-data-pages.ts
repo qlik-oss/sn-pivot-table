@@ -1,7 +1,7 @@
+import { useFetch } from "@qlik/nebula-table-utils/lib/hooks";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../constants";
 import type { Model, PivotLayout } from "../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../types/types";
-import useFetch from "./use-fetch";
 
 interface Props {
   model: Model;

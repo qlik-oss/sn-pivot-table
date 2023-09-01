@@ -1,5 +1,5 @@
+import { useFetch } from "@qlik/nebula-table-utils/lib/hooks";
 import type { Model, PivotLayout } from "../types/QIX";
-import useFetch from "./use-fetch";
 
 const useEffectiveProperties = (model: Model, layout: PivotLayout) =>
   useFetch<EngineAPI.IGenericObjectProperties | undefined>(async () => {
