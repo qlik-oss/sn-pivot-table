@@ -34,8 +34,12 @@ const createCell = (
         return 0;
       }
 
-      if (cell.isLeafNode) {
+      if (cell.children[0]?.isLeafNode) {
         return 1;
+      }
+
+      if (cell.isLeafNode) {
+        return 0;
       }
 
       // If a node is at the end of a page and has more child nodes at the next page.

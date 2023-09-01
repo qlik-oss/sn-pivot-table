@@ -65,11 +65,37 @@ describe("createCell", () => {
       expect(cell.leafCount).toEqual(0);
     });
 
-    test("should set leafCount", () => {
+    test("leaf node should have 0 leaf count", () => {
+      cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
+
+      expect(cell.leafCount).toEqual(0);
+    });
+
+    test("should return leafCount when node is not first node on page", () => {
+      node.qSubNodes = [{}] as EngineAPI.INxPivotDimensionCell[]; // Node is not a leaf node
       cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
 
       expect(cell.leafCount).toEqual(node.qUp + node.qDown);
     });
+
+    test("should return leafCount when node is first node on page", () => {
+      pageY = 0;
+      node.qSubNodes = [{}] as EngineAPI.INxPivotDimensionCell[]; // Node is not a leaf node
+      cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
+
+      expect(cell.leafCount).toEqual(node.qDown);
+    });
+
+    // test("should include leaf count from it child left nodes", () => {
+    //   node.qSubNodes = [{}] as EngineAPI.INxPivotDimensionCell[]; // Node is not a leaf node
+    //   parentCell = createCell(node, null, null, 0, 0, 0, false, dimensionInfo);
+    //   const childNode = { ...node, qUp: 0, qDown: 0, qSubNodes: [] };
+    //   const childCell = createCell(childNode, parentCell, parentCell, x, y, pageY, false, dimensionInfo);
+    //   // cell.children.push(childCell);
+    //   // cell.children.push(childCell);
+
+    //   expect(parentCell.leafCount).toEqual(node.qUp + node.qDown + 2);
+    // });
   });
 
   describe("isLockedByDimension", () => {
