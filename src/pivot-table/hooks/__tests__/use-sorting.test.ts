@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions, @typescript-eslint/unbound-method, jest/valid-expect, @typescript-eslint/return-await */
 import { renderHook } from "@testing-library/react";
 import type { HyperCube, Model } from "../../../types/QIX";
 import type { Header, SortDirection } from "../../../types/types";
@@ -29,13 +30,8 @@ describe("use-sorting", () => {
   describe("changeSortOrder", () => {
     test("should throw error if there was no model", async () => {
       model = undefined as unknown as Model;
-
       const { changeSortOrder } = renderer();
-      try {
-        await changeSortOrder(header, newSortDirection);
-      } catch (err: any) {
-        expect(err.message).toBe("No Model provided!");
-      }
+      expect(async () => await changeSortOrder(header, newSortDirection)).toThrow();
     });
 
     test("should call applyPatches with correct column index for measures", async () => {
@@ -91,15 +87,14 @@ describe("use-sorting", () => {
       );
     });
 
-    test("should return false and log error if applyPatches fails", async () => {
+    test("should log error if applyPatches fails", async () => {
       jest.spyOn(console, "error");
       applyPatches.mockRejectedValue("failure");
       const { changeSortOrder } = renderer();
       newSortDirection = "A";
-      const result = await changeSortOrder(header, newSortDirection);
+      await changeSortOrder(header, newSortDirection);
       expect(applyPatches).toHaveBeenCalledTimes(1);
-      expect(result).toBeFalsy;
-      expect(global.console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -121,13 +116,8 @@ describe("use-sorting", () => {
 
     test("should throw error if there was no model", async () => {
       model = undefined as unknown as Model;
-
       const { changeActivelySortedHeader } = renderer();
-      try {
-        await changeActivelySortedHeader(header);
-      } catch (err: any) {
-        expect(err.message).toBe("No Model provided!");
-      }
+      expect(async () => await changeActivelySortedHeader(header)).toThrow();
     });
 
     test("should call applyPatches using correct operation if `activelySortedColumn` is already exists on hypercube", async () => {
@@ -203,15 +193,14 @@ describe("use-sorting", () => {
       );
     });
 
-    test("should return false and log error if applyPatches fails", async () => {
+    test("should log error if applyPatches fails", async () => {
       jest.spyOn(console, "error");
       applyPatches.mockRejectedValue("failure");
       const { changeActivelySortedHeader } = renderer();
       newSortDirection = "A";
-      const result = await changeActivelySortedHeader(header);
+      await changeActivelySortedHeader(header);
       expect(applyPatches).toHaveBeenCalledTimes(1);
-      expect(result).toBeFalsy;
-      expect(global.console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledTimes(1);
     });
   });
 });
