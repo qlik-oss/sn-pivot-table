@@ -16,7 +16,12 @@ describe("createCell", () => {
 
   beforeEach(() => {
     dimensionInfo = { qLocked: false } as ExtendedDimensionInfo;
-    node = { qUp: 1, qDown: 2, qType: NxDimCellType.NX_DIM_CELL_NORMAL } as EngineAPI.INxPivotDimensionCell;
+    node = {
+      qUp: 1,
+      qDown: 2,
+      qType: NxDimCellType.NX_DIM_CELL_NORMAL,
+      qSubNodes: [],
+    } as unknown as EngineAPI.INxPivotDimensionCell;
     rootCell = {} as Cell;
     parentCell = { children: [] } as unknown as Cell;
 

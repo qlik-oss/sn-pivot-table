@@ -28,9 +28,7 @@ const createCell = (
     parent,
     root,
     children: [] as Cell[],
-    get isLeafNode(): boolean {
-      return cell.children.length === 0;
-    },
+    isLeafNode: node.qSubNodes.length === 0,
     get leafCount(): number {
       if (isSnapshot) {
         return 0;
