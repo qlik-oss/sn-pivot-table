@@ -65,15 +65,6 @@ describe("createCell", () => {
 
       expect(cell.leafCount).toEqual(node.qUp + node.qDown);
     });
-
-    test("should increment leafCount", () => {
-      parentCell = createCell(node, null, rootCell, x, y, pageY, false, dimensionInfo);
-      cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
-
-      cell.incrementLeafCount();
-      expect(cell.leafCount).toEqual(node.qUp + node.qDown + 1);
-      expect(parentCell.leafCount).toEqual(node.qUp + node.qDown + 1);
-    });
   });
 
   describe("isLockedByDimension", () => {

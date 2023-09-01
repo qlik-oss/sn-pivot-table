@@ -1,5 +1,6 @@
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, VisibleDimensionInfo } from "../../../types/types";
+import { MAX_ROW_COUNT } from "../../constants";
 
 // qElemNo === -1 => Total
 // qElemNo === -2 => Null
@@ -26,16 +27,34 @@ const createCell = (
     pageY,
     parent,
     root,
-    children: [],
-    leafCount: isSnapshot ? 0 : node.qUp + node.qDown,
+    children: [] as Cell[],
+    get isLeafNode(): boolean {
+      return cell.children.length === 0;
+    },
+    get leafCount(): number {
+      if (isSnapshot) {
+        return 0;
+      }
+
+      if (cell.isLeafNode) {
+        return 1;
+      }
+
+      // If a node is at the end of a page and has more child nodes at the next page.
+      // Those child nodes should not me included in the leaf count.
+      const maxRowLeafCount = MAX_ROW_COUNT - pageY;
+
+      const nbrOfLeafNodes = cell.children.reduce((count, childCell) => count + childCell.leafCount, 0);
+
+      // leafCount is per PAGE, so if the node is the first node on a page. Ignore any nodes on previous page.
+      if (pageY === 0) {
+        return Math.min(node.qDown + nbrOfLeafNodes, maxRowLeafCount);
+      }
+
+      return Math.min(node.qUp + node.qDown + nbrOfLeafNodes, maxRowLeafCount);
+    },
     distanceToNextCell: 0,
     isLockedByDimension: !!(typeof dimensionInfo === "object" && dimensionInfo.qLocked),
-    incrementLeafCount() {
-      this.leafCount += 1;
-      if (parent) {
-        parent.incrementLeafCount();
-      }
-    },
     // Having "parent.isTotal" means that it's enough that any ancestors is a total cell,
     // which is needed for the Total cell highlight use case.
     isTotal: node.qType === NxDimCellType.NX_DIM_CELL_TOTAL || !!parent?.isTotal,

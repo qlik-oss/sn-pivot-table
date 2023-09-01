@@ -22,7 +22,7 @@ export const addPageToLeftDimensionData = ({
   if (!qLeft.length) return prevData;
 
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
-  assignDistanceToNextCell(grid, "pageY", prevData.layoutSize, pageInfo);
+  assignDistanceToNextCell(grid, "pageY", prevData.layoutSize);
 
   return {
     ...prevData,
@@ -39,7 +39,7 @@ export const createLeftDimensionData = (
 ): LeftDimensionData => {
   const { qArea, qLeft } = dataPage;
   const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
-  assignDistanceToNextCell(grid, "pageY", layoutService.size, pageInfo);
+  assignDistanceToNextCell(grid, "pageY", layoutService.size);
 
   return {
     grid,

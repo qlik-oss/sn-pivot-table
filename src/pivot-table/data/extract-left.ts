@@ -49,8 +49,6 @@ const extractLeftGrid = (
 
       if (node.qSubNodes.length) {
         recursiveExtract(root || cell, cell, node.qSubNodes, colIdx + 1);
-      } else {
-        cell.parent?.incrementLeafCount();
       }
     });
   }

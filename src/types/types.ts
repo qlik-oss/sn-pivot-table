@@ -72,13 +72,13 @@ export interface Cell {
   children: Cell[];
   leafCount: number;
   distanceToNextCell: number;
-  incrementLeafCount: () => void;
   isTotal: boolean;
   isEmpty: boolean;
   isNull: boolean;
   isPseudoDimension: boolean;
   isLockedByDimension: boolean;
   isLastChild: boolean;
+  isLeafNode: boolean;
 }
 
 export interface PivotDataSize {
