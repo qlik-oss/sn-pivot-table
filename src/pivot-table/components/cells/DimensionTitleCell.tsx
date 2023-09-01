@@ -112,7 +112,7 @@ const DimensionTitleCell = ({
             translator={translator}
             tabIndex={-1}
             anchorRef={anchorRef}
-            handleHeadCellMenuKeyDown={() => console.log("keyDown")}
+            handleHeadCellMenuKeyDown={() => {}}
             menuAvailabilityFlags={{
               [MenuAvailabilityFlags.SORTING]: true,
             }}

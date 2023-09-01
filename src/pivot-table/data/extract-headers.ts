@@ -28,12 +28,12 @@ const extractHeaders = (
         id,
         colIdx,
         title: qDimensionInfo.qFallbackTitle,
-        qReverseSort: qDimensionInfo?.qReverseSort,
+        qReverseSort: qDimensionInfo.qReverseSort,
         sortDirection:
           qDimensionInfo.qSortIndicator && qDimensionInfo.qSortIndicator !== "N" ? qDimensionInfo.qSortIndicator : "A",
         qLibraryId: qDimensionInfo.qLibraryId,
         fieldId: qDimensionInfo.qGroupFieldDefs[qDimensionInfo.qGroupPos],
-        isActivelySorted: colIdx === (hyperCube.activelySortedColumn?.colIdx || 0),
+        isActivelySorted: colIdx === (hyperCube.activelySortedColumn?.colIdx ?? 0),
       };
     }
   });
