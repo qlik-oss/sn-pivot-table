@@ -61,8 +61,8 @@ const columnResize = {
     type: "number",
     expression: "optional",
     defaultValue: ColumnWidthValues.PixelsDefault,
-    show: (data: { qDef: { columnWidth: ColumnWidth } }) => data.qDef.columnWidth?.type === ColumnWidthType.Pixels,
-    change(data: { qDef: { columnWidth: ColumnWidth } }) {
+    show: (data: DimensionOrMeasure) => data.qDef.columnWidth?.type === ColumnWidthType.Pixels,
+    change(data: DimensionOrMeasure) {
       if (data.qDef.columnWidth.pixels !== undefined) {
         // eslint-disable-next-line no-param-reassign
         data.qDef.columnWidth.pixels = Math.max(

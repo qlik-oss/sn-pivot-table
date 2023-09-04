@@ -57,8 +57,12 @@ export const StickyPivotTable = ({
     pageInfo,
   });
 
-  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, totalWidth, getLeafWidth } =
-    useColumnWidth(layoutService, tableRect, leftDimensionData, topDimensionData);
+  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, totalWidth, getLeafWidth } = useColumnWidth(
+    layoutService,
+    tableRect,
+    leftDimensionData,
+    topDimensionData
+  );
 
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
