@@ -23,7 +23,7 @@ const getLeafCount = (
   isLeftColumn: boolean,
 ) => {
   if (isSnapshot) {
-    return 0;
+    return countLeafNodes(0, node);
   }
 
   // If a node is at the end of a page and has more child nodes at the next page.

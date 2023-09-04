@@ -97,6 +97,17 @@ describe("createCell", () => {
 
       expect(parentCell.leafCount).toEqual(node.qUp + node.qDown + 2);
     });
+
+    test("should exclude qDown and qUp in a snapshot", () => {
+      node.qUp = 1000;
+      node.qDown = 2000;
+      node.qSubNodes = [
+        { qSubNodes: [{ qSubNodes: [{ qSubNodes: [{ qSubNodes: [] }, { qSubNodes: [] }, { qSubNodes: [] }] }] }] },
+      ] as unknown as EngineAPI.INxPivotDimensionCell[]; // Node is not a leaf node
+      parentCell = createCell(node, null, null, 0, 0, 0, true, dimensionInfo);
+
+      expect(parentCell.leafCount).toEqual(3);
+    });
   });
 
   describe("isLockedByDimension", () => {
