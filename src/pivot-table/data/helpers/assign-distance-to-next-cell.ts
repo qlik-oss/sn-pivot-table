@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import type { Grid, Point } from "../../../types/types";
+import type { Grid } from "../../../types/types";
 
-const assignDistanceToNextCell = (data: Grid, dirKey: "pageX" | "pageY", size: Point) => {
+const assignDistanceToNextCell = (data: Grid, dirKey: "pageX" | "pageY", size: number) => {
   data.slice(0, -1).forEach((list) => {
     Object.values(list).forEach((cell, index, cells) => {
       const nextSibling = cells[index + 1];
@@ -14,8 +14,7 @@ const assignDistanceToNextCell = (data: Grid, dirKey: "pageX" | "pageY", size: P
         // This is what enables the dimensions with branch nodes to be fully scrollable.
         // By "faking" the distanceToNextCell for the last cell to include all other cells
         // the react-window list can render with a full size.
-        const sizeDirectionKey: keyof Point = dirKey === "pageY" ? "y" : "x";
-        cell.distanceToNextCell = size[sizeDirectionKey] - (cell[dirKey] + cell.leafCount);
+        cell.distanceToNextCell = size - (cell[dirKey] + cell.leafCount);
       }
     });
   });

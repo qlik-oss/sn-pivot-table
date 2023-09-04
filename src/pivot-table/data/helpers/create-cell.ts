@@ -61,7 +61,7 @@ const createCell = (
      * this means that the children array might have a child at first position
      * and at position 50, but no children between.
      *
-     * This is because children are added in a non-linear order when data is fetched.
+     * This is because children are added in a non-linear order as data is fetched.
      */
     children: [] as Cell[],
     isLeafNode: node.qSubNodes.length === 0,
