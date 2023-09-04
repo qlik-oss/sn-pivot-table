@@ -43,9 +43,7 @@ const useSorting: UseSorting = (model, qHyperCube) => {
 
         const { colIdx, qLibraryId, fieldId, sortDirection } = header;
         const isActivelySortedColExists = qHyperCube.activelySortedColumn;
-        let patch: EngineAPI.INxPatch[] = [];
-
-        patch = [
+        const patch: EngineAPI.INxPatch[] = [
           {
             qPath: `/qHyperCubeDef/activelySortedColumn`,
             qOp: isActivelySortedColExists ? "Replace" : "Add",
