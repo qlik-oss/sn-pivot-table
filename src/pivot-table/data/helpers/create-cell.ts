@@ -1,11 +1,39 @@
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, VisibleDimensionInfo } from "../../../types/types";
-import { MAX_ROW_COUNT } from "../../constants";
+import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../constants";
 
 // qElemNo === -1 => Total
 // qElemNo === -2 => Null
 // qElemNo === -3 => Others
 // qElemNo === -4 => Empty
+
+const countLeafNodes = (count: number, node: EngineAPI.INxPivotDimensionCell): number =>
+  node.qSubNodes.reduce((acc, childNode) => {
+    if (childNode.qSubNodes.length === 0) {
+      return acc + 1;
+    }
+    return countLeafNodes(acc, childNode);
+  }, count);
+
+const getLeafCount = (
+  node: EngineAPI.INxPivotDimensionCell,
+  pageY: number,
+  pageX: number,
+  isSnapshot: boolean,
+  isLeftColumn: boolean,
+) => {
+  if (isSnapshot) {
+    return 0;
+  }
+
+  // If a node is at the end of a page and has more child nodes at the next page.
+  // Those child nodes should not me included in the leaf count.
+  const maxLeafCount = isLeftColumn ? MAX_ROW_COUNT - pageY : MAX_COLUMN_COUNT - pageX;
+  // Leaf count is per PAGE, so if the node is the first node on a page. Ignore any nodes on previous page.
+  const nbrOfLeafNodesThatCanBeFetched = isLeftColumn && pageY === 0 ? node.qDown : node.qUp + node.qDown;
+
+  return Math.min(maxLeafCount, countLeafNodes(nbrOfLeafNodesThatCanBeFetched, node));
+};
 
 const createCell = (
   node: EngineAPI.INxPivotDimensionCell,
@@ -16,6 +44,7 @@ const createCell = (
   pageY: number,
   isSnapshot: boolean,
   dimensionInfo: VisibleDimensionInfo,
+  isLeftColumn = true,
 ): Cell => {
   const cell = {
     ref: node,
@@ -27,34 +56,16 @@ const createCell = (
     pageY,
     parent,
     root,
+    /**
+     * Children are positioned based on their page coordinate (pageX or pageY),
+     * this means that the children array might have a child at first position
+     * and at position 50, but no children between.
+     *
+     * This is because children are added in a non-linear order when data is fetched.
+     */
     children: [] as Cell[],
     isLeafNode: node.qSubNodes.length === 0,
-    get leafCount(): number {
-      if (isSnapshot) {
-        return 0;
-      }
-
-      if (cell.children[0]?.isLeafNode) {
-        return 1;
-      }
-
-      if (cell.isLeafNode) {
-        return 0;
-      }
-
-      // If a node is at the end of a page and has more child nodes at the next page.
-      // Those child nodes should not me included in the leaf count.
-      const maxRowLeafCount = MAX_ROW_COUNT - pageY;
-
-      const nbrOfLeafNodes = cell.children.reduce((count, childCell) => count + childCell.leafCount, 0);
-
-      // leafCount is per PAGE, so if the node is the first node on a page. Ignore any nodes on previous page.
-      if (pageY === 0) {
-        return Math.min(node.qDown + nbrOfLeafNodes, maxRowLeafCount);
-      }
-
-      return Math.min(node.qUp + node.qDown + nbrOfLeafNodes, maxRowLeafCount);
-    },
+    leafCount: getLeafCount(node, pageY, x, isSnapshot, isLeftColumn),
     distanceToNextCell: 0,
     isLockedByDimension: !!(typeof dimensionInfo === "object" && dimensionInfo.qLocked),
     // Having "parent.isTotal" means that it's enough that any ancestors is a total cell,
@@ -76,7 +87,11 @@ const createCell = (
     },
   };
 
-  parent?.children.push(cell);
+  if (parent) {
+    const pageDir = isLeftColumn ? "pageY" : "pageX";
+    // eslint-disable-next-line no-param-reassign
+    parent.children[cell[pageDir] - parent[pageDir]] = cell;
+  }
 
   return cell;
 };

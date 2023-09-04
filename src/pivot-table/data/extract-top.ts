@@ -29,16 +29,20 @@ const extractTopGrid = (
     nodes.forEach((node, currColIdx) => {
       colIdx += currColIdx === 0 ? 0 : 1;
       const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous tail size
-      const cell = createCell(
-        node,
-        parent,
-        root,
-        x,
-        rowIdx,
-        rowIdx,
-        layoutService.isSnapshot,
-        visibleTopDimensionInfo[rowIdx],
-      );
+      // If cell already exist do not create a new cell
+      const cell =
+        grid[rowIdx][x] ??
+        createCell(
+          node,
+          parent,
+          root,
+          x,
+          rowIdx,
+          rowIdx,
+          layoutService.isSnapshot,
+          visibleTopDimensionInfo[rowIdx],
+          false,
+        );
 
       grid[rowIdx][x] = cell;
 
