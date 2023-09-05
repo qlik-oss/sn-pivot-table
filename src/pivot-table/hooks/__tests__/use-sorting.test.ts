@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions, @typescript-eslint/unbound-method, jest/valid-expect, @typescript-eslint/return-await */
 import { renderHook } from "@testing-library/react";
 import type { HyperCube, Model } from "../../../types/QIX";
 import type { Header, SortDirection } from "../../../types/types";
@@ -31,7 +30,14 @@ describe("use-sorting", () => {
     test("should throw error if there was no model", async () => {
       model = undefined as unknown as Model;
       const { changeSortOrder } = renderer();
-      expect(async () => await changeSortOrder(header, newSortDirection)).toThrow;
+      // expect(async () => await changeSortOrder(header, newSortDirection)).toThrow;
+      let msg = "";
+      try {
+        await changeSortOrder(header, newSortDirection);
+      } catch (err: unknown) {
+        msg = (err as Error).message;
+      }
+      expect(msg).toBe("No Model provided!");
     });
 
     test("should call applyPatches with correct column index for measures", async () => {
@@ -117,7 +123,14 @@ describe("use-sorting", () => {
     test("should throw error if there was no model", async () => {
       model = undefined as unknown as Model;
       const { changeActivelySortedHeader } = renderer();
-      expect(async () => await changeActivelySortedHeader(header)).toThrow;
+      // expect(async () => await changeActivelySortedHeader(header)).toThrow;
+      let msg = "";
+      try {
+        await changeActivelySortedHeader(header);
+      } catch (err: unknown) {
+        msg = (err as Error).message;
+      }
+      expect(msg).toBe("No Model provided!");
     });
 
     test("should call applyPatches using correct operation if `activelySortedColumn` is already exists on hypercube", async () => {
