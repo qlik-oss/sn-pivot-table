@@ -19,5 +19,13 @@ export default function createNodes(count: number, type: NxDimCellType): EngineA
 export const createDimInfo = (length: number): VisibleDimensionInfo[] =>
   Array.from(
     { length },
-    (_, idx: number) => ({ cId: `id-${idx}`, qFallbackTitle: `dim ${idx}` }) as unknown as ExtendedDimensionInfo,
+    (_, idx: number) =>
+      ({
+        cId: `id-${idx}`,
+        qFallbackTitle: `dim ${idx}`,
+        qReverseSort: false,
+        qSortIndicator: "A",
+        qLibraryId: `id-${idx}`,
+        qGroupFieldDefs: [`dim ${idx}`],
+      }) as unknown as ExtendedDimensionInfo,
   );

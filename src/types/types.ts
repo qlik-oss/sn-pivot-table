@@ -11,9 +11,16 @@ export type List = Record<number, Cell>;
 
 export type Grid = List[];
 
-export type HeaderTitle = {
+export type HeaderCell = {
   id: string;
   title: string;
+  sortDirection: SortDirection;
+  qReverseSort?: boolean;
+  colIdx: number;
+
+  fieldId: string;
+  qLibraryId?: string;
+  isActivelySorted: boolean;
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
@@ -114,7 +121,7 @@ export interface LeftDimensionData {
 }
 
 export interface HeadersData {
-  data: (null | HeaderTitle)[][];
+  data: (null | HeaderCell)[][];
   size: Point;
 }
 
@@ -233,3 +240,31 @@ export interface StyleService extends StylingOptions {
   contentCellHeight: number;
   lineClamp: number;
 }
+
+export type ActivelySortedColumn = {
+  colIdx: number;
+  fieldId: string;
+  qLibraryId?: string;
+  sortDirection: SortDirection;
+};
+
+export interface Header {
+  id: string;
+  qLibraryId?: string;
+  fieldId: string;
+  label: string;
+  headTextAlign: Align;
+  sortDirection: SortDirection;
+
+  // sorting in PVT
+  isDim: boolean;
+  colIdx: number;
+  qReverseSort?: boolean;
+  isActivelySorted?: boolean;
+}
+
+export type Align = "left" | "center" | "right";
+export type SortDirection = "A" | "D";
+
+export type ChangeSortOrder = (header: Header, sortOrder: SortDirection) => Promise<boolean>;
+export type ChangeActivelySortedHeader = (header: Omit<Header, "isActivelySorted">) => Promise<boolean>;
