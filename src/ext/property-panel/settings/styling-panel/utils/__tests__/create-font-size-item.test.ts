@@ -19,7 +19,7 @@ describe("createFontSizetem", () => {
           ({
             fontSize,
             fontSizes,
-          } as CurrentTheme),
+          }) as CurrentTheme,
       },
     };
   });
@@ -139,7 +139,7 @@ describe("createFontSizetem", () => {
 
     expect(def.defaultValue(null, null, args)).toEqual(themeAccessorFontSize);
     expect(
-      def.options(null, null, args).filter((f) => f.value === fontSize || f.value === themeAccessorFontSize)
+      def.options(null, null, args).filter((f) => f.value === fontSize || f.value === themeAccessorFontSize),
     ).toEqual([
       {
         value: fontSize,

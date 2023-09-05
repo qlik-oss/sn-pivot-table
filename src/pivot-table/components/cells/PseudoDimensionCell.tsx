@@ -1,7 +1,8 @@
 import React from "react";
 import type { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../shared-styles";
+import { shouldShowTotalCellDivider } from "../../hooks/use-is-total-cell";
+import { getBorderStyle, getLineClampStyle, getTotalCellDividerStyle, stickyCell, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -53,6 +54,12 @@ const PseudoDimensionCell = ({
         ...styleService.columnContent.measureLabel,
       };
   const containerStyle = isLeftColumn ? leftContainerStyle : topContainerStyle;
+  const showTotalCellDivider = shouldShowTotalCellDivider(cell);
+  const totalCellDividerStyle = getTotalCellDividerStyle({
+    bottomDivider: showTotalCellDivider && isLeftColumn,
+    rightDivider: showTotalCellDivider && !isLeftColumn,
+    borderColor: styleService.grid.divider,
+  });
 
   return (
     <div
@@ -60,6 +67,7 @@ const PseudoDimensionCell = ({
       style={{
         ...style,
         ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
+        ...totalCellDividerStyle,
         ...containerStyle,
         ...serviceStyle,
       }}

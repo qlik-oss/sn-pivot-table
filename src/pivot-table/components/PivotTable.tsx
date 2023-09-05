@@ -9,6 +9,7 @@ import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
 import useTableRect from "../hooks/use-table-rect";
+import useVisibleDimensions from "../hooks/use-visible-dimensions";
 import FullSizeContainer from "./containers/FullSizeContainer";
 import ScrollableContainer from "./containers/ScrollableContainer";
 import StickyContainer from "./containers/StickyContainer";
@@ -45,10 +46,14 @@ export const StickyPivotTable = ({
   const currentScrollTop = useRef<number>(0);
   const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
 
+  const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
+
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
     layoutService,
-    pageInfo
+    pageInfo,
+    visibleLeftDimensionInfo,
+    visibleTopDimensionInfo
   );
 
   const dataModel = useDataModel({
@@ -61,7 +66,9 @@ export const StickyPivotTable = ({
     layoutService,
     tableRect,
     leftDimensionData,
-    topDimensionData
+    topDimensionData,
+    visibleLeftDimensionInfo,
+    visibleTopDimensionInfo
   );
 
   useLayoutEffect(() => {
@@ -160,6 +167,7 @@ export const StickyPivotTable = ({
             topDimensionData={topDimensionData}
             showLastRowBorderBottom={false}
             getLeafWidth={getLeafWidth}
+            visibleTopDimensionInfo={visibleTopDimensionInfo}
           />
 
           <LeftGrid
@@ -173,6 +181,7 @@ export const StickyPivotTable = ({
             layoutService={layoutService}
             leftDimensionData={leftDimensionData}
             showLastRowBorderBottom={showLastRowBorderBottom}
+            visibleLeftDimensionInfo={visibleLeftDimensionInfo}
           />
 
           <DataGrid
@@ -184,6 +193,8 @@ export const StickyPivotTable = ({
             viewService={viewService}
             layoutService={layoutService}
             measureData={measureData}
+            leftDimensionData={leftDimensionData}
+            topDimensionData={topDimensionData}
             showLastRowBorderBottom={showLastRowBorderBottom}
             getLeafWidth={getLeafWidth}
           />

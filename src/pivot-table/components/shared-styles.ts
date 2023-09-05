@@ -78,10 +78,10 @@ export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
-  showLastRowBorderBottom: boolean
+  showLastRowBorderBottom: boolean,
 ) => {
   if (isLastRow && isLastColumn && showLastRowBorderBottom) {
-    return { ...borderBottomStyle, borderColor };
+    return { ...borderBottomStyle, borderBottomColor: borderColor };
   }
 
   if (isLastRow && isLastColumn) {
@@ -89,16 +89,38 @@ export const getBorderStyle = (
   }
 
   if (isLastRow && showLastRowBorderBottom) {
-    return { ...borderBottomRightStyle, borderColor };
+    return { ...borderBottomRightStyle, borderBottomColor: borderColor, borderRightColor: borderColor };
   }
 
   if (isLastRow) {
-    return { ...borderRightStyle, borderColor };
+    return { ...borderRightStyle, borderRightColor: borderColor };
   }
 
   if (isLastColumn) {
-    return { ...borderBottomStyle, borderColor };
+    return { ...borderBottomStyle, borderBottomColor: borderColor };
   }
 
-  return { ...borderBottomRightStyle, borderColor };
+  return { ...borderBottomRightStyle, borderBottomColor: borderColor, borderRightColor: borderColor };
+};
+
+export const getTotalCellDividerStyle = ({
+  bottomDivider,
+  rightDivider,
+  borderColor,
+}: {
+  bottomDivider: boolean;
+  rightDivider: boolean;
+  borderColor: string;
+}) => {
+  const style: React.CSSProperties = {};
+
+  if (bottomDivider) {
+    style.borderBottomColor = borderColor;
+  }
+
+  if (rightDivider) {
+    style.borderRightColor = borderColor;
+  }
+
+  return style;
 };

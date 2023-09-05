@@ -1,6 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import NxDimCellType, { NxSelectionCellType } from "../../../types/QIX";
+import { NxSelectionCellType } from "../../../types/QIX";
 import type { Cell, DataModel, ListItemData } from "../../../types/types";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
@@ -88,7 +88,7 @@ const DimensionCell = ({
   isLastRow,
   isLastColumn,
 }: DimensionCellProps): JSX.Element => {
-  const { qText, qCanCollapse, qCanExpand, qType } = cell.ref;
+  const { qText, qCanCollapse, qCanExpand } = cell.ref;
   const {
     constraints = { active: false, passive: false, select: false },
     dataModel,
@@ -97,26 +97,23 @@ const DimensionCell = ({
   } = data;
   const styleService = useStyleContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
-  const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellLocked =
-    isLocked(selectionCellType, cell.dataY, colIndex) ||
-    layoutService.isDimensionLocked(selectionCellType, cell.dataY, colIndex);
-  const isNonSelectableCell = isCellLocked || qType === NxDimCellType.NX_DIM_CELL_EMPTY || constraints.active || isNull;
-  const isCellSelected = isSelected(selectionCellType, cell.dataY, colIndex);
+  const isCellLocked = isLocked(selectionCellType, cell.y, colIndex) || cell.isLockedByDimension;
+  const isNonSelectableCell = isCellLocked || cell.isEmpty || constraints.active || cell.isNull;
+  const isCellSelected = isSelected(selectionCellType, cell.y, colIndex);
   const resolvedTextStyle = getTextStyle({
     isLeftColumn,
     styleService,
     qCanExpand,
     qCanCollapse,
     isCellSelected,
-    isNull,
+    isNull: cell.isNull,
   });
   const resolvedInnerContainerStyle = getInnerContainerStyle(isLeftColumn);
   const resolvedContainerStyle = getContainerStyle({
     style,
     isCellLocked,
-    isNull,
+    isNull: cell.isNull,
     isLastColumn,
     isLastRow,
     isNonSelectableCell,
@@ -125,27 +122,27 @@ const DimensionCell = ({
     isLeftColumn,
     showLastRowBorderBottom,
   });
-  const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.dataY, colIndex);
-  const text = isNull ? layoutService.getNullValueText() : qText;
+  const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);
+  const text = cell.isNull ? layoutService.getNullValueText() : qText;
   const serviceStyle = isLeftColumn ? styleService.rowContent : styleService.columnContent;
   let cellIcon = null;
 
   if (qCanExpand) {
     cellIcon = (
       <PlusIcon
-        color={isNull ? serviceStyle.nullValue.color : serviceStyle.color}
+        color={cell.isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdExpandIcon}
-        onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.dataY, colIndex, constraints, isActive })}
+        onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, constraints, isActive })}
       />
     );
   } else if (qCanCollapse) {
     cellIcon = (
       <MinusIcon
-        color={isNull ? serviceStyle.nullValue.color : serviceStyle.color}
+        color={cell.isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdCollapseIcon}
-        onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.dataY, colIndex, constraints, isActive })}
+        onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, constraints, isActive })}
       />
     );
   }

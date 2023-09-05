@@ -18,28 +18,28 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
     async (rowIndex: number, colIndex: number) => {
       await genericObjectModel?.collapseLeft?.(Q_PATH, rowIndex, colIndex, false);
     },
-    [genericObjectModel]
+    [genericObjectModel],
   );
 
   const collapseTop = useCallback<ExpandOrCollapser>(
     async (rowIndex: number, colIndex: number) => {
       await genericObjectModel?.collapseTop(Q_PATH, rowIndex, colIndex, false);
     },
-    [genericObjectModel]
+    [genericObjectModel],
   );
 
   const expandLeft = useCallback<ExpandOrCollapser>(
     async (rowIndex: number, colIndex: number) => {
       await genericObjectModel?.expandLeft(Q_PATH, rowIndex, colIndex, false);
     },
-    [genericObjectModel]
+    [genericObjectModel],
   );
 
   const expandTop = useCallback<ExpandOrCollapser>(
     async (rowIndex: number, colIndex: number) => {
       await genericObjectModel?.expandTop(Q_PATH, rowIndex, colIndex, false);
     },
-    [genericObjectModel]
+    [genericObjectModel],
   );
 
   const fetchMoreData = useCallback<FetchMoreData>(
@@ -68,7 +68,7 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
         return false;
       }
     },
-    [genericObjectModel, nextPageHandler, ref, pageInfo]
+    [genericObjectModel, nextPageHandler, ref, pageInfo],
   );
 
   const dataModel = useMemo<DataModel>(
@@ -79,7 +79,7 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
       expandLeft,
       expandTop,
     }),
-    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop]
+    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop],
   );
 
   return dataModel;

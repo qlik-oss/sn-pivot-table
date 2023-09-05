@@ -13,7 +13,7 @@ test("should render", () => {
     width: "100px",
     height: "150px",
   };
-  const cell = { ref: { qText: "test" } } as Cell;
+  const cell = { ref: { qText: "test" }, root: null, isTotal: true } as Cell;
 
   render(<TotalsCell cell={cell} style={style} isLeftColumn={false} isLastRow={false} isLastColumn={false} />);
 

@@ -6,6 +6,7 @@ import type {
   MeasureData,
   PageInfo,
   TopDimensionData,
+  VisibleDimensionInfo,
 } from "../../../types/types";
 import createHeadersData from "../../data/headers-data";
 import {
@@ -30,7 +31,11 @@ describe("useData", () => {
   // Top data mockes
   let mockedAddPageToTopDimensionData: jest.MockedFunction<(args: AddPageToTopDimensionDataProps) => TopDimensionData>;
   let mockedCreateTopDimensionData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService) => TopDimensionData
+    (
+      dataPage: EngineAPI.INxPivotPage,
+      layoutService: LayoutService,
+      visibleTopDimensionInfo: VisibleDimensionInfo[],
+    ) => TopDimensionData
   >;
   // Measure data mocks
   let mockedAddPageToMeasureData: jest.MockedFunction<(args: AddPageToMeasureDataProps) => MeasureData>;
@@ -42,11 +47,16 @@ describe("useData", () => {
     (args: AddPageToLeftDimensionDataProps) => LeftDimensionData
   >;
   let mockedCreateLeftDimensionData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, layoutService: LayoutService, pageInfo: PageInfo) => LeftDimensionData
+    (
+      dataPage: EngineAPI.INxPivotPage,
+      layoutService: LayoutService,
+      pageInfo: PageInfo,
+      visibleLeftDimensionInfo: VisibleDimensionInfo[],
+    ) => LeftDimensionData
   >;
   // Header data mocks
   let mockedCreateHeadersData: jest.MockedFunction<
-    (qHyperCube: EngineAPI.IHyperCube, rowCount: number, dimensionInfoIndexMap: number[]) => HeadersData
+    (rowCount: number, sortedLeftDimensionInfo: VisibleDimensionInfo[]) => HeadersData
   >;
 
   let topDimensionData: TopDimensionData;
@@ -58,6 +68,8 @@ describe("useData", () => {
   let qHyperCube: EngineAPI.IHyperCube;
   let layoutService: LayoutService;
   let pageInfo: PageInfo;
+  let visibleLeftDimensionInfo: VisibleDimensionInfo[];
+  let visibleTopDimensionInfo: VisibleDimensionInfo[];
 
   beforeEach(() => {
     mockedAddPageToTopDimensionData = addPageToTopDimensionData as jest.MockedFunction<
@@ -90,14 +102,12 @@ describe("useData", () => {
 
     leftDimensionData = {
       grid: [{}],
-      dimensionInfoIndexMap: [0, 1, 2],
       columnCount: 3,
       layoutSize: layoutService.size,
     } as LeftDimensionData;
 
     topDimensionData = {
       grid: [{}],
-      dimensionInfoIndexMap: [0, 1, 2],
       rowCount: 4,
       layoutSize: layoutService.size,
     } as TopDimensionData;
@@ -111,6 +121,9 @@ describe("useData", () => {
       currentPage: 0,
       rowsPerPage: 100,
     } as PageInfo;
+
+    visibleLeftDimensionInfo = [];
+    visibleTopDimensionInfo = [];
 
     mockedAddPageToTopDimensionData.mockReturnValue(topDimensionData);
     mockedCreateTopDimensionData.mockReturnValue(topDimensionData);
@@ -129,7 +142,9 @@ describe("useData", () => {
   });
 
   test("should return data", () => {
-    const { result } = renderHook(() => useData(qPivotDataPages, layoutService, pageInfo));
+    const { result } = renderHook(() =>
+      useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo),
+    );
 
     expect(result.current.headersData).toBe(headersData);
     expect(result.current.measureData).toBe(measureData);
@@ -138,7 +153,9 @@ describe("useData", () => {
   });
 
   test("calling nextPageHandler should trigger data updates", () => {
-    const { result } = renderHook(() => useData(qPivotDataPages, layoutService, pageInfo));
+    const { result } = renderHook(() =>
+      useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo),
+    );
     const nextPage = {} as EngineAPI.INxPivotPage;
 
     act(() => {
@@ -148,11 +165,15 @@ describe("useData", () => {
     expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith({
       prevData: topDimensionData,
       nextDataPage: nextPage,
+      layoutService,
+      visibleTopDimensionInfo,
     });
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith({
       prevData: leftDimensionData,
       nextDataPage: nextPage,
       pageInfo,
+      layoutService,
+      visibleLeftDimensionInfo,
     });
     expect(mockedAddPageToMeasureData).toHaveBeenCalledWith({
       prevData: measureData,

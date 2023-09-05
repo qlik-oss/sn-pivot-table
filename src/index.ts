@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import ext from "./ext";
 import useRender from "./hooks/use-render";
 import createDataDefinition from "./qae/data-definition";
@@ -16,6 +15,7 @@ export default function supernova(env: Galaxy) {
     },
     ext: ext(env),
     component() {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       useRender();
     },
   };

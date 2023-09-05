@@ -6,8 +6,7 @@ const useTranslations = () => {
   const translator = useTranslator() as ExtendedTranslator;
   const language = translator.language();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useMemo(() => registerLocale(translator), [translator, language]);
+  useMemo(() => registerLocale(translator), [translator]);
 
   return { translator, language };
 };

@@ -3,8 +3,21 @@ import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
 import { throttler } from "qlik-chart-modules";
 import React, { memo, useCallback, useLayoutEffect } from "react";
 import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
-import type { DataModel, GridItemData, LayoutService, MeasureData, ViewService } from "../../../types/types";
+import type {
+  DataModel,
+  GridItemData,
+  LayoutService,
+  LeftDimensionData,
+  MeasureData,
+  TopDimensionData,
+  ViewService,
+} from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import {
+  useIsTotalValue,
+  useShouldShowTotalCellBottomDivider,
+  useShouldShowTotalCellRightDivider,
+} from "../../hooks/use-is-total-cell";
 import MemoizedDataCell from "../cells/DataCell";
 import { gridBorderStyle } from "../shared-styles";
 
@@ -17,6 +30,8 @@ interface DataGridProps {
   viewService: ViewService;
   layoutService: LayoutService;
   measureData: MeasureData;
+  topDimensionData: TopDimensionData;
+  leftDimensionData: LeftDimensionData;
   showLastRowBorderBottom: boolean;
   getLeafWidth: (index?: number) => number;
 }
@@ -27,7 +42,7 @@ type FetchModeData = (
   overscanColumnStartIndex: number,
   overscanColumnStopIndex: number,
   overscanRowStartIndex: number,
-  overscanRowStopIndex: number
+  overscanRowStopIndex: number,
 ) => Promise<void>;
 
 const gridStyle: React.CSSProperties = {
@@ -51,7 +66,7 @@ const isMissingData = (
   visibleColumnStartIndex: number,
   visibleColumnStopIndex: number,
   visibleRowStartIndex: number,
-  visibleRowStopIndex: number
+  visibleRowStopIndex: number,
 ) => {
   for (let rowIndex = visibleRowStartIndex; rowIndex <= visibleRowStopIndex; rowIndex++) {
     for (let colIndex = visibleColumnStartIndex; colIndex <= visibleColumnStopIndex; colIndex++) {
@@ -71,14 +86,14 @@ const throttledFetchMoreData: FetchModeData = throttler(
     overscanColumnStartIndex: number,
     overscanColumnStopIndex: number,
     overscanRowStartIndex: number,
-    overscanRowStopIndex: number
+    overscanRowStopIndex: number,
   ) => {
     const shouldFetchData = isMissingData(
       measureData,
       overscanColumnStartIndex,
       overscanColumnStopIndex,
       overscanRowStartIndex,
-      overscanRowStopIndex
+      overscanRowStopIndex,
     );
 
     if (shouldFetchData) {
@@ -86,11 +101,11 @@ const throttledFetchMoreData: FetchModeData = throttler(
         overscanColumnStartIndex,
         overscanRowStartIndex,
         overscanColumnStopIndex - overscanColumnStartIndex + 1,
-        overscanRowStopIndex - overscanRowStartIndex + 1
+        overscanRowStopIndex - overscanRowStartIndex + 1,
       );
     }
   },
-  100
+  100,
 );
 
 const DataGrid = ({
@@ -102,6 +117,8 @@ const DataGrid = ({
   viewService,
   layoutService,
   measureData,
+  leftDimensionData,
+  topDimensionData,
   showLastRowBorderBottom,
   getLeafWidth,
 }: DataGridProps): JSX.Element | null => {
@@ -114,6 +131,12 @@ const DataGrid = ({
     borderColor: divider,
     willChange: "auto",
   };
+
+  const shouldShowTotalCellBottomDivider = useShouldShowTotalCellBottomDivider(leftDimensionData);
+
+  const shouldShowTotalCellRightDivider = useShouldShowTotalCellRightDivider(topDimensionData);
+
+  const isTotalValue = useIsTotalValue(leftDimensionData, topDimensionData);
 
   useOnPropsChange(() => {
     if (dataGridRef.current) {
@@ -146,10 +169,10 @@ const DataGrid = ({
         overscanColumnStartIndex,
         overscanColumnStopIndex,
         overscanRowStartIndex,
-        overscanRowStopIndex
+        overscanRowStopIndex,
       );
     },
-    [viewService, dataModel, measureData]
+    [viewService, dataModel, measureData],
   );
 
   if (layoutService.size.x === 0) {
@@ -172,6 +195,9 @@ const DataGrid = ({
           grid: measureData,
           dataModel,
           showLastRowBorderBottom,
+          isTotalValue,
+          shouldShowTotalCellBottomDivider,
+          shouldShowTotalCellRightDivider,
         } as GridItemData
       }
       onItemsRendered={onItemsRendered}
