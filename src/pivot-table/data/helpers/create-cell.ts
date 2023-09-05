@@ -17,6 +17,7 @@ const countLeafNodes = (count: number, node: EngineAPI.INxPivotDimensionCell): n
 
 const getLeafCount = (
   node: EngineAPI.INxPivotDimensionCell,
+  y: number,
   pageY: number,
   pageX: number,
   isSnapshot: boolean,
@@ -29,8 +30,13 @@ const getLeafCount = (
   // If a node is at the end of a page and has more child nodes at the next page.
   // Those child nodes should not me included in the leaf count.
   const maxLeafCount = isLeftColumn ? MAX_ROW_COUNT - pageY : MAX_COLUMN_COUNT - pageX;
+  let nbrOfLeafNodesThatCanBeFetched = node.qUp + node.qDown;
   // Leaf count is per PAGE, so if the node is the first node on a page. Ignore any nodes on previous page.
-  const nbrOfLeafNodesThatCanBeFetched = isLeftColumn && pageY === 0 ? node.qDown : node.qUp + node.qDown;
+  if (isLeftColumn && pageY === 0) {
+    const fetchTop = y + node.qUp; // qTop value when node was fetched
+    const nbrOfRowsToFirstRowOnPage = fetchTop % MAX_ROW_COUNT;
+    nbrOfLeafNodesThatCanBeFetched = node.qDown + nbrOfRowsToFirstRowOnPage;
+  }
 
   return Math.min(maxLeafCount, countLeafNodes(nbrOfLeafNodesThatCanBeFetched, node));
 };
@@ -65,7 +71,7 @@ const createCell = (
      */
     children: [] as Cell[],
     isLeafNode: node.qSubNodes.length === 0,
-    leafCount: getLeafCount(node, pageY, x, isSnapshot, isLeftColumn),
+    leafCount: getLeafCount(node, y, pageY, x, isSnapshot, isLeftColumn),
     distanceToNextCell: 0,
     isLockedByDimension: !!(typeof dimensionInfo === "object" && dimensionInfo.qLocked),
     // Having "parent.isTotal" means that it's enough that any ancestors is a total cell,

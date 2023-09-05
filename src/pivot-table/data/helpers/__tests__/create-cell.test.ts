@@ -2,6 +2,7 @@ import { PSEUDO_DIMENSION_INDEX } from "../../../../constants";
 import type { ExtendedDimensionInfo } from "../../../../types/QIX";
 import NxDimCellType from "../../../../types/QIX";
 import type { Cell, VisibleDimensionInfo } from "../../../../types/types";
+import { MAX_ROW_COUNT } from "../../../constants";
 import createCell from "../create-cell";
 
 describe("createCell", () => {
@@ -59,12 +60,6 @@ describe("createCell", () => {
   });
 
   describe("leafCount", () => {
-    test("should default zero leafCount in snapshot mode", () => {
-      cell = createCell(node, parentCell, rootCell, x, y, pageY, true, dimensionInfo);
-
-      expect(cell.leafCount).toEqual(0);
-    });
-
     test("leaf node should have 0 leaf count", () => {
       node.qUp = 0;
       node.qDown = 0;
@@ -82,6 +77,7 @@ describe("createCell", () => {
     });
 
     test("should return leafCount when node is first node on page", () => {
+      y = MAX_ROW_COUNT - 1;
       pageY = 0;
       node.qSubNodes = [{ qSubNodes: [] }] as unknown as EngineAPI.INxPivotDimensionCell[]; // Node is not a leaf node
       cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
@@ -89,24 +85,27 @@ describe("createCell", () => {
       expect(cell.leafCount).toEqual(node.qDown + 1);
     });
 
-    test("should include leaf count it has great grand children", () => {
+    test("should count all leaf nodes", () => {
+      const greatGrandChildren = [{ qSubNodes: [] }, { qSubNodes: [] }, { qSubNodes: [] }];
       node.qSubNodes = [
-        { qSubNodes: [{ qSubNodes: [{ qSubNodes: [{ qSubNodes: [] }, { qSubNodes: [] }, { qSubNodes: [] }] }] }] },
+        { qSubNodes: [{ qSubNodes: [{ qSubNodes: greatGrandChildren }] }] },
+        { qSubNodes: [{ qSubNodes: [{ qSubNodes: greatGrandChildren }] }] },
       ] as unknown as EngineAPI.INxPivotDimensionCell[]; // Node is not a leaf node
-      parentCell = createCell(node, null, null, 0, 0, 0, false, dimensionInfo);
+      rootCell = createCell(node, null, null, 0, 0, 0, false, dimensionInfo);
 
-      expect(parentCell.leafCount).toEqual(node.qUp + node.qDown + 2);
+      expect(rootCell.leafCount).toEqual(node.qUp + node.qDown + greatGrandChildren.length * 2);
     });
 
     test("should exclude qDown and qUp in a snapshot", () => {
+      const greatGrandChildren = [{ qSubNodes: [] }, { qSubNodes: [] }, { qSubNodes: [] }];
       node.qUp = 1000;
       node.qDown = 2000;
       node.qSubNodes = [
-        { qSubNodes: [{ qSubNodes: [{ qSubNodes: [{ qSubNodes: [] }, { qSubNodes: [] }, { qSubNodes: [] }] }] }] },
+        { qSubNodes: [{ qSubNodes: [{ qSubNodes: greatGrandChildren }] }] },
       ] as unknown as EngineAPI.INxPivotDimensionCell[]; // Node is not a leaf node
       parentCell = createCell(node, null, null, 0, 0, 0, true, dimensionInfo);
 
-      expect(parentCell.leafCount).toEqual(3);
+      expect(parentCell.leafCount).toEqual(greatGrandChildren.length);
     });
   });
 
