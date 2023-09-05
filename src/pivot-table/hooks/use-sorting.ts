@@ -42,7 +42,7 @@ const useSorting: UseSorting = (model, qHyperCube) => {
         if (!model) throw new Error("No Model provided!");
 
         const { colIdx, qLibraryId, fieldId, sortDirection } = header;
-        const isActivelySortedColExists = qHyperCube.activelySortedColumn;
+        const isActivelySortedColExists = !!qHyperCube.activelySortedColumn;
         const patch: EngineAPI.INxPatch[] = [
           {
             qPath: `/qHyperCubeDef/activelySortedColumn`,
