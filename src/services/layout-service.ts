@@ -15,6 +15,9 @@ const createLayoutService = (
     x: isSnapshot ? snapshotDataPage.qWidth : Math.min(layout.qHyperCube.qSize.qcx, MAX_COLUMN_COUNT),
     y: isSnapshot ? snapshotDataPage.qHeight : Math.min(layout.qHyperCube.qSize.qcy, MAX_ROW_COUNT),
   };
+  const hasPseudoDimOnLeft = qEffectiveInterColumnSortOrder
+    .slice(0, qNoOfLeftDims)
+    .some((index) => index === PSEUDO_DIMENSION_INDEX);
 
   return {
     layout,
@@ -31,8 +34,10 @@ const createLayoutService = (
     isSnapshot,
     hasLimitedData: !isSnapshot && size.x < layout.qHyperCube.qSize.qcx,
     hasLeftDimensions: layout.qHyperCube.qNoOfLeftDims !== 0,
-    // qShowTotalsAbove is not available on the layout, so it's read from effective properties instead
+    // qShowTotalsAbove is not available on the layout, so it's read from effective properties instead.
+    // If not avaible in the effective properties, assume that it's set to false.
     showTotalsAbove: !!effectiveProperties?.qHyperCubeDef?.qShowTotalsAbove,
+    hasPseudoDimOnLeft,
   };
 };
 

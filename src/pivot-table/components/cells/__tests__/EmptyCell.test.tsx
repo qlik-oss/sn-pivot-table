@@ -15,13 +15,13 @@ test("should render", () => {
 
   render(
     <EmptyCell
-      cell={undefined}
       isLeftColumn
       style={style}
       isLastRow={false}
       isLastColumn={false}
       showLastRowBorderBottom={false}
       index={0}
+      showTotalCellDivider={false}
     />,
   );
 

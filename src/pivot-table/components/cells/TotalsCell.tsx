@@ -1,7 +1,6 @@
 import React from "react";
 import type { Cell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { shouldShowTotalCellDivider } from "../../hooks/use-is-total-cell";
 import { getBorderStyle, getTotalCellDividerStyle, textStyle } from "../shared-styles";
 
 interface LabelCellProps {
@@ -10,6 +9,7 @@ interface LabelCellProps {
   isLeftColumn: boolean;
   isLastRow: boolean;
   isLastColumn: boolean;
+  showTotalCellDivider: boolean;
 }
 
 const labelTextStyle: React.CSSProperties = {
@@ -19,12 +19,18 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = "totals-cell";
 
-const TotalsCell = ({ cell, style, isLeftColumn, isLastRow, isLastColumn }: LabelCellProps): JSX.Element => {
+const TotalsCell = ({
+  cell,
+  style,
+  isLeftColumn,
+  isLastRow,
+  isLastColumn,
+  showTotalCellDivider,
+}: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const serviceStyle = isLeftColumn ? styleService.rowContent.totalLabel : styleService.columnContent.totalLabel;
   const { fontSize, fontFamily } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
 
-  const showTotalCellDivider = shouldShowTotalCellDivider(cell);
   const totalCellDividerStyle = getTotalCellDividerStyle({
     bottomDivider: showTotalCellDivider && isLeftColumn,
     rightDivider: showTotalCellDivider && !isLeftColumn,

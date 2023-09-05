@@ -1,7 +1,8 @@
 import type { List } from "../../../types/types";
 
 const getListMeta = (list: List, totalSize: number, qSize: number, isLast: boolean) => {
-  let itemCount = Object.keys(list).length;
+  const listValues = Object.values(list);
+  let itemCount = listValues.length;
   let estimatedItemSize;
   if (isLast) {
     itemCount = qSize;
@@ -12,6 +13,7 @@ const getListMeta = (list: List, totalSize: number, qSize: number, isLast: boole
   return {
     itemCount,
     estimatedItemSize,
+    listValues,
   };
 };
 
