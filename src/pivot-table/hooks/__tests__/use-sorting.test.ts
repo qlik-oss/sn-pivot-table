@@ -17,7 +17,7 @@ describe("use-sorting", () => {
   beforeEach(() => {
     applyPatches = jest.fn();
     model = { applyPatches } as unknown as Model;
-    hyperCube = { qDimensionInfo: [{}, {}] } as unknown as HyperCube;
+    hyperCube = { qDimensionInfo: [{}, {}, {}] } as unknown as HyperCube;
 
     header = { isDim: true, colIdx: 0, qReverseSort: false } as Header;
     newSortDirection = "A";
