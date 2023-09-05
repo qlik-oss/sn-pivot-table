@@ -39,8 +39,9 @@ const usePagination: UsePagination = (layoutService) => {
     setPageInfo((prev) => ({
       ...prev,
       ...getPageMeta(layoutService.layout.qHyperCube.qSize.qcy),
+      shouldShowPagination: layoutService.layout.qHyperCube.qSize.qcy > layoutService.size.y,
     }));
-  }, [layoutService.layout.qHyperCube.qSize.qcy, setPageInfo]);
+  }, [layoutService.layout.qHyperCube.qSize.qcy, layoutService.size.y, setPageInfo]);
 
   useEffect(() => {
     const { currentPage, totalPages } = pageInfo;
