@@ -185,31 +185,4 @@ describe("createCell", () => {
     expect(cell.isNull).toBe(false);
     expect(cell.isPseudoDimension).toBe(true);
   });
-
-  describe("isLastChild", () => {
-    test("should consider root cell as last child", () => {
-      rootCell = createCell(node, null, null, x, y, pageY, false, dimensionInfo);
-
-      expect(rootCell.isLastChild).toBe(true);
-    });
-
-    test("should set isLastChild", () => {
-      parentCell.isLastChild = true;
-      parentCell.pageY = pageY;
-      const cell0 = createCell(node, parentCell, rootCell, 1111, y, pageY + 0, false, dimensionInfo);
-      const cell1 = createCell(node, parentCell, rootCell, 2222, y, pageY + 1, false, dimensionInfo);
-
-      expect(cell0.isLastChild).toBe(false);
-      expect(cell1.isLastChild).toBe(true);
-    });
-
-    test("should set isLastChild to false when parent cell is not last child", () => {
-      parentCell.isLastChild = false;
-      const cell0 = createCell(node, parentCell, rootCell, 1111, y, pageY, false, dimensionInfo);
-      const cell1 = createCell(node, parentCell, rootCell, 2222, y, pageY, false, dimensionInfo);
-
-      expect(cell0.isLastChild).toBe(false);
-      expect(cell1.isLastChild).toBe(false);
-    });
-  });
 });

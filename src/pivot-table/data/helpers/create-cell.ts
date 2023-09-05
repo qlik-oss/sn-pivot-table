@@ -60,6 +60,7 @@ const createCell = (
     // when we implement horizontal pagination feature (exactly like the relation btw y and pageY)
     pageX: x,
     pageY,
+    mainAxisPageCoord: isLeftColumn ? pageY : x,
     parent,
     root,
     /**
@@ -80,17 +81,6 @@ const createCell = (
     isEmpty: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
     isNull: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
     isPseudoDimension: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
-    // A getter because child nodes are added as cells are being created. It has to be resolved when it's called.
-    get isLastChild(): boolean {
-      // Root is considedered last child for the total cell divider use case
-      if (root === null) {
-        return true;
-      }
-
-      // Having "parent.isLastChild" means that all ancestors also have to be the last child,
-      // which is needed for the Total cell divider use case.
-      return parent?.children.at(-1) === cell && parent.isLastChild;
-    },
   };
 
   if (parent) {

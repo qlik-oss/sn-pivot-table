@@ -1,23 +1,16 @@
 import { useCallback } from "react";
 import type { Cell, LeftDimensionData, TopDimensionData } from "../../types/types";
 
-export const shouldShowTotalCellDivider = (cell?: Cell) => {
+export const shouldShowTotalCellDivider = (cell: Cell | undefined, totalDividerIndex: number) => {
   if (cell === undefined) {
     return false;
   }
 
-  const rootCell = cell.root;
-
-  if (rootCell === null) {
-    return cell.isTotal;
+  if (cell.isLeafNode) {
+    return cell.mainAxisPageCoord === totalDividerIndex;
   }
 
-  // Special case when the pseudo dimension is the first cell in a column or row
-  if (rootCell.isPseudoDimension) {
-    return false;
-  }
-
-  return rootCell.isTotal && cell.isLastChild;
+  return cell.mainAxisPageCoord + cell.leafCount - 1 === totalDividerIndex;
 };
 
 export const useShouldShowTotalCellBottomDivider = (leftDimensionData: LeftDimensionData) =>
@@ -25,7 +18,7 @@ export const useShouldShowTotalCellBottomDivider = (leftDimensionData: LeftDimen
     (y: number) => {
       const cell = leftDimensionData.grid.at(-1)?.[y];
 
-      return shouldShowTotalCellDivider(cell);
+      return shouldShowTotalCellDivider(cell, leftDimensionData.totalDividerIndex);
     },
     [leftDimensionData],
   );
@@ -35,7 +28,7 @@ export const useShouldShowTotalCellRightDivider = (topDimensionData: TopDimensio
     (x: number) => {
       const cell = topDimensionData.grid.at(-1)?.[x];
 
-      return shouldShowTotalCellDivider(cell);
+      return shouldShowTotalCellDivider(cell, topDimensionData.totalDividerIndex);
     },
     [topDimensionData],
   );
