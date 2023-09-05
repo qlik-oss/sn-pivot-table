@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import type { PivotLayout } from "./QIX";
+import type { ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -17,6 +17,8 @@ export type HeaderTitle = {
 };
 
 export type MeasureData = EngineAPI.INxPivotValuePoint[][];
+
+export type VisibleDimensionInfo = ExtendedDimensionInfo | -1;
 
 export interface Rect {
   width: number;
@@ -46,6 +48,9 @@ export interface GridItemData extends ItemData {
   grid: EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
   showLastRowBorderBottom: boolean;
+  isTotalValue: (x: number, y: number) => boolean;
+  shouldShowTotalCellBottomDivider: (y: number) => boolean;
+  shouldShowTotalCellRightDivider: (x: number) => boolean;
 }
 
 export interface ListItemData extends ItemData {
@@ -58,14 +63,22 @@ export interface ListItemData extends ItemData {
 
 export interface Cell {
   ref: EngineAPI.INxPivotDimensionCell;
-  x: number;
-  y: number; // position of cell in page
-  dataY: number; // position of cell in dataset
+  x: number; // x position of cell in dataset
+  y: number; // y position of cell in dataset
+  pageX: number; // X position of cell in page
+  pageY: number; // Y position of cell in page
   parent: Cell | null;
   root: Cell | null;
+  children: Cell[];
   leafCount: number;
   distanceToNextCell: number;
   incrementLeafCount: () => void;
+  isTotal: boolean;
+  isEmpty: boolean;
+  isNull: boolean;
+  isPseudoDimension: boolean;
+  isLockedByDimension: boolean;
+  isLastChild: boolean;
 }
 
 export interface PivotDataSize {
@@ -85,21 +98,17 @@ export interface PivotData {
   topGrid: Cell[][];
   data: EngineAPI.INxPivotValuePoint[][];
   headers: (null | string)[][];
-  leftDimensionInfoIndexMap: number[];
-  topDimensionInfoIndexMap: number[];
   size: PivotDataSize;
 }
 
 export interface TopDimensionData {
   grid: Grid;
-  dimensionInfoIndexMap: number[];
   rowCount: number;
   layoutSize: Point;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
-  dimensionInfoIndexMap: number[];
   columnCount: number;
   layoutSize: Point;
 }
@@ -139,13 +148,13 @@ export interface ViewService {
 
 export interface LayoutService {
   layout: PivotLayout;
-  isDimensionLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
   getNullValueText: () => string;
   size: Point;
   isSnapshot: boolean;
   hasLimitedData: boolean;
   hasLeftDimensions: boolean;
+  showTotalsAbove: boolean;
 }
 
 export interface DataService {
