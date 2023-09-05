@@ -4,17 +4,20 @@ export default () => ({
     {
       getLayout: {
         qInfo: {
-          qId: "MVtEFQx",
+          qId: "1692884655769",
           qType: "sn-pivot-table",
         },
         qMeta: {
           privileges: ["read", "update", "delete"],
         },
         qSelectionInfo: {},
+        visualization: "sn-pivot-table",
+        version: "2.1.0",
+        showTitles: true,
         qHyperCube: {
           qSize: {
-            qcx: 7,
-            qcy: 4,
+            qcx: 5,
+            qcy: 3,
           },
           qDimensionInfo: [
             {
@@ -27,10 +30,10 @@ export default () => ({
               qStateCounts: {
                 qLocked: 0,
                 qSelected: 0,
-                qOption: 3,
+                qOption: 2,
                 qDeselected: 0,
                 qAlternative: 0,
-                qExcluded: 0,
+                qExcluded: 1,
                 qSelectedExcluded: 0,
                 qLockedExcluded: 0,
               },
@@ -50,7 +53,7 @@ export default () => ({
               qAttrDimInfo: [],
               qCardinalities: {
                 qCardinal: 3,
-                qHypercubeCardinal: 4,
+                qHypercubeCardinal: 3,
                 qAllValuesCardinal: -1,
               },
               autoSort: true,
@@ -65,10 +68,10 @@ export default () => ({
               qGroupPos: 0,
               qStateCounts: {
                 qLocked: 0,
-                qSelected: 0,
-                qOption: 6,
+                qSelected: 4,
+                qOption: 0,
                 qDeselected: 0,
-                qAlternative: 0,
+                qAlternative: 2,
                 qExcluded: 0,
                 qSelectedExcluded: 0,
                 qLockedExcluded: 0,
@@ -89,7 +92,7 @@ export default () => ({
               qAttrDimInfo: [],
               qCardinalities: {
                 qCardinal: 6,
-                qHypercubeCardinal: 7,
+                qHypercubeCardinal: 5,
                 qAllValuesCardinal: -1,
               },
               autoSort: true,
@@ -110,7 +113,7 @@ export default () => ({
                 qDec: ".",
               },
               qMin: 7664,
-              qMax: 78532,
+              qMax: 49173,
               qIsAutoFormat: true,
               qAttrExprInfo: [],
               qAttrDimInfo: [],
@@ -125,15 +128,6 @@ export default () => ({
           qPivotDataPages: [
             {
               qLeft: [
-                {
-                  qText: "Total",
-                  qElemNo: -1,
-                  qValue: "NaN",
-                  qType: "T",
-                  qUp: 0,
-                  qDown: 0,
-                  qSubNodes: [],
-                },
                 {
                   qText: "A",
                   qElemNo: 0,
@@ -153,17 +147,6 @@ export default () => ({
                   qSubNodes: [],
                 },
                 {
-                  qText: "C",
-                  qElemNo: 1,
-                  qValue: "NaN",
-                  qType: "N",
-                  qUp: 0,
-                  qDown: 0,
-                  qSubNodes: [],
-                },
-              ],
-              qTop: [
-                {
                   qText: "Total",
                   qElemNo: -1,
                   qValue: "NaN",
@@ -172,6 +155,8 @@ export default () => ({
                   qDown: 0,
                   qSubNodes: [],
                 },
+              ],
+              qTop: [
                 {
                   qText: "a",
                   qElemNo: 3,
@@ -209,19 +194,10 @@ export default () => ({
                   qSubNodes: [],
                 },
                 {
-                  qText: "e",
-                  qElemNo: 1,
+                  qText: "Total",
+                  qElemNo: -1,
                   qValue: "NaN",
-                  qType: "N",
-                  qUp: 0,
-                  qDown: 0,
-                  qSubNodes: [],
-                },
-                {
-                  qText: "f",
-                  qElemNo: 5,
-                  qValue: "NaN",
-                  qType: "N",
+                  qType: "T",
                   qUp: 0,
                   qDown: 0,
                   qSubNodes: [],
@@ -230,11 +206,6 @@ export default () => ({
               qData: [
                 [
                   {
-                    qText: "262696",
-                    qNum: 262696,
-                    qType: "V",
-                  },
-                  {
                     qText: "7664",
                     qNum: 7664,
                     qType: "V",
@@ -245,69 +216,22 @@ export default () => ({
                     qType: "V",
                   },
                   {
-                    qText: "41139",
-                    qNum: 41139,
-                    qType: "V",
+                    qText: "-",
+                    qNum: "NaN",
+                    qType: "U",
                   },
                   {
-                    qText: "49173",
-                    qNum: 49173,
-                    qType: "V",
+                    qText: "-",
+                    qNum: "NaN",
+                    qType: "U",
                   },
-                  {
-                    qText: "66830",
-                    qNum: 66830,
-                    qType: "V",
-                  },
-                  {
-                    qText: "78532",
-                    qNum: 78532,
-                    qType: "V",
-                  },
-                ],
-                [
                   {
                     qText: "27022",
                     qNum: 27022,
                     qType: "V",
                   },
-                  {
-                    qText: "7664",
-                    qNum: 7664,
-                    qType: "V",
-                  },
-                  {
-                    qText: "19358",
-                    qNum: 19358,
-                    qType: "V",
-                  },
-                  {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
-                  {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
-                  {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
-                  {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
                 ],
                 [
-                  {
-                    qText: "90312",
-                    qNum: 90312,
-                    qType: "V",
-                  },
                   {
                     qText: "-",
                     qNum: "NaN",
@@ -329,50 +253,35 @@ export default () => ({
                     qType: "V",
                   },
                   {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
-                  {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
+                    qText: "90312",
+                    qNum: 90312,
+                    qType: "V",
                   },
                 ],
                 [
                   {
-                    qText: "145362",
-                    qNum: 145362,
+                    qText: "7664",
+                    qNum: 7664,
                     qType: "V",
                   },
                   {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
-                  {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
-                  {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
-                  {
-                    qText: "-",
-                    qNum: "NaN",
-                    qType: "U",
-                  },
-                  {
-                    qText: "66830",
-                    qNum: 66830,
+                    qText: "19358",
+                    qNum: 19358,
                     qType: "V",
                   },
                   {
-                    qText: "78532",
-                    qNum: 78532,
+                    qText: "41139",
+                    qNum: 41139,
+                    qType: "V",
+                  },
+                  {
+                    qText: "49173",
+                    qNum: 49173,
+                    qType: "V",
+                  },
+                  {
+                    qText: "117334",
+                    qNum: 117334,
                     qType: "V",
                   },
                 ],
@@ -380,8 +289,8 @@ export default () => ({
               qArea: {
                 qLeft: 0,
                 qTop: 0,
-                qWidth: 7,
-                qHeight: 4,
+                qWidth: 5,
+                qHeight: 3,
               },
             },
           ],
@@ -391,22 +300,19 @@ export default () => ({
           qTreeNodesOnDim: [],
           qColumnOrder: [],
         },
-        search: {
-          sorting: "auto",
-        },
-        showTitles: true,
         title: "Scenario - Total styling",
         subtitle: "",
         footnote: "",
-        disableNavMenu: false,
-        showDetails: true,
-        showDetailsExpression: false,
-        components: [],
         nullValueRepresentation: {
           text: "-",
         },
-        visualization: "sn-pivot-table",
-        version: "2.1.0",
+        components: [],
+        search: {
+          sorting: "auto",
+        },
+        disableNavMenu: false,
+        showDetails: true,
+        showDetailsExpression: false,
         extensionMeta: {
           translationKey: "",
           icon: "puzzle",
@@ -445,9 +351,7 @@ export default () => ({
         },
       },
       getEffectiveProperties: {
-        qHyperCubeDef: {
-          qShowTotalsAbove: true,
-        },
+        qHyperCubeDef: {},
       },
     },
   ],

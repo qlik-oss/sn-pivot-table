@@ -29,7 +29,14 @@ describe("DataCell", () => {
     layoutService = {
       getNullValueText: () => "-",
       size: { x: 1, y: 2 },
-    } as LayoutService;
+      hasPseudoDimOnLeft: false,
+      showTotalsAbove: true,
+      layout: {
+        qHyperCube: {
+          qMeasureInfo: [],
+        },
+      },
+    } as unknown as LayoutService;
 
     data = {
       grid: [[cell]],
@@ -61,6 +68,8 @@ describe("DataCell", () => {
 
   test("should render cell with total styling", () => {
     data.isTotalValue = () => true;
+    data.shouldShowTotalCellBottomDivider = () => true;
+    data.shouldShowTotalCellRightDivider = () => true;
     renderDataCell();
 
     expect(screen.getByText(cell.qText)).toBeInTheDocument();
@@ -68,6 +77,8 @@ describe("DataCell", () => {
       color: "totalValueColor",
       background: "totalValueBackground",
       fontWeight: "600",
+      borderBottomColor: "rgba(0, 0, 0, 0.6)",
+      borderRightColor: "rgba(0, 0, 0, 0.6)",
     } as Record<string, unknown>);
   });
 

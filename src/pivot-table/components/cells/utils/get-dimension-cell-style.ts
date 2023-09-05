@@ -1,6 +1,12 @@
 import type React from "react";
 import type { StyleService } from "../../../../types/types";
-import { getBorderStyle, getLineClampStyle, stickyCell, textStyle } from "../../shared-styles";
+import {
+  getBorderStyle,
+  getLineClampStyle,
+  getTotalCellDividerStyle,
+  stickyCell,
+  textStyle,
+} from "../../shared-styles";
 
 interface GetTextStyle {
   isLeftColumn: boolean;
@@ -22,6 +28,7 @@ interface GetContainerStyle {
   styleService: StyleService;
   isLeftColumn: boolean;
   showLastRowBorderBottom: boolean;
+  showTotalCellDivider: boolean;
 }
 
 export const selectedStyle: Pick<React.CSSProperties, "color" | "background"> = {
@@ -57,6 +64,7 @@ export const getContainerStyle = ({
   styleService,
   isLeftColumn,
   showLastRowBorderBottom,
+  showTotalCellDivider,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
   const resolvedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
@@ -68,6 +76,11 @@ export const getContainerStyle = ({
     ...style,
     ...resolvedSelectableCellStyle,
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
+    ...getTotalCellDividerStyle({
+      bottomDivider: showTotalCellDivider && isLeftColumn,
+      rightDivider: showTotalCellDivider && !isLeftColumn,
+      borderColor: styleService.grid.divider,
+    }),
     ...resolvedNullStyle,
     ...resolvedSelectedStyle,
     ...resolvedLockedSelectionStyle,
