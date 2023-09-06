@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
 import Descending from "@qlik-trial/sprout/icons/react/Descending";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import type {
   Align,
   ChangeActivelySortedHeader,
@@ -56,6 +56,7 @@ const DimensionTitleCell = ({
   const styleService = useStyleContext();
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
+  const [openMenuDropdown, setOpenMenuDropdown] = useState(false);
 
   const isDim = cell.id !== "PSEUDO-DIM";
 
@@ -80,6 +81,8 @@ const DimensionTitleCell = ({
     await changeSortOrder(headerData, newSortDirection);
   };
 
+  const handleOpenMenu = () => setOpenMenuDropdown(!openMenuDropdown);
+
   return (
     <div
       title={cell.title}
@@ -93,8 +96,11 @@ const DimensionTitleCell = ({
         gridTemplateColumns: "1fr 24px",
         gridGap: "4px",
         alignItems: "center",
+        border: `1px dashed skyblue`,
+        cursor: "pointer",
       }}
       data-testid={testId}
+      onClick={handleOpenMenu}
     >
       <div style={{ ...labelWrapperStyle }}>
         {cell.isActivelySorted && (
@@ -112,10 +118,11 @@ const DimensionTitleCell = ({
             translator={translator}
             tabIndex={-1}
             anchorRef={anchorRef}
-            handleHeadCellMenuKeyDown={() => {}}
             menuAvailabilityFlags={{
               [MenuAvailabilityFlags.SORTING]: true,
             }}
+            openMenuDropdown={openMenuDropdown}
+            setOpenMenuDropdown={setOpenMenuDropdown}
             sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader }}
           />
           <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
