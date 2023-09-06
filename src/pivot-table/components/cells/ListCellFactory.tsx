@@ -72,6 +72,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
         showTotalCellDivider={showTotalCellDivider}
+        showLastRowBorderBottom={showLastRowBorderBottom}
       />
     );
   }
