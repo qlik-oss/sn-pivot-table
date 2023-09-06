@@ -117,7 +117,15 @@ describe("ListCellFactory", () => {
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockedTotalsCell).toHaveBeenCalledWith(
-      { cell, style, isLeftColumn: false, isLastRow: false, isLastColumn: true, showTotalCellDivider: false },
+      {
+        cell,
+        style,
+        isLeftColumn: false,
+        isLastRow: false,
+        isLastColumn: true,
+        showTotalCellDivider: false,
+        showLastRowBorderBottom: false,
+      },
       {},
     );
   });

@@ -10,6 +10,7 @@ interface LabelCellProps {
   isLastRow: boolean;
   isLastColumn: boolean;
   showTotalCellDivider: boolean;
+  showLastRowBorderBottom: boolean;
 }
 
 const labelTextStyle: React.CSSProperties = {
@@ -26,6 +27,7 @@ const TotalsCell = ({
   isLastRow,
   isLastColumn,
   showTotalCellDivider,
+  showLastRowBorderBottom,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const serviceStyle = isLeftColumn ? styleService.rowContent.totalLabel : styleService.columnContent.totalLabel;
@@ -41,7 +43,7 @@ const TotalsCell = ({
     <div
       style={{
         ...style,
-        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, false),
+        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
         ...serviceStyle,
         ...totalCellDividerStyle,
       }}

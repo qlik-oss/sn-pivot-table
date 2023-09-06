@@ -23,6 +23,7 @@ test("should render", () => {
       isLastRow={false}
       isLastColumn={false}
       showTotalCellDivider={false}
+      showLastRowBorderBottom={false}
     />,
   );
 
