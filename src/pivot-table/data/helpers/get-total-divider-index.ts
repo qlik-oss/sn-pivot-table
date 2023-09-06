@@ -1,4 +1,4 @@
-import type { Grid } from "../../../types/types";
+import type { Grid, List } from "../../../types/types";
 
 /**
  * Finds the index where the total cell divider line should be.
@@ -6,10 +6,11 @@ import type { Grid } from "../../../types/types";
  * Only if the root cell is a total cell should there be a divider line. Such that if
  * the root cell is a pseudo dimension, there should not be a divider line.
  */
-const getTotalDividerIndex = (grid: Grid, gridSize: number) => {
-  const firstRootCell = grid[0]?.[0];
-  const lastCell = grid.at(-1)?.[gridSize - 1];
-  const lastRootCell = lastCell?.root === null ? lastCell : lastCell?.root;
+const getTotalDividerIndex = (grid: Grid) => {
+  const rootList = grid[0] as List | undefined;
+  const rootListAsArray = rootList ? Object.values(rootList) : [];
+  const firstRootCell = rootList?.[0];
+  const lastRootCell = rootListAsArray.at(-1);
 
   if (firstRootCell?.isTotal) {
     return firstRootCell.isLeafNode

@@ -28,7 +28,7 @@ export const addPageToLeftDimensionData = ({
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
   const rowsOnPage = getRowsOnPage(pageInfo);
   assignDistanceToNextCell(grid, rowsOnPage);
-  const totalDividerIndex = getTotalDividerIndex(grid, rowsOnPage);
+  const totalDividerIndex = getTotalDividerIndex(grid);
 
   return {
     ...prevData,
@@ -48,7 +48,7 @@ export const createLeftDimensionData = (
   const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
   const rowsOnPage = getRowsOnPage(pageInfo);
   assignDistanceToNextCell(grid, rowsOnPage);
-  const totalDividerIndex = getTotalDividerIndex(grid, rowsOnPage);
+  const totalDividerIndex = getTotalDividerIndex(grid);
 
   return {
     grid,

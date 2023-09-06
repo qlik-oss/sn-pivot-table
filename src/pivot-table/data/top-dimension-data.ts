@@ -20,8 +20,8 @@ export const addPageToTopDimensionData = ({
   if (!qTop.length) return prevData;
 
   const grid = extractTopGrid(prevData.grid, qTop, qArea, layoutService, visibleTopDimensionInfo);
-  assignDistanceToNextCell(grid, prevData.layoutSize.x);
-  const totalDividerIndex = getTotalDividerIndex(grid, prevData.layoutSize.x);
+  assignDistanceToNextCell(grid, layoutService.size.x);
+  const totalDividerIndex = getTotalDividerIndex(grid);
 
   return {
     ...prevData,
@@ -39,7 +39,7 @@ export const createTopDimensionData = (
   const { qArea, qTop } = dataPage;
   const grid = extractTopGrid([], qTop, qArea, layoutService, visibleTopDimensionInfo);
   assignDistanceToNextCell(grid, layoutService.size.x);
-  const totalDividerIndex = getTotalDividerIndex(grid, layoutService.size.x);
+  const totalDividerIndex = getTotalDividerIndex(grid);
 
   return {
     grid,
