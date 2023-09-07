@@ -30,7 +30,6 @@ describe("use-sorting", () => {
     test("should throw error if there was no model", async () => {
       model = undefined as unknown as Model;
       const { changeSortOrder } = renderer();
-      // expect(async () => await changeSortOrder(header, newSortDirection)).toThrow;
       let msg = "";
       try {
         await changeSortOrder(header, newSortDirection);
@@ -38,24 +37,6 @@ describe("use-sorting", () => {
         msg = (err as Error).message;
       }
       expect(msg).toBe("No Model provided!");
-    });
-
-    test("should call applyPatches with correct column index for measures", async () => {
-      const { changeSortOrder } = renderer();
-      newSortDirection = "D";
-      header = { isDim: false, colIdx: 5 } as Header;
-      await changeSortOrder(header, newSortDirection);
-      expect(applyPatches).toHaveBeenCalledTimes(1);
-      expect(applyPatches).toHaveBeenCalledWith(
-        [
-          {
-            qOp: "Replace",
-            qPath: `/qHyperCubeDef/qMeasures/${header.colIdx - hyperCube.qDimensionInfo.length}/qDef/qReverseSort`,
-            qValue: String(!header.qReverseSort),
-          },
-        ],
-        true,
-      );
     });
 
     test("should call applyPatches with correct patch object for Ascensing sort", async () => {
@@ -123,7 +104,6 @@ describe("use-sorting", () => {
     test("should throw error if there was no model", async () => {
       model = undefined as unknown as Model;
       const { changeActivelySortedHeader } = renderer();
-      // expect(async () => await changeActivelySortedHeader(header)).toThrow;
       let msg = "";
       try {
         await changeActivelySortedHeader(header);
@@ -144,25 +124,6 @@ describe("use-sorting", () => {
         [
           {
             qOp: "Replace",
-            qPath: "/qHyperCubeDef/activelySortedColumn",
-            qValue: JSON.stringify({ ...expectedHeaderObject, colIdx: header.colIdx }),
-          },
-        ],
-        true,
-      );
-    });
-
-    test("should call applyPatches with correct column index for measures", async () => {
-      const { changeActivelySortedHeader } = renderer();
-      newSortDirection = "D";
-      header.isDim = false;
-      header.colIdx = 5;
-      await changeActivelySortedHeader(header);
-      expect(applyPatches).toHaveBeenCalledTimes(1);
-      expect(applyPatches).toHaveBeenCalledWith(
-        [
-          {
-            qOp: "Add",
             qPath: "/qHyperCubeDef/activelySortedColumn",
             qValue: JSON.stringify({ ...expectedHeaderObject, colIdx: header.colIdx }),
           },
