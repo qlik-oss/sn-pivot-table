@@ -1,14 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo } from "../../../types/QIX";
 import NxDimCellType from "../../../types/QIX";
-import type {
-  Cell,
-  LayoutService,
-  LeftDimensionData,
-  MeasureTextStyling,
-  Rect,
-  VisibleDimensionInfo,
-} from "../../../types/types";
+import type { Cell, LayoutService, LeftDimensionData, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import useColumnWidth, { EXPAND_ICON_WIDTH } from "../use-column-width";
 import useMeasureText, { type MeasureTextHook } from "../use-measure-text";
@@ -18,7 +11,7 @@ jest.mock("../../contexts/StyleProvider");
 
 describe("useColumnWidth", () => {
   let rect: Rect;
-  let mockedUseMeasureText: jest.MockedFunction<(styling: MeasureTextStyling) => MeasureTextHook>;
+  let mockedUseMeasureText: jest.MockedFunction<(styling: { fontSize: string; fontFamily: string }) => MeasureTextHook>;
   let leftDimensionData: LeftDimensionData;
   let mockedMeasureText: MeasureTextHook;
   let layoutService: LayoutService;

@@ -222,8 +222,6 @@ interface DimensionContentStyling extends FontStyling {
   measureLabel: CellStyling;
 }
 
-export type MeasureTextStyling = HeaderStyling | MeasureContentStyling | DimensionContentStyling;
-
 interface GridStyling {
   rowHeight: "compact";
   lineCount: number;

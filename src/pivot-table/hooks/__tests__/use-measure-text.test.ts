@@ -1,10 +1,9 @@
 import { renderHook } from "@testing-library/react";
-import type { MeasureTextStyling } from "../../../types/types";
 import useMeasureText from "../use-measure-text";
 
 describe("useMeasureText", () => {
   let measureTextMock: jest.MockedFunction<(text: string) => TextMetrics>;
-  const styling = { fontSize: "13px", fontFamily: "font" } as MeasureTextStyling;
+  const styling = { fontSize: "13px", fontFamily: "font" };
 
   beforeEach(() => {
     measureTextMock = jest.fn() as jest.MockedFunction<(text: string) => TextMetrics>;

@@ -1,8 +1,12 @@
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo, useRef } from "react";
-import type { MeasureTextStyling } from "../../types/types";
 
 type MeasureText = (text: string) => TextMetrics;
+
+export interface MeasureTextStyling {
+  fontSize: string;
+  fontFamily: string;
+}
 
 export interface MeasureTextHook {
   estimateWidth: (length: number) => number;
