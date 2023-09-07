@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import { useOnPropsChange } from "@qlik-oss/nebula-table-utils/lib/hooks";
+import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../../types/types";
@@ -88,7 +88,12 @@ const TopGrid = ({
     <div style={resolvedContainerStyle}>
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
-        const { itemCount, estimatedItemSize } = getListMeta(list, totalWidth, layoutService.size.x, isLastRow);
+        const { itemCount, estimatedItemSize, listValues } = getListMeta(
+          list,
+          totalWidth,
+          layoutService.size.x,
+          isLastRow,
+        );
         const key = getKey(visibleTopDimensionInfo[topRowIndex]);
 
         return (
@@ -109,6 +114,7 @@ const TopGrid = ({
               isLast: isLastRow && !layoutService.layout.snapshotData,
               itemCount,
               showLastRowBorderBottom,
+              listValues,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

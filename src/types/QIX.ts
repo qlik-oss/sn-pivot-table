@@ -1,4 +1,4 @@
-import type { StylingOptions } from "./types";
+import type { ActivelySortedColumn, StylingOptions } from "./types";
 
 enum NxDimCellType {
   NX_DIM_CELL_VALUE = "V",
@@ -139,12 +139,12 @@ export interface ExtendedHyperCube extends Omit<EngineAPI.IHyperCube, "qDimensio
   qMeasureInfo: ExtendedNxMeasureInfo[];
 }
 
-export interface PivotLayout extends Omit<EngineAPI.IGenericHyperCubeLayout, "qHyperCube"> {
+export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
+  qHyperCube: ExtendedHyperCube;
   nullValueRepresentation?: NullValueRepresentation;
   title: string;
   snapshotData?: SnapshotData;
   components?: Component[];
-  qHyperCube: ExtendedHyperCube;
 }
 
 export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
@@ -160,6 +160,10 @@ export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
     qHypercubeCardinal: number;
   };
   columnWidth: ColumnWidth;
+}
+
+export interface HyperCube extends EngineAPI.IHyperCube {
+  activelySortedColumn: ActivelySortedColumn;
 }
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;

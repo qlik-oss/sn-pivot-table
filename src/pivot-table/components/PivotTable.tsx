@@ -8,6 +8,7 @@ import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
+import useSorting from "../hooks/use-sorting";
 import useTableRect from "../hooks/use-table-rect";
 import useVisibleDimensions from "../hooks/use-visible-dimensions";
 import FullSizeContainer from "./containers/FullSizeContainer";
@@ -26,6 +27,7 @@ export interface PivotTableProps {
   qPivotDataPages: EngineAPI.INxPivotPage[];
   model: Model;
   pageInfo: PageInfo;
+  translator: stardust.Translator;
 }
 
 export const StickyPivotTable = ({
@@ -36,6 +38,7 @@ export const StickyPivotTable = ({
   layoutService,
   qPivotDataPages,
   pageInfo,
+  translator,
 }: PivotTableProps): JSX.Element => {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
@@ -45,7 +48,7 @@ export const StickyPivotTable = ({
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
   const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
-
+  const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
@@ -151,7 +154,14 @@ export const StickyPivotTable = ({
           topRowsHeight={topGridHeight}
           bottomRowsHeight={dataGridHeight}
         >
-          <HeaderGrid columnWidthCallback={getLeftColumnWidth} rowHight={headerCellHeight} headersData={headersData} />
+          <HeaderGrid
+            columnWidthCallback={getLeftColumnWidth}
+            rowHight={headerCellHeight}
+            headersData={headersData}
+            translator={translator}
+            changeSortOrder={changeSortOrder}
+            changeActivelySortedHeader={changeActivelySortedHeader}
+          />
 
           <TopGrid
             dataModel={dataModel}

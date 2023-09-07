@@ -46,6 +46,7 @@ describe("ListCellFactory", () => {
       layoutService,
       dataModel,
       list: {},
+      listValues: [],
       constraints,
       isLast: false,
       itemCount: 1,
@@ -60,11 +61,22 @@ describe("ListCellFactory", () => {
     mockDimensionCell.mockReturnValue(<div />);
     cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
     data.list[index] = cell;
+    data.listValues[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockDimensionCell).toHaveBeenCalledWith(
-      { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: true },
+      {
+        style,
+        cell,
+        data,
+        rowIndex: 2,
+        colIndex: 1,
+        isLeftColumn: false,
+        isLastRow: false,
+        isLastColumn: true,
+        showTotalCellDivider: false,
+      },
       {},
     );
   });
@@ -75,11 +87,20 @@ describe("ListCellFactory", () => {
     mockPseudoDimensionCell.mockReturnValue(<div />);
     cell = { ref: { qText }, isPseudoDimension: true } as Cell;
     data.list[index] = cell;
+    data.listValues[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith(
-      { style, cell, isLeftColumn: false, isLastRow: false, isLastColumn: true, showLastRowBorderBottom: false },
+      {
+        style,
+        cell,
+        isLeftColumn: false,
+        isLastRow: false,
+        isLastColumn: true,
+        showLastRowBorderBottom: false,
+        showTotalCellDivider: false,
+      },
       {},
     );
   });
@@ -90,11 +111,20 @@ describe("ListCellFactory", () => {
     mockedTotalsCell.mockReturnValue(<div />);
     cell = { ref: { qText }, isTotal: true } as Cell;
     data.list[index] = cell;
+    data.listValues[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockedTotalsCell).toHaveBeenCalledWith(
-      { cell, style, isLeftColumn: false, isLastRow: false, isLastColumn: true },
+      {
+        cell,
+        style,
+        isLeftColumn: false,
+        isLastRow: false,
+        isLastColumn: true,
+        showTotalCellDivider: false,
+        showLastRowBorderBottom: false,
+      },
       {},
     );
   });
@@ -105,18 +135,19 @@ describe("ListCellFactory", () => {
     mockEmptyCell.mockReturnValue(<div />);
     cell = { ref: { qText }, isEmpty: true } as Cell;
     data.list[index] = cell;
+    data.listValues[index] = cell;
 
     render(<ListCellFactory index={index} style={style} data={data} />);
 
     expect(mockEmptyCell).toHaveBeenCalledWith(
       {
-        cell,
         style: { ...style, background: "transparent" },
         index,
         isLastRow: false,
         isLastColumn: true,
         showLastRowBorderBottom: false,
         isLeftColumn: data.isLeftColumn,
+        showTotalCellDivider: false,
       },
       {},
     );
@@ -128,6 +159,7 @@ describe("ListCellFactory", () => {
     mockEmptyCell.mockReturnValue(<div />);
     cell = { ref: { qText } } as Cell;
     data.list[index] = cell;
+    data.listValues[index] = cell;
     data.isLast = true;
 
     render(<ListCellFactory index={index + 1} style={style} data={data} />);
@@ -141,6 +173,7 @@ describe("ListCellFactory", () => {
         isLastColumn: false,
         showLastRowBorderBottom: false,
         isLeftColumn: data.isLeftColumn,
+        showTotalCellDivider: false,
       },
       {},
     );
@@ -154,13 +187,24 @@ describe("ListCellFactory", () => {
         mockDimensionCell.mockReturnValue(<div />);
         cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
+        data.listValues[index] = cell;
         data.isLeftColumn = true;
         data.isLast = true;
 
         render(<ListCellFactory index={index} style={style} data={data} />);
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
-          { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: true, isLastRow: true, isLastColumn: true },
+          {
+            style,
+            cell,
+            data,
+            rowIndex: 2,
+            colIndex: 1,
+            isLeftColumn: true,
+            isLastRow: true,
+            isLastColumn: true,
+            showTotalCellDivider: false,
+          },
           {},
         );
       });
@@ -171,6 +215,7 @@ describe("ListCellFactory", () => {
         mockDimensionCell.mockReturnValue(<div />);
         cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
+        data.listValues[index] = cell;
         data.isLeftColumn = true;
         data.isLast = false;
         data.itemCount = 2;
@@ -178,7 +223,17 @@ describe("ListCellFactory", () => {
         render(<ListCellFactory index={index} style={style} data={data} />);
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
-          { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: true, isLastRow: false, isLastColumn: false },
+          {
+            style,
+            cell,
+            data,
+            rowIndex: 2,
+            colIndex: 1,
+            isLeftColumn: true,
+            isLastRow: false,
+            isLastColumn: false,
+            showTotalCellDivider: false,
+          },
           {},
         );
       });
@@ -191,11 +246,22 @@ describe("ListCellFactory", () => {
         mockDimensionCell.mockReturnValue(<div />);
         cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
+        data.listValues[index] = cell;
 
         render(<ListCellFactory index={index} style={style} data={data} />);
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
-          { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: true },
+          {
+            style,
+            cell,
+            data,
+            rowIndex: 2,
+            colIndex: 1,
+            isLeftColumn: false,
+            isLastRow: false,
+            isLastColumn: true,
+            showTotalCellDivider: false,
+          },
           {},
         );
       });
@@ -206,13 +272,24 @@ describe("ListCellFactory", () => {
         mockDimensionCell.mockReturnValue(<div />);
         cell = { x: 1, pageY: 2, ref: { qText, qCanCollapse: false, qCanExpand: false } } as Cell;
         data.list[index] = cell;
+        data.listValues[index] = cell;
         data.isLast = false;
         data.itemCount = 2;
 
         render(<ListCellFactory index={index} style={style} data={data} />);
 
         expect(mockDimensionCell).toHaveBeenCalledWith(
-          { style, cell, data, rowIndex: 2, colIndex: 1, isLeftColumn: false, isLastRow: false, isLastColumn: false },
+          {
+            style,
+            cell,
+            data,
+            rowIndex: 2,
+            colIndex: 1,
+            isLeftColumn: false,
+            isLastRow: false,
+            isLastColumn: false,
+            showTotalCellDivider: false,
+          },
           {},
         );
       });

@@ -15,7 +15,17 @@ test("should render", () => {
   };
   const cell = { ref: { qText: "test" }, root: null, isTotal: true } as Cell;
 
-  render(<TotalsCell cell={cell} style={style} isLeftColumn={false} isLastRow={false} isLastColumn={false} />);
+  render(
+    <TotalsCell
+      cell={cell}
+      style={style}
+      isLeftColumn={false}
+      isLastRow={false}
+      isLastColumn={false}
+      showTotalCellDivider={false}
+      showLastRowBorderBottom={false}
+    />,
+  );
 
   expect(screen.getByText(cell.ref.qText)).toBeInTheDocument();
   expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>);

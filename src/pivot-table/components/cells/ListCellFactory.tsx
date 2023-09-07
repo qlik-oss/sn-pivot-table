@@ -2,10 +2,12 @@ import React from "react";
 import { areEqual } from "react-window";
 import type { ListItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { shouldShowTotalCellDivider } from "../../hooks/use-is-total-cell";
 import DimensionCell from "./DimensionCell";
 import EmptyCell from "./EmptyCell";
 import PseudoDimensionCell from "./PseudoDimensionCell";
 import TotalsCell from "./TotalsCell";
+import getNextCell from "./utils/get-next-cell";
 
 interface ListCallbackProps {
   index: number;
@@ -15,7 +17,7 @@ interface ListCallbackProps {
 
 const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
   const styleService = useStyleContext();
-  const { list, isLeftColumn = false, isLast, itemCount, showLastRowBorderBottom } = data;
+  const { list, isLeftColumn = false, isLast, itemCount, showLastRowBorderBottom, layoutService, listValues } = data;
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
 
@@ -26,20 +28,23 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
    * But when "isLast" is false, the keys in "list" object, are not guaranteed to match "index".
    * To get around that, the "list" object is converted to an array.
    */
-  const cell = isLast ? list[index] : Object.values(list)[index];
+  const cell = isLast ? list[index] : listValues[index];
+  const showTotalCellDivider = shouldShowTotalCellDivider(
+    layoutService.showTotalsAbove ? cell : getNextCell(isLast ? list : listValues, index, cell),
+  );
 
   if (cell === undefined || cell.isEmpty) {
     const background = isLeftColumn ? styleService.rowContent.background : styleService.columnContent.background;
 
     return (
       <EmptyCell
-        cell={cell}
         style={{ ...style, background }}
         index={index}
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
         showLastRowBorderBottom={showLastRowBorderBottom}
         isLeftColumn={isLeftColumn}
+        showTotalCellDivider={showTotalCellDivider}
       />
     );
   }
@@ -53,6 +58,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
         showLastRowBorderBottom={showLastRowBorderBottom}
+        showTotalCellDivider={showTotalCellDivider}
       />
     );
   }
@@ -65,6 +71,8 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
         isLeftColumn={isLeftColumn}
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
+        showTotalCellDivider={showTotalCellDivider}
+        showLastRowBorderBottom={showLastRowBorderBottom}
       />
     );
   }
@@ -79,6 +87,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
       isLeftColumn={isLeftColumn}
       isLastRow={isLastRow}
       isLastColumn={isLastColumn}
+      showTotalCellDivider={showTotalCellDivider}
     />
   );
 };

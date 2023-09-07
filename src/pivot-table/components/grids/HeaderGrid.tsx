@@ -1,5 +1,6 @@
+import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
-import type { HeaderTitle, HeadersData } from "../../../types/types";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell, HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
@@ -8,6 +9,9 @@ interface HeaderGridProps {
   columnWidthCallback: (index: number) => number;
   rowHight: number;
   headersData: HeadersData;
+  translator: stardust.Translator;
+  changeSortOrder: ChangeSortOrder;
+  changeActivelySortedHeader: ChangeActivelySortedHeader;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -15,7 +19,14 @@ const containerStyle: React.CSSProperties = {
   background: "red",
 };
 
-const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridProps): JSX.Element | null => {
+const HeaderGrid = ({
+  columnWidthCallback,
+  rowHight,
+  headersData,
+  translator,
+  changeSortOrder,
+  changeActivelySortedHeader,
+}: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
   if (headersData.size.x === 0) {
@@ -36,14 +47,17 @@ const HeaderGrid = ({ columnWidthCallback, rowHight, headersData }: HeaderGridPr
     >
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
       {headersData.data.map((col, colIndex) => {
-        const cell = col[col.length - 1] as HeaderTitle;
+        const cell = col[col.length - 1] as HeaderCell;
 
         return (
           <DimensionTitleCell
             key={cell.id}
-            cell={cell.title}
             style={{ width: columnWidths[colIndex], height: rowHight }}
             isLastColumn={colIndex === headersData.size.x - 1}
+            translator={translator}
+            changeSortOrder={changeSortOrder}
+            changeActivelySortedHeader={changeActivelySortedHeader}
+            cell={cell}
           />
         );
       })}

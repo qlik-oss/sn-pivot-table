@@ -17,6 +17,7 @@ export interface DimensionCellProps {
   isLeftColumn: boolean;
   isLastRow: boolean;
   isLastColumn: boolean;
+  showTotalCellDivider: boolean;
 }
 
 interface OnExpandOrCollapseProps {
@@ -87,6 +88,7 @@ const DimensionCell = ({
   data,
   isLastRow,
   isLastColumn,
+  showTotalCellDivider,
 }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand } = cell.ref;
   const {
@@ -121,6 +123,7 @@ const DimensionCell = ({
     styleService,
     isLeftColumn,
     showLastRowBorderBottom,
+    showTotalCellDivider: !layoutService.showTotalsAbove && showTotalCellDivider,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);
   const text = cell.isNull ? layoutService.getNullValueText() : qText;
