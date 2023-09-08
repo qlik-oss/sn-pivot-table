@@ -8,7 +8,7 @@ import SelectionsProvider from "../contexts/SelectionsProvider";
 import StyleProvider from "../contexts/StyleProvider";
 
 interface Props extends Partial<RootProps> {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 }
 
 const TestWithProvider = (props: Props) => {
@@ -19,6 +19,8 @@ const TestWithProvider = (props: Props) => {
       isModal: () => false,
       on: () => undefined,
       removeListener: () => undefined,
+      begin: () => Promise.resolve(),
+      select: () => Promise.resolve(),
     } as unknown as ExtendedSelections,
     updatePageInfo = () => undefined,
     styleService = {
