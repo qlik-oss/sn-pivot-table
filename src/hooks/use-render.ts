@@ -1,6 +1,5 @@
 import {
   useApp,
-  useConstraints,
   useEffect,
   useElement,
   useInteractionState,
@@ -30,7 +29,6 @@ const useRender = () => {
   const layout = useStaleLayout() as PivotLayout;
   const model = useModel() as Model;
   const app = useApp();
-  const constraints = useConstraints();
   const interactions = useInteractionState();
   const [effectiveProperties, isLoadingEffectiveProperties] = useEffectiveProperties(model, layout);
   const layoutService = useLayoutService(layout, effectiveProperties);
@@ -63,7 +61,6 @@ const useRender = () => {
       model &&
       rect?.width &&
       rect?.height &&
-      constraints &&
       selections &&
       viewService &&
       layoutService &&
@@ -78,7 +75,6 @@ const useRender = () => {
       model,
       app,
       rect,
-      constraints,
       selections,
       viewService,
       layoutService,
@@ -95,7 +91,6 @@ const useRender = () => {
     rect,
     rect?.width,
     rect?.height,
-    constraints,
     interactions,
     selections,
     viewService,
