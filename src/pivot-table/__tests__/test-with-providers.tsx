@@ -1,7 +1,9 @@
 import React from "react";
+import type { App, Model } from "../../types/QIX";
 import type { ExtendedSelections } from "../../types/types";
 import type { RootProps } from "../Root";
 import { DEFAULT_CELL_HEIGHT } from "../constants";
+import BaseProvider from "../contexts/BaseProvider";
 import SelectionsProvider from "../contexts/SelectionsProvider";
 import StyleProvider from "../contexts/StyleProvider";
 
@@ -93,12 +95,17 @@ const TestWithProvider = (props: Props) => {
       headerCellHeight: DEFAULT_CELL_HEIGHT,
       contentCellHeight: DEFAULT_CELL_HEIGHT,
     },
+    app = { getField: () => Promise.resolve() } as unknown as App,
+    model = { applyPatches: () => Promise.resolve() } as unknown as Model,
+    interactions = { select: true },
   } = props;
 
   return (
-    <SelectionsProvider selections={selections} updatePageInfo={updatePageInfo}>
-      <StyleProvider styleService={styleService}>{children}</StyleProvider>
-    </SelectionsProvider>
+    <BaseProvider model={model} app={app} interactions={interactions}>
+      <SelectionsProvider selections={selections} updatePageInfo={updatePageInfo}>
+        <StyleProvider styleService={styleService}>{children}</StyleProvider>
+      </SelectionsProvider>
+    </BaseProvider>
   );
 };
 

@@ -1,7 +1,9 @@
 import {
+  useApp,
   useConstraints,
   useEffect,
   useElement,
+  useInteractionState,
   useMemo,
   useModel,
   useRect,
@@ -27,7 +29,9 @@ const useRender = () => {
   const reactRoot = useReactRoot(element);
   const layout = useStaleLayout() as PivotLayout;
   const model = useModel() as Model;
+  const app = useApp();
   const constraints = useConstraints();
+  const interactions = useInteractionState();
   const [effectiveProperties, isLoadingEffectiveProperties] = useEffectiveProperties(model, layout);
   const layoutService = useLayoutService(layout, effectiveProperties);
   const selections = useSelections() as ExtendedSelections;
@@ -72,6 +76,7 @@ const useRender = () => {
 
     render(reactRoot, {
       model,
+      app,
       rect,
       constraints,
       selections,
@@ -82,13 +87,16 @@ const useRender = () => {
       translator,
       pageInfo,
       updatePageInfo,
+      interactions,
     });
   }, [
     model,
+    app,
     rect,
     rect?.width,
     rect?.height,
     constraints,
+    interactions,
     selections,
     viewService,
     layoutService,
