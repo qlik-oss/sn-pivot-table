@@ -8,7 +8,7 @@ import SelectionsProvider from "../contexts/SelectionsProvider";
 import StyleProvider from "../contexts/StyleProvider";
 
 interface Props extends Partial<RootProps> {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 }
 
 const TestWithProvider = (props: Props) => {

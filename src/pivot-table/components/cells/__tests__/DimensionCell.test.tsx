@@ -4,9 +4,10 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 import NxDimCellType, { NxSelectionCellType } from "../../../../types/QIX";
 import type { Cell, DataModel, LayoutService, ListItemData } from "../../../../types/types";
+import TestWithProvider from "../../../__tests__/test-with-providers";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import type { SelectionModel } from "../../../hooks/use-selections-model";
-import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from "../DimensionCell";
+import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, type DimensionCellProps } from "../DimensionCell";
 import { lockedFromSelectionStyle, selectedStyle } from "../utils/get-dimension-cell-style";
 // eslint-disable-next-line jest/no-mocks-import
 import dataModelMock from "./__mocks__/data-model-mock";
@@ -15,7 +16,7 @@ jest.mock("../../../contexts/SelectionsProvider");
 jest.mock("../../../contexts/StyleProvider");
 
 describe("DimensionCell", () => {
-  let constraints: stardust.Constraints;
+  let interactions: stardust.Interactions;
   let dataModel: DataModel;
   let data: ListItemData;
   let cell: Cell;
@@ -39,6 +40,7 @@ describe("DimensionCell", () => {
   let isLockedSpy: jest.MockedFunction<() => boolean>;
   let mockedSelectionModel: SelectionModel;
   let layoutService: LayoutService;
+  let WrapperComponent: React.FC<DimensionCellProps>;
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -59,10 +61,10 @@ describe("DimensionCell", () => {
     mockedSelectionContext = useSelectionsContext as jest.MockedFunction<typeof useSelectionsContext>;
     mockedSelectionContext.mockReturnValue(mockedSelectionModel);
 
-    constraints = {
-      active: false,
-      passive: false,
-      select: false,
+    interactions = {
+      active: true,
+      passive: true,
+      select: true,
     };
 
     dataModel = dataModelMock();
@@ -80,7 +82,6 @@ describe("DimensionCell", () => {
     data = {
       layoutService,
       dataModel,
-      constraints,
       showLastRowBorderBottom: false,
       list: {},
     } as ListItemData;
@@ -97,11 +98,17 @@ describe("DimensionCell", () => {
         qType: NxDimCellType.NX_DIM_CELL_NORMAL,
       },
     } as Cell;
+
+    WrapperComponent = (props) => (
+      <TestWithProvider interactions={interactions}>
+        <DimensionCell {...props} />
+      </TestWithProvider>
+    );
   });
 
   test("should render", () => {
     render(
-      <DimensionCell
+      <WrapperComponent
         cell={cell}
         data={data}
         rowIndex={0}
@@ -127,7 +134,7 @@ describe("DimensionCell", () => {
     cell.ref.qCanCollapse = false;
 
     render(
-      <DimensionCell
+      <WrapperComponent
         cell={cell}
         data={data}
         rowIndex={0}
@@ -153,7 +160,7 @@ describe("DimensionCell", () => {
     data.list[1] = nextSibling;
 
     render(
-      <DimensionCell
+      <WrapperComponent
         cell={cell}
         data={data}
         rowIndex={0}
@@ -178,7 +185,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanExpand = true;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -197,12 +204,12 @@ describe("DimensionCell", () => {
         expect(expandLeftSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test("should not be possible to expand left column when active constraint is true", async () => {
+      test("should not be possible to expand left column when active interaction is false", async () => {
         cell.ref.qCanExpand = true;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -231,7 +238,7 @@ describe("DimensionCell", () => {
         });
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -254,7 +261,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -273,12 +280,12 @@ describe("DimensionCell", () => {
         expect(collapseLeftSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test("should be not possible to collapse left column when active constraint is true", async () => {
+      test("should be not possible to collapse left column when active interaction is false", async () => {
         cell.ref.qCanCollapse = true;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -307,7 +314,7 @@ describe("DimensionCell", () => {
         });
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -333,7 +340,7 @@ describe("DimensionCell", () => {
         const colIdx = 1;
         cell.ref.qCanCollapse = true;
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -359,7 +366,7 @@ describe("DimensionCell", () => {
         isSelectedSpy.mockReturnValue(true);
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -376,10 +383,10 @@ describe("DimensionCell", () => {
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
-      test("should not be possible to select cell when constraints is active", async () => {
+      test("should not be possible to select cell when interactions is not active", async () => {
         const rowIdx = 0;
         const colIdx = 1;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
         cell.ref.qCanCollapse = true;
         isSelectedSpy.mockReturnValue(true);
 
@@ -410,7 +417,7 @@ describe("DimensionCell", () => {
         isLockedSpy.mockReturnValue(true);
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -437,7 +444,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -465,7 +472,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanExpand = true;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -484,12 +491,12 @@ describe("DimensionCell", () => {
         expect(expandTopSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test("should not be possible to expand top row when active constraint is true", async () => {
+      test("should not be possible to expand top row when active interaction is false", async () => {
         cell.ref.qCanExpand = true;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -518,7 +525,7 @@ describe("DimensionCell", () => {
         });
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -541,7 +548,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -560,12 +567,12 @@ describe("DimensionCell", () => {
         expect(collapseTopSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test("should be not possible to collapse top row when active constraint is true", async () => {
+      test("should be not possible to collapse top row when active interaction is false", async () => {
         cell.ref.qCanCollapse = true;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -594,7 +601,7 @@ describe("DimensionCell", () => {
         });
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={0}
@@ -621,7 +628,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -647,7 +654,7 @@ describe("DimensionCell", () => {
         isSelectedSpy.mockReturnValue(true);
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -664,15 +671,15 @@ describe("DimensionCell", () => {
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
-      test("should not be possible to select cell when constraints is active", async () => {
+      test("should not be possible to select cell when interaction is not active", async () => {
         const rowIdx = 0;
         const colIdx = 1;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
         cell.ref.qCanCollapse = true;
         isSelectedSpy.mockReturnValue(true);
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -698,7 +705,7 @@ describe("DimensionCell", () => {
         isLockedSpy.mockReturnValue(true);
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -725,7 +732,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <DimensionCell
+          <WrapperComponent
             cell={cell}
             data={data}
             rowIndex={rowIdx}
