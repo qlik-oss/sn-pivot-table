@@ -3,17 +3,23 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import NxDimCellType, { NxSelectionCellType } from "../../../../types/QIX";
-import type { Cell, DataModel, LayoutService, ListItemData } from "../../../../types/types";
+import type {
+  Cell,
+  DataModel,
+  ExtendedSelections,
+  LayoutService,
+  ListItemData,
+  PageInfo,
+} from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
-import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import type { SelectionModel } from "../../../hooks/use-selections-model";
-import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon, type DimensionCellProps } from "../DimensionCell";
+import useSelectionsModel from "../../../hooks/use-selections-model";
+import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from "../DimensionCell";
 import { lockedFromSelectionStyle, selectedStyle } from "../utils/get-dimension-cell-style";
 // eslint-disable-next-line jest/no-mocks-import
 import dataModelMock from "./__mocks__/data-model-mock";
 
-jest.mock("../../../contexts/SelectionsProvider");
-jest.mock("../../../contexts/StyleProvider");
+jest.mock("../../../hooks/use-selections-model");
 
 describe("DimensionCell", () => {
   let interactions: stardust.Interactions;
@@ -33,14 +39,15 @@ describe("DimensionCell", () => {
   let expandTopSpy: jest.SpyInstance;
   let collapseLeftSpy: jest.SpyInstance;
   let collapseTopSpy: jest.SpyInstance;
-  let mockedSelectionContext: jest.MockedFunction<() => SelectionModel>;
+  let mockedUseSelectionsModel: jest.MockedFunction<
+    (selections: ExtendedSelections, updatePageInfo: (args: Partial<PageInfo>) => void) => SelectionModel
+  >;
   let selectSpy: jest.MockedFunction<() => () => Promise<void>>;
   let onClickHandlerSpy: jest.MockedFunction<() => Promise<void>>;
   let isSelectedSpy: jest.MockedFunction<() => boolean>;
   let isLockedSpy: jest.MockedFunction<() => boolean>;
   let mockedSelectionModel: SelectionModel;
   let layoutService: LayoutService;
-  let WrapperComponent: React.FC<DimensionCellProps>;
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -58,8 +65,9 @@ describe("DimensionCell", () => {
       isActive: false,
       isLocked: isLockedSpy,
     };
-    mockedSelectionContext = useSelectionsContext as jest.MockedFunction<typeof useSelectionsContext>;
-    mockedSelectionContext.mockReturnValue(mockedSelectionModel);
+
+    mockedUseSelectionsModel = useSelectionsModel as jest.MockedFunction<typeof useSelectionsModel>;
+    mockedUseSelectionsModel.mockReturnValue(mockedSelectionModel);
 
     interactions = {
       active: true,
@@ -98,17 +106,11 @@ describe("DimensionCell", () => {
         qType: NxDimCellType.NX_DIM_CELL_NORMAL,
       },
     } as Cell;
-
-    WrapperComponent = (props) => (
-      <TestWithProvider interactions={interactions}>
-        <DimensionCell {...props} />
-      </TestWithProvider>
-    );
   });
 
   test("should render", () => {
     render(
-      <WrapperComponent
+      <DimensionCell
         cell={cell}
         data={data}
         rowIndex={0}
@@ -119,6 +121,7 @@ describe("DimensionCell", () => {
         isLastColumn={false}
         showTotalCellDivider={false}
       />,
+      { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
     );
 
     expect(screen.getByText(qText)).toBeInTheDocument();
@@ -134,7 +137,7 @@ describe("DimensionCell", () => {
     cell.ref.qCanCollapse = false;
 
     render(
-      <WrapperComponent
+      <DimensionCell
         cell={cell}
         data={data}
         rowIndex={0}
@@ -145,8 +148,10 @@ describe("DimensionCell", () => {
         isLastColumn={false}
         showTotalCellDivider={false}
       />,
+      { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
     );
 
+    expect(screen.getByText(qText)).toBeInTheDocument();
     expect(screen.queryByTestId(testIdExpandIcon)).toBeNull();
     expect(screen.queryByTestId(testIdCollapseIcon)).toBeNull();
   });
@@ -160,7 +165,7 @@ describe("DimensionCell", () => {
     data.list[1] = nextSibling;
 
     render(
-      <WrapperComponent
+      <DimensionCell
         cell={cell}
         data={data}
         rowIndex={0}
@@ -171,6 +176,7 @@ describe("DimensionCell", () => {
         isLastColumn={false}
         showTotalCellDivider
       />,
+      { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
     );
 
     expect(screen.getByTestId(testId)).toHaveStyle({ "border-right-color": "rgba(0, 0, 0, 0.6)" } as Record<
@@ -185,7 +191,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanExpand = true;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -196,6 +202,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -209,7 +216,7 @@ describe("DimensionCell", () => {
         interactions.active = false;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -220,6 +227,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -230,7 +238,7 @@ describe("DimensionCell", () => {
 
       test("should not be possible to expand left column when selections is active", async () => {
         cell.ref.qCanExpand = true;
-        mockedSelectionContext.mockReturnValue({
+        mockedUseSelectionsModel.mockReturnValue({
           select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
@@ -238,7 +246,7 @@ describe("DimensionCell", () => {
         });
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -249,6 +257,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -261,7 +270,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -272,6 +281,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -285,7 +295,7 @@ describe("DimensionCell", () => {
         interactions.active = false;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -296,6 +306,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -306,7 +317,7 @@ describe("DimensionCell", () => {
 
       test("should be not possible to collapse left column when selections is active", async () => {
         cell.ref.qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({
+        mockedUseSelectionsModel.mockReturnValue({
           select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
@@ -314,7 +325,7 @@ describe("DimensionCell", () => {
         });
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -325,6 +336,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -340,7 +352,7 @@ describe("DimensionCell", () => {
         const colIdx = 1;
         cell.ref.qCanCollapse = true;
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -351,6 +363,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -366,7 +379,7 @@ describe("DimensionCell", () => {
         isSelectedSpy.mockReturnValue(true);
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -377,6 +390,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
@@ -402,6 +416,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -417,7 +432,7 @@ describe("DimensionCell", () => {
         isLockedSpy.mockReturnValue(true);
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -428,6 +443,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -444,7 +460,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -455,6 +471,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -472,7 +489,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanExpand = true;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -483,6 +500,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -496,7 +514,7 @@ describe("DimensionCell", () => {
         interactions.active = false;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -507,6 +525,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -517,7 +536,7 @@ describe("DimensionCell", () => {
 
       test("should not be possible to expand top row when selections is active", async () => {
         cell.ref.qCanExpand = true;
-        mockedSelectionContext.mockReturnValue({
+        mockedUseSelectionsModel.mockReturnValue({
           select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
@@ -525,7 +544,7 @@ describe("DimensionCell", () => {
         });
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -536,6 +555,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -548,7 +568,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -559,6 +579,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -572,7 +593,7 @@ describe("DimensionCell", () => {
         interactions.active = false;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -583,6 +604,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -593,7 +615,7 @@ describe("DimensionCell", () => {
 
       test("should be not possible to collapse top row when selections is active", async () => {
         cell.ref.qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({
+        mockedUseSelectionsModel.mockReturnValue({
           select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
@@ -601,7 +623,7 @@ describe("DimensionCell", () => {
         });
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={0}
@@ -612,6 +634,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -628,7 +651,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -639,6 +662,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -654,7 +678,7 @@ describe("DimensionCell", () => {
         isSelectedSpy.mockReturnValue(true);
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -665,6 +689,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
@@ -679,7 +704,7 @@ describe("DimensionCell", () => {
         isSelectedSpy.mockReturnValue(true);
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -690,6 +715,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -705,7 +731,7 @@ describe("DimensionCell", () => {
         isLockedSpy.mockReturnValue(true);
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -716,6 +742,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -732,7 +759,7 @@ describe("DimensionCell", () => {
         cell.ref.qCanCollapse = true;
 
         render(
-          <WrapperComponent
+          <DimensionCell
             cell={cell}
             data={data}
             rowIndex={rowIdx}
@@ -743,6 +770,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));

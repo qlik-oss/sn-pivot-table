@@ -19,6 +19,8 @@ const TestWithProvider = (props: Props) => {
       isModal: () => false,
       on: () => undefined,
       removeListener: () => undefined,
+      begin: () => Promise.resolve(),
+      select: () => Promise.resolve(),
     } as unknown as ExtendedSelections,
     updatePageInfo = () => undefined,
     styleService = {
