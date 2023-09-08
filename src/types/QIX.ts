@@ -140,4 +140,6 @@ export interface HyperCube extends EngineAPI.IHyperCube {
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;
 
+export type App = EngineAPI.IApp | undefined;
+
 export default NxDimCellType;

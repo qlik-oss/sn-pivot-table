@@ -34,13 +34,9 @@ export default function useColumnWidth(
   } = layoutService;
   const styleService = useStyleContext();
   const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
-    styleService.content.fontSize,
-    styleService.content.fontFamily,
+    styleService.content,
   );
-  const { measureText: measureTextForHeader } = useMeasureText(
-    styleService.header.fontSize,
-    styleService.header.fontFamily,
-  );
+  const { measureText: measureTextForHeader } = useMeasureText(styleService.header);
 
   const hasPseudoDimOnLeft = useMemo(() => visibleLeftDimensionInfo.includes(-1), [visibleLeftDimensionInfo]);
 
