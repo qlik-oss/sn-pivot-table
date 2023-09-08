@@ -47,8 +47,6 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = "title-cell";
 
-const handleHeadCellMenuKeyDown = () => {};
-
 const FLAGS = {
   [MenuAvailabilityFlags.SORTING]: true,
   [MenuAvailabilityFlags.SELECTIONS]: true,
@@ -85,18 +83,16 @@ const DimensionTitleCell = ({
     [cell, isDim],
   );
 
-  const sortRelatedArgs = useMemo(() => {
-    const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
-      evt.stopPropagation();
-      await changeSortOrder(headerData, newSortDirection);
-    };
+  const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
+    evt.stopPropagation();
+    await changeSortOrder(headerData, newSortDirection);
+  };
 
-    return { sortFromMenu, changeActivelySortedHeader };
-  }, [changeActivelySortedHeader, changeSortOrder, headerData]);
+  const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
 
-  const searchRelatedArgs = useMemo<SearchRelatedArgs>(() => ({ interactions }) as SearchRelatedArgs, [interactions]);
+  const searchRelatedArgs = { interactions } as SearchRelatedArgs;
 
-  const selectionRelatedArgs = useMemo(() => ({ model: model as EngineAPI.IGenericObject, app }), [app, model]);
+  const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
   return (
     <div
@@ -130,7 +126,6 @@ const DimensionTitleCell = ({
             translator={translator}
             tabIndex={-1}
             anchorRef={anchorRef}
-            handleHeadCellMenuKeyDown={handleHeadCellMenuKeyDown}
             menuAvailabilityFlags={FLAGS}
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
