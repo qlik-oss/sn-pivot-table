@@ -9,7 +9,7 @@ import { getRowHeightHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
-import { gridBorderStyle } from "../shared-styles";
+import { borderStyle } from "../shared-styles";
 
 interface LeftGridProps {
   dataModel: DataModel;
@@ -28,7 +28,7 @@ const containerStyle: React.CSSProperties = {
   display: "flex",
   height: "fit-content",
   borderWidth: "1px 0px 0px 0px",
-  ...gridBorderStyle,
+  ...borderStyle,
 };
 
 const listStyle: React.CSSProperties = {
