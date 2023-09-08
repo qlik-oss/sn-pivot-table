@@ -20,42 +20,11 @@ export const cellStyle: Pick<React.CSSProperties, "boxSizing" | "padding"> = {
   padding: 4,
 };
 
-export const borderBottomRightStyle: React.CSSProperties = {
-  ...cellStyle,
-  ...borderStyle,
-  borderLeftWidth: 0,
-  borderBottomWidth: 1,
-  borderRightWidth: 1,
-  borderTopWidth: 0,
-};
-
-export const borderBottomStyle: React.CSSProperties = {
-  ...cellStyle,
-  ...borderStyle,
-  borderLeftWidth: 0,
-  borderBottomWidth: 1,
-  borderRightWidth: 0,
-  borderTopWidth: 0,
-};
-
-export const borderRightStyle: React.CSSProperties = {
-  ...cellStyle,
-  ...borderStyle,
-  borderLeftWidth: 0,
-  borderBottomWidth: 0,
-  borderRightWidth: 1,
-  borderTopWidth: 0,
-};
-
 export const textStyle: React.CSSProperties = {
   lineHeight: `calc(${LINE_HEIGHT_COEFFICIENT})`,
   textOverflow: "ellipsis",
   overflow: "hidden",
   whiteSpace: "nowrap",
-};
-
-export const gridBorderStyle: React.CSSProperties = {
-  borderStyle: "solid",
 };
 
 export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
@@ -80,27 +49,10 @@ export const getBorderStyle = (
   borderColor: string,
   showLastRowBorderBottom: boolean,
 ) => {
-  if (isLastRow && isLastColumn && showLastRowBorderBottom) {
-    return { ...borderBottomStyle, borderBottomColor: borderColor };
-  }
+  const borderRightWidth = !isLastColumn ? 1 : 0;
+  const borderBottomWidth = !isLastRow || showLastRowBorderBottom ? 1 : 0;
 
-  if (isLastRow && isLastColumn) {
-    return cellStyle;
-  }
-
-  if (isLastRow && showLastRowBorderBottom) {
-    return { ...borderBottomRightStyle, borderBottomColor: borderColor, borderRightColor: borderColor };
-  }
-
-  if (isLastRow) {
-    return { ...borderRightStyle, borderRightColor: borderColor };
-  }
-
-  if (isLastColumn) {
-    return { ...borderBottomStyle, borderBottomColor: borderColor };
-  }
-
-  return { ...borderBottomRightStyle, borderBottomColor: borderColor, borderRightColor: borderColor };
+  return { ...cellStyle, ...borderStyle, borderColor, borderWidth: 0, borderRightWidth, borderBottomWidth };
 };
 
 export const getTotalCellDividerStyle = ({
