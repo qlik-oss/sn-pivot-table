@@ -126,6 +126,7 @@ const DimensionTitleCell = ({
             translator={translator}
             tabIndex={-1}
             anchorRef={anchorRef}
+            handleHeadCellMenuKeyDown={() => {}}
             menuAvailabilityFlags={FLAGS}
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
