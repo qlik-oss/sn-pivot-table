@@ -1,5 +1,5 @@
 import { ColumnWidthValues } from "../../pivot-table/hooks/use-column-width";
-import { ColumnWidthType, type ColumnWidth, type DimensionOrMeasure } from "../../types/QIX";
+import { ColumnWidthType, type DimensionOrMeasure } from "../../types/QIX";
 import type { Galaxy } from "../../types/types";
 
 export interface Args {
@@ -67,7 +67,7 @@ const columnResize = {
         // eslint-disable-next-line no-param-reassign
         data.qDef.columnWidth.pixels = Math.max(
           ColumnWidthValues.PixelsMin,
-          Math.min(ColumnWidthValues.PixelsMax, data.qDef.columnWidth.pixels)
+          Math.min(ColumnWidthValues.PixelsMax, data.qDef.columnWidth.pixels),
         );
       }
     },
@@ -84,7 +84,7 @@ const columnResize = {
         // eslint-disable-next-line no-param-reassign
         data.qDef.columnWidth.percentage = Math.max(
           ColumnWidthValues.PercentageMin,
-          Math.min(ColumnWidthValues.PercentageMax, data.qDef.columnWidth.percentage)
+          Math.min(ColumnWidthValues.PercentageMax, data.qDef.columnWidth.percentage),
         );
       }
     },

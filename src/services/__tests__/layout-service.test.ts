@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../pivot-table/constants";
 import type { PivotLayout, SnapshotData } from "../../types/QIX";
 import type { LayoutService } from "../../types/types";
@@ -170,4 +168,3 @@ describe("createLayoutService", () => {
     });
   });
 });
->>>>>>> a4e11ec9599de83c9c1b60f42469a21dcf7d5b48
