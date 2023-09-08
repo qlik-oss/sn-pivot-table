@@ -83,6 +83,10 @@ const DimensionTitleCell = ({
 
   const handleOpenMenu = () => setOpenMenuDropdown(!openMenuDropdown);
 
+  const _setOpenMenuDropdown = (evt: React.MouseEvent, state: boolean) => {
+    evt.stopPropagation();
+    setOpenMenuDropdown(state);
+  };
   return (
     <div
       title={cell.title}
@@ -122,7 +126,7 @@ const DimensionTitleCell = ({
               [MenuAvailabilityFlags.SORTING]: true,
             }}
             openMenuDropdown={openMenuDropdown}
-            setOpenMenuDropdown={setOpenMenuDropdown}
+            setOpenMenuDropdown={_setOpenMenuDropdown}
             sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader }}
           />
           <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
