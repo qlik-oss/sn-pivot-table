@@ -19,7 +19,7 @@ import {
   useShouldShowTotalCellRightDivider,
 } from "../../hooks/use-is-total-cell";
 import MemoizedDataCell from "../cells/DataCell";
-import { gridBorderStyle } from "../shared-styles";
+import { borderStyle } from "../shared-styles";
 
 interface DataGridProps {
   dataModel: DataModel;
@@ -46,7 +46,7 @@ type FetchModeData = (
 ) => Promise<void>;
 
 const gridStyle: React.CSSProperties = {
-  ...gridBorderStyle,
+  ...borderStyle,
   overflow: "hidden",
   boxSizing: "content-box",
 };
