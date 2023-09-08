@@ -2,6 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
 import Descending from "@qlik-trial/sprout/icons/react/Descending";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
+import type { SearchRelatedArgs } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import React, { useMemo, useRef } from "react";
 import type {
   Align,
@@ -11,6 +12,7 @@ import type {
   HeaderCell,
   SortDirection,
 } from "../../../types/types";
+import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
@@ -45,6 +47,11 @@ const labelTextStyle: React.CSSProperties = {
 
 export const testId = "title-cell";
 
+const FLAGS = {
+  [MenuAvailabilityFlags.SORTING]: true,
+  [MenuAvailabilityFlags.SELECTIONS]: true,
+};
+
 const DimensionTitleCell = ({
   cell,
   style,
@@ -54,6 +61,7 @@ const DimensionTitleCell = ({
   changeActivelySortedHeader,
 }: DimensionTitleCellProps): JSX.Element => {
   const styleService = useStyleContext();
+  const { app, model, interactions } = useBaseContext();
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +73,7 @@ const DimensionTitleCell = ({
       isDim,
       fieldId: cell.fieldId,
       qLibraryId: cell.qLibraryId,
-      label: "right",
+      label: cell.title,
       headTextAlign: "right" as Align,
       sortDirection: cell.sortDirection,
       colIdx: cell.colIdx,
@@ -79,6 +87,12 @@ const DimensionTitleCell = ({
     evt.stopPropagation();
     await changeSortOrder(headerData, newSortDirection);
   };
+
+  const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
+
+  const searchRelatedArgs = { interactions } as SearchRelatedArgs;
+
+  const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
   return (
     <div
@@ -113,10 +127,10 @@ const DimensionTitleCell = ({
             tabIndex={-1}
             anchorRef={anchorRef}
             handleHeadCellMenuKeyDown={() => {}}
-            menuAvailabilityFlags={{
-              [MenuAvailabilityFlags.SORTING]: true,
-            }}
-            sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader }}
+            menuAvailabilityFlags={FLAGS}
+            sortRelatedArgs={sortRelatedArgs}
+            searchRelatedArgs={searchRelatedArgs}
+            selectionRelatedArgs={selectionRelatedArgs}
           />
           <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
         </>
