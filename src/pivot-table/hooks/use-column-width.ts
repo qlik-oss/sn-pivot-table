@@ -228,8 +228,8 @@ export default function useColumnWidth(
   );
 
   const rightGridWidth = useMemo(
-    () => Math.min(rightGridFullWidth, rect.width - leftGridWidth - GRID_BORDER),
-    [leftGridWidth, rect.width, rightGridFullWidth]
+    () => Math.min(rightGridFullWidth, rightGridAvailableWidth),
+    [rightGridFullWidth, rightGridAvailableWidth]
   );
 
   const totalWidth = useMemo(
