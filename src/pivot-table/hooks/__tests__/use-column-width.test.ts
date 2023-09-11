@@ -11,7 +11,7 @@ jest.mock("../../contexts/StyleProvider");
 
 describe("useColumnWidth", () => {
   let rect: Rect;
-  let mockedUseMeasureText: jest.MockedFunction<(size: string, fam: string) => MeasureTextHook>;
+  let mockedUseMeasureText: jest.MockedFunction<(styling: { fontSize: string; fontFamily: string }) => MeasureTextHook>;
   let leftDimensionData: LeftDimensionData;
   let mockedMeasureText: MeasureTextHook;
   let layoutService: LayoutService;

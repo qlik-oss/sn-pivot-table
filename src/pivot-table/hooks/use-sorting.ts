@@ -17,13 +17,12 @@ const useSorting: UseSorting = (model, qHyperCube) => {
       changeSortOrder: async (header: Header, newSortDirection: SortDirection) => {
         if (!model) throw new Error("No Model provided!");
 
-        const { isDim, colIdx, qReverseSort } = header;
+        const { colIdx, qReverseSort } = header;
         const patches: EngineAPI.INxPatch[] = [];
-        const index = isDim ? colIdx : colIdx - qHyperCube.qDimensionInfo.length;
 
         if ((newSortDirection === "D" && !qReverseSort) || (newSortDirection === "A" && qReverseSort)) {
           patches.push({
-            qPath: `/qHyperCubeDef/${isDim ? "qDimensions" : "qMeasures"}/${index}/qDef/qReverseSort`,
+            qPath: `/qHyperCubeDef/qDimensions/${colIdx}/qDef/qReverseSort`,
             qOp: "Replace",
             qValue: (!qReverseSort).toString(),
           });
@@ -60,7 +59,7 @@ const useSorting: UseSorting = (model, qHyperCube) => {
         }
       },
     }),
-    [model, qHyperCube.qDimensionInfo.length, qHyperCube.activelySortedColumn],
+    [model, qHyperCube.activelySortedColumn],
   );
 
   return api;

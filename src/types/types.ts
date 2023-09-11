@@ -46,7 +46,6 @@ export interface DataModel {
 }
 
 export interface ItemData {
-  constraints?: stardust.Constraints;
   dataModel?: DataModel;
   layoutService: LayoutService;
 }

@@ -1,4 +1,3 @@
-import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect, useMemo } from "react";
 import { VariableSizeList } from "react-window";
@@ -10,7 +9,7 @@ import { getColumnWidthHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
-import { gridBorderStyle } from "../shared-styles";
+import { borderStyle } from "../shared-styles";
 
 interface TopGridProps {
   dataModel: DataModel;
@@ -19,7 +18,6 @@ interface TopGridProps {
   rowHightCallback: () => number;
   width: number;
   height: number;
-  constraints: stardust.Constraints;
   getScrollLeft: () => number;
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
@@ -33,12 +31,12 @@ const listStyle: React.CSSProperties = {
 };
 
 const containerStyle: React.CSSProperties = {
-  ...gridBorderStyle,
+  ...borderStyle,
   borderWidth: "0px 0px 0px 1px",
 };
 
 const containerStyleWithoutBorders: React.CSSProperties = {
-  ...gridBorderStyle,
+  ...borderStyle,
   borderWidth: "0px",
 };
 
@@ -49,7 +47,6 @@ const TopGrid = ({
   rowHightCallback,
   width,
   height,
-  constraints,
   getScrollLeft,
   layoutService,
   topDimensionData,
@@ -115,7 +112,6 @@ const TopGrid = ({
             itemData={{
               layoutService,
               dataModel,
-              constraints,
               list,
               isLast: isLastRow && !layoutService.layout.snapshotData,
               itemCount,

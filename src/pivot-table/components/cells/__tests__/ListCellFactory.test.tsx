@@ -1,4 +1,3 @@
-import { type stardust } from "@nebula.js/stardust";
 import { render } from "@testing-library/react";
 import React from "react";
 import type { Cell, DataModel, LayoutService, ListItemData } from "../../../../types/types";
@@ -25,19 +24,12 @@ describe("ListCellFactory", () => {
     height: "150px",
   };
   const qText = "test value";
-  let constraints: stardust.Constraints;
   let dataModel: DataModel;
   let data: ListItemData;
   let cell: Cell;
   let layoutService: LayoutService;
 
   beforeEach(() => {
-    constraints = {
-      active: false,
-      passive: false,
-      select: false,
-    };
-
     dataModel = dataModelMock();
 
     layoutService = {} as LayoutService;
@@ -47,7 +39,6 @@ describe("ListCellFactory", () => {
       dataModel,
       list: {},
       listValues: [],
-      constraints,
       isLast: false,
       itemCount: 1,
       showLastRowBorderBottom: false,

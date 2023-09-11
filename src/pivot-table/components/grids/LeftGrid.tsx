@@ -1,4 +1,3 @@
-import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
@@ -10,7 +9,7 @@ import { getRowHeightHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
 import setListRef from "../helpers/set-list-ref";
-import { gridBorderStyle } from "../shared-styles";
+import { borderStyle } from "../shared-styles";
 
 interface LeftGridProps {
   dataModel: DataModel;
@@ -18,7 +17,6 @@ interface LeftGridProps {
   getLeftColumnWidth: (index: number) => number;
   width: number;
   height: number;
-  constraints: stardust.Constraints;
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
@@ -30,7 +28,7 @@ const containerStyle: React.CSSProperties = {
   display: "flex",
   height: "fit-content",
   borderWidth: "1px 0px 0px 0px",
-  ...gridBorderStyle,
+  ...borderStyle,
 };
 
 const listStyle: React.CSSProperties = {
@@ -53,7 +51,6 @@ const LeftGrid = ({
   getLeftColumnWidth,
   width,
   height,
-  constraints,
   getScrollTop,
   layoutService,
   leftDimensionData,
@@ -109,7 +106,6 @@ const LeftGrid = ({
             itemData={{
               layoutService,
               dataModel,
-              constraints,
               list,
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,

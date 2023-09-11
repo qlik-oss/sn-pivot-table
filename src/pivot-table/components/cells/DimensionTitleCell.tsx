@@ -11,6 +11,7 @@ import type {
   HeaderCell,
   SortDirection,
 } from "../../../types/types";
+import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
@@ -43,7 +44,15 @@ const labelTextStyle: React.CSSProperties = {
   paddingLeft: "8px",
 };
 
+const anchorStyle: React.CSSProperties = { position: "absolute", left: 0, bottom: 0 };
+
 export const testId = "title-cell";
+
+const FLAGS = {
+  [MenuAvailabilityFlags.SORTING]: true,
+  [MenuAvailabilityFlags.SELECTIONS]: true,
+  [MenuAvailabilityFlags.SEARCHING]: true,
+};
 
 const DimensionTitleCell = ({
   cell,
@@ -53,7 +62,9 @@ const DimensionTitleCell = ({
   changeSortOrder,
   changeActivelySortedHeader,
 }: DimensionTitleCellProps): JSX.Element => {
+  const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
+  const { app, model, interactions, embed } = useBaseContext();
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +76,7 @@ const DimensionTitleCell = ({
       isDim,
       fieldId: cell.fieldId,
       qLibraryId: cell.qLibraryId,
-      label: "right",
+      label: cell.title,
       headTextAlign: "right" as Align,
       sortDirection: cell.sortDirection,
       colIdx: cell.colIdx,
@@ -79,6 +90,12 @@ const DimensionTitleCell = ({
     evt.stopPropagation();
     await changeSortOrder(headerData, newSortDirection);
   };
+
+  const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
+
+  const searchRelatedArgs = { interactions, embed, listboxRef };
+
+  const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
   return (
     <div
@@ -113,12 +130,13 @@ const DimensionTitleCell = ({
             tabIndex={-1}
             anchorRef={anchorRef}
             handleHeadCellMenuKeyDown={() => {}}
-            menuAvailabilityFlags={{
-              [MenuAvailabilityFlags.SORTING]: true,
-            }}
-            sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader }}
+            menuAvailabilityFlags={FLAGS}
+            sortRelatedArgs={sortRelatedArgs}
+            searchRelatedArgs={searchRelatedArgs}
+            selectionRelatedArgs={selectionRelatedArgs}
           />
-          <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
+          <div style={anchorStyle} ref={listboxRef} />
+          <div style={anchorStyle} ref={anchorRef} />
         </>
       )}
     </div>
