@@ -1,4 +1,4 @@
-import type { HyperCube } from "../../../types/QIX";
+import type { ExtendedHyperCube } from "../../../types/QIX";
 import type { HeaderCell } from "../../../types/types";
 import extractHeaders from "../extract-headers";
 import createHeadersData from "../headers-data";
@@ -7,13 +7,13 @@ jest.mock("../extract-headers");
 const mockedExtractHeaders = extractHeaders as jest.MockedFunction<typeof extractHeaders>;
 
 describe("create headers data", () => {
-  let hyperCube: HyperCube;
+  let hyperCube: ExtendedHyperCube;
 
   beforeEach(() => {
     jest.resetAllMocks();
     hyperCube = {
       activelySortedColumn: { colIdx: 0 },
-    } as HyperCube;
+    } as ExtendedHyperCube;
   });
 
   test("should return correct headers data", () => {

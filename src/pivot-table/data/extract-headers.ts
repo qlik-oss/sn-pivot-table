@@ -1,10 +1,10 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { HyperCube } from "../../types/QIX";
+import type { ExtendedHyperCube } from "../../types/QIX";
 import type { HeaderCell, VisibleDimensionInfo } from "../../types/types";
 import getKey from "../components/helpers/get-key";
 
 const extractHeaders = (
-  hyperCube: HyperCube,
+  hyperCube: ExtendedHyperCube,
   rowCount: number,
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): (null | HeaderCell)[][] => {
