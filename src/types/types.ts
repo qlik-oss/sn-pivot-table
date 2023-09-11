@@ -52,8 +52,8 @@ export interface ItemData {
 }
 
 export interface ShowLastBorder {
-  right?: boolean;
-  bottom?: boolean;
+  right: boolean;
+  bottom: boolean;
 }
 
 export interface GridItemData extends ItemData {

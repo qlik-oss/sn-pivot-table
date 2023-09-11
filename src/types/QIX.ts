@@ -125,18 +125,23 @@ export interface ColumnWidth {
   percentage?: number;
 }
 
-export interface ExtendedNxDimensionInfo extends EngineAPI.INxDimensionInfo {
+export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
+  cId?: string;
+  qLibraryId?: string;
+  qCardinalities: {
+    qHypercubeCardinal: number;
+  };
   columnWidth: ColumnWidth;
 }
 
-export interface ExtendedNxMeasureInfo extends EngineAPI.INxMeasureInfo {
+export interface ExtendedMeasureInfo extends EngineAPI.INxMeasureInfo {
   columnWidth: ColumnWidth;
 }
 
 export interface ExtendedHyperCube extends Omit<EngineAPI.IHyperCube, "qDimensionInfo" | "qMeasureInfo"> {
   qColumnOrder: number[];
-  qDimensionInfo: ExtendedNxDimensionInfo[];
-  qMeasureInfo: ExtendedNxMeasureInfo[];
+  qDimensionInfo: ExtendedDimensionInfo[];
+  qMeasureInfo: ExtendedMeasureInfo[];
   activelySortedColumn: ActivelySortedColumn;
 }
 
@@ -152,15 +157,6 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
   nullValueRepresentation?: NullValueRepresentation;
   title?: string;
   snapshotData?: SnapshotData;
-}
-
-export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
-  cId?: string;
-  qLibraryId?: string;
-  qCardinalities: {
-    qHypercubeCardinal: number;
-  };
-  columnWidth: ColumnWidth;
 }
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;

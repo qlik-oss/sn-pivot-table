@@ -1,11 +1,10 @@
-import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import {
   ColumnWidthType,
   type ColumnWidth,
-  type ExtendedNxDimensionInfo,
-  type ExtendedNxMeasureInfo,
+  type ExtendedDimensionInfo,
+  type ExtendedMeasureInfo,
 } from "../../types/QIX";
 import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
 import { GRID_BORDER } from "../constants";
@@ -61,8 +60,6 @@ export default function useColumnWidth(
     (index: number) => (index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0),
     [qNoOfLeftDims],
   );
-
-  const hasPseudoDimOnLeft = useMemo(() => visibleLeftDimensionInfo.includes(-1), [visibleLeftDimensionInfo]);
 
   /**
    * The ratios of the left column widths. Scales the ratios to fit MAX_RATIO_OF_TOTAL_WIDTH if wider than that
@@ -131,10 +128,15 @@ export default function useColumnWidth(
 
   const rightGridAvailableWidth = useMemo(() => rect.width - leftGridWidth - GRID_BORDER, [leftGridWidth, rect.width]);
 
-  const getTopGridColumnWidth = useCallback(
-    (info: ExtendedNxDimensionInfo | ExtendedNxMeasureInfo | undefined, includeTitleWidth = true) => {
-      const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = info ?? ({} as ExtendedNxDimensionInfo);
-      let specifiedWidth: number;
+  /**
+   * Get the width of a right grid column. If there is no top grid, early return rightGridAvailableWidth
+   */
+  const getRightColumnWidth = useCallback(
+    (info: ExtendedDimensionInfo | ExtendedMeasureInfo | undefined) => {
+      if (!info) return rightGridAvailableWidth;
+
+      const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = info;
+      let specifiedWidth = 0;
       const autoWidth = rightGridAvailableWidth / layoutService.size.x;
 
       switch (columnWidth?.type) {
@@ -157,7 +159,7 @@ export default function useColumnWidth(
           if (topGridLeavesIsPseudo) {
             specifiedWidth = Math.max(
               estimateWidthForContent(qApprMaxGlyphCount),
-              includeTitleWidth ? measureTextForColumnContent(qFallbackTitle) : 0,
+              measureTextForColumnContent(qFallbackTitle),
             );
           } else {
             specifiedWidth = Math.max(
@@ -168,7 +170,6 @@ export default function useColumnWidth(
           break;
         }
         default:
-          specifiedWidth = 0;
           break;
       }
 
@@ -185,40 +186,31 @@ export default function useColumnWidth(
     ],
   );
 
-  const getTopGridMeasureWidth = useMemo(
-    () =>
-      memoize((measureInfoIndex: number) => {
-        if (hasPseudoDimOnLeft) {
-          return Math.max(...qMeasureInfo.map((m) => getTopGridColumnWidth(m, false)));
-        }
-
-        return getTopGridColumnWidth(qMeasureInfo[measureInfoIndex]);
-      }),
-    [getTopGridColumnWidth, hasPseudoDimOnLeft, qMeasureInfo],
-  );
-
+  /**
+   * The width of each leaf, and for pseudo it is the average of all measure widths
+   */
   const averageLeafWidth = useMemo(() => {
     if (topGridLeavesIsPseudo) {
       const allMeasuresWidth = qMeasureInfo.reduce(
-        (totalWidth, _, index) => totalWidth + getTopGridMeasureWidth(index),
+        (totalWidth, _, index) => totalWidth + getRightColumnWidth(qMeasureInfo[index]),
         0,
       );
 
       return allMeasuresWidth / qMeasureInfo.length;
     }
-    return getTopGridColumnWidth(leafTopDimension);
-  }, [topGridLeavesIsPseudo, getTopGridColumnWidth, leafTopDimension, qMeasureInfo, getTopGridMeasureWidth]);
+    return getRightColumnWidth(leafTopDimension);
+  }, [topGridLeavesIsPseudo, getRightColumnWidth, leafTopDimension, qMeasureInfo]);
 
+  /**
+   * Gets the average leaf width for the bottom row in the top grid
+   * If the bottom row is measures and you pass an index for that measure, it will return the specific width for that measure
+   */
   const getLeafWidth = useCallback(
-    /**
-     * Gets the average leaf width for the bottom row in the top grid
-     * If the bottom row is measures and you pass an index for that measure, it will return the specific width for that measure
-     */
     (index?: number) =>
       topGridLeavesIsPseudo && index !== undefined
-        ? getTopGridMeasureWidth(layoutService.getMeasureInfoIndexFromCellIndex(index))
+        ? getRightColumnWidth(qMeasureInfo[layoutService.getMeasureInfoIndexFromCellIndex(index)])
         : averageLeafWidth,
-    [averageLeafWidth, layoutService, getTopGridMeasureWidth, topGridLeavesIsPseudo],
+    [topGridLeavesIsPseudo, getRightColumnWidth, qMeasureInfo, layoutService, averageLeafWidth],
   );
 
   // The width of the sum of all columns, can be smaller or greater than what fits in the chart
@@ -227,11 +219,13 @@ export default function useColumnWidth(
     [averageLeafWidth, layoutService.size.x],
   );
 
+  // The width that will be assigned to the top and data grid
   const rightGridWidth = useMemo(
     () => Math.min(rightGridFullWidth, rightGridAvailableWidth),
     [rightGridFullWidth, rightGridAvailableWidth],
   );
 
+  // The full scrollable width of the chart
   const totalWidth = useMemo(
     () => leftGridWidth + rightGridFullWidth + GRID_BORDER,
     [leftGridWidth, rightGridFullWidth],
