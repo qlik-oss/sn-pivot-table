@@ -425,6 +425,34 @@ describe("DimensionCell", () => {
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
       });
 
+      test("should not be possible to select cell when select interaction is false", async () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        interactions.select = false;
+        cell.ref.qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
+
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+            showTotalCellDivider={false}
+          />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
+        );
+
+        await userEvent.click(screen.getByText(qText));
+
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+      });
+
       test("should not be possible to select cell when cell is locked due to selections in top column", async () => {
         const rowIdx = 0;
         const colIdx = 1;
@@ -700,6 +728,34 @@ describe("DimensionCell", () => {
         const rowIdx = 0;
         const colIdx = 1;
         interactions.active = false;
+        cell.ref.qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
+
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
+            showTotalCellDivider={false}
+          />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
+        );
+
+        await userEvent.click(screen.getByText(qText));
+
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test("should not be possible to select cell when select interaction is false", async () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        interactions.select = false;
         cell.ref.qCanCollapse = true;
         isSelectedSpy.mockReturnValue(true);
 
