@@ -139,7 +139,6 @@ export default function useColumnWidth(
 
         const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = info;
         let specifiedWidth = 0;
-        const autoWidth = rightGridAvailableWidth / layoutService.size.x;
 
         switch (columnWidth?.type) {
           case ColumnWidthType.Pixels: {
@@ -154,7 +153,7 @@ export default function useColumnWidth(
           case ColumnWidthType.Auto: {
             // TODO: we might need to redo this in the pseudo dimension case, since if not all measure are set to auto
             // you don't fill upp the width anyway
-            specifiedWidth = autoWidth;
+            specifiedWidth = rightGridAvailableWidth / layoutService.size.x;
             break;
           }
           case ColumnWidthType.FitToContent: {
@@ -175,6 +174,7 @@ export default function useColumnWidth(
             break;
         }
 
+        // TODO: make smarter min value, especially for auto setting
         return Math.max(ColumnWidthValues.PixelsMin, specifiedWidth);
       }),
     [
@@ -188,9 +188,6 @@ export default function useColumnWidth(
     ],
   );
 
-  /**
-   * The width of each leaf, and for pseudo it is the average of all measure widths
-   */
   const averageLeafWidth = useMemo(() => {
     if (topGridLeavesIsPseudo) {
       const allMeasuresWidth = qMeasureInfo.reduce(
