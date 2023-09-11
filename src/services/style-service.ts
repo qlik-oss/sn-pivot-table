@@ -4,6 +4,7 @@ import {
   DEFAULT_CELL_HEIGHT,
   DEFAULT_FONT_FAMILY,
   DEFAULT_FONT_SIZE,
+  DEFAULT_HEADER_CELL_HEIGHT,
   DEFAULT_LINE_CLAMP,
   LINE_HEIGHT_COEFFICIENT,
 } from "../pivot-table/constants";
@@ -248,9 +249,9 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   } as StyleService;
 
   styleService["headerCellHeight"] = Math.max(
-    fontSizeToCellHeight(styleService.header.fontSize, lineClamp),
-    fontSizeToCellHeight(styleService.columnContent.fontSize, lineClamp),
-    DEFAULT_CELL_HEIGHT,
+    fontSizeToCellHeight(styleService.header.fontSize, DEFAULT_LINE_CLAMP),
+    fontSizeToCellHeight(styleService.columnContent.fontSize, DEFAULT_LINE_CLAMP),
+    DEFAULT_HEADER_CELL_HEIGHT,
   );
   styleService["contentCellHeight"] = Math.max(
     fontSizeToCellHeight(styleService.content.fontSize, lineClamp),

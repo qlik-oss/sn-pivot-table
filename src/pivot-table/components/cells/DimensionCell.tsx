@@ -2,6 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import { NxSelectionCellType } from "../../../types/QIX";
 import type { Cell, DataModel, ListItemData } from "../../../types/types";
+import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";
@@ -24,7 +25,7 @@ interface OnExpandOrCollapseProps {
   rowIndex: number;
   colIndex: number;
   isLeftColumn?: boolean;
-  constraints: stardust.Constraints;
+  interactions: stardust.Interactions;
   dataModel: DataModel | undefined;
   isActive: boolean;
 }
@@ -40,10 +41,10 @@ const createOnExpand = ({
   isLeftColumn,
   rowIndex,
   colIndex,
-  constraints,
+  interactions,
   isActive,
 }: OnExpandOrCollapseProps) => {
-  if (constraints.active || isActive || !dataModel) {
+  if (!interactions.active || isActive || !dataModel) {
     return undefined;
   }
 
@@ -62,10 +63,10 @@ const createOnCollapse = ({
   isLeftColumn,
   rowIndex,
   colIndex,
-  constraints,
+  interactions,
   isActive,
 }: OnExpandOrCollapseProps) => {
-  if (constraints.active || isActive || !dataModel) {
+  if (!interactions.active || isActive || !dataModel) {
     return undefined;
   }
 
@@ -91,17 +92,14 @@ const DimensionCell = ({
   showTotalCellDivider,
 }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand } = cell.ref;
-  const {
-    constraints = { active: false, passive: false, select: false },
-    dataModel,
-    layoutService,
-    showLastRowBorderBottom,
-  } = data;
+  const { dataModel, layoutService, showLastRowBorderBottom } = data;
   const styleService = useStyleContext();
+  const { interactions } = useBaseContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
   const isCellLocked = isLocked(selectionCellType, cell.y, colIndex) || cell.isLockedByDimension;
-  const isNonSelectableCell = isCellLocked || cell.isEmpty || constraints.active || cell.isNull;
+  const isNonSelectableCell =
+    isCellLocked || cell.isEmpty || !interactions.active || !interactions.select || cell.isNull;
   const isCellSelected = isSelected(selectionCellType, cell.y, colIndex);
   const resolvedTextStyle = getTextStyle({
     isLeftColumn,
@@ -136,7 +134,7 @@ const DimensionCell = ({
         color={cell.isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdExpandIcon}
-        onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, constraints, isActive })}
+        onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, interactions, isActive })}
       />
     );
   } else if (qCanCollapse) {
@@ -145,7 +143,7 @@ const DimensionCell = ({
         color={cell.isNull ? serviceStyle.nullValue.color : serviceStyle.color}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdCollapseIcon}
-        onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, constraints, isActive })}
+        onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, interactions, isActive })}
       />
     );
   }

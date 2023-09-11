@@ -6,6 +6,7 @@ interface IBaseProvider {
   model: Model;
   app: App;
   interactions: stardust.Interactions;
+  embed: stardust.Embed;
 }
 
 interface BaseProviderProps extends IBaseProvider {
@@ -25,8 +26,8 @@ export const useBaseContext = (): IBaseProvider => useContext(BaseContext);
  *
  * The whole purpose of this provider is to avoid prop-drilling those props.
  */
-const BaseProvider = ({ model, app, interactions, children }: BaseProviderProps): JSX.Element => {
-  const props = useMemo(() => ({ model, app, interactions }), [app, interactions, model]);
+const BaseProvider = ({ children, model, app, interactions, embed }: BaseProviderProps): JSX.Element => {
+  const props = useMemo(() => ({ model, app, interactions, embed }), [app, interactions, model, embed]);
 
   return <BaseContext.Provider value={props}>{children}</BaseContext.Provider>;
 };

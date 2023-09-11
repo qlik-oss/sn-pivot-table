@@ -1,3 +1,4 @@
+import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import type { App, Model } from "../../types/QIX";
 import type { ExtendedSelections } from "../../types/types";
@@ -8,7 +9,7 @@ import SelectionsProvider from "../contexts/SelectionsProvider";
 import StyleProvider from "../contexts/StyleProvider";
 
 interface Props extends Partial<RootProps> {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 }
 
 const TestWithProvider = (props: Props) => {
@@ -19,6 +20,8 @@ const TestWithProvider = (props: Props) => {
       isModal: () => false,
       on: () => undefined,
       removeListener: () => undefined,
+      begin: () => Promise.resolve(),
+      select: () => Promise.resolve(),
     } as unknown as ExtendedSelections,
     updatePageInfo = () => undefined,
     styleService = {
@@ -96,12 +99,13 @@ const TestWithProvider = (props: Props) => {
       contentCellHeight: DEFAULT_CELL_HEIGHT,
     },
     app = { getField: () => Promise.resolve() } as unknown as App,
-    model = { applyPatches: () => Promise.resolve() } as unknown as Model,
+    model = { applyPatches: () => Promise.resolve(), getLayout: () => Promise.resolve({}) } as unknown as Model,
     interactions = { select: true },
+    embed = {} as stardust.Embed,
   } = props;
 
   return (
-    <BaseProvider model={model} app={app} interactions={interactions}>
+    <BaseProvider model={model} app={app} interactions={interactions} embed={embed}>
       <SelectionsProvider selections={selections} updatePageInfo={updatePageInfo}>
         <StyleProvider styleService={styleService}>{children}</StyleProvider>
       </SelectionsProvider>

@@ -3,19 +3,26 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import NxDimCellType, { NxSelectionCellType } from "../../../../types/QIX";
-import type { Cell, DataModel, LayoutService, ListItemData } from "../../../../types/types";
-import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
+import type {
+  Cell,
+  DataModel,
+  ExtendedSelections,
+  LayoutService,
+  ListItemData,
+  PageInfo,
+} from "../../../../types/types";
+import TestWithProvider from "../../../__tests__/test-with-providers";
 import type { SelectionModel } from "../../../hooks/use-selections-model";
+import useSelectionsModel from "../../../hooks/use-selections-model";
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from "../DimensionCell";
 import { lockedFromSelectionStyle, selectedStyle } from "../utils/get-dimension-cell-style";
 // eslint-disable-next-line jest/no-mocks-import
 import dataModelMock from "./__mocks__/data-model-mock";
 
-jest.mock("../../../contexts/SelectionsProvider");
-jest.mock("../../../contexts/StyleProvider");
+jest.mock("../../../hooks/use-selections-model");
 
 describe("DimensionCell", () => {
-  let constraints: stardust.Constraints;
+  let interactions: stardust.Interactions;
   let dataModel: DataModel;
   let data: ListItemData;
   let cell: Cell;
@@ -32,7 +39,9 @@ describe("DimensionCell", () => {
   let expandTopSpy: jest.SpyInstance;
   let collapseLeftSpy: jest.SpyInstance;
   let collapseTopSpy: jest.SpyInstance;
-  let mockedSelectionContext: jest.MockedFunction<() => SelectionModel>;
+  let mockedUseSelectionsModel: jest.MockedFunction<
+    (selections: ExtendedSelections, updatePageInfo: (args: Partial<PageInfo>) => void) => SelectionModel
+  >;
   let selectSpy: jest.MockedFunction<() => () => Promise<void>>;
   let onClickHandlerSpy: jest.MockedFunction<() => Promise<void>>;
   let isSelectedSpy: jest.MockedFunction<() => boolean>;
@@ -56,13 +65,14 @@ describe("DimensionCell", () => {
       isActive: false,
       isLocked: isLockedSpy,
     };
-    mockedSelectionContext = useSelectionsContext as jest.MockedFunction<typeof useSelectionsContext>;
-    mockedSelectionContext.mockReturnValue(mockedSelectionModel);
 
-    constraints = {
-      active: false,
-      passive: false,
-      select: false,
+    mockedUseSelectionsModel = useSelectionsModel as jest.MockedFunction<typeof useSelectionsModel>;
+    mockedUseSelectionsModel.mockReturnValue(mockedSelectionModel);
+
+    interactions = {
+      active: true,
+      passive: true,
+      select: true,
     };
 
     dataModel = dataModelMock();
@@ -80,7 +90,6 @@ describe("DimensionCell", () => {
     data = {
       layoutService,
       dataModel,
-      constraints,
       showLastRowBorderBottom: false,
       list: {},
     } as ListItemData;
@@ -112,6 +121,7 @@ describe("DimensionCell", () => {
         isLastColumn={false}
         showTotalCellDivider={false}
       />,
+      { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
     );
 
     expect(screen.getByText(qText)).toBeInTheDocument();
@@ -138,8 +148,10 @@ describe("DimensionCell", () => {
         isLastColumn={false}
         showTotalCellDivider={false}
       />,
+      { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
     );
 
+    expect(screen.getByText(qText)).toBeInTheDocument();
     expect(screen.queryByTestId(testIdExpandIcon)).toBeNull();
     expect(screen.queryByTestId(testIdCollapseIcon)).toBeNull();
   });
@@ -164,6 +176,7 @@ describe("DimensionCell", () => {
         isLastColumn={false}
         showTotalCellDivider
       />,
+      { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
     );
 
     expect(screen.getByTestId(testId)).toHaveStyle({ "border-right-color": "rgba(0, 0, 0, 0.6)" } as Record<
@@ -189,6 +202,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -197,9 +211,9 @@ describe("DimensionCell", () => {
         expect(expandLeftSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test("should not be possible to expand left column when active constraint is true", async () => {
+      test("should not be possible to expand left column when active interaction is false", async () => {
         cell.ref.qCanExpand = true;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
 
         render(
           <DimensionCell
@@ -213,6 +227,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -223,7 +238,7 @@ describe("DimensionCell", () => {
 
       test("should not be possible to expand left column when selections is active", async () => {
         cell.ref.qCanExpand = true;
-        mockedSelectionContext.mockReturnValue({
+        mockedUseSelectionsModel.mockReturnValue({
           select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
@@ -242,6 +257,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -265,6 +281,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -273,9 +290,9 @@ describe("DimensionCell", () => {
         expect(collapseLeftSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test("should be not possible to collapse left column when active constraint is true", async () => {
+      test("should be not possible to collapse left column when active interaction is false", async () => {
         cell.ref.qCanCollapse = true;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
 
         render(
           <DimensionCell
@@ -289,6 +306,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -299,7 +317,7 @@ describe("DimensionCell", () => {
 
       test("should be not possible to collapse left column when selections is active", async () => {
         cell.ref.qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({
+        mockedUseSelectionsModel.mockReturnValue({
           select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
@@ -318,6 +336,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -344,6 +363,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -370,16 +390,17 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
-      test("should not be possible to select cell when constraints is active", async () => {
+      test("should not be possible to select cell when interactions is not active", async () => {
         const rowIdx = 0;
         const colIdx = 1;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
         cell.ref.qCanCollapse = true;
         isSelectedSpy.mockReturnValue(true);
 
@@ -395,6 +416,35 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
+        );
+
+        await userEvent.click(screen.getByText(qText));
+
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test("should not be possible to select cell when select interaction is false", async () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        interactions.select = false;
+        cell.ref.qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
+
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn
+            isLastRow={false}
+            isLastColumn={false}
+            showTotalCellDivider={false}
+          />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -421,6 +471,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -448,6 +499,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -476,6 +528,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -484,9 +537,9 @@ describe("DimensionCell", () => {
         expect(expandTopSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test("should not be possible to expand top row when active constraint is true", async () => {
+      test("should not be possible to expand top row when active interaction is false", async () => {
         cell.ref.qCanExpand = true;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
 
         render(
           <DimensionCell
@@ -500,6 +553,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -510,7 +564,7 @@ describe("DimensionCell", () => {
 
       test("should not be possible to expand top row when selections is active", async () => {
         cell.ref.qCanExpand = true;
-        mockedSelectionContext.mockReturnValue({
+        mockedUseSelectionsModel.mockReturnValue({
           select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
@@ -529,6 +583,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdExpandIcon)).toBeInTheDocument();
@@ -552,6 +607,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -560,9 +616,9 @@ describe("DimensionCell", () => {
         expect(collapseTopSpy).toHaveBeenCalledWith(0, 1);
       });
 
-      test("should be not possible to collapse top row when active constraint is true", async () => {
+      test("should be not possible to collapse top row when active interaction is false", async () => {
         cell.ref.qCanCollapse = true;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
 
         render(
           <DimensionCell
@@ -576,6 +632,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -586,7 +643,7 @@ describe("DimensionCell", () => {
 
       test("should be not possible to collapse top row when selections is active", async () => {
         cell.ref.qCanCollapse = true;
-        mockedSelectionContext.mockReturnValue({
+        mockedUseSelectionsModel.mockReturnValue({
           select: () => () => Promise.resolve(),
           isSelected: () => false,
           isActive: true,
@@ -605,6 +662,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(screen.queryByTestId(testIdCollapseIcon)).toBeInTheDocument();
@@ -632,6 +690,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -658,16 +717,17 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
-      test("should not be possible to select cell when constraints is active", async () => {
+      test("should not be possible to select cell when interaction is not active", async () => {
         const rowIdx = 0;
         const colIdx = 1;
-        (data.constraints as stardust.Constraints).active = true;
+        interactions.active = false;
         cell.ref.qCanCollapse = true;
         isSelectedSpy.mockReturnValue(true);
 
@@ -683,6 +743,35 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
+        );
+
+        await userEvent.click(screen.getByText(qText));
+
+        expect(selectSpy).toHaveBeenCalledTimes(0);
+        expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
+      });
+
+      test("should not be possible to select cell when select interaction is false", async () => {
+        const rowIdx = 0;
+        const colIdx = 1;
+        interactions.select = false;
+        cell.ref.qCanCollapse = true;
+        isSelectedSpy.mockReturnValue(true);
+
+        render(
+          <DimensionCell
+            cell={cell}
+            data={data}
+            rowIndex={rowIdx}
+            colIndex={colIdx}
+            style={style}
+            isLeftColumn={false}
+            isLastRow={false}
+            isLastColumn={false}
+            showTotalCellDivider={false}
+          />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -709,6 +798,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
@@ -736,6 +826,7 @@ describe("DimensionCell", () => {
             isLastColumn={false}
             showTotalCellDivider={false}
           />,
+          { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
         await userEvent.click(screen.getByText(qText));
