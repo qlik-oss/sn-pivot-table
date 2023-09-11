@@ -179,7 +179,7 @@ describe("style-service", () => {
         divider: color,
       },
       lineClamp: linesCount,
-      headerCellHeight: 48,
+      headerCellHeight: 32,
       contentCellHeight: 48,
     });
   });
@@ -280,7 +280,7 @@ describe("style-service", () => {
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",
       },
-      headerCellHeight: 24,
+      headerCellHeight: 32,
       contentCellHeight: 24,
     });
   });
