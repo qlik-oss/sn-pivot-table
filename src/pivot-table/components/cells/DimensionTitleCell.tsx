@@ -2,7 +2,6 @@ import type { stardust } from "@nebula.js/stardust";
 import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
 import Descending from "@qlik-trial/sprout/icons/react/Descending";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
-import type { SearchRelatedArgs } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import React, { useMemo, useRef } from "react";
 import type {
   Align,
@@ -45,11 +44,14 @@ const labelTextStyle: React.CSSProperties = {
   paddingLeft: "8px",
 };
 
+const anchorStyle: React.CSSProperties = { position: "absolute", left: 0, bottom: 0 };
+
 export const testId = "title-cell";
 
 const FLAGS = {
   [MenuAvailabilityFlags.SORTING]: true,
   [MenuAvailabilityFlags.SELECTIONS]: true,
+  [MenuAvailabilityFlags.SEARCHING]: true,
 };
 
 const DimensionTitleCell = ({
@@ -60,8 +62,9 @@ const DimensionTitleCell = ({
   changeSortOrder,
   changeActivelySortedHeader,
 }: DimensionTitleCellProps): JSX.Element => {
+  const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
-  const { app, model, interactions } = useBaseContext();
+  const { app, model, interactions, embed } = useBaseContext();
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
 
@@ -90,7 +93,7 @@ const DimensionTitleCell = ({
 
   const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
 
-  const searchRelatedArgs = { interactions } as SearchRelatedArgs;
+  const searchRelatedArgs = { interactions, embed, listboxRef };
 
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
@@ -132,7 +135,8 @@ const DimensionTitleCell = ({
             searchRelatedArgs={searchRelatedArgs}
             selectionRelatedArgs={selectionRelatedArgs}
           />
-          <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
+          <div style={anchorStyle} ref={listboxRef} />
+          <div style={anchorStyle} ref={anchorRef} />
         </>
       )}
     </div>

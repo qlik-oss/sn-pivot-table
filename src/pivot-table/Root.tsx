@@ -17,14 +17,15 @@ export interface RootProps extends PivotTableProps {
   updatePageInfo: (args: Partial<PageInfo>) => void;
   app: App;
   interactions: stardust.Interactions;
+  embed: stardust.Embed;
 }
 
 const render = (reactRoot: Root, props: RootProps): void => {
-  const { selections, styleService, app, model, interactions } = props;
+  const { selections, styleService, app, model, interactions, embed } = props;
 
   reactRoot.render(
     <React.StrictMode>
-      <BaseProvider app={app} model={model} interactions={interactions}>
+      <BaseProvider app={app} model={model} interactions={interactions} embed={embed}>
         <SelectionsProvider selections={selections} updatePageInfo={props.updatePageInfo}>
           <StyleProvider styleService={styleService}>
             <Wrapper {...props} />
