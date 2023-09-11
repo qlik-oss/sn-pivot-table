@@ -56,7 +56,7 @@ const DimensionTitleCell = ({
   const styleService = useStyleContext();
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
-  const [openMenuDropdown, setOpenMenuDropdown] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const isDim = cell.id !== "PSEUDO-DIM";
 
@@ -81,7 +81,7 @@ const DimensionTitleCell = ({
     await changeSortOrder(headerData, newSortDirection);
   };
 
-  const handleOpenMenu = () => setOpenMenuDropdown(!openMenuDropdown);
+  const handleToggleMenu = () => setOpen(!open);
 
   return (
     <div
@@ -100,7 +100,7 @@ const DimensionTitleCell = ({
         cursor: "pointer",
       }}
       data-testid={testId}
-      onClick={handleOpenMenu}
+      onClick={handleToggleMenu}
     >
       <div style={{ ...labelWrapperStyle }}>
         {cell.isActivelySorted && (
@@ -121,8 +121,8 @@ const DimensionTitleCell = ({
             menuAvailabilityFlags={{
               [MenuAvailabilityFlags.SORTING]: true,
             }}
-            open={openMenuDropdown}
-            setOpen={handleOpenMenu}
+            open={open}
+            setOpen={handleToggleMenu}
             sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader }}
           />
           <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
