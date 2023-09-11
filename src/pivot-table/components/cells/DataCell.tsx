@@ -45,7 +45,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const {
     grid,
     layoutService,
-    showLastRowBorderBottom,
+    showLastBorder,
     shouldShowTotalCellBottomDivider,
     shouldShowTotalCellRightDivider,
     isTotalValue,
@@ -60,7 +60,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
         style={{ ...style, background }}
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
-        showLastRowBorderBottom={showLastRowBorderBottom}
+        showLastBorder={showLastBorder}
         index={rowIndex}
         isLeftColumn={false}
         showTotalCellDivider={false}
@@ -76,7 +76,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const { leftCellIndex, topCellIndex } = getLeftAndTopCellIndex(layoutService, rowIndex, columnIndex);
   const cellStyle = {
     ...getCellStyle(styleService, isNull, isTotalValueCell),
-    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
+    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
     ...getTotalCellDividerStyle({
       bottomDivider: shouldShowTotalCellBottomDivider(leftCellIndex),
       rightDivider: shouldShowTotalCellRightDivider(topCellIndex),

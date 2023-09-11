@@ -1,4 +1,5 @@
 import type React from "react";
+import type { ShowLastBorder } from "../../types/types";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 export enum Colors {
@@ -47,10 +48,10 @@ export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
-  showLastRowBorderBottom: boolean,
+  showLastBorder?: ShowLastBorder,
 ) => {
-  const borderRightWidth = !isLastColumn ? 1 : 0;
-  const borderBottomWidth = !isLastRow || showLastRowBorderBottom ? 1 : 0;
+  const borderRightWidth = !isLastColumn || showLastBorder?.right ? 1 : 0;
+  const borderBottomWidth = !isLastRow || showLastBorder?.bottom ? 1 : 0;
 
   return { ...cellStyle, ...borderStyle, borderColor, borderWidth: 0, borderRightWidth, borderBottomWidth };
 };

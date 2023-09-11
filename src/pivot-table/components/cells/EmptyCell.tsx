@@ -1,4 +1,5 @@
 import React from "react";
+import type { ShowLastBorder } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 
@@ -7,7 +8,7 @@ export interface EmptyCellProps {
   index: number;
   isLastRow: boolean;
   isLastColumn: boolean;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
   isLeftColumn: boolean;
   showTotalCellDivider: boolean;
 }
@@ -19,7 +20,7 @@ const EmptyCell = ({
   index,
   isLastRow,
   isLastColumn,
-  showLastRowBorderBottom,
+  showLastBorder,
   isLeftColumn,
   showTotalCellDivider,
 }: EmptyCellProps): JSX.Element => {
@@ -31,7 +32,7 @@ const EmptyCell = ({
     <div
       style={{
         ...style,
-        ...getBorderStyle(isLastRow, isLastColumn, border, showLastRowBorderBottom),
+        ...getBorderStyle(isLastRow, isLastColumn, border, showLastBorder),
         ...getTotalCellDividerStyle({
           bottomDivider: showTotalCellDivider && isLeftColumn,
           rightDivider: showTotalCellDivider && !isLeftColumn,

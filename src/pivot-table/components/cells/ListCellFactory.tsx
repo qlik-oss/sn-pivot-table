@@ -17,7 +17,7 @@ interface ListCallbackProps {
 
 const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
   const styleService = useStyleContext();
-  const { list, isLeftColumn = false, isLast, itemCount, showLastRowBorderBottom, layoutService, listValues } = data;
+  const { list, isLeftColumn = false, isLast, itemCount, showLastBorder, layoutService, listValues } = data;
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
 
@@ -42,7 +42,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
         index={index}
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
-        showLastRowBorderBottom={showLastRowBorderBottom}
+        showLastBorder={showLastBorder}
         isLeftColumn={isLeftColumn}
         showTotalCellDivider={showTotalCellDivider}
       />
@@ -57,7 +57,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
         isLeftColumn={isLeftColumn}
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
-        showLastRowBorderBottom={showLastRowBorderBottom}
+        showLastBorder={showLastBorder}
         showTotalCellDivider={showTotalCellDivider}
       />
     );
@@ -72,7 +72,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
         isLastRow={isLastRow}
         isLastColumn={isLastColumn}
         showTotalCellDivider={showTotalCellDivider}
-        showLastRowBorderBottom={showLastRowBorderBottom}
+        showLastBorder={showLastBorder}
       />
     );
   }

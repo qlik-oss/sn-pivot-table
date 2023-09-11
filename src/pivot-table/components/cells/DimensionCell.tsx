@@ -95,7 +95,7 @@ const DimensionCell = ({
     constraints = { active: false, passive: false, select: false },
     dataModel,
     layoutService,
-    showLastRowBorderBottom,
+    showLastBorder,
   } = data;
   const styleService = useStyleContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
@@ -122,7 +122,7 @@ const DimensionCell = ({
     isCellSelected,
     styleService,
     isLeftColumn,
-    showLastRowBorderBottom,
+    showLastBorder,
     showTotalCellDivider: !layoutService.showTotalsAbove && showTotalCellDivider,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);

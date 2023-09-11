@@ -1,5 +1,5 @@
 import type React from "react";
-import type { StyleService } from "../../../../types/types";
+import type { ShowLastBorder, StyleService } from "../../../../types/types";
 import {
   getBorderStyle,
   getLineClampStyle,
@@ -27,7 +27,7 @@ interface GetContainerStyle {
   isCellSelected: boolean;
   styleService: StyleService;
   isLeftColumn: boolean;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
   showTotalCellDivider: boolean;
 }
 
@@ -63,7 +63,7 @@ export const getContainerStyle = ({
   isCellSelected,
   styleService,
   isLeftColumn,
-  showLastRowBorderBottom,
+  showLastBorder,
   showTotalCellDivider,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
@@ -75,7 +75,7 @@ export const getContainerStyle = ({
   return {
     ...style,
     ...resolvedSelectableCellStyle,
-    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
+    ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
     ...getTotalCellDividerStyle({
       bottomDivider: showTotalCellDivider && isLeftColumn,
       rightDivider: showTotalCellDivider && !isLeftColumn,

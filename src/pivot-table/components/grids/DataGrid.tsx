@@ -9,6 +9,7 @@ import type {
   LayoutService,
   LeftDimensionData,
   MeasureData,
+  ShowLastBorder,
   TopDimensionData,
   ViewService,
 } from "../../../types/types";
@@ -32,7 +33,7 @@ interface DataGridProps {
   measureData: MeasureData;
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
   getLeafWidth: (index?: number) => number;
 }
 
@@ -119,7 +120,7 @@ const DataGrid = ({
   measureData,
   leftDimensionData,
   topDimensionData,
-  showLastRowBorderBottom,
+  showLastBorder,
   getLeafWidth,
 }: DataGridProps): JSX.Element | null => {
   const {
@@ -194,7 +195,7 @@ const DataGrid = ({
           layoutService,
           grid: measureData,
           dataModel,
-          showLastRowBorderBottom,
+          showLastBorder,
           isTotalValue,
           shouldShowTotalCellBottomDivider,
           shouldShowTotalCellRightDivider,

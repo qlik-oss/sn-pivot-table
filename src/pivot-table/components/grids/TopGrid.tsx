@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../../types/types";
+import type { DataModel, LayoutService, ShowLastBorder, TopDimensionData, VisibleDimensionInfo } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -22,7 +22,7 @@ interface TopGridProps {
   getScrollLeft: () => number;
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
   getLeafWidth: (index?: number) => number;
   visibleTopDimensionInfo: VisibleDimensionInfo[];
 }
@@ -52,7 +52,7 @@ const TopGrid = ({
   getScrollLeft,
   layoutService,
   topDimensionData,
-  showLastRowBorderBottom,
+  showLastBorder,
   getLeafWidth,
   visibleTopDimensionInfo,
 }: TopGridProps): JSX.Element | null => {
@@ -113,7 +113,7 @@ const TopGrid = ({
               list,
               isLast: isLastRow && !layoutService.layout.snapshotData,
               itemCount,
-              showLastRowBorderBottom,
+              showLastBorder,
               listValues,
             }}
             itemKey={getItemKey}

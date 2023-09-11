@@ -137,6 +137,7 @@ export interface ExtendedHyperCube extends Omit<EngineAPI.IHyperCube, "qDimensio
   qColumnOrder: number[];
   qDimensionInfo: ExtendedNxDimensionInfo[];
   qMeasureInfo: ExtendedNxMeasureInfo[];
+  activelySortedColumn: ActivelySortedColumn;
 }
 
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
@@ -162,20 +163,16 @@ export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
   columnWidth: ColumnWidth;
 }
 
-export interface HyperCube extends EngineAPI.IHyperCube {
-  activelySortedColumn: ActivelySortedColumn;
-}
-
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;
 
 export default NxDimCellType;
 
 // types for properties
-export interface ExtendedInlineDimensionDef extends EngineAPI.INxInlineDimensionDef {
+interface ExtendedInlineDimensionDef extends EngineAPI.INxInlineDimensionDef {
   columnWidth: ColumnWidth;
 }
 
-export interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
+interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
   columnWidth: ColumnWidth;
 }
 

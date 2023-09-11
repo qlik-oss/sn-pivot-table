@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, LeftDimensionData, VisibleDimensionInfo } from "../../../types/types";
+import type { DataModel, LayoutService, LeftDimensionData, ShowLastBorder, VisibleDimensionInfo } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -22,7 +22,7 @@ interface LeftGridProps {
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
   visibleLeftDimensionInfo: VisibleDimensionInfo[];
 }
 
@@ -40,7 +40,7 @@ const listStyle: React.CSSProperties = {
    * as there was issues with rendering border when the width of the react-window "list" was
    * a floating point number.
    *
-   * If performance issues arrise when scrolling, this may need to be change back the "transform"
+   * If performance issues arise when scrolling, this may need to be change back the "transform"
    * again to resolve those performance issues, but the issue with rendering border will need to
    * be fixed in some other way.
    */
@@ -57,7 +57,7 @@ const LeftGrid = ({
   getScrollTop,
   layoutService,
   leftDimensionData,
-  showLastRowBorderBottom,
+  showLastBorder,
   visibleLeftDimensionInfo,
 }: LeftGridProps): JSX.Element | null => {
   const { qSize } = layoutService.layout.qHyperCube;
@@ -114,7 +114,7 @@ const LeftGrid = ({
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,
               itemCount,
-              showLastRowBorderBottom,
+              showLastBorder,
               listValues,
             }}
             itemKey={getItemKey}

@@ -56,7 +56,7 @@ export const StickyPivotTable = ({
     layoutService,
     pageInfo,
     visibleLeftDimensionInfo,
-    visibleTopDimensionInfo,
+    visibleTopDimensionInfo
   );
 
   const dataModel = useDataModel({
@@ -65,12 +65,8 @@ export const StickyPivotTable = ({
     pageInfo,
   });
 
-  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, totalWidth, getLeafWidth } = useColumnWidth(
-    layoutService,
-    tableRect,
-    visibleLeftDimensionInfo,
-    visibleTopDimensionInfo,
-  );
+  const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder, getLeftColumnWidth, getLeafWidth } =
+    useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
@@ -124,7 +120,7 @@ export const StickyPivotTable = ({
 
   const dataRowCount = Math.min(
     layoutService.layout.qHyperCube.qSize.qcy - pageInfo.currentPage * pageInfo.rowsPerPage,
-    pageInfo.rowsPerPage,
+    pageInfo.rowsPerPage
   );
 
   const totalDataHeight = dataRowCount * contentCellHeight + GRID_BORDER;
@@ -137,7 +133,8 @@ export const StickyPivotTable = ({
 
   const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
   const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
-  const showLastRowBorderBottom = rowsInCurrentPage < rowsCanFitInTableViewPort;
+  const showLastBottomBorder = rowsInCurrentPage < rowsCanFitInTableViewPort;
+  const showLastBorder = { right: showLastRightBorder, bottom: showLastBottomBorder };
 
   return (
     <ScrollableContainer
@@ -173,7 +170,7 @@ export const StickyPivotTable = ({
             getScrollLeft={getScrollLeft}
             layoutService={layoutService}
             topDimensionData={topDimensionData}
-            showLastRowBorderBottom={false}
+            showLastBorder={{ ...showLastBorder, bottom: false }}
             getLeafWidth={getLeafWidth}
             visibleTopDimensionInfo={visibleTopDimensionInfo}
           />
@@ -188,7 +185,7 @@ export const StickyPivotTable = ({
             getScrollTop={getScrollTop}
             layoutService={layoutService}
             leftDimensionData={leftDimensionData}
-            showLastRowBorderBottom={showLastRowBorderBottom}
+            showLastBorder={{ ...showLastBorder, right: false }}
             visibleLeftDimensionInfo={visibleLeftDimensionInfo}
           />
 
@@ -203,7 +200,7 @@ export const StickyPivotTable = ({
             measureData={measureData}
             leftDimensionData={leftDimensionData}
             topDimensionData={topDimensionData}
-            showLastRowBorderBottom={showLastRowBorderBottom}
+            showLastBorder={showLastBorder}
             getLeafWidth={getLeafWidth}
           />
         </StickyContainer>
