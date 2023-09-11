@@ -56,7 +56,7 @@ export const StickyPivotTable = ({
     layoutService,
     pageInfo,
     visibleLeftDimensionInfo,
-    visibleTopDimensionInfo
+    visibleTopDimensionInfo,
   );
 
   const dataModel = useDataModel({
@@ -120,7 +120,7 @@ export const StickyPivotTable = ({
 
   const dataRowCount = Math.min(
     layoutService.layout.qHyperCube.qSize.qcy - pageInfo.currentPage * pageInfo.rowsPerPage,
-    pageInfo.rowsPerPage
+    pageInfo.rowsPerPage,
   );
 
   const totalDataHeight = dataRowCount * contentCellHeight + GRID_BORDER;

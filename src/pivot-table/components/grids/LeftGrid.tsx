@@ -2,7 +2,13 @@ import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, LeftDimensionData, ShowLastBorder, VisibleDimensionInfo } from "../../../types/types";
+import type {
+  DataModel,
+  LayoutService,
+  LeftDimensionData,
+  ShowLastBorder,
+  VisibleDimensionInfo,
+} from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
