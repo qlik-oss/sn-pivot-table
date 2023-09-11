@@ -1,3 +1,4 @@
+/* eslint jsx-a11y/click-events-have-key-events: 0, jsx-a11y/no-static-element-interactions: 0 */
 import type { stardust } from "@nebula.js/stardust";
 import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
 import Descending from "@qlik-trial/sprout/icons/react/Descending";
@@ -12,6 +13,7 @@ import type {
   SortDirection,
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
 interface DimensionTitleCellProps {
@@ -33,6 +35,7 @@ const labelWrapperStyle: React.CSSProperties = {
   ...baseFlex,
   flexDirection: "row",
   overflow: "hidden",
+  position: "relative",
 };
 
 const labelTextStyle: React.CSSProperties = {
@@ -41,6 +44,13 @@ const labelTextStyle: React.CSSProperties = {
   alignSelf: "center",
   flexGrow: 1,
   paddingLeft: "8px",
+};
+
+const headCellBackgroundDim: React.CSSProperties = {
+  background: "#000000",
+  width: "100%",
+  height: "100%",
+  position: "absolute",
 };
 
 export const testId = "title-cell";
@@ -57,6 +67,7 @@ const DimensionTitleCell = ({
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const { setIsHovered, shadeOpacity } = useHeadCellDim({ open });
 
   const isDim = cell.id !== "PSEUDO-DIM";
 
@@ -99,9 +110,12 @@ const DimensionTitleCell = ({
         border: `1px dashed skyblue`,
         cursor: "pointer",
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       data-testid={testId}
       onClick={handleToggleMenu}
     >
+      <div style={{ ...headCellBackgroundDim, opacity: shadeOpacity }} />
       <div style={{ ...labelWrapperStyle }}>
         {cell.isActivelySorted && (
           <div style={{ ...baseFlex, marginLeft: "8px" }}>
@@ -110,7 +124,6 @@ const DimensionTitleCell = ({
         )}
         <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
       </div>
-
       {isDim && (
         <>
           <HeadCellMenu

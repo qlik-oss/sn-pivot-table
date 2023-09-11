@@ -85,7 +85,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         background:
           resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.Background]) ??
           getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
-          Colors.Black3,
+          Colors.White,
       },
       columnTitle: {
         color:
