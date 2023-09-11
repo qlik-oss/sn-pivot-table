@@ -103,7 +103,7 @@ const DimensionTitleCell = ({
     await changeSortOrder(headerData, newSortDirection);
   };
 
-  const handleToggleMenu = () => setOpen(!open);
+  const handleOpenMenu = () => setOpen(true);
 
   const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
 
@@ -129,7 +129,7 @@ const DimensionTitleCell = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-testid={testId}
-      onClick={handleToggleMenu}
+      onClick={handleOpenMenu}
     >
       <div style={{ ...headCellBackgroundDim, opacity: shadeOpacity }} />
       <div style={{ ...labelWrapperStyle }}>
@@ -148,7 +148,7 @@ const DimensionTitleCell = ({
             tabIndex={-1}
             anchorRef={anchorRef}
             open={open}
-            setOpen={handleToggleMenu}
+            setOpen={setOpen}
             menuAvailabilityFlags={FLAGS}
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
