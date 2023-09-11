@@ -56,7 +56,7 @@ describe("createCell", () => {
   test("should update parent with a reference to the child cell", () => {
     cell = createCell(node, parentCell, rootCell, x, y, pageY, false, dimensionInfo);
 
-    expect(parentCell.children[pageY]).toEqual(cell);
+    expect(parentCell.children[cell.mainAxisPageCoord - parentCell.mainAxisPageCoord]).toEqual(cell);
   });
 
   describe("leafCount", () => {

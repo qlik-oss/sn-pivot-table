@@ -84,9 +84,8 @@ const createCell = (
   };
 
   if (parent) {
-    const pageDir = isLeftColumn ? "pageY" : "pageX";
     // eslint-disable-next-line no-param-reassign
-    parent.children[cell[pageDir] - parent[pageDir]] = cell;
+    parent.children[cell.mainAxisPageCoord - parent.mainAxisPageCoord] = cell;
   }
 
   return cell;
