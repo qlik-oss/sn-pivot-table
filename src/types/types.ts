@@ -208,7 +208,7 @@ export interface CellStyling {
   background: string;
 }
 
-export interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
+interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
   background: string;
   rowTitle: CellStyling;
   columnTitle: CellStyling;
