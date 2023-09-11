@@ -2,6 +2,7 @@ import {
   useApp,
   useEffect,
   useElement,
+  useEmbed,
   useInteractionState,
   useMemo,
   useModel,
@@ -29,6 +30,7 @@ const useRender = () => {
   const layout = useStaleLayout() as PivotLayout;
   const model = useModel() as Model;
   const app = useApp();
+  const embed = useEmbed();
   const interactions = useInteractionState();
   const [effectiveProperties, isLoadingEffectiveProperties] = useEffectiveProperties(model, layout);
   const layoutService = useLayoutService(layout, effectiveProperties);
@@ -84,6 +86,7 @@ const useRender = () => {
       pageInfo,
       updatePageInfo,
       interactions,
+      embed,
     });
   }, [
     model,
@@ -106,6 +109,7 @@ const useRender = () => {
     updatePageInfo,
     effectiveProperties,
     isLoadingEffectiveProperties,
+    embed,
   ]);
 };
 

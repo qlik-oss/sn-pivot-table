@@ -1,3 +1,4 @@
+import type { stardust } from "@nebula.js/stardust";
 import React from "react";
 import type { App, Model } from "../../types/QIX";
 import type { ExtendedSelections } from "../../types/types";
@@ -98,12 +99,13 @@ const TestWithProvider = (props: Props) => {
       contentCellHeight: DEFAULT_CELL_HEIGHT,
     },
     app = { getField: () => Promise.resolve() } as unknown as App,
-    model = { applyPatches: () => Promise.resolve() } as unknown as Model,
+    model = { applyPatches: () => Promise.resolve(), getLayout: () => Promise.resolve({}) } as unknown as Model,
     interactions = { select: true },
+    embed = {} as stardust.Embed,
   } = props;
 
   return (
-    <BaseProvider model={model} app={app} interactions={interactions}>
+    <BaseProvider model={model} app={app} interactions={interactions} embed={embed}>
       <SelectionsProvider selections={selections} updatePageInfo={updatePageInfo}>
         <StyleProvider styleService={styleService}>{children}</StyleProvider>
       </SelectionsProvider>
