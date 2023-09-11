@@ -107,7 +107,6 @@ const DimensionTitleCell = ({
         gridTemplateColumns: "1fr 24px",
         gridGap: "4px",
         alignItems: "center",
-        border: `1px dashed skyblue`,
         cursor: "pointer",
       }}
       onMouseEnter={() => setIsHovered(true)}
