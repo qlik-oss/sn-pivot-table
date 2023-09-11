@@ -29,7 +29,7 @@ interface TopGridProps {
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
   showLastBorder: ShowLastBorder;
-  getLeafWidth: (index?: number) => number;
+  getRightGridColumnWidth: (index?: number) => number;
   visibleTopDimensionInfo: VisibleDimensionInfo[];
 }
 
@@ -59,7 +59,7 @@ const TopGrid = ({
   layoutService,
   topDimensionData,
   showLastBorder,
-  getLeafWidth,
+  getRightGridColumnWidth,
   visibleTopDimensionInfo,
 }: TopGridProps): JSX.Element | null => {
   const {
@@ -83,7 +83,7 @@ const TopGrid = ({
     }
   }, [layoutService, getScrollLeft, topGridRef]);
 
-  const totalWidth = layoutService.size.x * getLeafWidth();
+  const totalWidth = layoutService.size.x * getRightGridColumnWidth();
 
   if (topDimensionData.rowCount === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
@@ -110,7 +110,7 @@ const TopGrid = ({
             height={rowHightCallback()}
             width={width}
             itemCount={itemCount}
-            itemSize={getColumnWidthHandler({ list, isLastRow, getLeafWidth })}
+            itemSize={getColumnWidthHandler({ list, isLastRow, getRightGridColumnWidth })}
             layout="horizontal"
             itemData={{
               layoutService,

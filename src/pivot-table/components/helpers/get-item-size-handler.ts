@@ -3,7 +3,7 @@ import type { List } from "../../../types/types";
 interface ColumnWidthHandlerProps {
   list: List;
   isLastRow: boolean;
-  getLeafWidth: (index?: number) => number;
+  getRightGridColumnWidth: (index?: number) => number;
 }
 
 type ItemSizeHandler = (index: number) => number;
@@ -29,7 +29,7 @@ export const getRowHeightHandler =
   };
 
 export const getColumnWidthHandler =
-  ({ list, isLastRow, getLeafWidth }: ColumnWidthHandlerProps): ItemSizeHandler =>
+  ({ list, isLastRow, getRightGridColumnWidth }: ColumnWidthHandlerProps): ItemSizeHandler =>
   (colIndex: number) => {
     const cell = isLastRow ? list[colIndex] : Object.values(list)[colIndex];
     // const measureInfoCount = layoutService.layout.qHyperCube.qMeasureInfo.length;
@@ -41,8 +41,8 @@ export const getColumnWidthHandler =
 
     // all rows except bottom one
     if (cell?.leafCount > 0) {
-      return (cell.leafCount + cell.distanceToNextCell) * getLeafWidth();
+      return (cell.leafCount + cell.distanceToNextCell) * getRightGridColumnWidth();
     }
 
-    return getLeafWidth(cell?.x ?? colIndex);
+    return getRightGridColumnWidth(cell?.x ?? colIndex);
   };

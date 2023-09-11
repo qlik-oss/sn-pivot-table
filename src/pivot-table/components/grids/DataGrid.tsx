@@ -34,7 +34,7 @@ interface DataGridProps {
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
   showLastBorder: ShowLastBorder;
-  getLeafWidth: (index?: number) => number;
+  getRightGridColumnWidth: (index?: number) => number;
 }
 
 type FetchModeData = (
@@ -121,7 +121,7 @@ const DataGrid = ({
   leftDimensionData,
   topDimensionData,
   showLastBorder,
-  getLeafWidth,
+  getRightGridColumnWidth,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -185,7 +185,7 @@ const DataGrid = ({
       ref={dataGridRef}
       style={resolvedGridStyle}
       columnCount={layoutService.size.x}
-      columnWidth={getLeafWidth}
+      columnWidth={getRightGridColumnWidth}
       height={height}
       rowCount={layoutService.size.y}
       rowHeight={rowHightCallback}
@@ -203,7 +203,7 @@ const DataGrid = ({
       }
       onItemsRendered={onItemsRendered}
       estimatedRowHeight={rowHightCallback()}
-      estimatedColumnWidth={getLeafWidth()}
+      estimatedColumnWidth={getRightGridColumnWidth()}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>

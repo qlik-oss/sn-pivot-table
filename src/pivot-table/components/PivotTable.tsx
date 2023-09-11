@@ -65,8 +65,14 @@ export const StickyPivotTable = ({
     pageInfo,
   });
 
-  const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder, getLeftColumnWidth, getLeafWidth } =
-    useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
+  const {
+    leftGridWidth,
+    rightGridWidth,
+    totalWidth,
+    showLastRightBorder,
+    getLeftGridColumnWidth,
+    getRightGridColumnWidth,
+  } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
@@ -152,7 +158,7 @@ export const StickyPivotTable = ({
           bottomRowsHeight={dataGridHeight}
         >
           <HeaderGrid
-            columnWidthCallback={getLeftColumnWidth}
+            columnWidthCallback={getLeftGridColumnWidth}
             rowHight={headerCellHeight}
             headersData={headersData}
             translator={translator}
@@ -171,7 +177,7 @@ export const StickyPivotTable = ({
             layoutService={layoutService}
             topDimensionData={topDimensionData}
             showLastBorder={{ ...showLastBorder, bottom: false }}
-            getLeafWidth={getLeafWidth}
+            getRightGridColumnWidth={getRightGridColumnWidth}
             visibleTopDimensionInfo={visibleTopDimensionInfo}
           />
 
@@ -179,13 +185,13 @@ export const StickyPivotTable = ({
             dataModel={dataModel}
             constraints={constraints}
             leftGridRef={leftGridRef}
-            getLeftColumnWidth={getLeftColumnWidth}
             width={leftGridWidth}
             height={leftGridHeight}
             getScrollTop={getScrollTop}
             layoutService={layoutService}
             leftDimensionData={leftDimensionData}
             showLastBorder={{ ...showLastBorder, right: false }}
+            getLeftGridColumnWidth={getLeftGridColumnWidth}
             visibleLeftDimensionInfo={visibleLeftDimensionInfo}
           />
 
@@ -201,7 +207,7 @@ export const StickyPivotTable = ({
             leftDimensionData={leftDimensionData}
             topDimensionData={topDimensionData}
             showLastBorder={showLastBorder}
-            getLeafWidth={getLeafWidth}
+            getRightGridColumnWidth={getRightGridColumnWidth}
           />
         </StickyContainer>
       </FullSizeContainer>

@@ -21,7 +21,6 @@ import { borderStyle } from "../shared-styles";
 interface LeftGridProps {
   dataModel: DataModel;
   leftGridRef: React.RefObject<VariableSizeList[]>;
-  getLeftColumnWidth: (index: number) => number;
   width: number;
   height: number;
   constraints: stardust.Constraints;
@@ -29,6 +28,7 @@ interface LeftGridProps {
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
   showLastBorder: ShowLastBorder;
+  getLeftGridColumnWidth: (index: number) => number;
   visibleLeftDimensionInfo: VisibleDimensionInfo[];
 }
 
@@ -56,7 +56,6 @@ const listStyle: React.CSSProperties = {
 const LeftGrid = ({
   dataModel,
   leftGridRef,
-  getLeftColumnWidth,
   width,
   height,
   constraints,
@@ -64,6 +63,7 @@ const LeftGrid = ({
   layoutService,
   leftDimensionData,
   showLastBorder,
+  getLeftGridColumnWidth,
   visibleLeftDimensionInfo,
 }: LeftGridProps): JSX.Element | null => {
   const { qSize } = layoutService.layout.qHyperCube;
@@ -108,7 +108,7 @@ const LeftGrid = ({
             ref={setListRef(leftGridRef, colIndex)}
             style={listStyle}
             height={height}
-            width={getLeftColumnWidth(colIndex)}
+            width={getLeftGridColumnWidth(colIndex)}
             itemCount={itemCount}
             itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
             layout="vertical"
