@@ -65,6 +65,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
 
   const styleService: StyleService = {
     lineClamp,
+    headerLineClamp: DEFAULT_LINE_CLAMP,
     header: {
       fontSize:
         resolveFontSize(headerStyling?.[Attribute.FontSize]) ??
@@ -249,8 +250,8 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   } as StyleService;
 
   styleService["headerCellHeight"] = Math.max(
-    fontSizeToCellHeight(styleService.header.fontSize, DEFAULT_LINE_CLAMP),
-    fontSizeToCellHeight(styleService.columnContent.fontSize, DEFAULT_LINE_CLAMP),
+    fontSizeToCellHeight(styleService.header.fontSize, styleService.headerLineClamp),
+    fontSizeToCellHeight(styleService.columnContent.fontSize, styleService.headerLineClamp),
     DEFAULT_HEADER_CELL_HEIGHT,
   );
   styleService["contentCellHeight"] = Math.max(
