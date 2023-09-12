@@ -107,7 +107,7 @@ const DimensionTitleCell = ({
   const handlesetHover = (state: boolean) => interactions.active && setIsHovered(state);
 
   const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
-  const searchRelatedArgs = { interactions, embed, listboxRef };
+  const searchRelatedArgs = { embed, listboxRef };
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
   return (
@@ -148,6 +148,7 @@ const DimensionTitleCell = ({
             anchorRef={anchorRef}
             open={open}
             setOpen={setOpen}
+            interactions={interactions}
             menuAvailabilityFlags={FLAGS}
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
