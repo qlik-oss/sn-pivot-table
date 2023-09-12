@@ -132,7 +132,7 @@ const DimensionTitleCell = ({
       <div style={{ ...labelWrapperStyle }}>
         <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
       </div>
-      {isDim && (
+      {interactions.active && isDim && (
         <>
           <HeadCellMenu
             headerData={headerData}
