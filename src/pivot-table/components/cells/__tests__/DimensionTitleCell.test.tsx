@@ -41,6 +41,7 @@ describe("DimensionTitleCell", () => {
     let qDimensionInfo: EngineAPI.INxDimensionInfo;
     let model: EngineAPI.IGenericObject;
     let layout: EngineAPI.IGenericBaseLayout;
+    let interactions: stardust.Interactions;
 
     beforeEach(() => {
       qDimensionInfo = {
@@ -53,6 +54,7 @@ describe("DimensionTitleCell", () => {
       } as EngineAPI.INxDimensionInfo;
       layout = { qHyperCube: { qDimensionInfo: [qDimensionInfo] } } as unknown as EngineAPI.IGenericBaseLayout;
       model = { getLayout: () => Promise.resolve(layout) } as EngineAPI.IGenericObject;
+      interactions = { active: true, select: true, passive: true };
     });
 
     test("should be able to open header menu", async () => {
@@ -66,7 +68,11 @@ describe("DimensionTitleCell", () => {
           changeActivelySortedHeader={changeActivelySortedColumn}
         />,
         {
-          wrapper: ({ children }) => <TestWithProvider model={model}>{children}</TestWithProvider>,
+          wrapper: ({ children }) => (
+            <TestWithProvider model={model} interactions={interactions}>
+              {children}
+            </TestWithProvider>
+          ),
         },
       );
 
@@ -75,6 +81,66 @@ describe("DimensionTitleCell", () => {
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuGroupLabel.Sorting")).toBeInTheDocument());
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Search")).toBeInTheDocument());
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Selections")).toBeInTheDocument());
+    });
+
+    test("should not be able to header menu if `interactions.active` is false", async () => {
+      interactions = { ...interactions, active: false };
+      render(
+        <DimensionTitleCell
+          cell={cell}
+          translator={translator}
+          style={style}
+          isLastColumn={false}
+          changeSortOrder={changeSortOrder}
+          changeActivelySortedHeader={changeActivelySortedColumn}
+        />,
+        {
+          wrapper: ({ children }) => (
+            <TestWithProvider model={model} interactions={interactions}>
+              {children}
+            </TestWithProvider>
+          ),
+        },
+      );
+
+      await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
+
+      await waitFor(() =>
+        expect(screen.queryByText("NebulaTableUtils.MenuGroupLabel.Sorting")).not.toBeInTheDocument(),
+      );
+      await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Search")).not.toBeInTheDocument());
+      await waitFor(() =>
+        expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Selections")).not.toBeInTheDocument(),
+      );
+    });
+
+    test("should not be able to see search and select menu items if `interactions.select` is false", async () => {
+      interactions = { ...interactions, active: true, select: false };
+      render(
+        <DimensionTitleCell
+          cell={cell}
+          translator={translator}
+          style={style}
+          isLastColumn={false}
+          changeSortOrder={changeSortOrder}
+          changeActivelySortedHeader={changeActivelySortedColumn}
+        />,
+        {
+          wrapper: ({ children }) => (
+            <TestWithProvider model={model} interactions={interactions}>
+              {children}
+            </TestWithProvider>
+          ),
+        },
+      );
+
+      await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
+
+      await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuGroupLabel.Sorting")).toBeInTheDocument());
+      await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Search")).not.toBeInTheDocument());
+      await waitFor(() =>
+        expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Selections")).not.toBeInTheDocument(),
+      );
     });
 
     test("should be able to open search menu", async () => {
@@ -92,7 +158,7 @@ describe("DimensionTitleCell", () => {
         />,
         {
           wrapper: ({ children }) => (
-            <TestWithProvider model={model} embed={embed}>
+            <TestWithProvider model={model} embed={embed} interactions={interactions}>
               {children}
             </TestWithProvider>
           ),
@@ -131,7 +197,7 @@ describe("DimensionTitleCell", () => {
         />,
         {
           wrapper: ({ children }) => (
-            <TestWithProvider model={model} app={appMock}>
+            <TestWithProvider model={model} app={appMock} interactions={interactions}>
               {children}
             </TestWithProvider>
           ),
