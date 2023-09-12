@@ -1,7 +1,5 @@
 /* eslint jsx-a11y/click-events-have-key-events: 0, jsx-a11y/no-static-element-interactions: 0 */
 import type { stardust } from "@nebula.js/stardust";
-import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
-import Descending from "@qlik-trial/sprout/icons/react/Descending";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
 import React, { useMemo, useRef, useState } from "react";
 import type {
@@ -132,11 +130,6 @@ const DimensionTitleCell = ({
     >
       <div style={{ ...headCellBackgroundDim, opacity: shadeOpacity }} />
       <div style={{ ...labelWrapperStyle }}>
-        {cell.isActivelySorted && (
-          <div style={{ ...baseFlex, marginLeft: "8px" }}>
-            {cell.sortDirection === "A" ? <Ascending height="12px" /> : <Descending height="12px" />}
-          </div>
-        )}
         <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
       </div>
       {isDim && (
