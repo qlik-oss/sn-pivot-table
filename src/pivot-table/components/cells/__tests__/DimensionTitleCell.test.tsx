@@ -83,7 +83,7 @@ describe("DimensionTitleCell", () => {
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Selections")).toBeInTheDocument());
     });
 
-    test("should not be able to header menu if `interactions.active` is false", async () => {
+    test("should not be able to open header menu if `interactions.active` is false", async () => {
       interactions = { ...interactions, active: false };
       render(
         <DimensionTitleCell
@@ -114,7 +114,7 @@ describe("DimensionTitleCell", () => {
       );
     });
 
-    test("should not be able to see search and select menu items if `interactions.select` is false", async () => {
+    test("should skip rendering search and select menu items if `interactions.select` is false", async () => {
       interactions = { ...interactions, active: true, select: false };
       render(
         <DimensionTitleCell
