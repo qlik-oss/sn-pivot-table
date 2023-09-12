@@ -240,6 +240,7 @@ export interface StyleService extends StylingOptions {
   headerCellHeight: number;
   contentCellHeight: number;
   lineClamp: number;
+  headerLineClamp: number;
 }
 
 export type ActivelySortedColumn = {
