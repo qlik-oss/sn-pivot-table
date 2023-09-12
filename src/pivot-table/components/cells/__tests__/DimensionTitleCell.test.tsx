@@ -83,7 +83,7 @@ describe("DimensionTitleCell", () => {
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Selections")).toBeInTheDocument());
     });
 
-    test("should not be able to open header menu if `interactions.active` is false", async () => {
+    test("should not show header menu icon if `interactions.active` is false", async () => {
       interactions = { ...interactions, active: false };
       render(
         <DimensionTitleCell
@@ -103,15 +103,7 @@ describe("DimensionTitleCell", () => {
         },
       );
 
-      await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
-
-      await waitFor(() =>
-        expect(screen.queryByText("NebulaTableUtils.MenuGroupLabel.Sorting")).not.toBeInTheDocument(),
-      );
-      await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Search")).not.toBeInTheDocument());
-      await waitFor(() =>
-        expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Selections")).not.toBeInTheDocument(),
-      );
+      await waitFor(() => expect(screen.queryByTestId("nebula-table-utils-head-menu-button")).not.toBeInTheDocument());
     });
 
     test("should skip rendering search and select menu items if `interactions.select` is false", async () => {
