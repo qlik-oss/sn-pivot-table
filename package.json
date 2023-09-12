@@ -98,7 +98,7 @@
     "@playwright/test": "1.37.1",
     "@qlik-trial/sprout": "3.5.0",
     "@qlik/eslint-config": "0.4.17",
-    "@qlik/nebula-table-utils": "2.1.0",
+    "@qlik/nebula-table-utils": "2.1.1",
     "@qlik/prettier-config": "0.3.0",
     "@qlik/tsconfig": "0.1.6",
     "@rollup/plugin-typescript": "11.1.3",
