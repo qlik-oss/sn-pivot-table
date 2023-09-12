@@ -77,7 +77,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       background:
         resolveColor(theme, headerStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.Header], Attribute.Background) ??
-        "transparent",
+        Colors.Transparent,
       rowTitle: {
         color:
           resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.FontColor]) ??
@@ -86,7 +86,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         background:
           resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.Background]) ??
           getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
-          Colors.Black3,
+          Colors.Transparent,
       },
       columnTitle: {
         color:
@@ -201,7 +201,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       background:
         resolveColor(theme, columnContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.ColumnContent], Attribute.Background) ??
-        "transparent",
+        Colors.Transparent,
       nullValue: {
         color:
           resolveColor(theme, columnContentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
