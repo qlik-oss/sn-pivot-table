@@ -103,12 +103,11 @@ const DimensionTitleCell = ({
     await changeSortOrder(headerData, newSortDirection);
   };
 
-  const handleOpenMenu = () => setOpen(true);
+  const handleOpenMenu = () => interactions.active && setOpen(true);
+  const handlesetHover = (state: boolean) => interactions.active && setIsHovered(state);
 
   const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
-
   const searchRelatedArgs = { interactions, embed, listboxRef };
-
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
   return (
@@ -124,10 +123,10 @@ const DimensionTitleCell = ({
         gridTemplateColumns: "1fr 24px",
         gridGap: "4px",
         alignItems: "center",
-        cursor: "pointer",
+        cursor: interactions.active ? "pointer" : "default",
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => handlesetHover(true)}
+      onMouseLeave={() => handlesetHover(false)}
       data-testid={testId}
       onClick={handleOpenMenu}
     >

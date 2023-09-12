@@ -9,7 +9,6 @@ export enum Colors {
   Black55 = "rgba(0, 0, 0, 0.55)",
   Black60 = "rgba(0, 0, 0, 0.6)",
   Transparent = "transparent",
-  White = "#ffffff",
 }
 
 export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
