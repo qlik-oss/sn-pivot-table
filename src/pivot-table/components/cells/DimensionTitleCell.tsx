@@ -14,7 +14,7 @@ import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle, textStyle } from "../shared-styles";
-import { StyledHeaderCellWrapper } from "./styles";
+import { StyledHeaderAnchor, StyledHeaderCellWrapper } from "./styles";
 
 interface DimensionTitleCellProps {
   cell: HeaderCell;
@@ -45,8 +45,6 @@ const labelTextStyle: React.CSSProperties = {
   flexGrow: 1,
   paddingLeft: "8px",
 };
-
-const anchorStyle: React.CSSProperties = { position: "absolute", left: 0, bottom: 0 };
 
 export const testId = "title-cell";
 
@@ -131,8 +129,8 @@ const DimensionTitleCell = ({
             searchRelatedArgs={searchRelatedArgs}
             selectionRelatedArgs={selectionRelatedArgs}
           />
-          <div style={anchorStyle} ref={listboxRef} />
-          <div style={anchorStyle} ref={anchorRef} />
+          <StyledHeaderAnchor ref={listboxRef} />
+          <StyledHeaderAnchor ref={anchorRef} />
         </>
       )}
     </StyledHeaderCellWrapper>

@@ -23,3 +23,9 @@ export const StyledHeaderCellWrapper = styled(Box, {
     background: interactions.active ? hoverBackground : background,
   },
 }));
+
+export const StyledHeaderAnchor = styled(Box)({
+  position: "absolute",
+  left: 0,
+  bottom: 0,
+});
