@@ -21,7 +21,6 @@ import TopGrid from "./grids/TopGrid";
 
 export interface PivotTableProps {
   rect: Rect;
-  constraints: stardust.Constraints;
   viewService: ViewService;
   layoutService: LayoutService;
   qPivotDataPages: EngineAPI.INxPivotPage[];
@@ -33,7 +32,6 @@ export interface PivotTableProps {
 export const StickyPivotTable = ({
   model,
   rect,
-  constraints,
   viewService,
   layoutService,
   qPivotDataPages,
@@ -143,12 +141,7 @@ export const StickyPivotTable = ({
   const showLastBorder = { right: showLastRightBorder, bottom: showLastBottomBorder };
 
   return (
-    <ScrollableContainer
-      ref={scrollableContainerRef}
-      rect={tableRect}
-      onScroll={onScrollHandler}
-      constraints={constraints}
-    >
+    <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
       <FullSizeContainer width={totalWidth} height={containerHeight}>
         <StickyContainer
           rect={tableRect}
@@ -168,7 +161,6 @@ export const StickyPivotTable = ({
 
           <TopGrid
             dataModel={dataModel}
-            constraints={constraints}
             topGridRef={topGridRef}
             rowHightCallback={headerCellRowHightCallback}
             width={rightGridWidth}
@@ -183,7 +175,6 @@ export const StickyPivotTable = ({
 
           <LeftGrid
             dataModel={dataModel}
-            constraints={constraints}
             leftGridRef={leftGridRef}
             width={leftGridWidth}
             height={leftGridHeight}

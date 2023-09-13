@@ -160,6 +160,8 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
 
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;
 
+export type App = EngineAPI.IApp | undefined;
+
 export default NxDimCellType;
 
 // types for properties

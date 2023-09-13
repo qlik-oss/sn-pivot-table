@@ -1,4 +1,3 @@
-import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
@@ -24,7 +23,6 @@ interface TopGridProps {
   rowHightCallback: () => number;
   width: number;
   height: number;
-  constraints: stardust.Constraints;
   getScrollLeft: () => number;
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
@@ -54,7 +52,6 @@ const TopGrid = ({
   rowHightCallback,
   width,
   height,
-  constraints,
   getScrollLeft,
   layoutService,
   topDimensionData,
@@ -115,7 +112,6 @@ const TopGrid = ({
             itemData={{
               layoutService,
               dataModel,
-              constraints,
               list,
               isLast: isLastRow && !layoutService.layout.snapshotData,
               itemCount,

@@ -1,7 +1,15 @@
 import React from "react";
 import type { Cell, ShowLastBorder } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { getBorderStyle, getLineClampStyle, getTotalCellDividerStyle, stickyCell, textStyle } from "../shared-styles";
+import {
+  getBorderStyle,
+  getLineClampStyle,
+  getTotalCellDividerStyle,
+  leftContainerCellStyle,
+  stickyCell,
+  textStyle,
+  topContainerCellStyle,
+} from "../shared-styles";
 
 interface LabelCellProps {
   cell: Cell;
@@ -12,17 +20,6 @@ interface LabelCellProps {
   showLastBorder: ShowLastBorder;
   showTotalCellDivider: boolean;
 }
-
-const topContainerStyle: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "flex-start",
-  alignItems: "flex-end",
-};
-
-const leftContainerStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "flex-start",
-};
 
 const getTextStyle = (clampCount: number): React.CSSProperties => ({
   ...textStyle,
@@ -54,12 +51,13 @@ const PseudoDimensionCell = ({
         fontFamily: styleService.columnContent.fontFamily,
         ...styleService.columnContent.measureLabel,
       };
-  const containerStyle = isLeftColumn ? leftContainerStyle : topContainerStyle;
+  const containerStyle = isLeftColumn ? leftContainerCellStyle : topContainerCellStyle;
   const totalCellDividerStyle = getTotalCellDividerStyle({
     bottomDivider: showTotalCellDivider && isLeftColumn,
     rightDivider: showTotalCellDivider && !isLeftColumn,
     borderColor: styleService.grid.divider,
   });
+  const lineClamp = isLeftColumn ? styleService.lineClamp : styleService.headerLineClamp;
 
   return (
     <div
@@ -73,7 +71,7 @@ const PseudoDimensionCell = ({
       }}
       data-testid={testId}
     >
-      <div style={{ ...getTextStyle(styleService.lineClamp), ...stickyCell }}>{cell.ref.qText}</div>
+      <div style={{ ...getTextStyle(lineClamp), ...stickyCell }}>{cell.ref.qText}</div>
     </div>
   );
 };

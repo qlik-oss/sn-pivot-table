@@ -1,4 +1,3 @@
-import type { stardust } from "@nebula.js/stardust";
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
@@ -23,7 +22,6 @@ interface LeftGridProps {
   leftGridRef: React.RefObject<VariableSizeList[]>;
   width: number;
   height: number;
-  constraints: stardust.Constraints;
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
@@ -58,7 +56,6 @@ const LeftGrid = ({
   leftGridRef,
   width,
   height,
-  constraints,
   getScrollTop,
   layoutService,
   leftDimensionData,
@@ -115,7 +112,6 @@ const LeftGrid = ({
             itemData={{
               layoutService,
               dataModel,
-              constraints,
               list,
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,

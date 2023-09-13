@@ -12,6 +12,17 @@ export enum Colors {
   Transparent = "transparent",
 }
 
+export const topContainerCellStyle: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "flex-start",
+  alignItems: "center",
+};
+
+export const leftContainerCellStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "flex-start",
+};
+
 export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
   borderStyle: "solid",
 };

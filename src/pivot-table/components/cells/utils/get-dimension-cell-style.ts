@@ -91,7 +91,7 @@ export const getContainerStyle = ({
 export const getInnerContainerStyle = (isLeftColumn: boolean) => ({
   ...cellStyle,
   ...stickyCell,
-  alignSelf: isLeftColumn ? "flex-start" : "flex-end",
+  alignSelf: isLeftColumn ? "flex-start" : "center",
 });
 
 export const getTextStyle = ({
@@ -114,6 +114,6 @@ export const getTextStyle = ({
     fontWeight: qCanExpand || qCanCollapse ? "600" : undefined,
     overflow: "hidden",
     textOverflow: "ellipsis",
-    ...getLineClampStyle(styleService.lineClamp),
+    ...getLineClampStyle(isLeftColumn ? styleService.lineClamp : styleService.headerLineClamp),
   };
 };

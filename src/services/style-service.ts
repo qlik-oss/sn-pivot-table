@@ -4,6 +4,7 @@ import {
   DEFAULT_CELL_HEIGHT,
   DEFAULT_FONT_FAMILY,
   DEFAULT_FONT_SIZE,
+  DEFAULT_HEADER_CELL_HEIGHT,
   DEFAULT_LINE_CLAMP,
   LINE_HEIGHT_COEFFICIENT,
 } from "../pivot-table/constants";
@@ -64,6 +65,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
 
   const styleService: StyleService = {
     lineClamp,
+    headerLineClamp: DEFAULT_LINE_CLAMP,
     header: {
       fontSize:
         resolveFontSize(headerStyling?.[Attribute.FontSize]) ??
@@ -76,7 +78,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       background:
         resolveColor(theme, headerStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.Header], Attribute.Background) ??
-        "transparent",
+        Colors.Transparent,
       rowTitle: {
         color:
           resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.FontColor]) ??
@@ -85,7 +87,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         background:
           resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.Background]) ??
           getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
-          Colors.Black3,
+          Colors.Transparent,
       },
       columnTitle: {
         color:
@@ -200,7 +202,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       background:
         resolveColor(theme, columnContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.ColumnContent], Attribute.Background) ??
-        "transparent",
+        Colors.Transparent,
       nullValue: {
         color:
           resolveColor(theme, columnContentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
@@ -248,9 +250,9 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   } as StyleService;
 
   styleService["headerCellHeight"] = Math.max(
-    fontSizeToCellHeight(styleService.header.fontSize, lineClamp),
-    fontSizeToCellHeight(styleService.columnContent.fontSize, lineClamp),
-    DEFAULT_CELL_HEIGHT,
+    fontSizeToCellHeight(styleService.header.fontSize, styleService.headerLineClamp),
+    fontSizeToCellHeight(styleService.columnContent.fontSize, styleService.headerLineClamp),
+    DEFAULT_HEADER_CELL_HEIGHT,
   );
   styleService["contentCellHeight"] = Math.max(
     fontSizeToCellHeight(styleService.content.fontSize, lineClamp),

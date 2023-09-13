@@ -1,8 +1,7 @@
+/* eslint jsx-a11y/click-events-have-key-events: 0, jsx-a11y/no-static-element-interactions: 0 */
 import type { stardust } from "@nebula.js/stardust";
-import Ascending from "@qlik-trial/sprout/icons/react/Ascending";
-import Descending from "@qlik-trial/sprout/icons/react/Descending";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import type {
   Align,
   ChangeActivelySortedHeader,
@@ -11,7 +10,9 @@ import type {
   HeaderCell,
   SortDirection,
 } from "../../../types/types";
+import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
 interface DimensionTitleCellProps {
@@ -33,6 +34,7 @@ const labelWrapperStyle: React.CSSProperties = {
   ...baseFlex,
   flexDirection: "row",
   overflow: "hidden",
+  position: "relative",
 };
 
 const labelTextStyle: React.CSSProperties = {
@@ -43,7 +45,22 @@ const labelTextStyle: React.CSSProperties = {
   paddingLeft: "8px",
 };
 
+const headCellBackgroundDim: React.CSSProperties = {
+  background: "#000000",
+  width: "100%",
+  height: "100%",
+  position: "absolute",
+};
+
+const anchorStyle: React.CSSProperties = { position: "absolute", left: 0, bottom: 0 };
+
 export const testId = "title-cell";
+
+const FLAGS = {
+  [MenuAvailabilityFlags.SORTING]: true,
+  [MenuAvailabilityFlags.SELECTIONS]: true,
+  [MenuAvailabilityFlags.SEARCHING]: true,
+};
 
 const DimensionTitleCell = ({
   cell,
@@ -53,9 +70,13 @@ const DimensionTitleCell = ({
   changeSortOrder,
   changeActivelySortedHeader,
 }: DimensionTitleCellProps): JSX.Element => {
+  const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
+  const { app, model, interactions, embed } = useBaseContext();
   const { fontSize, fontFamily } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const { setIsHovered, shadeOpacity } = useHeadCellDim({ open });
 
   const isDim = cell.id !== "PSEUDO-DIM";
 
@@ -65,7 +86,7 @@ const DimensionTitleCell = ({
       isDim,
       fieldId: cell.fieldId,
       qLibraryId: cell.qLibraryId,
-      label: "right",
+      label: cell.title,
       headTextAlign: "right" as Align,
       sortDirection: cell.sortDirection,
       colIdx: cell.colIdx,
@@ -80,6 +101,13 @@ const DimensionTitleCell = ({
     await changeSortOrder(headerData, newSortDirection);
   };
 
+  const handleOpenMenu = () => interactions.active && setOpen(true);
+  const handlesetHover = (state: boolean) => interactions.active && setIsHovered(state);
+
+  const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
+  const searchRelatedArgs = { embed, listboxRef };
+  const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
+
   return (
     <div
       title={cell.title}
@@ -93,18 +121,17 @@ const DimensionTitleCell = ({
         gridTemplateColumns: "1fr 24px",
         gridGap: "4px",
         alignItems: "center",
+        cursor: interactions.active ? "pointer" : "default",
       }}
+      onMouseEnter={() => handlesetHover(true)}
+      onMouseLeave={() => handlesetHover(false)}
       data-testid={testId}
+      onClick={handleOpenMenu}
     >
+      <div style={{ ...headCellBackgroundDim, opacity: shadeOpacity }} />
       <div style={{ ...labelWrapperStyle }}>
-        {cell.isActivelySorted && (
-          <div style={{ ...baseFlex, marginLeft: "8px" }}>
-            {cell.sortDirection === "A" ? <Ascending height="12px" /> : <Descending height="12px" />}
-          </div>
-        )}
         <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
       </div>
-
       {isDim && (
         <>
           <HeadCellMenu
@@ -112,13 +139,16 @@ const DimensionTitleCell = ({
             translator={translator}
             tabIndex={-1}
             anchorRef={anchorRef}
-            handleHeadCellMenuKeyDown={() => {}}
-            menuAvailabilityFlags={{
-              [MenuAvailabilityFlags.SORTING]: true,
-            }}
-            sortRelatedArgs={{ sortFromMenu, changeActivelySortedHeader }}
+            open={open}
+            setOpen={setOpen}
+            interactions={interactions}
+            menuAvailabilityFlags={FLAGS}
+            sortRelatedArgs={sortRelatedArgs}
+            searchRelatedArgs={searchRelatedArgs}
+            selectionRelatedArgs={selectionRelatedArgs}
           />
-          <div style={{ position: "absolute", left: 0, bottom: 0 }} ref={anchorRef} />
+          <div style={anchorStyle} ref={listboxRef} />
+          <div style={anchorStyle} ref={anchorRef} />
         </>
       )}
     </div>

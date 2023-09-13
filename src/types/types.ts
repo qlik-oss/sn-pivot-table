@@ -46,7 +46,6 @@ export interface DataModel {
 }
 
 export interface ItemData {
-  constraints?: stardust.Constraints;
   dataModel?: DataModel;
   layoutService: LayoutService;
 }
@@ -246,6 +245,7 @@ export interface StyleService extends StylingOptions {
   headerCellHeight: number;
   contentCellHeight: number;
   lineClamp: number;
+  headerLineClamp: number;
 }
 
 export type ActivelySortedColumn = {
