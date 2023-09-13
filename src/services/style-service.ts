@@ -1,3 +1,4 @@
+import { getHoverColor } from "@qlik/nebula-table-utils/lib/utils";
 import { Colors } from "../pivot-table/components/shared-styles";
 import {
   CELL_PADDING_HEIGHT,
@@ -254,11 +255,15 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     fontSizeToCellHeight(styleService.columnContent.fontSize, styleService.headerLineClamp),
     DEFAULT_HEADER_CELL_HEIGHT,
   );
+
   styleService["contentCellHeight"] = Math.max(
     fontSizeToCellHeight(styleService.content.fontSize, lineClamp),
     fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT,
   );
+
+  styleService.header.rowTitle.hoverBackground = getHoverColor(styleService.header.rowTitle.background);
+  styleService.header.columnTitle.hoverBackground = getHoverColor(styleService.header.columnTitle.background);
 
   return styleService;
 };
