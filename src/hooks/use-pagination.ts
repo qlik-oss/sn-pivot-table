@@ -16,11 +16,11 @@ interface UsePagination {
 const getRowsOnCurrentPage = ({ rowsPerPage, totalRowCount, currentPage }: PageInfo) =>
   Math.min(rowsPerPage, totalRowCount - currentPage * rowsPerPage);
 
-const getPageMeta = (qcy: number) => {
+const getPageMeta = (qcy: number, currentPage: number) => {
   const rowsPerPage = Math.min(qcy, MAX_ROW_COUNT);
   const totalPages = Math.ceil(qcy / rowsPerPage);
   const totalRowCount = qcy;
-  const rowsOnCurrentPage = getRowsOnCurrentPage({ rowsPerPage, totalRowCount, currentPage: 0 } as PageInfo);
+  const rowsOnCurrentPage = getRowsOnCurrentPage({ rowsPerPage, totalRowCount, currentPage } as PageInfo);
 
   return { rowsPerPage, totalPages, totalRowCount, rowsOnCurrentPage };
 };
@@ -36,21 +36,15 @@ const usePagination: UsePagination = (layoutService) => {
   const [pageInfo, setPageInfo] = useState<PageInfo>({
     currentPage: 0,
     shouldShowPagination: qSize.qcy > size.y,
-    ...getPageMeta(qSize.qcy),
+    ...getPageMeta(qSize.qcy, 0),
   });
 
   useEffect(() => {
-    setPageInfo((prev) => {
-      const newPageMeta = getPageMeta(layoutService.layout.qHyperCube.qSize.qcy);
-      const rowsOnCurrentPage = getRowsOnCurrentPage({ ...prev, ...newPageMeta });
-
-      return {
-        ...prev,
-        ...newPageMeta,
-        rowsOnCurrentPage,
-        shouldShowPagination: layoutService.layout.qHyperCube.qSize.qcy > layoutService.size.y,
-      };
-    });
+    setPageInfo((prev) => ({
+      ...prev,
+      ...getPageMeta(layoutService.layout.qHyperCube.qSize.qcy, prev.currentPage),
+      shouldShowPagination: layoutService.layout.qHyperCube.qSize.qcy > layoutService.size.y,
+    }));
   }, [layoutService.layout.qHyperCube.qSize.qcy, layoutService.size.y, setPageInfo]);
 
   useEffect(() => {
