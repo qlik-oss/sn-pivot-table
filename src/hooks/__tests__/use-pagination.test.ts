@@ -43,6 +43,7 @@ describe("usePagination", () => {
       shouldShowPagination: true,
       totalPages: Math.ceil(qcy / Math.min(qcy, MAX_ROW_COUNT)),
       totalRowCount: qcy,
+      rowsOnCurrentPage: MAX_ROW_COUNT,
     });
   });
 
@@ -62,6 +63,9 @@ describe("usePagination", () => {
     // check the the currPage to be the last page (considering that page count is based 0)
     await waitFor(() => {
       expect(result.current.pageInfo.currentPage).toBe(totalPages - 1);
+    });
+    await waitFor(() => {
+      expect(result.current.pageInfo.rowsOnCurrentPage).toBe(10_000);
     });
   });
 });

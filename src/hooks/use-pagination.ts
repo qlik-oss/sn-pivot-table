@@ -13,12 +13,16 @@ interface UsePagination {
   };
 }
 
+const getRowsOnCurrentPage = ({ rowsPerPage, totalRowCount, currentPage }: PageInfo) =>
+  Math.min(rowsPerPage, totalRowCount - currentPage * rowsPerPage);
+
 const getPageMeta = (qcy: number) => {
   const rowsPerPage = Math.min(qcy, MAX_ROW_COUNT);
   const totalPages = Math.ceil(qcy / rowsPerPage);
   const totalRowCount = qcy;
+  const rowsOnCurrentPage = getRowsOnCurrentPage({ rowsPerPage, totalRowCount, currentPage: 0 } as PageInfo);
 
-  return { rowsPerPage, totalPages, totalRowCount };
+  return { rowsPerPage, totalPages, totalRowCount, rowsOnCurrentPage };
 };
 
 const usePagination: UsePagination = (layoutService) => {
@@ -36,24 +40,32 @@ const usePagination: UsePagination = (layoutService) => {
   });
 
   useEffect(() => {
-    setPageInfo((prev) => ({
-      ...prev,
-      ...getPageMeta(layoutService.layout.qHyperCube.qSize.qcy),
-      shouldShowPagination: layoutService.layout.qHyperCube.qSize.qcy > layoutService.size.y,
-    }));
+    setPageInfo((prev) => {
+      const newPageMeta = getPageMeta(layoutService.layout.qHyperCube.qSize.qcy);
+      const rowsOnCurrentPage = getRowsOnCurrentPage({ ...prev, ...newPageMeta });
+
+      return {
+        ...prev,
+        ...newPageMeta,
+        rowsOnCurrentPage,
+        shouldShowPagination: layoutService.layout.qHyperCube.qSize.qcy > layoutService.size.y,
+      };
+    });
   }, [layoutService.layout.qHyperCube.qSize.qcy, layoutService.size.y, setPageInfo]);
 
   useEffect(() => {
     const { currentPage, totalPages } = pageInfo;
-
     // currPage is base 0 and totalPages always includes remainder rows in last page
     // so we need to consider both of them for prevent landing in missing page
     if (currentPage + 1 > totalPages) {
-      setPageInfo({ ...pageInfo, currentPage: totalPages - 1 });
+      const newCurrentPage = totalPages - 1;
+      const rowsOnCurrentPage = getRowsOnCurrentPage({ ...pageInfo, currentPage: newCurrentPage });
+      setPageInfo({ ...pageInfo, currentPage: newCurrentPage, rowsOnCurrentPage });
     }
   }, [pageInfo]);
 
-  const updatePageInfo: UpdatePageInfo = (args) => setPageInfo({ ...pageInfo, ...args });
+  const updatePageInfo: UpdatePageInfo = (args) =>
+    setPageInfo({ ...pageInfo, ...args, rowsOnCurrentPage: getRowsOnCurrentPage({ ...pageInfo, ...args }) });
 
   return {
     pageInfo,

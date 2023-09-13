@@ -12,9 +12,6 @@ export interface AddPageToLeftDimensionDataProps {
   visibleLeftDimensionInfo: VisibleDimensionInfo[];
 }
 
-const getRowsOnPage = ({ rowsPerPage, totalRowCount, currentPage }: PageInfo) =>
-  Math.min(rowsPerPage, totalRowCount - currentPage * rowsPerPage);
-
 export const addPageToLeftDimensionData = ({
   prevData,
   nextDataPage,
@@ -26,8 +23,7 @@ export const addPageToLeftDimensionData = ({
   if (!qLeft.length) return prevData;
 
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
-  const rowsOnPage = getRowsOnPage(pageInfo);
-  assignDistanceToNextCell(grid, rowsOnPage);
+  assignDistanceToNextCell(grid, pageInfo.rowsOnCurrentPage);
   const totalDividerIndex = getTotalDividerIndex(grid);
 
   return {
@@ -46,8 +42,7 @@ export const createLeftDimensionData = (
 ): LeftDimensionData => {
   const { qArea, qLeft } = dataPage;
   const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
-  const rowsOnPage = getRowsOnPage(pageInfo);
-  assignDistanceToNextCell(grid, rowsOnPage);
+  assignDistanceToNextCell(grid, pageInfo.rowsOnCurrentPage);
   const totalDividerIndex = getTotalDividerIndex(grid);
 
   return {
