@@ -132,51 +132,48 @@ export default function useColumnWidth(
   /**
    * Get the width of a leaf in the top grid. If there is no top grid, early return rightGridAvailableWidth
    */
-  const getLeafWidth = useMemo(
-    () =>
-      memoize((info: ExtendedDimensionInfo | ExtendedMeasureInfo | undefined) => {
-        if (!info) return rightGridAvailableWidth;
+  const getLeafWidth = useCallback(
+    (info: ExtendedDimensionInfo | ExtendedMeasureInfo | undefined) => {
+      if (!info) return rightGridAvailableWidth;
 
-        const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = info;
-        let specifiedWidth = 0;
+      const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = info;
+      const fitToContentWidth = topGridLeavesIsPseudo
+        ? Math.max(estimateWidthForContent(qApprMaxGlyphCount), measureTextForColumnContent(qFallbackTitle))
+        : Math.max(
+            Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
+            estimateWidthForColumnContent(qApprMaxGlyphCount),
+          );
+      const autoWidth = Math.max(rightGridAvailableWidth / layoutService.size.x, fitToContentWidth);
 
-        switch (columnWidth?.type) {
-          case ColumnWidthType.Pixels: {
-            specifiedWidth = columnWidth.pixels || ColumnWidthValues.PixelsDefault;
-            break;
-          }
-          case ColumnWidthType.Percentage: {
-            specifiedWidth =
-              (rightGridAvailableWidth * (columnWidth?.percentage || ColumnWidthValues.PercentageDefault)) / 100;
-            break;
-          }
-          case ColumnWidthType.Auto: {
-            // TODO: we might need to redo this in the pseudo dimension case, since if not all measure are set to auto
-            // you don't fill upp the width anyway
-            specifiedWidth = rightGridAvailableWidth / layoutService.size.x;
-            break;
-          }
-          case ColumnWidthType.FitToContent: {
-            if (topGridLeavesIsPseudo) {
-              specifiedWidth = Math.max(
-                estimateWidthForContent(qApprMaxGlyphCount),
-                measureTextForColumnContent(qFallbackTitle),
-              );
-            } else {
-              specifiedWidth = Math.max(
-                Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
-                estimateWidthForColumnContent(qApprMaxGlyphCount),
-              );
-            }
-            break;
-          }
-          default:
-            break;
+      let specifiedWidth = 0;
+
+      switch (columnWidth?.type) {
+        case ColumnWidthType.Pixels: {
+          specifiedWidth = columnWidth.pixels || ColumnWidthValues.PixelsDefault;
+          break;
         }
+        case ColumnWidthType.Percentage: {
+          specifiedWidth =
+            (rightGridAvailableWidth * (columnWidth?.percentage || ColumnWidthValues.PercentageDefault)) / 100;
+          break;
+        }
+        case ColumnWidthType.FitToContent: {
+          specifiedWidth = fitToContentWidth;
+          break;
+        }
+        case ColumnWidthType.Auto: {
+          // TODO: we might need to redo this in the pseudo dimension case, since if not all measure are set to auto
+          // you don't fill upp the width anyway
+          specifiedWidth = autoWidth;
+          break;
+        }
+        default:
+          specifiedWidth = autoWidth;
+          break;
+      }
 
-        // TODO: make smarter min value, especially for auto setting
-        return Math.max(ColumnWidthValues.PixelsMin, specifiedWidth);
-      }),
+      return Math.max(ColumnWidthValues.PixelsMin, specifiedWidth);
+    },
     [
       rightGridAvailableWidth,
       layoutService.size.x,
@@ -200,15 +197,17 @@ export default function useColumnWidth(
     return getLeafWidth(leafTopDimension);
   }, [topGridLeavesIsPseudo, getLeafWidth, leafTopDimension, qMeasureInfo]);
 
+  const memoizedGetLeafWidth = useMemo(
+    () => memoize((index: number) => getLeafWidth(qMeasureInfo[layoutService.getMeasureInfoIndexFromCellIndex(index)])),
+    [qMeasureInfo, layoutService, getLeafWidth],
+  );
+
   /**
    * Gets the width of a right grid column. This is always based on the leaf width(s)
    */
   const getRightGridColumnWidth = useCallback(
-    (index?: number) =>
-      topGridLeavesIsPseudo && index !== undefined
-        ? getLeafWidth(qMeasureInfo[layoutService.getMeasureInfoIndexFromCellIndex(index)])
-        : averageLeafWidth,
-    [topGridLeavesIsPseudo, getLeafWidth, qMeasureInfo, layoutService, averageLeafWidth],
+    (index?: number) => (topGridLeavesIsPseudo && index !== undefined ? memoizedGetLeafWidth(index) : averageLeafWidth),
+    [topGridLeavesIsPseudo, memoizedGetLeafWidth, averageLeafWidth],
   );
 
   // The width of the sum of all columns, can be smaller or greater than what fits in the chart
