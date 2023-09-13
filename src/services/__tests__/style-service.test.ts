@@ -109,6 +109,8 @@ describe("style-service", () => {
   test("should resolve style from layout", () => {
     const styleService = createStyleService(themeMock, layoutServiceMock);
     expect(styleService).toEqual({
+      lineClamp: linesCount,
+      headerLineClamp: 1,
       header: {
         fontSize: `${fontSize}px`,
         fontFamily,
@@ -178,7 +180,6 @@ describe("style-service", () => {
         border: color,
         divider: color,
       },
-      lineClamp: linesCount,
       headerCellHeight: 32,
       contentCellHeight: 48,
     });
@@ -190,6 +191,7 @@ describe("style-service", () => {
 
     expect(styleService).toEqual({
       lineClamp: 1,
+      headerLineClamp: 1,
       header: {
         fontSize: "18px",
         fontFamily: "18px",
@@ -241,11 +243,12 @@ describe("style-service", () => {
 
     expect(styleService).toEqual({
       lineClamp: 1,
+      headerLineClamp: 1,
       header: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
         background: "transparent",
-        rowTitle: { color: "#404040", background: "rgba(0, 0, 0, 0.03)" },
+        rowTitle: { color: "#404040", background: "transparent" },
         columnTitle: { color: "#404040", background: "rgba(0, 0, 0, 0.03)" },
       },
       content: {

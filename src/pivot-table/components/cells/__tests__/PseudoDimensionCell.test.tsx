@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import type { Cell } from "../../../../types/types";
+import { leftContainerCellStyle, topContainerCellStyle } from "../../shared-styles";
 import PseudoDimensionCell, { testId } from "../PseudoDimensionCell";
 
 jest.mock("../../../contexts/StyleProvider");
@@ -14,8 +15,7 @@ test("should render on the top", () => {
     width: "100px",
     height: "150px",
     display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "flex-end",
+    ...topContainerCellStyle,
   };
 
   render(
@@ -43,7 +43,7 @@ test("should render on the left", () => {
     width: "100px",
     height: "150px",
     display: "flex",
-    alignItems: "flex-start",
+    ...leftContainerCellStyle,
   };
 
   render(

@@ -95,6 +95,7 @@ const TestWithProvider = (props: Props) => {
         divider: "rgba(0, 0, 0, 0.6)",
       },
       lineClamp: 1,
+      headerLineClamp: 1,
       headerCellHeight: DEFAULT_CELL_HEIGHT,
       contentCellHeight: DEFAULT_CELL_HEIGHT,
     },
