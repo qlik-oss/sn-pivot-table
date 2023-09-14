@@ -106,41 +106,6 @@ export default function useColumnWidth(
     qNoOfLeftDims,
   ]);
 
-  // const leftColumnWidthsRatios = useMemo(() => {
-  //   const ratios = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
-  //     if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
-  //       const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
-
-  //       return pseudoDimensionWidth / rect.width;
-  //     }
-
-  //     const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo;
-  //     const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
-  //     // TODO:
-  //     // consider if allfully expanded here -> if all expanded dont need to add `collapseExpandIconSize` into account
-  //     const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
-  //     const w = Math.max(
-  //       measureTextForHeader(qFallbackTitle),
-  //       estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize, // length of longest vlaue (replaced with m) + expand/collapse icon size
-  //     );
-  //     return w / rect.width;
-  //   });
-
-  //   const sumOfRatios = ratios.reduce((sum, r) => sum + r, 0);
-  //   if (sumOfRatios < MAX_RATIO_OF_TOTAL_WIDTH) return ratios;
-
-  //   const multiplier = MAX_RATIO_OF_TOTAL_WIDTH / sumOfRatios;
-  //   return ratios.map((r) => r * multiplier);
-  // }, [
-  //   estimateWidthForContent,
-  //   measureTextForContent,
-  //   measureTextForHeader,
-  //   visibleLeftDimensionInfo,
-  //   rect.width,
-  //   qMeasureInfo,
-  //   qNoOfLeftDims,
-  // ]);
-
   const getLeftColumnWidth = useCallback(
     (index: number) => {
       return leftColumnWidthMetadata[index].ratio * rect.width;
