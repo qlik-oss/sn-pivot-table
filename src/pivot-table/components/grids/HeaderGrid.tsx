@@ -38,7 +38,6 @@ const HeaderGrid = ({
 
   const hasMultipleRows = headersData.size.y > 1;
   const columnWidths = headersData.data.map((_, colIndex) => getLeftColumnWidth(colIndex));
-  // headersData.data.map((_, idx) => getLeftColumnWidthMeta(idx));
 
   return (
     <div
@@ -54,8 +53,6 @@ const HeaderGrid = ({
         const cell = col[col.length - 1] as HeaderCell;
         let fakeIsLocked = colIndex % 2 === 0;
         const leftColumnWidthMeta = getLeftColumnWidthMeta(colIndex, fakeIsLocked);
-
-        // console.log(JSON.stringify(colMetadata, null, 2));
 
         return (
           <DimensionTitleCell
