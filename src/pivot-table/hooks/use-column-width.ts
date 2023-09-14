@@ -31,6 +31,7 @@ export enum ColumnWidthValues {
   PercentageMin = 1,
   PercentageMax = 100,
   PercentageDefault = 20,
+  AutoMin = 80,
 }
 
 export default function useColumnWidth(
@@ -137,14 +138,7 @@ export default function useColumnWidth(
       if (!info) return rightGridAvailableWidth;
 
       const { qApprMaxGlyphCount, qFallbackTitle, columnWidth } = info;
-      const fitToContentWidth = topGridLeavesIsPseudo
-        ? Math.max(estimateWidthForContent(qApprMaxGlyphCount), measureTextForColumnContent(qFallbackTitle))
-        : Math.max(
-            Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
-            estimateWidthForColumnContent(qApprMaxGlyphCount),
-          );
-      const autoWidth = Math.max(rightGridAvailableWidth / layoutService.size.x, fitToContentWidth);
-
+      const autoWidth = Math.max(rightGridAvailableWidth / layoutService.size.x, ColumnWidthValues.AutoMin);
       let specifiedWidth = 0;
 
       switch (columnWidth?.type) {
@@ -158,7 +152,12 @@ export default function useColumnWidth(
           break;
         }
         case ColumnWidthType.FitToContent: {
-          specifiedWidth = fitToContentWidth;
+          specifiedWidth = topGridLeavesIsPseudo
+            ? Math.max(estimateWidthForContent(qApprMaxGlyphCount), measureTextForColumnContent(qFallbackTitle))
+            : Math.max(
+                Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
+                estimateWidthForColumnContent(qApprMaxGlyphCount),
+              );
           break;
         }
         case ColumnWidthType.Auto: {
