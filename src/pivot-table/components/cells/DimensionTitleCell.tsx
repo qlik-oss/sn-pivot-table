@@ -45,7 +45,6 @@ const labelTextStyle: React.CSSProperties = {
   fontWeight: "600",
   alignSelf: "center",
   flexGrow: 1,
-  // paddingLeft: "8px",
 };
 
 const headCellBackgroundDim: React.CSSProperties = {
