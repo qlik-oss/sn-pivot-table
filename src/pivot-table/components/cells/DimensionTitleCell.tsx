@@ -1,5 +1,6 @@
 /* eslint jsx-a11y/click-events-have-key-events: 0, jsx-a11y/no-static-element-interactions: 0 */
 import type { stardust } from "@nebula.js/stardust";
+import Locked from "@qlik-trial/sprout/icons/react/Lock";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
 import React, { useMemo, useRef, useState } from "react";
 import type {
@@ -12,6 +13,7 @@ import type {
 } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import type { LeftColumnWidthMeta } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
@@ -22,6 +24,8 @@ interface DimensionTitleCellProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
+  isLocked: boolean;
+  leftColumnWidthMeta: LeftColumnWidthMeta;
 }
 
 const baseFlex: React.CSSProperties = {
@@ -42,7 +46,7 @@ const labelTextStyle: React.CSSProperties = {
   fontWeight: "600",
   alignSelf: "center",
   flexGrow: 1,
-  paddingLeft: "8px",
+  // paddingLeft: "8px",
 };
 
 const headCellBackgroundDim: React.CSSProperties = {
@@ -69,6 +73,8 @@ const DimensionTitleCell = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
+  isLocked,
+  leftColumnWidthMeta,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -118,8 +124,8 @@ const DimensionTitleCell = ({
         padding: 0,
         position: "relative",
         display: "grid",
-        gridTemplateColumns: "1fr 24px",
-        gridGap: "4px",
+        gridTemplateColumns: leftColumnWidthMeta.shouldShowMenuIcon ? "1fr 24px" : "1fr",
+        gridGap: leftColumnWidthMeta.shouldShowMenuIcon ? "4px" : "0px",
         alignItems: "center",
         cursor: interactions.active ? "pointer" : "default",
       }}
@@ -130,7 +136,22 @@ const DimensionTitleCell = ({
     >
       <div style={{ ...headCellBackgroundDim, opacity: shadeOpacity }} />
       <div style={{ ...labelWrapperStyle }}>
-        <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
+        {leftColumnWidthMeta.shouldShowLockIcon && isLocked && (
+          <div style={{ ...baseFlex, marginLeft: "8px" }}>
+            <Locked height="12px" />
+          </div>
+        )}
+        <div
+          style={{
+            ...labelTextStyle,
+            fontSize,
+            fontFamily,
+            paddingLeft: leftColumnWidthMeta.shouldShowMenuIcon ? "8px" : "4px",
+            paddingRight: leftColumnWidthMeta.shouldShowMenuIcon ? "0px" : "4px",
+          }}
+        >
+          {cell.title}
+        </div>
       </div>
       {isDim && (
         <>
@@ -143,6 +164,7 @@ const DimensionTitleCell = ({
             setOpen={setOpen}
             interactions={interactions}
             menuAvailabilityFlags={FLAGS}
+            shouldShowMenuIcon={leftColumnWidthMeta.shouldShowMenuIcon}
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
             selectionRelatedArgs={selectionRelatedArgs}

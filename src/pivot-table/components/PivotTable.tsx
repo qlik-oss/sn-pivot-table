@@ -57,18 +57,22 @@ export const StickyPivotTable = ({
     visibleTopDimensionInfo,
   );
 
+  // console.log({ leftDimensionData });
+
   const dataModel = useDataModel({
     model,
     nextPageHandler,
     pageInfo,
   });
 
-  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
-    layoutService,
-    tableRect,
-    leftDimensionData,
-    visibleLeftDimensionInfo,
-  );
+  const {
+    leftGridWidth,
+    rightGridWidth,
+    getLeftColumnWidth,
+    getLeftColumnWidthMeta,
+    getMeasureInfoWidth,
+    getTotalWidth,
+  } = useColumnWidth(layoutService, tableRect, leftDimensionData, visibleLeftDimensionInfo);
 
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
@@ -137,6 +141,7 @@ export const StickyPivotTable = ({
   const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
   const showLastRowBorderBottom = rowsInCurrentPage < rowsCanFitInTableViewPort;
 
+  console.log({ leftGridWidth });
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
       <FullSizeContainer width={getTotalWidth()} height={containerHeight}>
@@ -148,12 +153,13 @@ export const StickyPivotTable = ({
           bottomRowsHeight={dataGridHeight}
         >
           <HeaderGrid
-            columnWidthCallback={getLeftColumnWidth}
+            getLeftColumnWidth={getLeftColumnWidth}
             rowHight={headerCellHeight}
             headersData={headersData}
             translator={translator}
             changeSortOrder={changeSortOrder}
             changeActivelySortedHeader={changeActivelySortedHeader}
+            getLeftColumnWidthMeta={getLeftColumnWidthMeta}
           />
 
           <TopGrid

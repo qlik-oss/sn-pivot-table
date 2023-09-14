@@ -2,16 +2,18 @@ import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
 import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell, HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import type { LeftColumnWidthMeta } from "../../hooks/use-column-width";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
 interface HeaderGridProps {
-  columnWidthCallback: (index: number) => number;
+  getLeftColumnWidth: (index: number) => number;
   rowHight: number;
   headersData: HeadersData;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
+  getLeftColumnWidthMeta: (idx: number, isLocked: boolean) => LeftColumnWidthMeta;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -20,12 +22,13 @@ const containerStyle: React.CSSProperties = {
 };
 
 const HeaderGrid = ({
-  columnWidthCallback,
+  getLeftColumnWidth,
   rowHight,
   headersData,
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
+  getLeftColumnWidthMeta,
 }: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
@@ -34,7 +37,8 @@ const HeaderGrid = ({
   }
 
   const hasMultipleRows = headersData.size.y > 1;
-  const columnWidths = headersData.data.map((_, colIndex) => columnWidthCallback(colIndex));
+  const columnWidths = headersData.data.map((_, colIndex) => getLeftColumnWidth(colIndex));
+  // headersData.data.map((_, idx) => getLeftColumnWidthMeta(idx));
 
   return (
     <div
@@ -48,6 +52,10 @@ const HeaderGrid = ({
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
       {headersData.data.map((col, colIndex) => {
         const cell = col[col.length - 1] as HeaderCell;
+        let fakeIsLocked = colIndex % 2 === 0;
+        const leftColumnWidthMeta = getLeftColumnWidthMeta(colIndex, fakeIsLocked);
+
+        // console.log(JSON.stringify(colMetadata, null, 2));
 
         return (
           <DimensionTitleCell
@@ -58,6 +66,8 @@ const HeaderGrid = ({
             changeSortOrder={changeSortOrder}
             changeActivelySortedHeader={changeActivelySortedHeader}
             cell={cell}
+            isLocked={fakeIsLocked}
+            leftColumnWidthMeta={leftColumnWidthMeta}
           />
         );
       })}

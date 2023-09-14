@@ -11,12 +11,28 @@ interface ColumnWidthHook {
   rightGridWidth: number;
   totalMeasureInfoColumnWidth: number;
   getLeftColumnWidth: (index: number) => number;
+  getLeftColumnWidthMeta: (idx: number, isLocked: boolean) => LeftColumnWidthMeta;
   getDataColumnWidth: (index: number) => number;
   getMeasureInfoWidth: (index: number) => number;
   getTotalWidth: () => number;
 }
 
+export interface LeftColumnWidthMeta {
+  colWidth: number;
+  shouldShowMenuIcon: boolean;
+  shouldShowLockIcon: boolean;
+}
+
+export interface LeftColMetaData {
+  qFallbackTitle: string;
+  colWidth: number;
+  ratio: number;
+  measureTextForHeader: number;
+  estimateWidthForContent: number;
+}
+
 export const EXPAND_ICON_WIDTH = 30;
+// export const EXPAND_ICON_WIDTH = 0;
 const MIN_COLUMN_WIDTH = 100;
 const MAX_RATIO_OF_TOTAL_WIDTH = 0.75;
 
@@ -40,6 +56,60 @@ export default function useColumnWidth(
 
   const hasPseudoDimOnLeft = useMemo(() => visibleLeftDimensionInfo.includes(-1), [visibleLeftDimensionInfo]);
 
+  const getColWidthMetadata = useCallback(() => {
+    const metaData: LeftColMetaData[] = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+      if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
+        const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
+        return {
+          qFallbackTitle: "PSEUDO_DIM",
+          colWidth: pseudoDimensionWidth / rect.width,
+          ratio: 1,
+          measureTextForHeader: 0,
+          estimateWidthForContent: 0,
+        };
+      }
+
+      const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo;
+      const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
+      // TODO:
+      // consider if allfully expanded here -> if all expanded dont need to add `collapseExpandIconSize` into account
+      const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
+      const w = Math.max(
+        measureTextForHeader(qFallbackTitle),
+        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize, // length of longest vlaue (replaced with m) + expand/collapse icon size
+      );
+
+      return {
+        qFallbackTitle,
+        colWidth: w,
+        ratio: w / rect.width,
+        measureTextForHeader: measureTextForHeader(qFallbackTitle),
+        estimateWidthForContent: estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize,
+      };
+    });
+
+    const sumOfRatios = metaData.reduce((sum, r) => sum + r.ratio, 0);
+    if (sumOfRatios < MAX_RATIO_OF_TOTAL_WIDTH) return metaData;
+
+    const multiplier = MAX_RATIO_OF_TOTAL_WIDTH / sumOfRatios;
+    return metaData.map((r) => ({
+      ...r,
+      ratio: r.ratio * multiplier,
+      colWidth: r.ratio * multiplier * rect.width,
+    }));
+  }, [
+    estimateWidthForContent,
+    measureTextForContent,
+    measureTextForHeader,
+    visibleLeftDimensionInfo,
+    rect.width,
+    qMeasureInfo,
+    qNoOfLeftDims,
+  ]);
+
+  // console.log({ visibleLeftDimensionInfo });
+  // TODO:
+  // this could be externalize
   const leftColumnWidthsRatios = useMemo(() => {
     const ratios = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
@@ -50,10 +120,12 @@ export default function useColumnWidth(
 
       const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo;
       const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
+      // TODO:
+      // consider if allfully expanded here -> if all expanded dont need to add `collapseExpandIconSize` into account
       const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
       const w = Math.max(
         measureTextForHeader(qFallbackTitle),
-        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize,
+        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize, // length of longest vlaue (replaced with m) + expand/collapse icon size
       );
       return w / rect.width;
     });
@@ -73,11 +145,78 @@ export default function useColumnWidth(
     qNoOfLeftDims,
   ]);
 
+  // console.log({ leftColumnWidthsRatios });
   const getLeftColumnWidth = useCallback(
-    (index: number) => leftColumnWidthsRatios[index] * rect.width,
+    (index: number) => {
+      return leftColumnWidthsRatios[index] * rect.width;
+    },
     [leftColumnWidthsRatios, rect.width],
   );
 
+  const getLeftColumnWidthMeta = useCallback(
+    (idx: number, isLocked: boolean): LeftColumnWidthMeta => {
+      // TODO:
+      // this might return an object that width is one property of it
+      // it might include estimated width,
+      const metaData = getColWidthMetadata()[idx];
+      let shouldShowMenuIcon = true;
+      let shouldShowLockIcon = true;
+
+      const lockIconWidth = isLocked ? 8 + 12 : 0;
+      const menuIconWidth = 24 + 4; // size + gap
+      const textAndMenuSize = metaData.measureTextForHeader + menuIconWidth;
+      const textAndLockSize = metaData.measureTextForHeader + lockIconWidth;
+      const textAndMenuAndLockSize = metaData.measureTextForHeader + (lockIconWidth + menuIconWidth);
+
+      // 8px padding left, 4px padding right for text
+      let finalSize = lockIconWidth + 8 + metaData.measureTextForHeader + 4 + menuIconWidth;
+
+      if (metaData.measureTextForHeader <= metaData.colWidth) {
+        if (finalSize > metaData.colWidth) {
+          finalSize -= menuIconWidth;
+          shouldShowMenuIcon = false;
+
+          if (finalSize > metaData.colWidth) {
+            finalSize -= lockIconWidth;
+            shouldShowLockIcon = false;
+          }
+        }
+      } else {
+        shouldShowMenuIcon = false;
+        shouldShowLockIcon = false;
+      }
+
+      console.log(
+        JSON.stringify(
+          {
+            isLocked,
+            ...metaData,
+            "break#01": "---------------------",
+            textAndMenuSize,
+            textAndLockSize,
+            textAndMenuAndLockSize,
+            finalSize,
+            "break#02": "---------------------",
+            shouldShowMenuIcon,
+            shouldShowLockIcon,
+          },
+          null,
+          2,
+        ),
+      );
+
+      const res = {
+        colWidth: metaData.colWidth,
+        shouldShowMenuIcon,
+        shouldShowLockIcon,
+      };
+
+      return res;
+    },
+    [leftColumnWidthsRatios, rect.width, getColWidthMetadata],
+  );
+
+  // console.log({ leftDimensionData });
   const leftGridWidth = useMemo(
     () => leftDimensionData.grid.reduce((width, _, index) => width + getLeftColumnWidth(index), 0),
     [leftDimensionData.grid, getLeftColumnWidth],
@@ -160,6 +299,7 @@ export default function useColumnWidth(
     rightGridWidth,
     totalMeasureInfoColumnWidth,
     getLeftColumnWidth,
+    getLeftColumnWidthMeta,
     getDataColumnWidth,
     getMeasureInfoWidth: memoizedGetMeasureInfoWidth,
     getTotalWidth,
