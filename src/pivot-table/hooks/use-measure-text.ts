@@ -15,8 +15,7 @@ export interface MeasureTextHook {
 
 const MAGIC_DEFAULT_CHAR = "M";
 
-// const LEEWAY_WIDTH = 25; // Used to make sure there is some leeway in the measurement of a text
-const LEEWAY_WIDTH = 0;
+export const LEEWAY_WIDTH = 25; // Used to make sure there is some leeway in the measurement of a text
 
 export default function useMeasureText({ fontSize, fontFamily }: MeasureTextStyling): MeasureTextHook {
   const context = useRef<CanvasRenderingContext2D | null>(null);
@@ -51,7 +50,7 @@ export default function useMeasureText({ fontSize, fontFamily }: MeasureTextStyl
   const measureText = useCallback(
     (text: string) => {
       if (context.current === null || memoizedMeasureText === null) return 0;
-      // console.log(text, memoizedMeasureText(text).width, memoizedMeasureText(text).width + LEEWAY_WIDTH);
+
       return memoizedMeasureText(text).width + LEEWAY_WIDTH;
     },
     [memoizedMeasureText],

@@ -139,7 +139,6 @@ export const StickyPivotTable = ({
   const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
   const showLastRowBorderBottom = rowsInCurrentPage < rowsCanFitInTableViewPort;
 
-  console.log({ leftGridWidth });
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
       <FullSizeContainer width={getTotalWidth()} height={containerHeight}>
