@@ -51,8 +51,7 @@ const HeaderGrid = ({
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
       {headersData.data.map((col, colIndex) => {
         const cell = col[col.length - 1] as HeaderCell;
-        let fakeIsLocked = colIndex % 2 === 0;
-        const leftColumnWidthMeta = getLeftColumnWidthMeta(colIndex, fakeIsLocked);
+        const leftColumnWidthMeta = getLeftColumnWidthMeta(colIndex, cell.isLocked);
 
         return (
           <DimensionTitleCell
@@ -63,7 +62,6 @@ const HeaderGrid = ({
             changeSortOrder={changeSortOrder}
             changeActivelySortedHeader={changeActivelySortedHeader}
             cell={cell}
-            isLocked={fakeIsLocked}
             leftColumnWidthMeta={leftColumnWidthMeta}
           />
         );

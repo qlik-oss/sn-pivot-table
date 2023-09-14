@@ -24,7 +24,6 @@ interface DimensionTitleCellProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
-  isLocked: boolean;
   leftColumnWidthMeta: LeftColumnWidthMeta;
 }
 
@@ -73,7 +72,6 @@ const DimensionTitleCell = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
-  isLocked,
   leftColumnWidthMeta,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
@@ -136,7 +134,7 @@ const DimensionTitleCell = ({
     >
       <div style={{ ...headCellBackgroundDim, opacity: shadeOpacity }} />
       <div style={{ ...labelWrapperStyle }}>
-        {leftColumnWidthMeta.shouldShowLockIcon && isLocked && (
+        {leftColumnWidthMeta.shouldShowLockIcon && cell.isLocked && (
           <div style={{ ...baseFlex, marginLeft: "8px" }}>
             <Locked height="12px" />
           </div>

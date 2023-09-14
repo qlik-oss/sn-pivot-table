@@ -57,8 +57,6 @@ export const StickyPivotTable = ({
     visibleTopDimensionInfo,
   );
 
-  // console.log({ leftDimensionData });
-
   const dataModel = useDataModel({
     model,
     nextPageHandler,
