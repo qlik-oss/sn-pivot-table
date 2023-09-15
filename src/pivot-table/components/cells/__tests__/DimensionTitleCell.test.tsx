@@ -5,6 +5,7 @@ import React from "react";
 import type { App } from "../../../../types/QIX";
 import type { HeaderCell } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
+import type { LeftColumnWidthMetadata } from "../../../hooks/use-column-width";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
 
 describe("DimensionTitleCell", () => {
@@ -12,6 +13,7 @@ describe("DimensionTitleCell", () => {
   const translator = { get: (s) => s } as stardust.Translator;
   const changeSortOrder = jest.fn();
   const changeActivelySortedColumn = jest.fn();
+  let columnWidthMetadata: LeftColumnWidthMetadata;
   const style: React.CSSProperties = {
     position: "relative",
     left: "25px",
@@ -19,6 +21,14 @@ describe("DimensionTitleCell", () => {
     width: "100px",
     height: "150px",
   };
+
+  beforeEach(() => {
+    columnWidthMetadata = {
+      colWidth: 50,
+      shouldShowMenuIcon: true,
+      shouldShowLockIcon: false,
+    };
+  });
 
   test("should render", async () => {
     render(
@@ -29,6 +39,7 @@ describe("DimensionTitleCell", () => {
         isLastColumn={false}
         changeSortOrder={changeSortOrder}
         changeActivelySortedHeader={changeActivelySortedColumn}
+        columnWidthMetadata={columnWidthMetadata}
       />,
       { wrapper: TestWithProvider },
     );
@@ -66,6 +77,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          columnWidthMetadata={columnWidthMetadata}
         />,
         {
           wrapper: ({ children }) => (
@@ -93,6 +105,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          columnWidthMetadata={columnWidthMetadata}
         />,
         {
           wrapper: ({ children }) => (
@@ -116,6 +129,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          columnWidthMetadata={columnWidthMetadata}
         />,
         {
           wrapper: ({ children }) => (
@@ -147,6 +161,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          columnWidthMetadata={columnWidthMetadata}
         />,
         {
           wrapper: ({ children }) => (
@@ -186,6 +201,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          columnWidthMetadata={columnWidthMetadata}
         />,
         {
           wrapper: ({ children }) => (

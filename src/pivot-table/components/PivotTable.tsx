@@ -67,7 +67,7 @@ export const StickyPivotTable = ({
     leftGridWidth,
     rightGridWidth,
     getLeftColumnWidth,
-    getLeftColumnWidthMeta,
+    getLeftColumnWidthMetadata,
     getMeasureInfoWidth,
     getTotalWidth,
   } = useColumnWidth(layoutService, tableRect, leftDimensionData, visibleLeftDimensionInfo);
@@ -150,13 +150,13 @@ export const StickyPivotTable = ({
           bottomRowsHeight={dataGridHeight}
         >
           <HeaderGrid
-            getLeftColumnWidth={getLeftColumnWidth}
+            columnWidthCallback={getLeftColumnWidth}
+            columnWidthCallbackMetadata={getLeftColumnWidthMetadata}
             rowHight={headerCellHeight}
             headersData={headersData}
             translator={translator}
             changeSortOrder={changeSortOrder}
             changeActivelySortedHeader={changeActivelySortedHeader}
-            getLeftColumnWidthMeta={getLeftColumnWidthMeta}
           />
 
           <TopGrid

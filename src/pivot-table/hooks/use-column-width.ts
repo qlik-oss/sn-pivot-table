@@ -11,19 +11,19 @@ interface ColumnWidthHook {
   rightGridWidth: number;
   totalMeasureInfoColumnWidth: number;
   getLeftColumnWidth: (index: number) => number;
-  getLeftColumnWidthMeta: (idx: number, isLocked: boolean) => LeftColumnWidthMeta;
+  getLeftColumnWidthMetadata: (idx: number, isLocked: boolean) => LeftColumnWidthMetadata;
   getDataColumnWidth: (index: number) => number;
   getMeasureInfoWidth: (index: number) => number;
   getTotalWidth: () => number;
 }
 
-export interface LeftColumnWidthMeta {
+export interface LeftColumnWidthMetadata {
   colWidth: number;
   shouldShowMenuIcon: boolean;
   shouldShowLockIcon: boolean;
 }
 
-export interface LeftColMetaData {
+export interface LeftColMetadata {
   qFallbackTitle: string;
   colWidth: number;
   ratio: number;
@@ -56,7 +56,7 @@ export default function useColumnWidth(
   const hasPseudoDimOnLeft = useMemo(() => visibleLeftDimensionInfo.includes(-1), [visibleLeftDimensionInfo]);
 
   const leftColumnWidthMetadata = useMemo(() => {
-    const metaData: LeftColMetaData[] = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+    const metaData: LeftColMetadata[] = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
         return {
@@ -113,24 +113,26 @@ export default function useColumnWidth(
     [leftColumnWidthMetadata, rect.width],
   );
 
-  const getLeftColumnWidthMeta = useCallback(
-    (idx: number, isLocked: boolean): LeftColumnWidthMeta => {
+  const getLeftColumnWidthMetadata = useCallback(
+    (idx: number, isLocked: boolean): LeftColumnWidthMetadata => {
       const metaData = leftColumnWidthMetadata[idx];
       let shouldShowMenuIcon = true;
       let shouldShowLockIcon = true;
 
+      // margin left + icon size
       const lockIconWidth = isLocked ? 8 + 12 : 0;
-      const menuIconWidth = 24 + 4; // size + gap
-      // always considering 8px padding left (regardless of shouldShowMenuIcon), 4px padding right for text
+      // size + grid gap
+      const menuIconWidth = 24 + 4;
+      // 8px padding left, 4px padding right
       let finalSize = lockIconWidth + 8 + metaData.measureTextForHeader + 4 + menuIconWidth - LEEWAY_WIDTH;
 
       if (metaData.measureTextForHeader <= metaData.colWidth) {
         if (finalSize > metaData.colWidth) {
+          // need this for next if check
           finalSize -= menuIconWidth;
           shouldShowMenuIcon = false;
 
           if (finalSize > metaData.colWidth) {
-            finalSize -= lockIconWidth;
             shouldShowLockIcon = false;
           }
         }
@@ -145,7 +147,7 @@ export default function useColumnWidth(
         shouldShowLockIcon,
       };
     },
-    [rect.width, leftColumnWidthMetadata],
+    [leftColumnWidthMetadata],
   );
 
   const leftGridWidth = useMemo(
@@ -230,7 +232,7 @@ export default function useColumnWidth(
     rightGridWidth,
     totalMeasureInfoColumnWidth,
     getLeftColumnWidth,
-    getLeftColumnWidthMeta,
+    getLeftColumnWidthMetadata,
     getDataColumnWidth,
     getMeasureInfoWidth: memoizedGetMeasureInfoWidth,
     getTotalWidth,

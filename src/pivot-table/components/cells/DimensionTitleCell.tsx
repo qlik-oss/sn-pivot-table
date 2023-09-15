@@ -13,7 +13,7 @@ import type {
 } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import type { LeftColumnWidthMeta } from "../../hooks/use-column-width";
+import type { LeftColumnWidthMetadata } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
@@ -24,7 +24,7 @@ interface DimensionTitleCellProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
-  leftColumnWidthMeta: LeftColumnWidthMeta;
+  columnWidthMetadata: LeftColumnWidthMetadata;
 }
 
 const baseFlex: React.CSSProperties = {
@@ -71,7 +71,7 @@ const DimensionTitleCell = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
-  leftColumnWidthMeta,
+  columnWidthMetadata,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -80,6 +80,7 @@ const DimensionTitleCell = ({
   const anchorRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const { setIsHovered, shadeOpacity } = useHeadCellDim({ open });
+  const { shouldShowLockIcon, shouldShowMenuIcon } = columnWidthMetadata;
 
   const isDim = cell.id !== "PSEUDO-DIM";
 
@@ -121,8 +122,8 @@ const DimensionTitleCell = ({
         padding: 0,
         position: "relative",
         display: "grid",
-        gridTemplateColumns: leftColumnWidthMeta.shouldShowMenuIcon ? "1fr 24px" : "1fr",
-        gridGap: leftColumnWidthMeta.shouldShowMenuIcon ? "4px" : "0px",
+        gridTemplateColumns: shouldShowMenuIcon ? "1fr 24px" : "1fr",
+        gridGap: shouldShowMenuIcon ? "4px" : "0px",
         alignItems: "center",
         cursor: interactions.active ? "pointer" : "default",
       }}
@@ -133,7 +134,7 @@ const DimensionTitleCell = ({
     >
       <div style={{ ...headCellBackgroundDim, opacity: shadeOpacity }} />
       <div style={{ ...labelWrapperStyle }}>
-        {leftColumnWidthMeta.shouldShowLockIcon && cell.isLocked && (
+        {shouldShowLockIcon && cell.isLocked && (
           <div style={{ ...baseFlex, marginLeft: "8px" }}>
             <Locked height="12px" />
           </div>
@@ -143,8 +144,8 @@ const DimensionTitleCell = ({
             ...labelTextStyle,
             fontSize,
             fontFamily,
-            paddingLeft: leftColumnWidthMeta.shouldShowMenuIcon ? "8px" : "4px",
-            paddingRight: leftColumnWidthMeta.shouldShowMenuIcon ? "0px" : "4px",
+            paddingLeft: shouldShowMenuIcon ? "8px" : "4px",
+            paddingRight: shouldShowMenuIcon ? "0px" : "4px",
           }}
         >
           {cell.title}
@@ -161,7 +162,7 @@ const DimensionTitleCell = ({
             setOpen={setOpen}
             interactions={interactions}
             menuAvailabilityFlags={FLAGS}
-            shouldShowMenuIcon={leftColumnWidthMeta.shouldShowMenuIcon}
+            shouldShowMenuIcon={shouldShowMenuIcon}
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
             selectionRelatedArgs={selectionRelatedArgs}
