@@ -64,8 +64,8 @@ export default function useColumnWidth(
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
         return {
-          colWidth: pseudoDimensionWidth / rect.width,
-          ratio: 1,
+          colWidth: pseudoDimensionWidth,
+          ratio: pseudoDimensionWidth / rect.width,
           measureTextForHeader: 0,
           estimateWidthForContent: 0,
         };
