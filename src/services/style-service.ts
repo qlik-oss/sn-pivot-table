@@ -14,6 +14,19 @@ import type { ExtendedTheme, LayoutService, StyleService } from "../types/types"
 
 const BASE_PATH = "object.pivotTableV2";
 
+const HEADER_MENU_COLOR_MODIFIER = {
+  hover: {
+    darker: 0.15,
+    brighter: 0.3,
+    opacity: 0.03,
+  },
+  active: {
+    darker: 0.3,
+    brighter: 0.5,
+    opacity: 0.05,
+  },
+};
+
 enum Path {
   Header = "header",
   Content = "content",
@@ -262,8 +275,22 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     DEFAULT_CELL_HEIGHT,
   );
 
-  styleService.header.rowTitle.hoverBackground = getHoverColor(styleService.header.rowTitle.background);
-  styleService.header.columnTitle.hoverBackground = getHoverColor(styleService.header.columnTitle.background);
+  styleService.header.rowTitle.hoverBackground = getHoverColor(
+    styleService.header.rowTitle.background,
+    HEADER_MENU_COLOR_MODIFIER.hover,
+  );
+  styleService.header.rowTitle.activeBackground = getHoverColor(
+    styleService.header.rowTitle.background,
+    HEADER_MENU_COLOR_MODIFIER.active,
+  );
+  styleService.header.columnTitle.hoverBackground = getHoverColor(
+    styleService.header.columnTitle.background,
+    HEADER_MENU_COLOR_MODIFIER.hover,
+  );
+  styleService.header.columnTitle.activeBackground = getHoverColor(
+    styleService.header.columnTitle.background,
+    HEADER_MENU_COLOR_MODIFIER.active,
+  );
 
   return styleService;
 };

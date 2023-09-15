@@ -66,7 +66,7 @@ const DimensionTitleCell = ({
   const styleService = useStyleContext();
   const { app, model, interactions, embed } = useBaseContext();
   const { fontSize, fontFamily } = styleService.header;
-  const { color, background, hoverBackground } = styleService.header.rowTitle;
+  const { color, background, hoverBackground, activeBackground } = styleService.header.rowTitle;
   const anchorRef = useRef<HTMLDivElement>(null);
   const { open, setOpen, handleOpenMenu } = useHeadCellDim({ interactions });
 
@@ -101,7 +101,7 @@ const DimensionTitleCell = ({
     <StyledHeaderCellWrapper
       title={cell.title}
       interactions={interactions}
-      background={open ? hoverBackground : background}
+      background={open ? activeBackground : background}
       hoverBackground={hoverBackground}
       style={{
         ...style,

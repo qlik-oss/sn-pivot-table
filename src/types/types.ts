@@ -204,10 +204,12 @@ export interface CellStyling {
 
 interface RowTitleStyling extends CellStyling {
   hoverBackground: string;
+  activeBackground: string;
 }
 
 interface ColumnTitleStyling extends CellStyling {
   hoverBackground: string;
+  activeBackground: string;
 }
 
 interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
