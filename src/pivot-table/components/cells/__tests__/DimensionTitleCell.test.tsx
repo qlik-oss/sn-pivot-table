@@ -5,7 +5,7 @@ import React from "react";
 import type { App } from "../../../../types/QIX";
 import type { HeaderCell } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
-import type { LeftColumnWidthMetadata } from "../../../hooks/use-column-width";
+import type { GetLeftColumnWidthMetadata } from "../../../hooks/use-column-width";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
 
 describe("DimensionTitleCell", () => {
@@ -13,7 +13,7 @@ describe("DimensionTitleCell", () => {
   const translator = { get: (s) => s } as stardust.Translator;
   const changeSortOrder = jest.fn();
   const changeActivelySortedColumn = jest.fn();
-  let columnWidthMetadata: LeftColumnWidthMetadata;
+  let columnWidthMetadata: ReturnType<GetLeftColumnWidthMetadata>;
   const style: React.CSSProperties = {
     position: "relative",
     left: "25px",

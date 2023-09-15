@@ -29,7 +29,6 @@ export interface GetLeftColumnWidthMetadata {
 }
 
 export interface LeftColMetadata {
-  qFallbackTitle: string;
   colWidth: number;
   ratio: number;
   measureTextForHeader: number;
@@ -65,7 +64,6 @@ export default function useColumnWidth(
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
         return {
-          qFallbackTitle: "PSEUDO_DIM",
           colWidth: pseudoDimensionWidth / rect.width,
           ratio: 1,
           measureTextForHeader: 0,
@@ -82,7 +80,6 @@ export default function useColumnWidth(
       );
 
       return {
-        qFallbackTitle,
         colWidth: w,
         ratio: w / rect.width,
         measureTextForHeader: measureTextForHeader(qFallbackTitle),
