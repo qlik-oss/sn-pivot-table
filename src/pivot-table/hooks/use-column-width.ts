@@ -78,7 +78,7 @@ export default function useColumnWidth(
       const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
       const w = Math.max(
         measureTextForHeader(qFallbackTitle),
-        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize, // length of longest vlaue (replaced with m) + expand/collapse icon size
+        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize,
       );
 
       return {
