@@ -110,6 +110,7 @@ export default function useColumnWidth(
 
   const getLeftColumnWidth = useCallback(
     (index: number) => {
+      console.log(2222, { leftColumnWidthMetadata });
       return leftColumnWidthMetadata[index].ratio * rect.width;
     },
     [leftColumnWidthMetadata, rect.width],
