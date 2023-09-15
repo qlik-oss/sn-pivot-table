@@ -117,7 +117,7 @@ describe("useColumnWidth", () => {
   });
 
   describe("getLeftColumnWidth", () => {
-    test.only("should return left column width", () => {
+    test("should return left column width", () => {
       rect.width = 500;
       (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(5);
       (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>)
@@ -130,8 +130,8 @@ describe("useColumnWidth", () => {
       );
 
       expect(result.current.getLeftColumnWidth(0)).toBe(25 + EXPAND_ICON_WIDTH);
-      // expect(result.current.getLeftColumnWidth(1)).toBe(50 + EXPAND_ICON_WIDTH);
-      // expect(result.current.getLeftColumnWidth(2)).toBe(75);
+      expect(result.current.getLeftColumnWidth(1)).toBe(50 + EXPAND_ICON_WIDTH);
+      expect(result.current.getLeftColumnWidth(2)).toBe(75);
     });
   });
 

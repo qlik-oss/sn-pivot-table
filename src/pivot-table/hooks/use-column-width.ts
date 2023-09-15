@@ -74,16 +74,16 @@ export default function useColumnWidth(
       const { qFallbackTitle, qApprMaxGlyphCount } = qDimensionInfo;
       const hasChildNodes = index < qNoOfLeftDims - 1; // -1 as the last column can not be expanded or collapsed
       const collapseExpandIconSize = hasChildNodes ? EXPAND_ICON_WIDTH : 0;
-      const w = Math.max(
-        measureTextForHeader(qFallbackTitle),
-        estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize,
-      );
+
+      const measureTextForHeaderResult = measureTextForHeader(qFallbackTitle);
+      const estimateWidthForContentResult = estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize;
+      const w = Math.max(measureTextForHeaderResult, estimateWidthForContentResult);
 
       return {
         colWidth: w,
         ratio: w / rect.width,
-        measureTextForHeader: measureTextForHeader(qFallbackTitle),
-        estimateWidthForContent: estimateWidthForContent(qApprMaxGlyphCount) + collapseExpandIconSize,
+        measureTextForHeader: measureTextForHeaderResult,
+        estimateWidthForContent: estimateWidthForContentResult,
       };
     });
 
@@ -109,10 +109,7 @@ export default function useColumnWidth(
   ]);
 
   const getLeftColumnWidth = useCallback(
-    (index: number) => {
-      console.log(2222, { leftColumnWidthMetadata });
-      return leftColumnWidthMetadata[index].ratio * rect.width;
-    },
+    (index: number) => leftColumnWidthMetadata[index].ratio * rect.width,
     [leftColumnWidthMetadata, rect.width],
   );
 
