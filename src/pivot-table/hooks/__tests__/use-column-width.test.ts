@@ -31,6 +31,7 @@ describe("useColumnWidth", () => {
       grid: [{ 0: cell }, { 0: cell }, { 0: cell }],
       columnCount: 3,
       layoutSize: { x: 3, y: 1 },
+      totalDividerIndex: 0,
     } as LeftDimensionData;
 
     layoutService = {

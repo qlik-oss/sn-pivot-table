@@ -156,13 +156,10 @@ describe("DimensionCell", () => {
     expect(screen.queryByTestId(testIdCollapseIcon)).toBeNull();
   });
 
-  test("should render with total divider when next sibling is total cell and totals is shown below", () => {
+  test("should render with total divider styling when totals is shown below", () => {
     layoutService.showTotalsAbove = false;
     cell.ref.qCanExpand = false;
     cell.ref.qCanCollapse = false;
-    const rootCell = { isTotal: true } as Cell;
-    const nextSibling = { root: rootCell, isLastChild: true } as unknown as Cell;
-    data.list[1] = nextSibling;
 
     render(
       <DimensionCell

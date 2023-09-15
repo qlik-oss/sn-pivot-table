@@ -112,6 +112,7 @@ const LeftGrid = ({
               itemCount,
               showLastRowBorderBottom,
               listValues,
+              totalDividerIndex: leftDimensionData.totalDividerIndex,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}
