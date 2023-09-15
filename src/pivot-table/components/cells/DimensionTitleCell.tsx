@@ -13,7 +13,7 @@ import type {
 } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import type { LeftColumnWidthMetadata } from "../../hooks/use-column-width";
+import type { GetLeftColumnWidthMetadata } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
@@ -24,7 +24,7 @@ interface DimensionTitleCellProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
-  columnWidthMetadata: LeftColumnWidthMetadata;
+  columnWidthMetadata: ReturnType<GetLeftColumnWidthMetadata>;
 }
 
 const baseFlex: React.CSSProperties = {

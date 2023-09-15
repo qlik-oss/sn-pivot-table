@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
 import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell, HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import type { LeftColumnWidthMetadata } from "../../hooks/use-column-width";
+import type { GetLeftColumnWidthMetadata } from "../../hooks/use-column-width";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
@@ -13,7 +13,7 @@ interface HeaderGridProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
-  columnWidthCallbackMetadata: (idx: number, isLocked: boolean) => LeftColumnWidthMetadata;
+  columnWidthCallbackMetadata: GetLeftColumnWidthMetadata;
 }
 
 const containerStyle: React.CSSProperties = {

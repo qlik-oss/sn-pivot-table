@@ -11,16 +11,21 @@ interface ColumnWidthHook {
   rightGridWidth: number;
   totalMeasureInfoColumnWidth: number;
   getLeftColumnWidth: (index: number) => number;
-  getLeftColumnWidthMetadata: (idx: number, isLocked: boolean) => LeftColumnWidthMetadata;
+  getLeftColumnWidthMetadata: GetLeftColumnWidthMetadata;
   getDataColumnWidth: (index: number) => number;
   getMeasureInfoWidth: (index: number) => number;
   getTotalWidth: () => number;
 }
 
-export interface LeftColumnWidthMetadata {
-  colWidth: number;
-  shouldShowMenuIcon: boolean;
-  shouldShowLockIcon: boolean;
+export interface GetLeftColumnWidthMetadata {
+  (
+    idx: number,
+    isLocked: boolean,
+  ): {
+    colWidth: number;
+    shouldShowMenuIcon: boolean;
+    shouldShowLockIcon: boolean;
+  };
 }
 
 export interface LeftColMetadata {
@@ -55,8 +60,8 @@ export default function useColumnWidth(
 
   const hasPseudoDimOnLeft = useMemo(() => visibleLeftDimensionInfo.includes(-1), [visibleLeftDimensionInfo]);
 
-  const leftColumnWidthMetadata = useMemo(() => {
-    const metaData: LeftColMetadata[] = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+  const leftColumnWidthMetadata = useMemo<LeftColMetadata[]>(() => {
+    const metaData = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         const pseudoDimensionWidth = Math.max(...qMeasureInfo.map((m) => measureTextForContent(m.qFallbackTitle)));
         return {
@@ -113,8 +118,8 @@ export default function useColumnWidth(
     [leftColumnWidthMetadata, rect.width],
   );
 
-  const getLeftColumnWidthMetadata = useCallback(
-    (idx: number, isLocked: boolean): LeftColumnWidthMetadata => {
+  const getLeftColumnWidthMetadata = useCallback<GetLeftColumnWidthMetadata>(
+    (idx, isLocked) => {
       const metaData = leftColumnWidthMetadata[idx];
       let shouldShowMenuIcon = true;
       let shouldShowLockIcon = true;
