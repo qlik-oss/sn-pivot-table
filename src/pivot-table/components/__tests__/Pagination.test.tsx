@@ -13,7 +13,7 @@ describe("<Pagination />", () => {
   beforeEach(() => {
     updatePageInfo = jest.fn();
     pageInfo = {
-      currentPage: 0,
+      page: 0,
       rowsPerPage: 5,
       totalPages: 10,
       totalRowCount: 45,
@@ -28,10 +28,10 @@ describe("<Pagination />", () => {
     // TODO:
     // make sure of translations
     expect(screen.getByTestId(testIdPageInfo)).toHaveTextContent(
-      `page: ${pageInfo.currentPage + 1} of ${pageInfo.totalPages}`,
+      `page: ${pageInfo.page + 1} of ${pageInfo.totalPages}`,
     );
     expect(screen.getByTestId(testIdDataRange)).toHaveTextContent(
-      `${pageInfo.currentPage + 1} - ${pageInfo.rowsPerPage} of ${pageInfo.totalRowCount}`,
+      `${pageInfo.page + 1} - ${pageInfo.rowsPerPage} of ${pageInfo.totalRowCount}`,
     );
     expect(screen.queryAllByRole("button").length).toBe(4);
     ["first", "prev", "next", "last"].forEach((btn) => {
@@ -53,7 +53,7 @@ describe("<Pagination />", () => {
   test("should disable next and last buttons if we are at the end of data set", () => {
     pageInfo = {
       ...pageInfo,
-      currentPage: 9,
+      page: 9,
     };
     renderer();
 
@@ -71,7 +71,7 @@ describe("<Pagination />", () => {
 
       await userEvent.click(screen.getByTestId("next"));
       expect(updatePageInfo).toHaveBeenCalledTimes(1);
-      expect(updatePageInfo).toHaveBeenCalledWith({ currentPage: pageInfo.currentPage + 1 });
+      expect(updatePageInfo).toHaveBeenCalledWith({ page: pageInfo.page + 1 });
     });
 
     test("in case of last button clicked:", async () => {
@@ -79,31 +79,31 @@ describe("<Pagination />", () => {
 
       await userEvent.click(screen.getByTestId("last"));
       expect(updatePageInfo).toHaveBeenCalledTimes(1);
-      expect(updatePageInfo).toHaveBeenCalledWith({ currentPage: pageInfo.totalPages - 1 });
+      expect(updatePageInfo).toHaveBeenCalledWith({ page: pageInfo.totalPages - 1 });
     });
 
     test("in case of prev button clicked:", async () => {
       pageInfo = {
         ...pageInfo,
-        currentPage: 5,
+        page: 5,
       };
       renderer();
 
       await userEvent.click(screen.getByTestId("prev"));
       expect(updatePageInfo).toHaveBeenCalledTimes(1);
-      expect(updatePageInfo).toHaveBeenCalledWith({ currentPage: pageInfo.currentPage - 1 });
+      expect(updatePageInfo).toHaveBeenCalledWith({ page: pageInfo.page - 1 });
     });
 
     test("in case of first button clicked:", async () => {
       pageInfo = {
         ...pageInfo,
-        currentPage: 5,
+        page: 5,
       };
       renderer();
 
       await userEvent.click(screen.getByTestId("first"));
       expect(updatePageInfo).toHaveBeenCalledTimes(1);
-      expect(updatePageInfo).toHaveBeenCalledWith({ currentPage: 0 });
+      expect(updatePageInfo).toHaveBeenCalledWith({ page: 0 });
     });
   });
 });

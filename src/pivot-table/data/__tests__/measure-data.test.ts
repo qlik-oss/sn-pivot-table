@@ -3,7 +3,7 @@ import { addPageToMeasureData, createMeasureData } from "../measure-data";
 
 describe("measure data", () => {
   const pageInfo = {
-    currentPage: 0,
+    page: 0,
     rowsPerPage: 100,
   } as PageInfo;
 

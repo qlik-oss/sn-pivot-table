@@ -84,7 +84,7 @@ export const StickyPivotTable = ({
       scrollableContainerRef.current.scrollLeft = 0;
       scrollableContainerRef.current.scrollTop = 0;
     }
-  }, [pageInfo.currentPage]);
+  }, [pageInfo.page]);
 
   const onScrollHandler = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {

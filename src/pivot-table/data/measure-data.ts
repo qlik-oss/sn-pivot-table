@@ -9,7 +9,7 @@ const createNewGrid = (
   const data = [...prevData];
   nextData.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
-      const topIdx = qArea.qTop - pageInfo.currentPage * pageInfo.rowsPerPage;
+      const topIdx = qArea.qTop - pageInfo.page * pageInfo.rowsPerPage;
       if (!Array.isArray(data[topIdx + rowIndex])) {
         data[topIdx + rowIndex] = [];
       }
