@@ -30,7 +30,7 @@ const usePagination: UsePagination = (layoutService) => {
   } = layoutService;
 
   const [pageInfo, setPageInfo] = useState<PageInfo>({
-    currentPage: 0,
+    page: 0,
     shouldShowPagination: qSize.qcy > size.y,
     ...getPageMeta(qSize.qcy),
   });
@@ -44,12 +44,12 @@ const usePagination: UsePagination = (layoutService) => {
   }, [layoutService.layout.qHyperCube.qSize.qcy, layoutService.size.y, setPageInfo]);
 
   useEffect(() => {
-    const { currentPage, totalPages } = pageInfo;
+    const { page, totalPages } = pageInfo;
 
     // currPage is base 0 and totalPages always includes remainder rows in last page
     // so we need to consider both of them for prevent landing in missing page
-    if (currentPage + 1 > totalPages) {
-      setPageInfo({ ...pageInfo, currentPage: totalPages - 1 });
+    if (page + 1 > totalPages) {
+      setPageInfo({ ...pageInfo, page: totalPages - 1 });
     }
   }, [pageInfo]);
 

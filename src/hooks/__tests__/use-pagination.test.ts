@@ -38,7 +38,7 @@ describe("usePagination", () => {
     const { qcy } = layoutService.layout.qHyperCube.qSize;
 
     expect(pageInfo).toMatchObject({
-      currentPage: 0,
+      page: 0,
       rowsPerPage: MAX_ROW_COUNT,
       shouldShowPagination: true,
       totalPages: Math.ceil(qcy / Math.min(qcy, MAX_ROW_COUNT)),
@@ -54,14 +54,14 @@ describe("usePagination", () => {
 
     // update the page to last page + 100 more pages (some thing out of curr pagination boundary)
     act(() => {
-      result.current.updatePageInfo({ ...result.current.pageInfo, currentPage: totalPages + 100 });
+      result.current.updatePageInfo({ ...result.current.pageInfo, page: totalPages + 100 });
     });
 
     rerender();
 
     // check the the currPage to be the last page (considering that page count is based 0)
     await waitFor(() => {
-      expect(result.current.pageInfo.currentPage).toBe(totalPages - 1);
+      expect(result.current.pageInfo.page).toBe(totalPages - 1);
     });
   });
 });
