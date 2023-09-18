@@ -18,6 +18,7 @@ describe("<Pagination />", () => {
       totalPages: 10,
       totalRowCount: 45,
       shouldShowPagination: true,
+      rowsOnCurrentPage: 5,
     };
   });
 
