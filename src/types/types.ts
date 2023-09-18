@@ -141,10 +141,6 @@ export interface ExtendedSelections extends stardust.ObjectSelections {
   removeListener: (name: string, callback: () => void) => void;
 }
 
-export interface ExtendedTheme extends stardust.Theme {
-  name: () => string;
-}
-
 export interface ExtendedTranslator extends stardust.Translator {
   language(): string;
 }
@@ -187,7 +183,7 @@ export interface Galaxy {
 }
 
 export interface PageInfo {
-  currentPage: number;
+  page: number;
   shouldShowPagination: boolean;
   totalPages: number;
   rowsPerPage: number;

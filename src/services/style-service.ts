@@ -1,3 +1,4 @@
+import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import { Colors } from "../pivot-table/components/shared-styles";
 import {
   CELL_PADDING_HEIGHT,
@@ -9,7 +10,7 @@ import {
   LINE_HEIGHT_COEFFICIENT,
 } from "../pivot-table/constants";
 import type { PaletteColor } from "../types/QIX";
-import type { ExtendedTheme, LayoutService, StyleService } from "../types/types";
+import type { LayoutService, StyleService } from "../types/types";
 
 const BASE_PATH = "object.pivotTableV2";
 

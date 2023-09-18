@@ -1,6 +1,7 @@
+import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import { DEFAULT_FONT_FAMILY } from "../../pivot-table/constants";
 import type { PaletteColor } from "../../types/QIX";
-import type { ExtendedTheme, LayoutService } from "../../types/types";
+import type { LayoutService } from "../../types/types";
 import createStyleService from "../style-service";
 
 describe("style-service", () => {

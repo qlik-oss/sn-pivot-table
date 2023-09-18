@@ -4,18 +4,18 @@ import {
   useElement,
   useEmbed,
   useInteractionState,
+  useKeyboard,
   useMemo,
   useModel,
   useRect,
   useSelections,
   useStaleLayout,
-  useTheme,
 } from "@nebula.js/stardust";
-import { useReactRoot, useWaitForFonts } from "@qlik/nebula-table-utils/lib/hooks";
+import { useExtendedTheme, useReactRoot, useWaitForFonts } from "@qlik/nebula-table-utils/lib/hooks";
 import render from "../pivot-table/Root";
 import createStyleService from "../services/style-service";
 import type { Model, PivotLayout } from "../types/QIX";
-import type { ExtendedSelections, ExtendedTheme } from "../types/types";
+import type { ExtendedSelections } from "../types/types";
 import useEffectiveProperties from "./use-effective-properties";
 import useLayoutService from "./use-layout-service";
 import useLoadDataPages from "./use-load-data-pages";
@@ -31,11 +31,13 @@ const useRender = () => {
   const model = useModel() as Model;
   const app = useApp();
   const embed = useEmbed();
+  const keyboard = useKeyboard();
   const interactions = useInteractionState();
   const [effectiveProperties, isLoadingEffectiveProperties] = useEffectiveProperties(model, layout);
   const layoutService = useLayoutService(layout, effectiveProperties);
   const selections = useSelections() as ExtendedSelections;
-  const theme = useTheme() as ExtendedTheme;
+  const theme = useExtendedTheme(element);
+  const themeName = theme.name();
   const { translator, language } = useTranslations();
   const { pageInfo, updatePageInfo } = usePagination(layoutService);
   const viewService = useViewService(pageInfo);
@@ -87,6 +89,8 @@ const useRender = () => {
       updatePageInfo,
       interactions,
       embed,
+      keyboard,
+      theme,
     });
   }, [
     model,
@@ -110,6 +114,9 @@ const useRender = () => {
     effectiveProperties,
     isLoadingEffectiveProperties,
     embed,
+    keyboard,
+    theme,
+    themeName,
   ]);
 };
 

@@ -52,7 +52,7 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
       try {
         const nextArea = {
           qLeft: left,
-          qTop: pageInfo.currentPage * pageInfo.rowsPerPage + top,
+          qTop: pageInfo.page * pageInfo.rowsPerPage + top,
           qWidth: width,
           qHeight: height,
         };
