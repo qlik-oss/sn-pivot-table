@@ -24,7 +24,7 @@ describe("Wrapper", () => {
       get: () => disclaimerText,
     } as unknown as ExtendedTranslator;
     pageInfo = {
-      currentPage: 0,
+      page: 0,
       rowsPerPage: 50,
       totalPages: 100,
       shouldShowPagination: false,

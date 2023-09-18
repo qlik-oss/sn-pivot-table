@@ -12,8 +12,8 @@ export interface AddPageToLeftDimensionDataProps {
   visibleLeftDimensionInfo: VisibleDimensionInfo[];
 }
 
-const getRowsOnPage = ({ rowsPerPage, totalRowCount, currentPage }: PageInfo) =>
-  Math.min(rowsPerPage, totalRowCount - currentPage * rowsPerPage);
+const getRowsOnPage = ({ rowsPerPage, totalRowCount, page }: PageInfo) =>
+  Math.min(rowsPerPage, totalRowCount - page * rowsPerPage);
 
 export const addPageToLeftDimensionData = ({
   prevData,

@@ -187,7 +187,7 @@ export interface Galaxy {
 }
 
 export interface PageInfo {
-  currentPage: number;
+  page: number;
   shouldShowPagination: boolean;
   totalPages: number;
   rowsPerPage: number;

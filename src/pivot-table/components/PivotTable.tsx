@@ -84,7 +84,7 @@ export const StickyPivotTable = ({
       scrollableContainerRef.current.scrollLeft = 0;
       scrollableContainerRef.current.scrollTop = 0;
     }
-  }, [pageInfo.currentPage]);
+  }, [pageInfo.page]);
 
   const onScrollHandler = (event: React.SyntheticEvent) => {
     if (topGridRef.current) {
@@ -121,7 +121,7 @@ export const StickyPivotTable = ({
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
   const dataRowCount = Math.min(
-    layoutService.layout.qHyperCube.qSize.qcy - pageInfo.currentPage * pageInfo.rowsPerPage,
+    layoutService.layout.qHyperCube.qSize.qcy - pageInfo.page * pageInfo.rowsPerPage,
     pageInfo.rowsPerPage,
   );
 

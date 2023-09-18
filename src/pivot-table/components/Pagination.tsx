@@ -31,25 +31,25 @@ export const testIdPageInfo = "page-info";
 export const testIdDataRange = "data-range-info";
 
 const Pagination = ({ pageInfo, updatePageInfo }: PaginationProps) => {
-  const { totalPages, rowsPerPage, currentPage, totalRowCount } = pageInfo;
+  const { totalPages, rowsPerPage, page, totalRowCount } = pageInfo;
 
-  const isFirstPage = currentPage === 0;
-  const isLastPage = currentPage === totalPages - 1;
+  const isFirstPage = page === 0;
+  const isLastPage = page === totalPages - 1;
 
   const actionButtons = [
-    { key: 1, label: "first", disabled: isFirstPage, onClick: () => updatePageInfo({ currentPage: 0 }) },
-    { key: 2, label: "prev", disabled: isFirstPage, onClick: () => updatePageInfo({ currentPage: currentPage - 1 }) },
-    { key: 3, label: "next", disabled: isLastPage, onClick: () => updatePageInfo({ currentPage: currentPage + 1 }) },
-    { key: 4, label: "last", disabled: isLastPage, onClick: () => updatePageInfo({ currentPage: totalPages - 1 }) },
+    { key: 1, label: "first", disabled: isFirstPage, onClick: () => updatePageInfo({ page: 0 }) },
+    { key: 2, label: "prev", disabled: isFirstPage, onClick: () => updatePageInfo({ page: page - 1 }) },
+    { key: 3, label: "next", disabled: isLastPage, onClick: () => updatePageInfo({ page: page + 1 }) },
+    { key: 4, label: "last", disabled: isLastPage, onClick: () => updatePageInfo({ page: totalPages - 1 }) },
   ];
 
   return (
     <div style={containerStyle}>
       <span style={infoBoxStyle} data-testid={testIdPageInfo}>
-        page: <b>{currentPage + 1}</b> of <b>{totalPages}</b>
+        page: <b>{page + 1}</b> of <b>{totalPages}</b>
       </span>
       <span style={infoBoxStyle} data-testid={testIdDataRange}>
-        {currentPage * rowsPerPage + 1} - {Math.min((currentPage + 1) * rowsPerPage, totalRowCount)} of {totalRowCount}
+        {page * rowsPerPage + 1} - {Math.min((page + 1) * rowsPerPage, totalRowCount)} of {totalRowCount}
       </span>
       <div style={buttonsStyle}>
         {actionButtons.map(({ label, ...rest }) => (

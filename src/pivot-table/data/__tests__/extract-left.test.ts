@@ -9,7 +9,7 @@ describe("extractLeftGrid", () => {
   const qArea = { qTop: 1 } as EngineAPI.INxDataAreaPage;
   const grid = [] as Cell[][];
   const pageInfo = {
-    currentPage: 0,
+    page: 0,
     rowsPerPage: 100,
   } as PageInfo;
 
