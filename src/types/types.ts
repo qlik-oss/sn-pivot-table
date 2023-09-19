@@ -188,6 +188,7 @@ export interface PageInfo {
   totalPages: number;
   rowsPerPage: number;
   totalRowCount: number;
+  rowsOnCurrentPage: number;
 }
 
 interface FontStyling {
