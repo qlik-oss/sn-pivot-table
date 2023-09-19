@@ -20,7 +20,7 @@ describe("useDataModel", () => {
     (model.getHyperCubePivotData as jest.Mock).mockResolvedValue([]);
     nextPageHandler = jest.fn();
     pageInfo = {
-      currentPage: 0,
+      page: 0,
       rowsPerPage: 100,
     } as PageInfo;
   });
@@ -94,7 +94,7 @@ describe("useDataModel", () => {
     test("fetchMoreData should consider `pageInfo` while calling getHyperCubePivotData to fetch more data", async () => {
       pageInfo = {
         ...pageInfo,
-        currentPage: 5,
+        page: 5,
       };
       const { fetchMoreData } = renderer();
       const output = await fetchMoreData(1, 2, 10, 20);
@@ -104,7 +104,7 @@ describe("useDataModel", () => {
       expect((model as EngineAPI.IGenericObject).getHyperCubePivotData).toHaveBeenCalledWith(Q_PATH, [
         {
           qLeft: 1,
-          qTop: pageInfo.currentPage * pageInfo.rowsPerPage + 2,
+          qTop: pageInfo.page * pageInfo.rowsPerPage + 2,
           qHeight: 20,
           qWidth: 10,
         },

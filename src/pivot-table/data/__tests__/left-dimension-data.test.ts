@@ -8,7 +8,7 @@ const mockedExtractLeft = extractLeftGrid as jest.MockedFunction<typeof extractL
 
 describe("left dimension data", () => {
   const pageInfo = {
-    currentPage: 0,
+    page: 0,
     rowsPerPage: 100,
   } as PageInfo;
   const CELL = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;

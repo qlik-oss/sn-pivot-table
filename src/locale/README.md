@@ -20,7 +20,7 @@ translator.get("company.hello_user", ["John"]); // Hello John
 Generate all.json
 
 ```sh
-yarn  locale:generate
+yarn locale:generate
 ```
 
 verify locale

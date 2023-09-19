@@ -1,8 +1,9 @@
+import type { ReactNode } from "react";
 import React, { createContext, useContext } from "react";
 import type { StyleService } from "../../types/types";
 
 interface StyleProviderProps {
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
   styleService: StyleService;
 }
 
@@ -12,7 +13,7 @@ const StyleContext = createContext<StyleService>(NOOP_STYLE_SERVICE);
 
 export const useStyleContext = (): StyleService => useContext(StyleContext);
 
-const StyleProvider = ({ children, styleService }: StyleProviderProps): JSX.Element => (
+const StyleProvider = ({ children, styleService }: StyleProviderProps) => (
   <StyleContext.Provider value={styleService}>{children}</StyleContext.Provider>
 );
 

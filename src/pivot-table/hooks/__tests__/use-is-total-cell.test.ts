@@ -9,61 +9,38 @@ import {
 
 describe("useIsTotalCell", () => {
   let cell: Cell;
-  let rootCell: Cell;
   let leftDimensionData: LeftDimensionData;
   let topDimensionData: TopDimensionData;
 
   beforeEach(() => {
-    rootCell = { root: null, isTotal: true, isPseudoDimension: false } as Cell;
-    cell = { root: rootCell, isLastChild: true } as Cell;
+    cell = { mainAxisPageCoord: 0, leafCount: 0, isLeafNode: true } as Cell;
 
-    leftDimensionData = { grid: [[cell]] } as unknown as LeftDimensionData;
-    topDimensionData = { grid: [[cell]] } as unknown as TopDimensionData;
+    leftDimensionData = { grid: [[cell]], totalDividerIndex: 0 } as unknown as LeftDimensionData;
+    topDimensionData = { grid: [[cell]], totalDividerIndex: 0 } as unknown as TopDimensionData;
   });
 
   describe("shouldShowTotalCellDivider", () => {
     test("should return false for if cell is undefined", () => {
-      const show = shouldShowTotalCellDivider(undefined);
+      const show = shouldShowTotalCellDivider(undefined, 0);
 
       expect(show).toBe(false);
     });
 
-    test("should handle root cell", () => {
-      const show = shouldShowTotalCellDivider(rootCell);
+    test("should return true if a leaf node matches total divider index", () => {
+      cell.isLeafNode = true;
+      cell.mainAxisPageCoord = 1337;
+      const show = shouldShowTotalCellDivider(cell, 1337);
 
       expect(show).toBe(true);
     });
 
-    test("should return false if root cell is pseudo dimension cell", () => {
-      cell.isTotal = true;
-      rootCell.isPseudoDimension = true;
-      const show = shouldShowTotalCellDivider(cell);
-
-      expect(show).toBe(false);
-    });
-
-    test("should return true if root cell is total cell and cell is last child", () => {
-      cell.isLastChild = true;
-      rootCell.isTotal = true;
-      const show = shouldShowTotalCellDivider(cell);
+    test("should return true a branch node matches total divider index", () => {
+      cell.isLeafNode = false;
+      cell.mainAxisPageCoord = 1337;
+      cell.leafCount = 10;
+      const show = shouldShowTotalCellDivider(cell, 1337 + 10 - 1);
 
       expect(show).toBe(true);
-    });
-
-    test("should return false if root cell is not total cell and cell is last child", () => {
-      cell.isLastChild = true;
-      rootCell.isTotal = false;
-      const show = shouldShowTotalCellDivider(cell);
-
-      expect(show).toBe(false);
-    });
-
-    test("should return false if root cell is total cell and cell is not last child", () => {
-      cell.isLastChild = false;
-      rootCell.isTotal = true;
-      const show = shouldShowTotalCellDivider(cell);
-
-      expect(show).toBe(false);
     });
   });
 
@@ -74,7 +51,7 @@ describe("useIsTotalCell", () => {
       expect(callback(0)).toBe(true);
     });
 
-    test("should handle when no cell is at cooridnate", () => {
+    test("should handle when no cell is at coordinate", () => {
       const callback = renderHook(() => useShouldShowTotalCellBottomDivider(leftDimensionData)).result.current;
 
       expect(callback(999)).toBe(false);
@@ -88,7 +65,7 @@ describe("useIsTotalCell", () => {
       expect(callback(0)).toBe(true);
     });
 
-    test("should handle when no cell is at cooridnate", () => {
+    test("should handle when no cell is at coordinate", () => {
       const callback = renderHook(() => useShouldShowTotalCellRightDivider(topDimensionData)).result.current;
 
       expect(callback(999)).toBe(false);

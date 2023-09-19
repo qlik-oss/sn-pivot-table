@@ -31,7 +31,7 @@ export const isMissingLayoutData = (layout: PivotLayout, pageInfo: PageInfo): bo
   const { qTop, qWidth, qHeight } = qPivotDataPages[0]?.qArea ?? { qTop: 0, qWidth: 0, qHeight: 0 };
 
   // in case of new page -> return true
-  if (qTop < pageInfo.currentPage * pageInfo.rowsPerPage) return true;
+  if (qTop < pageInfo.page * pageInfo.rowsPerPage) return true;
   // otherwise check if we are missing data
   return qWidth < Math.min(DEFAULT_PAGE_SIZE, qSize.qcx) || qHeight < Math.min(DEFAULT_PAGE_SIZE, qSize.qcy);
 };
@@ -56,7 +56,7 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props
     ) {
       const fetchArea: EngineAPI.INxPage = {
         qLeft: qLastExpandedPos ? viewService.gridColumnStartIndex : 0,
-        qTop: pageInfo.currentPage * pageInfo.rowsPerPage + (qLastExpandedPos ? viewService.gridRowStartIndex : 0),
+        qTop: pageInfo.page * pageInfo.rowsPerPage + (qLastExpandedPos ? viewService.gridRowStartIndex : 0),
         qWidth: !viewService.gridWidth ? DEFAULT_PAGE_SIZE : viewService.gridWidth,
         qHeight: !viewService.gridHeight ? DEFAULT_PAGE_SIZE : viewService.gridHeight,
       };
@@ -64,7 +64,7 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props
     }
 
     return qHyperCube.qPivotDataPages ?? [];
-    // By explicitly using layout, isSnapshot, pageInfo.currentPage and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
-  }, [layout, isSnapshot, model, viewService, pageInfo.currentPage, pageInfo.rowsPerPage]);
+    // By explicitly using layout, isSnapshot, pageInfo.page and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
+  }, [layout, isSnapshot, model, viewService, pageInfo.page, pageInfo.rowsPerPage]);
 };
 export default useLoadDataPages;

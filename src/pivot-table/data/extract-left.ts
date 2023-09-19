@@ -30,27 +30,30 @@ const extractLeftGrid = (
     nodes.forEach((node, idx) => {
       rowIdx += idx === 0 ? 0 : 1;
       // consider items that might be skipped based on current page
-      const startPosition = qArea.qTop - pageInfo.currentPage * pageInfo.rowsPerPage;
+      const startPosition = qArea.qTop - pageInfo.page * pageInfo.rowsPerPage;
       // Start position + current page position - previous tail size,
       const pageY = Math.max(0, startPosition + rowIdx - node.qUp);
       const y = qArea.qTop + rowIdx - node.qUp;
-      const cell = createCell(
-        node,
-        parent,
-        root,
-        colIdx,
-        y,
-        pageY,
-        layoutService.isSnapshot,
-        visibleLeftDimensionInfo[colIdx],
-      );
+
+      // If cell already exist do not create a new cell
+      const cell =
+        grid[colIdx][pageY] ??
+        createCell(
+          node,
+          parent,
+          root,
+          colIdx,
+          y,
+          pageY,
+          layoutService.isSnapshot,
+          visibleLeftDimensionInfo[colIdx],
+          true,
+        );
 
       grid[colIdx][pageY] = cell;
 
       if (node.qSubNodes.length) {
         recursiveExtract(root || cell, cell, node.qSubNodes, colIdx + 1);
-      } else {
-        cell.parent?.incrementLeafCount();
       }
     });
   }

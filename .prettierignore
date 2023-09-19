@@ -15,3 +15,4 @@ CHANGELOG.md
 src/locale/all.json
 test/rendering/artifacts
 .vscode/
+.husky/

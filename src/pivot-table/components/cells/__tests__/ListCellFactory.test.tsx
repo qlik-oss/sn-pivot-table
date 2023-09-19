@@ -43,6 +43,7 @@ describe("ListCellFactory", () => {
       itemCount: 1,
       showLastRowBorderBottom: false,
       isLeftColumn: false,
+      totalDividerIndex: 0,
     };
   });
 
