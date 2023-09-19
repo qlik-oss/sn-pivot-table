@@ -28,21 +28,20 @@ export const Wrapper = (props: WrapperProps) => {
     <>
       <StickyPivotTable {...props} />
       {hasLimitedData && <Disclaimer styleService={styleService} translator={translator} />}
-      {pageInfo.shouldShowPagination && (
-        <PaginationFooter
-          handleChangePage={(page) => updatePageInfo({ page })}
-          pageInfo={pageInfo}
-          totalRowCount={pageInfo.totalRowCount}
-          totalColumnCount={0}
-          totalPages={pageInfo.totalPages}
-          keyboard={keyboard}
-          translator={translator}
-          theme={theme}
-          interactions={interactions}
-          rect={rect as stardust.Rect}
-          layout={layout as unknown as EngineAPI.IGenericHyperCubeLayout}
-        />
-      )}
+      <PaginationFooter
+        paginationNeeded={pageInfo.shouldShowPagination}
+        handleChangePage={(page) => updatePageInfo({ page })}
+        pageInfo={pageInfo}
+        totalRowCount={pageInfo.totalRowCount}
+        totalColumnCount={0}
+        totalPages={pageInfo.totalPages}
+        keyboard={keyboard}
+        translator={translator}
+        theme={theme}
+        interactions={interactions}
+        rect={rect as stardust.Rect}
+        layout={layout as unknown as EngineAPI.IGenericHyperCubeLayout}
+      />
     </>
   );
 };
