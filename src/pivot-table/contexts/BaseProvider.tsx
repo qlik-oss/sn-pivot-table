@@ -1,5 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
+import type { ReactNode } from "react";
 import React, { createContext, useContext, useMemo } from "react";
 import type { App, Model } from "../../types/QIX";
 
@@ -13,7 +14,7 @@ interface IBaseProvider {
 }
 
 interface BaseProviderProps extends IBaseProvider {
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
 }
 
 const NOOP_BASE = {} as IBaseProvider;
@@ -37,7 +38,7 @@ const BaseProvider = ({
   embed,
   theme,
   keyboard,
-}: BaseProviderProps): JSX.Element => {
+}: BaseProviderProps) => {
   const props = useMemo(
     () => ({ model, app, interactions, embed, theme, keyboard }),
     [app, interactions, model, embed, theme, keyboard],
