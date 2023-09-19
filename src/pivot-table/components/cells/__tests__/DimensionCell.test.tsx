@@ -90,7 +90,7 @@ describe("DimensionCell", () => {
     data = {
       layoutService,
       dataModel,
-      showLastRowBorderBottom: false,
+      showLastBorder: { right: false, bottom: false },
       list: {},
     } as ListItemData;
 

@@ -25,7 +25,7 @@ test("should render on the top", () => {
       isLeftColumn={false}
       isLastRow
       isLastColumn
-      showLastRowBorderBottom
+      showLastBorder={{ right: false, bottom: true }}
       showTotalCellDivider={false}
     />,
   );
@@ -53,7 +53,7 @@ test("should render on the left", () => {
       isLeftColumn
       isLastRow
       isLastColumn
-      showLastRowBorderBottom
+      showLastBorder={{ right: false, bottom: true }}
       showTotalCellDivider={false}
     />,
   );

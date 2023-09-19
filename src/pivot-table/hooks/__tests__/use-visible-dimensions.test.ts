@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import type { PivotLayout } from "../../../types/QIX";
+import type { ExtendedDimensionInfo, PivotLayout } from "../../../types/QIX";
 import type { LayoutService } from "../../../types/types";
 import useVisibleDimensions from "../use-visible-dimensions";
 
@@ -34,7 +34,7 @@ describe("useVisibleDimensions", () => {
       const { qHyperCube } = layoutService.layout;
       qHyperCube.qEffectiveInterColumnSortOrder = [1, -1, 0, 2];
       qHyperCube.qNoOfLeftDims = 4;
-      qHyperCube.qDimensionInfo = [{}, {}, {}] as EngineAPI.INxDimensionInfo[];
+      qHyperCube.qDimensionInfo = [{}, {}, {}] as ExtendedDimensionInfo[];
       const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = renderHook(() =>
         useVisibleDimensions(layoutService, qPivotDataPages),
       ).result.current;
@@ -55,7 +55,7 @@ describe("useVisibleDimensions", () => {
       const { qHyperCube } = layoutService.layout;
       qHyperCube.qEffectiveInterColumnSortOrder = [1, -1, 0, 2];
       qHyperCube.qNoOfLeftDims = 0;
-      qHyperCube.qDimensionInfo = [{}, {}, {}] as EngineAPI.INxDimensionInfo[];
+      qHyperCube.qDimensionInfo = [{}, {}, {}] as ExtendedDimensionInfo[];
       const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = renderHook(() =>
         useVisibleDimensions(layoutService, qPivotDataPages),
       ).result.current;
