@@ -1,37 +1,35 @@
 import { renderHook } from "@testing-library/react";
-import type { ExtendedDimensionInfo } from "../../../types/QIX";
-import NxDimCellType from "../../../types/QIX";
-import type { Cell, LayoutService, LeftDimensionData, Rect, VisibleDimensionInfo } from "../../../types/types";
+import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
+import { ColumnWidthType } from "../../../types/QIX";
+import type { LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
-import useColumnWidth, { EXPAND_ICON_WIDTH } from "../use-column-width";
+import useColumnWidth, { ColumnWidthValues, EXPAND_ICON_WIDTH } from "../use-column-width";
 import useMeasureText, { type MeasureTextHook } from "../use-measure-text";
+
+type MeasureTextMock = jest.MockedFunction<(text: string) => number>;
+type EstimateWidthMock = jest.MockedFunction<(length: number) => number>;
 
 jest.mock("../use-measure-text");
 jest.mock("../../contexts/StyleProvider");
 
 describe("useColumnWidth", () => {
+  let dimInfo: ExtendedDimensionInfo;
+  let meaInfo: ExtendedMeasureInfo;
   let rect: Rect;
+  let percentageConversion: number;
   let mockedUseMeasureText: jest.MockedFunction<(styling: { fontSize: string; fontFamily: string }) => MeasureTextHook>;
-  let leftDimensionData: LeftDimensionData;
   let mockedMeasureText: MeasureTextHook;
   let layoutService: LayoutService;
   let visibleLeftDimensionInfo: VisibleDimensionInfo[];
+  let visibleTopDimensionInfo: VisibleDimensionInfo[];
 
   beforeEach(() => {
-    const cell = {
-      ref: {
-        qType: NxDimCellType.NX_DIM_CELL_NORMAL,
-      },
-    } as Cell;
-    const dimInfo = { qApprMaxGlyphCount: 1 } as EngineAPI.INxDimensionInfo;
-    const meaInfo = { qFallbackTitle: 1, qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
-    rect = { width: 200, height: 100 };
+    dimInfo = { qApprMaxGlyphCount: 1 } as ExtendedDimensionInfo;
+    meaInfo = { qFallbackTitle: "1", qApprMaxGlyphCount: 0 } as ExtendedMeasureInfo;
+
+    rect = { width: 400, height: 100 };
+    percentageConversion = rect.width / 100;
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
-    leftDimensionData = {
-      grid: [{ 0: cell }, { 0: cell }, { 0: cell }],
-      columnCount: 3,
-      layoutSize: { x: 3, y: 1 },
-    } as LeftDimensionData;
 
     layoutService = {
       layout: {
@@ -45,13 +43,15 @@ describe("useColumnWidth", () => {
         x: 3,
         y: 1,
       },
+      getMeasureInfoIndexFromCellIndex: (index: number) => index,
     } as unknown as LayoutService;
 
-    visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfo] as VisibleDimensionInfo[];
+    visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfo];
+    visibleTopDimensionInfo = [-1];
 
     mockedMeasureText = {
-      measureText: jest.fn() as jest.MockedFunction<(text: string) => number>,
-      estimateWidth: jest.fn() as jest.MockedFunction<(length: number) => number>,
+      measureText: jest.fn() as MeasureTextMock,
+      estimateWidth: jest.fn() as EstimateWidthMock,
     };
     mockedUseMeasureText.mockReturnValue(mockedMeasureText);
   });
@@ -60,188 +60,224 @@ describe("useColumnWidth", () => {
     jest.restoreAllMocks();
   });
 
-  describe("grid width", () => {
-    test("should return left and right grid widths with only dimension cells and glyph size > then text size", () => {
-      rect.width = 290;
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(25);
+  const renderUseColumnWidth = () => {
+    const {
+      result: { current },
+    } = renderHook(() => useColumnWidth(layoutService, rect, visibleLeftDimensionInfo, visibleTopDimensionInfo));
+    return current;
+  };
 
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.leftGridWidth).toBe((50 + EXPAND_ICON_WIDTH) * 2 + 50);
-      expect(result.current.rightGridWidth).toBe(80 - GRID_BORDER);
+  const mockEstimateWidth = (value: number) =>
+    (mockedMeasureText.estimateWidth as EstimateWidthMock).mockReturnValue(value);
+  const mockMeasureText = (value: number) => (mockedMeasureText.measureText as MeasureTextMock).mockReturnValue(value);
+
+  describe("getLeftGridColumnWidth + leftGridWidth", () => {
+    test("should return left column width for auto setting", () => {
+      const width = 25;
+      mockEstimateWidth(width);
+      mockMeasureText(width);
+
+      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      expect(getLeftGridColumnWidth(0)).toBe(width + EXPAND_ICON_WIDTH);
+      expect(getLeftGridColumnWidth(1)).toBe(width + EXPAND_ICON_WIDTH);
+      expect(getLeftGridColumnWidth(2)).toBe(width);
     });
 
-    test("should return left and right grid widths with only dimension cells and glyph size < then text size", () => {
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(25);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
+    test("should return left column width for pixel setting", () => {
+      const pixels = 50;
+      dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
+      visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
 
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.leftGridWidth).toBe(150);
-      expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
+      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      expect(getLeftGridColumnWidth(0)).toBe(pixels);
+      expect(getLeftGridColumnWidth(1)).toBe(pixels);
+      expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsDefault);
     });
 
-    test("should return left and right grid width with dimension and pseudo dimension cells", () => {
-      const cell = { ref: { qType: NxDimCellType.NX_DIM_CELL_NORMAL } } as Cell;
-      const pCell = { ref: { qType: NxDimCellType.NX_DIM_CELL_PSEUDO } } as Cell;
-      const dimInfo = { qApprMaxGlyphCount: 1 } as ExtendedDimensionInfo;
-      const meaInfo = { qFallbackTitle: 1 } as unknown as EngineAPI.INxMeasureInfo;
-      leftDimensionData.grid = [{ 0: cell }, { 0: pCell }, { 0: cell }];
-      visibleLeftDimensionInfo = [dimInfo, -1, dimInfo];
-      layoutService.layout.qHyperCube.qDimensionInfo = [dimInfo, dimInfo, dimInfo];
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo];
+    test("should return left column width for percentage setting", () => {
+      const percentage = 10;
+      dimInfo = { columnWidth: { type: ColumnWidthType.Percentage, percentage } } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Percentage } } as ExtendedDimensionInfo;
+      visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
 
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(35);
-
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.leftGridWidth).toBe(150);
-      expect(result.current.rightGridWidth).toBe(50 - GRID_BORDER);
+      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      expect(getLeftGridColumnWidth(0)).toBe(percentage * percentageConversion);
+      expect(getLeftGridColumnWidth(1)).toBe(percentage * percentageConversion);
+      expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PercentageDefault * percentageConversion);
     });
 
-    test("left grid can not take more space then 75% of the total width available", () => {
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
+    test("should return left column width for pseudo dimension where all measures have different settings", () => {
+      visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfo, -1];
+      visibleTopDimensionInfo = [];
 
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.leftGridWidth).toBe(rect.width * 0.75);
-      expect(result.current.rightGridWidth).toBe(rect.width * 0.25 - GRID_BORDER);
+      mockEstimateWidth(10);
+      mockMeasureText(40);
+      layoutService.layout.qHyperCube.qMeasureInfo = [
+        meaInfo,
+        { columnWidth: { type: ColumnWidthType.Percentage, percentage: 10 } } as ExtendedMeasureInfo,
+        { columnWidth: { type: ColumnWidthType.Pixels, pixels: 60 } } as ExtendedMeasureInfo,
+      ];
+
+      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      expect(getLeftGridColumnWidth(3)).toBe(60);
     });
-  });
+    test("should return left column widths with scaled widths", () => {
+      const pixels = 100;
+      dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
+      visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
 
-  describe("getLeftColumnWidth", () => {
-    test("should return left column width", () => {
-      rect.width = 500;
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(25);
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(50);
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValueOnce(75);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(5);
-
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.getLeftColumnWidth(0)).toBe(25 + EXPAND_ICON_WIDTH);
-      expect(result.current.getLeftColumnWidth(1)).toBe(50 + EXPAND_ICON_WIDTH);
-      expect(result.current.getLeftColumnWidth(2)).toBe(75);
-    });
-  });
-
-  describe("getDataColumnWidth", () => {
-    test("should return minimum data column width of 100", () => {
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(50);
-      layoutService.size.x = 3;
-
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.getDataColumnWidth(0)).toBe(100);
-      expect(result.current.getDataColumnWidth(1)).toBe(100);
-      expect(result.current.getDataColumnWidth(2)).toBe(100);
-    });
-
-    test("should return data column width based of available right grid width", () => {
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(10);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(10);
-      layoutService.size.x = 3;
-      rect.width = 600;
-
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.getDataColumnWidth(0)).toBeCloseTo(169.666);
-      expect(result.current.getDataColumnWidth(1)).toBeCloseTo(169.666);
-      expect(result.current.getDataColumnWidth(2)).toBeCloseTo(169.666);
-    });
-
-    test("should not return data column width based of available right grid width when total data column width is larger than available right grid width", () => {
-      const m0 = { qFallbackTitle: "m0", qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
-      const m1 = { qFallbackTitle: "m1", qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
-      const m2 = { qFallbackTitle: "m2", qApprMaxGlyphCount: 0 } as unknown as EngineAPI.INxMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [m0, m1, m2];
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(10);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockImplementation((title) => {
-        switch (title) {
-          case "m0":
-            return 600;
-          case "m1":
-            return 200;
-          case "m2":
-            return 150;
-          default:
-            return 10;
-        }
-      });
-      layoutService.size.x = 3;
-      rect.width = 600;
-
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.getDataColumnWidth(0)).toBe(600);
-      expect(result.current.getDataColumnWidth(1)).toBe(200);
-      expect(result.current.getDataColumnWidth(2)).toBe(150);
-    });
-
-    test("should return data column width based of estimated width", () => {
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(150);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(10);
-      layoutService.size.x = 3;
-      rect.width = 600;
-
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.getDataColumnWidth(0)).toBe(150);
-      expect(result.current.getDataColumnWidth(1)).toBe(150);
-      expect(result.current.getDataColumnWidth(2)).toBe(150);
-    });
-
-    test("should return data column width based of measured title width", () => {
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(50);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(250);
-      layoutService.size.x = 3;
-      rect.width = 600;
-
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.getDataColumnWidth(0)).toBe(250);
-      expect(result.current.getDataColumnWidth(1)).toBe(250);
-      expect(result.current.getDataColumnWidth(2)).toBe(250);
+      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      expect(getLeftGridColumnWidth(0)).toBe(pixels * 0.75);
+      expect(getLeftGridColumnWidth(1)).toBe(pixels * 0.75);
+      expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsDefault * 0.75);
     });
   });
 
-  describe("getTotalWidth", () => {
-    test("should return total width", () => {
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(100);
-      layoutService.size.x = 30;
+  describe("getRightGridColumnWidth", () => {
+    beforeEach(() => {
+      const lefSideWidth = 50;
+      rect = { width: 350, height: 100 };
+      percentageConversion = (rect.width - lefSideWidth) / 100;
 
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.getTotalWidth()).toBe(150 + 30 * 100);
+      layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
+      visibleLeftDimensionInfo = [
+        { columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER } } as ExtendedDimensionInfo,
+      ];
+      visibleTopDimensionInfo = [dimInfo, dimInfo, -1];
+    });
+
+    test("should return right column width when columnWidth is undefined", () => {
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(100);
+      expect(getRightGridColumnWidth(1)).toBe(100);
+      expect(getRightGridColumnWidth(2)).toBe(100);
+    });
+
+    test("should return right column width for auto setting", () => {
+      meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(100);
+      expect(getRightGridColumnWidth(1)).toBe(100);
+      expect(getRightGridColumnWidth(2)).toBe(100);
+    });
+
+    test("should return right column width for auto setting when all columns can't fit (scroll)", () => {
+      rect = { width: 110, height: 100 };
+      meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(ColumnWidthValues.AutoMin);
+      expect(getRightGridColumnWidth(1)).toBe(ColumnWidthValues.AutoMin);
+      expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.AutoMin);
+    });
+    test("should return right column width for fit to content setting", () => {
+      mockEstimateWidth(50);
+      mockMeasureText(50);
+      meaInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(50);
+      expect(getRightGridColumnWidth(1)).toBe(50);
+      expect(getRightGridColumnWidth(2)).toBe(50);
+    });
+
+    test("should return right column width for pixel setting", () => {
+      const pixels = 60;
+      meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedMeasureInfo;
+      const meaInfoWithoutValue = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfoWithoutValue];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(pixels);
+      expect(getRightGridColumnWidth(1)).toBe(pixels);
+      expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsDefault);
+    });
+
+    test("should return right column width for percentage setting", () => {
+      const percentage = 60;
+      meaInfo = { columnWidth: { type: ColumnWidthType.Percentage, percentage } } as ExtendedMeasureInfo;
+      const meaInfoWithoutValue = { columnWidth: { type: ColumnWidthType.Percentage } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfoWithoutValue];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(percentage * percentageConversion);
+      expect(getRightGridColumnWidth(1)).toBe(percentage * percentageConversion);
+      expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.PercentageDefault * percentageConversion);
+    });
+
+    test("should return right column width for column that reaches the min pixel value", () => {
+      const pixels = 20;
+      meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(ColumnWidthValues.PixelsMin);
+      expect(getRightGridColumnWidth(1)).toBe(ColumnWidthValues.PixelsMin);
+      expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsMin);
+    });
+
+    test("should return right column width for non-pseudo dimension", () => {
+      dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 40 } } as ExtendedDimensionInfo;
+      visibleTopDimensionInfo = [dimInfo, -1, dimInfo];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth()).toBe(40);
+    });
+
+    test("should return right column width for non-pseudo dimension for fit to content", () => {
+      const width = 40;
+      mockEstimateWidth(width);
+      mockMeasureText(width);
+
+      dimInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedDimensionInfo;
+      visibleTopDimensionInfo = [dimInfo, -1, dimInfo];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth()).toBe(width);
     });
   });
 
-  describe("totalMeasureInfoColumnWidth", () => {
-    test("should return total width", () => {
-      (mockedMeasureText.estimateWidth as jest.MockedFunction<(length: number) => number>).mockReturnValue(100);
-      (mockedMeasureText.measureText as jest.MockedFunction<(text: string) => number>).mockReturnValue(175);
-      layoutService.size.x = 30;
+  describe("grid widths", () => {
+    beforeEach(() => {
+      // This makes the total of the left grid 3 * measured width + 2 * icon width = 150
+      mockEstimateWidth(30);
+      mockMeasureText(30);
+    });
+    test("should return grid and total widths when sum of all widths is rect.width", () => {
+      // The right side columns will default to auto, hence filling up the remaining space
+      const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
+      expect(leftGridWidth).toBe(150);
+      expect(rightGridWidth).toBe(249);
+      expect(totalWidth).toBe(rect.width);
+      expect(showLastRightBorder).toBe(false);
+    });
 
-      const { result } = renderHook(() =>
-        useColumnWidth(layoutService, rect, leftDimensionData, visibleLeftDimensionInfo),
-      );
-      expect(result.current.totalMeasureInfoColumnWidth).toBe(175 * 3);
+    test("should return grid and total widths when sum of all widths is greater than rect.width", () => {
+      meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 100 } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+
+      const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
+      expect(leftGridWidth).toBe(150);
+      expect(rightGridWidth).toBe(249);
+      expect(totalWidth).toBe(451);
+      expect(showLastRightBorder).toBe(false);
+    });
+
+    test("should return grid and total widths when sum of all widths is smaller than rect.width", () => {
+      meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 40 } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+
+      const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
+      expect(leftGridWidth).toBe(150);
+      expect(rightGridWidth).toBe(120);
+      expect(totalWidth).toBe(271);
+      expect(showLastRightBorder).toBe(true);
     });
   });
 });

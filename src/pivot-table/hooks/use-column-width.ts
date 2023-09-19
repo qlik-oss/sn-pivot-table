@@ -72,7 +72,7 @@ export default function useColumnWidth(
         case ColumnWidthType.Pixels:
           return columnWidth.pixels || ColumnWidthValues.PixelsDefault;
         case ColumnWidthType.Percentage:
-          return ((columnWidth?.percentage || ColumnWidthValues.PercentageDefault) / 100) * rect.width;
+          return ((columnWidth.percentage || ColumnWidthValues.PercentageDefault) / 100) * rect.width;
         default:
           // fit to content / auto
           return fitToContentWidth;
