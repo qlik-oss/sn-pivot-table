@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import type { ReactNode } from "react";
 import React, { createContext, useContext, useMemo } from "react";
 import type { App, Model } from "../../types/QIX";
 
@@ -10,7 +11,7 @@ interface IBaseProvider {
 }
 
 interface BaseProviderProps extends IBaseProvider {
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
 }
 
 const NOOP_BASE = {} as IBaseProvider;
@@ -26,7 +27,7 @@ export const useBaseContext = (): IBaseProvider => useContext(BaseContext);
  *
  * The whole purpose of this provider is to avoid prop-drilling those props.
  */
-const BaseProvider = ({ children, model, app, interactions, embed }: BaseProviderProps): JSX.Element => {
+const BaseProvider = ({ children, model, app, interactions, embed }: BaseProviderProps) => {
   const props = useMemo(() => ({ model, app, interactions, embed }), [app, interactions, model, embed]);
 
   return <BaseContext.Provider value={props}>{children}</BaseContext.Provider>;
