@@ -1,6 +1,7 @@
+import { PAGINATION_HEIGHT } from "@qlik/nebula-table-utils/lib/components/PaginationFooter";
 import { renderHook } from "@testing-library/react";
 import type { LayoutService, Rect } from "../../../types/types";
-import { DISCLAIMER_HEIGHT, PAGINATION_HEIGHT } from "../../constants";
+import { DISCLAIMER_HEIGHT } from "../../constants";
 import useTableRect from "../use-table-rect";
 
 describe("use-table-rect", () => {

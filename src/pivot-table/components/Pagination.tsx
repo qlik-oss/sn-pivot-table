@@ -1,6 +1,6 @@
+import { PAGINATION_HEIGHT } from "@qlik/nebula-table-utils/lib/components/PaginationFooter";
 import React from "react";
 import type { PageInfo } from "../../types/types";
-import { PAGINATION_HEIGHT } from "../constants";
 
 interface PaginationProps {
   pageInfo: PageInfo;
