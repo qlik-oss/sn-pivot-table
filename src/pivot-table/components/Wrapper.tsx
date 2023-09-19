@@ -11,7 +11,7 @@ export interface WrapperProps extends PivotTableProps {
   updatePageInfo: (args: Partial<PageInfo>) => void;
 }
 
-export const Wrapper = (props: WrapperProps): JSX.Element => {
+export const Wrapper = (props: WrapperProps) => {
   const {
     layoutService: { hasLimitedData },
     translator,
