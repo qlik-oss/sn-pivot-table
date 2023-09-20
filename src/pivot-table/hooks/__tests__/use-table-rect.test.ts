@@ -35,13 +35,13 @@ describe("use-table-rect", () => {
   test("should consider pagination height", () => {
     shouldShowPagination = true;
     const { height } = renderer();
-    expect(height).toBe(rect.height - PAGINATION_HEIGHT);
+    expect(height).toBe(rect.height - PAGINATION_HEIGHT - 1);
   });
 
   test("should consider pagination height and columns disclaimer in case of big datasets", () => {
     shouldShowPagination = true;
     layoutService.hasLimitedData = true;
     const { height } = renderer();
-    expect(height).toBe(rect.height - PAGINATION_HEIGHT - DISCLAIMER_HEIGHT);
+    expect(height).toBe(rect.height - PAGINATION_HEIGHT - 1 - DISCLAIMER_HEIGHT);
   });
 });

@@ -102,9 +102,11 @@ const TestWithProvider = (props: Props) => {
     },
     app = { getField: () => Promise.resolve() } as unknown as App,
     model = { applyPatches: () => Promise.resolve(), getLayout: () => Promise.resolve({}) } as unknown as Model,
-    interactions = { select: true },
+    interactions = { select: true, active: true },
     embed = {} as stardust.Embed,
-    theme = {} as ExtendedTheme,
+    theme = {
+      background: { tableColorFromTheme: "inherit", isDark: false, isTransparent: false, color: "transparent" },
+    } as ExtendedTheme,
     keyboard = {} as stardust.Keyboard,
   } = props;
 
