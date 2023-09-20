@@ -124,8 +124,6 @@ export default function useColumnWidth(
           estimateWidthForContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index);
         const fitToContentWidth = Math.max(measureTextForHeaderResult, estimateWidthForContentResult);
 
-        // console.log({ measureTextForHeaderResult, estimateWidthForContentResult });
-
         columnMetadata = {
           colWidth: getColumnWidth(columnWidth, fitToContentWidth),
           measureTextForHeader: measureTextForHeader(qFallbackTitle),
@@ -185,14 +183,11 @@ export default function useColumnWidth(
         shouldShowLockIcon = false;
       }
 
-      let res = {
+      return {
         colWidth: metaData.colWidth,
         shouldShowMenuIcon,
         shouldShowLockIcon,
       };
-
-      // console.log({ res });
-      return res;
     },
     [leftGridColumnWidths],
   );
