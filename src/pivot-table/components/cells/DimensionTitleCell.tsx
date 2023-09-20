@@ -1,5 +1,6 @@
 /* eslint jsx-a11y/click-events-have-key-events: 0, jsx-a11y/no-static-element-interactions: 0 */
 import type { stardust } from "@nebula.js/stardust";
+import Locked from "@qlik-trial/sprout/icons/react/Lock";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
 import React, { useMemo, useRef, useState } from "react";
 import type {
@@ -12,6 +13,7 @@ import type {
 } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import type { GetLeftColumnWidthMetadata } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle, textStyle } from "../shared-styles";
 
@@ -22,6 +24,7 @@ interface DimensionTitleCellProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
+  columnWidthMetadata: ReturnType<GetLeftColumnWidthMetadata>;
 }
 
 const baseFlex: React.CSSProperties = {
@@ -69,6 +72,7 @@ const DimensionTitleCell = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
+  columnWidthMetadata,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -77,6 +81,7 @@ const DimensionTitleCell = ({
   const anchorRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const { setIsHovered, shadeOpacity } = useHeadCellDim({ open });
+  const { shouldShowLockIcon, shouldShowMenuIcon } = columnWidthMetadata;
 
   const isDim = cell.id !== "PSEUDO-DIM";
 
@@ -118,8 +123,8 @@ const DimensionTitleCell = ({
         padding: 0,
         position: "relative",
         display: "grid",
-        gridTemplateColumns: "1fr 24px",
-        gridGap: "4px",
+        gridTemplateColumns: shouldShowMenuIcon ? "1fr 24px" : "1fr",
+        gridGap: shouldShowMenuIcon ? "4px" : "0px",
         alignItems: "center",
         cursor: interactions.active ? "pointer" : "default",
       }}
@@ -130,6 +135,11 @@ const DimensionTitleCell = ({
     >
       <div style={{ ...headCellBackgroundDim, opacity: shadeOpacity }} />
       <div style={{ ...labelWrapperStyle }}>
+        {shouldShowLockIcon && cell.isLocked && (
+          <div style={{ ...baseFlex, marginLeft: "8px" }}>
+            <Locked height="12px" />
+          </div>
+        )}
         <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
       </div>
       {isDim && (
@@ -146,6 +156,7 @@ const DimensionTitleCell = ({
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
             selectionRelatedArgs={selectionRelatedArgs}
+            shouldShowMenuIcon={shouldShowMenuIcon}
           />
           <div style={anchorStyle} ref={listboxRef} />
           <div style={anchorStyle} ref={anchorRef} />

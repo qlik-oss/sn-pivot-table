@@ -21,6 +21,7 @@ const extractHeaders = (
         sortDirection: "A",
         fieldId: "",
         isActivelySorted: false,
+        isLocked: false,
       };
     } else {
       const id: string = getKey(qDimensionInfo);
@@ -34,6 +35,7 @@ const extractHeaders = (
         qLibraryId: qDimensionInfo.qLibraryId,
         fieldId: qDimensionInfo.qGroupFieldDefs[qDimensionInfo.qGroupPos],
         isActivelySorted: colIdx === (hyperCube.activelySortedColumn?.colIdx ?? 0),
+        isLocked: qDimensionInfo.qLocked ?? false,
       };
     }
   });

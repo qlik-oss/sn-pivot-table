@@ -2,6 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
 import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell, HeadersData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import type { GetLeftColumnWidthMetadata } from "../../hooks/use-column-width";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
@@ -12,6 +13,7 @@ interface HeaderGridProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
+  columnWidthCallbackMetadata: GetLeftColumnWidthMetadata;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -26,6 +28,7 @@ const HeaderGrid = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
+  columnWidthCallbackMetadata,
 }: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
@@ -48,6 +51,7 @@ const HeaderGrid = ({
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
       {headersData.data.map((col, colIndex) => {
         const cell = col[col.length - 1] as HeaderCell;
+        const columnWidthMetadata = columnWidthCallbackMetadata(colIndex, cell.isLocked);
 
         return (
           <DimensionTitleCell
@@ -58,6 +62,7 @@ const HeaderGrid = ({
             changeSortOrder={changeSortOrder}
             changeActivelySortedHeader={changeActivelySortedHeader}
             cell={cell}
+            columnWidthMetadata={columnWidthMetadata}
           />
         );
       })}

@@ -69,6 +69,7 @@ export const StickyPivotTable = ({
     totalWidth,
     showLastRightBorder,
     getLeftGridColumnWidth,
+    getLeftGridColumnWidthMetadata,
     getRightGridColumnWidth,
   } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
@@ -140,6 +141,7 @@ export const StickyPivotTable = ({
   const showLastBottomBorder = rowsInCurrentPage < rowsCanFitInTableViewPort;
   const showLastBorder = { right: showLastRightBorder, bottom: showLastBottomBorder };
 
+  console.log("Hi #02");
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
       <FullSizeContainer width={totalWidth} height={containerHeight}>
@@ -152,6 +154,7 @@ export const StickyPivotTable = ({
         >
           <HeaderGrid
             columnWidthCallback={getLeftGridColumnWidth}
+            columnWidthCallbackMetadata={getLeftGridColumnWidthMetadata}
             rowHight={headerCellHeight}
             headersData={headersData}
             translator={translator}

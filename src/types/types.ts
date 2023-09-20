@@ -17,6 +17,7 @@ export type HeaderCell = {
   sortDirection: SortDirection;
   qReverseSort?: boolean;
   colIdx: number;
+  isLocked: boolean;
 
   fieldId: string;
   qLibraryId?: string;
