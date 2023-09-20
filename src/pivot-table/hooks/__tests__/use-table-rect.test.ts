@@ -1,4 +1,4 @@
-import { PAGINATION_HEIGHT } from "@qlik/nebula-table-utils/lib/components/PaginationFooter";
+import { PAGINATION_HEIGHT } from "@qlik/nebula-table-utils/lib/constants";
 import { renderHook } from "@testing-library/react";
 import type { LayoutService, Rect } from "../../../types/types";
 import { DISCLAIMER_HEIGHT } from "../../constants";
