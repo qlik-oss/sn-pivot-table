@@ -141,7 +141,7 @@ export const StickyPivotTable = ({
   const showLastBottomBorder = rowsInCurrentPage < rowsCanFitInTableViewPort;
   const showLastBorder = { right: showLastRightBorder, bottom: showLastBottomBorder };
 
-  console.log("Hi #02");
+  console.log("Hi #03");
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
       <FullSizeContainer width={totalWidth} height={containerHeight}>

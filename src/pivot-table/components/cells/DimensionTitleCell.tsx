@@ -140,7 +140,17 @@ const DimensionTitleCell = ({
             <Locked height="12px" />
           </div>
         )}
-        <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
+        <div
+          style={{
+            ...labelTextStyle,
+            fontSize,
+            fontFamily,
+            paddingLeft: shouldShowMenuIcon ? "8px" : "4px",
+            paddingRight: shouldShowMenuIcon ? "0px" : "4px",
+          }}
+        >
+          {cell.title}
+        </div>
       </div>
       {isDim && (
         <>
