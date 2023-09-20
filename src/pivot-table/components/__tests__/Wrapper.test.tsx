@@ -1,6 +1,7 @@
+import type { stardust } from "@nebula.js/stardust";
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import type { ExtendedTranslator, LayoutService, PageInfo, Rect } from "../../../types/types";
+import type { LayoutService, PageInfo, Rect } from "../../../types/types";
 import TestWithProvider from "../../__tests__/test-with-providers";
 import { StickyPivotTable } from "../PivotTable";
 import type { WrapperProps } from "../Wrapper";
@@ -13,7 +14,7 @@ describe("Wrapper", () => {
   const mockedPivotTable = StickyPivotTable as jest.MockedFunction<typeof StickyPivotTable>;
   mockedPivotTable.mockReturnValue(<div />);
   let layoutService: LayoutService;
-  let translator: ExtendedTranslator;
+  let translator: stardust.Translator;
   let pageInfo: PageInfo;
   let rect: Rect;
 
@@ -28,7 +29,7 @@ describe("Wrapper", () => {
     } as LayoutService;
     translator = {
       get: () => disclaimerText,
-    } as unknown as ExtendedTranslator;
+    } as unknown as stardust.Translator;
     pageInfo = {
       page: 0,
       rowsPerPage: 50,

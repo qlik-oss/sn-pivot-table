@@ -141,10 +141,6 @@ export interface ExtendedSelections extends stardust.ObjectSelections {
   removeListener: (name: string, callback: () => void) => void;
 }
 
-export interface ExtendedTranslator extends stardust.Translator {
-  language(): string;
-}
-
 export interface ViewService {
   gridColumnStartIndex: number;
   gridRowStartIndex: number;
