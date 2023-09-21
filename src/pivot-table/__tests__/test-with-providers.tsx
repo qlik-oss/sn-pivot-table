@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import React from "react";
 import type { App, Model } from "../../types/QIX";
 import type { ExtendedSelections } from "../../types/types";
@@ -105,12 +106,16 @@ const TestWithProvider = (props: Props) => {
     },
     app = { getField: () => Promise.resolve() } as unknown as App,
     model = { applyPatches: () => Promise.resolve(), getLayout: () => Promise.resolve({}) } as unknown as Model,
-    interactions = { select: true },
+    interactions = { select: true, active: true },
     embed = {} as stardust.Embed,
+    theme = {
+      background: { tableColorFromTheme: "inherit", isDark: false, isTransparent: false, color: "transparent" },
+    } as ExtendedTheme,
+    keyboard = {} as stardust.Keyboard,
   } = props;
 
   return (
-    <BaseProvider model={model} app={app} interactions={interactions} embed={embed}>
+    <BaseProvider model={model} app={app} interactions={interactions} embed={embed} theme={theme} keyboard={keyboard}>
       <SelectionsProvider selections={selections} updatePageInfo={updatePageInfo}>
         <StyleProvider styleService={styleService}>{children}</StyleProvider>
       </SelectionsProvider>
