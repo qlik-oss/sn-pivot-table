@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import type { ReactNode } from "react";
 import React, { createContext, useContext, useMemo } from "react";
 import type { App, Model } from "../../types/QIX";
@@ -8,6 +9,8 @@ interface IBaseProvider {
   app: App;
   interactions: stardust.Interactions;
   embed: stardust.Embed;
+  theme: ExtendedTheme;
+  keyboard: stardust.Keyboard;
 }
 
 interface BaseProviderProps extends IBaseProvider {
@@ -27,8 +30,11 @@ export const useBaseContext = (): IBaseProvider => useContext(BaseContext);
  *
  * The whole purpose of this provider is to avoid prop-drilling those props.
  */
-const BaseProvider = ({ children, model, app, interactions, embed }: BaseProviderProps) => {
-  const props = useMemo(() => ({ model, app, interactions, embed }), [app, interactions, model, embed]);
+const BaseProvider = ({ children, model, app, interactions, embed, theme, keyboard }: BaseProviderProps) => {
+  const props = useMemo(
+    () => ({ model, app, interactions, embed, theme, keyboard }),
+    [app, interactions, model, embed, theme, keyboard],
+  );
 
   return <BaseContext.Provider value={props}>{children}</BaseContext.Provider>;
 };
