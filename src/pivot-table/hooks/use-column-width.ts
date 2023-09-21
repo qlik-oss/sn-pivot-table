@@ -34,11 +34,11 @@ export enum ColumnWidthValues {
   AutoMin = 80,
 }
 
-const getValidNumber = (value: number | undefined) =>
-  !!value && typeof value === "number" && !Number.isNaN(value) ? value : undefined;
-const getPixelValue = (pixels: number | undefined) => getValidNumber(pixels) || ColumnWidthValues.PixelsDefault;
+const getValidValue = (value: number | undefined, defaultValue: number) =>
+  !!value && typeof value === "number" && !Number.isNaN(value) ? value : defaultValue;
+const getPixelValue = (pixels: number | undefined) => getValidValue(pixels, ColumnWidthValues.PixelsDefault);
 const getPercentageValue = (percentage: number | undefined) =>
-  (getValidNumber(percentage) || ColumnWidthValues.PercentageDefault) / 100;
+  getValidValue(percentage, ColumnWidthValues.PercentageDefault) / 100;
 
 export default function useColumnWidth(
   layoutService: LayoutService,
