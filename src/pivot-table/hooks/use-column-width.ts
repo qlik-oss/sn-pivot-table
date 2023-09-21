@@ -34,6 +34,12 @@ export enum ColumnWidthValues {
   AutoMin = 80,
 }
 
+const getValidNumber = (value: number | undefined) =>
+  !!value && typeof value === "number" && !Number.isNaN(value) ? value : undefined;
+const getPixelValue = (pixels: number | undefined) => getValidNumber(pixels) || ColumnWidthValues.PixelsDefault;
+const getPercentageValue = (percentage: number | undefined) =>
+  (getValidNumber(percentage) || ColumnWidthValues.PercentageDefault) / 100;
+
 export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
@@ -70,9 +76,9 @@ export default function useColumnWidth(
     const getColumnWidth = (columnWidth: ColumnWidth, fitToContentWidth: number) => {
       switch (columnWidth?.type) {
         case ColumnWidthType.Pixels:
-          return columnWidth.pixels || ColumnWidthValues.PixelsDefault;
+          return getPixelValue(columnWidth.pixels);
         case ColumnWidthType.Percentage:
-          return ((columnWidth.percentage || ColumnWidthValues.PercentageDefault) / 100) * rect.width;
+          return getPercentageValue(columnWidth.percentage) * rect.width;
         default:
           // fit to content / auto
           return fitToContentWidth;
@@ -143,12 +149,11 @@ export default function useColumnWidth(
 
       switch (columnWidth?.type) {
         case ColumnWidthType.Pixels: {
-          specifiedWidth = columnWidth.pixels || ColumnWidthValues.PixelsDefault;
+          specifiedWidth = getPixelValue(columnWidth.pixels);
           break;
         }
         case ColumnWidthType.Percentage: {
-          specifiedWidth =
-            (rightGridAvailableWidth * (columnWidth?.percentage || ColumnWidthValues.PercentageDefault)) / 100;
+          specifiedWidth = getPercentageValue(columnWidth.percentage) * rightGridAvailableWidth;
           break;
         }
         case ColumnWidthType.FitToContent: {

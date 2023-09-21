@@ -84,14 +84,17 @@ describe("useColumnWidth", () => {
     });
 
     test("should return left column width for pixel setting", () => {
+      // need to make the width bigger so the col widths are not scaled
+      rect = { width: 800, height: 100 };
       const pixels = 50;
       dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
       const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
-      visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
+      const dimInfoWithNaN = { columnWidth: { type: ColumnWidthType.Pixels, pixels: NaN } } as ExtendedDimensionInfo;
+      visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
 
       const { getLeftGridColumnWidth } = renderUseColumnWidth();
       expect(getLeftGridColumnWidth(0)).toBe(pixels);
-      expect(getLeftGridColumnWidth(1)).toBe(pixels);
+      expect(getLeftGridColumnWidth(1)).toBe(ColumnWidthValues.PixelsDefault);
       expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsDefault);
     });
 
@@ -99,11 +102,14 @@ describe("useColumnWidth", () => {
       const percentage = 10;
       dimInfo = { columnWidth: { type: ColumnWidthType.Percentage, percentage } } as ExtendedDimensionInfo;
       const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Percentage } } as ExtendedDimensionInfo;
-      visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
+      const dimInfoWithNaN = {
+        columnWidth: { type: ColumnWidthType.Percentage, percentage: NaN },
+      } as ExtendedDimensionInfo;
+      visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
 
       const { getLeftGridColumnWidth } = renderUseColumnWidth();
       expect(getLeftGridColumnWidth(0)).toBe(percentage * percentageConversion);
-      expect(getLeftGridColumnWidth(1)).toBe(percentage * percentageConversion);
+      expect(getLeftGridColumnWidth(1)).toBe(ColumnWidthValues.PercentageDefault * percentageConversion);
       expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PercentageDefault * percentageConversion);
     });
 
@@ -191,11 +197,12 @@ describe("useColumnWidth", () => {
       const pixels = 60;
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedMeasureInfo;
       const meaInfoWithoutValue = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfoWithoutValue];
+      const meaInfoWithNaN = { columnWidth: { type: ColumnWidthType.Pixels, pixels: NaN } } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoWithoutValue, meaInfoWithNaN];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(pixels);
-      expect(getRightGridColumnWidth(1)).toBe(pixels);
+      expect(getRightGridColumnWidth(1)).toBe(ColumnWidthValues.PixelsDefault);
       expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsDefault);
     });
 
@@ -203,11 +210,14 @@ describe("useColumnWidth", () => {
       const percentage = 60;
       meaInfo = { columnWidth: { type: ColumnWidthType.Percentage, percentage } } as ExtendedMeasureInfo;
       const meaInfoWithoutValue = { columnWidth: { type: ColumnWidthType.Percentage } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfoWithoutValue];
+      const meaInfoWithNaN = {
+        columnWidth: { type: ColumnWidthType.Percentage, percentage: NaN },
+      } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoWithoutValue, meaInfoWithNaN];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(percentage * percentageConversion);
-      expect(getRightGridColumnWidth(1)).toBe(percentage * percentageConversion);
+      expect(getRightGridColumnWidth(1)).toBe(ColumnWidthValues.PercentageDefault * percentageConversion);
       expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.PercentageDefault * percentageConversion);
     });
 
