@@ -1,6 +1,7 @@
 import type React from "react";
 import type { StyleService } from "../../../../types/types";
 import {
+  Colors,
   getBorderStyle,
   getLineClampStyle,
   getTotalCellDividerStyle,
@@ -31,22 +32,28 @@ interface GetContainerStyle {
   showTotalCellDivider: boolean;
 }
 
-export const selectedStyle: Pick<React.CSSProperties, "color" | "background"> = {
+export const selectedStyle: React.CSSProperties = {
   background: "#0aaf54",
   color: "white",
 };
 
-export const selectableCellStyle: Pick<React.CSSProperties, "cursor"> = {
+export const selectableCellStyle: React.CSSProperties = {
   cursor: "pointer",
 };
 
 // Locked background does override any background color set by the user via theming or styling panel
-export const lockedFromSelectionStyle: Pick<React.CSSProperties, "color" | "background"> = {
-  background: "repeating-linear-gradient(-45deg, #f8f8f8, #f8f8f8 2px, transparent 2px, transparent 4px)",
+export const getLockedStyleFromSelection = (originalBackgroundColor?: string): React.CSSProperties => ({
+  background: `repeating-linear-gradient(
+      -45deg, 
+      #c8c8c814, 
+      #c8c8c814 2px, 
+      transparent 2px, 
+      transparent 4px
+    ), ${originalBackgroundColor ?? Colors.Transparent}`,
   color: "#bebebe",
-};
+});
 
-const cellStyle: Pick<React.CSSProperties, "display" | "flexDirection" | "alignItems" | "gap"> = {
+const cellStyle: React.CSSProperties = {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -67,9 +74,9 @@ export const getContainerStyle = ({
   showTotalCellDivider,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
-  const resolvedLockedSelectionStyle = isCellLocked ? lockedFromSelectionStyle : {};
-  const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
   const { nullValue, background } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
+  const resolvedLockedSelectionStyle = isCellLocked ? getLockedStyleFromSelection(background) : {};
+  const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
   const resolvedNullStyle = isNull ? nullValue : { background };
 
   return {
