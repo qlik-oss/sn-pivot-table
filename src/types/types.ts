@@ -66,6 +66,7 @@ export interface ListItemData extends ItemData {
   itemCount: number;
   showLastRowBorderBottom: boolean;
   listValues: Cell[];
+  totalDividerIndex: number;
 }
 
 export interface Cell {
@@ -74,18 +75,18 @@ export interface Cell {
   y: number; // y position of cell in dataset
   pageX: number; // X position of cell in page
   pageY: number; // Y position of cell in page
+  mainAxisPageCoord: number; // Either equal pageX or pageY depending on if a cell is in the left or top grid
   parent: Cell | null;
   root: Cell | null;
   children: Cell[];
   leafCount: number;
   distanceToNextCell: number;
-  incrementLeafCount: () => void;
   isTotal: boolean;
   isEmpty: boolean;
   isNull: boolean;
   isPseudoDimension: boolean;
   isLockedByDimension: boolean;
-  isLastChild: boolean;
+  isLeafNode: boolean;
 }
 
 export interface PivotDataSize {
@@ -112,12 +113,14 @@ export interface TopDimensionData {
   grid: Grid;
   rowCount: number;
   layoutSize: Point;
+  totalDividerIndex: number;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
   columnCount: number;
   layoutSize: Point;
+  totalDividerIndex: number;
 }
 
 export interface HeadersData {
@@ -184,11 +187,12 @@ export interface Galaxy {
 }
 
 export interface PageInfo {
-  currentPage: number;
+  page: number;
   shouldShowPagination: boolean;
   totalPages: number;
   rowsPerPage: number;
   totalRowCount: number;
+  rowsOnCurrentPage: number;
 }
 
 interface FontStyling {

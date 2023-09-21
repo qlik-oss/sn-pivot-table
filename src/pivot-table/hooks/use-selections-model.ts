@@ -28,7 +28,7 @@ export default function useSelectionsModel(
     const clearSelections = () => setSelected([]);
     const clearSelectionAndResetPage = () => {
       setSelected([]);
-      updatePageInfo({ currentPage: 0 });
+      updatePageInfo({ page: 0 });
     };
     selections.on("deactivated", clearSelections);
     selections.on("canceled", clearSelections);

@@ -1,7 +1,7 @@
 import React from "react";
 import { areEqual } from "react-window";
 import NxDimCellType from "../../../types/QIX";
-import type { GridItemData, LayoutService } from "../../../types/types";
+import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
@@ -15,29 +15,6 @@ export interface MeasureCellProps {
 }
 
 export const testId = "measure-cell";
-
-const getLeftAndTopCellIndex = (layoutService: LayoutService, rowIndex: number, colIndex: number) => {
-  const {
-    showTotalsAbove,
-    hasPseudoDimOnLeft,
-    layout: {
-      qHyperCube: { qMeasureInfo },
-    },
-  } = layoutService;
-  const measureCount = qMeasureInfo.length;
-  let leftCellIndex = rowIndex;
-  let topCellIndex = colIndex;
-
-  if (!showTotalsAbove) {
-    leftCellIndex += hasPseudoDimOnLeft ? measureCount : 1;
-    topCellIndex += hasPseudoDimOnLeft ? 1 : measureCount;
-  }
-
-  return {
-    leftCellIndex,
-    topCellIndex,
-  };
-};
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
@@ -73,13 +50,12 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const isTotalValueCell = !isNull && isTotalValue(columnIndex, rowIndex);
   const text = isNull ? layoutService.getNullValueText() : qText;
   const isNumeric = isNull ? !Number.isNaN(+text) : true;
-  const { leftCellIndex, topCellIndex } = getLeftAndTopCellIndex(layoutService, rowIndex, columnIndex);
   const cellStyle = {
     ...getCellStyle(styleService, isNull, isTotalValueCell),
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
     ...getTotalCellDividerStyle({
-      bottomDivider: shouldShowTotalCellBottomDivider(leftCellIndex),
-      rightDivider: shouldShowTotalCellRightDivider(topCellIndex),
+      bottomDivider: shouldShowTotalCellBottomDivider(rowIndex),
+      rightDivider: shouldShowTotalCellRightDivider(columnIndex),
       borderColor: styleService.grid.divider,
     }),
     display: "flex",

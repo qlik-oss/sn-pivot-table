@@ -30,7 +30,7 @@ describe("useLoadDataPages", () => {
       },
     } as LayoutService;
     pageInfo = {
-      currentPage: 0,
+      page: 0,
       rowsPerPage: 100,
     } as PageInfo;
   });
@@ -81,7 +81,7 @@ describe("useLoadDataPages", () => {
     test("should return true in case of new page and while qTop is falling behind current page", () => {
       pageInfo = {
         ...pageInfo,
-        currentPage: 5,
+        page: 5,
       };
       expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
     });
@@ -239,7 +239,7 @@ describe("useLoadDataPages", () => {
         // make isMissingLayoutData() returns true by fake arguments
         pageInfo = {
           ...pageInfo,
-          currentPage: 5,
+          page: 5,
         };
 
         renderer();
@@ -248,7 +248,7 @@ describe("useLoadDataPages", () => {
           expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
             {
               qLeft: viewService.gridColumnStartIndex,
-              qTop: pageInfo.currentPage * pageInfo.rowsPerPage + 0,
+              qTop: pageInfo.page * pageInfo.rowsPerPage + 0,
               qWidth: DEFAULT_PAGE_SIZE,
               qHeight: DEFAULT_PAGE_SIZE,
             },
@@ -260,7 +260,7 @@ describe("useLoadDataPages", () => {
         // make isMissingLayoutData() returns true by fake arguments
         pageInfo = {
           ...pageInfo,
-          currentPage: 5,
+          page: 5,
         };
         viewService = {
           ...viewService,
@@ -284,7 +284,7 @@ describe("useLoadDataPages", () => {
           expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
             {
               qLeft: viewService.gridColumnStartIndex,
-              qTop: pageInfo.currentPage * pageInfo.rowsPerPage + viewService.gridRowStartIndex,
+              qTop: pageInfo.page * pageInfo.rowsPerPage + viewService.gridRowStartIndex,
               qWidth: DEFAULT_PAGE_SIZE,
               qHeight: DEFAULT_PAGE_SIZE,
             },
