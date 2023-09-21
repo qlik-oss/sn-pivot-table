@@ -30,15 +30,7 @@ export const useBaseContext = (): IBaseProvider => useContext(BaseContext);
  *
  * The whole purpose of this provider is to avoid prop-drilling those props.
  */
-const BaseProvider = ({
-  children,
-  model,
-  app,
-  interactions,
-  embed,
-  theme,
-  keyboard,
-}: BaseProviderProps) => {
+const BaseProvider = ({ children, model, app, interactions, embed, theme, keyboard }: BaseProviderProps) => {
   const props = useMemo(
     () => ({ model, app, interactions, embed, theme, keyboard }),
     [app, interactions, model, embed, theme, keyboard],
