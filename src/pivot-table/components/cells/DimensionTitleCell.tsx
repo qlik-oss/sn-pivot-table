@@ -128,6 +128,7 @@ const DimensionTitleCell = ({
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
             selectionRelatedArgs={selectionRelatedArgs}
+            shouldShowMenuIcon
           />
           <StyledHeaderAnchor ref={listboxRef} />
           <StyledHeaderAnchor ref={anchorRef} />
