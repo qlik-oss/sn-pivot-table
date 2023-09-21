@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import type { LayoutService, Rect } from "../../types/types";
 import { DISCLAIMER_HEIGHT } from "../constants";
 
-const PAGINATION_FOOTER_BORDER = 1;
+export const PAGINATION_FOOTER_BORDER = 1;
 
 const useTableRect = (rect: Rect, layoutService: LayoutService, shouldShowPagination: boolean) =>
   useMemo(() => {
