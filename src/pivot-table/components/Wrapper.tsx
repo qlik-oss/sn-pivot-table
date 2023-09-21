@@ -40,7 +40,7 @@ export const Wrapper = (props: WrapperProps) => {
         theme={theme}
         interactions={interactions}
         rect={rect as stardust.Rect}
-        layout={layout as unknown as EngineAPI.IGenericHyperCubeLayout}
+        layout={layout}
       />
     </>
   );
