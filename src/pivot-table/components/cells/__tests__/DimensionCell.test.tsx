@@ -15,7 +15,7 @@ import TestWithProvider from "../../../__tests__/test-with-providers";
 import type { SelectionModel } from "../../../hooks/use-selections-model";
 import useSelectionsModel from "../../../hooks/use-selections-model";
 import DimensionCell, { testId, testIdCollapseIcon, testIdExpandIcon } from "../DimensionCell";
-import { lockedFromSelectionStyle, selectedStyle } from "../utils/get-dimension-cell-style";
+import { getLockedStyleFromSelection, selectedStyle } from "../utils/get-dimension-cell-style";
 // eslint-disable-next-line jest/no-mocks-import
 import dataModelMock from "./__mocks__/data-model-mock";
 
@@ -475,7 +475,7 @@ describe("DimensionCell", () => {
 
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
-        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
+        expect(screen.getByTestId(testId)).toHaveStyle(getLockedStyleFromSelection() as Record<string, string>);
       });
 
       test("should not be possible to select cell when dimension is locked", async () => {
@@ -503,7 +503,7 @@ describe("DimensionCell", () => {
 
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
-        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
+        expect(screen.getByTestId(testId)).toHaveStyle(getLockedStyleFromSelection() as Record<string, string>);
       });
     });
   });
@@ -802,7 +802,7 @@ describe("DimensionCell", () => {
 
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
-        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
+        expect(screen.getByTestId(testId)).toHaveStyle(getLockedStyleFromSelection() as Record<string, string>);
       });
 
       test("should not be possible to select cell when dimension is locked", async () => {
@@ -830,7 +830,7 @@ describe("DimensionCell", () => {
 
         expect(selectSpy).toHaveBeenCalledTimes(0);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(0);
-        expect(screen.getByTestId(testId)).toHaveStyle(lockedFromSelectionStyle as Record<string, string>);
+        expect(screen.getByTestId(testId)).toHaveStyle(getLockedStyleFromSelection() as Record<string, string>);
       });
     });
   });
