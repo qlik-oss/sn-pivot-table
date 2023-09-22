@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading  */
+import { ThemeProvider } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
+import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import React from "react";
 import { type Root } from "react-dom/client";
 import type { App } from "../types/QIX";
@@ -9,6 +11,7 @@ import { Wrapper } from "./components/Wrapper";
 import BaseProvider from "./contexts/BaseProvider";
 import SelectionsProvider from "./contexts/SelectionsProvider";
 import StyleProvider from "./contexts/StyleProvider";
+import muiSetup from "./mui-setup";
 
 export interface RootProps extends PivotTableProps {
   selections: ExtendedSelections;
@@ -18,20 +21,32 @@ export interface RootProps extends PivotTableProps {
   app: App;
   interactions: stardust.Interactions;
   embed: stardust.Embed;
+  keyboard: stardust.Keyboard;
+  theme: ExtendedTheme;
 }
 
 const render = (reactRoot: Root, props: RootProps): void => {
-  const { selections, styleService, app, model, interactions, embed } = props;
+  const { selections, styleService, app, model, interactions, embed, keyboard, theme } = props;
+  const muiTheme = muiSetup("ltr");
 
   reactRoot.render(
     <React.StrictMode>
-      <BaseProvider app={app} model={model} interactions={interactions} embed={embed}>
-        <SelectionsProvider selections={selections} updatePageInfo={props.updatePageInfo}>
-          <StyleProvider styleService={styleService}>
-            <Wrapper {...props} />
-          </StyleProvider>
-        </SelectionsProvider>
-      </BaseProvider>
+      <ThemeProvider theme={muiTheme}>
+        <BaseProvider
+          app={app}
+          model={model}
+          interactions={interactions}
+          embed={embed}
+          keyboard={keyboard}
+          theme={theme}
+        >
+          <SelectionsProvider selections={selections} updatePageInfo={props.updatePageInfo}>
+            <StyleProvider styleService={styleService}>
+              <Wrapper {...props} />
+            </StyleProvider>
+          </SelectionsProvider>
+        </BaseProvider>
+      </ThemeProvider>
     </React.StrictMode>,
   );
 };
