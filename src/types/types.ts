@@ -198,10 +198,20 @@ export interface CellStyling {
   background: string;
 }
 
+interface RowTitleStyling extends CellStyling {
+  hoverBackground: string;
+  activeBackground: string;
+}
+
+interface ColumnTitleStyling extends CellStyling {
+  hoverBackground: string;
+  activeBackground: string;
+}
+
 interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
   background: string;
-  rowTitle: CellStyling;
-  columnTitle: CellStyling;
+  rowTitle: RowTitleStyling;
+  columnTitle: ColumnTitleStyling;
 }
 
 interface MeasureContentStyling extends FontStyling {

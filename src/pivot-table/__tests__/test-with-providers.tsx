@@ -33,10 +33,14 @@ const TestWithProvider = (props: Props) => {
         rowTitle: {
           color: "#404040",
           background: "transparent",
+          activeBackground: "rgba(0, 0, 0, 0.05)",
+          hoverBackground: "rgba(0, 0, 0, 0.03)",
         },
         columnTitle: {
           color: "#404040",
           background: "transparent",
+          activeBackground: "rgba(0, 0, 0, 0.05)",
+          hoverBackground: "rgba(0, 0, 0, 0.03)",
         },
       },
       content: {

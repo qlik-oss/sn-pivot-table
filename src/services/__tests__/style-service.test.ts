@@ -119,10 +119,14 @@ describe("style-service", () => {
         rowTitle: {
           color,
           background: color,
+          activeBackground: "rgb(255, 59, 29)",
+          hoverBackground: "rgb(255, 43, 18)",
         },
         columnTitle: {
           color,
           background: color,
+          activeBackground: "rgb(255, 59, 29)",
+          hoverBackground: "rgb(255, 43, 18)",
         },
       },
       content: {
@@ -197,8 +201,18 @@ describe("style-service", () => {
         fontSize: "18px",
         fontFamily: "18px",
         background: "18px",
-        rowTitle: { color: "18px", background: "18px" },
-        columnTitle: { color: "18px", background: "18px" },
+        rowTitle: {
+          color: "18px",
+          background: "18px",
+          activeBackground: "rgb(0, 0, 0)",
+          hoverBackground: "rgb(0, 0, 0)",
+        },
+        columnTitle: {
+          color: "18px",
+          background: "18px",
+          activeBackground: "rgb(0, 0, 0)",
+          hoverBackground: "rgb(0, 0, 0)",
+        },
       },
       content: {
         fontSize: "18px",
@@ -249,8 +263,18 @@ describe("style-service", () => {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
         background: "transparent",
-        rowTitle: { color: "#404040", background: "transparent" },
-        columnTitle: { color: "#404040", background: "rgba(0, 0, 0, 0.03)" },
+        rowTitle: {
+          color: "#404040",
+          background: "transparent",
+          activeBackground: "rgba(0, 0, 0, 0.05)",
+          hoverBackground: "rgba(0, 0, 0, 0.03)",
+        },
+        columnTitle: {
+          color: "#404040",
+          background: "rgba(0, 0, 0, 0.03)",
+          activeBackground: "rgba(25, 25, 25, 0.03)",
+          hoverBackground: "rgba(18, 18, 18, 0.03)",
+        },
       },
       content: {
         fontSize: "12px",
