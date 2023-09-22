@@ -118,6 +118,7 @@ describe("getItemSizeHandler", () => {
       expect(handler(index)).toEqual((leafCount + distanceToNextCell) * columnWidth);
     });
 
+    // TODO: Will update this test when I fix the corner case, see comment in code
     // test("should return a size for cell when first column does not exist in list", () => {
     //   const index = 0;
     //   const leafCount = 10;

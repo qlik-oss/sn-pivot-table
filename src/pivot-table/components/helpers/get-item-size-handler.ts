@@ -34,7 +34,9 @@ export const getColumnWidthHandler =
     const cell = isLastRow ? list[colIndex] : Object.values(list)[colIndex];
     // const measureInfoCount = layoutService.layout.qHyperCube.qMeasureInfo.length;
 
-    // Dunno when this is true
+    // TODO: This a bit of a special case but if you are on a different page then the first.
+    // Scroll down a bit and expand a node. The "first row" does not exist yet as data has only been
+    // fetched for the rows that are visible to the user.
     // if (colIndex === 0 && cell?.x > 0) {
     //   return ((cell.leafCount + cell.x) / measureInfoCount) * allMeasuresWidth;
     // }

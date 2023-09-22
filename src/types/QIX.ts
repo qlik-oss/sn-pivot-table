@@ -173,6 +173,6 @@ interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
   columnWidth: ColumnWidth;
 }
 
-export interface DimensionOrMeasure {
+export interface DimensionOrMeasureDef {
   qDef: ExtendedInlineDimensionDef | ExtendedInlineMeasureDef;
 }
