@@ -138,7 +138,7 @@ export interface ExtendedMeasureInfo extends EngineAPI.INxMeasureInfo {
   columnWidth: ColumnWidth;
 }
 
-export interface ExtendedHyperCube extends Omit<EngineAPI.IHyperCube, "qDimensionInfo" | "qMeasureInfo"> {
+export interface ExtendedHyperCube extends EngineAPI.IHyperCube {
   qDimensionInfo: ExtendedDimensionInfo[];
   qMeasureInfo: ExtendedMeasureInfo[];
   activelySortedColumn: ActivelySortedColumn;
