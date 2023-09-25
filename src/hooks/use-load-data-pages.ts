@@ -1,6 +1,6 @@
 import { useFetch } from "@qlik/nebula-table-utils/lib/hooks";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../constants";
-import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../pivot-table/constants";
+import { MAX_COLUMN_COUNT } from "../pivot-table/constants";
 import type { Model, PivotLayout } from "../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../types/types";
 
@@ -39,7 +39,7 @@ export const isMissingLayoutData = (layout: PivotLayout, pageInfo: PageInfo): bo
 
 /**
  * Note: the state of the viewService is always from the last time the chart was rendered. So it is not
- * guaranteed to work with a new layout, as its properties my no longer be valid.
+ * guaranteed to work with a new layout, as its properties may no longer be valid.
  */
 export const getFetchArea = (
   qLastExpandedPos: EngineAPI.INxCellPosition | undefined,
@@ -48,8 +48,7 @@ export const getFetchArea = (
   pageInfo: PageInfo,
 ) => {
   const pageStartTop = pageInfo.page * pageInfo.rowsPerPage;
-  // Use MAX_ROW_COUNT because when on first page and expand a node, pageInfo.rowsPerPage might be less than 50
-  const pageEndTop = pageStartTop + MAX_ROW_COUNT;
+  const pageEndTop = pageStartTop + pageInfo.rowsPerPage;
 
   if (qSize.qcy < pageStartTop) {
     /**
