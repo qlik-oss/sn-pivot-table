@@ -8571,10 +8571,10 @@ pure-rand@^6.0.0:
   resolved "https://registry.yarnpkg.com/pure-rand/-/pure-rand-6.0.3.tgz#3c9e6b53c09e52ac3cedffc85ab7c1c7094b38cb"
   integrity sha512-KddyFewCsO0j3+np81IQ+SweXLDnDQTs5s67BOnrYmYe/yNmUhttQyGsYzy8yUnoljGAQ9sl38YB4vH8ur7Y+w==
 
-qlik-chart-modules@0.61.0:
-  version "0.61.0"
-  resolved "https://registry.yarnpkg.com/qlik-chart-modules/-/qlik-chart-modules-0.61.0.tgz#a03bbc24cf9013265ae840ba71ee3ed648955509"
-  integrity sha512-JF6F+RU2yYeiE4cGytGbkMzg3+LSs2KJrARksD/vrrMLAgPb/ndhP6qmXxDhCleEua6UFWJy2VHte6qyoXmkkA==
+qlik-chart-modules@0.59.0:
+  version "0.59.0"
+  resolved "https://registry.yarnpkg.com/qlik-chart-modules/-/qlik-chart-modules-0.59.0.tgz#2bffe8ebdbef5dc0316907933c1061e2fe1bfac7"
+  integrity sha512-ErnAjpIugAUzXPnRS4l+rxQghmMjd67Q3FeFyWVWT2WCZDMjsOw4a3hSUIN3h5OOwtzSBmw3jxdDqL8DmTMDjw==
 
 qlik-modifiers@0.9.1:
   version "0.9.1"
