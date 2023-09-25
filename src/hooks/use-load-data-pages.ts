@@ -47,10 +47,10 @@ export const getFetchArea = (
   qSize: EngineAPI.ISize,
   pageInfo: PageInfo,
 ) => {
-  const pageStartTop = pageInfo.page * pageInfo.rowsPerPage;
-  const pageEndTop = pageStartTop + pageInfo.rowsPerPage;
+  const pageStartIndex = pageInfo.page * pageInfo.rowsPerPage;
+  const pageEndIndex = pageStartIndex + pageInfo.rowsPerPage;
 
-  if (qSize.qcy < pageStartTop) {
+  if (qSize.qcy < pageStartIndex) {
     /**
      * Do not fetch data that does not exist. This can happen because "PageInfo" is resolved from the layout.
      * Which means it will not be updated until the next render cycle.
@@ -59,21 +59,21 @@ export const getFetchArea = (
   }
 
   let qLeft = 0;
-  let qTop = pageStartTop;
+  let qTop = pageStartIndex;
 
   // qLastExpandedPos only exist in the layout if a new layout was received because a node was expanded or collapsed
   if (qLastExpandedPos) {
     // gridColumnStartIndex might not exist anymore in the new expanded/collapsed layout
     qLeft = Math.max(0, Math.min(qSize.qcx - DEFAULT_PAGE_SIZE, viewService.gridColumnStartIndex));
     // pageStartTop + viewService.gridRowStartIndex might not exist anymore in the new expanded/collapsed layout
-    qTop = Math.max(0, Math.min(qSize.qcy - DEFAULT_PAGE_SIZE, pageStartTop + viewService.gridRowStartIndex));
+    qTop = Math.max(0, Math.min(qSize.qcy - DEFAULT_PAGE_SIZE, pageStartIndex + viewService.gridRowStartIndex));
   }
 
   return {
     qLeft,
     qTop,
     qWidth: Math.min(MAX_COLUMN_COUNT - qLeft, qSize.qcx - qLeft, DEFAULT_PAGE_SIZE),
-    qHeight: Math.min(pageEndTop - qTop, qSize.qcy - qTop, DEFAULT_PAGE_SIZE),
+    qHeight: Math.min(pageEndIndex - qTop, qSize.qcy - qTop, DEFAULT_PAGE_SIZE),
   };
 };
 
