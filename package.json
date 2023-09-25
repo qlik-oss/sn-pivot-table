@@ -122,7 +122,7 @@
     "jest-junit": "16.0.0",
     "lint-staged": "14.0.1",
     "prettier": "3.0.3",
-    "qlik-chart-modules": "0.61.0",
+    "qlik-chart-modules": "0.59.0",
     "qlik-object-conversion": "0.16.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
