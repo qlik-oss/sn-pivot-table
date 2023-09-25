@@ -1,8 +1,9 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { DEFAULT_PAGE_SIZE, Q_PATH } from "../../constants";
+import { DEFAULT_PAGE_SIZE } from "../../constants";
+import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../pivot-table/constants";
 import type { Model } from "../../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../../types/types";
-import useLoadDataPages, { isMissingLayoutData, shouldFetchAdditionalData } from "../use-load-data-pages";
+import useLoadDataPages, { getFetchArea, isMissingLayoutData, shouldFetchAdditionalData } from "../use-load-data-pages";
 
 describe("useLoadDataPages", () => {
   let layoutService: LayoutService;
@@ -33,6 +34,8 @@ describe("useLoadDataPages", () => {
       page: 0,
       rowsPerPage: 100,
     } as PageInfo;
+
+    qLastExpandedPos = undefined;
   });
 
   describe("shouldFetchAdditionalData", () => {
@@ -135,6 +138,161 @@ describe("useLoadDataPages", () => {
     });
   });
 
+  describe("getFetchArea", () => {
+    beforeEach(() => {
+      qLastExpandedPos = { qx: 0, qy: 0 };
+    });
+
+    test("should return null if page does not exist any more", () => {
+      layoutService.layout.qHyperCube.qSize.qcy = pageInfo.page * pageInfo.rowsPerPage - 1;
+      expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toBe(null);
+    });
+
+    test("should return default area when a node has not been collapsed or expanded", () => {
+      qLastExpandedPos = undefined;
+      expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        qLeft: 0,
+        qTop: 0,
+        qWidth: DEFAULT_PAGE_SIZE,
+        qHeight: DEFAULT_PAGE_SIZE,
+      });
+    });
+
+    describe("qLeft", () => {
+      test("should return area when a node has been collapsed or expanded and column index still exists", () => {
+        viewService.gridColumnStartIndex = 100;
+        viewService.gridWidth = 25;
+        viewService.gridRowStartIndex = 0;
+        viewService.gridHeight = 50;
+        qLastExpandedPos = { qx: 125, qy: 0 };
+        layoutService.layout.qHyperCube.qSize.qcx = 1000;
+
+        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+          qLeft: viewService.gridColumnStartIndex,
+          qTop: 0,
+          qWidth: DEFAULT_PAGE_SIZE,
+          qHeight: DEFAULT_PAGE_SIZE,
+        });
+      });
+
+      test("should return area when a node has been collapsed or expanded and column index does not exists anymore", () => {
+        viewService.gridColumnStartIndex = 100;
+        viewService.gridWidth = 25;
+        viewService.gridRowStartIndex = 0;
+        viewService.gridHeight = 50;
+        qLastExpandedPos = { qx: 75, qy: 0 };
+        layoutService.layout.qHyperCube.qSize.qcx = 75;
+
+        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+          qLeft: 25,
+          qTop: 0,
+          qWidth: DEFAULT_PAGE_SIZE,
+          qHeight: DEFAULT_PAGE_SIZE,
+        });
+      });
+    });
+
+    describe("qTop", () => {
+      test("should return area when a node has been collapsed or expanded and position still exists", () => {
+        viewService.gridColumnStartIndex = 0;
+        viewService.gridWidth = 50;
+        viewService.gridRowStartIndex = 100;
+        viewService.gridHeight = 25;
+        qLastExpandedPos = { qx: 0, qy: 125 };
+        layoutService.layout.qHyperCube.qSize.qcy = 1000;
+        pageInfo.rowsPerPage = MAX_ROW_COUNT;
+
+        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+          qLeft: 0,
+          qTop: viewService.gridRowStartIndex,
+          qWidth: DEFAULT_PAGE_SIZE,
+          qHeight: DEFAULT_PAGE_SIZE,
+        });
+      });
+
+      test("should return area when a node has been collapsed or expanded and position does not exists anymore", () => {
+        viewService.gridColumnStartIndex = 0;
+        viewService.gridWidth = 50;
+        viewService.gridRowStartIndex = 100;
+        viewService.gridHeight = 25;
+        qLastExpandedPos = { qx: 0, qy: 75 };
+        layoutService.layout.qHyperCube.qSize.qcy = 75;
+        pageInfo.rowsPerPage = MAX_ROW_COUNT;
+
+        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+          qLeft: 0,
+          qTop: 25,
+          qWidth: DEFAULT_PAGE_SIZE,
+          qHeight: DEFAULT_PAGE_SIZE,
+        });
+      });
+    });
+
+    describe("qWidth", () => {
+      test("should return area when qWidth is clamped by MAX_COLUMN_COUNT", () => {
+        viewService.gridColumnStartIndex = MAX_COLUMN_COUNT - 10;
+        viewService.gridWidth = 10;
+        qLastExpandedPos = { qx: 0, qy: 0 };
+        layoutService.layout.qHyperCube.qSize.qcx = MAX_COLUMN_COUNT * 2;
+
+        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+          qLeft: viewService.gridColumnStartIndex,
+          qTop: viewService.gridRowStartIndex,
+          qWidth: 10,
+          qHeight: DEFAULT_PAGE_SIZE,
+        });
+      });
+
+      test("should return area when qWidth is clamped by qSize.qcx", () => {
+        layoutService.layout.qHyperCube.qSize.qcx = 1000;
+        viewService.gridColumnStartIndex = layoutService.layout.qHyperCube.qSize.qcx - 10;
+        viewService.gridWidth = 10;
+        qLastExpandedPos = { qx: 0, qy: 0 };
+
+        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+          qLeft: 950,
+          qTop: viewService.gridRowStartIndex,
+          qWidth: 50,
+          qHeight: DEFAULT_PAGE_SIZE,
+        });
+      });
+    });
+
+    describe("qHeight", () => {
+      test("should return area when qHeight is clamped by end of page", () => {
+        viewService.gridHeight = 10;
+        viewService.gridRowStartIndex = MAX_ROW_COUNT - 10;
+        qLastExpandedPos = { qx: 0, qy: 0 };
+        layoutService.layout.qHyperCube.qSize.qcy = MAX_ROW_COUNT * 2;
+        pageInfo.rowsPerPage = MAX_ROW_COUNT;
+        pageInfo.page = 0;
+
+        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+          qLeft: 0,
+          qTop: viewService.gridRowStartIndex,
+          qWidth: DEFAULT_PAGE_SIZE,
+          qHeight: 10,
+        });
+      });
+
+      test("should return area when qHeight is clamped by qSize.qcy", () => {
+        layoutService.layout.qHyperCube.qSize.qcy = 1000;
+        viewService.gridHeight = 10;
+        viewService.gridRowStartIndex = layoutService.layout.qHyperCube.qSize.qcy - 10;
+        qLastExpandedPos = { qx: 0, qy: 0 };
+        pageInfo.rowsPerPage = MAX_ROW_COUNT;
+        pageInfo.page = 0;
+
+        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+          qLeft: 0,
+          qTop: 950,
+          qWidth: DEFAULT_PAGE_SIZE,
+          qHeight: 50,
+        });
+      });
+    });
+  });
+
   describe("useLoadDataPages", () => {
     let getHyperCubePivotDataMock: jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>;
 
@@ -199,14 +357,6 @@ describe("useLoadDataPages", () => {
         renderer();
         await waitFor(() => {
           expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
-          expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
-            {
-              qLeft: viewService.gridColumnStartIndex,
-              qTop: 0,
-              qWidth: viewService.gridWidth,
-              qHeight: DEFAULT_PAGE_SIZE,
-            },
-          ]);
         });
       });
 
@@ -224,71 +374,6 @@ describe("useLoadDataPages", () => {
         renderer();
         await waitFor(() => {
           expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
-          expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
-            {
-              qLeft: viewService.gridColumnStartIndex,
-              qTop: 0,
-              qWidth: DEFAULT_PAGE_SIZE,
-              qHeight: DEFAULT_PAGE_SIZE,
-            },
-          ]);
-        });
-      });
-
-      test("should fetch data and conside pagination", async () => {
-        // make isMissingLayoutData() returns true by fake arguments
-        pageInfo = {
-          ...pageInfo,
-          page: 5,
-        };
-
-        renderer();
-        await waitFor(() => {
-          expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
-          expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
-            {
-              qLeft: viewService.gridColumnStartIndex,
-              qTop: pageInfo.page * pageInfo.rowsPerPage + 0,
-              qWidth: DEFAULT_PAGE_SIZE,
-              qHeight: DEFAULT_PAGE_SIZE,
-            },
-          ]);
-        });
-      });
-
-      test("should fetch data and conside pagination and qLastExpandedPos if any expanded", async () => {
-        // make isMissingLayoutData() returns true by fake arguments
-        pageInfo = {
-          ...pageInfo,
-          page: 5,
-        };
-        viewService = {
-          ...viewService,
-          gridRowStartIndex: 75,
-        };
-        layoutService = {
-          layout: {
-            qHyperCube: {
-              ...layoutService.layout.qHyperCube,
-              qLastExpandedPos: {
-                qx: 0,
-                qy: 0,
-              },
-            },
-          },
-        } as LayoutService;
-
-        renderer();
-        await waitFor(() => {
-          expect(getHyperCubePivotDataMock).toHaveBeenCalledTimes(1);
-          expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
-            {
-              qLeft: viewService.gridColumnStartIndex,
-              qTop: pageInfo.page * pageInfo.rowsPerPage + viewService.gridRowStartIndex,
-              qWidth: DEFAULT_PAGE_SIZE,
-              qHeight: DEFAULT_PAGE_SIZE,
-            },
-          ]);
         });
       });
     });

@@ -1,6 +1,6 @@
 import { useFetch } from "@qlik/nebula-table-utils/lib/hooks";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../constants";
-import { MAX_COLUMN_COUNT } from "../pivot-table/constants";
+import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../pivot-table/constants";
 import type { Model, PivotLayout } from "../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../types/types";
 
@@ -11,12 +11,18 @@ interface Props {
   pageInfo: PageInfo;
 }
 
-export const shouldFetchAdditionalData = (qLastExpandedPos: EngineAPI.INxCellPosition | undefined) => {
+export const shouldFetchAdditionalData = (
+  qLastExpandedPos: EngineAPI.INxCellPosition | undefined,
+  viewService: ViewService,
+) => {
   if (!qLastExpandedPos) {
     return false;
   }
 
-  return qLastExpandedPos.qx >= DEFAULT_PAGE_SIZE || qLastExpandedPos.qy >= DEFAULT_PAGE_SIZE;
+  return (
+    viewService.gridColumnStartIndex + viewService.gridWidth >= DEFAULT_PAGE_SIZE ||
+    viewService.gridRowStartIndex + viewService.gridHeight >= DEFAULT_PAGE_SIZE
+  );
 };
 
 export const isMissingLayoutData = (layout: PivotLayout, pageInfo: PageInfo): boolean => {
@@ -42,7 +48,8 @@ export const getFetchArea = (
   pageInfo: PageInfo,
 ) => {
   const pageStartTop = pageInfo.page * pageInfo.rowsPerPage;
-  const pageEndTop = pageStartTop + pageInfo.rowsPerPage;
+  // Use MAX_ROW_COUNT because when on first page and expand a node, pageInfo.rowsPerPage might be less than 50
+  const pageEndTop = pageStartTop + MAX_ROW_COUNT;
 
   if (qSize.qcy < pageStartTop) {
     /**
@@ -52,29 +59,15 @@ export const getFetchArea = (
     return null;
   }
 
-  // TODO Make sure to index vs size are correct, i.e. to -1 or not
-
-  // TODO do qLastExpandedPos neeed to know if it was from Left or Top grid?
-
   let qLeft = 0;
   let qTop = 0;
 
   // qLastExpandedPos only exist in the layout if a new layout was received because a node was expanded or collapsed
   if (qLastExpandedPos) {
     // gridColumnStartIndex might not exist anymore in the new expanded/collapsed layout
-    if (viewService.gridColumnStartIndex > qLastExpandedPos.qx) {
-      qLeft = Math.max(0, qLastExpandedPos.qx - DEFAULT_PAGE_SIZE);
-    } else {
-      qLeft = viewService.gridColumnStartIndex;
-    }
-
+    qLeft = Math.max(0, Math.min(qSize.qcx - DEFAULT_PAGE_SIZE, viewService.gridColumnStartIndex));
     // pageStartTop + viewService.gridRowStartIndex might not exist anymore in the new expanded/collapsed layout
-    const inViewTop = pageStartTop + viewService.gridRowStartIndex;
-    if (inViewTop > qLastExpandedPos.qy) {
-      qTop = Math.max(0, qLastExpandedPos.qy - DEFAULT_PAGE_SIZE);
-    } else {
-      qTop = inViewTop;
-    }
+    qTop = Math.max(0, Math.min(qSize.qcy - DEFAULT_PAGE_SIZE, pageStartTop + viewService.gridRowStartIndex));
   }
 
   return {
@@ -101,15 +94,10 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props
     if (
       model !== undefined &&
       "getHyperCubePivotData" in model &&
-      (shouldFetchAdditionalData(qLastExpandedPos) || isMissingLayoutData(layout, pageInfo))
+      (shouldFetchAdditionalData(qLastExpandedPos, viewService) || isMissingLayoutData(layout, pageInfo))
     ) {
       const fetchArea = getFetchArea(qLastExpandedPos, viewService, layout.qHyperCube.qSize, pageInfo);
-      console.log("%c fetchArea", "color: orangered", {
-        fetchArea,
-        viewService: { ...viewService },
-        pageInfo,
-        qLastExpandedPos,
-      });
+
       return fetchArea ? model.getHyperCubePivotData(Q_PATH, [fetchArea]) : [];
     }
 
