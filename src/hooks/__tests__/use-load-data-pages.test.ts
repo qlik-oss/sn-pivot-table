@@ -145,14 +145,29 @@ describe("useLoadDataPages", () => {
 
     test("should return null if page does not exist any more", () => {
       layoutService.layout.qHyperCube.qSize.qcy = pageInfo.page * pageInfo.rowsPerPage - 1;
+
       expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toBe(null);
     });
 
     test("should return default area when a node has not been collapsed or expanded", () => {
       qLastExpandedPos = undefined;
+
       expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
         qLeft: 0,
         qTop: 0,
+        qWidth: DEFAULT_PAGE_SIZE,
+        qHeight: DEFAULT_PAGE_SIZE,
+      });
+    });
+
+    test("should return page based area when a node has not been collapsed or expanded", () => {
+      qLastExpandedPos = undefined;
+      pageInfo.page = 1;
+      layoutService.layout.qHyperCube.qSize.qcy = pageInfo.rowsPerPage * 2;
+
+      expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        qLeft: 0,
+        qTop: pageInfo.rowsPerPage,
         qWidth: DEFAULT_PAGE_SIZE,
         qHeight: DEFAULT_PAGE_SIZE,
       });

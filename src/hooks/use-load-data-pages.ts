@@ -59,7 +59,7 @@ export const getFetchArea = (
   }
 
   let qLeft = 0;
-  let qTop = 0;
+  let qTop = pageStartTop;
 
   // qLastExpandedPos only exist in the layout if a new layout was received because a node was expanded or collapsed
   if (qLastExpandedPos) {
