@@ -3,6 +3,7 @@ import React, { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import type { Model } from "../../types/QIX";
 import type { LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
+import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
@@ -120,12 +121,13 @@ export const StickyPivotTable = ({
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
   const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
-  const containerHeight = totalDataHeight + headerCellHeight * topDimensionData.rowCount;
   const headerGridHeight = headerCellHeight * headersData.size.y;
+  const containerHeight = totalDataHeight + headerGridHeight + GRID_BORDER;
+
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
   const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
-  const leftGridHeight = Math.min(tableRect.height - headerGridHeight, totalDataHeight);
-  const dataGridHeight = Math.min(tableRect.height - topGridHeight, totalDataHeight);
+  const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
+  const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
 
   const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
   const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
