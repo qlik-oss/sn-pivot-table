@@ -20,6 +20,7 @@ const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyR
         overflow: interactions.active ? "auto" : "hidden",
         width: rect.width,
         height: rect.height,
+        overscrollBehaviorX: "contain",
       }}
       onScroll={onScroll}
     >
