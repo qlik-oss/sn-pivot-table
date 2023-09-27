@@ -11,7 +11,7 @@
       "enabled": false
     },
     {
-      "matchPackageNames": ["@qlik/nebula-table-utils", "@qlik-trial/sprout"],
+      "matchPackageNames": ["@qlik/nebula-table-utils", "@qlik-trial/sprout", "qlik-chart-modules"],
       "enabled": false
     },
     {

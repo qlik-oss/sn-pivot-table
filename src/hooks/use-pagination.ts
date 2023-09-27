@@ -17,7 +17,7 @@ const getRowsOnCurrentPage = ({ rowsPerPage, totalRowCount, page }: PageInfo) =>
   Math.min(rowsPerPage, totalRowCount - page * rowsPerPage);
 
 const getPageMeta = (qcy: number, page: number) => {
-  const rowsPerPage = Math.min(qcy, MAX_ROW_COUNT);
+  const rowsPerPage = MAX_ROW_COUNT;
   const totalPages = Math.ceil(qcy / rowsPerPage);
   const totalRowCount = qcy;
   const rowsOnCurrentPage = getRowsOnCurrentPage({ rowsPerPage, totalRowCount, page } as PageInfo);
