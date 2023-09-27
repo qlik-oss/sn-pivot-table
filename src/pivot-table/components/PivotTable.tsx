@@ -120,13 +120,14 @@ export const StickyPivotTable = ({
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
-  const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight + GRID_BORDER;
-  const containerHeight = totalDataHeight + headerCellHeight * topDimensionData.rowCount;
+  const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
   const headerGridHeight = headerCellHeight * headersData.size.y;
+  const containerHeight = totalDataHeight + headerGridHeight;
+
   // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
   const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
-  const leftGridHeight = Math.min(tableRect.height - headerGridHeight, totalDataHeight);
-  const dataGridHeight = Math.min(tableRect.height - topGridHeight, totalDataHeight);
+  const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
+  const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
 
   const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
   const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;

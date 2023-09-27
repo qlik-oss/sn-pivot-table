@@ -16,7 +16,7 @@ export const getRowHeightHandler =
     const cell = isLastColumn ? list[rowIndex] : Object.values(list)[rowIndex];
 
     if (rowIndex === 0 && cell?.pageY > 0) {
-      return (cell.leafCount + cell.pageY) * cellHeight;
+      return (cell.leafCount + cell.pageY + cell.distanceToNextCell) * cellHeight;
     }
 
     if (cell?.leafCount > 0) {

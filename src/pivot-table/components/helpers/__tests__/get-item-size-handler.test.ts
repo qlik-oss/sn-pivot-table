@@ -48,13 +48,15 @@ describe("getItemSizeHandler", () => {
       const index = 1;
       const leafCount = 10;
       const pageY = 1;
+      const distanceToNextCell = 1;
       list[index] = {
         leafCount,
         pageY,
+        distanceToNextCell,
       } as Cell;
       const handler = getRowHeightHandler(list, cellHeight, false, qcy);
 
-      expect(handler(0)).toEqual(cellHeight * (leafCount + pageY));
+      expect(handler(0)).toEqual(cellHeight * (leafCount + pageY + distanceToNextCell));
     });
   });
 
