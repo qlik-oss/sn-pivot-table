@@ -52,7 +52,7 @@ export const getTextStyle = (styleService: StyleService, isNumeric: boolean) => 
 
   return {
     ...textStyle,
-    ...(!isNumeric && getGridTextClampStyle(styleService.lineClamp)),
+    ...(!isNumeric && getGridTextClampStyle(styleService.content.lineClamp)),
     alignSelf: "flex-start",
     fontFamily,
     fontSize,

@@ -35,6 +35,21 @@ const contentSection = (translator: stardust.Translator) => ({
           "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.content?.background ?? Colors.Transparent,
         ),
+        lineClamp: {
+          component: "inline-wrapper",
+          items: {
+            rowHeight: {
+              component: "dropdown",
+              ref: "content.lineClamp",
+              translation: "ThemeStyleEditor.style.rowHeight",
+              options: [...Array(10).keys()].map((x) => ({
+                value: x + 1,
+                translation: x + 1,
+              })),
+              defaultValue: 1,
+            },
+          },
+        },
         // Null value styling
         nullValues: {
           component: "header",
