@@ -11,7 +11,6 @@ export interface UseDataModelProps {
 }
 
 export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDataModelProps): DataModel {
-  const ref = useMemo(() => ({ isLoading: false }), []);
   const genericObjectModel = model as EngineAPI.IGenericObject | undefined;
 
   const collapseLeft = useCallback<ExpandOrCollapser>(
@@ -45,9 +44,6 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
   const fetchMoreData = useCallback<FetchMoreData>(
     async (left: number, top: number, width: number, height: number): Promise<boolean> => {
       if (!genericObjectModel?.getHyperCubePivotData) return false;
-      if (ref.isLoading) return false;
-
-      ref.isLoading = true;
 
       try {
         const nextArea = {
@@ -56,19 +52,17 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
           qWidth: width,
           qHeight: height,
         };
+
         const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, [nextArea]);
         nextPageHandler(pivotPage);
 
-        ref.isLoading = false;
         return true;
       } catch (error) {
-        // TODO handle error
         console.error(error); // eslint-disable-line
-        ref.isLoading = false;
         return false;
       }
     },
-    [genericObjectModel, nextPageHandler, ref, pageInfo],
+    [genericObjectModel, nextPageHandler, pageInfo],
   );
 
   const dataModel = useMemo<DataModel>(
