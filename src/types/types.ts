@@ -5,7 +5,7 @@ export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
-export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<boolean>;
+export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<void>;
 
 export type List = Record<number, Cell>;
 
