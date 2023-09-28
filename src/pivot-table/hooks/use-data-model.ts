@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { Q_PATH } from "../../constants";
 import type { Model } from "../../types/QIX";
 import type { DataModel, ExpandOrCollapser, FetchMoreData, PageInfo } from "../../types/types";
+import useMutableProp from "./use-mutable-prop";
 
 export interface UseDataModelProps {
   model: Model;
@@ -11,6 +12,7 @@ export interface UseDataModelProps {
 }
 
 export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDataModelProps): DataModel {
+  const currentPage = useMutableProp(pageInfo.page);
   const genericObjectModel = model as EngineAPI.IGenericObject | undefined;
 
   const collapseLeft = useCallback<ExpandOrCollapser>(
@@ -42,8 +44,8 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
   );
 
   const fetchMoreData = useCallback<FetchMoreData>(
-    async (left: number, top: number, width: number, height: number): Promise<boolean> => {
-      if (!genericObjectModel?.getHyperCubePivotData) return false;
+    async (left: number, top: number, width: number, height: number): Promise<void> => {
+      if (!genericObjectModel?.getHyperCubePivotData) return;
 
       try {
         const nextArea = {
@@ -54,15 +56,16 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
         };
 
         const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, [nextArea]);
-        nextPageHandler(pivotPage);
 
-        return true;
+        // Guard against page changes
+        if (currentPage.current === pageInfo.page) {
+          nextPageHandler(pivotPage);
+        }
       } catch (error) {
         console.error(error); // eslint-disable-line
-        return false;
       }
     },
-    [genericObjectModel, nextPageHandler, pageInfo],
+    [genericObjectModel, nextPageHandler, pageInfo, currentPage],
   );
 
   const dataModel = useMemo<DataModel>(
