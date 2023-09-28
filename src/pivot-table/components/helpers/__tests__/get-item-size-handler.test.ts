@@ -61,9 +61,23 @@ describe("getItemSizeHandler", () => {
 
   describe("getColumnWidthHandler", () => {
     const columnWidth = 33;
+    let index: number;
+    let leafCount: number;
+    let distanceToNextCell: number;
+    let x: number;
     let getRightGridColumnWidth: (index?: number) => number;
 
     beforeEach(() => {
+      index = 0;
+      leafCount = 10;
+      distanceToNextCell = 5;
+      x = 0;
+      list[index] = {
+        leafCount,
+        distanceToNextCell,
+        x,
+      } as Cell;
+
       getRightGridColumnWidth = () => columnWidth;
     });
 
@@ -78,14 +92,14 @@ describe("getItemSizeHandler", () => {
       list = {};
 
       const handler = getHandler();
-      expect(handler(0)).toEqual(columnWidth);
+      expect(handler(index)).toEqual(columnWidth);
     });
 
     test("should return a size when cell has no leaf nodes", () => {
-      const index = 0;
+      leafCount = 0;
       list[index] = {
-        leafCount: 0,
-        x: 0,
+        leafCount,
+        x,
       } as Cell;
 
       const handler = getHandler();
@@ -93,56 +107,32 @@ describe("getItemSizeHandler", () => {
     });
 
     test("should return a size when cell has leaf nodes", () => {
-      const index = 0;
-      const leafCount = 10;
-      const distanceToNextCell = 0;
+      distanceToNextCell = 0;
       list[index] = {
         leafCount,
         distanceToNextCell,
-        x: 0,
+        x,
       } as Cell;
 
       const handler = getHandler();
-      expect(handler(index)).toEqual(columnWidth * leafCount);
+      expect(handler(index)).toEqual(leafCount * columnWidth);
     });
 
     test("should return a size when cell has leaf nodes and distanceToNextCell", () => {
-      const index = 0;
-      const leafCount = 10;
-      const distanceToNextCell = 5;
-      list[index] = {
-        leafCount,
-        distanceToNextCell,
-        x: 0,
-      } as Cell;
-
       const handler = getHandler();
       expect(handler(index)).toEqual((leafCount + distanceToNextCell) * columnWidth);
     });
 
-    // TODO: Will update this test when I fix the corner case, see comment in code
-    // test("should return a size for cell when first column does not exist in list", () => {
-    //   const index = 0;
-    //   const leafCount = 10;
-    //   const distanceToNextCell = 0;
-    //   const x = 10;
-    //   list[index] = {
-    //     leafCount,
-    //     distanceToNextCell,
-    //     x,
-    //   } as Cell;
+    test("should return a size when colIndex is 0 but cell.x is > 0", () => {
+      x = 5;
+      list[index] = {
+        leafCount,
+        distanceToNextCell,
+        x,
+      } as Cell;
 
-    //   const handler = getColumnWidthHandler({
-    //     list,
-    //     isLastRow: false,
-    //     layoutService,
-    //     getMeasureInfoWidth,
-    //     allMeasuresWidth,
-    //   });
-
-    //   expect(handler(index)).toEqual(
-    //     (allMeasuresWidth * (leafCount + x)) / layoutService.layout.qHyperCube.qMeasureInfo.length,
-    //   );
-    // });
+      const handler = getHandler();
+      expect(handler(index)).toEqual((leafCount + distanceToNextCell + x) * columnWidth);
+    });
   });
 });
