@@ -218,6 +218,7 @@ interface MeasureContentStyling extends FontStyling {
   background: string;
   nullValue: CellStyling;
   totalValue: CellStyling;
+  lineClamp: number;
 }
 
 interface DimensionContentStyling extends FontStyling {
@@ -229,7 +230,6 @@ interface DimensionContentStyling extends FontStyling {
 
 interface GridStyling {
   rowHeight: "compact";
-  lineCount: number;
   border: string;
   divider: string;
 }
@@ -245,8 +245,6 @@ export interface StylingOptions {
 export interface StyleService extends StylingOptions {
   headerCellHeight: number;
   contentCellHeight: number;
-  lineClamp: number;
-  headerLineClamp: number;
 }
 
 export type ActivelySortedColumn = {

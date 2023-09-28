@@ -48,6 +48,7 @@ const TestWithProvider = (props: Props) => {
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
         color: "contentColor",
         background: "contentBackground",
+        lineClamp: 1,
         nullValue: {
           color: "contentNullColor",
           background: "contentNullBackground",
@@ -95,12 +96,9 @@ const TestWithProvider = (props: Props) => {
       },
       grid: {
         rowHeight: "compact",
-        lineCount: 1,
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",
       },
-      lineClamp: 1,
-      headerLineClamp: 1,
       headerCellHeight: DEFAULT_CELL_HEIGHT,
       contentCellHeight: DEFAULT_CELL_HEIGHT,
     },

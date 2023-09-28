@@ -48,10 +48,9 @@ enum Attribute {
   FontColor = "fontColor",
   Color = "color",
   CellHeight = "cellHeight",
-  LineClamp = "lineClamp",
   Background = "background",
   RowHeight = "rowHeight",
-  LineCount = "lineCount",
+  LineClamp = "lineClamp",
   Border = "border",
   Divider = "divider",
 }
@@ -76,11 +75,13 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const gridStyling = chartStyling?.[Path.Grid];
   const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
 
-  const lineClamp = gridStyling?.lineCount ?? DEFAULT_LINE_CLAMP;
+  const lineClamp = +(
+    contentStyling?.[Attribute.LineClamp] ??
+    getThemeStyle([Path.Content], Attribute.LineClamp) ??
+    DEFAULT_LINE_CLAMP
+  );
 
   const styleService: StyleService = {
-    lineClamp,
-    headerLineClamp: DEFAULT_LINE_CLAMP,
     header: {
       fontSize:
         resolveFontSize(headerStyling?.[Attribute.FontSize]) ??
@@ -132,6 +133,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, contentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.Content], Attribute.Background) ??
         Colors.Transparent,
+      lineClamp,
       nullValue: {
         color:
           resolveColor(theme, contentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
@@ -251,8 +253,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     },
     grid: {
       rowHeight: gridStyling?.[Attribute.RowHeight] ?? getThemeStyle([Path.Grid], Attribute.RowHeight) ?? "compact",
-      lineCount:
-        gridStyling?.[Attribute.LineCount] ?? getThemeStyle([Path.Grid], Attribute.LineCount) ?? DEFAULT_LINE_CLAMP,
       border:
         resolveColor(theme, gridStyling?.[Attribute.Border]) ??
         getThemeStyle([Path.Grid], Attribute.Border) ??
@@ -265,8 +265,8 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   } as StyleService;
 
   styleService["headerCellHeight"] = Math.max(
-    fontSizeToCellHeight(styleService.header.fontSize, styleService.headerLineClamp),
-    fontSizeToCellHeight(styleService.columnContent.fontSize, styleService.headerLineClamp),
+    fontSizeToCellHeight(styleService.header.fontSize, DEFAULT_LINE_CLAMP),
+    fontSizeToCellHeight(styleService.columnContent.fontSize, DEFAULT_LINE_CLAMP),
     DEFAULT_HEADER_CELL_HEIGHT,
   );
 
