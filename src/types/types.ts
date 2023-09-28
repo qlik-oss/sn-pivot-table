@@ -50,10 +50,15 @@ export interface ItemData {
   layoutService: LayoutService;
 }
 
+export interface ShowLastBorder {
+  right: boolean;
+  bottom: boolean;
+}
+
 export interface GridItemData extends ItemData {
   grid: EngineAPI.INxPivotValuePoint[][];
   isLeftColumn?: boolean;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
   isTotalValue: (x: number, y: number) => boolean;
   shouldShowTotalCellBottomDivider: (y: number) => boolean;
   shouldShowTotalCellRightDivider: (x: number) => boolean;
@@ -64,7 +69,7 @@ export interface ListItemData extends ItemData {
   isLeftColumn?: boolean;
   isLast: boolean;
   itemCount: number;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
   listValues: Cell[];
   totalDividerIndex: number;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import type { Cell } from "../../../types/types";
+import type { Cell, ShowLastBorder } from "../../../types/types";
 import { DEFAULT_LINE_CLAMP } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
@@ -18,7 +18,7 @@ interface LabelCellProps {
   isLeftColumn: boolean;
   isLastRow: boolean;
   isLastColumn: boolean;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
   showTotalCellDivider: boolean;
 }
 
@@ -37,7 +37,7 @@ const PseudoDimensionCell = ({
   isLeftColumn,
   isLastRow,
   isLastColumn,
-  showLastRowBorderBottom,
+  showLastBorder,
   showTotalCellDivider,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
@@ -65,7 +65,7 @@ const PseudoDimensionCell = ({
       title={cell.ref.qText}
       style={{
         ...style,
-        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastRowBorderBottom),
+        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
         ...totalCellDividerStyle,
         ...containerStyle,
         ...serviceStyle,

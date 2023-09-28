@@ -63,12 +63,14 @@ export const StickyPivotTable = ({
     pageInfo,
   });
 
-  const { leftGridWidth, rightGridWidth, getLeftColumnWidth, getMeasureInfoWidth, getTotalWidth } = useColumnWidth(
-    layoutService,
-    tableRect,
-    leftDimensionData,
-    visibleLeftDimensionInfo,
-  );
+  const {
+    leftGridWidth,
+    rightGridWidth,
+    totalWidth,
+    showLastRightBorder,
+    getLeftGridColumnWidth,
+    getRightGridColumnWidth,
+  } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
@@ -131,11 +133,12 @@ export const StickyPivotTable = ({
 
   const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
   const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
-  const showLastRowBorderBottom = rowsInCurrentPage < rowsCanFitInTableViewPort;
+  const showLastBottomBorder = rowsInCurrentPage < rowsCanFitInTableViewPort;
+  const showLastBorder = { right: showLastRightBorder, bottom: showLastBottomBorder };
 
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
-      <FullSizeContainer width={getTotalWidth()} height={containerHeight}>
+      <FullSizeContainer width={totalWidth} height={containerHeight}>
         <StickyContainer
           rect={tableRect}
           leftColumnsWidth={leftGridWidth}
@@ -144,7 +147,7 @@ export const StickyPivotTable = ({
           bottomRowsHeight={dataGridHeight}
         >
           <HeaderGrid
-            columnWidthCallback={getLeftColumnWidth}
+            columnWidthCallback={getLeftGridColumnWidth}
             rowHight={headerCellHeight}
             headersData={headersData}
             translator={translator}
@@ -155,27 +158,27 @@ export const StickyPivotTable = ({
           <TopGrid
             dataModel={dataModel}
             topGridRef={topGridRef}
-            getMeasureInfoWidth={getMeasureInfoWidth}
             rowHightCallback={headerCellRowHightCallback}
             width={rightGridWidth}
             height={topGridHeight}
             getScrollLeft={getScrollLeft}
             layoutService={layoutService}
             topDimensionData={topDimensionData}
-            showLastRowBorderBottom={false}
+            showLastBorder={{ ...showLastBorder, bottom: false }}
+            getRightGridColumnWidth={getRightGridColumnWidth}
             visibleTopDimensionInfo={visibleTopDimensionInfo}
           />
 
           <LeftGrid
             dataModel={dataModel}
             leftGridRef={leftGridRef}
-            getLeftColumnWidth={getLeftColumnWidth}
             width={leftGridWidth}
             height={leftGridHeight}
             getScrollTop={getScrollTop}
             layoutService={layoutService}
             leftDimensionData={leftDimensionData}
-            showLastRowBorderBottom={showLastRowBorderBottom}
+            showLastBorder={{ ...showLastBorder, right: false }}
+            getLeftGridColumnWidth={getLeftGridColumnWidth}
             visibleLeftDimensionInfo={visibleLeftDimensionInfo}
             pageInfo={pageInfo}
           />
@@ -183,7 +186,6 @@ export const StickyPivotTable = ({
           <DataGrid
             dataModel={dataModel}
             dataGridRef={dataGridRef}
-            getMeasureInfoWidth={getMeasureInfoWidth}
             rowHightCallback={contentCellRowHightCallback}
             width={rightGridWidth}
             height={dataGridHeight}
@@ -192,7 +194,8 @@ export const StickyPivotTable = ({
             measureData={measureData}
             leftDimensionData={leftDimensionData}
             topDimensionData={topDimensionData}
-            showLastRowBorderBottom={showLastRowBorderBottom}
+            showLastBorder={showLastBorder}
+            getRightGridColumnWidth={getRightGridColumnWidth}
           />
         </StickyContainer>
       </FullSizeContainer>

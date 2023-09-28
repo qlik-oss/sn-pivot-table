@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { HyperCube, Model } from "../../types/QIX";
+import type { ExtendedHyperCube, Model } from "../../types/QIX";
 import type { ChangeActivelySortedHeader, ChangeSortOrder, Header, SortDirection } from "../../types/types";
 
 interface UseSortingApi {
@@ -8,7 +8,7 @@ interface UseSortingApi {
 }
 
 interface UseSorting {
-  (model: Model, hyperCube: HyperCube): UseSortingApi;
+  (model: Model, hyperCube: ExtendedHyperCube): UseSortingApi;
 }
 
 const useSorting: UseSorting = (model, qHyperCube) => {

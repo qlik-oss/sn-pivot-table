@@ -105,7 +105,7 @@ const DimensionTitleCell = ({
       hoverBackground={hoverBackground}
       style={{
         ...style,
-        ...getBorderStyle(true, isLastColumn, styleService.grid.border, false),
+        ...getBorderStyle(true, isLastColumn, styleService.grid.border),
         color,
       }}
       data-testid={testId}

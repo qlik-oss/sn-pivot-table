@@ -1,7 +1,7 @@
 /*  eslint-disable no-param-reassign */
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { throttler } from "qlik-chart-modules";
-import React, { memo, useCallback, useLayoutEffect, useMemo } from "react";
+import React, { memo, useCallback, useLayoutEffect } from "react";
 import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
 import type {
   DataModel,
@@ -9,6 +9,7 @@ import type {
   LayoutService,
   LeftDimensionData,
   MeasureData,
+  ShowLastBorder,
   TopDimensionData,
   ViewService,
 } from "../../../types/types";
@@ -24,7 +25,6 @@ import { borderStyle } from "../shared-styles";
 interface DataGridProps {
   dataModel: DataModel;
   dataGridRef: React.RefObject<VariableSizeGrid>;
-  getMeasureInfoWidth: (index: number) => number;
   height: number;
   rowHightCallback: () => number;
   width: number;
@@ -33,7 +33,8 @@ interface DataGridProps {
   measureData: MeasureData;
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
+  getRightGridColumnWidth: (index?: number) => number;
 }
 
 type FetchModeData = (
@@ -111,7 +112,6 @@ const throttledFetchMoreData: FetchModeData = throttler(
 const DataGrid = ({
   dataModel,
   dataGridRef,
-  getMeasureInfoWidth,
   height,
   rowHightCallback,
   width,
@@ -120,13 +120,13 @@ const DataGrid = ({
   measureData,
   leftDimensionData,
   topDimensionData,
-  showLastRowBorderBottom,
+  showLastBorder,
+  getRightGridColumnWidth,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
     contentCellHeight,
   } = useStyleContext();
-  const { qMeasureInfo } = layoutService.layout.qHyperCube;
   const resolvedGridStyle = {
     ...(layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions),
     borderColor: divider,
@@ -176,16 +176,6 @@ const DataGrid = ({
     [viewService, dataModel, measureData],
   );
 
-  const getColumnWidth = useCallback(
-    (index: number) => getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(index)),
-    [getMeasureInfoWidth, layoutService],
-  );
-
-  const allMeasuresWidth = useMemo(
-    () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
-    [getMeasureInfoWidth, qMeasureInfo],
-  );
-
   if (layoutService.size.x === 0) {
     return null;
   }
@@ -195,7 +185,7 @@ const DataGrid = ({
       ref={dataGridRef}
       style={resolvedGridStyle}
       columnCount={layoutService.size.x}
-      columnWidth={getColumnWidth}
+      columnWidth={getRightGridColumnWidth}
       height={height}
       rowCount={layoutService.size.y}
       rowHeight={rowHightCallback}
@@ -205,7 +195,7 @@ const DataGrid = ({
           layoutService,
           grid: measureData,
           dataModel,
-          showLastRowBorderBottom,
+          showLastBorder,
           isTotalValue,
           shouldShowTotalCellBottomDivider,
           shouldShowTotalCellRightDivider,
@@ -213,7 +203,7 @@ const DataGrid = ({
       }
       onItemsRendered={onItemsRendered}
       estimatedRowHeight={rowHightCallback()}
-      estimatedColumnWidth={allMeasuresWidth / qMeasureInfo.length}
+      estimatedColumnWidth={getRightGridColumnWidth()}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>

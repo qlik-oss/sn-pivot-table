@@ -10,12 +10,12 @@ interface UseVisibleDimensions {
 }
 
 const typeToDimension =
-  (qDimensionInfo: EngineAPI.INxDimensionInfo[], qEffectiveInterColumnSortOrder: number[], startIndex: number) =>
+  (qDimensionInfo: ExtendedDimensionInfo[], qEffectiveInterColumnSortOrder: number[], startIndex: number) =>
   (type: EngineAPI.NxCellType, index: number) => {
     if (type === NxDimCellType.NX_DIM_CELL_PSEUDO) return PSEUDO_DIMENSION_INDEX;
 
     const dimIndex = qEffectiveInterColumnSortOrder[startIndex + index];
-    return qDimensionInfo[dimIndex] as ExtendedDimensionInfo;
+    return qDimensionInfo[dimIndex];
   };
 
 const getVisibleDimensionTypes = (rootNodes: EngineAPI.INxPivotDimensionCell[]) => {

@@ -1,12 +1,12 @@
 import { renderHook } from "@testing-library/react";
-import type { HyperCube, Model } from "../../../types/QIX";
+import type { ExtendedHyperCube, Model } from "../../../types/QIX";
 import type { Header, SortDirection } from "../../../types/types";
 import useSorting from "../use-sorting";
 
 describe("use-sorting", () => {
   let model: Model;
   let applyPatches: jest.MockedFunction<() => Promise<void>>;
-  let hyperCube: HyperCube;
+  let hyperCube: ExtendedHyperCube;
 
   let header: Header;
   let newSortDirection: SortDirection;
@@ -16,7 +16,7 @@ describe("use-sorting", () => {
   beforeEach(() => {
     applyPatches = jest.fn();
     model = { applyPatches } as unknown as Model;
-    hyperCube = { qDimensionInfo: [{}, {}, {}] } as unknown as HyperCube;
+    hyperCube = { qDimensionInfo: [{}, {}, {}] } as unknown as ExtendedHyperCube;
 
     header = { isDim: true, colIdx: 0, qReverseSort: false } as Header;
     newSortDirection = "A";
@@ -114,7 +114,7 @@ describe("use-sorting", () => {
     });
 
     test("should call applyPatches using correct operation if `activelySortedColumn` is already exists on hypercube", async () => {
-      hyperCube = { ...hyperCube, activelySortedColumn: {} } as HyperCube;
+      hyperCube = { ...hyperCube, activelySortedColumn: {} } as ExtendedHyperCube;
       const { changeActivelySortedHeader } = renderer();
       newSortDirection = "D";
       header.isDim = false;

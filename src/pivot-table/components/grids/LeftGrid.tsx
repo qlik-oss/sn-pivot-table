@@ -1,7 +1,14 @@
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, LeftDimensionData, PageInfo, VisibleDimensionInfo } from "../../../types/types";
+import type {
+  DataModel,
+  LayoutService,
+  LeftDimensionData,
+  PageInfo,
+  ShowLastBorder,
+  VisibleDimensionInfo,
+} from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -14,13 +21,13 @@ import { borderStyle } from "../shared-styles";
 interface LeftGridProps {
   dataModel: DataModel;
   leftGridRef: React.RefObject<VariableSizeList[]>;
-  getLeftColumnWidth: (index: number) => number;
   width: number;
   height: number;
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
+  getLeftGridColumnWidth: (index: number) => number;
   visibleLeftDimensionInfo: VisibleDimensionInfo[];
   pageInfo: PageInfo;
 }
@@ -39,7 +46,7 @@ const listStyle: React.CSSProperties = {
    * as there was issues with rendering border when the width of the react-window "list" was
    * a floating point number.
    *
-   * If performance issues arrise when scrolling, this may need to be change back the "transform"
+   * If performance issues arise when scrolling, this may need to be change back the "transform"
    * again to resolve those performance issues, but the issue with rendering border will need to
    * be fixed in some other way.
    */
@@ -49,13 +56,13 @@ const listStyle: React.CSSProperties = {
 const LeftGrid = ({
   dataModel,
   leftGridRef,
-  getLeftColumnWidth,
   width,
   height,
   getScrollTop,
   layoutService,
   leftDimensionData,
-  showLastRowBorderBottom,
+  showLastBorder,
+  getLeftGridColumnWidth,
   visibleLeftDimensionInfo,
   pageInfo,
 }: LeftGridProps): JSX.Element | null => {
@@ -101,7 +108,7 @@ const LeftGrid = ({
             ref={setListRef(leftGridRef, colIndex)}
             style={listStyle}
             height={height}
-            width={getLeftColumnWidth(colIndex)}
+            width={getLeftGridColumnWidth(colIndex)}
             itemCount={itemCount}
             itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
             layout="vertical"
@@ -112,7 +119,7 @@ const LeftGrid = ({
               isLeftColumn: true,
               isLast: isLastColumn && !layoutService.layout.snapshotData,
               itemCount,
-              showLastRowBorderBottom,
+              showLastBorder,
               listValues,
               totalDividerIndex: leftDimensionData.totalDividerIndex,
             }}

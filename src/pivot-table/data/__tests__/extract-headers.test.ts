@@ -1,15 +1,15 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
-import type { HyperCube } from "../../../types/QIX";
+import type { ExtendedHyperCube } from "../../../types/QIX";
 import extractHeaders from "../extract-headers";
 import { createDimInfo } from "./test-helper";
 
 describe("extractHeaders", () => {
-  let hyperCube: HyperCube;
+  let hyperCube: ExtendedHyperCube;
 
   beforeEach(() => {
     hyperCube = {
       activelySortedColumn: { colIdx: 0 },
-    } as HyperCube;
+    } as ExtendedHyperCube;
   });
 
   test("should extract headers with row count 1 and column count 1", () => {

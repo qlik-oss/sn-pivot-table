@@ -1,7 +1,13 @@
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
-import React, { memo, useLayoutEffect, useMemo } from "react";
+import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeList } from "react-window";
-import type { DataModel, LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../../types/types";
+import type {
+  DataModel,
+  LayoutService,
+  ShowLastBorder,
+  TopDimensionData,
+  VisibleDimensionInfo,
+} from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedListCellFactory from "../cells/ListCellFactory";
 import getItemKey from "../helpers/get-item-key";
@@ -14,14 +20,14 @@ import { borderStyle } from "../shared-styles";
 interface TopGridProps {
   dataModel: DataModel;
   topGridRef: React.RefObject<VariableSizeList[]>;
-  getMeasureInfoWidth: (index: number) => number;
   rowHightCallback: () => number;
   width: number;
   height: number;
   getScrollLeft: () => number;
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
-  showLastRowBorderBottom: boolean;
+  showLastBorder: ShowLastBorder;
+  getRightGridColumnWidth: (index?: number) => number;
   visibleTopDimensionInfo: VisibleDimensionInfo[];
 }
 
@@ -43,21 +49,20 @@ const containerStyleWithoutBorders: React.CSSProperties = {
 const TopGrid = ({
   dataModel,
   topGridRef,
-  getMeasureInfoWidth,
   rowHightCallback,
   width,
   height,
   getScrollLeft,
   layoutService,
   topDimensionData,
-  showLastRowBorderBottom,
+  showLastBorder,
+  getRightGridColumnWidth,
   visibleTopDimensionInfo,
 }: TopGridProps): JSX.Element | null => {
   const {
     grid: { divider },
     headerCellHeight,
   } = useStyleContext();
-  const { qMeasureInfo } = layoutService.layout.qHyperCube;
   const resolvedContainerStyle = {
     ...(layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders),
     borderColor: divider,
@@ -75,12 +80,7 @@ const TopGrid = ({
     }
   }, [layoutService, getScrollLeft, topGridRef]);
 
-  const allMeasuresWidth = useMemo(
-    () => qMeasureInfo.reduce((totalWidth, measure, index) => totalWidth + getMeasureInfoWidth(index), 0),
-    [getMeasureInfoWidth, qMeasureInfo],
-  );
-
-  const totalWidth = layoutService.size.x * (allMeasuresWidth / qMeasureInfo.length);
+  const totalWidth = layoutService.size.x * getRightGridColumnWidth();
 
   if (topDimensionData.rowCount === 0) {
     // An empty top grid needs to occupy space to properly render headers given there is no top data
@@ -107,7 +107,7 @@ const TopGrid = ({
             height={rowHightCallback()}
             width={width}
             itemCount={itemCount}
-            itemSize={getColumnWidthHandler({ list, isLastRow, layoutService, getMeasureInfoWidth, allMeasuresWidth })}
+            itemSize={getColumnWidthHandler({ list, isLastRow, getRightGridColumnWidth })}
             layout="horizontal"
             itemData={{
               layoutService,
@@ -115,7 +115,7 @@ const TopGrid = ({
               list,
               isLast: isLastRow && !layoutService.layout.snapshotData,
               itemCount,
-              showLastRowBorderBottom,
+              showLastBorder,
               listValues,
               totalDividerIndex: topDimensionData.totalDividerIndex,
             }}

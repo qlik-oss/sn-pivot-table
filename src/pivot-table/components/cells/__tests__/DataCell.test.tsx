@@ -41,7 +41,7 @@ describe("DataCell", () => {
     data = {
       grid: [[cell]],
       layoutService,
-      showLastRowBorderBottom: false,
+      showLastBorder: { right: false, bottom: false },
       shouldShowTotalCellBottomDivider: () => false,
       shouldShowTotalCellRightDivider: () => false,
       isTotalValue: () => false,

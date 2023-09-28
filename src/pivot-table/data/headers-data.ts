@@ -1,9 +1,9 @@
-import type { HyperCube } from "../../types/QIX";
+import type { ExtendedHyperCube } from "../../types/QIX";
 import type { HeadersData, VisibleDimensionInfo } from "../../types/types";
 import extractHeaders from "./extract-headers";
 
 const createHeadersData = (
-  qHyperCube: HyperCube,
+  qHyperCube: ExtendedHyperCube,
   rowCount: number,
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): HeadersData => {

@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import type { App } from "../../../../types/QIX";
+import type { App, ExtendedDimensionInfo } from "../../../../types/QIX";
 import type { HeaderCell } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
@@ -38,7 +38,7 @@ describe("DimensionTitleCell", () => {
   });
 
   describe("HeaderMenu", () => {
-    let qDimensionInfo: EngineAPI.INxDimensionInfo;
+    let qDimensionInfo: ExtendedDimensionInfo;
     let model: EngineAPI.IGenericObject;
     let layout: EngineAPI.IGenericBaseLayout;
     let interactions: stardust.Interactions;
@@ -51,7 +51,7 @@ describe("DimensionTitleCell", () => {
           qSelected: 1,
           qOption: 1,
         },
-      } as EngineAPI.INxDimensionInfo;
+      } as ExtendedDimensionInfo;
       layout = { qHyperCube: { qDimensionInfo: [qDimensionInfo] } } as unknown as EngineAPI.IGenericBaseLayout;
       model = { getLayout: () => Promise.resolve(layout) } as EngineAPI.IGenericObject;
       interactions = { active: true, select: true, passive: true };

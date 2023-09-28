@@ -92,7 +92,7 @@ const DimensionCell = ({
   showTotalCellDivider,
 }: DimensionCellProps): JSX.Element => {
   const { qText, qCanCollapse, qCanExpand } = cell.ref;
-  const { dataModel, layoutService, showLastRowBorderBottom } = data;
+  const { dataModel, layoutService, showLastBorder } = data;
   const styleService = useStyleContext();
   const { interactions } = useBaseContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
@@ -120,7 +120,7 @@ const DimensionCell = ({
     isCellSelected,
     styleService,
     isLeftColumn,
-    showLastRowBorderBottom,
+    showLastBorder,
     showTotalCellDivider: !layoutService.showTotalsAbove && showTotalCellDivider,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);

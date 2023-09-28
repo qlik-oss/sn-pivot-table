@@ -112,8 +112,40 @@ export interface Args {
   };
 }
 
+export enum ColumnWidthType {
+  Auto = "auto",
+  FitToContent = "fitToContent",
+  Pixels = "pixels",
+  Percentage = "percentage",
+}
+
+export interface ColumnWidth {
+  type: ColumnWidthType;
+  pixels?: number;
+  percentage?: number;
+}
+
+export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
+  cId?: string;
+  qLibraryId?: string;
+  qCardinalities: {
+    qHypercubeCardinal: number;
+  };
+  columnWidth: ColumnWidth;
+}
+
+export interface ExtendedMeasureInfo extends EngineAPI.INxMeasureInfo {
+  columnWidth: ColumnWidth;
+}
+
+export interface ExtendedHyperCube extends EngineAPI.IHyperCube {
+  qDimensionInfo: ExtendedDimensionInfo[];
+  qMeasureInfo: ExtendedMeasureInfo[];
+  activelySortedColumn: ActivelySortedColumn;
+}
+
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {
-  qHyperCube: HyperCube;
+  qHyperCube: ExtendedHyperCube;
   nullValueRepresentation?: NullValueRepresentation;
   title: string;
   snapshotData?: SnapshotData;
@@ -126,20 +158,21 @@ export interface SnapshotLayout extends EngineAPI.IGenericObjectLayout {
   snapshotData?: SnapshotData;
 }
 
-export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
-  cId?: string;
-  qLibraryId?: string;
-  qCardinalities: {
-    qHypercubeCardinal: number;
-  };
-}
-
-export interface HyperCube extends EngineAPI.IHyperCube {
-  activelySortedColumn: ActivelySortedColumn;
-}
-
 export type Model = EngineAPI.IGenericObject | EngineAPI.IGenericBookmark | undefined;
 
 export type App = EngineAPI.IApp | undefined;
 
 export default NxDimCellType;
+
+// types for properties
+interface ExtendedInlineDimensionDef extends EngineAPI.INxInlineDimensionDef {
+  columnWidth: ColumnWidth;
+}
+
+interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
+  columnWidth: ColumnWidth;
+}
+
+export interface DimensionOrMeasureDef {
+  qDef: ExtendedInlineDimensionDef | ExtendedInlineMeasureDef;
+}
