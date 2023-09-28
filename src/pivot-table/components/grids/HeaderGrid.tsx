@@ -17,6 +17,7 @@ interface HeaderGridProps {
 const containerStyle: React.CSSProperties = {
   display: "grid",
   background: "red",
+  // overflow: "scroll",
 };
 
 const HeaderGrid = ({

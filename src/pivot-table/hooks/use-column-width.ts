@@ -21,6 +21,11 @@ interface ColumnWidthHook {
   getRightGridColumnWidth: (index?: number) => number;
 }
 
+interface LeftGridColumnWidths {
+  widths: number[];
+  originalWidths: number[];
+}
+
 export const EXPAND_ICON_WIDTH = 30;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
 
@@ -72,7 +77,7 @@ export default function useColumnWidth(
   /**
    * The widths of the left columns. Scales the width to fit LEFT_SIDE_MAX_WIDTH_RATIO * rect.width if wider than that
    */
-  const leftGridColumnWidths = useMemo(() => {
+  const leftGridColumnWidths = useMemo<LeftGridColumnWidths>(() => {
     const getColumnWidth = (columnWidth: ColumnWidth, fitToContentWidth: number) => {
       switch (columnWidth?.type) {
         case ColumnWidthType.Pixels:
@@ -113,10 +118,13 @@ export default function useColumnWidth(
     });
 
     const leftGridMaxWidth = rect.width * LEFT_GRID_MAX_WIDTH_RATIO;
-    if (sumOfWidths < leftGridMaxWidth) return widths;
+    if (sumOfWidths < leftGridMaxWidth) return { widths, originalWidths: widths };
 
     const multiplier = leftGridMaxWidth / sumOfWidths;
-    return widths.map((w) => w * multiplier);
+    return {
+      originalWidths: widths,
+      widths: widths.map((w) => w * multiplier),
+    };
   }, [
     visibleLeftDimensionInfo,
     measureTextForHeader,
@@ -127,10 +135,13 @@ export default function useColumnWidth(
     measureTextForContent,
   ]);
 
-  const getLeftGridColumnWidth = useCallback((index: number) => leftGridColumnWidths[index], [leftGridColumnWidths]);
+  const getLeftGridColumnWidth = useCallback(
+    (index: number) => leftGridColumnWidths.originalWidths[index],
+    [leftGridColumnWidths],
+  );
 
   const leftGridWidth = useMemo(
-    () => leftGridColumnWidths.reduce((totalWidth, w) => totalWidth + w, 0),
+    () => leftGridColumnWidths.widths.reduce((totalWidth, w) => totalWidth + w, 0),
     [leftGridColumnWidths],
   );
 

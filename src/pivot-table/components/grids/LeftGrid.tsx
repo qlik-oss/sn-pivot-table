@@ -37,6 +37,7 @@ const containerStyle: React.CSSProperties = {
   height: "fit-content",
   borderWidth: "1px 0px 0px 0px",
   ...borderStyle,
+  // overflow: "scroll",
 };
 
 const listStyle: React.CSSProperties = {
@@ -51,6 +52,7 @@ const listStyle: React.CSSProperties = {
    * be fixed in some other way.
    */
   willChange: "auto",
+  flexShrink: 0,
 };
 
 const LeftGrid = ({

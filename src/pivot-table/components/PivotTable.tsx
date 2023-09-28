@@ -145,57 +145,88 @@ export const StickyPivotTable = ({
           topRowsHeight={topGridHeight}
           bottomRowsHeight={dataGridHeight}
         >
-          <HeaderGrid
-            columnWidthCallback={getLeftGridColumnWidth}
-            rowHight={headerCellHeight}
-            headersData={headersData}
-            translator={translator}
-            changeSortOrder={changeSortOrder}
-            changeActivelySortedHeader={changeActivelySortedHeader}
-          />
+          <div
+            style={{
+              height: "100%",
+              width: leftGridWidth,
+              overflow: "scroll",
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                width: "fit-content",
+                height: "100%",
+              }}
+            >
+              <HeaderGrid
+                columnWidthCallback={getLeftGridColumnWidth}
+                rowHight={headerCellHeight}
+                headersData={headersData}
+                translator={translator}
+                changeSortOrder={changeSortOrder}
+                changeActivelySortedHeader={changeActivelySortedHeader}
+              />
+              <LeftGrid
+                dataModel={dataModel}
+                leftGridRef={leftGridRef}
+                width={leftGridWidth}
+                height={leftGridHeight}
+                getScrollTop={getScrollTop}
+                layoutService={layoutService}
+                leftDimensionData={leftDimensionData}
+                showLastBorder={{ ...showLastBorder, right: false }}
+                getLeftGridColumnWidth={getLeftGridColumnWidth}
+                visibleLeftDimensionInfo={visibleLeftDimensionInfo}
+                pageInfo={pageInfo}
+              />
+            </div>
+            {/* <span
+              style={{
+                position: "absolute",
+                right: 0,
+                top: 0,
+                width: "15px",
+                height: "100%",
+                background: "linear-gradient(90deg, rgba(36,0,0,0) 0%, rgba(0,0,0,0.3) 100%)",
+              }}
+            /> */}
+          </div>
 
-          <TopGrid
-            dataModel={dataModel}
-            topGridRef={topGridRef}
-            rowHightCallback={headerCellRowHightCallback}
-            width={rightGridWidth}
-            height={topGridHeight}
-            getScrollLeft={getScrollLeft}
-            layoutService={layoutService}
-            topDimensionData={topDimensionData}
-            showLastBorder={{ ...showLastBorder, bottom: false }}
-            getRightGridColumnWidth={getRightGridColumnWidth}
-            visibleTopDimensionInfo={visibleTopDimensionInfo}
-          />
-
-          <LeftGrid
-            dataModel={dataModel}
-            leftGridRef={leftGridRef}
-            width={leftGridWidth}
-            height={leftGridHeight}
-            getScrollTop={getScrollTop}
-            layoutService={layoutService}
-            leftDimensionData={leftDimensionData}
-            showLastBorder={{ ...showLastBorder, right: false }}
-            getLeftGridColumnWidth={getLeftGridColumnWidth}
-            visibleLeftDimensionInfo={visibleLeftDimensionInfo}
-            pageInfo={pageInfo}
-          />
-
-          <DataGrid
-            dataModel={dataModel}
-            dataGridRef={dataGridRef}
-            rowHightCallback={contentCellRowHightCallback}
-            width={rightGridWidth}
-            height={dataGridHeight}
-            viewService={viewService}
-            layoutService={layoutService}
-            measureData={measureData}
-            leftDimensionData={leftDimensionData}
-            topDimensionData={topDimensionData}
-            showLastBorder={showLastBorder}
-            getRightGridColumnWidth={getRightGridColumnWidth}
-          />
+          <div
+            style={{
+              height: "100%",
+              width: rightGridWidth,
+            }}
+          >
+            <TopGrid
+              dataModel={dataModel}
+              topGridRef={topGridRef}
+              rowHightCallback={headerCellRowHightCallback}
+              width={rightGridWidth}
+              height={topGridHeight}
+              getScrollLeft={getScrollLeft}
+              layoutService={layoutService}
+              topDimensionData={topDimensionData}
+              showLastBorder={{ ...showLastBorder, bottom: false }}
+              getRightGridColumnWidth={getRightGridColumnWidth}
+              visibleTopDimensionInfo={visibleTopDimensionInfo}
+            />
+            <DataGrid
+              dataModel={dataModel}
+              dataGridRef={dataGridRef}
+              rowHightCallback={contentCellRowHightCallback}
+              width={rightGridWidth}
+              height={dataGridHeight}
+              viewService={viewService}
+              layoutService={layoutService}
+              measureData={measureData}
+              leftDimensionData={leftDimensionData}
+              topDimensionData={topDimensionData}
+              showLastBorder={showLastBorder}
+              getRightGridColumnWidth={getRightGridColumnWidth}
+            />
+          </div>
         </StickyContainer>
       </FullSizeContainer>
     </ScrollableContainer>
