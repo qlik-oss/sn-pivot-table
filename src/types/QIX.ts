@@ -66,6 +66,7 @@ export interface Component {
     fontSize?: string;
     fontColor?: PaletteColor;
     background?: PaletteColor;
+    lineClamp?: number;
     nullValue?: ComponentCellStyling;
     totalValue?: ComponentCellStyling;
   };
@@ -89,7 +90,6 @@ export interface Component {
   };
   grid: {
     rowHeight?: "compact";
-    lineCount?: number;
     border?: PaletteColor;
     divider?: PaletteColor;
   };

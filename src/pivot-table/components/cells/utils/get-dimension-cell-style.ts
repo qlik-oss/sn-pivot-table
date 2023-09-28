@@ -1,5 +1,6 @@
 import type React from "react";
 import type { ShowLastBorder, StyleService } from "../../../../types/types";
+import { DEFAULT_LINE_CLAMP } from "../../../constants";
 import {
   Colors,
   getBorderStyle,
@@ -44,10 +45,10 @@ export const selectableCellStyle: React.CSSProperties = {
 // Locked background does override any background color set by the user via theming or styling panel
 export const getLockedStyleFromSelection = (originalBackgroundColor?: string): React.CSSProperties => ({
   background: `repeating-linear-gradient(
-      -45deg, 
-      #c8c8c814, 
-      #c8c8c814 2px, 
-      transparent 2px, 
+      -45deg,
+      #c8c8c814,
+      #c8c8c814 2px,
+      transparent 2px,
       transparent 4px
     ), ${originalBackgroundColor ?? Colors.Transparent}`,
   color: "#bebebe",
@@ -121,6 +122,6 @@ export const getTextStyle = ({
     fontWeight: qCanExpand || qCanCollapse ? "600" : undefined,
     overflow: "hidden",
     textOverflow: "ellipsis",
-    ...getLineClampStyle(isLeftColumn ? styleService.lineClamp : styleService.headerLineClamp),
+    ...getLineClampStyle(isLeftColumn ? styleService.content.lineClamp : DEFAULT_LINE_CLAMP),
   };
 };

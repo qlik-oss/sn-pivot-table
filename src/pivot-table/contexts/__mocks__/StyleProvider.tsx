@@ -1,7 +1,6 @@
 import React from "react";
 
 export const useStyleContext = () => ({
-  lineClamp: 1,
   header: {
     fontSize: "12px",
     fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
@@ -14,6 +13,7 @@ export const useStyleContext = () => ({
     fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
     color: "rgba(0, 0, 0, 0.55)",
     background: "transparent",
+    lineClamp: 1,
     nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
     totalValue: { color: "#404040", background: "transparent" },
   },
@@ -37,7 +37,6 @@ export const useStyleContext = () => ({
   },
   grid: {
     rowHeight: "compact",
-    lineCount: 1,
     border: "rgba(0, 0, 0, 0.15)",
     divider: "rgba(0, 0, 0, 0.6)",
   },
