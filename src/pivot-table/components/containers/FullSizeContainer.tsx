@@ -14,7 +14,7 @@ const FullSizeContainer = ({ width, height, children }: FullSizeContainerProps):
       display: "block",
       // GRID_BORDER is added because there is a border between the different grids.
       // Otherwise the react-window components will not scroll to the end (off by 1 pixel).
-      width: width + GRID_BORDER,
+      width,
       height: height + GRID_BORDER,
     }}
   >
