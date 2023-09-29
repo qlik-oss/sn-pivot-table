@@ -11,12 +11,13 @@ import type {
   HeaderCell,
   SortDirection,
 } from "../../../types/types";
+import { DEFAULT_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import type { GetLeftColumnWidthMetadata } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
-import { getBorderStyle, textStyle } from "../shared-styles";
-import { StyledHeaderAnchor, StyledHeaderCellWrapper } from "./styles";
+import { getBorderStyle } from "../shared-styles";
+import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
 
 interface DimensionTitleCellProps {
   cell: HeaderCell;
@@ -27,27 +28,6 @@ interface DimensionTitleCellProps {
   changeActivelySortedHeader: ChangeActivelySortedHeader;
   columnWidthMetadata: ReturnType<GetLeftColumnWidthMetadata>;
 }
-
-const baseFlex: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const labelWrapperStyle: React.CSSProperties = {
-  ...baseFlex,
-  flexDirection: "row",
-  overflow: "hidden",
-  position: "relative",
-};
-
-const labelTextStyle: React.CSSProperties = {
-  ...textStyle,
-  fontWeight: "600",
-  alignSelf: "center",
-  flexGrow: 1,
-  paddingLeft: "8px",
-};
 
 export const testId = "title-cell";
 
@@ -108,39 +88,23 @@ const DimensionTitleCell = ({
       interactions={interactions}
       background={open ? activeBackground : background}
       hoverBackground={hoverBackground}
+      shouldShowMenuIcon={shouldShowMenuIcon}
       style={{
         ...style,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border),
-        padding: 0,
-        position: "relative",
-        display: "grid",
-        gridTemplateColumns: shouldShowMenuIcon ? "1fr 24px" : "1fr",
-        gridGap: shouldShowMenuIcon ? "4px" : "0px",
-        alignItems: "center",
-        cursor: interactions.active ? "pointer" : "default",
         color,
       }}
       data-testid={testId}
       onClick={handleOpenMenu}
     >
-      <div style={{ ...labelWrapperStyle }}>
+      <StyledHeaderCell>
         {shouldShowLockIcon && cell.isLocked && (
-          <div style={{ ...baseFlex, marginLeft: "8px" }}>
-            <Locked height="12px" />
-          </div>
+          <StyledLockIcon>
+            <Locked height={DEFAULT_ICON_SIZE} />
+          </StyledLockIcon>
         )}
-        <div
-          style={{
-            ...labelTextStyle,
-            fontSize,
-            fontFamily,
-            paddingLeft: shouldShowMenuIcon ? "8px" : "4px",
-            paddingRight: shouldShowMenuIcon ? "0px" : "4px",
-          }}
-        >
-          {cell.title}
-        </div>
-      </div>
+        <StyledLabel {...{ shouldShowMenuIcon, fontFamily, fontSize }}>{cell.title}</StyledLabel>
+      </StyledHeaderCell>
       {isDim && (
         <>
           <HeadCellMenu
