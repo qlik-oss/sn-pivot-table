@@ -13,7 +13,7 @@ export interface MeasureTextHook {
   measureText: (text: string) => number;
 }
 
-const MAGIC_DEFAULT_CHAR = "M";
+const MAGIC_DEFAULT_CHAR = "N";
 
 const LEEWAY_WIDTH = 25; // Used to make sure there is some leeway in the measurement of a text
 

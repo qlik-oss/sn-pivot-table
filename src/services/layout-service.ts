@@ -38,6 +38,7 @@ const createLayoutService = (
     // If not avaible in the effective properties, assume that it's set to false.
     showTotalsAbove: !!effectiveProperties?.qHyperCubeDef?.qShowTotalsAbove,
     hasPseudoDimOnLeft,
+    isAlwaysFullyExpanded: !!effectiveProperties?.qHyperCubeDef?.qAlwaysFullyExpanded,
   };
 };
 

@@ -37,6 +37,7 @@ describe("useColumnWidth", () => {
           qDimensionInfo: [dimInfo, dimInfo, dimInfo],
           qMeasureInfo: [meaInfo, meaInfo, meaInfo],
           qNoOfLeftDims: 3,
+          qEffectiveInterColumnSortOrder: [0, 1, 2, -1],
         },
       },
       size: {
@@ -148,6 +149,7 @@ describe("useColumnWidth", () => {
       percentageConversion = (rect.width - lefSideWidth) / 100;
 
       layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
+      layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, 2, -1];
       visibleLeftDimensionInfo = [
         { columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER } } as ExtendedDimensionInfo,
       ];
@@ -181,6 +183,7 @@ describe("useColumnWidth", () => {
       expect(getRightGridColumnWidth(1)).toBe(ColumnWidthValues.AutoMin);
       expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.AutoMin);
     });
+
     test("should return right column width for fit to content setting", () => {
       mockEstimateWidth(50);
       mockMeasureText(50);
@@ -235,6 +238,7 @@ describe("useColumnWidth", () => {
     test("should return right column width for non-pseudo dimension", () => {
       dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 40 } } as ExtendedDimensionInfo;
       visibleTopDimensionInfo = [dimInfo, -1, dimInfo];
+      layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, -1, 2];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth()).toBe(40);
@@ -247,9 +251,23 @@ describe("useColumnWidth", () => {
 
       dimInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedDimensionInfo;
       visibleTopDimensionInfo = [dimInfo, -1, dimInfo];
+      layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, -1, 2];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth()).toBe(width);
+    });
+
+    test("should return right column width for non-pseudo dimension for fit to content when dimension is collapsed", () => {
+      const width = 40;
+      mockEstimateWidth(width);
+      mockMeasureText(width);
+
+      dimInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedDimensionInfo;
+      visibleTopDimensionInfo = [-1, dimInfo];
+      layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, -1, 1, 2];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_WIDTH);
     });
   });
 
