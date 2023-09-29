@@ -1,3 +1,5 @@
+import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
+import { getHoverColor } from "@qlik/nebula-table-utils/lib/utils";
 import { Colors } from "../pivot-table/components/shared-styles";
 import {
   CELL_PADDING_HEIGHT,
@@ -9,9 +11,22 @@ import {
   LINE_HEIGHT_COEFFICIENT,
 } from "../pivot-table/constants";
 import type { PaletteColor } from "../types/QIX";
-import type { ExtendedTheme, LayoutService, StyleService } from "../types/types";
+import type { LayoutService, StyleService } from "../types/types";
 
 const BASE_PATH = "object.pivotTableV2";
+
+const HEADER_MENU_COLOR_MODIFIER = {
+  hover: {
+    darker: 0.15,
+    brighter: 0.3,
+    opacity: 0.03,
+  },
+  active: {
+    darker: 0.3,
+    brighter: 0.5,
+    opacity: 0.05,
+  },
+};
 
 enum Path {
   Header = "header",
@@ -33,10 +48,9 @@ enum Attribute {
   FontColor = "fontColor",
   Color = "color",
   CellHeight = "cellHeight",
-  LineClamp = "lineClamp",
   Background = "background",
   RowHeight = "rowHeight",
-  LineCount = "lineCount",
+  LineClamp = "lineClamp",
   Border = "border",
   Divider = "divider",
 }
@@ -61,11 +75,13 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const gridStyling = chartStyling?.[Path.Grid];
   const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
 
-  const lineClamp = gridStyling?.lineCount ?? DEFAULT_LINE_CLAMP;
+  const lineClamp = +(
+    contentStyling?.[Attribute.LineClamp] ??
+    getThemeStyle([Path.Content], Attribute.LineClamp) ??
+    DEFAULT_LINE_CLAMP
+  );
 
   const styleService: StyleService = {
-    lineClamp,
-    headerLineClamp: DEFAULT_LINE_CLAMP,
     header: {
       fontSize:
         resolveFontSize(headerStyling?.[Attribute.FontSize]) ??
@@ -117,6 +133,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, contentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.Content], Attribute.Background) ??
         Colors.Transparent,
+      lineClamp,
       nullValue: {
         color:
           resolveColor(theme, contentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
@@ -236,8 +253,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     },
     grid: {
       rowHeight: gridStyling?.[Attribute.RowHeight] ?? getThemeStyle([Path.Grid], Attribute.RowHeight) ?? "compact",
-      lineCount:
-        gridStyling?.[Attribute.LineCount] ?? getThemeStyle([Path.Grid], Attribute.LineCount) ?? DEFAULT_LINE_CLAMP,
       border:
         resolveColor(theme, gridStyling?.[Attribute.Border]) ??
         getThemeStyle([Path.Grid], Attribute.Border) ??
@@ -250,14 +265,32 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   } as StyleService;
 
   styleService["headerCellHeight"] = Math.max(
-    fontSizeToCellHeight(styleService.header.fontSize, styleService.headerLineClamp),
-    fontSizeToCellHeight(styleService.columnContent.fontSize, styleService.headerLineClamp),
+    fontSizeToCellHeight(styleService.header.fontSize, DEFAULT_LINE_CLAMP),
+    fontSizeToCellHeight(styleService.columnContent.fontSize, DEFAULT_LINE_CLAMP),
     DEFAULT_HEADER_CELL_HEIGHT,
   );
+
   styleService["contentCellHeight"] = Math.max(
     fontSizeToCellHeight(styleService.content.fontSize, lineClamp),
     fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT,
+  );
+
+  styleService.header.rowTitle.hoverBackground = getHoverColor(
+    styleService.header.rowTitle.background,
+    HEADER_MENU_COLOR_MODIFIER.hover,
+  );
+  styleService.header.rowTitle.activeBackground = getHoverColor(
+    styleService.header.rowTitle.background,
+    HEADER_MENU_COLOR_MODIFIER.active,
+  );
+  styleService.header.columnTitle.hoverBackground = getHoverColor(
+    styleService.header.columnTitle.background,
+    HEADER_MENU_COLOR_MODIFIER.hover,
+  );
+  styleService.header.columnTitle.activeBackground = getHoverColor(
+    styleService.header.columnTitle.background,
+    HEADER_MENU_COLOR_MODIFIER.active,
   );
 
   return styleService;

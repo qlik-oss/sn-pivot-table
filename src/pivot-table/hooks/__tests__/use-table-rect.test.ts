@@ -1,7 +1,8 @@
+import { PAGINATION_HEIGHT } from "@qlik/nebula-table-utils/lib/constants";
 import { renderHook } from "@testing-library/react";
 import type { LayoutService, Rect } from "../../../types/types";
-import { DISCLAIMER_HEIGHT, PAGINATION_HEIGHT } from "../../constants";
-import useTableRect from "../use-table-rect";
+import { DISCLAIMER_HEIGHT } from "../../constants";
+import useTableRect, { PAGINATION_FOOTER_BORDER } from "../use-table-rect";
 
 describe("use-table-rect", () => {
   let rect: Rect;
@@ -34,13 +35,13 @@ describe("use-table-rect", () => {
   test("should consider pagination height", () => {
     shouldShowPagination = true;
     const { height } = renderer();
-    expect(height).toBe(rect.height - PAGINATION_HEIGHT);
+    expect(height).toBe(rect.height - PAGINATION_HEIGHT - PAGINATION_FOOTER_BORDER);
   });
 
   test("should consider pagination height and columns disclaimer in case of big datasets", () => {
     shouldShowPagination = true;
     layoutService.hasLimitedData = true;
     const { height } = renderer();
-    expect(height).toBe(rect.height - PAGINATION_HEIGHT - DISCLAIMER_HEIGHT);
+    expect(height).toBe(rect.height - PAGINATION_HEIGHT - PAGINATION_FOOTER_BORDER - DISCLAIMER_HEIGHT);
   });
 });

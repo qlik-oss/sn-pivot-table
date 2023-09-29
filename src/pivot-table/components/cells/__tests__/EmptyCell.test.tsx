@@ -19,7 +19,7 @@ test("should render", () => {
       style={style}
       isLastRow={false}
       isLastColumn={false}
-      showLastRowBorderBottom={false}
+      showLastBorder={{ right: false, bottom: false }}
       index={0}
       showTotalCellDivider={false}
     />,

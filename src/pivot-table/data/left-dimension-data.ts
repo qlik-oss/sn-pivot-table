@@ -1,6 +1,7 @@
 import type { LayoutService, LeftDimensionData, PageInfo, VisibleDimensionInfo } from "../../types/types";
 import extractLeftGrid from "./extract-left";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
+import getTotalDividerIndex from "./helpers/get-total-divider-index";
 
 export interface AddPageToLeftDimensionDataProps {
   prevData: LeftDimensionData;
@@ -22,12 +23,14 @@ export const addPageToLeftDimensionData = ({
   if (!qLeft.length) return prevData;
 
   const grid = extractLeftGrid(prevData.grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
-  assignDistanceToNextCell(grid, "pageY", prevData.layoutSize, pageInfo);
+  assignDistanceToNextCell(grid, pageInfo.rowsOnCurrentPage);
+  const totalDividerIndex = getTotalDividerIndex(grid);
 
   return {
     ...prevData,
     grid,
     columnCount: grid.length,
+    totalDividerIndex,
   };
 };
 
@@ -39,11 +42,13 @@ export const createLeftDimensionData = (
 ): LeftDimensionData => {
   const { qArea, qLeft } = dataPage;
   const grid = extractLeftGrid([], qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
-  assignDistanceToNextCell(grid, "pageY", layoutService.size, pageInfo);
+  assignDistanceToNextCell(grid, pageInfo.rowsOnCurrentPage);
+  const totalDividerIndex = getTotalDividerIndex(grid);
 
   return {
     grid,
     columnCount: grid.length,
     layoutSize: layoutService.size,
+    totalDividerIndex,
   };
 };

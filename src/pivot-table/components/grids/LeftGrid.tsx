@@ -5,6 +5,7 @@ import type {
   DataModel,
   LayoutService,
   LeftDimensionData,
+  PageInfo,
   ShowLastBorder,
   VisibleDimensionInfo,
 } from "../../../types/types";
@@ -28,6 +29,7 @@ interface LeftGridProps {
   showLastBorder: ShowLastBorder;
   getLeftGridColumnWidth: (index: number) => number;
   visibleLeftDimensionInfo: VisibleDimensionInfo[];
+  pageInfo: PageInfo;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -62,6 +64,7 @@ const LeftGrid = ({
   showLastBorder,
   getLeftGridColumnWidth,
   visibleLeftDimensionInfo,
+  pageInfo,
 }: LeftGridProps): JSX.Element | null => {
   const { qSize } = layoutService.layout.qHyperCube;
   const {
@@ -81,7 +84,7 @@ const LeftGrid = ({
     }
   }, [getScrollTop, layoutService, leftGridRef]);
 
-  const totalHeight = layoutService.size.y * contentCellHeight;
+  const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
 
   if (leftDimensionData.columnCount === 0) {
     return null;
@@ -95,7 +98,7 @@ const LeftGrid = ({
         const { itemCount, estimatedItemSize, listValues } = getListMeta(
           list,
           totalHeight,
-          layoutService.size.y,
+          pageInfo.rowsOnCurrentPage,
           isLastColumn,
         );
 
@@ -118,6 +121,7 @@ const LeftGrid = ({
               itemCount,
               showLastBorder,
               listValues,
+              totalDividerIndex: leftDimensionData.totalDividerIndex,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

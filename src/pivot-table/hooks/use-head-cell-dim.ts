@@ -1,22 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import type { stardust } from "@nebula.js/stardust";
+import { useState } from "react";
 
 interface UseHeadCellDim {
-  open: boolean;
+  interactions: stardust.Interactions;
 }
 
-export const useHeadCellDim = ({ open }: UseHeadCellDim) => {
-  const [isHovered, setIsHovered] = useState(false);
+export const useHeadCellDim = ({ interactions }: UseHeadCellDim) => {
+  const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    if (!open) setIsHovered(false);
-  }, [open]);
+  const handleOpenMenu = () => interactions.active && setOpen(true);
 
-  const shadeOpacity = useMemo(() => {
-    let opacity = 0;
-    if (isHovered) opacity = 0.03;
-    if (open) opacity = 0.05;
-    return opacity;
-  }, [open, isHovered]);
-
-  return { setIsHovered, shadeOpacity };
+  return { open, setOpen, handleOpenMenu };
 };

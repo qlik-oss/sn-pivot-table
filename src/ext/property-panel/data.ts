@@ -1,5 +1,5 @@
 import { ColumnWidthValues } from "../../pivot-table/hooks/use-column-width";
-import { ColumnWidthType, type DimensionOrMeasure } from "../../types/QIX";
+import { ColumnWidthType, type DimensionOrMeasureDef } from "../../types/QIX";
 import type { Galaxy } from "../../types/types";
 
 export interface Args {
@@ -61,8 +61,8 @@ const columnResize = {
     type: "number",
     expression: "optional",
     defaultValue: ColumnWidthValues.PixelsDefault,
-    show: (data: DimensionOrMeasure) => data.qDef.columnWidth?.type === ColumnWidthType.Pixels,
-    change(data: DimensionOrMeasure) {
+    show: (data: DimensionOrMeasureDef) => data.qDef.columnWidth?.type === ColumnWidthType.Pixels,
+    change(data: DimensionOrMeasureDef) {
       if (data.qDef.columnWidth.pixels !== undefined) {
         // eslint-disable-next-line no-param-reassign
         data.qDef.columnWidth.pixels = Math.max(
@@ -78,8 +78,8 @@ const columnResize = {
     type: "number",
     expression: "optional",
     defaultValue: ColumnWidthValues.PercentageDefault,
-    show: (data: DimensionOrMeasure) => data.qDef.columnWidth?.type === ColumnWidthType.Percentage,
-    change: (data: DimensionOrMeasure) => {
+    show: (data: DimensionOrMeasureDef) => data.qDef.columnWidth?.type === ColumnWidthType.Percentage,
+    change: (data: DimensionOrMeasureDef) => {
       if (data.qDef.columnWidth.percentage !== undefined) {
         // eslint-disable-next-line no-param-reassign
         data.qDef.columnWidth.percentage = Math.max(

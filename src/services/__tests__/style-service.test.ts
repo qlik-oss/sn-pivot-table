@@ -1,6 +1,7 @@
+import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import { DEFAULT_FONT_FAMILY } from "../../pivot-table/constants";
 import type { PaletteColor } from "../../types/QIX";
-import type { ExtendedTheme, LayoutService } from "../../types/types";
+import type { LayoutService } from "../../types/types";
 import createStyleService from "../style-service";
 
 describe("style-service", () => {
@@ -9,7 +10,7 @@ describe("style-service", () => {
   let fontFamily: string;
   let color: string;
   let colorFromPalette: string;
-  let linesCount: number;
+  let lineClamp: number;
   let layoutServiceMock: LayoutService;
   let themeMock: ExtendedTheme;
 
@@ -18,9 +19,10 @@ describe("style-service", () => {
     fontFamily = "Arial";
     color = "#ff0000";
     colorFromPalette = "#00ff00";
-    linesCount = 2;
+    lineClamp = 2;
     themeMock = {
-      getStyle: () => themeValue,
+      getStyle: (basePath: string, path: string, attribute: string) =>
+        attribute === "lineClamp" && themeValue !== undefined ? lineClamp : themeValue,
       getColorPickerColor: (paletteColor: PaletteColor) =>
         paletteColor.index && paletteColor.index > -1 ? colorFromPalette : color,
     } as unknown as ExtendedTheme;
@@ -95,7 +97,7 @@ describe("style-service", () => {
             },
             grid: {
               rowHeight: "compact",
-              lineCount: linesCount,
+              lineClamp,
               border: "borderColor",
               divider: "dividerColor",
             },
@@ -109,8 +111,6 @@ describe("style-service", () => {
   test("should resolve style from layout", () => {
     const styleService = createStyleService(themeMock, layoutServiceMock);
     expect(styleService).toEqual({
-      lineClamp: linesCount,
-      headerLineClamp: 1,
       header: {
         fontSize: `${fontSize}px`,
         fontFamily,
@@ -118,10 +118,14 @@ describe("style-service", () => {
         rowTitle: {
           color,
           background: color,
+          activeBackground: "rgb(255, 59, 29)",
+          hoverBackground: "rgb(255, 43, 18)",
         },
         columnTitle: {
           color,
           background: color,
+          activeBackground: "rgb(255, 59, 29)",
+          hoverBackground: "rgb(255, 43, 18)",
         },
       },
       content: {
@@ -129,6 +133,7 @@ describe("style-service", () => {
         fontFamily,
         color,
         background: color,
+        lineClamp,
         nullValue: {
           color,
           background: color,
@@ -176,7 +181,6 @@ describe("style-service", () => {
       },
       grid: {
         rowHeight: "compact",
-        lineCount: linesCount,
         border: color,
         divider: color,
       },
@@ -190,20 +194,29 @@ describe("style-service", () => {
     const styleService = createStyleService(themeMock, layoutServiceMock);
 
     expect(styleService).toEqual({
-      lineClamp: 1,
-      headerLineClamp: 1,
       header: {
         fontSize: "18px",
         fontFamily: "18px",
         background: "18px",
-        rowTitle: { color: "18px", background: "18px" },
-        columnTitle: { color: "18px", background: "18px" },
+        rowTitle: {
+          color: "18px",
+          background: "18px",
+          activeBackground: "rgb(0, 0, 0)",
+          hoverBackground: "rgb(0, 0, 0)",
+        },
+        columnTitle: {
+          color: "18px",
+          background: "18px",
+          activeBackground: "rgb(0, 0, 0)",
+          hoverBackground: "rgb(0, 0, 0)",
+        },
       },
       content: {
         fontSize: "18px",
         fontFamily: "18px",
         color: "18px",
         background: "18px",
+        lineClamp,
         nullValue: { color: "18px", background: "18px" },
         totalValue: { color: "18px", background: "18px" },
       },
@@ -227,12 +240,11 @@ describe("style-service", () => {
       },
       grid: {
         rowHeight: "18px",
-        lineCount: "18px",
         border: "18px",
         divider: "18px",
       },
       headerCellHeight: 32,
-      contentCellHeight: 32,
+      contentCellHeight: 56,
     });
   });
 
@@ -242,20 +254,29 @@ describe("style-service", () => {
     const styleService = createStyleService(themeMock, layoutServiceMock);
 
     expect(styleService).toEqual({
-      lineClamp: 1,
-      headerLineClamp: 1,
       header: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
         background: "transparent",
-        rowTitle: { color: "#404040", background: "transparent" },
-        columnTitle: { color: "#404040", background: "rgba(0, 0, 0, 0.03)" },
+        rowTitle: {
+          color: "#404040",
+          background: "transparent",
+          activeBackground: "rgba(0, 0, 0, 0.05)",
+          hoverBackground: "rgba(0, 0, 0, 0.03)",
+        },
+        columnTitle: {
+          color: "#404040",
+          background: "rgba(0, 0, 0, 0.03)",
+          activeBackground: "rgba(25, 25, 25, 0.03)",
+          hoverBackground: "rgba(18, 18, 18, 0.03)",
+        },
       },
       content: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
         color: "rgba(0, 0, 0, 0.55)",
         background: "transparent",
+        lineClamp: 1,
         nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
         totalValue: { color: "#404040", background: "transparent" },
       },
@@ -279,7 +300,6 @@ describe("style-service", () => {
       },
       grid: {
         rowHeight: "compact",
-        lineCount: 1,
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",
       },

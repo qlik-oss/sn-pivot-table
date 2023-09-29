@@ -14,7 +14,7 @@ export const getRowHeightHandler =
     const cell = isLastColumn ? list[rowIndex] : Object.values(list)[rowIndex];
 
     if (rowIndex === 0 && cell?.pageY > 0) {
-      return (cell.leafCount + cell.pageY) * cellHeight;
+      return (cell.leafCount + cell.pageY + cell.distanceToNextCell) * cellHeight;
     }
 
     if (cell?.leafCount > 0) {
@@ -34,10 +34,12 @@ export const getColumnWidthHandler =
     const cell = isLastRow ? list[colIndex] : Object.values(list)[colIndex];
     // const measureInfoCount = layoutService.layout.qHyperCube.qMeasureInfo.length;
 
-    // Dunno when this is true
-    // if (colIndex === 0 && cell?.x > 0) {
-    //   return ((cell.leafCount + cell.x) / measureInfoCount) * allMeasuresWidth;
-    // }
+    // TODO: This a bit of a special case but if you are on a different page then the first.
+    // Scroll down a bit and expand a node. The "first row" does not exist yet as data has only been
+    // fetched for the rows that are visible to the user.
+    if (colIndex === 0 && cell?.x > 0) {
+      return (cell.leafCount + cell.x + cell.distanceToNextCell) * getRightGridColumnWidth();
+    }
 
     // all rows except bottom one
     if (cell?.leafCount > 0) {

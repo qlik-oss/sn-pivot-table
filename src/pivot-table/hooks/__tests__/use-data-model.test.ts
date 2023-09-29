@@ -4,23 +4,27 @@ import type { Model } from "../../../types/QIX";
 import type { PageInfo } from "../../../types/types";
 import useDataModel from "../use-data-model";
 
+const pivotPage = {};
+
 describe("useDataModel", () => {
   let model: Model;
   let nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
   let pageInfo: PageInfo;
+  let getHyperCubePivotDataMock: jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>;
 
   beforeEach(() => {
+    getHyperCubePivotDataMock = jest.fn() as jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>;
     model = {
       collapseLeft: jest.fn(),
       collapseTop: jest.fn(),
       expandLeft: jest.fn(),
       expandTop: jest.fn(),
-      getHyperCubePivotData: jest.fn() as jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>,
+      getHyperCubePivotData: getHyperCubePivotDataMock,
     } as unknown as EngineAPI.IGenericObject;
-    (model.getHyperCubePivotData as jest.Mock).mockResolvedValue([]);
+    (model.getHyperCubePivotData as jest.Mock).mockResolvedValue([pivotPage]);
     nextPageHandler = jest.fn();
     pageInfo = {
-      currentPage: 0,
+      page: 0,
       rowsPerPage: 100,
     } as PageInfo;
   });
@@ -70,18 +74,17 @@ describe("useDataModel", () => {
       } as unknown as EngineAPI.IGenericBookmark;
 
       const { fetchMoreData } = renderer();
-      const output = await fetchMoreData(1, 2, 10, 20);
+      await fetchMoreData(1, 2, 10, 20);
 
-      expect(output).toBeFalsy();
+      expect(getHyperCubePivotDataMock).not.toHaveBeenCalled();
+      expect(nextPageHandler).not.toHaveBeenCalled();
     });
 
     test("fetchMoreData should call getHyperCubePivotData to fetch more data", async () => {
       const { fetchMoreData } = renderer();
-      const output = await fetchMoreData(1, 2, 10, 20);
+      await fetchMoreData(1, 2, 10, 20);
 
-      expect(output).toBeTruthy();
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect((model as EngineAPI.IGenericObject).getHyperCubePivotData).toHaveBeenCalledWith(Q_PATH, [
+      expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
         {
           qLeft: 1,
           qTop: 2,
@@ -89,35 +92,33 @@ describe("useDataModel", () => {
           qWidth: 10,
         },
       ]);
+      expect(nextPageHandler).toHaveBeenCalledWith(pivotPage);
     });
 
     test("fetchMoreData should consider `pageInfo` while calling getHyperCubePivotData to fetch more data", async () => {
       pageInfo = {
         ...pageInfo,
-        currentPage: 5,
+        page: 5,
       };
       const { fetchMoreData } = renderer();
-      const output = await fetchMoreData(1, 2, 10, 20);
+      await fetchMoreData(1, 2, 10, 20);
 
-      expect(output).toBeTruthy();
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect((model as EngineAPI.IGenericObject).getHyperCubePivotData).toHaveBeenCalledWith(Q_PATH, [
+      expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
         {
           qLeft: 1,
-          qTop: pageInfo.currentPage * pageInfo.rowsPerPage + 2,
+          qTop: pageInfo.page * pageInfo.rowsPerPage + 2,
           qHeight: 20,
           qWidth: 10,
         },
       ]);
+      expect(nextPageHandler).toHaveBeenCalledWith(pivotPage);
     });
 
     test("fetchMoreData should not try and fetch more data then available", async () => {
       const { fetchMoreData } = renderer();
-      const output = await fetchMoreData(40, 50, 50, 60);
+      await fetchMoreData(40, 50, 50, 60);
 
-      expect(output).toBeTruthy();
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect((model as EngineAPI.IGenericObject).getHyperCubePivotData).toHaveBeenCalledWith(Q_PATH, [
+      expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
         {
           qLeft: 40,
           qTop: 50,
@@ -125,15 +126,54 @@ describe("useDataModel", () => {
           qWidth: 50,
         },
       ]);
+      expect(nextPageHandler).toHaveBeenCalledWith(pivotPage);
     });
 
     test("fetchMoreData should handle when call to getHyperCubePivotData is rejected", async () => {
-      const genericObjectModel = model as EngineAPI.IGenericObject;
-      (genericObjectModel.getHyperCubePivotData as jest.Mock).mockRejectedValue(new Error("testing"));
+      getHyperCubePivotDataMock.mockRejectedValue(new Error("testing"));
       const { fetchMoreData } = renderer();
-      const output = await fetchMoreData(1, 2, 10, 20);
+      await fetchMoreData(1, 2, 10, 20);
 
-      expect(output).toBeFalsy();
+      expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
+        {
+          qLeft: 1,
+          qTop: 2,
+          qHeight: 20,
+          qWidth: 10,
+        },
+      ]);
+      expect(nextPageHandler).not.toHaveBeenCalled();
+    });
+
+    test("fetchMoreData should handle when page is changed during fetch", async () => {
+      getHyperCubePivotDataMock.mockResolvedValueOnce(
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve([]);
+          }, 1000);
+        }),
+      );
+      const { rerender, result } = renderHook(
+        (pi: PageInfo) => useDataModel({ model, nextPageHandler, pageInfo: pi }),
+        {
+          initialProps: pageInfo,
+        },
+      );
+
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      result.current.fetchMoreData(1, 2, 10, 20);
+
+      rerender({ ...pageInfo, page: 1 });
+
+      expect(getHyperCubePivotDataMock).toHaveBeenCalledWith(Q_PATH, [
+        {
+          qLeft: 1,
+          qTop: 2,
+          qHeight: 20,
+          qWidth: 10,
+        },
+      ]);
+      expect(nextPageHandler).not.toHaveBeenCalled();
     });
   });
 });

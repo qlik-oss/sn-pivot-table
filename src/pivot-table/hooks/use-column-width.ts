@@ -35,7 +35,6 @@ export interface GetLeftColumnWidthMetadata {
 
 export interface LeftColMetadata {
   colWidth: number;
-  // ratio: number;
   measureTextForHeader: number;
   estimateWidthForContent: number;
 }
@@ -53,6 +52,12 @@ export enum ColumnWidthValues {
   AutoMin = 80,
 }
 
+const getValidValue = (value: number | undefined, defaultValue: number) =>
+  !!value && typeof value === "number" && !Number.isNaN(value) ? value : defaultValue;
+const getPixelValue = (pixels: number | undefined) => getValidValue(pixels, ColumnWidthValues.PixelsDefault);
+const getPercentageValue = (percentage: number | undefined) =>
+  getValidValue(percentage, ColumnWidthValues.PercentageDefault) / 100;
+
 export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
@@ -66,7 +71,6 @@ export default function useColumnWidth(
   } = layoutService;
   const styleService = useStyleContext();
   const { measureText: measureTextForHeader } = useMeasureText(styleService.header);
-  const { estimateWidth: estimateWidthForRowContent } = useMeasureText(styleService.rowContent);
   const { measureText: measureTextForColumnContent, estimateWidth: estimateWidthForColumnContent } = useMeasureText(
     styleService.columnContent,
   );
@@ -89,9 +93,9 @@ export default function useColumnWidth(
     const getColumnWidth = (columnWidth: ColumnWidth, fitToContentWidth: number) => {
       switch (columnWidth?.type) {
         case ColumnWidthType.Pixels:
-          return columnWidth.pixels || ColumnWidthValues.PixelsDefault;
+          return getPixelValue(columnWidth.pixels);
         case ColumnWidthType.Percentage:
-          return ((columnWidth?.percentage || ColumnWidthValues.PercentageDefault) / 100) * rect.width;
+          return getPercentageValue(columnWidth.percentage) * rect.width;
         default:
           // fit to content / auto
           return fitToContentWidth;
@@ -105,7 +109,7 @@ export default function useColumnWidth(
 
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         // Use the max width of all measures
-        let pseudoDimWidth = Math.max(
+        const pseudoDimWidth = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
             const fitToContentWidth = measureTextForContent(qFallbackTitle);
             return getColumnWidth(columnWidth, fitToContentWidth);
@@ -143,7 +147,7 @@ export default function useColumnWidth(
   }, [
     visibleLeftDimensionInfo,
     measureTextForHeader,
-    estimateWidthForRowContent,
+    estimateWidthForContent,
     getCollapseExpandIconSize,
     rect.width,
     qMeasureInfo,
@@ -193,7 +197,7 @@ export default function useColumnWidth(
   );
 
   const leftGridWidth = useMemo(
-    () => leftGridColumnWidths.reduce((totalWidth, colMetaData) => totalWidth + colMetaData.colWidth, 0),
+    () => leftGridColumnWidths.map((x) => x.colWidth).reduce((totalWidth, w) => totalWidth + w, 0),
     [leftGridColumnWidths],
   );
 
@@ -212,12 +216,11 @@ export default function useColumnWidth(
 
       switch (columnWidth?.type) {
         case ColumnWidthType.Pixels: {
-          specifiedWidth = columnWidth.pixels || ColumnWidthValues.PixelsDefault;
+          specifiedWidth = getPixelValue(columnWidth.pixels);
           break;
         }
         case ColumnWidthType.Percentage: {
-          specifiedWidth =
-            (rightGridAvailableWidth * (columnWidth?.percentage || ColumnWidthValues.PercentageDefault)) / 100;
+          specifiedWidth = getPercentageValue(columnWidth.percentage) * rightGridAvailableWidth;
           break;
         }
         case ColumnWidthType.FitToContent: {

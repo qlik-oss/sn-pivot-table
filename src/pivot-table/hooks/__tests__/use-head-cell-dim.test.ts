@@ -1,35 +1,50 @@
+import type { stardust } from "@nebula.js/stardust";
 import { renderHook } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import { useHeadCellDim } from "../use-head-cell-dim";
 
 describe("UseHeadCellDim", () => {
-  let open: boolean;
+  let interactions: stardust.Interactions;
 
   beforeEach(() => {
-    open = false;
+    interactions = { active: true };
   });
 
-  const renderer = () => renderHook(() => useHeadCellDim({ open })).result;
+  const renderer = () => renderHook(() => useHeadCellDim({ interactions })).result;
 
-  test("should return 0 if `isHovered` and `open` is false", () => {
+  test("should return initial open state", () => {
     const result = renderer();
-    expect(result.current.shadeOpacity).toBe(0);
+    expect(result.current.open).toBe(false);
   });
 
-  test("should return 0.03 if `isHovered` is true", () => {
+  test("handleOpenMenu should set open state to true", () => {
     const result = renderer();
 
     act(() => {
-      result.current.setIsHovered(true);
+      result.current.handleOpenMenu();
     });
 
-    expect(result.current.shadeOpacity).toBe(0.03);
+    expect(result.current.open).toBe(true);
   });
 
-  test("should return 0.05 if `open` is true", () => {
-    open = true;
+  test("handleOpenMenu should not set open state to true when interactions active is disabled", () => {
+    interactions.active = false;
     const result = renderer();
 
-    expect(result.current.shadeOpacity).toBe(0.05);
+    act(() => {
+      result.current.handleOpenMenu();
+    });
+
+    expect(result.current.open).toBe(false);
+  });
+
+  test("setOpen should set open state", () => {
+    const result = renderer();
+
+    act(() => {
+      result.current.setOpen(true);
+    });
+
+    expect(result.current.open).toBe(true);
   });
 });

@@ -41,8 +41,9 @@ describe("ListCellFactory", () => {
       listValues: [],
       isLast: false,
       itemCount: 1,
-      showLastRowBorderBottom: false,
+      showLastBorder: { right: false, bottom: false },
       isLeftColumn: false,
+      totalDividerIndex: 0,
     };
   });
 
@@ -89,7 +90,7 @@ describe("ListCellFactory", () => {
         isLeftColumn: false,
         isLastRow: false,
         isLastColumn: true,
-        showLastRowBorderBottom: false,
+        showLastBorder: { right: false, bottom: false },
         showTotalCellDivider: false,
       },
       {},
@@ -114,7 +115,7 @@ describe("ListCellFactory", () => {
         isLastRow: false,
         isLastColumn: true,
         showTotalCellDivider: false,
-        showLastRowBorderBottom: false,
+        showLastBorder: { right: false, bottom: false },
       },
       {},
     );
@@ -136,7 +137,7 @@ describe("ListCellFactory", () => {
         index,
         isLastRow: false,
         isLastColumn: true,
-        showLastRowBorderBottom: false,
+        showLastBorder: { right: false, bottom: false },
         isLeftColumn: data.isLeftColumn,
         showTotalCellDivider: false,
       },
@@ -162,7 +163,7 @@ describe("ListCellFactory", () => {
         index: index + 1,
         isLastRow: true,
         isLastColumn: false,
-        showLastRowBorderBottom: false,
+        showLastBorder: { right: false, bottom: false },
         isLeftColumn: data.isLeftColumn,
         showTotalCellDivider: false,
       },

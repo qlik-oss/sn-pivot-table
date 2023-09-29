@@ -24,11 +24,11 @@ module.exports = {
                 background: "transparent",
                 rowTitle: {
                   color: "#404040",
-                  background: "rgba(0, 0, 0, 0.03)",
+                  background: "transparent",
                 },
                 columnTitle: {
                   color: "#404040",
-                  background: "rgba(0, 0, 0, 0.03)",
+                  background: "transparent",
                 },
               },
               content: {
@@ -50,6 +50,7 @@ module.exports = {
                 fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
                 color: "#404040",
                 background: "transparent",
+                lineClamp: 1,
                 nullValue: {
                   color: "#404040",
                   background: "rgba(0, 0, 0, 0.05)",
@@ -83,7 +84,6 @@ module.exports = {
               },
               grid: {
                 rowHeight: "compact",
-                lineCount: 1,
                 border: "rgba(0, 0, 0, 0.15)",
                 divider: "rgba(0, 0, 0, 0.6)",
               },
@@ -114,6 +114,7 @@ module.exports = {
                 fontFamily: "sans-serif",
                 color: "black",
                 background: "salmon",
+                lineClamp: 1,
                 nullValue: {
                   color: "white",
                   background: "rgba(0, 0, 0, 0.75)",
@@ -161,7 +162,6 @@ module.exports = {
               },
               grid: {
                 rowHeight: "compact",
-                lineCount: 1,
                 border: "lime",
                 divider: "white",
               },
@@ -176,9 +176,20 @@ module.exports = {
             pivotTableV2: {
               grid: {
                 rowHeight: "compact",
-                lineCount: 1,
                 border: "transparent",
                 divider: "rgba(0, 0, 0, 0.6)",
+              },
+            },
+          },
+        },
+      },
+      {
+        id: "Line clamp",
+        theme: {
+          object: {
+            pivotTableV2: {
+              content: {
+                lineClamp: 10,
               },
             },
           },

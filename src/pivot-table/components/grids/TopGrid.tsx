@@ -117,6 +117,7 @@ const TopGrid = ({
               itemCount,
               showLastBorder,
               listValues,
+              totalDividerIndex: topDimensionData.totalDividerIndex,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

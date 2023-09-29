@@ -119,7 +119,7 @@ describe("useData", () => {
     } as HeadersData;
 
     pageInfo = {
-      currentPage: 0,
+      page: 0,
       rowsPerPage: 100,
     } as PageInfo;
 

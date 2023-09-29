@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import React from "react";
 import type { App, Model } from "../../types/QIX";
 import type { ExtendedSelections } from "../../types/types";
@@ -32,10 +33,14 @@ const TestWithProvider = (props: Props) => {
         rowTitle: {
           color: "#404040",
           background: "transparent",
+          activeBackground: "rgba(0, 0, 0, 0.05)",
+          hoverBackground: "rgba(0, 0, 0, 0.03)",
         },
         columnTitle: {
           color: "#404040",
           background: "transparent",
+          activeBackground: "rgba(0, 0, 0, 0.05)",
+          hoverBackground: "rgba(0, 0, 0, 0.03)",
         },
       },
       content: {
@@ -43,6 +48,7 @@ const TestWithProvider = (props: Props) => {
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
         color: "contentColor",
         background: "contentBackground",
+        lineClamp: 1,
         nullValue: {
           color: "contentNullColor",
           background: "contentNullBackground",
@@ -90,23 +96,24 @@ const TestWithProvider = (props: Props) => {
       },
       grid: {
         rowHeight: "compact",
-        lineCount: 1,
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",
       },
-      lineClamp: 1,
-      headerLineClamp: 1,
       headerCellHeight: DEFAULT_CELL_HEIGHT,
       contentCellHeight: DEFAULT_CELL_HEIGHT,
     },
     app = { getField: () => Promise.resolve() } as unknown as App,
     model = { applyPatches: () => Promise.resolve(), getLayout: () => Promise.resolve({}) } as unknown as Model,
-    interactions = { select: true },
+    interactions = { select: true, active: true },
     embed = {} as stardust.Embed,
+    theme = {
+      background: { tableColorFromTheme: "inherit", isDark: false, isTransparent: false, color: "transparent" },
+    } as ExtendedTheme,
+    keyboard = {} as stardust.Keyboard,
   } = props;
 
   return (
-    <BaseProvider model={model} app={app} interactions={interactions} embed={embed}>
+    <BaseProvider model={model} app={app} interactions={interactions} embed={embed} theme={theme} keyboard={keyboard}>
       <SelectionsProvider selections={selections} updatePageInfo={updatePageInfo}>
         <StyleProvider styleService={styleService}>{children}</StyleProvider>
       </SelectionsProvider>

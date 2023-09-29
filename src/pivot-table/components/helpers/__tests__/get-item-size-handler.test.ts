@@ -1,5 +1,4 @@
-import type { PivotLayout } from "../../../../types/QIX";
-import type { Cell, LayoutService, List } from "../../../../types/types";
+import type { Cell, List } from "../../../../types/types";
 import { getColumnWidthHandler, getRowHeightHandler } from "../get-item-size-handler";
 
 describe("getItemSizeHandler", () => {
@@ -48,138 +47,92 @@ describe("getItemSizeHandler", () => {
       const index = 1;
       const leafCount = 10;
       const pageY = 1;
+      const distanceToNextCell = 1;
       list[index] = {
         leafCount,
         pageY,
+        distanceToNextCell,
       } as Cell;
       const handler = getRowHeightHandler(list, cellHeight, false, qcy);
 
-      expect(handler(0)).toEqual(cellHeight * (leafCount + pageY));
+      expect(handler(0)).toEqual(cellHeight * (leafCount + pageY + distanceToNextCell));
     });
   });
 
   describe("getColumnWidthHandler", () => {
-    const allMeasuresWidth = 10;
-    const measureInfoWidth = 33;
-    let layoutService: LayoutService;
-    let layout: PivotLayout;
-    let getMeasureInfoWidth: (index: number) => number;
+    const columnWidth = 33;
+    let index: number;
+    let leafCount: number;
+    let distanceToNextCell: number;
+    let x: number;
+    let getRightGridColumnWidth: (index?: number) => number;
 
     beforeEach(() => {
-      layout = {
-        qHyperCube: {
-          qMeasureInfo: [{}, {}],
-        },
-      } as PivotLayout;
-
-      layoutService = {
-        layout,
-        getMeasureInfoIndexFromCellIndex: (idx) => idx,
-      } as LayoutService;
-
-      getMeasureInfoWidth = () => measureInfoWidth;
-    });
-
-    test("should return a size when cell is undefined", () => {
-      list = {};
-
-      const handler = getColumnWidthHandler({
-        list,
-        isLastRow: false,
-        layoutService,
-        getMeasureInfoWidth,
-        allMeasuresWidth,
-      });
-
-      expect(handler(0)).toEqual(measureInfoWidth);
-    });
-
-    test("should return a size when cell has no leaf nodes", () => {
-      const index = 0;
-      list[index] = {
-        leafCount: 0,
-        x: 0,
-      } as Cell;
-
-      const handler = getColumnWidthHandler({
-        list,
-        isLastRow: false,
-        layoutService,
-        getMeasureInfoWidth,
-        allMeasuresWidth,
-      });
-
-      expect(handler(index)).toEqual(measureInfoWidth);
-    });
-
-    test("should return a size when cell has leaf nodes", () => {
-      const index = 0;
-      const leafCount = 10;
-      const distanceToNextCell = 0;
-      list[index] = {
-        leafCount,
-        distanceToNextCell,
-        x: 0,
-      } as Cell;
-
-      const handler = getColumnWidthHandler({
-        list,
-        isLastRow: false,
-        layoutService,
-        getMeasureInfoWidth,
-        allMeasuresWidth,
-      });
-
-      expect(handler(index)).toEqual(
-        allMeasuresWidth * (leafCount / layoutService.layout.qHyperCube.qMeasureInfo.length),
-      );
-    });
-
-    test("should return a size when cell has leaf nodes and distanceToNextCell", () => {
-      const index = 0;
-      const leafCount = 10;
-      const distanceToNextCell = 5;
-      list[index] = {
-        leafCount,
-        distanceToNextCell,
-        x: 0,
-      } as Cell;
-
-      const handler = getColumnWidthHandler({
-        list,
-        isLastRow: false,
-        layoutService,
-        getMeasureInfoWidth,
-        allMeasuresWidth,
-      });
-
-      expect(handler(index)).toEqual(
-        (allMeasuresWidth * (leafCount + distanceToNextCell)) / layoutService.layout.qHyperCube.qMeasureInfo.length,
-      );
-    });
-
-    test("should return a size for cell when first column does not exist in list", () => {
-      const index = 0;
-      const leafCount = 10;
-      const distanceToNextCell = 0;
-      const x = 10;
+      index = 0;
+      leafCount = 10;
+      distanceToNextCell = 5;
+      x = 0;
       list[index] = {
         leafCount,
         distanceToNextCell,
         x,
       } as Cell;
 
-      const handler = getColumnWidthHandler({
+      getRightGridColumnWidth = () => columnWidth;
+    });
+
+    const getHandler = () =>
+      getColumnWidthHandler({
         list,
         isLastRow: false,
-        layoutService,
-        getMeasureInfoWidth,
-        allMeasuresWidth,
+        getRightGridColumnWidth,
       });
 
-      expect(handler(index)).toEqual(
-        (allMeasuresWidth * (leafCount + x)) / layoutService.layout.qHyperCube.qMeasureInfo.length,
-      );
+    test("should return a size when cell is undefined", () => {
+      list = {};
+
+      const handler = getHandler();
+      expect(handler(index)).toEqual(columnWidth);
+    });
+
+    test("should return a size when cell has no leaf nodes", () => {
+      leafCount = 0;
+      list[index] = {
+        leafCount,
+        x,
+      } as Cell;
+
+      const handler = getHandler();
+      expect(handler(index)).toEqual(columnWidth);
+    });
+
+    test("should return a size when cell has leaf nodes", () => {
+      distanceToNextCell = 0;
+      list[index] = {
+        leafCount,
+        distanceToNextCell,
+        x,
+      } as Cell;
+
+      const handler = getHandler();
+      expect(handler(index)).toEqual(leafCount * columnWidth);
+    });
+
+    test("should return a size when cell has leaf nodes and distanceToNextCell", () => {
+      const handler = getHandler();
+      expect(handler(index)).toEqual((leafCount + distanceToNextCell) * columnWidth);
+    });
+
+    test("should return a size when colIndex is 0 but cell.x is > 0", () => {
+      x = 5;
+      list[index] = {
+        leafCount,
+        distanceToNextCell,
+        x,
+      } as Cell;
+
+      const handler = getHandler();
+      expect(handler(index)).toEqual((leafCount + distanceToNextCell + x) * columnWidth);
     });
   });
 });

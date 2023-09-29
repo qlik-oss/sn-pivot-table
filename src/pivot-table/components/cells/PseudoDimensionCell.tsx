@@ -1,5 +1,6 @@
 import React from "react";
 import type { Cell, ShowLastBorder } from "../../../types/types";
+import { DEFAULT_LINE_CLAMP } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
   getBorderStyle,
@@ -57,7 +58,7 @@ const PseudoDimensionCell = ({
     rightDivider: showTotalCellDivider && !isLeftColumn,
     borderColor: styleService.grid.divider,
   });
-  const lineClamp = isLeftColumn ? styleService.lineClamp : styleService.headerLineClamp;
+  const lineClamp = isLeftColumn ? styleService.content.lineClamp : DEFAULT_LINE_CLAMP;
 
   return (
     <div

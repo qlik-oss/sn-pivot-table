@@ -1,9 +1,9 @@
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../pivot-table/constants";
-import type { PivotLayout, SnapshotData } from "../../types/QIX";
+import type { ExtendedDimensionInfo, ExtendedMeasureInfo, PivotLayout, SnapshotData } from "../../types/QIX";
 import type { LayoutService } from "../../types/types";
 import createLayoutService from "../layout-service";
 
-const getMeasureInfo = () => ({}) as EngineAPI.INxMeasureInfo;
+const getMeasureInfo = () => ({}) as ExtendedMeasureInfo;
 
 const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible?: boolean }) =>
   ({
@@ -11,7 +11,7 @@ const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible
     qCardinalities: {
       qHypercubeCardinal: isVisible ? 1 : 0,
     },
-  }) as unknown as EngineAPI.INxDimensionInfo;
+  }) as unknown as ExtendedDimensionInfo;
 
 describe("createLayoutService", () => {
   let layout: PivotLayout;

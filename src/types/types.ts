@@ -5,7 +5,7 @@ export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
-export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<boolean>;
+export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<void>;
 
 export type List = Record<number, Cell>;
 
@@ -72,6 +72,7 @@ export interface ListItemData extends ItemData {
   itemCount: number;
   showLastBorder: ShowLastBorder;
   listValues: Cell[];
+  totalDividerIndex: number;
 }
 
 export interface Cell {
@@ -80,18 +81,18 @@ export interface Cell {
   y: number; // y position of cell in dataset
   pageX: number; // X position of cell in page
   pageY: number; // Y position of cell in page
+  mainAxisPageCoord: number; // Either equal pageX or pageY depending on if a cell is in the left or top grid
   parent: Cell | null;
   root: Cell | null;
   children: Cell[];
   leafCount: number;
   distanceToNextCell: number;
-  incrementLeafCount: () => void;
   isTotal: boolean;
   isEmpty: boolean;
   isNull: boolean;
   isPseudoDimension: boolean;
   isLockedByDimension: boolean;
-  isLastChild: boolean;
+  isLeafNode: boolean;
 }
 
 export interface PivotDataSize {
@@ -118,12 +119,14 @@ export interface TopDimensionData {
   grid: Grid;
   rowCount: number;
   layoutSize: Point;
+  totalDividerIndex: number;
 }
 
 export interface LeftDimensionData {
   grid: Grid;
   columnCount: number;
   layoutSize: Point;
+  totalDividerIndex: number;
 }
 
 export interface HeadersData {
@@ -142,14 +145,6 @@ export interface Data {
 export interface ExtendedSelections extends stardust.ObjectSelections {
   on: (name: string, callback: () => void) => void;
   removeListener: (name: string, callback: () => void) => void;
-}
-
-export interface ExtendedTheme extends stardust.Theme {
-  name: () => string;
-}
-
-export interface ExtendedTranslator extends stardust.Translator {
-  language(): string;
 }
 
 export interface ViewService {
@@ -190,11 +185,12 @@ export interface Galaxy {
 }
 
 export interface PageInfo {
-  currentPage: number;
+  page: number;
   shouldShowPagination: boolean;
   totalPages: number;
   rowsPerPage: number;
   totalRowCount: number;
+  rowsOnCurrentPage: number;
 }
 
 interface FontStyling {
@@ -208,16 +204,27 @@ export interface CellStyling {
   background: string;
 }
 
+interface RowTitleStyling extends CellStyling {
+  hoverBackground: string;
+  activeBackground: string;
+}
+
+interface ColumnTitleStyling extends CellStyling {
+  hoverBackground: string;
+  activeBackground: string;
+}
+
 interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
   background: string;
-  rowTitle: CellStyling;
-  columnTitle: CellStyling;
+  rowTitle: RowTitleStyling;
+  columnTitle: ColumnTitleStyling;
 }
 
 interface MeasureContentStyling extends FontStyling {
   background: string;
   nullValue: CellStyling;
   totalValue: CellStyling;
+  lineClamp: number;
 }
 
 interface DimensionContentStyling extends FontStyling {
@@ -229,7 +236,6 @@ interface DimensionContentStyling extends FontStyling {
 
 interface GridStyling {
   rowHeight: "compact";
-  lineCount: number;
   border: string;
   divider: string;
 }
@@ -245,8 +251,6 @@ export interface StylingOptions {
 export interface StyleService extends StylingOptions {
   headerCellHeight: number;
   contentCellHeight: number;
-  lineClamp: number;
-  headerLineClamp: number;
 }
 
 export type ActivelySortedColumn = {

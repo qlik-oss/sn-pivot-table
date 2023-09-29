@@ -66,6 +66,7 @@ export interface Component {
     fontSize?: string;
     fontColor?: PaletteColor;
     background?: PaletteColor;
+    lineClamp?: number;
     nullValue?: ComponentCellStyling;
     totalValue?: ComponentCellStyling;
   };
@@ -89,7 +90,6 @@ export interface Component {
   };
   grid: {
     rowHeight?: "compact";
-    lineCount?: number;
     border?: PaletteColor;
     divider?: PaletteColor;
   };
@@ -138,7 +138,7 @@ export interface ExtendedMeasureInfo extends EngineAPI.INxMeasureInfo {
   columnWidth: ColumnWidth;
 }
 
-export interface ExtendedHyperCube extends Omit<EngineAPI.IHyperCube, "qDimensionInfo" | "qMeasureInfo"> {
+export interface ExtendedHyperCube extends EngineAPI.IHyperCube {
   qDimensionInfo: ExtendedDimensionInfo[];
   qMeasureInfo: ExtendedMeasureInfo[];
   activelySortedColumn: ActivelySortedColumn;
@@ -173,6 +173,6 @@ interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
   columnWidth: ColumnWidth;
 }
 
-export interface DimensionOrMeasure {
+export interface DimensionOrMeasureDef {
   qDef: ExtendedInlineDimensionDef | ExtendedInlineMeasureDef;
 }

@@ -7,7 +7,6 @@ import DimensionCell from "./DimensionCell";
 import EmptyCell from "./EmptyCell";
 import PseudoDimensionCell from "./PseudoDimensionCell";
 import TotalsCell from "./TotalsCell";
-import getNextCell from "./utils/get-next-cell";
 
 interface ListCallbackProps {
   index: number;
@@ -17,7 +16,7 @@ interface ListCallbackProps {
 
 const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element | null => {
   const styleService = useStyleContext();
-  const { list, isLeftColumn = false, isLast, itemCount, showLastBorder, layoutService, listValues } = data;
+  const { list, isLeftColumn = false, isLast, itemCount, showLastBorder, listValues, totalDividerIndex } = data;
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
 
@@ -29,9 +28,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
    * To get around that, the "list" object is converted to an array.
    */
   const cell = isLast ? list[index] : listValues[index];
-  const showTotalCellDivider = shouldShowTotalCellDivider(
-    layoutService.showTotalsAbove ? cell : getNextCell(isLast ? list : listValues, index, cell),
-  );
+  const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
 
   if (cell === undefined || cell.isEmpty) {
     const background = isLeftColumn ? styleService.rowContent.background : styleService.columnContent.background;
