@@ -9,6 +9,7 @@ import {
   type ExtendedMeasureInfo,
 } from "../../types/QIX";
 import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
+import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
@@ -23,6 +24,7 @@ interface ColumnWidthHook {
 
 export const EXPAND_ICON_WIDTH = 30;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
+const TOTAL_CELL_PADDING = CELL_PADDING * 2 + GRID_BORDER;
 
 export enum ColumnWidthValues {
   PixelsMin = 30,
@@ -97,14 +99,14 @@ export default function useColumnWidth(
         // Use the max width of all measures
         width = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
-            const fitToContentWidth = measureTextForContent(qFallbackTitle);
+            const fitToContentWidth = measureTextForContent(qFallbackTitle) + TOTAL_CELL_PADDING;
             return getColumnWidth(columnWidth, fitToContentWidth);
           }),
         );
       } else {
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
         const fitToContentWidth = Math.max(
-          measureTextForHeader(qFallbackTitle),
+          measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING,
           estimateWidthForRowContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index),
         );
 
