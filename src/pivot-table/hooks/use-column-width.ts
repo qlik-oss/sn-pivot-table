@@ -1,3 +1,4 @@
+import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
@@ -10,7 +11,6 @@ import {
 import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
-import useMeasureText from "./use-measure-text";
 
 interface ColumnWidthHook {
   leftGridWidth: number;
@@ -52,7 +52,10 @@ export default function useColumnWidth(
     },
   } = layoutService;
   const styleService = useStyleContext();
-  const { measureText: measureTextForHeader } = useMeasureText(styleService.header);
+  const { measureText: measureTextForHeader } = useMeasureText({
+    ...styleService.header,
+    bold: true,
+  });
   const { estimateWidth: estimateWidthForRowContent } = useMeasureText(styleService.rowContent);
   const { measureText: measureTextForColumnContent, estimateWidth: estimateWidthForColumnContent } = useMeasureText(
     styleService.columnContent,

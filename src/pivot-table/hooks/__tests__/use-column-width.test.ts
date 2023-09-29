@@ -1,15 +1,21 @@
+import {
+  useMeasureText,
+  type EstimateLineCount,
+  type MeasureTextHook,
+  type UseMeasureTextProps,
+} from "@qlik/nebula-table-utils/lib/hooks";
 import { renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import useColumnWidth, { ColumnWidthValues, EXPAND_ICON_WIDTH } from "../use-column-width";
-import useMeasureText, { type MeasureTextHook } from "../use-measure-text";
 
 type MeasureTextMock = jest.MockedFunction<(text: string) => number>;
 type EstimateWidthMock = jest.MockedFunction<(length: number) => number>;
+type EstimateLineCountMock = jest.MockedFunction<EstimateLineCount>;
 
-jest.mock("../use-measure-text");
+jest.mock("@qlik/nebula-table-utils/lib/hooks");
 jest.mock("../../contexts/StyleProvider");
 
 describe("useColumnWidth", () => {
@@ -17,7 +23,7 @@ describe("useColumnWidth", () => {
   let meaInfo: ExtendedMeasureInfo;
   let rect: Rect;
   let percentageConversion: number;
-  let mockedUseMeasureText: jest.MockedFunction<(styling: { fontSize: string; fontFamily: string }) => MeasureTextHook>;
+  let mockedUseMeasureText: jest.MockedFunction<(styling: UseMeasureTextProps) => MeasureTextHook>;
   let mockedMeasureText: MeasureTextHook;
   let layoutService: LayoutService;
   let visibleLeftDimensionInfo: VisibleDimensionInfo[];
@@ -52,6 +58,7 @@ describe("useColumnWidth", () => {
     mockedMeasureText = {
       measureText: jest.fn() as MeasureTextMock,
       estimateWidth: jest.fn() as EstimateWidthMock,
+      estimateLineCount: jest.fn() as EstimateLineCountMock,
     };
     mockedUseMeasureText.mockReturnValue(mockedMeasureText);
   });
