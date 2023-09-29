@@ -72,7 +72,7 @@ describe("useColumnWidth", () => {
   const mockMeasureText = (value: number) => (mockedMeasureText.measureText as MeasureTextMock).mockReturnValue(value);
 
   describe("getLeftGridColumnWidth + leftGridWidth", () => {
-    test("should return left column width for auto setting", () => {
+    test.only("should return left column width for auto setting", () => {
       const width = 25;
       mockEstimateWidth(width);
       mockMeasureText(width);

@@ -197,7 +197,7 @@ export default function useColumnWidth(
   );
 
   const leftGridWidth = useMemo(
-    () => leftGridColumnWidths.map((x) => x.colWidth).reduce((totalWidth, w) => totalWidth + w, 0),
+    () => leftGridColumnWidths.reduce((totalWidth, w) => totalWidth + w.colWidth, 0),
     [leftGridColumnWidths],
   );
 
