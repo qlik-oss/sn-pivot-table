@@ -111,7 +111,6 @@ const DimensionTitleCell = ({
       style={{
         ...style,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border),
-        ...styleService.header.rowTitle,
         padding: 0,
         position: "relative",
         display: "grid",
