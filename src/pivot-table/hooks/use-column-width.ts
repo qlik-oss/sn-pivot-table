@@ -23,8 +23,8 @@ interface ColumnWidthHook {
 }
 
 export const EXPAND_ICON_WIDTH = 30;
+export const TOTAL_CELL_PADDING = CELL_PADDING * 2 + GRID_BORDER;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
-const TOTAL_CELL_PADDING = CELL_PADDING * 2 + GRID_BORDER;
 
 export enum ColumnWidthValues {
   PixelsMin = 30,
