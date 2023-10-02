@@ -290,4 +290,77 @@ describe("useColumnWidth", () => {
       expect(showLastRightBorder).toBe(true);
     });
   });
+
+  describe("getLeftGridColumnWidthMetadata()", () => {
+    test("should return correct structure values", () => {
+      mockEstimateWidth(300);
+      mockMeasureText(100);
+
+      const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
+      const res = getLeftGridColumnWidthMetadata(0, false);
+
+      expect(res).toMatchObject({
+        colWidth: expect.any(Number),
+        shouldShowMenuIcon: expect.any(Boolean),
+        shouldShowLockIcon: expect.any(Boolean),
+      });
+    });
+
+    test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there are space in each column", () => {
+      mockEstimateWidth(300);
+      mockMeasureText(30);
+
+      const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
+      const res = getLeftGridColumnWidthMetadata(0, false);
+
+      expect(res.shouldShowMenuIcon).toBe(true);
+      expect(res.shouldShowLockIcon).toBe(false);
+    });
+
+    test("should return false for any icon, b/c estimated text width is to much than colWidth", () => {
+      mockEstimateWidth(300);
+      mockMeasureText(150);
+
+      const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
+      const res = getLeftGridColumnWidthMetadata(0, false);
+
+      expect(res.shouldShowMenuIcon).toBe(false);
+      expect(res.shouldShowLockIcon).toBe(false);
+    });
+
+    describe("if `isLocked` is true:", () => {
+      test("should return `shouldShowLockIcon` as true, b/c estimated width for text is small, there are space on each column and we are passing `isLocked` as true", () => {
+        mockEstimateWidth(300);
+        mockMeasureText(30);
+
+        const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
+        const res = getLeftGridColumnWidthMetadata(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(true);
+        expect(res.shouldShowLockIcon).toBe(true);
+      });
+
+      test("should prioritise lock icon over menu, if there was decent space for only one icon", () => {
+        mockEstimateWidth(300);
+        mockMeasureText(75);
+
+        const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
+        const res = getLeftGridColumnWidthMetadata(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(false);
+        expect(res.shouldShowLockIcon).toBe(true);
+      });
+
+      test("should not show lock icon, even if regardless of it is true b/c of not space on column", () => {
+        mockEstimateWidth(50);
+        mockMeasureText(75);
+
+        const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
+        const res = getLeftGridColumnWidthMetadata(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(false);
+        expect(res.shouldShowLockIcon).toBe(false);
+      });
+    });
+  });
 });

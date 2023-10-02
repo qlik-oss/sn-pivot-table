@@ -163,7 +163,7 @@ export default function useColumnWidth(
     (idx, isLocked) => {
       const metaData = leftGridColumnWidths[idx];
       let shouldShowMenuIcon = true;
-      let shouldShowLockIcon = true;
+      let shouldShowLockIcon = isLocked;
 
       // margin left + icon size
       const lockIconWidth = isLocked ? 8 + 12 : 0;
