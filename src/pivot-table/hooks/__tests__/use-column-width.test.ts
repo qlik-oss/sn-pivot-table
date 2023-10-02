@@ -43,6 +43,7 @@ describe("useColumnWidth", () => {
           qDimensionInfo: [dimInfo, dimInfo, dimInfo],
           qMeasureInfo: [meaInfo, meaInfo, meaInfo],
           qNoOfLeftDims: 3,
+          qEffectiveInterColumnSortOrder: [0, 1, 2, -1],
         },
       },
       size: {
@@ -188,6 +189,7 @@ describe("useColumnWidth", () => {
       expect(getRightGridColumnWidth(1)).toBe(ColumnWidthValues.AutoMin);
       expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.AutoMin);
     });
+
     test("should return right column width for fit to content setting", () => {
       mockEstimateWidth(50);
       mockMeasureText(50);
@@ -242,6 +244,7 @@ describe("useColumnWidth", () => {
     test("should return right column width for non-pseudo dimension", () => {
       dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 40 } } as ExtendedDimensionInfo;
       visibleTopDimensionInfo = [dimInfo, -1, dimInfo];
+      layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, -1, 2];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth()).toBe(40);
@@ -254,9 +257,23 @@ describe("useColumnWidth", () => {
 
       dimInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedDimensionInfo;
       visibleTopDimensionInfo = [dimInfo, -1, dimInfo];
+      layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, -1, 2];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth()).toBe(width);
+    });
+
+    test("should return right column width for non-pseudo dimension for fit to content when dimension is collapsed", () => {
+      const width = 40;
+      mockEstimateWidth(width);
+      mockMeasureText(width + 1);
+
+      dimInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedDimensionInfo;
+      visibleTopDimensionInfo = [-1, dimInfo];
+      layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, -1, 1, 2];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_WIDTH);
     });
   });
 
@@ -264,13 +281,13 @@ describe("useColumnWidth", () => {
     beforeEach(() => {
       // This makes the total of the left grid 3 * measured width + 2 * icon width = 150
       mockEstimateWidth(30);
-      mockMeasureText(30);
+      mockMeasureText(30 - TOTAL_CELL_PADDING);
     });
     test("should return grid and total widths when sum of all widths is rect.width", () => {
       // The right side columns will default to auto, hence filling up the remaining space
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(150 + TOTAL_CELL_PADDING);
-      expect(rightGridWidth).toBe(249 - TOTAL_CELL_PADDING);
+      expect(leftGridWidth).toBe(150);
+      expect(rightGridWidth).toBe(249);
       expect(totalWidth).toBe(rect.width);
       expect(showLastRightBorder).toBe(false);
     });
@@ -280,9 +297,9 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(150 + TOTAL_CELL_PADDING);
-      expect(rightGridWidth).toBe(249 - TOTAL_CELL_PADDING);
-      expect(totalWidth).toBe(451 + TOTAL_CELL_PADDING);
+      expect(leftGridWidth).toBe(150);
+      expect(rightGridWidth).toBe(249);
+      expect(totalWidth).toBe(451);
       expect(showLastRightBorder).toBe(false);
     });
 
@@ -291,9 +308,9 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(150 + TOTAL_CELL_PADDING);
+      expect(leftGridWidth).toBe(150);
       expect(rightGridWidth).toBe(120);
-      expect(totalWidth).toBe(271 + TOTAL_CELL_PADDING);
+      expect(totalWidth).toBe(271);
       expect(showLastRightBorder).toBe(true);
     });
   });
