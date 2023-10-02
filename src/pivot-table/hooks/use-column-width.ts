@@ -50,7 +50,7 @@ export default function useColumnWidth(
     layout: {
       qHyperCube: { qMeasureInfo, qNoOfLeftDims, qEffectiveInterColumnSortOrder },
     },
-    isAlwaysFullyExpanded,
+    isFullyExpanded,
   } = layoutService;
   const styleService = useStyleContext();
   const { measureText: measureTextForHeader } = useMeasureText(styleService.header);
@@ -93,7 +93,7 @@ export default function useColumnWidth(
         );
       } else {
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
-        const iconWidth = !isAlwaysFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0;
+        const iconWidth = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0;
         const fitToContentWidth = Math.max(
           measureTextForHeader(qFallbackTitle),
           estimateWidthForRowContent(qApprMaxGlyphCount) + iconWidth,
@@ -116,7 +116,7 @@ export default function useColumnWidth(
     rect.width,
     qMeasureInfo,
     measureTextForContent,
-    isAlwaysFullyExpanded,
+    isFullyExpanded,
     qNoOfLeftDims,
     measureTextForHeader,
     estimateWidthForRowContent,

@@ -149,7 +149,6 @@ describe("useColumnWidth", () => {
       percentageConversion = (rect.width - lefSideWidth) / 100;
 
       layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
-      layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, 2, -1];
       visibleLeftDimensionInfo = [
         { columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER } } as ExtendedDimensionInfo,
       ];
