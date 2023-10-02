@@ -26,7 +26,7 @@ interface DimensionTitleCellProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
-  headerCellsIconVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus>;
+  iconsVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus>;
 }
 
 export const testId = "title-cell";
@@ -44,7 +44,7 @@ const DimensionTitleCell = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
-  headerCellsIconVisibilityStatus,
+  iconsVisibilityStatus,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -52,7 +52,7 @@ const DimensionTitleCell = ({
   const { fontSize, fontFamily } = styleService.header;
   const { color, background, hoverBackground, activeBackground } = styleService.header.rowTitle;
   const anchorRef = useRef<HTMLDivElement>(null);
-  const { shouldShowLockIcon, shouldShowMenuIcon } = headerCellsIconVisibilityStatus;
+  const { shouldShowLockIcon, shouldShowMenuIcon } = iconsVisibilityStatus;
   const { open, setOpen, handleOpenMenu } = useHeadCellDim({ interactions });
 
   const isDim = cell.id !== "PSEUDO-DIM";

@@ -20,7 +20,7 @@ describe("DimensionTitleCell", () => {
     width: "100px",
     height: "150px",
   };
-  const headerCellsIconVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus> = {
+  const iconsVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus> = {
     shouldShowMenuIcon: true,
     shouldShowLockIcon: true,
   };
@@ -34,7 +34,7 @@ describe("DimensionTitleCell", () => {
         isLastColumn={false}
         changeSortOrder={changeSortOrder}
         changeActivelySortedHeader={changeActivelySortedColumn}
-        headerCellsIconVisibilityStatus={headerCellsIconVisibilityStatus}
+        iconsVisibilityStatus={iconsVisibilityStatus}
       />,
       { wrapper: TestWithProvider },
     );
@@ -72,7 +72,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
-          headerCellsIconVisibilityStatus={headerCellsIconVisibilityStatus}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
@@ -100,7 +100,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
-          headerCellsIconVisibilityStatus={headerCellsIconVisibilityStatus}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
@@ -124,7 +124,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
-          headerCellsIconVisibilityStatus={headerCellsIconVisibilityStatus}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
@@ -156,7 +156,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
-          headerCellsIconVisibilityStatus={headerCellsIconVisibilityStatus}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
@@ -196,7 +196,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
-          headerCellsIconVisibilityStatus={headerCellsIconVisibilityStatus}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
