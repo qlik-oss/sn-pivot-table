@@ -1,3 +1,4 @@
+import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
@@ -8,9 +9,9 @@ import {
   type ExtendedMeasureInfo,
 } from "../../types/QIX";
 import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
+import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
-import useMeasureText from "./use-measure-text";
 
 interface ColumnWidthHook {
   leftGridWidth: number;
@@ -22,6 +23,7 @@ interface ColumnWidthHook {
 }
 
 export const EXPAND_ICON_WIDTH = 30;
+export const TOTAL_CELL_PADDING = CELL_PADDING * 2 + GRID_BORDER;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
 
 export enum ColumnWidthValues {
@@ -53,7 +55,10 @@ export default function useColumnWidth(
     isFullyExpanded,
   } = layoutService;
   const styleService = useStyleContext();
-  const { measureText: measureTextForHeader } = useMeasureText(styleService.header);
+  const { measureText: measureTextForHeader } = useMeasureText({
+    ...styleService.header,
+    bold: true,
+  });
   const { estimateWidth: estimateWidthForRowContent } = useMeasureText(styleService.rowContent);
   const { measureText: measureTextForColumnContent, estimateWidth: estimateWidthForColumnContent } = useMeasureText(
     styleService.columnContent,
@@ -87,7 +92,7 @@ export default function useColumnWidth(
         // Use the max width of all measures
         width = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
-            const fitToContentWidth = measureTextForContent(qFallbackTitle);
+            const fitToContentWidth = measureTextForContent(qFallbackTitle) + TOTAL_CELL_PADDING;
             return getColumnWidth(columnWidth, fitToContentWidth);
           }),
         );
@@ -95,7 +100,7 @@ export default function useColumnWidth(
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
         const iconWidth = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0;
         const fitToContentWidth = Math.max(
-          measureTextForHeader(qFallbackTitle),
+          measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING,
           estimateWidthForRowContent(qApprMaxGlyphCount) + iconWidth,
         );
 
