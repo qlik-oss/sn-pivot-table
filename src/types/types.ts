@@ -163,6 +163,7 @@ export interface LayoutService {
   hasLeftDimensions: boolean;
   showTotalsAbove: boolean;
   hasPseudoDimOnLeft: boolean;
+  isFullyExpanded: boolean;
 }
 
 export interface DataService {

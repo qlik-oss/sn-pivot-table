@@ -50,8 +50,9 @@ export default function useColumnWidth(
 ): ColumnWidthHook {
   const {
     layout: {
-      qHyperCube: { qMeasureInfo, qNoOfLeftDims },
+      qHyperCube: { qMeasureInfo, qNoOfLeftDims, qEffectiveInterColumnSortOrder },
     },
+    isFullyExpanded,
   } = layoutService;
   const styleService = useStyleContext();
   const { measureText: measureTextForHeader } = useMeasureText({
@@ -64,14 +65,6 @@ export default function useColumnWidth(
   );
   const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
     styleService.content,
-  );
-
-  const leafTopDimension = visibleTopDimensionInfo.at(-1);
-  const topGridLeavesIsPseudo = leafTopDimension === PSEUDO_DIMENSION_INDEX;
-
-  const getCollapseExpandIconSize = useCallback(
-    (index: number) => (index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0),
-    [qNoOfLeftDims],
   );
 
   /**
@@ -105,9 +98,10 @@ export default function useColumnWidth(
         );
       } else {
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
+        const iconWidth = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0;
         const fitToContentWidth = Math.max(
           measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING,
-          estimateWidthForRowContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index),
+          estimateWidthForRowContent(qApprMaxGlyphCount) + iconWidth,
         );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);
@@ -124,12 +118,13 @@ export default function useColumnWidth(
     return widths.map((w) => w * multiplier);
   }, [
     visibleLeftDimensionInfo,
-    measureTextForHeader,
-    estimateWidthForRowContent,
-    getCollapseExpandIconSize,
     rect.width,
     qMeasureInfo,
     measureTextForContent,
+    isFullyExpanded,
+    qNoOfLeftDims,
+    measureTextForHeader,
+    estimateWidthForRowContent,
   ]);
 
   const getLeftGridColumnWidth = useCallback((index: number) => leftGridColumnWidths[index], [leftGridColumnWidths]);
@@ -140,6 +135,11 @@ export default function useColumnWidth(
   );
 
   const rightGridAvailableWidth = useMemo(() => rect.width - leftGridWidth - GRID_BORDER, [leftGridWidth, rect.width]);
+
+  const leafTopDimension = visibleTopDimensionInfo.at(-1);
+  const topGridLeavesIsPseudo = leafTopDimension === PSEUDO_DIMENSION_INDEX;
+  const leavesIconWidth =
+    qEffectiveInterColumnSortOrder.length - qNoOfLeftDims > visibleTopDimensionInfo.length ? EXPAND_ICON_WIDTH : 0;
 
   /**
    * Get the width of a leaf in the top grid. If there is no top grid, early return rightGridAvailableWidth
@@ -166,7 +166,7 @@ export default function useColumnWidth(
             ? Math.max(estimateWidthForContent(qApprMaxGlyphCount), measureTextForColumnContent(qFallbackTitle))
             : Math.max(
                 Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
-                estimateWidthForColumnContent(qApprMaxGlyphCount),
+                estimateWidthForColumnContent(qApprMaxGlyphCount) + leavesIconWidth,
               );
           break;
         }
@@ -191,6 +191,7 @@ export default function useColumnWidth(
       measureTextForColumnContent,
       qMeasureInfo,
       estimateWidthForColumnContent,
+      leavesIconWidth,
     ],
   );
 
