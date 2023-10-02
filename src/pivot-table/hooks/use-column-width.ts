@@ -154,8 +154,6 @@ export default function useColumnWidth(
     measureTextForContent,
   ]);
 
-  // TODO:
-  // we dont need this -> it's just a getter that wrapped by useCallback now!
   const getLeftGridColumnWidth = useCallback(
     (index: number) => leftGridColumnWidths[index].colWidth,
     [leftGridColumnWidths],
