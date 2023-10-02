@@ -316,20 +316,7 @@ describe("useColumnWidth", () => {
   });
 
   describe("getHeaderCellsIconsVisibilityStatus()", () => {
-    test("should return correct structure values", () => {
-      mockEstimateWidth(300);
-      mockMeasureText(100);
-
-      const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
-      const res = getHeaderCellsIconsVisibilityStatus(0, false);
-
-      expect(res).toMatchObject({
-        shouldShowMenuIcon: expect.any(Boolean),
-        shouldShowLockIcon: expect.any(Boolean),
-      });
-    });
-
-    test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there are space in each column", () => {
+    test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there is enough space in each column", () => {
       mockEstimateWidth(300);
       mockMeasureText(30);
 
@@ -340,7 +327,7 @@ describe("useColumnWidth", () => {
       expect(res.shouldShowLockIcon).toBe(false);
     });
 
-    test("should return false for any icon, b/c estimated text width is to much than colWidth", () => {
+    test("should return false for any icon, b/c estimated text width is greater than colWidth", () => {
       mockEstimateWidth(300);
       mockMeasureText(150);
 
@@ -352,7 +339,7 @@ describe("useColumnWidth", () => {
     });
 
     describe("if `isLocked` is true:", () => {
-      test("should return `shouldShowLockIcon` as true, b/c estimated width for text is small, there are space on each column and we are passing `isLocked` as true", () => {
+      test("should return `shouldShowLockIcon` as true, b/c estimated width for text is small, there is enough space on each column and we are passing `isLocked` as true", () => {
         mockEstimateWidth(300);
         mockMeasureText(30);
 
@@ -363,7 +350,7 @@ describe("useColumnWidth", () => {
         expect(res.shouldShowLockIcon).toBe(true);
       });
 
-      test("should prioritise lock icon over menu, if there was decent space for only one icon", () => {
+      test("should prioritise lock icon over menu, if there is enough space for only one icon", () => {
         mockEstimateWidth(300);
         mockMeasureText(75);
 
@@ -374,7 +361,7 @@ describe("useColumnWidth", () => {
         expect(res.shouldShowLockIcon).toBe(true);
       });
 
-      test("should not show lock icon, even if regardless of it is true b/c of not space on column", () => {
+      test("should not show lock icon when showLock is true but there is not enough space", () => {
         mockEstimateWidth(50);
         mockMeasureText(75);
 

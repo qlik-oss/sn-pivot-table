@@ -149,7 +149,7 @@ export default function useColumnWidth(
       const measuredTextForHeader = measureTextForHeader(title);
 
       // CELL_PADDING as grid gap between header text and menu icon
-      const menuIconSize = shouldShowMenuIcon ? CELL_PADDING + HEADER_ICON_SIZE : 0;
+      const menuIconSize = CELL_PADDING + HEADER_ICON_SIZE;
       // CELL_PADDING as space between lock icon and header text
       const lockIconSize = isLocked ? CELL_PADDING + HEADER_ICON_SIZE : 0;
       let finalSize = lockIconSize + measuredTextForHeader + menuIconSize + TOTAL_CELL_PADDING;
