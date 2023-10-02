@@ -27,7 +27,7 @@ export interface GetHeaderCellsIconsVisibilityStatus {
   (
     idx: number,
     isLocked: boolean,
-    title: string,
+    title?: string,
   ): {
     shouldShowMenuIcon: boolean;
     shouldShowLockIcon: boolean;

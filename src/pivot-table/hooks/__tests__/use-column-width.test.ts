@@ -298,13 +298,13 @@ describe("useColumnWidth", () => {
     });
   });
 
-  describe("getLeftGridColumnWidthMetadata()", () => {
+  describe("getHeaderCellsIconsVisibilityStatus()", () => {
     test("should return correct structure values", () => {
       mockEstimateWidth(300);
       mockMeasureText(100);
 
-      const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
-      const res = getLeftGridColumnWidthMetadata(0, false);
+      const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+      const res = getHeaderCellsIconsVisibilityStatus(0, false);
 
       expect(res).toMatchObject({
         colWidth: expect.any(Number),
@@ -317,8 +317,8 @@ describe("useColumnWidth", () => {
       mockEstimateWidth(300);
       mockMeasureText(30);
 
-      const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
-      const res = getLeftGridColumnWidthMetadata(0, false);
+      const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+      const res = getHeaderCellsIconsVisibilityStatus(0, false);
 
       expect(res.shouldShowMenuIcon).toBe(true);
       expect(res.shouldShowLockIcon).toBe(false);
@@ -328,8 +328,8 @@ describe("useColumnWidth", () => {
       mockEstimateWidth(300);
       mockMeasureText(150);
 
-      const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
-      const res = getLeftGridColumnWidthMetadata(0, false);
+      const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+      const res = getHeaderCellsIconsVisibilityStatus(0, false);
 
       expect(res.shouldShowMenuIcon).toBe(false);
       expect(res.shouldShowLockIcon).toBe(false);
@@ -340,8 +340,8 @@ describe("useColumnWidth", () => {
         mockEstimateWidth(300);
         mockMeasureText(30);
 
-        const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
-        const res = getLeftGridColumnWidthMetadata(0, true);
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
 
         expect(res.shouldShowMenuIcon).toBe(true);
         expect(res.shouldShowLockIcon).toBe(true);
@@ -351,8 +351,8 @@ describe("useColumnWidth", () => {
         mockEstimateWidth(300);
         mockMeasureText(75);
 
-        const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
-        const res = getLeftGridColumnWidthMetadata(0, true);
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
 
         expect(res.shouldShowMenuIcon).toBe(false);
         expect(res.shouldShowLockIcon).toBe(true);
@@ -362,8 +362,8 @@ describe("useColumnWidth", () => {
         mockEstimateWidth(50);
         mockMeasureText(75);
 
-        const { getLeftGridColumnWidthMetadata } = renderUseColumnWidth();
-        const res = getLeftGridColumnWidthMetadata(0, true);
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
 
         expect(res.shouldShowMenuIcon).toBe(false);
         expect(res.shouldShowLockIcon).toBe(false);
