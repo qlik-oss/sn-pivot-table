@@ -5,13 +5,19 @@ import type { LayoutService, PageInfo } from "../../types/types";
 interface Props {
   layoutService: LayoutService;
   pageInfo: PageInfo;
+  initialRefs?: {
+    topGridRef?: VariableSizeList<unknown>[];
+    leftGridRef?: VariableSizeList<unknown>[];
+    dataGridRef?: VariableSizeGrid<unknown>;
+    scrollableContainerRef?: HTMLDivElement;
+  };
 }
 
-const useScroll = ({ layoutService, pageInfo }: Props) => {
-  const scrollableContainerRef = useRef<HTMLDivElement>(null);
-  const topGridRef = useRef<VariableSizeList[]>([]);
-  const leftGridRef = useRef<VariableSizeList[]>([]);
-  const dataGridRef = useRef<VariableSizeGrid>(null);
+const useScroll = ({ layoutService, pageInfo, initialRefs }: Props) => {
+  const scrollableContainerRef = useRef<HTMLDivElement>(initialRefs?.scrollableContainerRef ?? null);
+  const topGridRef = useRef<VariableSizeList[]>(initialRefs?.topGridRef ?? []);
+  const leftGridRef = useRef<VariableSizeList[]>(initialRefs?.leftGridRef ?? []);
+  const dataGridRef = useRef<VariableSizeGrid>(initialRefs?.dataGridRef ?? null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
 
@@ -53,13 +59,13 @@ const useScroll = ({ layoutService, pageInfo }: Props) => {
       });
     }
 
-    if (typeof currentScrollLeft.current !== "undefined") {
+    if (currentScrollLeft.current !== undefined) {
       // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
       // Otherwise it will be out-of-sync with the other rows.
       currentScrollLeft.current = event.currentTarget.scrollLeft;
     }
 
-    if (typeof currentScrollTop.current !== "undefined") {
+    if (currentScrollTop.current !== undefined) {
       // Set scrollTop here so that when a left grid is expanded with a new column, scroll that row to scrollTop position.
       // Otherwise it will be out-of-sync with the other columns.
       currentScrollTop.current = event.currentTarget.scrollTop;
