@@ -27,8 +27,8 @@ export interface GetLeftColumnWidthMetadata {
   (
     idx: number,
     isLocked: boolean,
+    title: string,
   ): {
-    colWidth: number;
     shouldShowMenuIcon: boolean;
     shouldShowLockIcon: boolean;
   };
@@ -37,7 +37,6 @@ export interface GetLeftColumnWidthMetadata {
 export interface LeftColMetadata {
   colWidth: number;
   measureTextForHeader: number;
-  estimateWidthForContent: number;
 }
 
 export const EXPAND_ICON_WIDTH = 30;
@@ -110,8 +109,8 @@ export default function useColumnWidth(
 
     let sumOfWidths = 0;
 
-    const allColumnsMetadata = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
-      let columnMetadata: LeftColMetadata;
+    const widths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+      let width: number;
 
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         // Use the max width of all measures
@@ -121,11 +120,7 @@ export default function useColumnWidth(
             return getColumnWidth(columnWidth, fitToContentWidth);
           }),
         );
-        columnMetadata = {
-          colWidth: pseudoDimWidth,
-          measureTextForHeader: 0,
-          estimateWidthForContent: 0,
-        };
+        width = pseudoDimWidth;
       } else {
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
 
@@ -134,22 +129,18 @@ export default function useColumnWidth(
           estimateWidthForRowContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index);
         const fitToContentWidth = Math.max(measureTextForHeaderResult, estimateWidthForRowContentResult);
 
-        columnMetadata = {
-          colWidth: getColumnWidth(columnWidth, fitToContentWidth),
-          measureTextForHeader: measureTextForHeader(qFallbackTitle),
-          estimateWidthForContent: 0,
-        };
+        width = getColumnWidth(columnWidth, fitToContentWidth);
       }
 
-      sumOfWidths += columnMetadata.colWidth;
-      return columnMetadata;
+      sumOfWidths += width;
+      return width;
     });
 
     const leftGridMaxWidth = rect.width * LEFT_GRID_MAX_WIDTH_RATIO;
-    if (sumOfWidths < leftGridMaxWidth) return allColumnsMetadata;
+    if (sumOfWidths < leftGridMaxWidth) return widths;
 
     const multiplier = leftGridMaxWidth / sumOfWidths;
-    return allColumnsMetadata.map((col) => ({ ...col, colWidth: col.colWidth * multiplier }));
+    return widths.map((w) => w * multiplier);
   }, [
     visibleLeftDimensionInfo,
     measureTextForHeader,
@@ -160,28 +151,26 @@ export default function useColumnWidth(
     measureTextForContent,
   ]);
 
-  const getLeftGridColumnWidth = useCallback(
-    (index: number) => leftGridColumnWidths[index].colWidth,
-    [leftGridColumnWidths],
-  );
+  const getLeftGridColumnWidth = useCallback((index: number) => leftGridColumnWidths[index], [leftGridColumnWidths]);
 
   const getLeftGridColumnWidthMetadata = useCallback<GetLeftColumnWidthMetadata>(
-    (idx, isLocked) => {
-      const metaData = leftGridColumnWidths[idx];
+    (idx, isLocked, title = "") => {
+      const colWidth = leftGridColumnWidths[idx];
       let shouldShowMenuIcon = true;
       let shouldShowLockIcon = isLocked;
+      const measuredTextForHeader = measureTextForHeader(title);
 
       // CELL_PADDING as grid gap between header text and menu icon
       let menuIconSize = shouldShowMenuIcon ? CELL_PADDING + HEADER_ICON_SIZE : 0;
       // CELL_PADDING as space between lock icon and header text
       let lockIconSize = isLocked ? CELL_PADDING + HEADER_ICON_SIZE : 0;
-      let finalSize = lockIconSize + metaData.measureTextForHeader + menuIconSize + TOTAL_CELL_PADDING;
-      if (metaData.measureTextForHeader <= metaData.colWidth) {
-        if (finalSize > metaData.colWidth) {
+      let finalSize = lockIconSize + measuredTextForHeader + menuIconSize + TOTAL_CELL_PADDING;
+      if (measuredTextForHeader <= colWidth) {
+        if (finalSize > colWidth) {
           // need this for next if check
           finalSize -= menuIconSize;
           shouldShowMenuIcon = false;
-          if (finalSize > metaData.colWidth) {
+          if (finalSize > colWidth) {
             shouldShowLockIcon = false;
           }
         }
@@ -191,7 +180,6 @@ export default function useColumnWidth(
       }
 
       return {
-        colWidth: metaData.colWidth,
         shouldShowMenuIcon,
         shouldShowLockIcon,
       };
@@ -200,7 +188,7 @@ export default function useColumnWidth(
   );
 
   const leftGridWidth = useMemo(
-    () => leftGridColumnWidths.reduce((totalWidth, w) => totalWidth + w.colWidth, 0),
+    () => leftGridColumnWidths.reduce((totalWidth, w) => totalWidth + w, 0),
     [leftGridColumnWidths],
   );
 

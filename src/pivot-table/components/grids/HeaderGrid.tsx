@@ -51,7 +51,7 @@ const HeaderGrid = ({
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
       {headersData.data.map((col, colIndex) => {
         const cell = col[col.length - 1] as HeaderCell;
-        const columnWidthMetadata = columnWidthCallbackMetadata(colIndex, cell.isLocked);
+        const columnWidthMetadata = columnWidthCallbackMetadata(colIndex, cell.isLocked, cell.title);
 
         return (
           <DimensionTitleCell
