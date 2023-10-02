@@ -11,7 +11,7 @@ import type {
   HeaderCell,
   SortDirection,
 } from "../../../types/types";
-import { DEFAULT_ICON_SIZE } from "../../constants";
+import { LOCK_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import type { GetLeftColumnWidthMetadata } from "../../hooks/use-column-width";
@@ -100,7 +100,7 @@ const DimensionTitleCell = ({
       <StyledHeaderCell>
         {shouldShowLockIcon && cell.isLocked && (
           <StyledLockIcon>
-            <Locked height={DEFAULT_ICON_SIZE} />
+            <Locked height={LOCK_ICON_SIZE} />
           </StyledLockIcon>
         )}
         <StyledLabel {...{ shouldShowMenuIcon, fontFamily, fontSize }}>{cell.title}</StyledLabel>

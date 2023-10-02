@@ -8,6 +8,7 @@ import {
   type ExtendedMeasureInfo,
 } from "../../types/QIX";
 import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
+import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useMeasureText, { LEEWAY_WIDTH } from "./use-measure-text";
@@ -40,6 +41,7 @@ export interface LeftColMetadata {
 }
 
 export const EXPAND_ICON_WIDTH = 30;
+export const TOTAL_CELL_PADDING = CELL_PADDING * 2 + GRID_BORDER;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
 
 export enum ColumnWidthValues {
@@ -111,7 +113,7 @@ export default function useColumnWidth(
         // Use the max width of all measures
         const pseudoDimWidth = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
-            const fitToContentWidth = measureTextForContent(qFallbackTitle);
+            const fitToContentWidth = measureTextForContent(qFallbackTitle) + TOTAL_CELL_PADDING;
             return getColumnWidth(columnWidth, fitToContentWidth);
           }),
         );
@@ -123,7 +125,7 @@ export default function useColumnWidth(
       } else {
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
 
-        const measureTextForHeaderResult = measureTextForHeader(qFallbackTitle);
+        const measureTextForHeaderResult = measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING;
         const estimateWidthForContentResult =
           estimateWidthForContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index);
         const fitToContentWidth = Math.max(measureTextForHeaderResult, estimateWidthForContentResult);
@@ -170,7 +172,7 @@ export default function useColumnWidth(
       // size + grid gap
       const menuIconWidth = 24 + 4;
       // 8px padding left, 4px padding right
-      let finalSize = lockIconWidth + 8 + metaData.measureTextForHeader + 4 + menuIconWidth - LEEWAY_WIDTH;
+      let finalSize = lockIconWidth + 8 + metaData.measureTextForHeader + 4 + menuIconWidth; // - LEEWAY_WIDTH;
       if (metaData.measureTextForHeader <= metaData.colWidth) {
         if (finalSize > metaData.colWidth) {
           // need this for next if check
