@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
+import { HEADER_ICON_SIZE } from "../../constants";
 import { CELL_PADDING, textStyle } from "../shared-styles";
 
 const baseFlex: React.CSSProperties = {
@@ -20,11 +21,9 @@ export const StyledHeaderCellWrapper = styled(Box, {
   shouldForwardProp: (prop: string) =>
     !["interactions", "hoverBackground", "background", "shouldShowMenuIcon"].includes(prop),
 })(({ interactions, background, hoverBackground, shouldShowMenuIcon }: StyledHeaderCellWrapperProps) => ({
-  // inline styling uses getBorderStyle(..) which has a padding of 4px and it overrides this
-  padding: "0 !important",
   position: "relative",
   display: "grid",
-  gridTemplateColumns: shouldShowMenuIcon ? "1fr 24px" : "1fr",
+  gridTemplateColumns: shouldShowMenuIcon ? `1fr ${HEADER_ICON_SIZE}px` : "1fr",
   gridGap: shouldShowMenuIcon ? CELL_PADDING : 0,
   alignItems: "center",
   cursor: interactions.active ? "pointer" : "default",
@@ -49,24 +48,21 @@ export const StyledHeaderCell = styled("div")(() => ({
 
 export const StyledLockIcon = styled("div")(() => ({
   ...baseFlex,
-  marginLeft: CELL_PADDING,
+  marginRight: CELL_PADDING,
 }));
 
 interface StyledLabelProps {
-  shouldShowMenuIcon: boolean;
   fontSize: string;
   fontFamily: string;
 }
 
 export const StyledLabel = styled("div", {
-  shouldForwardProp: (prop: string) => !["shouldShowMenuIcon", "fontSize", "fontFamily"].includes(prop),
-})(({ shouldShowMenuIcon, fontSize, fontFamily }: StyledLabelProps) => ({
+  shouldForwardProp: (prop: string) => !["fontSize", "fontFamily"].includes(prop),
+})(({ fontSize, fontFamily }: StyledLabelProps) => ({
   ...textStyle,
   fontWeight: "600",
   alignSelf: "center",
   flexGrow: 1,
-  paddingLeft: CELL_PADDING,
-  paddingRight: shouldShowMenuIcon ? 0 : CELL_PADDING,
   fontSize,
   fontFamily,
 }));

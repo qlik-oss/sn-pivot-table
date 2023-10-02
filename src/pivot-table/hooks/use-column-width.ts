@@ -10,7 +10,7 @@ import {
 } from "../../types/QIX";
 import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
 import { CELL_PADDING } from "../components/shared-styles";
-import { GRID_BORDER, LOCK_ICON_SIZE, MENU_ICON_SIZE } from "../constants";
+import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
 interface ColumnWidthHook {
@@ -172,9 +172,9 @@ export default function useColumnWidth(
       let shouldShowLockIcon = isLocked;
 
       // CELL_PADDING as grid gap between header text and menu icon
-      let menuIconSize = shouldShowMenuIcon ? CELL_PADDING + MENU_ICON_SIZE : 0;
+      let menuIconSize = shouldShowMenuIcon ? CELL_PADDING + HEADER_ICON_SIZE : 0;
       // CELL_PADDING as space between lock icon and header text
-      let lockIconSize = isLocked ? CELL_PADDING + LOCK_ICON_SIZE : 0;
+      let lockIconSize = isLocked ? CELL_PADDING + HEADER_ICON_SIZE : 0;
       let finalSize = lockIconSize + metaData.measureTextForHeader + menuIconSize + TOTAL_CELL_PADDING;
       if (metaData.measureTextForHeader <= metaData.colWidth) {
         if (finalSize > metaData.colWidth) {
