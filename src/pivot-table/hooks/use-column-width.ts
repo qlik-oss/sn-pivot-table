@@ -20,10 +20,10 @@ interface ColumnWidthHook {
   showLastRightBorder: boolean;
   getLeftGridColumnWidth: (index: number) => number;
   getRightGridColumnWidth: (index?: number) => number;
-  getHeaderIconsVisibilityStatus: GetHeaderIconsVisibilityStatus;
+  getHeaderCellsIconsVisibilityStatus: GetHeaderCellsIconsVisibilityStatus;
 }
 
-export interface GetHeaderIconsVisibilityStatus {
+export interface GetHeaderCellsIconsVisibilityStatus {
   (
     idx: number,
     isLocked: boolean,
@@ -146,7 +146,7 @@ export default function useColumnWidth(
 
   const getLeftGridColumnWidth = useCallback((index: number) => leftGridColumnWidths[index], [leftGridColumnWidths]);
 
-  const getHeaderIconsVisibilityStatus = useCallback<GetHeaderIconsVisibilityStatus>(
+  const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
       const colWidth = leftGridColumnWidths[idx];
       let shouldShowMenuIcon = true;
@@ -154,9 +154,9 @@ export default function useColumnWidth(
       const measuredTextForHeader = measureTextForHeader(title);
 
       // CELL_PADDING as grid gap between header text and menu icon
-      let menuIconSize = shouldShowMenuIcon ? CELL_PADDING + HEADER_ICON_SIZE : 0;
+      const menuIconSize = shouldShowMenuIcon ? CELL_PADDING + HEADER_ICON_SIZE : 0;
       // CELL_PADDING as space between lock icon and header text
-      let lockIconSize = isLocked ? CELL_PADDING + HEADER_ICON_SIZE : 0;
+      const lockIconSize = isLocked ? CELL_PADDING + HEADER_ICON_SIZE : 0;
       let finalSize = lockIconSize + measuredTextForHeader + menuIconSize + TOTAL_CELL_PADDING;
       if (measuredTextForHeader <= colWidth) {
         if (finalSize > colWidth) {
@@ -177,7 +177,7 @@ export default function useColumnWidth(
         shouldShowLockIcon,
       };
     },
-    [leftGridColumnWidths],
+    [leftGridColumnWidths, measureTextForHeader],
   );
 
   const leftGridWidth = useMemo(
@@ -292,6 +292,6 @@ export default function useColumnWidth(
     showLastRightBorder,
     getLeftGridColumnWidth,
     getRightGridColumnWidth,
-    getHeaderIconsVisibilityStatus,
+    getHeaderCellsIconsVisibilityStatus,
   };
 }

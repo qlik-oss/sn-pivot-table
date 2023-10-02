@@ -67,7 +67,7 @@ export const StickyPivotTable = ({
     showLastRightBorder,
     getLeftGridColumnWidth,
     getRightGridColumnWidth,
-    getHeaderIconsVisibilityStatus,
+    getHeaderCellsIconsVisibilityStatus,
   } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
@@ -99,7 +99,7 @@ export const StickyPivotTable = ({
         >
           <HeaderGrid
             columnWidthCallback={getLeftGridColumnWidth}
-            getHeaderIconsVisibilityStatusCallback={getHeaderIconsVisibilityStatus}
+            getHeaderCellsIconsVisibilityStatusCallback={getHeaderCellsIconsVisibilityStatus}
             rowHight={headerCellHeight}
             headersData={headersData}
             translator={translator}

@@ -14,7 +14,7 @@ import type {
 import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import type { GetHeaderIconsVisibilityStatus } from "../../hooks/use-column-width";
+import type { GetHeaderCellsIconsVisibilityStatus } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle } from "../shared-styles";
 import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
@@ -26,7 +26,7 @@ interface DimensionTitleCellProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
-  headersIconVisibilityStatus: ReturnType<GetHeaderIconsVisibilityStatus>;
+  headerCellsIconVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus>;
 }
 
 export const testId = "title-cell";
@@ -44,7 +44,7 @@ const DimensionTitleCell = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
-  headersIconVisibilityStatus,
+  headerCellsIconVisibilityStatus,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -52,7 +52,7 @@ const DimensionTitleCell = ({
   const { fontSize, fontFamily } = styleService.header;
   const { color, background, hoverBackground, activeBackground } = styleService.header.rowTitle;
   const anchorRef = useRef<HTMLDivElement>(null);
-  const { shouldShowLockIcon, shouldShowMenuIcon } = headersIconVisibilityStatus;
+  const { shouldShowLockIcon, shouldShowMenuIcon } = headerCellsIconVisibilityStatus;
   const { open, setOpen, handleOpenMenu } = useHeadCellDim({ interactions });
 
   const isDim = cell.id !== "PSEUDO-DIM";
@@ -98,7 +98,7 @@ const DimensionTitleCell = ({
       onClick={handleOpenMenu}
     >
       <StyledHeaderCell>
-        {shouldShowLockIcon && cell.isLocked && (
+        {shouldShowLockIcon && (
           <StyledLockIcon>
             <Locked height={HEADER_ICON_SIZE} />
           </StyledLockIcon>
