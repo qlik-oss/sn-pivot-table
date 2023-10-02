@@ -144,27 +144,25 @@ export default function useColumnWidth(
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
       const colWidth = leftGridColumnWidths[idx];
-      let shouldShowMenuIcon = true;
-      let shouldShowLockIcon = isLocked;
+      let shouldShowMenuIcon = false;
+      let shouldShowLockIcon = false;
       const measuredTextForHeader = measureTextForHeader(title);
 
       // CELL_PADDING as grid gap between header text and menu icon
       const menuIconSize = CELL_PADDING + HEADER_ICON_SIZE;
       // CELL_PADDING as space between lock icon and header text
-      const lockIconSize = isLocked ? CELL_PADDING + HEADER_ICON_SIZE : 0;
-      let finalSize = lockIconSize + measuredTextForHeader + menuIconSize + TOTAL_CELL_PADDING;
-      if (measuredTextForHeader <= colWidth) {
-        if (finalSize > colWidth) {
-          // need this for next if check
-          finalSize -= menuIconSize;
-          shouldShowMenuIcon = false;
-          if (finalSize > colWidth) {
-            shouldShowLockIcon = false;
-          }
+      const lockIconSize = CELL_PADDING + HEADER_ICON_SIZE;
+
+      let size = measuredTextForHeader + TOTAL_CELL_PADDING;
+      if (isLocked && size + lockIconSize <= colWidth) {
+        shouldShowLockIcon = true;
+        size += lockIconSize;
+
+        if (size + menuIconSize <= colWidth) {
+          shouldShowMenuIcon = true;
         }
-      } else {
-        shouldShowMenuIcon = false;
-        shouldShowLockIcon = false;
+      } else if (size + menuIconSize <= colWidth) {
+        shouldShowMenuIcon = true;
       }
 
       return {
