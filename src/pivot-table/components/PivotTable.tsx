@@ -1,6 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import React, { useCallback, useLayoutEffect, useRef } from "react";
-import type { VariableSizeGrid, VariableSizeList } from "react-window";
+import React, { useCallback } from "react";
 import type { Model } from "../../types/QIX";
 import type { LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
 import { GRID_BORDER } from "../constants";
@@ -8,6 +7,7 @@ import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
+import useScroll from "../hooks/use-scroll";
 import useSorting from "../hooks/use-sorting";
 import useTableRect from "../hooks/use-table-rect";
 import useVisibleDimensions from "../hooks/use-visible-dimensions";
@@ -39,15 +39,12 @@ export const StickyPivotTable = ({
   translator,
 }: PivotTableProps): JSX.Element => {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
-  const scrollableContainerRef = useRef<HTMLDivElement>(null);
-  const topGridRef = useRef<VariableSizeList[]>([]);
-  const leftGridRef = useRef<VariableSizeList[]>([]);
-  const dataGridRef = useRef<VariableSizeGrid>(null);
-  const currentScrollLeft = useRef<number>(0);
-  const currentScrollTop = useRef<number>(0);
   const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
   const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
+
+  const { getScrollLeft, getScrollTop, onScrollHandler, scrollableContainerRef, dataGridRef, leftGridRef, topGridRef } =
+    useScroll({ layoutService, pageInfo });
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
@@ -73,55 +70,8 @@ export const StickyPivotTable = ({
     getRightGridColumnWidth,
   } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
-  useLayoutEffect(() => {
-    if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
-      if (scrollableContainerRef.current) {
-        scrollableContainerRef.current.scrollLeft = 0;
-        scrollableContainerRef.current.scrollTop = 0;
-      }
-    }
-  }, [layoutService]);
-
-  useLayoutEffect(() => {
-    if (scrollableContainerRef.current) {
-      scrollableContainerRef.current.scrollLeft = 0;
-      scrollableContainerRef.current.scrollTop = 0;
-    }
-  }, [pageInfo.page]);
-
-  const onScrollHandler = (event: React.SyntheticEvent) => {
-    if (topGridRef.current) {
-      topGridRef.current.forEach((list) => list?.scrollTo(event.currentTarget.scrollLeft));
-    }
-
-    if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list?.scrollTo(event.currentTarget.scrollTop));
-    }
-
-    if (dataGridRef.current) {
-      dataGridRef.current.scrollTo({
-        scrollLeft: event.currentTarget.scrollLeft,
-        scrollTop: event.currentTarget.scrollTop,
-      });
-    }
-
-    if (typeof currentScrollLeft.current !== "undefined") {
-      // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
-      // Otherwise it will be out-of-sync with the other rows.
-      currentScrollLeft.current = event.currentTarget.scrollLeft;
-    }
-
-    if (typeof currentScrollTop.current !== "undefined") {
-      // Set scrollTop here so that when a left grid is expanded with a new column, scroll that row to scrollTop position.
-      // Otherwise it will be out-of-sync with the other columns.
-      currentScrollTop.current = event.currentTarget.scrollTop;
-    }
-  };
-
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
   const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
-  const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
-  const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
   const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
   const headerGridHeight = headerCellHeight * headersData.size.y;
