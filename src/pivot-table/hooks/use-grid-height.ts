@@ -1,0 +1,28 @@
+import type { HeadersData, LeftDimensionData, PageInfo, Rect, TopDimensionData } from "../../types/types";
+import { GRID_BORDER } from "../constants";
+import { useStyleContext } from "../contexts/StyleProvider";
+
+export default function useGridHeight(
+  pageInfo: PageInfo,
+  headersData: HeadersData,
+  topDimensionData: TopDimensionData,
+  leftDimensionData: LeftDimensionData,
+  tableRect: Rect,
+) {
+  const { headerCellHeight, contentCellHeight } = useStyleContext();
+
+  const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
+  const headerGridHeight = headerCellHeight * headersData.size.y;
+  const containerHeight = totalDataHeight + headerGridHeight;
+
+  // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
+  const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
+  const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
+  const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
+
+  const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
+  const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
+  const showLastBottomBorder = rowsInCurrentPage < rowsCanFitInTableViewPort;
+
+  return { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder };
+}
