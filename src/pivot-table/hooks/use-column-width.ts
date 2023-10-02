@@ -19,11 +19,11 @@ interface ColumnWidthHook {
   totalWidth: number;
   showLastRightBorder: boolean;
   getLeftGridColumnWidth: (index: number) => number;
-  getLeftGridColumnWidthMetadata: GetLeftColumnWidthMetadata;
   getRightGridColumnWidth: (index?: number) => number;
+  getHeaderIconsVisibilityStatus: GetHeaderIconsVisibilityStatus;
 }
 
-export interface GetLeftColumnWidthMetadata {
+export interface GetHeaderIconsVisibilityStatus {
   (
     idx: number,
     isLocked: boolean,
@@ -32,11 +32,6 @@ export interface GetLeftColumnWidthMetadata {
     shouldShowMenuIcon: boolean;
     shouldShowLockIcon: boolean;
   };
-}
-
-export interface LeftColMetadata {
-  colWidth: number;
-  measureTextForHeader: number;
 }
 
 export const EXPAND_ICON_WIDTH = 30;
@@ -114,20 +109,18 @@ export default function useColumnWidth(
 
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         // Use the max width of all measures
-        const pseudoDimWidth = Math.max(
+        width = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
             const fitToContentWidth = measureTextForContent(qFallbackTitle) + TOTAL_CELL_PADDING;
             return getColumnWidth(columnWidth, fitToContentWidth);
           }),
         );
-        width = pseudoDimWidth;
       } else {
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
-
-        const measureTextForHeaderResult = measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING;
-        const estimateWidthForRowContentResult =
-          estimateWidthForRowContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index);
-        const fitToContentWidth = Math.max(measureTextForHeaderResult, estimateWidthForRowContentResult);
+        const fitToContentWidth = Math.max(
+          measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING,
+          estimateWidthForRowContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index),
+        );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);
       }
@@ -153,7 +146,7 @@ export default function useColumnWidth(
 
   const getLeftGridColumnWidth = useCallback((index: number) => leftGridColumnWidths[index], [leftGridColumnWidths]);
 
-  const getLeftGridColumnWidthMetadata = useCallback<GetLeftColumnWidthMetadata>(
+  const getHeaderIconsVisibilityStatus = useCallback<GetHeaderIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
       const colWidth = leftGridColumnWidths[idx];
       let shouldShowMenuIcon = true;
@@ -298,7 +291,7 @@ export default function useColumnWidth(
     totalWidth,
     showLastRightBorder,
     getLeftGridColumnWidth,
-    getLeftGridColumnWidthMetadata,
     getRightGridColumnWidth,
+    getHeaderIconsVisibilityStatus,
   };
 }
