@@ -5,7 +5,7 @@ import type { LayoutService, PageInfo } from "../../types/types";
 interface Props {
   layoutService: LayoutService;
   pageInfo: PageInfo;
-  initialRefs?: {
+  mockedRefs?: {
     topGridRef?: VariableSizeList<unknown>[];
     leftGridRef?: VariableSizeList<unknown>[];
     dataGridRef?: VariableSizeGrid<unknown>;
@@ -13,11 +13,11 @@ interface Props {
   };
 }
 
-const useScroll = ({ layoutService, pageInfo, initialRefs }: Props) => {
-  const scrollableContainerRef = useRef<HTMLDivElement>(initialRefs?.scrollableContainerRef ?? null);
-  const topGridRef = useRef<VariableSizeList[]>(initialRefs?.topGridRef ?? []);
-  const leftGridRef = useRef<VariableSizeList[]>(initialRefs?.leftGridRef ?? []);
-  const dataGridRef = useRef<VariableSizeGrid>(initialRefs?.dataGridRef ?? null);
+const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
+  const scrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.scrollableContainerRef ?? null);
+  const topGridRef = useRef<VariableSizeList[]>(mockedRefs?.topGridRef ?? []);
+  const leftGridRef = useRef<VariableSizeList[]>(mockedRefs?.leftGridRef ?? []);
+  const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
 

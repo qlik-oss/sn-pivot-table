@@ -17,7 +17,7 @@ describe("useScroll", () => {
         useScroll({
           layoutService: layoutServiceAsProp,
           pageInfo: pageInfoAsProp,
-          initialRefs: {
+          mockedRefs: {
             scrollableContainerRef: {} as HTMLDivElement,
             topGridRef: [mockedTopGridRef],
             leftGridRef: [mockedLeftGridRef],
