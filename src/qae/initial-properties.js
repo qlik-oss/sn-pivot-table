@@ -15,9 +15,9 @@ const properties = {
   qHyperCubeDef: {
     /** @type {boolean} */
     qAlwaysFullyExpanded: false,
-    /** @type {NxDimension[]} */
+    /** @type {DimensionProperties[]} */
     qDimensions: [],
-    /** @type {NxMeasure[]} */
+    /** @type {MeasureProperties[]} */
     qMeasures: [],
     qMode: "P",
     /** @type {boolean} */
@@ -73,6 +73,42 @@ const properties = {
    */
   components: [],
 };
+
+/**
+ * Extends `NxDimension`, see Engine API: `NxDimension`
+ * @typedef {object} DimensionProperties
+ * @extends NxDimension
+ * @property {InlineDimensionDef} qDef
+ */
+
+/**
+ * Extends `NxMeasure`, see Engine API: `NxMeasure`
+ * @typedef {object} MeasureProperties
+ * @extends NxMeasure
+ * @property {InlineMeasureDef} qDef
+ */
+
+/**
+ * Extends `NxInlineDimensionDef`, see Engine API: `NxInlineDimensionDef`.
+ * @typedef {object} InlineDimensionDef
+ * @extends NxInlineDimensionDef
+ * @property {ColumnWidth=} columnWidth
+ */
+
+/**
+ * Extends `NxInlineMeasureDef`, see Engine API: `NxInlineMeasureDef`.
+ * @typedef {object} InlineMeasureDef
+ * @extends NxInlineMeasureDef
+ * @property {ColumnWidth=} columnWidth
+ */
+
+/**
+ * Column width info
+ * @typedef {object} ColumnWidth
+ * @property {('auto' | 'FitToContent' | 'pixels' | 'percentage')} type - Defines how the column width is set. `auto` calculates the width(s) so the total table width equals the chart width (for left side columns, auto will behave the same as fitToContent). `fitToContent` calculates a width based on the cells' content. `pixels` uses a specified pixel value. `percentage` sets the column width to specified percentage of the chart width
+ * @property {number=} pixels - Is used (and mandatory) if type is `pixels`
+ * @property {number=} percentage - Is used (and mandatory) if type is `percentage`
+ */
 
 /**
  * General styling for all columns.
