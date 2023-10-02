@@ -12,6 +12,8 @@ export enum Colors {
   Transparent = "transparent",
 }
 
+export const CELL_PADDING = 4;
+
 export const topContainerCellStyle: React.CSSProperties = {
   display: "flex",
   justifyContent: "flex-start",
@@ -29,7 +31,7 @@ export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
 
 export const cellStyle: Pick<React.CSSProperties, "boxSizing" | "padding"> = {
   boxSizing: "border-box",
-  padding: 4,
+  padding: CELL_PADDING,
 };
 
 export const textStyle: React.CSSProperties = {
@@ -51,8 +53,8 @@ export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "posit
   width: "fit-content",
   maxWidth: "100%",
   position: "sticky",
-  left: 4,
-  top: 4,
+  left: CELL_PADDING,
+  top: CELL_PADDING,
 };
 
 export const getBorderStyle = (
