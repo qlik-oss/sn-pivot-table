@@ -307,7 +307,6 @@ describe("useColumnWidth", () => {
       const res = getHeaderCellsIconsVisibilityStatus(0, false);
 
       expect(res).toMatchObject({
-        colWidth: expect.any(Number),
         shouldShowMenuIcon: expect.any(Boolean),
         shouldShowLockIcon: expect.any(Boolean),
       });
