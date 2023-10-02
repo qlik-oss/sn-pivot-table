@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
-import { textStyle } from "../shared-styles";
+import { CELL_PADDING, textStyle } from "../shared-styles";
 
 const baseFlex: React.CSSProperties = {
   display: "flex",
@@ -25,7 +25,7 @@ export const StyledHeaderCellWrapper = styled(Box, {
   position: "relative",
   display: "grid",
   gridTemplateColumns: shouldShowMenuIcon ? "1fr 24px" : "1fr",
-  gridGap: shouldShowMenuIcon ? "4px" : "0px",
+  gridGap: shouldShowMenuIcon ? CELL_PADDING : 0,
   alignItems: "center",
   cursor: interactions.active ? "pointer" : "default",
   background,
@@ -49,7 +49,7 @@ export const StyledHeaderCell = styled("div")(() => ({
 
 export const StyledLockIcon = styled("div")(() => ({
   ...baseFlex,
-  marginLeft: "8px",
+  marginLeft: CELL_PADDING,
 }));
 
 interface StyledLabelProps {
@@ -65,8 +65,8 @@ export const StyledLabel = styled("div", {
   fontWeight: "600",
   alignSelf: "center",
   flexGrow: 1,
-  paddingLeft: shouldShowMenuIcon ? "8px" : "4px",
-  paddingRight: shouldShowMenuIcon ? "0px" : "4px",
+  paddingLeft: CELL_PADDING,
+  paddingRight: shouldShowMenuIcon ? 0 : CELL_PADDING,
   fontSize,
   fontFamily,
 }));

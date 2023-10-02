@@ -1,3 +1,4 @@
+import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
 import { memoize } from "qlik-chart-modules";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
@@ -11,7 +12,6 @@ import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/type
 import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
-import useMeasureText, { LEEWAY_WIDTH } from "./use-measure-text";
 
 interface ColumnWidthHook {
   leftGridWidth: number;
@@ -72,12 +72,16 @@ export default function useColumnWidth(
     },
   } = layoutService;
   const styleService = useStyleContext();
-  const { measureText: measureTextForHeader } = useMeasureText(styleService.header);
-  const { measureText: measureTextForColumnContent, estimateWidth: estimateWidthForColumnContent } = useMeasureText(
-    styleService.columnContent,
-  );
-  const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
+  const { measureText: measureTextForHeader } = useMeasureText({
+    ...styleService.header,
+    bold: true,
+  });
+  const { measureText: measureTextForContent, estimateWidth: estimateWidthForContent } = useMeasureText(
     styleService.content,
+  );
+  const { estimateWidth: estimateWidthForRowContent } = useMeasureText(styleService.rowContent);
+  const { estimateWidth: estimateWidthForColumnContent, measureText: measureTextForColumnContent } = useMeasureText(
+    styleService.columnContent,
   );
 
   const leafTopDimension = visibleTopDimensionInfo.at(-1);
@@ -126,9 +130,9 @@ export default function useColumnWidth(
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
 
         const measureTextForHeaderResult = measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING;
-        const estimateWidthForContentResult =
-          estimateWidthForContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index);
-        const fitToContentWidth = Math.max(measureTextForHeaderResult, estimateWidthForContentResult);
+        const estimateWidthForRowContentResult =
+          estimateWidthForRowContent(qApprMaxGlyphCount) + getCollapseExpandIconSize(index);
+        const fitToContentWidth = Math.max(measureTextForHeaderResult, estimateWidthForRowContentResult);
 
         columnMetadata = {
           colWidth: getColumnWidth(columnWidth, fitToContentWidth),
@@ -149,7 +153,7 @@ export default function useColumnWidth(
   }, [
     visibleLeftDimensionInfo,
     measureTextForHeader,
-    estimateWidthForContent,
+    estimateWidthForRowContent,
     getCollapseExpandIconSize,
     rect.width,
     qMeasureInfo,
@@ -172,7 +176,7 @@ export default function useColumnWidth(
       // size + grid gap
       const menuIconWidth = 24 + 4;
       // 8px padding left, 4px padding right
-      let finalSize = lockIconWidth + 8 + metaData.measureTextForHeader + 4 + menuIconWidth; // - LEEWAY_WIDTH;
+      let finalSize = lockIconWidth + 8 + metaData.measureTextForHeader + 4 + menuIconWidth + TOTAL_CELL_PADDING;
       if (metaData.measureTextForHeader <= metaData.colWidth) {
         if (finalSize > metaData.colWidth) {
           // need this for next if check
