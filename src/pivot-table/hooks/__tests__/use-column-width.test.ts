@@ -259,7 +259,7 @@ describe("useColumnWidth", () => {
     test("should return right column width for non-pseudo dimension for fit to content when dimension is collapsed", () => {
       const width = 40;
       mockEstimateWidth(width);
-      mockMeasureText(width);
+      mockMeasureText(width + 1);
 
       dimInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedDimensionInfo;
       visibleTopDimensionInfo = [-1, dimInfo];
