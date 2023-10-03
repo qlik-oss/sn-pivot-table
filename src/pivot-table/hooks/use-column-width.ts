@@ -143,14 +143,15 @@ export default function useColumnWidth(
    */
   const leafWidths = useMemo(() => {
     const columnArray = topGridLeavesIsPseudo ? qMeasureInfo : [leafTopDimension];
+    const numberOfColumnRepetitions = size.x / columnArray.length;
     const widths: number[] = [];
     const autoColumnIndexes: number[] = [];
     let sumAutoWidths = rightGridAvailableWidth;
 
     const addKnownWidth = (idx: number, width: number) => {
       widths[idx] = Math.min(ColumnWidthValues.PixelsMax, Math.max(ColumnWidthValues.PixelsMin, width));
-      // remove the width * number of instances of that width from the remaining width for auto columns
-      sumAutoWidths -= widths[idx] * (size.x / columnArray.length);
+      // remove the width * number of instances of that column, from the remaining width for auto columns
+      sumAutoWidths -= widths[idx] * numberOfColumnRepetitions;
     };
 
     columnArray.forEach((col, idx) => {
@@ -194,7 +195,7 @@ export default function useColumnWidth(
 
     if (autoColumnIndexes.length) {
       // divides remaining width evenly between all auto column instances
-      const numberOfAutoColumnInstances = size.x * (autoColumnIndexes.length / columnArray.length);
+      const numberOfAutoColumnInstances = autoColumnIndexes.length * numberOfColumnRepetitions;
       const autoWidth = sumAutoWidths / numberOfAutoColumnInstances;
       autoColumnIndexes.forEach((autoIdx) => {
         widths[autoIdx] = Math.max(ColumnWidthValues.AutoMin, autoWidth);
