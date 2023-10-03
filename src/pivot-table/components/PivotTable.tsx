@@ -64,9 +64,9 @@ export const StickyPivotTable = ({
     leftGridWidth,
     rightGridWidth,
     totalWidth,
+    showLastRightBorder,
     getLeftGridColumnWidth,
     getRightGridColumnWidth,
-    showLastRightBorder,
   } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
   const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder } = useGridHeight(
