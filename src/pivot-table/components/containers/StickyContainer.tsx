@@ -29,7 +29,7 @@ const StickyContainer = ({
       gridTemplateColumns: leftColumnsWidth // If leftColumnsWidth is 0, this means no data exist for "headers" or "left"
         ? `${leftColumnsWidth}px ${rightColumnsWidth}px`
         : `${rightColumnsWidth}px`,
-      gridTemplateRows: `${topRowsHeight}px ${bottomRowsHeight + GRID_BORDER}px`,
+      // gridTemplateRows: `${topRowsHeight}px ${bottomRowsHeight + GRID_BORDER}px`,
       width: rect.width,
       height: rect.height,
     }}

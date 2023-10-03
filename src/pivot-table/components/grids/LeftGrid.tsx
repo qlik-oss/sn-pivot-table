@@ -51,6 +51,7 @@ const listStyle: React.CSSProperties = {
    * be fixed in some other way.
    */
   willChange: "auto",
+  flexShrink: 0,
 };
 
 const LeftGrid = ({
