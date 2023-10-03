@@ -93,7 +93,6 @@ const DimensionTitleCell = ({
       style={{
         ...style,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border),
-
         color,
       }}
       data-testid={testId}
