@@ -171,7 +171,10 @@ export default function useColumnWidth(
           case ColumnWidthType.FitToContent:
             // eslint-disable-next-line no-case-declarations
             const fitToContentWidth = topGridLeavesIsPseudo
-              ? Math.max(estimateWidthForContent(qApprMaxGlyphCount), measureTextForColumnContent(qFallbackTitle))
+              ? Math.max(
+                  estimateWidthForContent(qApprMaxGlyphCount),
+                  measureTextForColumnContent(qFallbackTitle) + TOTAL_CELL_PADDING,
+                )
               : Math.max(
                   Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
                   estimateWidthForColumnContent(qApprMaxGlyphCount) + leavesIconWidth,
