@@ -86,7 +86,7 @@ const DimensionTitleCell = ({
     <StyledHeaderCellWrapper
       title={cell.title}
       interactions={interactions}
-      background={isDim && open ? activeBackground : background}
+      background={open ? activeBackground : background}
       hoverBackground={hoverBackground}
       shouldShowMenuIcon={shouldShowMenuIcon}
       isDimension={isDim}
