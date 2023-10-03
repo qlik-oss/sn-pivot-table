@@ -86,12 +86,14 @@ const DimensionTitleCell = ({
     <StyledHeaderCellWrapper
       title={cell.title}
       interactions={interactions}
-      background={open ? activeBackground : background}
+      background={isDim && open ? activeBackground : background}
       hoverBackground={hoverBackground}
       shouldShowMenuIcon={shouldShowMenuIcon}
+      isDimension={isDim}
       style={{
         ...style,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border),
+
         color,
       }}
       data-testid={testId}

@@ -15,12 +15,14 @@ interface StyledHeaderCellWrapperProps {
   background: string;
   hoverBackground: string;
   shouldShowMenuIcon: boolean;
+  isDimension: boolean;
 }
 
 export const StyledHeaderCellWrapper = styled(Box, {
   shouldForwardProp: (prop: string) =>
-    !["interactions", "hoverBackground", "background", "shouldShowMenuIcon"].includes(prop),
-})(({ interactions, background, hoverBackground, shouldShowMenuIcon }: StyledHeaderCellWrapperProps) => ({
+    !["interactions", "hoverBackground", "background", "shouldShowMenuIcon", "isDimension"].includes(prop),
+})(({ interactions, background, hoverBackground, shouldShowMenuIcon, isDimension }: StyledHeaderCellWrapperProps) => ({
+  pointerEvents: isDimension ? "all" : "none",
   position: "relative",
   display: "grid",
   gridTemplateColumns: shouldShowMenuIcon ? `1fr ${HEADER_ICON_SIZE}px` : "1fr",
