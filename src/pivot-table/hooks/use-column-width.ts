@@ -147,6 +147,12 @@ export default function useColumnWidth(
     const autoColumnIndexes: number[] = [];
     let sumAutoWidths = rightGridAvailableWidth;
 
+    const addKnownWidth = (idx: number, width: number) => {
+      widths[idx] = Math.min(ColumnWidthValues.PixelsMax, Math.max(ColumnWidthValues.PixelsMin, width));
+      // remove the width * number of instances of that width from the remaining width for auto columns
+      sumAutoWidths -= widths[idx] * (size.x / columnArray.length);
+    };
+
     columnArray.forEach((col, idx) => {
       if (col?.columnWidth) {
         const {
@@ -155,18 +161,12 @@ export default function useColumnWidth(
           qFallbackTitle,
         } = col;
 
-        const addKnownWidth = (width: number) => {
-          widths[idx] = Math.min(ColumnWidthValues.PixelsMax, Math.max(ColumnWidthValues.PixelsMin, width));
-          // remove the width * number of instances of that width from the remaining width for auto columns
-          sumAutoWidths -= widths[idx] * (size.x / columnArray.length);
-        };
-
         switch (type) {
           case ColumnWidthType.Pixels:
-            addKnownWidth(getPixelValue(pixels));
+            addKnownWidth(idx, getPixelValue(pixels));
             break;
           case ColumnWidthType.Percentage:
-            addKnownWidth(getPercentageValue(percentage) * rightGridAvailableWidth);
+            addKnownWidth(idx, getPercentageValue(percentage) * rightGridAvailableWidth);
             break;
           case ColumnWidthType.FitToContent:
             // eslint-disable-next-line no-case-declarations
@@ -179,7 +179,7 @@ export default function useColumnWidth(
                   Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
                   estimateWidthForColumnContent(qApprMaxGlyphCount) + leavesIconWidth,
                 );
-            addKnownWidth(fitToContentWidth);
+            addKnownWidth(idx, fitToContentWidth);
             break;
           case ColumnWidthType.Auto:
           default:
@@ -193,9 +193,9 @@ export default function useColumnWidth(
     });
 
     if (autoColumnIndexes.length) {
-      // divides remaining width evenly between auto columns
-      const totalNumberOfAutoColumns = (size.x * autoColumnIndexes.length) / columnArray.length;
-      const autoWidth = sumAutoWidths / totalNumberOfAutoColumns;
+      // divides remaining width evenly between all auto column instances
+      const numberOfAutoColumnInstances = size.x * (autoColumnIndexes.length / columnArray.length);
+      const autoWidth = sumAutoWidths / numberOfAutoColumnInstances;
       autoColumnIndexes.forEach((autoIdx) => {
         widths[autoIdx] = Math.max(ColumnWidthValues.AutoMin, autoWidth);
       });
