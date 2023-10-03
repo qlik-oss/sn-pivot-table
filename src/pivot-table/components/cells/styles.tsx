@@ -24,7 +24,7 @@ export const StyledHeaderCellWrapper = styled(Box, {
   position: "relative",
   display: "grid",
   gridTemplateColumns: shouldShowMenuIcon ? `1fr ${HEADER_ICON_SIZE}px` : "1fr",
-  gridGap: shouldShowMenuIcon ? CELL_PADDING : 0,
+  gap: CELL_PADDING,
   alignItems: "center",
   cursor: interactions.active ? "pointer" : "default",
   background,
@@ -33,7 +33,7 @@ export const StyledHeaderCellWrapper = styled(Box, {
   },
 }));
 
-export const StyledHeaderAnchor = styled(Box)({
+export const StyledHeaderAnchor = styled("div")({
   position: "absolute",
   left: 0,
   bottom: 0,
@@ -44,11 +44,11 @@ export const StyledHeaderCell = styled("div")(() => ({
   flexDirection: "row",
   overflow: "hidden",
   position: "relative",
+  gap: CELL_PADDING,
 }));
 
 export const StyledLockIcon = styled("div")(() => ({
   ...baseFlex,
-  marginRight: CELL_PADDING,
 }));
 
 interface StyledLabelProps {

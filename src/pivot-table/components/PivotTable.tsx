@@ -99,7 +99,7 @@ export const StickyPivotTable = ({
         >
           <HeaderGrid
             columnWidthCallback={getLeftGridColumnWidth}
-            getHeaderCellsIconsVisibilityStatusCallback={getHeaderCellsIconsVisibilityStatus}
+            getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
             rowHight={headerCellHeight}
             headersData={headersData}
             translator={translator}

@@ -13,7 +13,7 @@ interface HeaderGridProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
-  getHeaderCellsIconsVisibilityStatusCallback: GetHeaderCellsIconsVisibilityStatus;
+  getHeaderCellsIconsVisibilityStatus: GetHeaderCellsIconsVisibilityStatus;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -28,7 +28,7 @@ const HeaderGrid = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
-  getHeaderCellsIconsVisibilityStatusCallback,
+  getHeaderCellsIconsVisibilityStatus,
 }: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
@@ -51,7 +51,7 @@ const HeaderGrid = ({
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
       {headersData.data.map((col, colIndex) => {
         const cell = col[col.length - 1] as HeaderCell;
-        const iconsVisibilityStatus = getHeaderCellsIconsVisibilityStatusCallback(colIndex, cell.isLocked, cell.title);
+        const iconsVisibilityStatus = getHeaderCellsIconsVisibilityStatus(colIndex, cell.isLocked, cell.title);
 
         return (
           <DimensionTitleCell
