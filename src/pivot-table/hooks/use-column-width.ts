@@ -10,7 +10,7 @@ import {
 } from "../../types/QIX";
 import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
 import { CELL_PADDING } from "../components/shared-styles";
-import { GRID_BORDER } from "../constants";
+import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
 interface ColumnWidthHook {
@@ -20,6 +20,18 @@ interface ColumnWidthHook {
   showLastRightBorder: boolean;
   getLeftGridColumnWidth: (index: number) => number;
   getRightGridColumnWidth: (index?: number) => number;
+  getHeaderCellsIconsVisibilityStatus: GetHeaderCellsIconsVisibilityStatus;
+}
+
+export interface GetHeaderCellsIconsVisibilityStatus {
+  (
+    idx: number,
+    isLocked: boolean,
+    title?: string,
+  ): {
+    shouldShowMenuIcon: boolean;
+    shouldShowLockIcon: boolean;
+  };
 }
 
 export const EXPAND_ICON_WIDTH = 30;
@@ -59,12 +71,12 @@ export default function useColumnWidth(
     ...styleService.header,
     bold: true,
   });
-  const { estimateWidth: estimateWidthForRowContent } = useMeasureText(styleService.rowContent);
-  const { measureText: measureTextForColumnContent, estimateWidth: estimateWidthForColumnContent } = useMeasureText(
-    styleService.columnContent,
-  );
-  const { estimateWidth: estimateWidthForContent, measureText: measureTextForContent } = useMeasureText(
+  const { measureText: measureTextForContent, estimateWidth: estimateWidthForContent } = useMeasureText(
     styleService.content,
+  );
+  const { estimateWidth: estimateWidthForRowContent } = useMeasureText(styleService.rowContent);
+  const { estimateWidth: estimateWidthForColumnContent, measureText: measureTextForColumnContent } = useMeasureText(
+    styleService.columnContent,
   );
 
   /**
@@ -86,7 +98,7 @@ export default function useColumnWidth(
     let sumOfWidths = 0;
 
     const widths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
-      let width;
+      let width: number;
 
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
         // Use the max width of all measures
@@ -128,6 +140,38 @@ export default function useColumnWidth(
   ]);
 
   const getLeftGridColumnWidth = useCallback((index: number) => leftGridColumnWidths[index], [leftGridColumnWidths]);
+
+  const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
+    (idx, isLocked, title = "") => {
+      const colWidth = leftGridColumnWidths[idx];
+      let shouldShowMenuIcon = false;
+      let shouldShowLockIcon = false;
+      const measuredTextForHeader = measureTextForHeader(title);
+
+      // CELL_PADDING as grid gap between header text and menu icon
+      const menuIconSize = CELL_PADDING + HEADER_ICON_SIZE;
+      // CELL_PADDING as space between lock icon and header text
+      const lockIconSize = CELL_PADDING + HEADER_ICON_SIZE;
+
+      let size = measuredTextForHeader + TOTAL_CELL_PADDING;
+      if (isLocked && size + lockIconSize <= colWidth) {
+        shouldShowLockIcon = true;
+        size += lockIconSize;
+
+        if (size + menuIconSize <= colWidth) {
+          shouldShowMenuIcon = true;
+        }
+      } else if (size + menuIconSize <= colWidth) {
+        shouldShowMenuIcon = true;
+      }
+
+      return {
+        shouldShowMenuIcon,
+        shouldShowLockIcon,
+      };
+    },
+    [leftGridColumnWidths, measureTextForHeader],
+  );
 
   const leftGridWidth = useMemo(
     () => leftGridColumnWidths.reduce((totalWidth, w) => totalWidth + w, 0),
@@ -247,5 +291,6 @@ export default function useColumnWidth(
     showLastRightBorder,
     getLeftGridColumnWidth,
     getRightGridColumnWidth,
+    getHeaderCellsIconsVisibilityStatus,
   };
 }

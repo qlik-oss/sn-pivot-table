@@ -5,6 +5,7 @@ import React from "react";
 import type { App, ExtendedDimensionInfo } from "../../../../types/QIX";
 import type { HeaderCell } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
+import type { GetHeaderCellsIconsVisibilityStatus } from "../../../hooks/use-column-width";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
 
 describe("DimensionTitleCell", () => {
@@ -19,6 +20,10 @@ describe("DimensionTitleCell", () => {
     width: "100px",
     height: "150px",
   };
+  const iconsVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus> = {
+    shouldShowMenuIcon: true,
+    shouldShowLockIcon: true,
+  };
 
   test("should render", async () => {
     render(
@@ -29,6 +34,7 @@ describe("DimensionTitleCell", () => {
         isLastColumn={false}
         changeSortOrder={changeSortOrder}
         changeActivelySortedHeader={changeActivelySortedColumn}
+        iconsVisibilityStatus={iconsVisibilityStatus}
       />,
       { wrapper: TestWithProvider },
     );
@@ -66,6 +72,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
@@ -93,6 +100,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
@@ -116,6 +124,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
@@ -147,6 +156,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (
@@ -186,6 +196,7 @@ describe("DimensionTitleCell", () => {
           isLastColumn={false}
           changeSortOrder={changeSortOrder}
           changeActivelySortedHeader={changeActivelySortedColumn}
+          iconsVisibilityStatus={iconsVisibilityStatus}
         />,
         {
           wrapper: ({ children }) => (

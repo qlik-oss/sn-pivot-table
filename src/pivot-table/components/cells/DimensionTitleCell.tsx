@@ -1,5 +1,6 @@
 /* eslint jsx-a11y/click-events-have-key-events: 0, jsx-a11y/no-static-element-interactions: 0 */
 import type { stardust } from "@nebula.js/stardust";
+import Locked from "@qlik-trial/sprout/icons/react/Lock";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
 import React, { useMemo, useRef } from "react";
 import type {
@@ -10,11 +11,13 @@ import type {
   HeaderCell,
   SortDirection,
 } from "../../../types/types";
+import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import type { GetHeaderCellsIconsVisibilityStatus } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
-import { getBorderStyle, textStyle } from "../shared-styles";
-import { StyledHeaderAnchor, StyledHeaderCellWrapper } from "./styles";
+import { getBorderStyle } from "../shared-styles";
+import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
 
 interface DimensionTitleCellProps {
   cell: HeaderCell;
@@ -23,28 +26,8 @@ interface DimensionTitleCellProps {
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
+  iconsVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus>;
 }
-
-const baseFlex: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const labelWrapperStyle: React.CSSProperties = {
-  ...baseFlex,
-  flexDirection: "row",
-  overflow: "hidden",
-  position: "relative",
-};
-
-const labelTextStyle: React.CSSProperties = {
-  ...textStyle,
-  fontWeight: "600",
-  alignSelf: "center",
-  flexGrow: 1,
-  paddingLeft: "8px",
-};
 
 export const testId = "title-cell";
 
@@ -61,6 +44,7 @@ const DimensionTitleCell = ({
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
+  iconsVisibilityStatus,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -68,6 +52,7 @@ const DimensionTitleCell = ({
   const { fontSize, fontFamily } = styleService.header;
   const { color, background, hoverBackground, activeBackground } = styleService.header.rowTitle;
   const anchorRef = useRef<HTMLDivElement>(null);
+  const { shouldShowLockIcon, shouldShowMenuIcon } = iconsVisibilityStatus;
   const { open, setOpen, handleOpenMenu } = useHeadCellDim({ interactions });
 
   const isDim = cell.id !== "PSEUDO-DIM";
@@ -103,6 +88,7 @@ const DimensionTitleCell = ({
       interactions={interactions}
       background={open ? activeBackground : background}
       hoverBackground={hoverBackground}
+      shouldShowMenuIcon={shouldShowMenuIcon}
       style={{
         ...style,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border),
@@ -111,9 +97,14 @@ const DimensionTitleCell = ({
       data-testid={testId}
       onClick={handleOpenMenu}
     >
-      <div style={{ ...labelWrapperStyle }}>
-        <div style={{ ...labelTextStyle, fontSize, fontFamily }}>{cell.title}</div>
-      </div>
+      <StyledHeaderCell>
+        {shouldShowLockIcon && (
+          <StyledLockIcon>
+            <Locked height={HEADER_ICON_SIZE} />
+          </StyledLockIcon>
+        )}
+        <StyledLabel {...{ fontFamily, fontSize }}>{cell.title}</StyledLabel>
+      </StyledHeaderCell>
       {isDim && (
         <>
           <HeadCellMenu
@@ -128,7 +119,7 @@ const DimensionTitleCell = ({
             sortRelatedArgs={sortRelatedArgs}
             searchRelatedArgs={searchRelatedArgs}
             selectionRelatedArgs={selectionRelatedArgs}
-            shouldShowMenuIcon
+            shouldShowMenuIcon={shouldShowMenuIcon}
           />
           <StyledHeaderAnchor ref={listboxRef} />
           <StyledHeaderAnchor ref={anchorRef} />
