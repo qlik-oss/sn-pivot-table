@@ -148,15 +148,12 @@ export default function useColumnWidth(
       // CELL_PADDING as space between lock icon and header text
       const lockIconSize = CELL_PADDING + HEADER_ICON_SIZE;
 
-      let size = measuredTextForHeader + TOTAL_CELL_PADDING;
-      if (isLocked && size + lockIconSize <= colWidth) {
+      let headerSize = measuredTextForHeader + TOTAL_CELL_PADDING;
+      if (isLocked && headerSize + lockIconSize <= colWidth) {
         shouldShowLockIcon = true;
-        size += lockIconSize;
-
-        if (size + menuIconSize <= colWidth) {
-          shouldShowMenuIcon = true;
-        }
-      } else if (size + menuIconSize <= colWidth) {
+        headerSize += lockIconSize;
+      }
+      if (headerSize + menuIconSize <= colWidth) {
         shouldShowMenuIcon = true;
       }
 
