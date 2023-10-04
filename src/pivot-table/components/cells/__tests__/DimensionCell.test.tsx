@@ -105,6 +105,10 @@ describe("DimensionCell", () => {
         qCanCollapse: false,
         qType: NxDimCellType.NX_DIM_CELL_NORMAL,
       },
+      expressionColor: {
+        color: null,
+        background: null,
+      },
     } as Cell;
   });
 

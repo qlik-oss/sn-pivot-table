@@ -13,7 +13,12 @@ test("should render", () => {
     width: "100px",
     height: "150px",
   };
-  const cell = { ref: { qText: "test" }, root: null, isTotal: true } as Cell;
+  const cell = {
+    ref: { qText: "test" },
+    root: null,
+    isTotal: true,
+    expressionColor: { color: null, background: null },
+  } as Cell;
 
   render(
     <TotalsCell
