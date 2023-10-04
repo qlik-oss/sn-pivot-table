@@ -106,9 +106,9 @@ const properties = {
  * Column width info. For the left grid, the properties are always applied.
  * For the right grid, only the leaf nodes will listen to the properties, and the columns above will get the width of the leaves accumulated
  * @typedef {object} ColumnWidth
- * @property {('auto' | 'FitToContent' | 'pixels' | 'percentage')} type - Defines how the column width is set. For the right grid, `auto` calculates the width(s) so the total width of the columns equals the right grid width. If the width reaches a minimum value, the columns will overflow. For the left grid, `auto` is N/A and defaults to `fitToContent`. `fitToContent` calculates a width based on the cells' content. `pixels` uses a specified pixel value. `percentage` sets the column width to specified percentage of the chart width
- * @property {number=} pixels - Is used (and mandatory) if type is `pixels`
- * @property {number=} percentage - Is used (and mandatory) if type is `percentage`
+ * @property {('auto' | 'FitToContent' | 'pixels' | 'percentage')} type - Defines how the column width is set. For the right grid, `auto` calculates the width(s) so the total width of the columns equals the right grid width. If the width reaches a minimum value, the columns will overflow. For the left grid, `auto` is N/A and defaults to `fitToContent`. `fitToContent` calculates a width based on the column's content. `pixels` uses a specified pixel value. `percentage` sets the column width to specified percentage of the chart width
+ * @property {number=} pixels - pixel value used if type is `pixels`
+ * @property {number=} percentage - percentage value used if type is `percentage`. Note that for the left grid columns, this is a percentage of the whole chart width. For the right grid columns, it is a percentage of the right grid width
  */
 
 /**
