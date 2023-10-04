@@ -191,15 +191,16 @@ describe("useColumnWidth", () => {
     });
 
     test("should return right column width for fit to content setting", () => {
-      mockEstimateWidth(50);
-      mockMeasureText(50);
+      const width = 50;
+      mockEstimateWidth(width + 1);
+      mockMeasureText(width);
       meaInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth(0)).toBe(50);
-      expect(getRightGridColumnWidth(1)).toBe(50);
-      expect(getRightGridColumnWidth(2)).toBe(50);
+      expect(getRightGridColumnWidth(0)).toBe(width + TOTAL_CELL_PADDING);
+      expect(getRightGridColumnWidth(1)).toBe(width + TOTAL_CELL_PADDING);
+      expect(getRightGridColumnWidth(2)).toBe(width + TOTAL_CELL_PADDING);
     });
 
     test("should return right column width for pixel setting", () => {
@@ -239,6 +240,22 @@ describe("useColumnWidth", () => {
       expect(getRightGridColumnWidth(0)).toBe(ColumnWidthValues.PixelsMin);
       expect(getRightGridColumnWidth(1)).toBe(ColumnWidthValues.PixelsMin);
       expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsMin);
+    });
+
+    test("should return right column widths for columns with mixed settings", () => {
+      const width = 50;
+      mockEstimateWidth(width + 1);
+      mockMeasureText(width);
+      const meaInfoPixels = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 100 } } as ExtendedMeasureInfo;
+      const meaInfoFitToContent = {
+        columnWidth: { type: ColumnWidthType.FitToContent },
+      } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(141);
+      expect(getRightGridColumnWidth(1)).toBe(100);
+      expect(getRightGridColumnWidth(2)).toBe(width + TOTAL_CELL_PADDING);
     });
 
     test("should return right column width for non-pseudo dimension", () => {
@@ -312,6 +329,65 @@ describe("useColumnWidth", () => {
       expect(rightGridWidth).toBe(120);
       expect(totalWidth).toBe(271);
       expect(showLastRightBorder).toBe(true);
+    });
+  });
+
+  describe("getHeaderCellsIconsVisibilityStatus()", () => {
+    test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there is enough space in each column", () => {
+      mockEstimateWidth(300);
+      mockMeasureText(30);
+
+      const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+      const res = getHeaderCellsIconsVisibilityStatus(0, false);
+
+      expect(res.shouldShowMenuIcon).toBe(true);
+      expect(res.shouldShowLockIcon).toBe(false);
+    });
+
+    test("should return false for any icon, b/c estimated text width is greater than colWidth", () => {
+      mockEstimateWidth(300);
+      mockMeasureText(150);
+
+      const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+      const res = getHeaderCellsIconsVisibilityStatus(0, false);
+
+      expect(res.shouldShowMenuIcon).toBe(false);
+      expect(res.shouldShowLockIcon).toBe(false);
+    });
+
+    describe("if `isLocked` is true:", () => {
+      test("should return `shouldShowLockIcon` as true, b/c estimated width for text is small, there is enough space on each column and we are passing `isLocked` as true", () => {
+        mockEstimateWidth(300);
+        mockMeasureText(30);
+
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(true);
+        expect(res.shouldShowLockIcon).toBe(true);
+      });
+
+      test("should prioritise lock icon over menu, if there is enough space for only one icon", () => {
+        mockEstimateWidth(300);
+        mockMeasureText(75);
+
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(false);
+        expect(res.shouldShowLockIcon).toBe(true);
+      });
+
+      test("should not show lock icon when showLock is true but there is not enough space", () => {
+        mockEstimateWidth(50);
+        mockMeasureText(75);
+
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(false);
+        expect(res.shouldShowLockIcon).toBe(false);
+      });
     });
   });
 });
