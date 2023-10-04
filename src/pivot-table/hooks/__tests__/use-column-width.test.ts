@@ -331,4 +331,63 @@ describe("useColumnWidth", () => {
       expect(showLastRightBorder).toBe(true);
     });
   });
+
+  describe("getHeaderCellsIconsVisibilityStatus()", () => {
+    test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there is enough space in each column", () => {
+      mockEstimateWidth(300);
+      mockMeasureText(30);
+
+      const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+      const res = getHeaderCellsIconsVisibilityStatus(0, false);
+
+      expect(res.shouldShowMenuIcon).toBe(true);
+      expect(res.shouldShowLockIcon).toBe(false);
+    });
+
+    test("should return false for any icon, b/c estimated text width is greater than colWidth", () => {
+      mockEstimateWidth(300);
+      mockMeasureText(150);
+
+      const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+      const res = getHeaderCellsIconsVisibilityStatus(0, false);
+
+      expect(res.shouldShowMenuIcon).toBe(false);
+      expect(res.shouldShowLockIcon).toBe(false);
+    });
+
+    describe("if `isLocked` is true:", () => {
+      test("should return `shouldShowLockIcon` as true, b/c estimated width for text is small, there is enough space on each column and we are passing `isLocked` as true", () => {
+        mockEstimateWidth(300);
+        mockMeasureText(30);
+
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(true);
+        expect(res.shouldShowLockIcon).toBe(true);
+      });
+
+      test("should prioritise lock icon over menu, if there is enough space for only one icon", () => {
+        mockEstimateWidth(300);
+        mockMeasureText(75);
+
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(false);
+        expect(res.shouldShowLockIcon).toBe(true);
+      });
+
+      test("should not show lock icon when showLock is true but there is not enough space", () => {
+        mockEstimateWidth(50);
+        mockMeasureText(75);
+
+        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
+        const res = getHeaderCellsIconsVisibilityStatus(0, true);
+
+        expect(res.shouldShowMenuIcon).toBe(false);
+        expect(res.shouldShowLockIcon).toBe(false);
+      });
+    });
+  });
 });
