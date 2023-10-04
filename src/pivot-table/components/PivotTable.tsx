@@ -2,11 +2,11 @@ import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback } from "react";
 import type { Model } from "../../types/QIX";
 import type { LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
-import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
+import useGridHeight from "../hooks/use-grid-height";
 import useScroll from "../hooks/use-scroll";
 import useSorting from "../hooks/use-sorting";
 import useTableRect from "../hooks/use-table-rect";
@@ -18,8 +18,8 @@ import DataGrid from "./grids/DataGrid";
 import HeaderGrid from "./grids/HeaderGrid";
 import LeftGrid from "./grids/LeftGrid";
 import TopGrid from "./grids/TopGrid";
-
 import { StyledLeftGrid, StyledLeftGridContent, StyledRightGrid } from "./shared-styles";
+
 export interface PivotTableProps {
   rect: Rect;
   viewService: ViewService;
@@ -71,33 +71,20 @@ export const StickyPivotTable = ({
     getHeaderCellsIconsVisibilityStatus,
   } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
+  const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder } = useGridHeight({
+    pageInfo,
+    headersData,
+    topDimensionData,
+    tableRect,
+  });
+
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
   const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
-
-  const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
-  const headerGridHeight = headerCellHeight * headersData.size.y;
-  const containerHeight = totalDataHeight + headerGridHeight;
-
-  // Top grid should always have height to support cases when there is no top data but it need to occupy space to correctly render headers
-  const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
-  const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
-  const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
-
-  const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
-  const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
-  const showLastBottomBorder = rowsInCurrentPage < rowsCanFitInTableViewPort;
-  const showLastBorder = { right: showLastRightBorder, bottom: showLastBottomBorder };
 
   return (
     <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
       <FullSizeContainer width={totalWidth} height={containerHeight}>
-        <StickyContainer
-          rect={tableRect}
-          leftColumnsWidth={leftGridWidth}
-          rightColumnsWidth={rightGridWidth}
-          topRowsHeight={topGridHeight}
-          bottomRowsHeight={dataGridHeight}
-        >
+        <StickyContainer rect={tableRect} leftColumnsWidth={leftGridWidth} rightColumnsWidth={rightGridWidth}>
           <StyledLeftGrid leftGridWidth={leftGridWidth}>
             <StyledLeftGridContent>
               <HeaderGrid
@@ -118,7 +105,7 @@ export const StickyPivotTable = ({
                 getScrollTop={getScrollTop}
                 layoutService={layoutService}
                 leftDimensionData={leftDimensionData}
-                showLastBorder={{ ...showLastBorder, right: false }}
+                showLastBorder={{ right: false, bottom: showLastBottomBorder }}
                 getLeftGridColumnWidth={getLeftGridColumnWidth}
                 visibleLeftDimensionInfo={visibleLeftDimensionInfo}
                 pageInfo={pageInfo}
@@ -136,7 +123,7 @@ export const StickyPivotTable = ({
               getScrollLeft={getScrollLeft}
               layoutService={layoutService}
               topDimensionData={topDimensionData}
-              showLastBorder={{ ...showLastBorder, bottom: false }}
+              showLastBorder={{ right: showLastRightBorder, bottom: false }}
               getRightGridColumnWidth={getRightGridColumnWidth}
               visibleTopDimensionInfo={visibleTopDimensionInfo}
             />
@@ -152,7 +139,7 @@ export const StickyPivotTable = ({
               measureData={measureData}
               leftDimensionData={leftDimensionData}
               topDimensionData={topDimensionData}
-              showLastBorder={showLastBorder}
+              showLastBorder={{ right: showLastRightBorder, bottom: showLastBottomBorder }}
               getRightGridColumnWidth={getRightGridColumnWidth}
             />
           </StyledRightGrid>
