@@ -34,7 +34,7 @@ module.exports = {
         NxInlineDimensionDef: {
           url: "https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FNxInlineDimensionDef",
         },
-        NxInlinedMeasureDef: {
+        NxInlineMeasureDef: {
           url: "https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FNxInlineMeasureDef",
         },
         HyperCubeDef: {
