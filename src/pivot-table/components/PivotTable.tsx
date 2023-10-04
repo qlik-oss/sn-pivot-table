@@ -76,7 +76,7 @@ export const StickyPivotTable = ({
   const headerGridHeight = headerCellHeight * headersData.size.y;
   const containerHeight = totalDataHeight + headerGridHeight;
 
-  // Top grid should always have height to support cases when there is no top data but it need to occupy space to currecly render headers
+  // Top grid should always have height to support cases when there is no top data but it need to occupy space to correctly render headers
   const topGridHeight = headerCellHeight * Math.max(topDimensionData.rowCount, 1);
   const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
   const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
