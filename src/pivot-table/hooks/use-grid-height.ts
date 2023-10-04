@@ -1,4 +1,4 @@
-import type { HeadersData, LeftDimensionData, PageInfo, Rect, TopDimensionData } from "../../types/types";
+import type { HeadersData, PageInfo, Rect, TopDimensionData } from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
@@ -6,17 +6,10 @@ interface GridHeightHook {
   pageInfo: PageInfo;
   headersData: HeadersData;
   topDimensionData: TopDimensionData;
-  leftDimensionData: LeftDimensionData;
   tableRect: Rect;
 }
 
-export default function useGridHeight({
-  pageInfo,
-  headersData,
-  topDimensionData,
-  leftDimensionData,
-  tableRect,
-}: GridHeightHook) {
+export default function useGridHeight({ pageInfo, headersData, topDimensionData, tableRect }: GridHeightHook) {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
 
   const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
@@ -29,8 +22,7 @@ export default function useGridHeight({
   const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
 
   const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
-  const rowsInCurrentPage = Object.values(Object.values(leftDimensionData.grid).at(-1) || {}).length;
-  const showLastBottomBorder = rowsInCurrentPage < rowsCanFitInTableViewPort;
+  const showLastBottomBorder = pageInfo.rowsOnCurrentPage < rowsCanFitInTableViewPort;
 
   return { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder };
 }

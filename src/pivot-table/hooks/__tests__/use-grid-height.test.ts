@@ -1,14 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import type {
-  Cell,
-  Grid,
-  HeadersData,
-  LeftDimensionData,
-  PageInfo,
-  Rect,
-  StyleService,
-  TopDimensionData,
-} from "../../../types/types";
+import type { HeadersData, PageInfo, Rect, StyleService, TopDimensionData } from "../../../types/types";
 import * as styleProvider from "../../contexts/StyleProvider";
 import useGridHeight from "../use-grid-height";
 
@@ -16,20 +7,10 @@ describe("useGridHeight", () => {
   const headersData = { size: { y: 3 } } as HeadersData;
   const topDimensionData = { rowCount: 3 } as TopDimensionData;
   const tableRect = { height: 500 } as Rect;
-  let leftDimensionData: LeftDimensionData;
   let pageInfo: PageInfo;
-
-  const createGrid = (rows: number) => {
-    const grid: Grid = [{}];
-    for (let index = 0; index < rows; index++) {
-      grid[0][index] = {} as Cell;
-    }
-    return grid;
-  };
 
   beforeEach(() => {
     pageInfo = { rowsOnCurrentPage: 100 } as PageInfo;
-    leftDimensionData = { grid: createGrid(100) } as LeftDimensionData;
 
     jest
       .spyOn(styleProvider, "useStyleContext")
@@ -43,7 +24,7 @@ describe("useGridHeight", () => {
   const renderUseGridHeight = () => {
     const {
       result: { current },
-    } = renderHook(() => useGridHeight({ pageInfo, headersData, topDimensionData, leftDimensionData, tableRect }));
+    } = renderHook(() => useGridHeight({ pageInfo, headersData, topDimensionData, tableRect }));
     return current;
   };
 
@@ -59,7 +40,6 @@ describe("useGridHeight", () => {
   });
   test("should return grid heights when data doesn't overflows the chart", () => {
     pageInfo.rowsOnCurrentPage = 10;
-    leftDimensionData.grid = createGrid(10);
 
     const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder } =
       renderUseGridHeight();

@@ -73,7 +73,6 @@ export const StickyPivotTable = ({
     pageInfo,
     headersData,
     topDimensionData,
-    leftDimensionData,
     tableRect,
   });
 
