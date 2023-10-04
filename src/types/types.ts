@@ -283,21 +283,21 @@ export interface Header {
   isActivelySorted?: boolean;
 }
 
-export interface AttrExprInfoIndex {
+export type AttrExprInfoIndex = {
   foregroundColorIdx: 0 | 1 | -1;
   backgroundColorIdx: 0 | 1 | -1;
-}
+};
 
-export interface AttrExprInfoIndexes {
+export type AttrExprInfoIndexes = {
   left: AttrExprInfoIndex[];
   top: AttrExprInfoIndex[];
   measures: AttrExprInfoIndex[];
-}
+};
 
-export interface ExpressionColor {
+export type ExpressionColor = {
   color: string | null;
   background: string | null;
-}
+};
 
 export type Align = "left" | "center" | "right";
 export type SortDirection = "A" | "D";
