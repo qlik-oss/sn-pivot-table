@@ -103,12 +103,13 @@ export const StickyPivotTable = ({
               width: leftGridWidth,
               overflow: "scroll",
               position: "relative",
+              display: "flex",
             }}
           >
             <div
               style={{
-                height: "100%",
                 width: "fit-content",
+                alignSelf: "flex-end",
               }}
             >
               <HeaderGrid
@@ -139,7 +140,6 @@ export const StickyPivotTable = ({
 
           <div
             style={{
-              height: "100%",
               width: rightGridWidth,
             }}
           >
