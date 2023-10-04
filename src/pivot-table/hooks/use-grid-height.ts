@@ -2,13 +2,21 @@ import type { HeadersData, LeftDimensionData, PageInfo, Rect, TopDimensionData }
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
-export default function useGridHeight(
-  pageInfo: PageInfo,
-  headersData: HeadersData,
-  topDimensionData: TopDimensionData,
-  leftDimensionData: LeftDimensionData,
-  tableRect: Rect,
-) {
+interface GridHeightHook {
+  pageInfo: PageInfo;
+  headersData: HeadersData;
+  topDimensionData: TopDimensionData;
+  leftDimensionData: LeftDimensionData;
+  tableRect: Rect;
+}
+
+export default function useGridHeight({
+  pageInfo,
+  headersData,
+  topDimensionData,
+  leftDimensionData,
+  tableRect,
+}: GridHeightHook) {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
 
   const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
