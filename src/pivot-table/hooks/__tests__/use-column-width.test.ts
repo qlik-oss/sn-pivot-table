@@ -191,15 +191,16 @@ describe("useColumnWidth", () => {
     });
 
     test("should return right column width for fit to content setting", () => {
-      mockEstimateWidth(50);
-      mockMeasureText(50);
+      const width = 50;
+      mockEstimateWidth(width + 1);
+      mockMeasureText(width);
       meaInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth(0)).toBe(50);
-      expect(getRightGridColumnWidth(1)).toBe(50);
-      expect(getRightGridColumnWidth(2)).toBe(50);
+      expect(getRightGridColumnWidth(0)).toBe(width + TOTAL_CELL_PADDING);
+      expect(getRightGridColumnWidth(1)).toBe(width + TOTAL_CELL_PADDING);
+      expect(getRightGridColumnWidth(2)).toBe(width + TOTAL_CELL_PADDING);
     });
 
     test("should return right column width for pixel setting", () => {
@@ -239,6 +240,22 @@ describe("useColumnWidth", () => {
       expect(getRightGridColumnWidth(0)).toBe(ColumnWidthValues.PixelsMin);
       expect(getRightGridColumnWidth(1)).toBe(ColumnWidthValues.PixelsMin);
       expect(getRightGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsMin);
+    });
+
+    test("should return right column widths for columns with mixed settings", () => {
+      const width = 50;
+      mockEstimateWidth(width + 1);
+      mockMeasureText(width);
+      const meaInfoPixels = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 100 } } as ExtendedMeasureInfo;
+      const meaInfoFitToContent = {
+        columnWidth: { type: ColumnWidthType.FitToContent },
+      } as ExtendedMeasureInfo;
+      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      expect(getRightGridColumnWidth(0)).toBe(141);
+      expect(getRightGridColumnWidth(1)).toBe(100);
+      expect(getRightGridColumnWidth(2)).toBe(width + TOTAL_CELL_PADDING);
     });
 
     test("should return right column width for non-pseudo dimension", () => {

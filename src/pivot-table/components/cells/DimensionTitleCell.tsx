@@ -89,6 +89,7 @@ const DimensionTitleCell = ({
       background={open ? activeBackground : background}
       hoverBackground={hoverBackground}
       shouldShowMenuIcon={shouldShowMenuIcon}
+      isDimension={isDim}
       style={{
         ...style,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border),
