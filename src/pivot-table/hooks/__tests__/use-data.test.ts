@@ -1,6 +1,7 @@
 import { act, renderHook } from "@testing-library/react";
 import type { ExtendedHyperCube } from "../../../types/QIX";
 import type {
+  AttrExprInfoIndex,
   HeadersData,
   LayoutService,
   LeftDimensionData,
@@ -36,12 +37,18 @@ describe("useData", () => {
       dataPage: EngineAPI.INxPivotPage,
       layoutService: LayoutService,
       visibleTopDimensionInfo: VisibleDimensionInfo[],
+      attrExprInfoIndexes: AttrExprInfoIndex[],
     ) => TopDimensionData
   >;
   // Measure data mocks
   let mockedAddPageToMeasureData: jest.MockedFunction<(args: AddPageToMeasureDataProps) => MeasureData>;
   let mockedCreateMeasureData: jest.MockedFunction<
-    (dataPage: EngineAPI.INxPivotPage, pageInfo: PageInfo) => MeasureData
+    (
+      dataPage: EngineAPI.INxPivotPage,
+      pageInfo: PageInfo,
+      attrExprInfoIndexes: AttrExprInfoIndex[],
+      layoutService: LayoutService,
+    ) => MeasureData
   >;
   // Left data mocks
   let mockedAddPageToLeftDimensionData: jest.MockedFunction<
@@ -53,6 +60,7 @@ describe("useData", () => {
       layoutService: LayoutService,
       pageInfo: PageInfo,
       visibleLeftDimensionInfo: VisibleDimensionInfo[],
+      attrExprInfoIndexes: AttrExprInfoIndex[],
     ) => LeftDimensionData
   >;
   // Header data mocks
@@ -71,6 +79,7 @@ describe("useData", () => {
   let pageInfo: PageInfo;
   let visibleLeftDimensionInfo: VisibleDimensionInfo[];
   let visibleTopDimensionInfo: VisibleDimensionInfo[];
+  let attrExprInfoIndexes: AttrExprInfoIndex[];
 
   beforeEach(() => {
     mockedAddPageToTopDimensionData = addPageToTopDimensionData as jest.MockedFunction<
@@ -92,6 +101,7 @@ describe("useData", () => {
     qHyperCube = {
       qPivotDataPages: [],
       qSize: { qcx: 10, qcy: 20 },
+      qMeasureInfo: [],
     } as unknown as EngineAPI.IHyperCube;
 
     layoutService = {
@@ -125,6 +135,7 @@ describe("useData", () => {
 
     visibleLeftDimensionInfo = [];
     visibleTopDimensionInfo = [];
+    attrExprInfoIndexes = [];
 
     mockedAddPageToTopDimensionData.mockReturnValue(topDimensionData);
     mockedCreateTopDimensionData.mockReturnValue(topDimensionData);
@@ -168,6 +179,7 @@ describe("useData", () => {
       nextDataPage: nextPage,
       layoutService,
       visibleTopDimensionInfo,
+      attrExprInfoIndexes,
     });
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith({
       prevData: leftDimensionData,
@@ -175,11 +187,14 @@ describe("useData", () => {
       pageInfo,
       layoutService,
       visibleLeftDimensionInfo,
+      attrExprInfoIndexes,
     });
     expect(mockedAddPageToMeasureData).toHaveBeenCalledWith({
       prevData: measureData,
-      nextDataPage: nextPage,
+      dataPage: nextPage,
       pageInfo,
+      attrExprInfoIndexes,
+      layoutService,
     });
   });
 });
