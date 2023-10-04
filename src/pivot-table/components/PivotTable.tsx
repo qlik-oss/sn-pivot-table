@@ -19,6 +19,7 @@ import HeaderGrid from "./grids/HeaderGrid";
 import LeftGrid from "./grids/LeftGrid";
 import TopGrid from "./grids/TopGrid";
 
+import { StyledLeftGrid, StyledLeftGridContent, StyledRightGrid } from "./shared-styles";
 export interface PivotTableProps {
   rect: Rect;
   viewService: ViewService;
@@ -97,21 +98,8 @@ export const StickyPivotTable = ({
           topRowsHeight={topGridHeight}
           bottomRowsHeight={dataGridHeight}
         >
-          <div
-            style={{
-              height: "100%",
-              width: leftGridWidth,
-              overflow: "scroll",
-              position: "relative",
-              display: "flex",
-            }}
-          >
-            <div
-              style={{
-                width: "fit-content",
-                alignSelf: "flex-end",
-              }}
-            >
+          <StyledLeftGrid leftGridWidth={leftGridWidth}>
+            <StyledLeftGridContent>
               <HeaderGrid
                 columnWidthCallback={getLeftGridColumnWidth}
                 getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
@@ -135,14 +123,10 @@ export const StickyPivotTable = ({
                 visibleLeftDimensionInfo={visibleLeftDimensionInfo}
                 pageInfo={pageInfo}
               />
-            </div>
-          </div>
+            </StyledLeftGridContent>
+          </StyledLeftGrid>
 
-          <div
-            style={{
-              width: rightGridWidth,
-            }}
-          >
+          <StyledRightGrid rightGridWidth={0}>
             <TopGrid
               dataModel={dataModel}
               topGridRef={topGridRef}
@@ -171,7 +155,7 @@ export const StickyPivotTable = ({
               showLastBorder={showLastBorder}
               getRightGridColumnWidth={getRightGridColumnWidth}
             />
-          </div>
+          </StyledRightGrid>
         </StickyContainer>
       </FullSizeContainer>
     </ScrollableContainer>
