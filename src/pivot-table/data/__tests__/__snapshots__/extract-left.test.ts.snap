@@ -10,6 +10,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": true,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -34,6 +38,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -61,6 +69,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": true,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -82,6 +94,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               "root": {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -109,6 +125,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -133,6 +153,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -158,6 +182,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "1": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -187,6 +215,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": true,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -211,6 +243,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": false,
           "isLockedByDimension": false,
@@ -246,6 +282,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -271,6 +311,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -295,6 +339,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": false,
           "isLockedByDimension": false,
@@ -335,6 +383,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -360,6 +412,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "3": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -389,6 +445,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": true,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -415,6 +475,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": true,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -436,6 +500,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                     "root": {
                       "children": [],
                       "distanceToNextCell": 0,
+                      "expressionColor": {
+                        "background": null,
+                        "color": null,
+                      },
                       "isEmpty": false,
                       "isLeafNode": true,
                       "isLockedByDimension": false,
@@ -463,6 +531,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   },
                 ],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -487,6 +559,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -514,6 +590,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -532,6 +612,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -553,6 +637,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 "root": {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -580,6 +668,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -604,6 +696,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -641,6 +737,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -662,6 +762,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 "root": {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -689,6 +793,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -713,6 +821,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -743,6 +855,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": true,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -764,6 +880,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "root": {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -791,6 +911,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -808,6 +932,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -832,6 +960,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -857,6 +989,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -893,6 +1029,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -917,6 +1057,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -942,6 +1086,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -972,6 +1120,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": true,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -998,6 +1150,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": false,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -1023,6 +1179,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": false,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -1047,6 +1207,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   },
                 ],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": false,
                 "isLockedByDimension": false,
@@ -1087,6 +1251,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -1114,6 +1282,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": false,
       "isLockedByDimension": false,
@@ -1132,6 +1304,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -1157,6 +1333,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -1181,6 +1361,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -1221,6 +1405,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -1266,6 +1454,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -1291,6 +1483,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -1315,6 +1511,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -1355,6 +1555,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -1385,6 +1589,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -1410,6 +1618,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": true,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -1434,6 +1646,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   },
                 ],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": false,
                 "isLockedByDimension": false,
@@ -1467,6 +1683,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -1495,6 +1715,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -1520,6 +1744,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": true,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -1544,6 +1772,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   },
                 ],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": false,
                 "isLockedByDimension": false,
@@ -1577,6 +1809,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -1604,6 +1840,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": false,
       "isLockedByDimension": false,
@@ -1621,6 +1861,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -1645,6 +1889,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -1678,6 +1926,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -1730,6 +1982,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -1754,6 +2010,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -1787,6 +2047,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -1817,6 +2081,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "0": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": true,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -1832,6 +2100,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -1850,6 +2122,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -1871,6 +2147,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   "root": {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": false,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -1898,6 +2178,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -1922,6 +2206,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -1959,6 +2247,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -1980,6 +2272,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   "root": {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": false,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -2007,6 +2303,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -2031,6 +2331,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -2070,6 +2374,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -2097,6 +2405,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -2118,6 +2430,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 "root": {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -2145,6 +2461,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -2169,6 +2489,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -2197,6 +2521,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "1": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": true,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -2212,6 +2540,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -2229,6 +2561,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -2253,6 +2589,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -2278,6 +2618,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -2314,6 +2658,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -2338,6 +2686,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -2363,6 +2715,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -2398,6 +2754,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "root": {
         "children": [],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -2426,6 +2786,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "2": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": true,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -2441,6 +2805,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": false,
         "isLockedByDimension": false,
@@ -2459,6 +2827,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -2484,6 +2856,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -2508,6 +2884,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -2548,6 +2928,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -2593,6 +2977,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -2618,6 +3006,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -2642,6 +3034,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -2682,6 +3078,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -2721,6 +3121,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -2756,6 +3160,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -2781,6 +3189,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -2805,6 +3217,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -2845,6 +3261,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -2873,6 +3293,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "3": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -2889,6 +3313,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -2914,6 +3342,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                     {
                       "children": [],
                       "distanceToNextCell": 0,
+                      "expressionColor": {
+                        "background": null,
+                        "color": null,
+                      },
                       "isEmpty": true,
                       "isLeafNode": true,
                       "isLockedByDimension": false,
@@ -2938,6 +3370,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                     },
                   ],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": false,
                   "isLockedByDimension": false,
@@ -2971,6 +3407,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 [Circular],
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -2998,6 +3438,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": false,
         "isLockedByDimension": false,
@@ -3015,6 +3459,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -3039,6 +3487,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -3072,6 +3524,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -3124,6 +3580,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -3148,6 +3608,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -3181,6 +3645,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -3220,6 +3688,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -3244,6 +3716,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -3280,6 +3756,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -3304,6 +3784,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -3344,6 +3828,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -3372,6 +3860,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
     "4": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -3387,6 +3879,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -3412,6 +3908,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                     {
                       "children": [],
                       "distanceToNextCell": 0,
+                      "expressionColor": {
+                        "background": null,
+                        "color": null,
+                      },
                       "isEmpty": true,
                       "isLeafNode": true,
                       "isLockedByDimension": false,
@@ -3436,6 +3936,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                     },
                   ],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": false,
                   "isLockedByDimension": false,
@@ -3469,6 +3973,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 [Circular],
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -3497,6 +4005,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": false,
         "isLockedByDimension": false,
@@ -3514,6 +4026,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -3538,6 +4054,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -3571,6 +4091,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -3623,6 +4147,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -3647,6 +4175,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -3680,6 +4212,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -3719,6 +4255,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -3743,6 +4283,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -3778,6 +4322,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -3803,6 +4351,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -3843,6 +4395,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -3882,6 +4438,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": true,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -3906,6 +4466,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -3933,6 +4497,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": true,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -3954,6 +4522,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               "root": {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -3981,6 +4553,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -4005,6 +4581,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -4030,6 +4610,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "1": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -4059,6 +4643,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": true,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -4083,6 +4671,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": false,
           "isLockedByDimension": false,
@@ -4118,6 +4710,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -4143,6 +4739,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             {
               "children": [],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -4167,6 +4767,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": false,
           "isLockedByDimension": false,
@@ -4207,6 +4811,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -4232,6 +4840,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "3": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -4261,6 +4873,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": true,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -4287,6 +4903,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": true,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -4308,6 +4928,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                     "root": {
                       "children": [],
                       "distanceToNextCell": 0,
+                      "expressionColor": {
+                        "background": null,
+                        "color": null,
+                      },
                       "isEmpty": false,
                       "isLeafNode": true,
                       "isLockedByDimension": false,
@@ -4335,6 +4959,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   },
                 ],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -4359,6 +4987,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -4386,6 +5018,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -4404,6 +5040,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -4425,6 +5065,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 "root": {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -4452,6 +5096,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -4476,6 +5124,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -4513,6 +5165,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -4534,6 +5190,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 "root": {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -4561,6 +5221,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -4585,6 +5249,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -4615,6 +5283,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": true,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -4636,6 +5308,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "root": {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -4663,6 +5339,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -4680,6 +5360,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -4704,6 +5388,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -4729,6 +5417,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -4765,6 +5457,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -4789,6 +5485,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -4814,6 +5514,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -4844,6 +5548,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": true,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -4870,6 +5578,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": false,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -4895,6 +5607,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": false,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -4919,6 +5635,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   },
                 ],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": false,
                 "isLockedByDimension": false,
@@ -4959,6 +5679,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -4986,6 +5710,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": false,
       "isLockedByDimension": false,
@@ -5004,6 +5732,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -5029,6 +5761,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -5053,6 +5789,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -5093,6 +5833,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -5138,6 +5882,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -5163,6 +5911,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -5187,6 +5939,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -5227,6 +5983,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -5257,6 +6017,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -5282,6 +6046,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": true,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -5306,6 +6074,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   },
                 ],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": false,
                 "isLockedByDimension": false,
@@ -5339,6 +6111,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -5367,6 +6143,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -5392,6 +6172,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": true,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -5416,6 +6200,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   },
                 ],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": false,
                 "isLockedByDimension": false,
@@ -5449,6 +6237,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -5476,6 +6268,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": false,
       "isLockedByDimension": false,
@@ -5493,6 +6289,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -5517,6 +6317,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -5550,6 +6354,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -5602,6 +6410,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -5626,6 +6438,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -5659,6 +6475,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -5689,6 +6509,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "0": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": true,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -5704,6 +6528,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -5722,6 +6550,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -5743,6 +6575,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   "root": {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": false,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -5770,6 +6606,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -5794,6 +6634,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -5831,6 +6675,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -5852,6 +6700,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   "root": {
                     "children": [],
                     "distanceToNextCell": 0,
+                    "expressionColor": {
+                      "background": null,
+                      "color": null,
+                    },
                     "isEmpty": false,
                     "isLeafNode": true,
                     "isLockedByDimension": false,
@@ -5879,6 +6731,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -5903,6 +6759,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -5942,6 +6802,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -5969,6 +6833,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -5990,6 +6858,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 "root": {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -6017,6 +6889,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -6041,6 +6917,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -6069,6 +6949,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "1": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": true,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -6084,6 +6968,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -6101,6 +6989,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -6125,6 +7017,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -6150,6 +7046,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -6186,6 +7086,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -6210,6 +7114,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -6235,6 +7143,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -6270,6 +7182,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "root": {
         "children": [],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -6298,6 +7214,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "2": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": true,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -6313,6 +7233,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": false,
         "isLockedByDimension": false,
@@ -6331,6 +7255,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -6356,6 +7284,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -6380,6 +7312,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -6420,6 +7356,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -6465,6 +7405,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -6490,6 +7434,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -6514,6 +7462,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -6554,6 +7506,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             },
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -6593,6 +7549,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -6628,6 +7588,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -6653,6 +7617,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -6677,6 +7645,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -6717,6 +7689,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -6745,6 +7721,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "3": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -6761,6 +7741,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -6786,6 +7770,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                     {
                       "children": [],
                       "distanceToNextCell": 0,
+                      "expressionColor": {
+                        "background": null,
+                        "color": null,
+                      },
                       "isEmpty": true,
                       "isLeafNode": true,
                       "isLockedByDimension": false,
@@ -6810,6 +7798,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                     },
                   ],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": false,
                   "isLockedByDimension": false,
@@ -6843,6 +7835,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 [Circular],
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -6870,6 +7866,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": false,
         "isLockedByDimension": false,
@@ -6887,6 +7887,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -6911,6 +7915,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -6944,6 +7952,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -6996,6 +8008,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -7020,6 +8036,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -7053,6 +8073,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -7092,6 +8116,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -7116,6 +8144,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -7152,6 +8184,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -7176,6 +8212,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -7216,6 +8256,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -7244,6 +8288,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
     "4": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -7259,6 +8307,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -7284,6 +8336,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                     {
                       "children": [],
                       "distanceToNextCell": 0,
+                      "expressionColor": {
+                        "background": null,
+                        "color": null,
+                      },
                       "isEmpty": true,
                       "isLeafNode": true,
                       "isLockedByDimension": false,
@@ -7308,6 +8364,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                     },
                   ],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": false,
                   "isLeafNode": false,
                   "isLockedByDimension": false,
@@ -7341,6 +8401,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 [Circular],
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": true,
               "isLockedByDimension": false,
@@ -7369,6 +8433,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": false,
         "isLockedByDimension": false,
@@ -7386,6 +8454,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -7410,6 +8482,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -7443,6 +8519,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -7495,6 +8575,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 {
                   "children": [],
                   "distanceToNextCell": 0,
+                  "expressionColor": {
+                    "background": null,
+                    "color": null,
+                  },
                   "isEmpty": true,
                   "isLeafNode": true,
                   "isLockedByDimension": false,
@@ -7519,6 +8603,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 },
               ],
               "distanceToNextCell": 0,
+              "expressionColor": {
+                "background": null,
+                "color": null,
+              },
               "isEmpty": false,
               "isLeafNode": false,
               "isLockedByDimension": false,
@@ -7552,6 +8640,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             [Circular],
           ],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -7591,6 +8683,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": true,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -7615,6 +8711,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               },
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -7650,6 +8750,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               {
                 "children": [],
                 "distanceToNextCell": 0,
+                "expressionColor": {
+                  "background": null,
+                  "color": null,
+                },
                 "isEmpty": false,
                 "isLeafNode": true,
                 "isLockedByDimension": false,
@@ -7675,6 +8779,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               [Circular],
             ],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": false,
             "isLockedByDimension": false,
@@ -7715,6 +8823,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -7752,6 +8864,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -7777,6 +8893,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         {
           "children": [],
           "distanceToNextCell": 0,
+          "expressionColor": {
+            "background": null,
+            "color": null,
+          },
           "isEmpty": false,
           "isLeafNode": true,
           "isLockedByDimension": false,
@@ -7801,6 +8921,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         },
       ],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -7826,6 +8950,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "1": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -7851,6 +8979,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "2": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -7876,6 +9008,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "3": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -7903,6 +9039,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "0": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -7919,6 +9059,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -7943,6 +9087,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -7978,6 +9126,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -8002,6 +9154,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           },
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -8030,6 +9186,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
     "1": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -8045,6 +9205,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -8070,6 +9234,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -8104,6 +9272,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           {
             "children": [],
             "distanceToNextCell": 0,
+            "expressionColor": {
+              "background": null,
+              "color": null,
+            },
             "isEmpty": false,
             "isLeafNode": true,
             "isLockedByDimension": false,
@@ -8129,6 +9301,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           [Circular],
         ],
         "distanceToNextCell": 0,
+        "expressionColor": {
+          "background": null,
+          "color": null,
+        },
         "isEmpty": false,
         "isLeafNode": true,
         "isLockedByDimension": false,
@@ -8164,6 +9340,10 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
     "0": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -8189,6 +9369,10 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
     "1": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,
@@ -8214,6 +9398,10 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
     "2": {
       "children": [],
       "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
       "isEmpty": false,
       "isLeafNode": true,
       "isLockedByDimension": false,

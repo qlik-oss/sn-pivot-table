@@ -5,7 +5,7 @@ import createNodes from "./test-helper";
 
 describe("extractTop", () => {
   let layoutService: LayoutService;
-  let attrExprInfoIndexes: AttrExprInfoIndex[];
+  const attrExprInfoIndexes: AttrExprInfoIndex[] = [];
   const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
   const grid = [] as Cell[][];
   const visibleTopDimensionInfo: VisibleDimensionInfo[] = [];
@@ -14,8 +14,6 @@ describe("extractTop", () => {
     layoutService = {
       isSnapshot: false,
     } as unknown as LayoutService;
-
-    attrExprInfoIndexes = [];
   });
 
   test("should handle empty qTop array", () => {
