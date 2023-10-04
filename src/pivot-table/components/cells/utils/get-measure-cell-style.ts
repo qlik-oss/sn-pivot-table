@@ -47,12 +47,13 @@ export const getCellStyle = (styleService: StyleService, isNull: boolean, isTota
   };
 };
 
-export const getTextStyle = (styleService: StyleService, isNumeric: boolean) => {
+export const getTextStyle = (styleService: StyleService, expressionColor: string | null, isNumeric: boolean) => {
   const { fontFamily, fontSize } = styleService.content;
 
   return {
     ...textStyle,
     ...(!isNumeric && getGridTextClampStyle(styleService.content.lineClamp)),
+    ...(expressionColor && { color: expressionColor }),
     alignSelf: "flex-start",
     fontFamily,
     fontSize,

@@ -1,6 +1,5 @@
 import React from "react";
 import { areEqual } from "react-window";
-import NxDimCellType from "../../../types/QIX";
 import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
@@ -45,19 +44,19 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
     );
   }
 
-  const { qText, qType } = cell;
-  const isNull = qType === NxDimCellType.NX_DIM_CELL_NULL;
-  const isTotalValueCell = !isNull && isTotalValue(columnIndex, rowIndex);
-  const text = isNull ? layoutService.getNullValueText() : qText;
-  const isNumeric = isNull ? !Number.isNaN(+text) : true;
+  const { qText } = cell.ref;
+  const isTotalValueCell = !cell.isNull && isTotalValue(columnIndex, rowIndex);
+  const text = cell.isNull ? layoutService.getNullValueText() : qText;
+  const isNumeric = cell.isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
-    ...getCellStyle(styleService, isNull, isTotalValueCell),
+    ...getCellStyle(styleService, cell.isNull, isTotalValueCell),
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
     ...getTotalCellDividerStyle({
       bottomDivider: shouldShowTotalCellBottomDivider(rowIndex),
       rightDivider: shouldShowTotalCellRightDivider(columnIndex),
       borderColor: styleService.grid.divider,
     }),
+    ...(cell.expressionColor.background && { background: cell.expressionColor.background }),
     display: "flex",
     justifyContent: isNumeric ? "flex-end" : "center",
   };
@@ -71,7 +70,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
       data-col-index={columnIndex}
     >
       <div style={cellStyle}>
-        <span style={getTextStyle(styleService, isNumeric)}>{text}</span>
+        <span style={getTextStyle(styleService, cell.expressionColor.color, isNumeric)}>{text}</span>
       </div>
     </div>
   );
