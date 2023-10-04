@@ -12,7 +12,7 @@ import type {
 import * as styleProvider from "../../contexts/StyleProvider";
 import useGridHeight from "../use-grid-height";
 
-describe("useColumnWidth", () => {
+describe("useGridHeight", () => {
   const headersData = { size: { y: 3 } } as HeadersData;
   const topDimensionData = { rowCount: 3 } as TopDimensionData;
   const tableRect = { height: 500 } as Rect;
