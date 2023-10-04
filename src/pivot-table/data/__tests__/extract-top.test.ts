@@ -1,10 +1,11 @@
 import NxDimCellType from "../../../types/QIX";
-import type { Cell, LayoutService, VisibleDimensionInfo } from "../../../types/types";
+import type { AttrExprInfoIndex, Cell, LayoutService, VisibleDimensionInfo } from "../../../types/types";
 import extractTopGrid from "../extract-top";
 import createNodes from "./test-helper";
 
 describe("extractTop", () => {
   let layoutService: LayoutService;
+  let attrExprInfoIndexes: AttrExprInfoIndex[];
   const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
   const grid = [] as Cell[][];
   const visibleTopDimensionInfo: VisibleDimensionInfo[] = [];
@@ -13,12 +14,14 @@ describe("extractTop", () => {
     layoutService = {
       isSnapshot: false,
     } as unknown as LayoutService;
+
+    attrExprInfoIndexes = [];
   });
 
   test("should handle empty qTop array", () => {
     const qTop: EngineAPI.INxPivotDimensionCell[] = [];
 
-    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
 
     expect(top).toHaveLength(0);
   });
@@ -27,7 +30,7 @@ describe("extractTop", () => {
     const colCount = 3;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
 
     expect(top).toMatchSnapshot();
   });
@@ -40,7 +43,7 @@ describe("extractTop", () => {
     qTop[0].qSubNodes = subNodes;
     qTop[0].qCanCollapse = true;
 
-    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
 
     expect(top).toMatchSnapshot();
   });
@@ -59,7 +62,7 @@ describe("extractTop", () => {
     qTop[2].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
     qTop[2].qSubNodes[1].qSubNodes = createNodes(2, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
 
     expect(top).toMatchSnapshot();
   });
@@ -69,7 +72,7 @@ describe("extractTop", () => {
     const colCount = 3;
     const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
 
-    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo);
+    const top = extractTopGrid(grid, qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
 
     expect(top).toMatchSnapshot();
   });
