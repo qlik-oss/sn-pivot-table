@@ -1,3 +1,5 @@
+import { ColumnWidthValues } from "../../pivot-table/hooks/use-column-width";
+import { ColumnWidthType, type DimensionOrMeasureDef } from "../../types/QIX";
 import type { Galaxy } from "../../types/types";
 
 export interface Args {
@@ -19,7 +21,6 @@ const cellColoring = {
       translation: "Object.Table.Measure.BackgroundExpression",
       defaultValue: "",
       id: "cellBackgroundColor",
-      tid: "tableColorBgByExpression",
     },
     {
       component: "expression",
@@ -28,7 +29,6 @@ const cellColoring = {
       translation: "Object.Table.Measure.ForegroundExpression",
       defaultValue: "",
       id: "cellForegroundColor",
-      tid: "tableColorByExpression",
     },
   ],
 };
@@ -39,7 +39,7 @@ function isTotalsVisible(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown,
     return true;
   }
 
-  // shoulde be visible for first dimension in left tree.
+  // should be visible for first dimension in left tree.
   // should not be visible for remaining dimensions in left tree.
   const pseudoIdx = args.properties.qHyperCubeDef.qInterColumnSortOrder.indexOf(-1);
 
@@ -51,6 +51,69 @@ function isTotalsVisible(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown,
   const idx = args.properties.qHyperCubeDef.qDimensions.indexOf(itemData);
   return idx === 0 || idx >= noOfLeftDims;
 }
+
+// TODO: scope this out to common repo, don't see any differences in properties of default values atm
+const columnResize = {
+  type: {
+    type: "string",
+    component: "dropdown",
+    ref: "qDef.columnWidth.type",
+    translation: "Object.Table.Column.Width",
+    options: [
+      {
+        value: ColumnWidthType.Auto,
+        translation: "Common.Auto",
+      },
+      {
+        value: ColumnWidthType.FitToContent,
+        translation: "Object.Table.Column.FitToContent",
+      },
+      {
+        value: ColumnWidthType.Pixels,
+        translation: "Object.Table.Column.Pixels",
+      },
+      {
+        value: ColumnWidthType.Percentage,
+        translation: "Object.Table.Column.Percentage",
+      },
+    ],
+    defaultValue: ColumnWidthType.Auto,
+  },
+  sizePixels: {
+    ref: "qDef.columnWidth.pixels",
+    translation: "Object.Table.Column.Pixels",
+    type: "number",
+    expression: "optional",
+    defaultValue: ColumnWidthValues.PixelsDefault,
+    show: (data: DimensionOrMeasureDef) => data.qDef.columnWidth?.type === ColumnWidthType.Pixels,
+    change(data: DimensionOrMeasureDef) {
+      if (data.qDef.columnWidth.pixels !== undefined) {
+        // eslint-disable-next-line no-param-reassign
+        data.qDef.columnWidth.pixels = Math.max(
+          ColumnWidthValues.PixelsMin,
+          Math.min(ColumnWidthValues.PixelsMax, data.qDef.columnWidth.pixels),
+        );
+      }
+    },
+  },
+  sizePercentage: {
+    ref: "qDef.columnWidth.percentage",
+    translation: "Object.Table.Column.Percentage",
+    type: "number",
+    expression: "optional",
+    defaultValue: ColumnWidthValues.PercentageDefault,
+    show: (data: DimensionOrMeasureDef) => data.qDef.columnWidth?.type === ColumnWidthType.Percentage,
+    change: (data: DimensionOrMeasureDef) => {
+      if (data.qDef.columnWidth.percentage !== undefined) {
+        // eslint-disable-next-line no-param-reassign
+        data.qDef.columnWidth.percentage = Math.max(
+          ColumnWidthValues.PercentageMin,
+          Math.min(ColumnWidthValues.PercentageMax, data.qDef.columnWidth.percentage),
+        );
+      }
+    },
+  },
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createData = (env: Galaxy): Record<string, any> => {
@@ -150,6 +213,7 @@ const createData = (env: Galaxy): Record<string, any> => {
             },
           },
           cellColoring,
+          ...columnResize,
         },
       },
       measures: {
@@ -189,6 +253,7 @@ const createData = (env: Galaxy): Record<string, any> => {
             show: false,
           },
           cellColoring,
+          ...columnResize,
           // numberFormatting: TODO
         },
       },
