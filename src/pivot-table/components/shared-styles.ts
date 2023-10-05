@@ -1,4 +1,3 @@
-import { styled } from "@mui/material/styles";
 import type React from "react";
 import type { ShowLastBorder } from "../../types/types";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
@@ -92,26 +91,10 @@ export const getTotalCellDividerStyle = ({
   return style;
 };
 
-interface StyledLeftGridProps {
-  leftGridWidth: number;
-}
-
-export const StyledLeftGrid = styled("div", {
-  shouldForwardProp: (prop: string) => !["leftGridWidth"].includes(prop),
-})(({ leftGridWidth }: StyledLeftGridProps) => ({
+export const getLeftGridStyles = (leftGridWidth: number): React.CSSProperties => ({
   width: leftGridWidth,
   overflow: "scroll",
   position: "relative",
   display: "flex",
   flexDirection: "column",
-}));
-
-interface StyledRightGridProps {
-  rightGridWidth: number;
-}
-
-export const StyledRightGrid = styled("div", {
-  shouldForwardProp: (prop: string) => !["rightGridWidth"].includes(prop),
-})(({ rightGridWidth }: StyledRightGridProps) => ({
-  width: rightGridWidth,
-}));
+});
