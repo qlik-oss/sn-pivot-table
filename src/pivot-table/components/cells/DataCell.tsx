@@ -49,14 +49,13 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const text = cell.isNull ? layoutService.getNullValueText() : qText;
   const isNumeric = cell.isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
-    ...getCellStyle(styleService, cell.isNull, isTotalValueCell),
+    ...getCellStyle(styleService, cell.isNull, isTotalValueCell, cell.expressionColor.background),
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
     ...getTotalCellDividerStyle({
       bottomDivider: shouldShowTotalCellBottomDivider(rowIndex),
       rightDivider: shouldShowTotalCellRightDivider(columnIndex),
       borderColor: styleService.grid.divider,
     }),
-    ...(cell.expressionColor.background && { background: cell.expressionColor.background }),
     display: "flex",
     justifyContent: isNumeric ? "flex-end" : "center",
   };

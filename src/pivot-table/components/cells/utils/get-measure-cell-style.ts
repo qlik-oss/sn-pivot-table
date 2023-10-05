@@ -26,7 +26,12 @@ const getGridTextClampStyle = (clampCount: number): React.CSSProperties => ({
   ...getLineClampStyle(clampCount),
 });
 
-export const getCellStyle = (styleService: StyleService, isNull: boolean, isTotalValue: boolean) => {
+export const getCellStyle = (
+  styleService: StyleService,
+  isNull: boolean,
+  isTotalValue: boolean,
+  expressionBackground: string | null,
+) => {
   if (isNull) {
     return { ...nilStyle, ...styleService.content.nullValue };
   }
@@ -35,7 +40,7 @@ export const getCellStyle = (styleService: StyleService, isNull: boolean, isTota
     return {
       ...numericStyle,
       color: styleService.content.totalValue.color,
-      background: styleService.content.totalValue.background,
+      background: expressionBackground ?? styleService.content.totalValue.background,
       fontWeight: "600",
     };
   }
@@ -43,7 +48,7 @@ export const getCellStyle = (styleService: StyleService, isNull: boolean, isTota
   return {
     ...numericStyle,
     color: styleService.content.color,
-    background: styleService.content.background,
+    background: expressionBackground ?? styleService.content.background,
   };
 };
 
