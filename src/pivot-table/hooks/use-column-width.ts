@@ -29,8 +29,8 @@ export interface GetHeaderCellsIconsVisibilityStatus {
 }
 
 interface LeftGridColumnWidths {
-  widths: number[];
-  originalWidths: number[];
+  actualColumnWidths: number[];
+  modifiedColumnWidth: number[];
 }
 
 export const EXPAND_ICON_WIDTH = 30;
@@ -95,9 +95,9 @@ export default function useColumnWidth(
       }
     };
 
-    let sumOfWidths = 0;
+    let sumOfActualWidths = 0;
 
-    const widths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+    const actualColumnWidths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
       let width: number;
 
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
@@ -119,17 +119,19 @@ export default function useColumnWidth(
         width = getColumnWidth(columnWidth, fitToContentWidth);
       }
 
-      sumOfWidths += width;
+      sumOfActualWidths += width;
       return width;
     });
 
     const leftGridMaxWidth = rect.width * LEFT_GRID_MAX_WIDTH_RATIO;
-    if (sumOfWidths < leftGridMaxWidth) return { widths, originalWidths: widths };
+    if (sumOfActualWidths < leftGridMaxWidth) {
+      return { actualColumnWidths, modifiedColumnWidth: actualColumnWidths };
+    }
 
-    const multiplier = leftGridMaxWidth / sumOfWidths;
+    const multiplier = leftGridMaxWidth / sumOfActualWidths;
     return {
-      originalWidths: widths,
-      widths: widths.map((w) => w * multiplier),
+      actualColumnWidths,
+      modifiedColumnWidth: actualColumnWidths.map((w) => w * multiplier),
     };
   }, [
     visibleLeftDimensionInfo,
@@ -143,13 +145,13 @@ export default function useColumnWidth(
   ]);
 
   const getLeftGridColumnWidth = useCallback(
-    (index: number) => leftGridColumnWidths.originalWidths[index],
+    (index: number) => leftGridColumnWidths.actualColumnWidths[index],
     [leftGridColumnWidths],
   );
 
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
-      const colWidth = leftGridColumnWidths.originalWidths[idx];
+      const colWidth = leftGridColumnWidths.actualColumnWidths[idx];
       let shouldShowMenuIcon = false;
       let shouldShowLockIcon = false;
       const measuredTextForHeader = measureTextForHeader(title);
@@ -177,7 +179,7 @@ export default function useColumnWidth(
   );
 
   const leftGridWidth = useMemo(
-    () => leftGridColumnWidths.widths.reduce((totalWidth, w) => totalWidth + w, 0),
+    () => leftGridColumnWidths.modifiedColumnWidth.reduce((totalWidth, w) => totalWidth + w, 0),
     [leftGridColumnWidths],
   );
 
