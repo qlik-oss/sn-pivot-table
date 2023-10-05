@@ -14,6 +14,7 @@ interface HeaderGridProps {
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
   getHeaderCellsIconsVisibilityStatus: GetHeaderCellsIconsVisibilityStatus;
+  height: number;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -29,6 +30,7 @@ const HeaderGrid = ({
   changeSortOrder,
   changeActivelySortedHeader,
   getHeaderCellsIconsVisibilityStatus,
+  height,
 }: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
@@ -46,6 +48,7 @@ const HeaderGrid = ({
         gridTemplateColumns: columnWidths.map((w) => `${w}px`).join(" "),
         gridTemplateRows: hasMultipleRows ? `1fr ${rowHight}px` : undefined,
         background: styleService.header.background,
+        height,
       }}
     >
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}

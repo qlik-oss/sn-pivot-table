@@ -99,16 +99,11 @@ interface StyledLeftGridProps {
 export const StyledLeftGrid = styled("div", {
   shouldForwardProp: (prop: string) => !["leftGridWidth"].includes(prop),
 })(({ leftGridWidth }: StyledLeftGridProps) => ({
-  height: "100%",
   width: leftGridWidth,
   overflow: "scroll",
   position: "relative",
   display: "flex",
-}));
-
-export const StyledLeftGridContent = styled("div")(() => ({
-  width: "fit-content",
-  alignSelf: "flex-end",
+  flexDirection: "column",
 }));
 
 interface StyledRightGridProps {

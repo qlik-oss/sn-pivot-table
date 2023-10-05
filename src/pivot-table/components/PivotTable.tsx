@@ -18,7 +18,7 @@ import DataGrid from "./grids/DataGrid";
 import HeaderGrid from "./grids/HeaderGrid";
 import LeftGrid from "./grids/LeftGrid";
 import TopGrid from "./grids/TopGrid";
-import { StyledLeftGrid, StyledLeftGridContent, StyledRightGrid } from "./shared-styles";
+import { StyledLeftGrid, StyledRightGrid } from "./shared-styles";
 
 export interface PivotTableProps {
   rect: Rect;
@@ -88,31 +88,30 @@ export const StickyPivotTable = ({
           <>
             {Boolean(leftGridWidth) && (
               <StyledLeftGrid leftGridWidth={leftGridWidth}>
-                <StyledLeftGridContent>
-                  <HeaderGrid
-                    columnWidthCallback={getLeftGridColumnWidth}
-                    getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
-                    rowHight={headerCellHeight}
-                    headersData={headersData}
-                    translator={translator}
-                    changeSortOrder={changeSortOrder}
-                    changeActivelySortedHeader={changeActivelySortedHeader}
-                  />
+                <HeaderGrid
+                  columnWidthCallback={getLeftGridColumnWidth}
+                  getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
+                  rowHight={headerCellHeight}
+                  height={topGridHeight}
+                  headersData={headersData}
+                  translator={translator}
+                  changeSortOrder={changeSortOrder}
+                  changeActivelySortedHeader={changeActivelySortedHeader}
+                />
 
-                  <LeftGrid
-                    dataModel={dataModel}
-                    leftGridRef={leftGridRef}
-                    width={leftGridWidth}
-                    height={leftGridHeight}
-                    getScrollTop={getScrollTop}
-                    layoutService={layoutService}
-                    leftDimensionData={leftDimensionData}
-                    showLastBorder={{ right: false, bottom: showLastBottomBorder }}
-                    getLeftGridColumnWidth={getLeftGridColumnWidth}
-                    visibleLeftDimensionInfo={visibleLeftDimensionInfo}
-                    pageInfo={pageInfo}
-                  />
-                </StyledLeftGridContent>
+                <LeftGrid
+                  dataModel={dataModel}
+                  leftGridRef={leftGridRef}
+                  width={leftGridWidth}
+                  height={leftGridHeight}
+                  getScrollTop={getScrollTop}
+                  layoutService={layoutService}
+                  leftDimensionData={leftDimensionData}
+                  showLastBorder={{ right: false, bottom: showLastBottomBorder }}
+                  getLeftGridColumnWidth={getLeftGridColumnWidth}
+                  visibleLeftDimensionInfo={visibleLeftDimensionInfo}
+                  pageInfo={pageInfo}
+                />
               </StyledLeftGrid>
             )}
 
