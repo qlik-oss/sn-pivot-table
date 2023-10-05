@@ -44,9 +44,8 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
     );
   }
 
-  const { qText } = cell.ref;
   const isTotalValueCell = !cell.isNull && isTotalValue(columnIndex, rowIndex);
-  const text = cell.isNull ? layoutService.getNullValueText() : qText;
+  const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
   const isNumeric = cell.isNull ? !Number.isNaN(+text) : true;
   const cellStyle = {
     ...getCellStyle(styleService, cell.isNull, isTotalValueCell, cell.expressionColor.background),
