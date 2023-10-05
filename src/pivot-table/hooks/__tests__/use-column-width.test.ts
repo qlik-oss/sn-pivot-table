@@ -136,16 +136,17 @@ describe("useColumnWidth", () => {
       const { getLeftGridColumnWidth } = renderUseColumnWidth();
       expect(getLeftGridColumnWidth(3)).toBe(60);
     });
-    test("should return left column widths with scaled widths", () => {
+    test("should return the original width of left columns", () => {
       const pixels = 100;
       dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
       const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
 
       const { getLeftGridColumnWidth } = renderUseColumnWidth();
-      expect(getLeftGridColumnWidth(0)).toBe(pixels * 0.75);
-      expect(getLeftGridColumnWidth(1)).toBe(pixels * 0.75);
-      expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsDefault * 0.75);
+
+      expect(getLeftGridColumnWidth(0)).toBe(pixels);
+      expect(getLeftGridColumnWidth(1)).toBe(pixels);
+      expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsDefault);
     });
   });
 
@@ -345,7 +346,7 @@ describe("useColumnWidth", () => {
     });
 
     test("should return false for any icon, b/c estimated text width is greater than colWidth", () => {
-      mockEstimateWidth(300);
+      mockEstimateWidth(100);
       mockMeasureText(150);
 
       const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
@@ -368,7 +369,7 @@ describe("useColumnWidth", () => {
       });
 
       test("should prioritise lock icon over menu, if there is enough space for only one icon", () => {
-        mockEstimateWidth(300);
+        mockEstimateWidth(85);
         mockMeasureText(75);
 
         const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
