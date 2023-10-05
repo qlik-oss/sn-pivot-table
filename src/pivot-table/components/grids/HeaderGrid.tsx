@@ -19,7 +19,7 @@ interface HeaderGridProps {
 
 const containerStyle: React.CSSProperties = {
   display: "grid",
-  background: "red",
+  width: "fit-content",
 };
 
 const HeaderGrid = ({

@@ -35,6 +35,7 @@ interface LeftGridProps {
 const containerStyle: React.CSSProperties = {
   display: "flex",
   height: "fit-content",
+  width: "fit-content",
   borderWidth: "1px 0px 0px 0px",
   ...borderStyle,
 };
