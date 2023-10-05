@@ -1,3 +1,4 @@
+import { getHoverColor as getContrastingColor } from "@qlik/nebula-table-utils/lib/utils";
 import type React from "react";
 import type { ShowLastBorder, StyleService } from "../../../../types/types";
 import { DEFAULT_LINE_CLAMP } from "../../../constants";
@@ -44,17 +45,25 @@ export const selectableCellStyle: React.CSSProperties = {
   cursor: "pointer",
 };
 
+const lockedColorModifiers = { brighter: 0.5, darker: 0.3, opacity: 0.05 };
+
 // Locked background does override any background color set by the user via theming or styling panel
-export const getLockedStyleFromSelection = (originalBackgroundColor?: string): React.CSSProperties => ({
-  background: `repeating-linear-gradient(
-      -45deg,
-      #c8c8c814,
-      #c8c8c814 2px,
-      transparent 2px,
-      transparent 4px
-    ), ${originalBackgroundColor ?? Colors.Transparent}`,
-  color: "#bebebe",
-});
+export const getLockedStyleFromSelection = (originalBackgroundColor?: string): React.CSSProperties => {
+  const strip = originalBackgroundColor
+    ? getContrastingColor(originalBackgroundColor, lockedColorModifiers)
+    : "#c8c8c814";
+
+  return {
+    background: `repeating-linear-gradient(
+        -45deg,
+        ${strip},
+        ${strip} 2px,
+        transparent 2px,
+        transparent 4px
+      ), ${originalBackgroundColor ?? Colors.Transparent}`,
+    color: "#bebebe",
+  };
+};
 
 const cellStyle: React.CSSProperties = {
   display: "flex",
