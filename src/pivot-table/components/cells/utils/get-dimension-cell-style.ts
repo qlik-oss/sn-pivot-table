@@ -56,11 +56,9 @@ export const getLockedStyleFromSelection = (originalBackgroundColor?: string): R
   return {
     background: `repeating-linear-gradient(
         -45deg,
-        ${strip},
-        ${strip} 2px,
-        transparent 2px,
-        transparent 4px
-      ), ${originalBackgroundColor ?? Colors.Transparent}`,
+        ${strip} 0px 2px,
+        ${originalBackgroundColor ?? Colors.Transparent} 0px 4px
+      )`,
     color: "#bebebe",
   };
 };
