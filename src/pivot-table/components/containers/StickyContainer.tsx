@@ -1,9 +1,9 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import type { Rect } from "../../../types/types";
 
 interface StickyContainerProps {
   rect: Rect;
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
   leftColumnsWidth: number;
   rightColumnsWidth: number;
 }
