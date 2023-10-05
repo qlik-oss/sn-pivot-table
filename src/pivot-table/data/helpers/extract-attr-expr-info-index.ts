@@ -1,17 +1,17 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import type { ExtendedMeasureInfo, ExtendedNxAttrExprInfo } from "../../../types/QIX";
-import type { AttrExprInfoIndex, VisibleDimensionInfo } from "../../../types/types";
+import { AttrExprInfoIDs, type AttrExprInfoIndex, type VisibleDimensionInfo } from "../../../types/types";
 
 const extractAttrExprInfoIndex = (info: ExtendedMeasureInfo | VisibleDimensionInfo): AttrExprInfoIndex => {
   if (info === PSEUDO_DIMENSION_INDEX) {
-    return { foregroundColorIdx: -1, backgroundColorIdx: -1 };
+    return { cellForegroundColor: -1, cellBackgroundColor: -1 };
   }
 
   const exprInfo = info.qAttrExprInfo as unknown as ExtendedNxAttrExprInfo[];
-  const foregroundColorIdx = exprInfo.findIndex(({ id }) => id === "cellForegroundColor") as -1 | 0 | 1;
-  const backgroundColorIdx = exprInfo.findIndex(({ id }) => id === "cellBackgroundColor") as -1 | 0 | 1;
+  const cellForegroundColor = exprInfo.findIndex(({ id }) => id === AttrExprInfoIDs.CellForegroundColor.toString());
+  const cellBackgroundColor = exprInfo.findIndex(({ id }) => id === AttrExprInfoIDs.CellBackgroundColor.toString());
 
-  return { foregroundColorIdx, backgroundColorIdx };
+  return { cellForegroundColor, cellBackgroundColor };
 };
 
 export default extractAttrExprInfoIndex;

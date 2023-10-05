@@ -283,9 +283,14 @@ export interface Header {
   isActivelySorted?: boolean;
 }
 
+export enum AttrExprInfoIDs {
+  CellForegroundColor = "cellForegroundColor",
+  CellBackgroundColor = "cellBackgroundColor",
+}
+
 export type AttrExprInfoIndex = {
-  foregroundColorIdx: 0 | 1 | -1;
-  backgroundColorIdx: 0 | 1 | -1;
+  cellForegroundColor: number;
+  cellBackgroundColor: number;
 };
 
 export type AttrExprInfoIndexes = {

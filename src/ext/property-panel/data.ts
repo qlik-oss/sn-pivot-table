@@ -1,6 +1,6 @@
 import { ColumnWidthValues } from "../../pivot-table/hooks/use-column-width";
 import { ColumnWidthType, type DimensionOrMeasureDef } from "../../types/QIX";
-import type { Galaxy } from "../../types/types";
+import { AttrExprInfoIDs, type Galaxy } from "../../types/types";
 
 export interface Args {
   properties: EngineAPI.IGenericHyperCubeProperties;
@@ -20,7 +20,7 @@ const cellColoring = {
       expressionType: "measure",
       translation: "Object.Table.Measure.BackgroundExpression",
       defaultValue: "",
-      id: "cellBackgroundColor",
+      id: AttrExprInfoIDs.CellBackgroundColor,
     },
     {
       component: "expression",
@@ -28,7 +28,7 @@ const cellColoring = {
       expressionType: "measure",
       translation: "Object.Table.Measure.ForegroundExpression",
       defaultValue: "",
-      id: "cellForegroundColor",
+      id: AttrExprInfoIDs.CellForegroundColor,
     },
   ],
 };

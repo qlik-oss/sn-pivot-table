@@ -14,7 +14,7 @@ describe("createCell", () => {
   let x: number;
   let y: number;
   let pageY: number;
-  const attrExprInfoIndex: AttrExprInfoIndex = { foregroundColorIdx: -1, backgroundColorIdx: -1 };
+  const attrExprInfoIndex: AttrExprInfoIndex = { cellForegroundColor: -1, cellBackgroundColor: -1 };
 
   beforeEach(() => {
     dimensionInfo = { qLocked: false } as ExtendedDimensionInfo;

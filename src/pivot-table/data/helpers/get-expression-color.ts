@@ -7,8 +7,8 @@ const getExpressionColor = (
   cell: EngineAPI.INxPivotValuePoint | EngineAPI.INxPivotDimensionCell,
 ) => {
   const attrsExprValues = cell.qAttrExps as unknown as EngineAPI.INxAttributeExpressionValues;
-  const expressionColor = attrsExprValues?.qValues?.[attrsExprInfo.foregroundColorIdx]?.qText;
-  const expressionBackground = attrsExprValues?.qValues?.[attrsExprInfo.backgroundColorIdx]?.qText;
+  const expressionColor = attrsExprValues?.qValues?.[attrsExprInfo.cellForegroundColor]?.qText;
+  const expressionBackground = attrsExprValues?.qValues?.[attrsExprInfo.cellBackgroundColor]?.qText;
 
   const background = expressionBackground ? toRGB(expressionBackground) : null;
   const contrastingColor = !expressionColor && background && isDarkColor(background) ? COLORING.WHITE : null;
