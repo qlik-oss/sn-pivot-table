@@ -85,64 +85,68 @@ export const StickyPivotTable = ({
     <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
       <FullSizeContainer width={totalWidth} height={containerHeight}>
         <StickyContainer rect={tableRect} leftColumnsWidth={leftGridWidth} rightColumnsWidth={rightGridWidth}>
-          <StyledLeftGrid leftGridWidth={leftGridWidth}>
-            <StyledLeftGridContent>
-              <HeaderGrid
-                columnWidthCallback={getLeftGridColumnWidth}
-                getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
-                rowHight={headerCellHeight}
-                headersData={headersData}
-                translator={translator}
-                changeSortOrder={changeSortOrder}
-                changeActivelySortedHeader={changeActivelySortedHeader}
-              />
+          <>
+            {Boolean(leftGridWidth) && (
+              <StyledLeftGrid leftGridWidth={leftGridWidth}>
+                <StyledLeftGridContent>
+                  <HeaderGrid
+                    columnWidthCallback={getLeftGridColumnWidth}
+                    getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
+                    rowHight={headerCellHeight}
+                    headersData={headersData}
+                    translator={translator}
+                    changeSortOrder={changeSortOrder}
+                    changeActivelySortedHeader={changeActivelySortedHeader}
+                  />
 
-              <LeftGrid
+                  <LeftGrid
+                    dataModel={dataModel}
+                    leftGridRef={leftGridRef}
+                    width={leftGridWidth}
+                    height={leftGridHeight}
+                    getScrollTop={getScrollTop}
+                    layoutService={layoutService}
+                    leftDimensionData={leftDimensionData}
+                    showLastBorder={{ right: false, bottom: showLastBottomBorder }}
+                    getLeftGridColumnWidth={getLeftGridColumnWidth}
+                    visibleLeftDimensionInfo={visibleLeftDimensionInfo}
+                    pageInfo={pageInfo}
+                  />
+                </StyledLeftGridContent>
+              </StyledLeftGrid>
+            )}
+
+            <StyledRightGrid rightGridWidth={rightGridWidth}>
+              <TopGrid
                 dataModel={dataModel}
-                leftGridRef={leftGridRef}
-                width={leftGridWidth}
-                height={leftGridHeight}
-                getScrollTop={getScrollTop}
+                topGridRef={topGridRef}
+                rowHightCallback={headerCellRowHightCallback}
+                width={rightGridWidth}
+                height={topGridHeight}
+                getScrollLeft={getScrollLeft}
                 layoutService={layoutService}
-                leftDimensionData={leftDimensionData}
-                showLastBorder={{ right: false, bottom: showLastBottomBorder }}
-                getLeftGridColumnWidth={getLeftGridColumnWidth}
-                visibleLeftDimensionInfo={visibleLeftDimensionInfo}
-                pageInfo={pageInfo}
+                topDimensionData={topDimensionData}
+                showLastBorder={{ right: showLastRightBorder, bottom: false }}
+                getRightGridColumnWidth={getRightGridColumnWidth}
+                visibleTopDimensionInfo={visibleTopDimensionInfo}
               />
-            </StyledLeftGridContent>
-          </StyledLeftGrid>
 
-          <StyledRightGrid rightGridWidth={0}>
-            <TopGrid
-              dataModel={dataModel}
-              topGridRef={topGridRef}
-              rowHightCallback={headerCellRowHightCallback}
-              width={rightGridWidth}
-              height={topGridHeight}
-              getScrollLeft={getScrollLeft}
-              layoutService={layoutService}
-              topDimensionData={topDimensionData}
-              showLastBorder={{ right: showLastRightBorder, bottom: false }}
-              getRightGridColumnWidth={getRightGridColumnWidth}
-              visibleTopDimensionInfo={visibleTopDimensionInfo}
-            />
-
-            <DataGrid
-              dataModel={dataModel}
-              dataGridRef={dataGridRef}
-              rowHightCallback={contentCellRowHightCallback}
-              width={rightGridWidth}
-              height={dataGridHeight}
-              viewService={viewService}
-              layoutService={layoutService}
-              measureData={measureData}
-              leftDimensionData={leftDimensionData}
-              topDimensionData={topDimensionData}
-              showLastBorder={{ right: showLastRightBorder, bottom: showLastBottomBorder }}
-              getRightGridColumnWidth={getRightGridColumnWidth}
-            />
-          </StyledRightGrid>
+              <DataGrid
+                dataModel={dataModel}
+                dataGridRef={dataGridRef}
+                rowHightCallback={contentCellRowHightCallback}
+                width={rightGridWidth}
+                height={dataGridHeight}
+                viewService={viewService}
+                layoutService={layoutService}
+                measureData={measureData}
+                leftDimensionData={leftDimensionData}
+                topDimensionData={topDimensionData}
+                showLastBorder={{ right: showLastRightBorder, bottom: showLastBottomBorder }}
+                getRightGridColumnWidth={getRightGridColumnWidth}
+              />
+            </StyledRightGrid>
+          </>
         </StickyContainer>
       </FullSizeContainer>
     </ScrollableContainer>
