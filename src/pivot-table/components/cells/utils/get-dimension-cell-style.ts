@@ -45,7 +45,7 @@ export const selectableCellStyle: React.CSSProperties = {
   cursor: "pointer",
 };
 
-const lockedColorModifiers = { brighter: 0.5, darker: 0.3, opacity: 0.05 };
+const lockedColorModifiers = { brighter: 0.5, darker: 0.3, opacity: 0.03 };
 
 // Locked background does override any background color set by the user via theming or styling panel
 export const getLockedStyleFromSelection = (originalBackgroundColor?: string): React.CSSProperties => {
