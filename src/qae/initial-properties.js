@@ -109,7 +109,8 @@ const properties = {
 /**
  * Column width info. For the left grid, the properties are always applied.
  * For the right grid, only the leaf nodes will listen to the properties, and the columns above will get the width of the leaves accumulated
- * @typedef {object} ColumnWidth
+ * @name ColumnWidth
+ * @type object
  * @property {('auto' | 'FitToContent' | 'pixels' | 'percentage')} type - Defines how the column width is set. For the right grid, `auto` calculates the width(s) so the total width of the columns equals the right grid width. If the width reaches a minimum value, the columns will overflow. For the left grid, `auto` is N/A and defaults to `fitToContent`. `fitToContent` calculates a width based on the column's content. `pixels` uses a specified pixel value. `percentage` sets the column width to specified percentage of the chart/grid width
  * @property {number=} pixels - Pixel value used if type is `pixels`
  * @property {number=} percentage - Percentage value used if type is `percentage`. Note that for the left grid columns, this is a percentage of the whole chart width. For the right grid columns, it is a percentage of the right grid width
@@ -119,7 +120,8 @@ const properties = {
  * General styling for all columns.
  * Split up into header and content (body) styling.
  * If any property is not set, default values specific for each property is used.
- * @typedef {object} Component
+ * @name Component
+ * @type object
  * @property {string} key - This should be set to `theme`
  * @property {ContentStyling=} content
  * @property {HeaderStyling=} header
@@ -127,7 +129,8 @@ const properties = {
 
 /**
  * Holds properties for font size, font color and hover styling.
- * @typedef {object} ContentStyling
+ * @name ContentStyling
+ * @type object
  * @property {number=} fontSize - Defaults to `14`
  * @property {PaletteColor=} fontColor - Defaults to `#404040`
  * @property {boolean=} hoverEffect - Toggles hover effect
@@ -138,14 +141,16 @@ const properties = {
 
 /**
  * Holds properties for font size and color.
- * @typedef {object} HeaderStyling
+ * @name HeaderStyling
+ * @type object
  * @property {number=} fontSize - Defaults to `14`
  * @property {PaletteColor=} fontColor - Defaults to `#404040`
  */
 
 /**
  * Color information structure. Holds the actual color and index in palette
- * @typedef {object} PaletteColor
+ * @name PaletteColor
+ * @type object
  * @property {string} color - Color as hex string (mandatory if index: -1)
  * @property {number} index - Index in palette
  */
