@@ -311,7 +311,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     styleService.header.columnTitle.background,
     HEADER_MENU_COLOR_MODIFIER.active,
   );
-  console.log("%c styleService", "color: orangered", styleService);
+
   return styleService;
 };
 
