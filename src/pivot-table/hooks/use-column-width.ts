@@ -29,7 +29,6 @@ export interface GetHeaderCellsIconsVisibilityStatus {
 
 interface LeftGridWidthInfo {
   actualColumnWidths: number[];
-  modifiedColumnWidths: number[];
   leftGridWidth: number;
   getLeftGridColumnWidth: (colIdx: number) => number;
 }
@@ -124,23 +123,10 @@ export default function useColumnWidth(
       return width;
     });
 
-    const result: LeftGridWidthInfo = {
-      actualColumnWidths,
-      modifiedColumnWidths: actualColumnWidths,
-      leftGridWidth: sumOfActualWidths,
-      getLeftGridColumnWidth: (idx) => actualColumnWidths[idx],
-    };
-
-    const leftGridMaxWidth = rect.width * LEFT_GRID_MAX_WIDTH_RATIO;
-    if (sumOfActualWidths < leftGridMaxWidth) return result;
-
-    const multiplier = leftGridMaxWidth / sumOfActualWidths;
-    const modifiedColumnWidths = actualColumnWidths.map((w) => w * multiplier);
-
     return {
-      ...result,
-      modifiedColumnWidths,
-      leftGridWidth: leftGridMaxWidth,
+      actualColumnWidths,
+      leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfActualWidths),
+      getLeftGridColumnWidth: (idx) => actualColumnWidths[idx],
     };
   }, [
     visibleLeftDimensionInfo,
