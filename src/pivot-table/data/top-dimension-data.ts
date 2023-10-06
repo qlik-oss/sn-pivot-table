@@ -1,4 +1,4 @@
-import type { LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../types/types";
+import type { AttrExprInfoIndex, LayoutService, TopDimensionData, VisibleDimensionInfo } from "../../types/types";
 import extractTopGrid from "./extract-top";
 import assignDistanceToNextCell from "./helpers/assign-distance-to-next-cell";
 import getTotalDividerIndex from "./helpers/get-total-divider-index";
@@ -8,6 +8,7 @@ export interface AddPageToTopDimensionDataProps {
   nextDataPage: EngineAPI.INxPivotPage;
   layoutService: LayoutService;
   visibleTopDimensionInfo: VisibleDimensionInfo[];
+  attrExprInfoIndexes: AttrExprInfoIndex[];
 }
 
 export const addPageToTopDimensionData = ({
@@ -15,11 +16,12 @@ export const addPageToTopDimensionData = ({
   nextDataPage,
   layoutService,
   visibleTopDimensionInfo,
+  attrExprInfoIndexes,
 }: AddPageToTopDimensionDataProps): TopDimensionData => {
   const { qTop, qArea } = nextDataPage;
   if (!qTop.length) return prevData;
 
-  const grid = extractTopGrid(prevData.grid, qTop, qArea, layoutService, visibleTopDimensionInfo);
+  const grid = extractTopGrid(prevData.grid, qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
   assignDistanceToNextCell(grid, layoutService.size.x);
   const totalDividerIndex = getTotalDividerIndex(grid);
 
@@ -35,9 +37,10 @@ export const createTopDimensionData = (
   dataPage: EngineAPI.INxPivotPage,
   layoutService: LayoutService,
   visibleTopDimensionInfo: VisibleDimensionInfo[],
+  attrExprInfoIndexes: AttrExprInfoIndex[],
 ): TopDimensionData => {
   const { qArea, qTop } = dataPage;
-  const grid = extractTopGrid([], qTop, qArea, layoutService, visibleTopDimensionInfo);
+  const grid = extractTopGrid([], qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
   assignDistanceToNextCell(grid, layoutService.size.x);
   const totalDividerIndex = getTotalDividerIndex(grid);
 

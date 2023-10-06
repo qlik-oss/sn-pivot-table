@@ -176,3 +176,7 @@ interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
 export interface DimensionOrMeasureDef {
   qDef: ExtendedInlineDimensionDef | ExtendedInlineMeasureDef;
 }
+
+export interface ExtendedNxAttrExprInfo extends EngineAPI.INxAttrExprInfo {
+  id: string;
+}

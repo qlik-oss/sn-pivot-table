@@ -14,6 +14,7 @@ import createHeadersData from "../data/headers-data";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../data/left-dimension-data";
 import { addPageToMeasureData, createMeasureData } from "../data/measure-data";
 import { addPageToTopDimensionData, createTopDimensionData } from "../data/top-dimension-data";
+import useAttrExprInfoIndexes from "./use-attr-expr-info-indexes";
 
 const useData = (
   qPivotDataPages: EngineAPI.INxPivotPage[],
@@ -25,39 +26,65 @@ const useData = (
   const { qHyperCube } = layoutService.layout;
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
 
+  const attrExprInfoIndexes = useAttrExprInfoIndexes(
+    visibleLeftDimensionInfo,
+    visibleTopDimensionInfo,
+    layoutService.layout.qHyperCube.qMeasureInfo,
+  );
+
   const deriveMeasureDataFromProps = useCallback(
     () =>
-      qPivotDataPages
-        .slice(1)
-        .reduce(
-          (prevData, nextDataPage) => addPageToMeasureData({ prevData, nextDataPage, pageInfo }),
-          createMeasureData(qPivotDataPages[0], pageInfo),
-        ),
-    [qPivotDataPages, pageInfo],
+      qPivotDataPages.slice(1).reduce(
+        (prevData, nextDataPage) =>
+          addPageToMeasureData({
+            prevData,
+            dataPage: nextDataPage,
+            pageInfo,
+            attrExprInfoIndexes: attrExprInfoIndexes.measures,
+            layoutService,
+          }),
+        createMeasureData(qPivotDataPages[0], pageInfo, attrExprInfoIndexes.measures, layoutService),
+      ),
+    [qPivotDataPages, pageInfo, attrExprInfoIndexes, layoutService],
   );
 
   const deriveTopDimensionDataFromProps = useCallback(
     () =>
-      qPivotDataPages
-        .slice(1)
-        .reduce(
-          (prevData, nextDataPage) =>
-            addPageToTopDimensionData({ prevData, nextDataPage, layoutService, visibleTopDimensionInfo }),
-          createTopDimensionData(qPivotDataPages[0], layoutService, visibleTopDimensionInfo),
-        ),
-    [layoutService, qPivotDataPages, visibleTopDimensionInfo],
+      qPivotDataPages.slice(1).reduce(
+        (prevData, nextDataPage) =>
+          addPageToTopDimensionData({
+            prevData,
+            nextDataPage,
+            layoutService,
+            visibleTopDimensionInfo,
+            attrExprInfoIndexes: attrExprInfoIndexes.top,
+          }),
+        createTopDimensionData(qPivotDataPages[0], layoutService, visibleTopDimensionInfo, attrExprInfoIndexes.top),
+      ),
+    [layoutService, qPivotDataPages, visibleTopDimensionInfo, attrExprInfoIndexes],
   );
 
   const deriveLeftDimensionDataFromProps = useCallback(
     () =>
-      qPivotDataPages
-        .slice(1)
-        .reduce(
-          (prevData, nextDataPage) =>
-            addPageToLeftDimensionData({ prevData, nextDataPage, pageInfo, layoutService, visibleLeftDimensionInfo }),
-          createLeftDimensionData(qPivotDataPages[0], layoutService, pageInfo, visibleLeftDimensionInfo),
+      qPivotDataPages.slice(1).reduce(
+        (prevData, nextDataPage) =>
+          addPageToLeftDimensionData({
+            prevData,
+            nextDataPage,
+            pageInfo,
+            layoutService,
+            visibleLeftDimensionInfo,
+            attrExprInfoIndexes: attrExprInfoIndexes.left,
+          }),
+        createLeftDimensionData(
+          qPivotDataPages[0],
+          layoutService,
+          pageInfo,
+          visibleLeftDimensionInfo,
+          attrExprInfoIndexes.left,
         ),
-    [qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo],
+      ),
+    [qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, attrExprInfoIndexes],
   );
 
   const [measureData, setMeasureData] = useState<MeasureData>(() => deriveMeasureDataFromProps());
@@ -80,9 +107,23 @@ const useData = (
 
   useOnPropsChange(() => {
     if (!nextPage) return;
-    setMeasureData((prevData) => addPageToMeasureData({ prevData, nextDataPage: nextPage, pageInfo }));
+    setMeasureData((prevData) =>
+      addPageToMeasureData({
+        prevData,
+        dataPage: nextPage,
+        pageInfo,
+        attrExprInfoIndexes: attrExprInfoIndexes.measures,
+        layoutService,
+      }),
+    );
     setTopDimensionData((prevData) =>
-      addPageToTopDimensionData({ prevData, nextDataPage: nextPage, layoutService, visibleTopDimensionInfo }),
+      addPageToTopDimensionData({
+        prevData,
+        nextDataPage: nextPage,
+        layoutService,
+        visibleTopDimensionInfo,
+        attrExprInfoIndexes: attrExprInfoIndexes.top,
+      }),
     );
     setLeftDimensionData((prevData) =>
       addPageToLeftDimensionData({
@@ -91,6 +132,7 @@ const useData = (
         pageInfo,
         layoutService,
         visibleLeftDimensionInfo,
+        attrExprInfoIndexes: attrExprInfoIndexes.left,
       }),
     );
     // we dont need dependency of pageInfo

@@ -1,5 +1,12 @@
 import NxDimCellType from "../../../types/QIX";
-import type { Cell, Grid, LayoutService, PageInfo, VisibleDimensionInfo } from "../../../types/types";
+import type {
+  AttrExprInfoIndex,
+  Cell,
+  Grid,
+  LayoutService,
+  PageInfo,
+  VisibleDimensionInfo,
+} from "../../../types/types";
 import extractLeftGrid from "../extract-left";
 import { addPageToLeftDimensionData, createLeftDimensionData } from "../left-dimension-data";
 
@@ -32,6 +39,7 @@ describe("left dimension data", () => {
     },
   } as unknown as LayoutService;
   const visibleLeftDimensionInfo: VisibleDimensionInfo[] = [];
+  const attrExprInfoIndexes: AttrExprInfoIndex[] = [];
 
   beforeEach(() => {
     jest.resetAllMocks();
@@ -41,7 +49,13 @@ describe("left dimension data", () => {
     test("should return correct data", () => {
       const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractLeft.mockReturnValue(mockedReturnValue);
-      const data = createLeftDimensionData(dataPage, layoutService, pageInfo, visibleLeftDimensionInfo);
+      const data = createLeftDimensionData(
+        dataPage,
+        layoutService,
+        pageInfo,
+        visibleLeftDimensionInfo,
+        attrExprInfoIndexes,
+      );
 
       expect(mockedExtractLeft).toHaveBeenCalledWith(
         [],
@@ -50,6 +64,7 @@ describe("left dimension data", () => {
         pageInfo,
         layoutService,
         visibleLeftDimensionInfo,
+        attrExprInfoIndexes,
       );
       expect(data.grid).toEqual(mockedReturnValue);
       expect(data.columnCount).toEqual(1);
@@ -60,7 +75,13 @@ describe("left dimension data", () => {
     test("should add page to data", () => {
       const nextLeft = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractLeft.mockReturnValue(nextLeft);
-      const prevData = createLeftDimensionData(dataPage, layoutService, pageInfo, visibleLeftDimensionInfo);
+      const prevData = createLeftDimensionData(
+        dataPage,
+        layoutService,
+        pageInfo,
+        visibleLeftDimensionInfo,
+        attrExprInfoIndexes,
+      );
       const nextDataPage = {
         qLeft: [{}],
         qArea: {
@@ -74,6 +95,7 @@ describe("left dimension data", () => {
         pageInfo,
         layoutService,
         visibleLeftDimensionInfo,
+        attrExprInfoIndexes,
       });
 
       expect(mockedExtractLeft).toHaveBeenCalledWith(
@@ -83,6 +105,7 @@ describe("left dimension data", () => {
         pageInfo,
         layoutService,
         visibleLeftDimensionInfo,
+        attrExprInfoIndexes,
       );
       expect(nextData.grid).toEqual(nextLeft);
       expect(nextData.columnCount).toEqual(1);
@@ -91,7 +114,13 @@ describe("left dimension data", () => {
     test("should return previous page if qLeft is an empty array", () => {
       const nextLeft = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractLeft.mockReturnValue(nextLeft);
-      const prevData = createLeftDimensionData(dataPage, layoutService, pageInfo, visibleLeftDimensionInfo);
+      const prevData = createLeftDimensionData(
+        dataPage,
+        layoutService,
+        pageInfo,
+        visibleLeftDimensionInfo,
+        attrExprInfoIndexes,
+      );
       const nextDataPage = {
         qLeft: [],
         qArea: {
@@ -105,6 +134,7 @@ describe("left dimension data", () => {
         pageInfo,
         layoutService,
         visibleLeftDimensionInfo,
+        attrExprInfoIndexes,
       });
 
       expect(nextData).toBe(prevData);

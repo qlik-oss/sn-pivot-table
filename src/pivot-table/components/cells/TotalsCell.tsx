@@ -55,10 +55,21 @@ const TotalsCell = ({
         ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
         ...serviceStyle,
         ...totalCellDividerStyle,
+        ...(cell.expressionColor.background && { background: cell.expressionColor.background }),
       }}
       data-testid={testId}
     >
-      <div style={{ ...labelTextStyle, ...stickyCell, fontSize, fontFamily }}>{cell.ref.qText}</div>
+      <div
+        style={{
+          ...labelTextStyle,
+          ...stickyCell,
+          ...(cell.expressionColor.color && { color: cell.expressionColor.color }),
+          fontSize,
+          fontFamily,
+        }}
+      >
+        {cell.ref.qText}
+      </div>
     </div>
   );
 };

@@ -1,41 +1,97 @@
-import type { MeasureData, PageInfo } from "../../types/types";
+import NxDimCellType from "../../types/QIX";
+import type { AttrExprInfoIndex, LayoutService, MeasureData, PageInfo } from "../../types/types";
+import getExpressionColor from "./helpers/get-expression-color";
 
-const createNewGrid = (
-  qArea: EngineAPI.IRect,
-  prevData: EngineAPI.INxPivotValuePoint[][],
-  nextData: EngineAPI.INxPivotValuePoint[][],
-  pageInfo: PageInfo,
-) => {
+export interface AddPageToMeasureDataProps {
+  prevData: MeasureData;
+  dataPage: EngineAPI.INxPivotPage;
+  pageInfo: PageInfo;
+  attrExprInfoIndexes: AttrExprInfoIndex[];
+  layoutService: LayoutService;
+}
+
+interface CreateGridProps {
+  qArea: EngineAPI.IRect;
+  prevData: MeasureData;
+  pivotValuePoints: EngineAPI.INxPivotValuePoint[][];
+  pageInfo: PageInfo;
+  attrExprInfoIndexes: AttrExprInfoIndex[];
+  hasPseudoDimOnLeft: boolean;
+}
+
+const createNewGrid = ({
+  qArea,
+  prevData,
+  pivotValuePoints,
+  pageInfo,
+  attrExprInfoIndexes,
+  hasPseudoDimOnLeft,
+}: CreateGridProps) => {
+  const measureCount = attrExprInfoIndexes.length;
   const data = [...prevData];
-  nextData.forEach((row, rowIndex) => {
-    row.forEach((cell, colIndex) => {
+
+  pivotValuePoints.forEach((row, rowIndex) => {
+    row.forEach((node, colIndex) => {
       const topIdx = qArea.qTop - pageInfo.page * pageInfo.rowsPerPage;
-      if (!Array.isArray(data[topIdx + rowIndex])) {
-        data[topIdx + rowIndex] = [];
+      const pageRowIndex = topIdx + rowIndex;
+      const columnIndex = qArea.qLeft + colIndex;
+
+      if (!Array.isArray(data[pageRowIndex])) {
+        data[pageRowIndex] = [];
       }
-      data[topIdx + rowIndex][qArea.qLeft + colIndex] = cell;
+
+      const isNull = node.qType === NxDimCellType.NX_DIM_CELL_NULL;
+      const measureInfoIndex = hasPseudoDimOnLeft ? pageRowIndex % measureCount : columnIndex % measureCount;
+
+      // If cell already exist do not create a new cell
+      data[pageRowIndex][columnIndex] = data[pageRowIndex][columnIndex] ?? {
+        ref: node,
+        isNull,
+        expressionColor: getExpressionColor(attrExprInfoIndexes[measureInfoIndex], node),
+      };
     });
   });
 
   return data;
 };
 
-export interface AddPageToMeasureDataProps {
-  prevData: MeasureData;
-  nextDataPage: EngineAPI.INxPivotPage;
-  pageInfo: PageInfo;
-}
+export const addPageToMeasureData = ({
+  prevData,
+  dataPage,
+  pageInfo,
+  attrExprInfoIndexes,
+  layoutService,
+}: AddPageToMeasureDataProps): MeasureData => {
+  const { qData, qArea } = dataPage;
+  const { hasPseudoDimOnLeft } = layoutService;
 
-export const addPageToMeasureData = ({ prevData, nextDataPage, pageInfo }: AddPageToMeasureDataProps): MeasureData => {
-  const { qData, qArea } = nextDataPage;
   if (!qData.length) return prevData;
 
-  return createNewGrid(qArea, prevData, qData as unknown as EngineAPI.INxPivotValuePoint[][], pageInfo);
+  return createNewGrid({
+    qArea,
+    prevData,
+    pivotValuePoints: qData as unknown as EngineAPI.INxPivotValuePoint[][],
+    pageInfo,
+    attrExprInfoIndexes,
+    hasPseudoDimOnLeft,
+  });
 };
 
-export const createMeasureData = (dataPage: EngineAPI.INxPivotPage, pageInfo: PageInfo): MeasureData => {
+export const createMeasureData = (
+  dataPage: EngineAPI.INxPivotPage,
+  pageInfo: PageInfo,
+  attrExprInfoIndexes: AttrExprInfoIndex[],
+  layoutService: LayoutService,
+): MeasureData => {
   const { qData, qArea } = dataPage;
-  const grid = qData as unknown as EngineAPI.INxPivotValuePoint[][];
+  const { hasPseudoDimOnLeft } = layoutService;
 
-  return createNewGrid(qArea, [], grid, pageInfo);
+  return createNewGrid({
+    qArea,
+    prevData: [],
+    pivotValuePoints: qData as unknown as EngineAPI.INxPivotValuePoint[][],
+    pageInfo,
+    attrExprInfoIndexes,
+    hasPseudoDimOnLeft,
+  });
 };

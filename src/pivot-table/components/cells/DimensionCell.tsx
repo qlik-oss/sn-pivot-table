@@ -108,6 +108,7 @@ const DimensionCell = ({
     qCanCollapse,
     isCellSelected,
     isNull: cell.isNull,
+    expressionColor: cell.expressionColor.color,
   });
   const resolvedInnerContainerStyle = getInnerContainerStyle(isLeftColumn);
   const resolvedContainerStyle = getContainerStyle({
@@ -122,16 +123,16 @@ const DimensionCell = ({
     isLeftColumn,
     showLastBorder,
     showTotalCellDivider: !layoutService.showTotalsAbove && showTotalCellDivider,
+    expressionBackground: cell.expressionColor.background,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);
   const text = cell.isNull ? layoutService.getNullValueText() : qText;
-  const serviceStyle = isLeftColumn ? styleService.rowContent : styleService.columnContent;
   let cellIcon = null;
 
   if (qCanExpand) {
     cellIcon = (
       <PlusIcon
-        color={cell.isNull ? serviceStyle.nullValue.color : serviceStyle.color}
+        color={resolvedTextStyle.color as string}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdExpandIcon}
         onClick={createOnExpand({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, interactions, isActive })}
@@ -140,7 +141,7 @@ const DimensionCell = ({
   } else if (qCanCollapse) {
     cellIcon = (
       <MinusIcon
-        color={cell.isNull ? serviceStyle.nullValue.color : serviceStyle.color}
+        color={resolvedTextStyle.color as string}
         opacity={isActive ? 0.4 : 1.0}
         testid={testIdCollapseIcon}
         onClick={createOnCollapse({ dataModel, isLeftColumn, rowIndex: cell.y, colIndex, interactions, isActive })}
