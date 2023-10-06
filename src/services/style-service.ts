@@ -2,6 +2,7 @@ import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-exten
 import { getHoverColor } from "@qlik/nebula-table-utils/lib/utils";
 import { Colors } from "../pivot-table/components/shared-styles";
 import {
+  BOLD_FONT_WEIGHT,
   CELL_PADDING_HEIGHT,
   DEFAULT_CELL_HEIGHT,
   DEFAULT_FONT_FAMILY,
@@ -10,7 +11,7 @@ import {
   DEFAULT_LINE_CLAMP,
   LINE_HEIGHT_COEFFICIENT,
 } from "../pivot-table/constants";
-import type { PaletteColor } from "../types/QIX";
+import type { FontStyleOptions, PaletteColor } from "../types/QIX";
 import type { LayoutService, StyleService } from "../types/types";
 
 const BASE_PATH = "object.pivotTableV2";
@@ -64,19 +65,19 @@ const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) =>
 const fontSizeToCellHeight = (fontSize: string, lineClamp: number) =>
   +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
 
-const resolveFontWeight = (fontStyle: string[] | undefined) => {
-  if (fontStyle === undefined) {
-    return "600";
+const resolveFontWeight = (fontStyleOptions: FontStyleOptions[] | undefined) => {
+  if (fontStyleOptions === undefined) {
+    return BOLD_FONT_WEIGHT;
   }
 
-  return fontStyle.some((value) => value === "bold") ? "600" : "normal";
+  return fontStyleOptions.some((value) => value === "bold") ? BOLD_FONT_WEIGHT : "normal";
 };
 
-const resolveFontStyle = (fontStyle: string[] | undefined) =>
-  fontStyle?.some((value) => value === "italic") ? "italic" : "normal";
+const resolveFontStyle = (fontStyleOptions: FontStyleOptions[] | undefined) =>
+  fontStyleOptions?.some((value) => value === "italic") ? "italic" : "normal";
 
-const resolveTextDecoration = (fontStyle: string[] | undefined) =>
-  fontStyle?.some((value) => value === "underline") ? "underline" : "none";
+const resolveTextDecoration = (fontStyleOptions: FontStyleOptions[] | undefined) =>
+  fontStyleOptions?.some((value) => value === "underline") ? "underline" : "none";
 
 /**
  * creates the styling based on layout, theme and default values - in that order

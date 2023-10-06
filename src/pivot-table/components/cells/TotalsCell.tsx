@@ -1,5 +1,6 @@
 import React from "react";
 import type { Cell, ShowLastBorder } from "../../../types/types";
+import { BOLD_FONT_WEIGHT } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
   getBorderStyle,
@@ -22,7 +23,7 @@ interface LabelCellProps {
 
 const labelTextStyle: React.CSSProperties = {
   ...textStyle,
-  fontWeight: "600",
+  fontWeight: BOLD_FONT_WEIGHT,
 };
 
 export const testId = "totals-cell";

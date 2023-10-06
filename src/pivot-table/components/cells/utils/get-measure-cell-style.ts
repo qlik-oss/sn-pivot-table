@@ -1,4 +1,5 @@
 import type { StyleService } from "../../../../types/types";
+import { BOLD_FONT_WEIGHT } from "../../../constants";
 import { getLineClampStyle, textStyle } from "../../shared-styles";
 
 const numericStyle: React.CSSProperties = {
@@ -36,7 +37,7 @@ export const getCellStyle = (styleService: StyleService, isNull: boolean, isTota
       ...numericStyle,
       color: styleService.content.totalValue.color,
       background: styleService.content.totalValue.background,
-      fontWeight: "600",
+      fontWeight: BOLD_FONT_WEIGHT,
     };
   }
 
