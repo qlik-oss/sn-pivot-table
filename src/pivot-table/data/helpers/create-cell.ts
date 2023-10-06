@@ -1,6 +1,7 @@
 import NxDimCellType from "../../../types/QIX";
-import type { Cell, VisibleDimensionInfo } from "../../../types/types";
+import type { AttrExprInfoIndex, Cell, VisibleDimensionInfo } from "../../../types/types";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../constants";
+import getExpressionColor from "./get-expression-color";
 
 // qElemNo === -1 => Total
 // qElemNo === -2 => Null
@@ -50,6 +51,7 @@ const createCell = (
   pageY: number,
   isSnapshot: boolean,
   dimensionInfo: VisibleDimensionInfo,
+  attrExprInfoIndex: AttrExprInfoIndex,
   isLeftColumn = true,
 ): Cell => {
   const cell = {
@@ -81,6 +83,7 @@ const createCell = (
     isEmpty: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
     isNull: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
     isPseudoDimension: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
+    expressionColor: getExpressionColor(attrExprInfoIndex, node),
   };
 
   if (parent) {

@@ -24,7 +24,7 @@ export type HeaderCell = {
   isActivelySorted: boolean;
 };
 
-export type MeasureData = EngineAPI.INxPivotValuePoint[][];
+export type MeasureData = MeasureCell[][];
 
 export type VisibleDimensionInfo = ExtendedDimensionInfo | -1;
 
@@ -57,7 +57,7 @@ export interface ShowLastBorder {
 }
 
 export interface GridItemData extends ItemData {
-  grid: EngineAPI.INxPivotValuePoint[][];
+  grid: MeasureCell[][];
   isLeftColumn?: boolean;
   showLastBorder: ShowLastBorder;
   isTotalValue: (x: number, y: number) => boolean;
@@ -93,6 +93,13 @@ export interface Cell {
   isPseudoDimension: boolean;
   isLockedByDimension: boolean;
   isLeafNode: boolean;
+  expressionColor: ExpressionColor;
+}
+
+export interface MeasureCell {
+  ref: EngineAPI.INxPivotValuePoint;
+  isNull: boolean;
+  expressionColor: ExpressionColor;
 }
 
 export interface PivotDataSize {
@@ -279,6 +286,27 @@ export interface Header {
   qReverseSort?: boolean;
   isActivelySorted?: boolean;
 }
+
+export enum AttrExprInfoIDs {
+  CellForegroundColor = "cellForegroundColor",
+  CellBackgroundColor = "cellBackgroundColor",
+}
+
+export type AttrExprInfoIndex = {
+  cellForegroundColor: number;
+  cellBackgroundColor: number;
+};
+
+export type AttrExprInfoIndexes = {
+  left: AttrExprInfoIndex[];
+  top: AttrExprInfoIndex[];
+  measures: AttrExprInfoIndex[];
+};
+
+export type ExpressionColor = {
+  color: string | null;
+  background: string | null;
+};
 
 export type Align = "left" | "center" | "right";
 export type SortDirection = "A" | "D";

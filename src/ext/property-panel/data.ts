@@ -1,6 +1,6 @@
 import { ColumnWidthValues } from "../../pivot-table/hooks/use-column-width";
 import { ColumnWidthType, type DimensionOrMeasureDef } from "../../types/QIX";
-import type { Galaxy } from "../../types/types";
+import { AttrExprInfoIDs, type Galaxy } from "../../types/types";
 
 export interface Args {
   properties: EngineAPI.IGenericHyperCubeProperties;
@@ -8,6 +8,30 @@ export interface Args {
 
 const TOTAL_MODE_OFF = "TOTAL_OFF";
 const TOTAL_MODE_EXPR = "TOTAL_EXPR";
+
+const cellColoring = {
+  component: "attribute-expression-reference",
+  defaultValue: [],
+  ref: "qAttributeExpressions",
+  items: [
+    {
+      component: "expression",
+      ref: "qExpression",
+      expressionType: "measure",
+      translation: "Object.Table.Measure.BackgroundExpression",
+      defaultValue: "",
+      id: AttrExprInfoIDs.CellBackgroundColor,
+    },
+    {
+      component: "expression",
+      ref: "qExpression",
+      expressionType: "measure",
+      translation: "Object.Table.Measure.ForegroundExpression",
+      defaultValue: "",
+      id: AttrExprInfoIDs.CellForegroundColor,
+    },
+  ],
+};
 
 function isTotalsVisible(itemData: EngineAPI.IHyperCubeDimensionDef, _: unknown, args: Args): boolean {
   // always visible if qIndentMode is not enabled
@@ -188,6 +212,7 @@ const createData = (env: Galaxy): Record<string, any> => {
               return typeof val === "string" && val.trim().length > 0;
             },
           },
+          cellColoring,
           ...columnResize,
         },
       },
@@ -227,6 +252,7 @@ const createData = (env: Galaxy): Record<string, any> => {
             type: "string",
             show: false,
           },
+          cellColoring,
           ...columnResize,
           // numberFormatting: TODO
         },
