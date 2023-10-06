@@ -194,9 +194,12 @@ export interface PageInfo {
   rowsOnCurrentPage: number;
 }
 
-interface FontStyling {
+export interface FontStyling {
   fontSize: string;
   fontFamily: string;
+  fontWeight: "600" | "normal";
+  fontStyle: "italic" | "normal";
+  textDecoration: "underline" | "none";
   color: string;
 }
 
@@ -215,20 +218,21 @@ interface ColumnTitleStyling extends CellStyling {
   activeBackground: string;
 }
 
-interface HeaderStyling extends Pick<FontStyling, "fontSize" | "fontFamily"> {
+interface HeaderStyling
+  extends Pick<FontStyling, "fontSize" | "fontFamily" | "fontWeight" | "fontStyle" | "textDecoration"> {
   background: string;
   rowTitle: RowTitleStyling;
   columnTitle: ColumnTitleStyling;
 }
 
-interface MeasureContentStyling extends FontStyling {
+interface MeasureContentStyling extends Pick<FontStyling, "fontSize" | "fontFamily" | "color"> {
   background: string;
   nullValue: CellStyling;
   totalValue: CellStyling;
   lineClamp: number;
 }
 
-interface DimensionContentStyling extends FontStyling {
+interface DimensionContentStyling extends Pick<FontStyling, "fontSize" | "fontFamily" | "color"> {
   background: string;
   nullValue: CellStyling;
   totalLabel: CellStyling;

@@ -57,6 +57,7 @@ export interface Component {
   header: {
     fontFamily?: string;
     fontSize?: string;
+    fontStyle: ("bold" | "italic" | "underscore")[];
     background?: PaletteColor;
     rowTitle?: ComponentCellStyling;
     columnTitle?: ComponentCellStyling;

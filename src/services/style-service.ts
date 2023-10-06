@@ -46,6 +46,7 @@ enum Attribute {
   FontSize = "fontSize",
   FontFamily = "fontFamily",
   FontColor = "fontColor",
+  FontStyle = "fontStyle",
   Color = "color",
   CellHeight = "cellHeight",
   Background = "background",
@@ -62,6 +63,20 @@ const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) =>
 
 const fontSizeToCellHeight = (fontSize: string, lineClamp: number) =>
   +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
+
+const resolveFontWeight = (fontStyle: string[] | undefined) => {
+  if (fontStyle === undefined) {
+    return "600";
+  }
+
+  return fontStyle.some((value) => value === "bold") ? "600" : "normal";
+};
+
+const resolveFontStyle = (fontStyle: string[] | undefined) =>
+  fontStyle?.some((value) => value === "italic") ? "italic" : "normal";
+
+const resolveTextDecoration = (fontStyle: string[] | undefined) =>
+  fontStyle?.some((value) => value === "underline") ? "underline" : "none";
 
 /**
  * creates the styling based on layout, theme and default values - in that order
@@ -91,6 +106,9 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         headerStyling?.[Attribute.FontFamily] ??
         getThemeStyle([Path.Header], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
+      fontWeight: resolveFontWeight(headerStyling?.[Attribute.FontStyle]),
+      fontStyle: resolveFontStyle(headerStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(headerStyling?.[Attribute.FontStyle]),
       background:
         resolveColor(theme, headerStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.Header], Attribute.Background) ??
@@ -292,7 +310,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     styleService.header.columnTitle.background,
     HEADER_MENU_COLOR_MODIFIER.active,
   );
-
+  console.log("%c styleService", "color: orangered", styleService);
   return styleService;
 };
 

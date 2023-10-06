@@ -29,6 +29,9 @@ const TestWithProvider = (props: Props) => {
       header: {
         fontSize: "12px",
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
         background: "transparent",
         rowTitle: {
           color: "#404040",

@@ -35,6 +35,7 @@ describe("style-service", () => {
               fontSize,
               fontFamily,
               fontColor: { index: -1, color },
+              fontStyle: ["bold", "italic", "underline"],
               background: { index: -1, color },
               rowTitle: {
                 fontColor: { index: -1, color },
@@ -114,6 +115,9 @@ describe("style-service", () => {
       header: {
         fontSize: `${fontSize}px`,
         fontFamily,
+        fontWeight: "600",
+        fontStyle: "italic",
+        textDecoration: "underline",
         background: color,
         rowTitle: {
           color,
@@ -197,6 +201,9 @@ describe("style-service", () => {
       header: {
         fontSize: "18px",
         fontFamily: "18px",
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
         background: "18px",
         rowTitle: {
           color: "18px",
@@ -257,6 +264,9 @@ describe("style-service", () => {
       header: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
         background: "transparent",
         rowTitle: {
           color: "#404040",
