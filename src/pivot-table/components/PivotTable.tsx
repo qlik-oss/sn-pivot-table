@@ -62,11 +62,10 @@ export const StickyPivotTable = ({
   });
 
   const {
-    leftGridWidth,
+    leftGridWidthInfo: { getLeftGridColumnWidth, leftGridWidth },
     rightGridWidth,
     totalWidth,
     showLastRightBorder,
-    getLeftGridColumnWidth,
     getRightGridColumnWidth,
     getHeaderCellsIconsVisibilityStatus,
   } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);

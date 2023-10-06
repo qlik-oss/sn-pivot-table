@@ -85,7 +85,9 @@ describe("useColumnWidth", () => {
       mockEstimateWidth(width);
       mockMeasureText(width);
 
-      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      const {
+        leftGridWidthInfo: { getLeftGridColumnWidth },
+      } = renderUseColumnWidth();
       expect(getLeftGridColumnWidth(0)).toBe(width + EXPAND_ICON_WIDTH);
       expect(getLeftGridColumnWidth(1)).toBe(width + EXPAND_ICON_WIDTH);
       expect(getLeftGridColumnWidth(2)).toBe(width + TOTAL_CELL_PADDING);
@@ -100,7 +102,9 @@ describe("useColumnWidth", () => {
       const dimInfoWithNaN = { columnWidth: { type: ColumnWidthType.Pixels, pixels: NaN } } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
 
-      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      const {
+        leftGridWidthInfo: { getLeftGridColumnWidth },
+      } = renderUseColumnWidth();
       expect(getLeftGridColumnWidth(0)).toBe(pixels);
       expect(getLeftGridColumnWidth(1)).toBe(ColumnWidthValues.PixelsDefault);
       expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PixelsDefault);
@@ -115,7 +119,9 @@ describe("useColumnWidth", () => {
       } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
 
-      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      const {
+        leftGridWidthInfo: { getLeftGridColumnWidth },
+      } = renderUseColumnWidth();
       expect(getLeftGridColumnWidth(0)).toBe(percentage * percentageConversion);
       expect(getLeftGridColumnWidth(1)).toBe(ColumnWidthValues.PercentageDefault * percentageConversion);
       expect(getLeftGridColumnWidth(2)).toBe(ColumnWidthValues.PercentageDefault * percentageConversion);
@@ -133,7 +139,9 @@ describe("useColumnWidth", () => {
         { columnWidth: { type: ColumnWidthType.Pixels, pixels: 60 } } as ExtendedMeasureInfo,
       ];
 
-      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      const {
+        leftGridWidthInfo: { getLeftGridColumnWidth },
+      } = renderUseColumnWidth();
       expect(getLeftGridColumnWidth(3)).toBe(60);
     });
     test("should return the original width of left columns", () => {
@@ -142,7 +150,9 @@ describe("useColumnWidth", () => {
       const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
 
-      const { getLeftGridColumnWidth } = renderUseColumnWidth();
+      const {
+        leftGridWidthInfo: { getLeftGridColumnWidth },
+      } = renderUseColumnWidth();
 
       expect(getLeftGridColumnWidth(0)).toBe(pixels);
       expect(getLeftGridColumnWidth(1)).toBe(pixels);
@@ -303,7 +313,12 @@ describe("useColumnWidth", () => {
     });
     test("should return grid and total widths when sum of all widths is rect.width", () => {
       // The right side columns will default to auto, hence filling up the remaining space
-      const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
+      const {
+        leftGridWidthInfo: { leftGridWidth },
+        rightGridWidth,
+        totalWidth,
+        showLastRightBorder,
+      } = renderUseColumnWidth();
       expect(leftGridWidth).toBe(150);
       expect(rightGridWidth).toBe(249);
       expect(totalWidth).toBe(rect.width);
@@ -314,7 +329,12 @@ describe("useColumnWidth", () => {
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 100 } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
-      const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
+      const {
+        leftGridWidthInfo: { leftGridWidth },
+        rightGridWidth,
+        totalWidth,
+        showLastRightBorder,
+      } = renderUseColumnWidth();
       expect(leftGridWidth).toBe(150);
       expect(rightGridWidth).toBe(249);
       expect(totalWidth).toBe(451);
@@ -325,7 +345,12 @@ describe("useColumnWidth", () => {
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 40 } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
-      const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
+      const {
+        leftGridWidthInfo: { leftGridWidth },
+        rightGridWidth,
+        totalWidth,
+        showLastRightBorder,
+      } = renderUseColumnWidth();
       expect(leftGridWidth).toBe(150);
       expect(rightGridWidth).toBe(120);
       expect(totalWidth).toBe(271);
