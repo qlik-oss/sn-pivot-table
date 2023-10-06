@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import type { Cell, Grid, LayoutService, PageInfo, VisibleDimensionInfo } from "../../types/types";
+import type { AttrExprInfoIndex, Cell, Grid, LayoutService, PageInfo, VisibleDimensionInfo } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
 const extractLeftGrid = (
@@ -10,6 +10,7 @@ const extractLeftGrid = (
   pageInfo: PageInfo,
   layoutService: LayoutService,
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
+  attrExprInfoIndexes: AttrExprInfoIndex[],
 ): Grid => {
   if (!qLeft.length) {
     return grid;
@@ -47,6 +48,7 @@ const extractLeftGrid = (
           pageY,
           layoutService.isSnapshot,
           visibleLeftDimensionInfo[colIdx],
+          attrExprInfoIndexes[colIdx],
           true,
         );
 

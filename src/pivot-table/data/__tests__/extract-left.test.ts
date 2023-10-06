@@ -1,10 +1,11 @@
 import NxDimCellType from "../../../types/QIX";
-import type { Cell, LayoutService, PageInfo, VisibleDimensionInfo } from "../../../types/types";
+import type { AttrExprInfoIndex, Cell, LayoutService, PageInfo, VisibleDimensionInfo } from "../../../types/types";
 import extractLeftGrid from "../extract-left";
 import createNodes from "./test-helper";
 
 describe("extractLeftGrid", () => {
   let layoutService: LayoutService;
+  const attrExprInfoIndexes: AttrExprInfoIndex[] = [];
   const visibleLeftDimensionInfo: VisibleDimensionInfo[] = [];
   const qArea = { qTop: 1 } as EngineAPI.INxDataAreaPage;
   const grid = [] as Cell[][];
@@ -22,7 +23,15 @@ describe("extractLeftGrid", () => {
   test("should handle empty qLeft array", () => {
     const qLeft: EngineAPI.INxPivotDimensionCell[] = [];
 
-    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
+    const left = extractLeftGrid(
+      grid,
+      qLeft,
+      qArea,
+      pageInfo,
+      layoutService,
+      visibleLeftDimensionInfo,
+      attrExprInfoIndexes,
+    );
 
     expect(left).toHaveLength(0);
   });
@@ -30,7 +39,15 @@ describe("extractLeftGrid", () => {
   test("should extract left data with no nodes expanded", () => {
     const rowCount = 3;
     const qLeft = createNodes(rowCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
+    const left = extractLeftGrid(
+      grid,
+      qLeft,
+      qArea,
+      pageInfo,
+      layoutService,
+      visibleLeftDimensionInfo,
+      attrExprInfoIndexes,
+    );
 
     expect(left).toMatchSnapshot();
   });
@@ -42,7 +59,15 @@ describe("extractLeftGrid", () => {
     const subNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
     qLeft[0].qSubNodes = subNodes;
     qLeft[0].qCanCollapse = true;
-    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
+    const left = extractLeftGrid(
+      grid,
+      qLeft,
+      qArea,
+      pageInfo,
+      layoutService,
+      visibleLeftDimensionInfo,
+      attrExprInfoIndexes,
+    );
 
     expect(left).toMatchSnapshot();
   });
@@ -64,7 +89,15 @@ describe("extractLeftGrid", () => {
     qLeft[2].qSubNodes[1].qSubNodes = createNodes(subNodesCount, NxDimCellType.NX_DIM_CELL_NORMAL);
     qLeft[2].qSubNodes[1].qCanCollapse = true;
 
-    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
+    const left = extractLeftGrid(
+      grid,
+      qLeft,
+      qArea,
+      pageInfo,
+      layoutService,
+      visibleLeftDimensionInfo,
+      attrExprInfoIndexes,
+    );
 
     expect(left).toMatchSnapshot();
   });
@@ -73,7 +106,15 @@ describe("extractLeftGrid", () => {
     layoutService.isSnapshot = true;
     const rowCount = 3;
     const qLeft = createNodes(rowCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    const left = extractLeftGrid(grid, qLeft, qArea, pageInfo, layoutService, visibleLeftDimensionInfo);
+    const left = extractLeftGrid(
+      grid,
+      qLeft,
+      qArea,
+      pageInfo,
+      layoutService,
+      visibleLeftDimensionInfo,
+      attrExprInfoIndexes,
+    );
 
     expect(left).toMatchSnapshot();
   });

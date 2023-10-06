@@ -23,8 +23,7 @@ const createLayoutService = (
     layout,
     getNullValueText: () => nullValueRepresentation?.text ?? "-",
     getMeasureInfoIndexFromCellIndex: (index: number) => {
-      const pIndex = qEffectiveInterColumnSortOrder.findIndex((num) => num === PSEUDO_DIMENSION_INDEX);
-      if (pIndex < qNoOfLeftDims) {
+      if (hasPseudoDimOnLeft) {
         return 0;
       }
 

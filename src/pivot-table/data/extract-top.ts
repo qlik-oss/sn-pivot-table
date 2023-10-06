@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import type { Cell, Grid, LayoutService, VisibleDimensionInfo } from "../../types/types";
+import type { AttrExprInfoIndex, Cell, Grid, LayoutService, VisibleDimensionInfo } from "../../types/types";
 import createCell from "./helpers/create-cell";
 
 const extractTopGrid = (
@@ -9,6 +9,7 @@ const extractTopGrid = (
   qArea: EngineAPI.INxDataAreaPage,
   layoutService: LayoutService,
   visibleTopDimensionInfo: VisibleDimensionInfo[],
+  attrExprInfoIndexes: AttrExprInfoIndex[],
 ): Grid => {
   if (!qTop.length) {
     return grid;
@@ -41,6 +42,7 @@ const extractTopGrid = (
           rowIdx,
           layoutService.isSnapshot,
           visibleTopDimensionInfo[rowIdx],
+          attrExprInfoIndexes[rowIdx],
           false,
         );
 

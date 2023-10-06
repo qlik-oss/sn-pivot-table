@@ -1,3 +1,4 @@
+import { getHoverColor as getContrastingColor } from "@qlik/nebula-table-utils/lib/utils";
 import type React from "react";
 import type { ShowLastBorder, StyleService } from "../../../../types/types";
 import { DEFAULT_LINE_CLAMP } from "../../../constants";
@@ -17,6 +18,7 @@ interface GetTextStyle {
   qCanCollapse: boolean;
   isCellSelected: boolean;
   isNull: boolean;
+  expressionColor: string | null;
 }
 
 interface GetContainerStyle {
@@ -31,6 +33,7 @@ interface GetContainerStyle {
   isLeftColumn: boolean;
   showLastBorder: ShowLastBorder;
   showTotalCellDivider: boolean;
+  expressionBackground: string | null;
 }
 
 export const selectedStyle: React.CSSProperties = {
@@ -42,17 +45,23 @@ export const selectableCellStyle: React.CSSProperties = {
   cursor: "pointer",
 };
 
+const lockedColorModifiers = { brighter: 0.5, darker: 0.3, opacity: 0.03 };
+
 // Locked background does override any background color set by the user via theming or styling panel
-export const getLockedStyleFromSelection = (originalBackgroundColor?: string): React.CSSProperties => ({
-  background: `repeating-linear-gradient(
-      -45deg,
-      #c8c8c814,
-      #c8c8c814 2px,
-      transparent 2px,
-      transparent 4px
-    ), ${originalBackgroundColor ?? Colors.Transparent}`,
-  color: "#bebebe",
-});
+export const getLockedStyleFromSelection = (originalBackgroundColor?: string): React.CSSProperties => {
+  const strip = originalBackgroundColor
+    ? getContrastingColor(originalBackgroundColor, lockedColorModifiers)
+    : "#c8c8c814";
+
+  return {
+    background: `repeating-linear-gradient(
+        -45deg,
+        ${strip} 0px 2px,
+        ${originalBackgroundColor ?? Colors.Transparent} 0px 4px
+      )`,
+    color: "#bebebe",
+  };
+};
 
 const cellStyle: React.CSSProperties = {
   display: "flex",
@@ -73,9 +82,13 @@ export const getContainerStyle = ({
   isLeftColumn,
   showLastBorder,
   showTotalCellDivider,
+  expressionBackground,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
-  const { nullValue, background } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
+  const { nullValue, background: styleServiceBackground } = isLeftColumn
+    ? styleService.rowContent
+    : styleService.columnContent;
+  const background = expressionBackground ?? styleServiceBackground;
   const resolvedLockedSelectionStyle = isCellLocked ? getLockedStyleFromSelection(background) : {};
   const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
   const resolvedNullStyle = isNull ? nullValue : { background };
@@ -109,6 +122,7 @@ export const getTextStyle = ({
   qCanExpand,
   isCellSelected,
   isNull,
+  expressionColor,
 }: GetTextStyle): React.CSSProperties => {
   const { nullValue, totalLabel, measureLabel, background, ...serviceStyle } = isLeftColumn
     ? styleService.rowContent
@@ -117,6 +131,7 @@ export const getTextStyle = ({
   return {
     ...serviceStyle,
     ...textStyle,
+    ...(expressionColor && { color: expressionColor }),
     ...(isNull && { color: nullValue.color }),
     ...(isCellSelected && { color: selectedStyle.color }),
     fontWeight: qCanExpand || qCanCollapse ? "600" : undefined,
