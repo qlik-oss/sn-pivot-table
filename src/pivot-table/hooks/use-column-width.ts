@@ -28,7 +28,7 @@ export interface GetHeaderCellsIconsVisibilityStatus {
 }
 
 interface LeftGridWidthInfo {
-  actualColumnWidths: number[];
+  columnWidths: number[];
   leftGridWidth: number;
   getLeftGridColumnWidth: (colIdx: number) => number;
 }
@@ -95,9 +95,9 @@ export default function useColumnWidth(
       }
     };
 
-    let sumOfActualWidths = 0;
+    let sumOfWidths = 0;
 
-    const actualColumnWidths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+    const columnWidths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
       let width: number;
 
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
@@ -119,14 +119,14 @@ export default function useColumnWidth(
         width = getColumnWidth(columnWidth, fitToContentWidth);
       }
 
-      sumOfActualWidths += width;
+      sumOfWidths += width;
       return width;
     });
 
     return {
-      actualColumnWidths,
-      leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfActualWidths),
-      getLeftGridColumnWidth: (idx) => actualColumnWidths[idx],
+      columnWidths,
+      leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
+      getLeftGridColumnWidth: (idx) => columnWidths[idx],
     };
   }, [
     visibleLeftDimensionInfo,
@@ -141,7 +141,7 @@ export default function useColumnWidth(
 
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
-      const colWidth = leftGridWidthInfo.actualColumnWidths[idx];
+      const colWidth = leftGridWidthInfo.columnWidths[idx];
       let shouldShowMenuIcon = false;
       let shouldShowLockIcon = false;
       const measuredTextForHeader = measureTextForHeader(title);
