@@ -13,23 +13,34 @@ const contentSection = (translator: stardust.Translator) => ({
       ref: "components",
       key: "theme",
       items: {
-        fontSize: createFontSizeItem({
-          ref: "content.fontSize",
-          themeAccessor: (currentTheme) =>
-            currentTheme.object?.pivotTableV2?.content?.fontSize ?? currentTheme.fontSize,
-          translator,
-        }),
         fontFamily: createFontFamilyItem({
           ref: "content.fontFamily",
           themeAccessor: (currentTheme) =>
             currentTheme.object?.pivotTableV2?.content?.fontFamily ?? currentTheme.fontFamily,
           translator,
         }),
-        fontColor: createColorPickerItem(
-          "content.fontColor",
-          "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.color ?? currentTheme.color,
-        ),
+        fontWrapperItem: {
+          component: "inline-wrapper",
+          items: {
+            fontStyle: {
+              component: "font-style-buttons",
+              width: false,
+              ref: "content.fontStyle",
+              defaultValue: [],
+            },
+            fontSize: createFontSizeItem({
+              ref: "content.fontSize",
+              themeAccessor: (currentTheme) =>
+                currentTheme.object?.pivotTableV2?.content?.fontSize ?? currentTheme.fontSize,
+              translator,
+            }),
+            fontColor: createColorPickerItem(
+              "content.fontColor",
+              undefined,
+              (currentTheme) => currentTheme.object?.pivotTableV2?.content?.color ?? currentTheme.color,
+            ),
+          },
+        },
         background: createColorPickerItem(
           "content.background",
           "properties.background",

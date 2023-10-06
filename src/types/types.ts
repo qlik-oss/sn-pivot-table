@@ -232,14 +232,14 @@ interface HeaderStyling
   columnTitle: ColumnTitleStyling;
 }
 
-interface MeasureContentStyling extends Pick<FontStyling, "fontSize" | "fontFamily" | "color"> {
+interface MeasureContentStyling extends FontStyling {
   background: string;
   nullValue: CellStyling;
   totalValue: CellStyling;
   lineClamp: number;
 }
 
-interface DimensionContentStyling extends Pick<FontStyling, "fontSize" | "fontFamily" | "color"> {
+interface DimensionContentStyling extends FontStyling {
   background: string;
   nullValue: CellStyling;
   totalLabel: CellStyling;

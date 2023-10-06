@@ -68,6 +68,7 @@ export interface Component {
     fontFamily?: string;
     fontSize?: string;
     fontColor?: PaletteColor;
+    fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
     lineClamp?: number;
     nullValue?: ComponentCellStyling;
@@ -77,6 +78,7 @@ export interface Component {
     fontFamily?: string;
     fontSize?: string;
     fontColor?: PaletteColor;
+    fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
     nullValue?: ComponentCellStyling;
     totalLabel?: ComponentCellStyling;
@@ -86,6 +88,7 @@ export interface Component {
     fontFamily?: string;
     fontSize?: string;
     fontColor?: PaletteColor;
+    fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
     nullValue?: ComponentCellStyling;
     totalLabel?: ComponentCellStyling;

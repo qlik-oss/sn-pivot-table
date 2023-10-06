@@ -42,7 +42,6 @@ export const getCellStyle = (
       ...numericStyle,
       color: styleService.content.totalValue.color,
       background: expressionBackground ?? styleService.content.totalValue.background,
-      fontWeight: BOLD_FONT_WEIGHT,
     };
   }
 
@@ -53,8 +52,22 @@ export const getCellStyle = (
   };
 };
 
-export const getTextStyle = (styleService: StyleService, expressionColor: string | null, isNumeric: boolean) => {
-  const { fontFamily, fontSize } = styleService.content;
+export const getTextStyle = (
+  styleService: StyleService,
+  expressionColor: string | null,
+  isNumeric: boolean,
+  isTotalValue: boolean,
+  isNull: boolean,
+) => {
+  const { fontFamily, fontSize, fontWeight, fontStyle, textDecoration } = styleService.content;
+  const omitFontStyling = isTotalValue || isNull;
+  let cellFontWeight = fontWeight;
+
+  if (isTotalValue) {
+    cellFontWeight = BOLD_FONT_WEIGHT;
+  } else if (isNull) {
+    cellFontWeight = "normal";
+  }
 
   return {
     ...textStyle,
@@ -63,5 +76,8 @@ export const getTextStyle = (styleService: StyleService, expressionColor: string
     alignSelf: "flex-start",
     fontFamily,
     fontSize,
+    fontWeight: cellFontWeight,
+    fontStyle: omitFontStyling ? undefined : fontStyle,
+    textDecoration: omitFontStyling ? undefined : textDecoration,
   };
 };

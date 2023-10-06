@@ -124,7 +124,7 @@ export const getTextStyle = ({
   isNull,
   expressionColor,
 }: GetTextStyle): React.CSSProperties => {
-  const { nullValue, totalLabel, measureLabel, background, ...serviceStyle } = isLeftColumn
+  const { nullValue, totalLabel, measureLabel, background, fontWeight, ...serviceStyle } = isLeftColumn
     ? styleService.rowContent
     : styleService.columnContent;
 
@@ -134,7 +134,9 @@ export const getTextStyle = ({
     ...(expressionColor && { color: expressionColor }),
     ...(isNull && { color: nullValue.color }),
     ...(isCellSelected && { color: selectedStyle.color }),
-    fontWeight: qCanExpand || qCanCollapse ? "600" : undefined,
+    // fontWeight coming from Styling panel is undefined when the user have not
+    // explicity set it to bold or normal
+    fontWeight: fontWeight === undefined && (qCanExpand || qCanCollapse) ? "600" : fontWeight,
     overflow: "hidden",
     textOverflow: "ellipsis",
     ...getLineClampStyle(isLeftColumn ? styleService.content.lineClamp : DEFAULT_LINE_CLAMP),

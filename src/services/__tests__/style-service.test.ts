@@ -49,6 +49,7 @@ describe("style-service", () => {
             content: {
               fontSize,
               fontFamily,
+              fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
               nullValue: {
@@ -63,6 +64,7 @@ describe("style-service", () => {
             rowContent: {
               fontSize,
               fontFamily,
+              fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
               nullValue: {
@@ -81,6 +83,7 @@ describe("style-service", () => {
             columnContent: {
               fontSize,
               fontFamily,
+              fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
               nullValue: {
@@ -135,6 +138,9 @@ describe("style-service", () => {
       content: {
         fontSize: `${fontSize}px`,
         fontFamily,
+        fontWeight: "600",
+        fontStyle: "italic",
+        textDecoration: "underline",
         color,
         background: color,
         lineClamp,
@@ -150,6 +156,9 @@ describe("style-service", () => {
       rowContent: {
         fontSize: `${fontSize}px`,
         fontFamily,
+        fontWeight: "600",
+        fontStyle: "italic",
+        textDecoration: "underline",
         color,
         background: color,
         nullValue: {
@@ -168,6 +177,9 @@ describe("style-service", () => {
       columnContent: {
         fontSize: `${fontSize}px`,
         fontFamily,
+        fontWeight: "600",
+        fontStyle: "italic",
+        textDecoration: "underline",
         color,
         background: color,
         nullValue: {
@@ -221,6 +233,9 @@ describe("style-service", () => {
       content: {
         fontSize: "18px",
         fontFamily: "18px",
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "18px",
         background: "18px",
         lineClamp,
@@ -230,6 +245,9 @@ describe("style-service", () => {
       rowContent: {
         fontSize: "18px",
         fontFamily: "18px",
+        fontWeight: undefined,
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "18px",
         background: "18px",
         nullValue: { color: "18px", background: "18px" },
@@ -239,6 +257,9 @@ describe("style-service", () => {
       columnContent: {
         fontSize: "18px",
         fontFamily: "18px",
+        fontWeight: undefined,
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "18px",
         background: "18px",
         nullValue: { color: "18px", background: "18px" },
@@ -284,6 +305,9 @@ describe("style-service", () => {
       content: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "rgba(0, 0, 0, 0.55)",
         background: "transparent",
         lineClamp: 1,
@@ -293,6 +317,9 @@ describe("style-service", () => {
       rowContent: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
+        fontWeight: undefined,
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "#404040",
         background: "transparent",
         nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
@@ -302,6 +329,9 @@ describe("style-service", () => {
       columnContent: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
+        fontWeight: undefined,
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "#404040",
         background: "transparent",
         nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },

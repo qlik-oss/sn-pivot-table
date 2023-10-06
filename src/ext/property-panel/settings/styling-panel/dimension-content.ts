@@ -13,22 +13,34 @@ const getDimensionSection = (type: "rowContent" | "columnContent", translator: s
       ref: "components",
       key: "theme",
       items: {
-        fontSize: createFontSizeItem({
-          ref: `${type}.fontSize`,
-          themeAccessor: (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.fontSize ?? currentTheme.fontSize,
-          translator,
-        }),
         fontFamily: createFontFamilyItem({
           ref: `${type}.fontFamily`,
           themeAccessor: (currentTheme) =>
             currentTheme.object?.pivotTableV2?.[type]?.fontFamily ?? currentTheme.fontFamily,
           translator,
         }),
-        fontColor: createColorPickerItem(
-          `${type}.fontColor`,
-          "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.color ?? currentTheme.color,
-        ),
+        fontWrapperItem: {
+          component: "inline-wrapper",
+          items: {
+            fontStyle: {
+              component: "font-style-buttons",
+              width: false,
+              ref: `${type}.fontStyle`,
+              defaultValue: [],
+            },
+            fontSize: createFontSizeItem({
+              ref: `${type}.fontSize`,
+              themeAccessor: (currentTheme) =>
+                currentTheme.object?.pivotTableV2?.[type]?.fontSize ?? currentTheme.fontSize,
+              translator,
+            }),
+            fontColor: createColorPickerItem(
+              `${type}.fontColor`,
+              undefined,
+              (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.color ?? currentTheme.color,
+            ),
+          },
+        },
         background: createColorPickerItem(
           `${type}.background`,
           "properties.background",

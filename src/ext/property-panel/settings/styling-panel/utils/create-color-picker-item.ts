@@ -1,6 +1,10 @@
 import type { Args, CurrentTheme } from "../../../../../types/QIX";
 
-const createColorPickerItem = (ref: string, translation: string, themeAccessor: (theme: CurrentTheme) => string) => ({
+const createColorPickerItem = (
+  ref: string,
+  translation: string | undefined,
+  themeAccessor: (theme: CurrentTheme) => string,
+) => ({
   ref,
   translation,
   dualOutput: true,

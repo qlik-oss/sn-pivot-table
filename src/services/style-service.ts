@@ -65,9 +65,15 @@ const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) =>
 const fontSizeToCellHeight = (fontSize: string, lineClamp: number) =>
   +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
 
-const resolveFontWeight = (fontStyleOptions: FontStyleOptions[] | undefined) => {
+// defaultValue should be undefined for the "third" state where font weight is "bold" for
+// a node that can be expanded/collapsed and "normal" if it can not.
+// TODO does not work if the use have selected any of the other options, like italic or underline.
+const resolveFontWeight = (
+  fontStyleOptions: FontStyleOptions[] | undefined,
+  defaultValue: "600" | "normal" | undefined,
+) => {
   if (fontStyleOptions === undefined) {
-    return BOLD_FONT_WEIGHT;
+    return defaultValue;
   }
 
   return fontStyleOptions.some((value) => value === "bold") ? BOLD_FONT_WEIGHT : "normal";
@@ -107,7 +113,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         headerStyling?.[Attribute.FontFamily] ??
         getThemeStyle([Path.Header], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(headerStyling?.[Attribute.FontStyle]),
+      fontWeight: resolveFontWeight(headerStyling?.[Attribute.FontStyle], BOLD_FONT_WEIGHT),
       fontStyle: resolveFontStyle(headerStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(headerStyling?.[Attribute.FontStyle]),
       background:
@@ -144,6 +150,9 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         contentStyling?.[Attribute.FontFamily] ??
         getThemeStyle([Path.Content], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
+      fontWeight: resolveFontWeight(contentStyling?.[Attribute.FontStyle], "normal"),
+      fontStyle: resolveFontStyle(contentStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(contentStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, contentStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.Content], Attribute.Color) ??
@@ -183,6 +192,9 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         rowContentStyling?.[Attribute.FontFamily] ??
         getThemeStyle([Path.RowContent], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
+      fontWeight: resolveFontWeight(rowContentStyling?.[Attribute.FontStyle], undefined),
+      fontStyle: resolveFontStyle(rowContentStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(rowContentStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, rowContentStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.RowContent], Attribute.Color) ??
@@ -231,6 +243,9 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         columnContentStyling?.[Attribute.FontFamily] ??
         getThemeStyle([Path.ColumnContent], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
+      fontWeight: resolveFontWeight(columnContentStyling?.[Attribute.FontStyle], undefined),
+      fontStyle: resolveFontStyle(columnContentStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(columnContentStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, columnContentStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.ColumnContent], Attribute.Color) ??

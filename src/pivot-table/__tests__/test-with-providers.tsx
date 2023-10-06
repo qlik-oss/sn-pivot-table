@@ -49,6 +49,9 @@ const TestWithProvider = (props: Props) => {
       content: {
         fontSize: "12px",
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "contentColor",
         background: "contentBackground",
         lineClamp: 1,
@@ -64,6 +67,9 @@ const TestWithProvider = (props: Props) => {
       rowContent: {
         fontSize: "12px",
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "#404040",
         background: "transparent",
         nullValue: {
@@ -82,6 +88,9 @@ const TestWithProvider = (props: Props) => {
       columnContent: {
         fontSize: "12px",
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "#404040",
         background: "transparent",
         nullValue: {
