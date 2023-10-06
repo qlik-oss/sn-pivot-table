@@ -62,7 +62,8 @@ export const StickyPivotTable = ({
   });
 
   const {
-    leftGridWidthInfo: { getLeftGridColumnWidth, leftGridWidth },
+    leftGridWidth,
+    leftGridColumnWidths,
     rightGridWidth,
     totalWidth,
     showLastRightBorder,
@@ -87,7 +88,7 @@ export const StickyPivotTable = ({
           {Boolean(leftGridWidth) && (
             <div style={getLeftGridStyles(leftGridWidth)}>
               <HeaderGrid
-                columnWidthCallback={getLeftGridColumnWidth}
+                columnWidths={leftGridColumnWidths}
                 getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
                 rowHight={headerCellHeight}
                 height={topGridHeight}
@@ -102,11 +103,11 @@ export const StickyPivotTable = ({
                 leftGridRef={leftGridRef}
                 width={leftGridWidth}
                 height={leftGridHeight}
+                columnWidths={leftGridColumnWidths}
                 getScrollTop={getScrollTop}
                 layoutService={layoutService}
                 leftDimensionData={leftDimensionData}
                 showLastBorder={{ right: false, bottom: showLastBottomBorder }}
-                getLeftGridColumnWidth={getLeftGridColumnWidth}
                 visibleLeftDimensionInfo={visibleLeftDimensionInfo}
                 pageInfo={pageInfo}
               />

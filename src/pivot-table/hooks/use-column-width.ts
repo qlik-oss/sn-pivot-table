@@ -7,8 +7,7 @@ import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
-interface ColumnWidthHook {
-  leftGridWidthInfo: LeftGridWidthInfo;
+interface ColumnWidthHook extends LeftGridWidthInfo {
   rightGridWidth: number;
   totalWidth: number;
   showLastRightBorder: boolean;
@@ -28,9 +27,8 @@ export interface GetHeaderCellsIconsVisibilityStatus {
 }
 
 interface LeftGridWidthInfo {
-  columnWidths: number[];
   leftGridWidth: number;
-  getLeftGridColumnWidth: (colIdx: number) => number;
+  leftGridColumnWidths: number[];
 }
 
 export const EXPAND_ICON_WIDTH = 30;
@@ -124,9 +122,8 @@ export default function useColumnWidth(
     });
 
     return {
-      columnWidths,
       leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
-      getLeftGridColumnWidth: (idx) => columnWidths[idx],
+      leftGridColumnWidths: columnWidths,
     };
   }, [
     visibleLeftDimensionInfo,
@@ -141,7 +138,7 @@ export default function useColumnWidth(
 
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
-      const colWidth = leftGridWidthInfo.columnWidths[idx];
+      const colWidth = leftGridWidthInfo.leftGridColumnWidths[idx];
       let shouldShowMenuIcon = false;
       let shouldShowLockIcon = false;
       const measuredTextForHeader = measureTextForHeader(title);
@@ -295,7 +292,7 @@ export default function useColumnWidth(
   const showLastRightBorder = useMemo(() => totalWidth < rect.width, [totalWidth, rect.width]);
 
   return {
-    leftGridWidthInfo,
+    ...leftGridWidthInfo,
     rightGridWidth,
     totalWidth,
     showLastRightBorder,

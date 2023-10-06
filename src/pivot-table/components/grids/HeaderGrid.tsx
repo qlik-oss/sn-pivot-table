@@ -7,7 +7,7 @@ import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
 interface HeaderGridProps {
-  columnWidthCallback: (index: number) => number;
+  columnWidths: number[];
   rowHight: number;
   headersData: HeadersData;
   translator: stardust.Translator;
@@ -23,7 +23,7 @@ const containerStyle: React.CSSProperties = {
 };
 
 const HeaderGrid = ({
-  columnWidthCallback,
+  columnWidths,
   rowHight,
   headersData,
   translator,
@@ -39,7 +39,6 @@ const HeaderGrid = ({
   }
 
   const hasMultipleRows = headersData.size.y > 1;
-  const columnWidths = headersData.data.map((_, colIndex) => columnWidthCallback(colIndex));
 
   return (
     <div
