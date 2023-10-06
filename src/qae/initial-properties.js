@@ -76,28 +76,32 @@ const properties = {
 
 /**
  * Extends `NxDimension`, see Engine API: `NxDimension`
- * @typedef {object} DimensionProperties
+ * @name DimensionProperties
+ * @type object
  * @extends NxDimension
  * @property {InlineDimensionDef} qDef
  */
 
 /**
  * Extends `NxMeasure`, see Engine API: `NxMeasure`
- * @typedef {object} MeasureProperties
+ * @name MeasureProperties
+ * @type object
  * @extends NxMeasure
- * @property {InlineMeasureDef} qDef
+ * @property {InlineMeasureDef} qDefs
  */
 
 /**
  * Extends `NxInlineDimensionDef`, see Engine API: `NxInlineDimensionDef`.
- * @typedef {object} InlineDimensionDef
+ * @name InlineDimensionDef
+ * @type object
  * @extends NxInlineDimensionDef
  * @property {ColumnWidth=} columnWidth
  */
 
 /**
  * Extends `NxInlineMeasureDef`, see Engine API: `NxInlineMeasureDef`.
- * @typedef {object} InlineMeasureDef
+ * @name InlineMeasureDef
+ * @type object
  * @extends NxInlineMeasureDef
  * @property {ColumnWidth=} columnWidth
  */
