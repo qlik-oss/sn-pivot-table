@@ -141,7 +141,6 @@ describe("useColumnWidth", () => {
       dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
       const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
-
       const { leftGridColumnWidths } = renderUseColumnWidth();
 
       expect(leftGridColumnWidths[0]).toBe(pixels);
