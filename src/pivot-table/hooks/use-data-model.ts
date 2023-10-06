@@ -1,17 +1,30 @@
 /*  eslint-disable no-param-reassign */
 import { useCallback, useMemo } from "react";
 import { Q_PATH } from "../../constants";
-import type { Model } from "../../types/QIX";
-import type { DataModel, ExpandOrCollapser, FetchMoreData, PageInfo } from "../../types/types";
+import type { ColumnWidth, Model } from "../../types/QIX";
+import {
+  type ApplyColumnWidth,
+  type DataModel,
+  type ExpandOrCollapser,
+  type FetchMoreData,
+  type LayoutService,
+  type PageInfo,
+} from "../../types/types";
 import useMutableProp from "./use-mutable-prop";
 
 export interface UseDataModelProps {
   model: Model;
   nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
   pageInfo: PageInfo;
+  layoutService: LayoutService;
 }
 
-export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDataModelProps): DataModel {
+export default function useDataModel({
+  model,
+  nextPageHandler,
+  pageInfo,
+  layoutService,
+}: UseDataModelProps): DataModel {
   const currentPage = useMutableProp(pageInfo.page);
   const genericObjectModel = model as EngineAPI.IGenericObject | undefined;
 
@@ -68,6 +81,35 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
     [genericObjectModel, nextPageHandler, pageInfo, currentPage],
   );
 
+  const applyColumnWidth = useCallback<ApplyColumnWidth>(
+    (newColumnWidth: ColumnWidth, colIndex: number) => {
+      // const index = isDim ? colIdx : colIdx - qHyperCube.qDimensionInfo.length;
+      // const qPath = `/qHyperCubeDef/${isDim ? "qDimensions" : "qMeasures"}/${index}/qDef/columnWidth`;
+      const qPath = `/qHyperCubeDef/qDimensions/${colIndex}/qDef/columnWidth`;
+      const oldColumnWidth = layoutService.layout.qHyperCube["qDimensionInfo"][colIndex].columnWidth;
+
+      const patch = oldColumnWidth
+        ? {
+            qPath,
+            qOp: "Replace" as EngineAPI.NxPatchOpType,
+            qValue: JSON.stringify({ ...oldColumnWidth, ...newColumnWidth }),
+          }
+        : {
+            qPath,
+            qOp: "Add" as EngineAPI.NxPatchOpType,
+            qValue: JSON.stringify(newColumnWidth),
+          };
+
+      // typescript doesn't like unresolved promises, so we have to do a no-op then
+      // there is nothing that needs to happen after this, so no need for the function to be async
+      model?.applyPatches([patch], true).then(
+        () => {},
+        () => {},
+      );
+    },
+    [model, layoutService],
+  );
+
   const dataModel = useMemo<DataModel>(
     () => ({
       fetchMoreData,
@@ -75,8 +117,9 @@ export default function useDataModel({ model, nextPageHandler, pageInfo }: UseDa
       collapseTop,
       expandLeft,
       expandTop,
+      applyColumnWidth,
     }),
-    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop],
+    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop, applyColumnWidth],
   );
 
   return dataModel;

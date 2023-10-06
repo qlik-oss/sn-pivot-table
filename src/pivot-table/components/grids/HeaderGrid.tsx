@@ -1,12 +1,19 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
-import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell, HeadersData } from "../../../types/types";
+import type {
+  ChangeActivelySortedHeader,
+  ChangeSortOrder,
+  DataModel,
+  HeaderCell,
+  HeadersData,
+} from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import type { GetHeaderCellsIconsVisibilityStatus } from "../../hooks/use-column-width";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
 interface HeaderGridProps {
+  dataModel: DataModel;
   columnWidthCallback: (index: number) => number;
   rowHight: number;
   headersData: HeadersData;
@@ -22,6 +29,7 @@ const containerStyle: React.CSSProperties = {
 };
 
 const HeaderGrid = ({
+  dataModel,
   columnWidthCallback,
   rowHight,
   headersData,

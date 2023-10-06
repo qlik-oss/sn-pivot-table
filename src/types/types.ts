@@ -1,7 +1,9 @@
 import type { stardust } from "@nebula.js/stardust";
-import type { ExtendedDimensionInfo, PivotLayout } from "./QIX";
+import type { ColumnWidth, ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
+
+export type ApplyColumnWidth = (ColumnWidth: ColumnWidth, columnIndex: number) => void;
 
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
@@ -44,6 +46,7 @@ export interface DataModel {
   collapseTop: ExpandOrCollapser;
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
+  applyColumnWidth: ApplyColumnWidth;
 }
 
 export interface ItemData {
