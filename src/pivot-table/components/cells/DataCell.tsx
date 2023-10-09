@@ -68,9 +68,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
       data-col-index={columnIndex}
     >
       <div style={cellStyle}>
-        <span style={getTextStyle(styleService, cell.expressionColor.color, isNumeric, isTotalValueCell, cell.isNull)}>
-          {text}
-        </span>
+        <span style={getTextStyle(styleService, cell.expressionColor.color, isNumeric, isTotalValueCell)}>{text}</span>
       </div>
     </div>
   );

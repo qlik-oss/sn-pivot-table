@@ -41,17 +41,12 @@ const PseudoDimensionCell = ({
   showTotalCellDivider,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
-  const serviceStyle = isLeftColumn
-    ? {
-        fontSize: styleService.rowContent.fontSize,
-        fontFamily: styleService.rowContent.fontFamily,
-        ...styleService.rowContent.measureLabel,
-      }
-    : {
-        fontSize: styleService.columnContent.fontSize,
-        fontFamily: styleService.columnContent.fontFamily,
-        ...styleService.columnContent.measureLabel,
-      };
+  const { fontSize, fontFamily, fontWeight, fontStyle, textDecoration } = isLeftColumn
+    ? styleService.rowContent
+    : styleService.columnContent;
+  const measureLabelStyle = isLeftColumn
+    ? styleService.rowContent.measureLabel
+    : styleService.columnContent.measureLabel;
   const containerStyle = isLeftColumn ? leftContainerCellStyle : topContainerCellStyle;
   const totalCellDividerStyle = getTotalCellDividerStyle({
     bottomDivider: showTotalCellDivider && isLeftColumn,
@@ -68,11 +63,23 @@ const PseudoDimensionCell = ({
         ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
         ...totalCellDividerStyle,
         ...containerStyle,
-        ...serviceStyle,
+        ...measureLabelStyle,
       }}
       data-testid={testId}
     >
-      <div style={{ ...getTextStyle(lineClamp), ...stickyCell }}>{cell.ref.qText}</div>
+      <div
+        style={{
+          ...getTextStyle(lineClamp),
+          ...stickyCell,
+          fontSize,
+          fontFamily,
+          fontWeight,
+          fontStyle,
+          textDecoration,
+        }}
+      >
+        {cell.ref.qText}
+      </div>
     </div>
   );
 };

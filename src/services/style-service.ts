@@ -150,7 +150,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         contentStyling?.[Attribute.FontFamily] ??
         getThemeStyle([Path.Content], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(contentStyling?.[Attribute.FontStyle], "normal"),
+      fontWeight: resolveFontWeight(contentStyling?.[Attribute.FontStyle], undefined),
       fontStyle: resolveFontStyle(contentStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(contentStyling?.[Attribute.FontStyle]),
       color:

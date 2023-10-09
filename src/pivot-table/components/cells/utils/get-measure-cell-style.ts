@@ -57,17 +57,8 @@ export const getTextStyle = (
   expressionColor: string | null,
   isNumeric: boolean,
   isTotalValue: boolean,
-  isNull: boolean,
 ) => {
   const { fontFamily, fontSize, fontWeight, fontStyle, textDecoration } = styleService.content;
-  const omitFontStyling = isTotalValue || isNull;
-  let cellFontWeight = fontWeight;
-
-  if (isTotalValue) {
-    cellFontWeight = BOLD_FONT_WEIGHT;
-  } else if (isNull) {
-    cellFontWeight = "normal";
-  }
 
   return {
     ...textStyle,
@@ -76,8 +67,8 @@ export const getTextStyle = (
     alignSelf: "flex-start",
     fontFamily,
     fontSize,
-    fontWeight: cellFontWeight,
-    fontStyle: omitFontStyling ? undefined : fontStyle,
-    textDecoration: omitFontStyling ? undefined : textDecoration,
+    fontWeight: isTotalValue && fontWeight === undefined ? BOLD_FONT_WEIGHT : fontWeight,
+    fontStyle,
+    textDecoration,
   };
 };
