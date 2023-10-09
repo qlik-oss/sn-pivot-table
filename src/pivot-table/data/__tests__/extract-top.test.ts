@@ -1,19 +1,21 @@
+import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import NxDimCellType from "../../../types/QIX";
 import type { Cell, LayoutService, VisibleDimensionInfo } from "../../../types/types";
-import createNodes from "../../__tests__/test-helper";
+import createNodes, { createDims } from "../../__tests__/test-helper";
 import extractTopGrid from "../extract-top";
 
 describe("extractTop", () => {
   let layoutService: LayoutService;
   const qArea = { qLeft: 1 } as EngineAPI.INxDataAreaPage;
-  const grid = [] as Cell[][];
-  let visibleTopDimensionInfo: VisibleDimensionInfo[] = [];
+  let grid: Cell[][];
+  let visibleTopDimensionInfo: VisibleDimensionInfo[];
 
   beforeEach(() => {
     layoutService = {
       isSnapshot: false,
     } as unknown as LayoutService;
     visibleTopDimensionInfo = [];
+    grid = [];
   });
 
   test("should handle empty qTop array", () => {
@@ -66,10 +68,11 @@ describe("extractTop", () => {
   });
 
   test("should extract top data when data tree has a depth of 2 and first dimension is pseudo", () => {
+    visibleTopDimensionInfo = createDims(PSEUDO_DIMENSION_INDEX, 1, 2);
     const colCount = 3;
     const subNodesCount = 2;
-    const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_NORMAL);
-    qTop[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
+    const qTop = createNodes(colCount, NxDimCellType.NX_DIM_CELL_PSEUDO);
+    qTop[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_NORMAL);
     qTop[0].qSubNodes[0].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);
 
     qTop[1].qSubNodes = createNodes(1, NxDimCellType.NX_DIM_CELL_EMPTY);

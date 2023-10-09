@@ -50,5 +50,9 @@ export const getColumnWidthHandler =
       return ((cell.leafCount + cell.distanceToNextCell) / measureInfoCount) * allMeasuresWidth;
     }
 
+    if (cell?.ref.qType === "E") {
+      return 50;
+    }
+
     return getMeasureInfoWidth(layoutService.getMeasureInfoIndexFromCellIndex(cell?.x ?? colIndex));
   };
