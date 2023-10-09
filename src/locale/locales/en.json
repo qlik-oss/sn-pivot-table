@@ -2,5 +2,9 @@
   "SNPivotTable.LimitedData": {
     "value": "* Currently showing a limited number of columns",
     "comment": "Disclaimer stating that not all columns can be rendered (buy 230502)"
+  },
+  "SNPivotTable.properties.emptySpaceBackground": {
+    "value": "Empty space background",
+    "comment": ""
   }
 }

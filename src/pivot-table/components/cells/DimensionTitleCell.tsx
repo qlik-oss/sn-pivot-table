@@ -49,8 +49,17 @@ const DimensionTitleCell = ({
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
   const { app, model, interactions, embed } = useBaseContext();
-  const { fontSize, fontFamily, fontStyle, fontWeight, textDecoration } = styleService.header;
-  const { color, background, hoverBackground, activeBackground } = styleService.header.rowTitle;
+  const {
+    fontSize,
+    fontFamily,
+    fontStyle,
+    fontWeight,
+    textDecoration,
+    color,
+    background,
+    hoverBackground,
+    activeBackground,
+  } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
   const { shouldShowLockIcon, shouldShowMenuIcon } = iconsVisibilityStatus;
   const { open, setOpen, handleOpenMenu } = useHeadCellDim({ interactions });

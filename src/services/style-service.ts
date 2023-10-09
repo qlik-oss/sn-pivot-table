@@ -51,6 +51,7 @@ enum Attribute {
   Color = "color",
   CellHeight = "cellHeight",
   Background = "background",
+  EmptySpaceBackground = "emptySpaceBackground",
   RowHeight = "rowHeight",
   LineClamp = "lineClamp",
   Border = "border",
@@ -110,30 +111,18 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       fontWeight: resolveFontWeight(headerStyling?.[Attribute.FontStyle]),
       fontStyle: resolveFontStyle(headerStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(headerStyling?.[Attribute.FontStyle]),
+      emptySpaceBackground:
+        resolveColor(theme, headerStyling?.[Attribute.EmptySpaceBackground]) ??
+        getThemeStyle([Path.Header], Attribute.EmptySpaceBackground) ??
+        Colors.Transparent,
+      color:
+        resolveColor(theme, headerStyling?.[Attribute.FontColor]) ??
+        getThemeStyle([Path.Header, Path.RowTitle], Attribute.Color) ??
+        Colors.PrimaryText,
       background:
         resolveColor(theme, headerStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.Header], Attribute.Background) ??
+        getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
         Colors.Transparent,
-      rowTitle: {
-        color:
-          resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.Header, Path.RowTitle], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.Background]) ??
-          getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
-          Colors.Transparent,
-      },
-      columnTitle: {
-        color:
-          resolveColor(theme, headerStyling?.[Path.ColumnTitle]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.Header, Path.ColumnTitle], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, headerStyling?.[Path.ColumnTitle]?.[Attribute.Background]) ??
-          getThemeStyle([Path.Header, Path.ColumnTitle], Attribute.Background) ??
-          Colors.Black3,
-      },
     },
     content: {
       fontSize:
@@ -295,22 +284,19 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     DEFAULT_CELL_HEIGHT,
   );
 
-  styleService.header.rowTitle.hoverBackground = getHoverColor(
-    styleService.header.rowTitle.background,
-    HEADER_MENU_COLOR_MODIFIER.hover,
-  );
-  styleService.header.rowTitle.activeBackground = getHoverColor(
-    styleService.header.rowTitle.background,
+  styleService.header.hoverBackground = getHoverColor(styleService.header.background, HEADER_MENU_COLOR_MODIFIER.hover);
+  styleService.header.activeBackground = getHoverColor(
+    styleService.header.background,
     HEADER_MENU_COLOR_MODIFIER.active,
   );
-  styleService.header.columnTitle.hoverBackground = getHoverColor(
-    styleService.header.columnTitle.background,
-    HEADER_MENU_COLOR_MODIFIER.hover,
-  );
-  styleService.header.columnTitle.activeBackground = getHoverColor(
-    styleService.header.columnTitle.background,
-    HEADER_MENU_COLOR_MODIFIER.active,
-  );
+  // styleService.header.columnTitle.hoverBackground = getHoverColor(
+  //   styleService.header.columnTitle.background,
+  //   HEADER_MENU_COLOR_MODIFIER.hover,
+  // );
+  // styleService.header.columnTitle.activeBackground = getHoverColor(
+  //   styleService.header.columnTitle.background,
+  //   HEADER_MENU_COLOR_MODIFIER.active,
+  // );
 
   return styleService;
 };

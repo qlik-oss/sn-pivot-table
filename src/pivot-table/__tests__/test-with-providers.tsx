@@ -32,19 +32,11 @@ const TestWithProvider = (props: Props) => {
         fontWeight: "600",
         fontStyle: "normal",
         textDecoration: "none",
+        color: "#404040",
         background: "transparent",
-        rowTitle: {
-          color: "#404040",
-          background: "transparent",
-          activeBackground: "rgba(0, 0, 0, 0.05)",
-          hoverBackground: "rgba(0, 0, 0, 0.03)",
-        },
-        columnTitle: {
-          color: "#404040",
-          background: "transparent",
-          activeBackground: "rgba(0, 0, 0, 0.05)",
-          hoverBackground: "rgba(0, 0, 0, 0.03)",
-        },
+        emptySpaceBackground: "transparent",
+        activeBackground: "rgba(0, 0, 0, 0.05)",
+        hoverBackground: "rgba(0, 0, 0, 0.03)",
       },
       content: {
         fontSize: "12px",

@@ -215,21 +215,18 @@ export interface CellStyling {
   background: string;
 }
 
-interface RowTitleStyling extends CellStyling {
-  hoverBackground: string;
-  activeBackground: string;
-}
-
-interface ColumnTitleStyling extends CellStyling {
-  hoverBackground: string;
-  activeBackground: string;
-}
-
 interface HeaderStyling
-  extends Pick<FontStyling, "fontSize" | "fontFamily" | "fontWeight" | "fontStyle" | "textDecoration"> {
-  background: string;
-  rowTitle: RowTitleStyling;
-  columnTitle: ColumnTitleStyling;
+  extends Pick<FontStyling, "fontSize" | "fontFamily" | "fontWeight" | "fontStyle" | "textDecoration">,
+    CellStyling {
+  emptySpaceBackground: string;
+  hoverBackground: string;
+  activeBackground: string;
+  backgroundColors?: {
+    primary: string;
+    emptySpace: string;
+    activeMenu: string;
+    hoverMenu: string;
+  };
 }
 
 interface MeasureContentStyling extends Pick<FontStyling, "fontSize" | "fontFamily" | "color"> {

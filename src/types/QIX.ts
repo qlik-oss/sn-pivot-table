@@ -60,9 +60,9 @@ export interface Component {
     fontFamily?: string;
     fontSize?: string;
     fontStyle?: FontStyleOptions[];
+    fontColor?: PaletteColor;
     background?: PaletteColor;
-    rowTitle?: ComponentCellStyling;
-    columnTitle?: ComponentCellStyling;
+    emptySpaceBackground?: PaletteColor;
   };
   content: {
     fontFamily?: string;
