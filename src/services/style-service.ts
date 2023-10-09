@@ -97,6 +97,11 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     DEFAULT_LINE_CLAMP
   );
 
+  const headerBackground =
+    resolveColor(theme, headerStyling?.[Attribute.Background]) ??
+    getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
+    Colors.Transparent;
+
   const styleService: StyleService = {
     header: {
       fontSize:
@@ -114,10 +119,9 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, headerStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.Header, Path.RowTitle], Attribute.Color) ??
         Colors.PrimaryText,
-      background:
-        resolveColor(theme, headerStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
-        Colors.Transparent,
+      background: headerBackground,
+      hoverBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.hover),
+      activeBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.active),
     },
     content: {
       fontSize:
@@ -282,20 +286,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT,
   );
-
-  styleService.header.hoverBackground = getHoverColor(styleService.header.background, HEADER_MENU_COLOR_MODIFIER.hover);
-  styleService.header.activeBackground = getHoverColor(
-    styleService.header.background,
-    HEADER_MENU_COLOR_MODIFIER.active,
-  );
-  // styleService.header.columnTitle.hoverBackground = getHoverColor(
-  //   styleService.header.columnTitle.background,
-  //   HEADER_MENU_COLOR_MODIFIER.hover,
-  // );
-  // styleService.header.columnTitle.activeBackground = getHoverColor(
-  //   styleService.header.columnTitle.background,
-  //   HEADER_MENU_COLOR_MODIFIER.active,
-  // );
 
   return styleService;
 };
