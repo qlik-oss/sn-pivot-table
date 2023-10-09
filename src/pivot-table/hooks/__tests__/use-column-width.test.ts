@@ -164,6 +164,7 @@ describe("useColumnWidth", () => {
 
     test("should return right column width when columnWidth is undefined", () => {
       const { getRightGridColumnWidth } = renderUseColumnWidth();
+
       expect(getRightGridColumnWidth(0)).toBe(100);
       expect(getRightGridColumnWidth(1)).toBe(100);
       expect(getRightGridColumnWidth(2)).toBe(100);
