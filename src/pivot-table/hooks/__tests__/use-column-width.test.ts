@@ -154,7 +154,6 @@ describe("useColumnWidth", () => {
       const lefSideWidth = 50;
       rect = { width: 350, height: 100 };
       percentageConversion = (rect.width - lefSideWidth) / 100;
-
       layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
       visibleLeftDimensionInfo = [
         { columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER } } as ExtendedDimensionInfo,
