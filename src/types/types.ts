@@ -218,7 +218,6 @@ export interface CellStyling {
 interface HeaderStyling
   extends Pick<FontStyling, "fontSize" | "fontFamily" | "fontWeight" | "fontStyle" | "textDecoration">,
     CellStyling {
-  emptySpaceBackground: string;
   hoverBackground: string;
   activeBackground: string;
   backgroundColors?: {
@@ -247,6 +246,7 @@ interface GridStyling {
   rowHeight: "compact";
   border: string;
   divider: string;
+  background: string;
 }
 
 export interface StylingOptions {

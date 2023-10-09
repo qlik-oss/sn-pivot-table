@@ -20,6 +20,11 @@ const gridSection = {
           "properties.pivot.divider",
           (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.divider ?? Colors.Black60,
         ),
+        background: createColorPickerItem(
+          "grid.background",
+          "properties.background",
+          (currentTheme) => currentTheme.object?.pivotTableV2?.header?.background ?? Colors.Transparent,
+        ),
       },
     },
   },

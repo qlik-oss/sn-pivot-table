@@ -62,7 +62,6 @@ export interface Component {
     fontStyle?: FontStyleOptions[];
     fontColor?: PaletteColor;
     background?: PaletteColor;
-    emptySpaceBackground?: PaletteColor;
   };
   content: {
     fontFamily?: string;
@@ -95,6 +94,7 @@ export interface Component {
     rowHeight?: "compact";
     border?: PaletteColor;
     divider?: PaletteColor;
+    background?: PaletteColor;
   };
 }
 

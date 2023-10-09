@@ -51,7 +51,6 @@ enum Attribute {
   Color = "color",
   CellHeight = "cellHeight",
   Background = "background",
-  EmptySpaceBackground = "emptySpaceBackground",
   RowHeight = "rowHeight",
   LineClamp = "lineClamp",
   Border = "border",
@@ -111,10 +110,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       fontWeight: resolveFontWeight(headerStyling?.[Attribute.FontStyle]),
       fontStyle: resolveFontStyle(headerStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(headerStyling?.[Attribute.FontStyle]),
-      emptySpaceBackground:
-        resolveColor(theme, headerStyling?.[Attribute.EmptySpaceBackground]) ??
-        getThemeStyle([Path.Header], Attribute.EmptySpaceBackground) ??
-        Colors.Transparent,
       color:
         resolveColor(theme, headerStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.Header, Path.RowTitle], Attribute.Color) ??
@@ -269,6 +264,10 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, gridStyling?.[Attribute.Divider]) ??
         getThemeStyle([Path.Grid], Attribute.Divider) ??
         Colors.Black60,
+      background:
+        resolveColor(theme, gridStyling?.[Attribute.Background]) ??
+        getThemeStyle([Path.Grid], Attribute.Background) ??
+        Colors.Transparent,
     },
   } as StyleService;
 

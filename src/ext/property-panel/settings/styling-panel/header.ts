@@ -46,11 +46,6 @@ const headerSection = (translator: stardust.Translator) => ({
           "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.header?.background ?? Colors.Transparent,
         ),
-        emptySpaceBackground: createColorPickerItem(
-          "header.emptySpaceBackground",
-          "SNPivotTable.properties.emptySpaceBackground",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.header?.background ?? Colors.Transparent,
-        ),
       },
     },
   },
