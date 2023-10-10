@@ -51,12 +51,15 @@ interface ComponentCellStyling {
   fontColor?: PaletteColor;
 }
 
+export type FontStyleOptions = "bold" | "italic" | "underline";
+
 export interface Component {
   key: "general" | "theme";
   rowHeight?: RowHeight;
   header: {
     fontFamily?: string;
     fontSize?: string;
+    fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
     rowTitle?: ComponentCellStyling;
     columnTitle?: ComponentCellStyling;

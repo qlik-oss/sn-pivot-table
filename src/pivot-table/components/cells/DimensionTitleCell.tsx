@@ -49,7 +49,7 @@ const DimensionTitleCell = ({
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
   const { app, model, interactions, embed } = useBaseContext();
-  const { fontSize, fontFamily } = styleService.header;
+  const { fontSize, fontFamily, fontStyle, fontWeight, textDecoration } = styleService.header;
   const { color, background, hoverBackground, activeBackground } = styleService.header.rowTitle;
   const anchorRef = useRef<HTMLDivElement>(null);
   const { shouldShowLockIcon, shouldShowMenuIcon } = iconsVisibilityStatus;
@@ -104,7 +104,7 @@ const DimensionTitleCell = ({
             <Locked height={HEADER_ICON_SIZE} />
           </StyledLockIcon>
         )}
-        <StyledLabel {...{ fontFamily, fontSize }}>{cell.title}</StyledLabel>
+        <StyledLabel {...{ fontFamily, fontSize, fontStyle, fontWeight, textDecoration }}>{cell.title}</StyledLabel>
       </StyledHeaderCell>
       {isDim && (
         <>

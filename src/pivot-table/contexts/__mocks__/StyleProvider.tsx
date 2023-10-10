@@ -3,7 +3,10 @@ import React from "react";
 export const useStyleContext = () => ({
   header: {
     fontSize: "12px",
-    fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+    fontFamily: '"Source Sans  Pro", "Arial", "sans-serif"',
+    fontWeight: "600",
+    fontStyle: "normal",
+    textDecoration: "none",
     background: "transparent",
     rowTitle: { color: "#404040", background: "transparent" },
     columnTitle: { color: "#404040", background: "transparent" },

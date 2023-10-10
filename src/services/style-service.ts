@@ -2,6 +2,7 @@ import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-exten
 import { getHoverColor } from "@qlik/nebula-table-utils/lib/utils";
 import { Colors } from "../pivot-table/components/shared-styles";
 import {
+  BOLD_FONT_WEIGHT,
   CELL_PADDING_HEIGHT,
   DEFAULT_CELL_HEIGHT,
   DEFAULT_FONT_FAMILY,
@@ -10,7 +11,7 @@ import {
   DEFAULT_LINE_CLAMP,
   LINE_HEIGHT_COEFFICIENT,
 } from "../pivot-table/constants";
-import type { PaletteColor } from "../types/QIX";
+import type { FontStyleOptions, PaletteColor } from "../types/QIX";
 import type { LayoutService, StyleService } from "../types/types";
 
 const BASE_PATH = "object.pivotTableV2";
@@ -46,6 +47,7 @@ enum Attribute {
   FontSize = "fontSize",
   FontFamily = "fontFamily",
   FontColor = "fontColor",
+  FontStyle = "fontStyle",
   Color = "color",
   CellHeight = "cellHeight",
   Background = "background",
@@ -62,6 +64,20 @@ const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) =>
 
 const fontSizeToCellHeight = (fontSize: string, lineClamp: number) =>
   +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
+
+const resolveFontWeight = (fontStyleOptions: FontStyleOptions[] | undefined) => {
+  if (fontStyleOptions === undefined) {
+    return BOLD_FONT_WEIGHT;
+  }
+
+  return fontStyleOptions.some((value) => value === "bold") ? BOLD_FONT_WEIGHT : "normal";
+};
+
+const resolveFontStyle = (fontStyleOptions: FontStyleOptions[] | undefined) =>
+  fontStyleOptions?.some((value) => value === "italic") ? "italic" : "normal";
+
+const resolveTextDecoration = (fontStyleOptions: FontStyleOptions[] | undefined) =>
+  fontStyleOptions?.some((value) => value === "underline") ? "underline" : "none";
 
 /**
  * creates the styling based on layout, theme and default values - in that order
@@ -91,6 +107,9 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         headerStyling?.[Attribute.FontFamily] ??
         getThemeStyle([Path.Header], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
+      fontWeight: resolveFontWeight(headerStyling?.[Attribute.FontStyle]),
+      fontStyle: resolveFontStyle(headerStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(headerStyling?.[Attribute.FontStyle]),
       background:
         resolveColor(theme, headerStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.Header], Attribute.Background) ??

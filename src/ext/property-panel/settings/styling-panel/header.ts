@@ -13,17 +13,29 @@ const headerSection = (translator: stardust.Translator) => ({
       ref: "components",
       key: "theme",
       items: {
-        fontSize: createFontSizeItem({
-          ref: "header.fontSize",
-          themeAccessor: (currentTheme) => currentTheme.object?.pivotTableV2?.header?.fontSize ?? currentTheme.fontSize,
-          translator,
-        }),
         fontFamily: createFontFamilyItem({
           ref: "header.fontFamily",
           translator,
           themeAccessor: (currentTheme) =>
             currentTheme.object?.pivotTableV2?.header?.fontFamily ?? currentTheme.fontFamily,
         }),
+        fontWrapperItem: {
+          component: "inline-wrapper",
+          items: {
+            fontStyle: {
+              component: "font-style-buttons",
+              width: false,
+              ref: "header.fontStyle",
+              defaultValue: ["bold"],
+            },
+            fontSize: createFontSizeItem({
+              ref: "header.fontSize",
+              themeAccessor: (currentTheme) =>
+                currentTheme.object?.pivotTableV2?.header?.fontSize ?? currentTheme.fontSize,
+              translator,
+            }),
+          },
+        },
         background: createColorPickerItem(
           "header.background",
           "properties.background",
