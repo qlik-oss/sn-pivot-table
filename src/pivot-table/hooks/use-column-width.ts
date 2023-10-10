@@ -7,12 +7,10 @@ import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
-interface ColumnWidthHook {
-  leftGridWidth: number;
+interface ColumnWidthHook extends LeftGridWidthInfo {
   rightGridWidth: number;
   totalWidth: number;
   showLastRightBorder: boolean;
-  getLeftGridColumnWidth: (index: number) => number;
   getRightGridColumnWidth: (index?: number) => number;
   getHeaderCellsIconsVisibilityStatus: GetHeaderCellsIconsVisibilityStatus;
 }
@@ -26,6 +24,11 @@ export interface GetHeaderCellsIconsVisibilityStatus {
     shouldShowMenuIcon: boolean;
     shouldShowLockIcon: boolean;
   };
+}
+
+interface LeftGridWidthInfo {
+  leftGridWidth: number;
+  leftGridColumnWidths: number[];
 }
 
 export const EXPAND_ICON_WIDTH = 30;
@@ -77,7 +80,7 @@ export default function useColumnWidth(
   /**
    * The widths of the left columns. Scales the width to fit LEFT_SIDE_MAX_WIDTH_RATIO * rect.width if wider than that
    */
-  const leftGridColumnWidths = useMemo(() => {
+  const leftGridWidthInfo = useMemo<LeftGridWidthInfo>(() => {
     const getColumnWidth = (columnWidth: ColumnWidth, fitToContentWidth: number) => {
       switch (columnWidth?.type) {
         case ColumnWidthType.Pixels:
@@ -92,7 +95,7 @@ export default function useColumnWidth(
 
     let sumOfWidths = 0;
 
-    const widths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+    const columnWidths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
       let width: number;
 
       if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
@@ -118,11 +121,10 @@ export default function useColumnWidth(
       return width;
     });
 
-    const leftGridMaxWidth = rect.width * LEFT_GRID_MAX_WIDTH_RATIO;
-    if (sumOfWidths < leftGridMaxWidth) return widths;
-
-    const multiplier = leftGridMaxWidth / sumOfWidths;
-    return widths.map((w) => w * multiplier);
+    return {
+      leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
+      leftGridColumnWidths: columnWidths,
+    };
   }, [
     visibleLeftDimensionInfo,
     rect.width,
@@ -134,11 +136,9 @@ export default function useColumnWidth(
     estimateWidthForRowContent,
   ]);
 
-  const getLeftGridColumnWidth = useCallback((index: number) => leftGridColumnWidths[index], [leftGridColumnWidths]);
-
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
-      const colWidth = leftGridColumnWidths[idx];
+      const colWidth = leftGridWidthInfo.leftGridColumnWidths[idx];
       let shouldShowMenuIcon = false;
       let shouldShowLockIcon = false;
       const measuredTextForHeader = measureTextForHeader(title);
@@ -162,15 +162,13 @@ export default function useColumnWidth(
         shouldShowLockIcon,
       };
     },
-    [leftGridColumnWidths, measureTextForHeader],
+    [leftGridWidthInfo, measureTextForHeader],
   );
 
-  const leftGridWidth = useMemo(
-    () => leftGridColumnWidths.reduce((totalWidth, w) => totalWidth + w, 0),
-    [leftGridColumnWidths],
+  const rightGridAvailableWidth = useMemo(
+    () => rect.width - leftGridWidthInfo.leftGridWidth - GRID_BORDER,
+    [leftGridWidthInfo.leftGridWidth, rect.width],
   );
-
-  const rightGridAvailableWidth = useMemo(() => rect.width - leftGridWidth - GRID_BORDER, [leftGridWidth, rect.width]);
 
   const leafTopDimension = visibleTopDimensionInfo.at(-1);
   const topGridLeavesIsPseudo = leafTopDimension === PSEUDO_DIMENSION_INDEX;
@@ -287,18 +285,17 @@ export default function useColumnWidth(
 
   // The full scrollable width of the chart
   const totalWidth = useMemo(
-    () => leftGridWidth + rightGridFullWidth + GRID_BORDER,
-    [leftGridWidth, rightGridFullWidth],
+    () => leftGridWidthInfo.leftGridWidth + rightGridFullWidth + GRID_BORDER,
+    [leftGridWidthInfo.leftGridWidth, rightGridFullWidth],
   );
 
   const showLastRightBorder = useMemo(() => totalWidth < rect.width, [totalWidth, rect.width]);
 
   return {
-    leftGridWidth,
+    ...leftGridWidthInfo,
     rightGridWidth,
     totalWidth,
     showLastRightBorder,
-    getLeftGridColumnWidth,
     getRightGridColumnWidth,
     getHeaderCellsIconsVisibilityStatus,
   };

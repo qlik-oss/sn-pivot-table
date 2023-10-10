@@ -22,12 +22,12 @@ interface LeftGridProps {
   dataModel: DataModel;
   leftGridRef: React.RefObject<VariableSizeList[]>;
   width: number;
+  columnWidths: number[];
   height: number;
   getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
   showLastBorder: ShowLastBorder;
-  getLeftGridColumnWidth: (index: number) => number;
   visibleLeftDimensionInfo: VisibleDimensionInfo[];
   pageInfo: PageInfo;
 }
@@ -35,6 +35,7 @@ interface LeftGridProps {
 const containerStyle: React.CSSProperties = {
   display: "flex",
   height: "fit-content",
+  width: "fit-content",
   borderWidth: "1px 0px 0px 0px",
   ...borderStyle,
 };
@@ -51,18 +52,19 @@ const listStyle: React.CSSProperties = {
    * be fixed in some other way.
    */
   willChange: "auto",
+  flexShrink: 0,
 };
 
 const LeftGrid = ({
   dataModel,
   leftGridRef,
   width,
+  columnWidths,
   height,
   getScrollTop,
   layoutService,
   leftDimensionData,
   showLastBorder,
-  getLeftGridColumnWidth,
   visibleLeftDimensionInfo,
   pageInfo,
 }: LeftGridProps): JSX.Element | null => {
@@ -108,7 +110,7 @@ const LeftGrid = ({
             ref={setListRef(leftGridRef, colIndex)}
             style={listStyle}
             height={height}
-            width={getLeftGridColumnWidth(colIndex)}
+            width={columnWidths[colIndex]}
             itemCount={itemCount}
             itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
             layout="vertical"
