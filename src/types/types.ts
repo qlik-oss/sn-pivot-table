@@ -215,15 +215,9 @@ export interface CellStyling {
   background: string;
 }
 
-interface HeaderStyling extends Omit<FontStyling, "color">, CellStyling {
+interface HeaderStyling extends FontStyling, CellStyling {
   hoverBackground: string;
   activeBackground: string;
-  backgroundColors?: {
-    primary: string;
-    emptySpace: string;
-    activeMenu: string;
-    hoverMenu: string;
-  };
 }
 
 interface MeasureContentStyling extends Pick<FontStyling, "fontSize" | "fontFamily" | "color"> {
