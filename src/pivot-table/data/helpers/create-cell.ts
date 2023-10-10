@@ -63,6 +63,7 @@ const createCell = (
     pageX: x,
     pageY,
     mainAxisPageCoord: isLeftColumn ? pageY : x,
+    isLeftColumn,
     parent,
     root,
     /**
@@ -83,6 +84,7 @@ const createCell = (
     isEmpty: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
     isNull: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
     isPseudoDimension: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
+    isPseudoDimensionBefore: !!(parent?.isPseudoDimensionBefore || parent?.isPseudoDimension),
     expressionColor: getExpressionColor(attrExprInfoIndex, node),
   };
 

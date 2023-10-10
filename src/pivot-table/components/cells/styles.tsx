@@ -68,3 +68,34 @@ export const StyledLabel = styled("div", {
   fontSize,
   fontFamily,
 }));
+
+export const AdjusterHitArea = styled(Box, {
+  shouldForwardProp: (prop: string) => prop !== "isLastColumn",
+})(({ isLastColumn = false }: { isLastColumn: boolean }) => ({
+  display: "flex",
+  position: "absolute",
+  height: "100%",
+  top: 0,
+  left: `100%`,
+  cursor: "col-resize",
+  // last column padding, other double padding + border
+  width: `${isLastColumn ? 4 : 9}px`,
+  justifyContent: isLastColumn ? "flex-end" : "center",
+  "&&:hover:not(:focus, :active)": {
+    "& .sn-pivot-table-column-adjuster-border": {
+      background: "#D9D9D9",
+    },
+  },
+  "&&:focus-visible, :active": {
+    outline: "none",
+    "& .sn-pivot-table-column-adjuster-border": {
+      background: "#177fe6",
+    },
+  },
+}));
+
+export const AdjusterBorder = styled(Box)({
+  position: "absolute",
+  height: "100%",
+  width: "3px",
+});

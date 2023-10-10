@@ -7,6 +7,7 @@ import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
+import ColumnAdjuster from "./ColumnAdjuster";
 import { getContainerStyle, getInnerContainerStyle, getTextStyle } from "./utils/get-dimension-cell-style";
 
 export interface DimensionCellProps {
@@ -152,7 +153,7 @@ const DimensionCell = ({
   return (
     <div
       title={text}
-      style={resolvedContainerStyle}
+      style={{ ...resolvedContainerStyle, zIndex: layoutService.size.x - colIndex }}
       aria-hidden="true"
       onClick={onClickHandler}
       onKeyUp={NOOP_KEY_HANDLER}
@@ -166,6 +167,9 @@ const DimensionCell = ({
         {cellIcon}
         <span style={resolvedTextStyle}>{text}</span>
       </div>
+      {dataModel && !isLeftColumn && isLastRow && (
+        <ColumnAdjuster cell={cell} columnWidth={style.width as number} applyColumnWidth={dataModel.applyColumnWidth} />
+      )}
     </div>
   );
 };

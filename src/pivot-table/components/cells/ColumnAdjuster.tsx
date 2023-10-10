@@ -1,14 +1,15 @@
 import { preventDefaultBehavior } from "@qlik/nebula-table-utils/lib/utils";
-import React, { useRef, useState } from "react";
-import { ColumnWidthType, type ColumnWidth } from "../../../types/QIX";
-import type { ApplyColumnWidth } from "../../../types/types";
+import React, { useEffect, useRef, useState } from "react";
+import { ColumnWidthType } from "../../../types/QIX";
+import type { ApplyColumnWidth, Cell } from "../../../types/types";
 import { ColumnWidthValues } from "../../hooks/use-column-width";
+import { AdjusterBorder, AdjusterHitArea } from "./styles";
 
 interface AdjusterProps {
-  columnIndex: number;
+  cell: Cell;
   columnWidth: number;
   applyColumnWidth: ApplyColumnWidth;
-  isLastColumn: boolean;
+  // isLastColumn: boolean;
   // onColumnResize: () => void.
   // interactions
 }
@@ -19,25 +20,25 @@ interface AdjusterProps {
  * When you start dragging, mouse move and mouse up listeners are added.
  * While dragging the current column is updated, and on mouse up all other columns are updated.
  */
-const ColumnAdjuster = ({ columnIndex, columnWidth, applyColumnWidth, isLastColumn }: AdjusterProps) => {
+const ColumnAdjuster = ({ cell, columnWidth, applyColumnWidth }: AdjusterProps) => {
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
+  const [marginLeft, setMarginLeft] = useState(-4);
   // if (!interactions.active) return null;
 
-  const updateWidth = (adjustedWidth: number) => {
-    tempWidth.current.columnWidth = adjustedWidth;
-  };
+  useEffect(() => setMarginLeft(-4), [cell]);
 
   const confirmWidth = () => {
     if (tempWidth.current.columnWidth !== tempWidth.current.initWidth) {
       const newWidthData = { type: ColumnWidthType.Pixels, pixels: tempWidth.current.columnWidth };
-      applyColumnWidth(newWidthData, columnIndex);
+      applyColumnWidth(newWidthData, cell);
     }
   };
 
   const mouseMoveHandler = (evt: MouseEvent) => {
     const deltaWidth = evt.clientX - tempWidth.current.initX;
     const adjustedWidth = Math.max(tempWidth.current.initWidth + deltaWidth, ColumnWidthValues.PixelsMin);
-    updateWidth(adjustedWidth);
+    setMarginLeft(deltaWidth - 4);
+    tempWidth.current.columnWidth = adjustedWidth;
   };
 
   const mouseUpHandler = (evt: MouseEvent) => {
@@ -50,6 +51,7 @@ const ColumnAdjuster = ({ columnIndex, columnWidth, applyColumnWidth, isLastColu
 
   const mouseDownHandler = (evt: React.MouseEvent) => {
     evt.stopPropagation();
+    evt.preventDefault();
 
     tempWidth.current = {
       initX: evt.clientX,
@@ -61,35 +63,23 @@ const ColumnAdjuster = ({ columnIndex, columnWidth, applyColumnWidth, isLastColu
     document.addEventListener("mouseup", mouseUpHandler);
   };
 
-  // const handleDoubleClick = () => applyColumnWidths({ type: ColumnWidthTypes.FIT_TO_CONTENT }, column);
+  // const clickHandler = (evt: React.MouseEvent) => preventDefaultBehavior(evt as unknown as MouseEvent);
+
+  const handleDoubleClick = () => applyColumnWidth({ type: ColumnWidthType.FitToContent }, cell);
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div
-      style={{
-        display: "flex",
-        position: "absolute",
-        height: "100%",
-        top: 0,
-        left: `100%`,
-        cursor: "col-resize",
-        // last column padding, other double padding + border
-        width: `8px`,
-        justifyContent: "center",
-        marginLeft: "-4px",
-      }}
-      className="sn-table-adjuster-hit-area"
-      // isLastColumn={isLastColumn}
-      key={`adjuster-${columnIndex}`}
+    <AdjusterHitArea
+      style={{ marginLeft }}
+      isLastColumn={false}
+      className="sn-pivot-table-column-adjuster"
+      key={`adjuster-${cell.x}`}
       onMouseDown={mouseDownHandler}
-      // onDoubleClick={handleDoubleClick}
-      data-testid="sn-table-column-adjuster"
+      onDoubleClick={handleDoubleClick}
+      data-testid="sn-pivot-table-column-adjuster"
     >
-      <div
-        style={{ position: "absolute", height: "100%", width: "3px", backgroundColor: "red" }}
-        className="sn-table-adjuster-head-border"
-      />
-    </div>
+      <AdjusterBorder className="sn-pivot-table-column-adjuster-border" />
+    </AdjusterHitArea>
   );
 };
 

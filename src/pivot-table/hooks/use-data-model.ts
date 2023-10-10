@@ -4,6 +4,7 @@ import { Q_PATH } from "../../constants";
 import type { ColumnWidth, Model } from "../../types/QIX";
 import {
   type ApplyColumnWidth,
+  type Cell,
   type DataModel,
   type ExpandOrCollapser,
   type FetchMoreData,
@@ -82,12 +83,20 @@ export default function useDataModel({
   );
 
   const applyColumnWidth = useCallback<ApplyColumnWidth>(
-    (newColumnWidth: ColumnWidth, colIndex: number) => {
-      // const index = isDim ? colIdx : colIdx - qHyperCube.qDimensionInfo.length;
-      // const qPath = `/qHyperCubeDef/${isDim ? "qDimensions" : "qMeasures"}/${index}/qDef/columnWidth`;
-      const qPath = `/qHyperCubeDef/qDimensions/${colIndex}/qDef/columnWidth`;
-      const oldColumnWidth = layoutService.layout.qHyperCube["qDimensionInfo"][colIndex].columnWidth;
+    (newColumnWidth: ColumnWidth, { isPseudoDimension, isPseudoDimensionBefore, isLeftColumn, x, y }: Cell) => {
+      let index: number;
+      if (isPseudoDimension) {
+        // TODO: what todo with the left pseudo dim? set all measures?
+        index = isLeftColumn ? 0 : layoutService.getMeasureInfoIndexFromCellIndex(x);
+      } else {
+        index = isLeftColumn
+          ? x - Number(isPseudoDimensionBefore)
+          : y - Number(isPseudoDimensionBefore) + layoutService.layout.qHyperCube.qNoOfLeftDims;
+      }
 
+      const qPath = `${Q_PATH}/${isPseudoDimension ? "qMeasures" : "qDimensions"}/${index}/qDef/columnWidth`;
+      const oldColumnWidth =
+        layoutService.layout.qHyperCube[isPseudoDimension ? "qMeasureInfo" : "qDimensionInfo"][index].columnWidth;
       const patch = oldColumnWidth
         ? {
             qPath,

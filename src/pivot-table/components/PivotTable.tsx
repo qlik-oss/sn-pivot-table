@@ -92,7 +92,6 @@ export const StickyPivotTable = ({
           bottomRowsHeight={dataGridHeight}
         >
           <HeaderGrid
-            dataModel={dataModel}
             columnWidthCallback={getLeftGridColumnWidth}
             getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
             rowHight={headerCellHeight}

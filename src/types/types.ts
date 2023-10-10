@@ -3,7 +3,7 @@ import type { ColumnWidth, ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
-export type ApplyColumnWidth = (ColumnWidth: ColumnWidth, columnIndex: number) => void;
+export type ApplyColumnWidth = (columnWidth: ColumnWidth, cell: Cell) => void;
 
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
@@ -85,6 +85,7 @@ export interface Cell {
   pageX: number; // X position of cell in page
   pageY: number; // Y position of cell in page
   mainAxisPageCoord: number; // Either equal pageX or pageY depending on if a cell is in the left or top grid
+  isLeftColumn: boolean;
   parent: Cell | null;
   root: Cell | null;
   children: Cell[];
@@ -96,6 +97,7 @@ export interface Cell {
   isPseudoDimension: boolean;
   isLockedByDimension: boolean;
   isLeafNode: boolean;
+  isPseudoDimensionBefore: boolean;
   expressionColor: ExpressionColor;
 }
 

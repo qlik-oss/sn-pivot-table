@@ -66,7 +66,11 @@ export default function useSelectionsModel(
   );
 
   const select = useCallback(
-    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => async () => {
+    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => async (evt: React.MouseEvent) => {
+      if ((evt.target as HTMLElement).className.includes("sn-pivot-table-column-adjuster")) {
+        return;
+      }
+
       if (!selections.isActive()) {
         await selections.begin([Q_PATH]);
       }
