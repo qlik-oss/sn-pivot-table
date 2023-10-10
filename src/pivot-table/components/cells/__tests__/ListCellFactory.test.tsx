@@ -85,6 +85,7 @@ describe("ListCellFactory", () => {
 
     expect(mockPseudoDimensionCell).toHaveBeenCalledWith(
       {
+        data,
         style,
         cell,
         isLeftColumn: false,

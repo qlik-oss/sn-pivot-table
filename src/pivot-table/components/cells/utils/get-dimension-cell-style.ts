@@ -34,6 +34,7 @@ interface GetContainerStyle {
   showLastBorder: ShowLastBorder;
   showTotalCellDivider: boolean;
   expressionBackground: string | null;
+  zIndex: number;
 }
 
 export const selectedStyle: React.CSSProperties = {
@@ -83,6 +84,7 @@ export const getContainerStyle = ({
   showLastBorder,
   showTotalCellDivider,
   expressionBackground,
+  zIndex,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
   const { nullValue, background: styleServiceBackground } = isLeftColumn
@@ -106,6 +108,7 @@ export const getContainerStyle = ({
     ...resolvedSelectedStyle,
     ...resolvedLockedSelectionStyle,
     display: "flex",
+    zIndex,
   };
 };
 

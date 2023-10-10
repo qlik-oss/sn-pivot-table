@@ -1,6 +1,7 @@
 import React from "react";
 import type { Cell, ListItemData, ShowLastBorder } from "../../../types/types";
 import { DEFAULT_LINE_CLAMP } from "../../constants";
+import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
   getBorderStyle,
@@ -12,16 +13,17 @@ import {
   topContainerCellStyle,
 } from "../shared-styles";
 import ColumnAdjuster from "./ColumnAdjuster";
+import shouldRenderColumnAdjuster from "./utils/should-render-column-adjuster";
 
 interface LabelCellProps {
   cell: Cell;
+  data: ListItemData;
   style: React.CSSProperties;
   isLeftColumn: boolean;
   isLastRow: boolean;
   isLastColumn: boolean;
   showLastBorder: ShowLastBorder;
   showTotalCellDivider: boolean;
-  data: ListItemData;
 }
 
 const getTextStyle = (clampCount: number): React.CSSProperties => ({
@@ -35,14 +37,15 @@ export const testId = "pseudo-dimension-cell";
 
 const PseudoDimensionCell = ({
   cell,
+  data,
   style,
   isLeftColumn,
   isLastRow,
   isLastColumn,
   showLastBorder,
   showTotalCellDivider,
-  data,
 }: LabelCellProps): JSX.Element => {
+  const { isActive } = useSelectionsContext();
   const styleService = useStyleContext();
   const serviceStyle = isLeftColumn
     ? {
@@ -63,6 +66,10 @@ const PseudoDimensionCell = ({
   });
   const lineClamp = isLeftColumn ? styleService.content.lineClamp : DEFAULT_LINE_CLAMP;
 
+  const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
+    <ColumnAdjuster cell={cell} columnWidth={style.width as number} dataModel={data.dataModel} />
+  ) : null;
+
   return (
     <div
       title={cell.ref.qText}
@@ -77,13 +84,7 @@ const PseudoDimensionCell = ({
       data-testid={testId}
     >
       <div style={{ ...getTextStyle(lineClamp), ...stickyCell }}>{cell.ref.qText}</div>
-      {data.dataModel && !isLeftColumn && isLastRow && (
-        <ColumnAdjuster
-          cell={cell}
-          columnWidth={style.width as number}
-          applyColumnWidth={data.dataModel.applyColumnWidth}
-        />
-      )}
+      {columnAdjuster}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import MinusIcon from "../icons/Minus";
 import PlusIcon from "../icons/Plus";
 import ColumnAdjuster from "./ColumnAdjuster";
 import { getContainerStyle, getInnerContainerStyle, getTextStyle } from "./utils/get-dimension-cell-style";
+import shouldRenderColumnAdjuster from "./utils/should-render-column-adjuster";
 
 export interface DimensionCellProps {
   cell: Cell;
@@ -125,6 +126,7 @@ const DimensionCell = ({
     showLastBorder,
     showTotalCellDivider: !layoutService.showTotalsAbove && showTotalCellDivider,
     expressionBackground: cell.expressionColor.background,
+    zIndex: layoutService.size.x - colIndex,
   });
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);
   const text = cell.isNull ? layoutService.getNullValueText() : qText;
@@ -150,10 +152,14 @@ const DimensionCell = ({
     );
   }
 
+  const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
+    <ColumnAdjuster cell={cell} columnWidth={style.width as number} dataModel={dataModel} />
+  ) : null;
+
   return (
     <div
       title={text}
-      style={{ ...resolvedContainerStyle, zIndex: layoutService.size.x - colIndex }}
+      style={resolvedContainerStyle}
       aria-hidden="true"
       onClick={onClickHandler}
       onKeyUp={NOOP_KEY_HANDLER}
@@ -167,9 +173,7 @@ const DimensionCell = ({
         {cellIcon}
         <span style={resolvedTextStyle}>{text}</span>
       </div>
-      {dataModel && !isLeftColumn && isLastRow && (
-        <ColumnAdjuster cell={cell} columnWidth={style.width as number} applyColumnWidth={dataModel.applyColumnWidth} />
-      )}
+      {columnAdjuster}
     </div>
   );
 };

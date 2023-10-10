@@ -5,7 +5,11 @@ import { NxSelectionCellType } from "../../types/QIX";
 import type { ExtendedSelections, PageInfo } from "../../types/types";
 
 export interface SelectionModel {
-  select: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => () => Promise<void>;
+  select: (
+    qType: EngineAPI.NxSelectionCellType,
+    qRow: number,
+    qCol: number,
+  ) => (evt: React.MouseEvent) => Promise<void>;
   isSelected: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
   isActive: boolean;
   isLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
@@ -67,7 +71,7 @@ export default function useSelectionsModel(
 
   const select = useCallback(
     (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => async (evt: React.MouseEvent) => {
-      if ((evt.target as HTMLElement).className.includes("sn-pivot-table-column-adjuster")) {
+      if ((evt.target as HTMLElement)?.className.includes("sn-pivot-table-column-adjuster")) {
         return;
       }
 

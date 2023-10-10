@@ -1,43 +1,34 @@
 import { preventDefaultBehavior } from "@qlik/nebula-table-utils/lib/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { ColumnWidthType } from "../../../types/QIX";
-import type { ApplyColumnWidth, Cell } from "../../../types/types";
+import type { Cell, DataModel } from "../../../types/types";
+import { GRID_BORDER } from "../../constants";
 import { ColumnWidthValues } from "../../hooks/use-column-width";
+import { CELL_PADDING } from "../shared-styles";
 import { AdjusterBorder, AdjusterHitArea } from "./styles";
 
 interface AdjusterProps {
   cell: Cell;
   columnWidth: number;
-  applyColumnWidth: ApplyColumnWidth;
-  // isLastColumn: boolean;
-  // onColumnResize: () => void.
-  // interactions
+  dataModel: DataModel | undefined;
 }
 
 /**
- * Component that is placed on top of column border.
- * The vertical borders in the header can be used to change the column width.
+ * Component that is placed on top of column border, to resize the columns.
  * When you start dragging, mouse move and mouse up listeners are added.
- * While dragging the current column is updated, and on mouse up all other columns are updated.
+ * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
-const ColumnAdjuster = ({ cell, columnWidth, applyColumnWidth }: AdjusterProps) => {
+const ColumnAdjuster = ({ cell, columnWidth, dataModel }: AdjusterProps) => {
+  const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
-  const [marginLeft, setMarginLeft] = useState(-4);
-  // if (!interactions.active) return null;
+  const LEFT_ADJUSTMENT = CELL_PADDING + GRID_BORDER;
 
-  useEffect(() => setMarginLeft(-4), [cell]);
-
-  const confirmWidth = () => {
-    if (tempWidth.current.columnWidth !== tempWidth.current.initWidth) {
-      const newWidthData = { type: ColumnWidthType.Pixels, pixels: tempWidth.current.columnWidth };
-      applyColumnWidth(newWidthData, cell);
-    }
-  };
+  useEffect(() => setInternalWidth(columnWidth), [columnWidth]);
 
   const mouseMoveHandler = (evt: MouseEvent) => {
     const deltaWidth = evt.clientX - tempWidth.current.initX;
     const adjustedWidth = Math.max(tempWidth.current.initWidth + deltaWidth, ColumnWidthValues.PixelsMin);
-    setMarginLeft(deltaWidth - 4);
+    setInternalWidth(adjustedWidth);
     tempWidth.current.columnWidth = adjustedWidth;
   };
 
@@ -46,7 +37,10 @@ const ColumnAdjuster = ({ cell, columnWidth, applyColumnWidth }: AdjusterProps) 
     document.removeEventListener("mousemove", mouseMoveHandler);
     document.removeEventListener("mouseup", mouseUpHandler);
 
-    confirmWidth();
+    if (tempWidth.current.columnWidth !== tempWidth.current.initWidth) {
+      const newWidthData = { type: ColumnWidthType.Pixels, pixels: tempWidth.current.columnWidth };
+      dataModel?.applyColumnWidth(newWidthData, cell);
+    }
   };
 
   const mouseDownHandler = (evt: React.MouseEvent) => {
@@ -63,20 +57,16 @@ const ColumnAdjuster = ({ cell, columnWidth, applyColumnWidth }: AdjusterProps) 
     document.addEventListener("mouseup", mouseUpHandler);
   };
 
-  // const clickHandler = (evt: React.MouseEvent) => preventDefaultBehavior(evt as unknown as MouseEvent);
-
-  const handleDoubleClick = () => applyColumnWidth({ type: ColumnWidthType.FitToContent }, cell);
+  const handleDoubleClick = () => dataModel?.applyColumnWidth({ type: ColumnWidthType.FitToContent }, cell);
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <AdjusterHitArea
-      style={{ marginLeft }}
+      style={{ left: internalWidth - LEFT_ADJUSTMENT }}
       isLastColumn={false}
       className="sn-pivot-table-column-adjuster"
       key={`adjuster-${cell.x}`}
       onMouseDown={mouseDownHandler}
       onDoubleClick={handleDoubleClick}
-      data-testid="sn-pivot-table-column-adjuster"
     >
       <AdjusterBorder className="sn-pivot-table-column-adjuster-border" />
     </AdjusterHitArea>

@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import { Q_PATH } from "../../../constants";
 import type { Model } from "../../../types/QIX";
-import type { PageInfo } from "../../../types/types";
+import type { LayoutService, PageInfo } from "../../../types/types";
 import useDataModel from "../use-data-model";
 
 const pivotPage = {};
@@ -10,6 +10,7 @@ describe("useDataModel", () => {
   let model: Model;
   let nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
   let pageInfo: PageInfo;
+  let layoutService: LayoutService;
   let getHyperCubePivotDataMock: jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>;
 
   beforeEach(() => {
@@ -27,9 +28,11 @@ describe("useDataModel", () => {
       page: 0,
       rowsPerPage: 100,
     } as PageInfo;
+    layoutService = {} as LayoutService;
   });
 
-  const renderer = () => renderHook(() => useDataModel({ model, nextPageHandler, pageInfo })).result.current;
+  const renderer = () =>
+    renderHook(() => useDataModel({ model, nextPageHandler, pageInfo, layoutService })).result.current;
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -154,7 +157,7 @@ describe("useDataModel", () => {
         }),
       );
       const { rerender, result } = renderHook(
-        (pi: PageInfo) => useDataModel({ model, nextPageHandler, pageInfo: pi }),
+        (pi: PageInfo) => useDataModel({ model, nextPageHandler, pageInfo: pi, layoutService }),
         {
           initialProps: pageInfo,
         },
