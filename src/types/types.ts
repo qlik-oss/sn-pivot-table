@@ -215,9 +215,7 @@ export interface CellStyling {
   background: string;
 }
 
-interface HeaderStyling
-  extends Pick<FontStyling, "fontSize" | "fontFamily" | "fontWeight" | "fontStyle" | "textDecoration">,
-    CellStyling {
+interface HeaderStyling extends Omit<FontStyling, "color">, CellStyling {
   hoverBackground: string;
   activeBackground: string;
   backgroundColors?: {
