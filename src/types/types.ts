@@ -225,8 +225,7 @@ interface ColumnTitleStyling extends CellStyling {
   activeBackground: string;
 }
 
-interface HeaderStyling
-  extends Pick<FontStyling, "fontSize" | "fontFamily" | "fontWeight" | "fontStyle" | "textDecoration"> {
+interface HeaderStyling extends Omit<FontStyling, "color"> {
   background: string;
   rowTitle: RowTitleStyling;
   columnTitle: ColumnTitleStyling;
