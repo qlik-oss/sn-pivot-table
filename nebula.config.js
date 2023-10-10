@@ -22,14 +22,7 @@ module.exports = {
                 fontSize: "12px",
                 fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
                 background: "transparent",
-                rowTitle: {
-                  color: "#404040",
-                  background: "transparent",
-                },
-                columnTitle: {
-                  color: "#404040",
-                  background: "transparent",
-                },
+                color: "#404040",
               },
               content: {
                 fontSize: "12px",
@@ -86,6 +79,7 @@ module.exports = {
                 rowHeight: "compact",
                 border: "rgba(0, 0, 0, 0.15)",
                 divider: "rgba(0, 0, 0, 0.6)",
+                background: "transparent",
               },
             },
           },
@@ -100,14 +94,7 @@ module.exports = {
                 fontSize: "14px",
                 fontFamily: "Arial",
                 background: "cadetblue",
-                rowTitle: {
-                  color: "aqua",
-                  background: "blue",
-                },
-                columnTitle: {
-                  color: "green",
-                  background: "rgba(255, 120, 255, 0.5)",
-                },
+                color: "aqua",
               },
               content: {
                 fontSize: "12px",
@@ -164,6 +151,7 @@ module.exports = {
                 rowHeight: "compact",
                 border: "lime",
                 divider: "white",
+                background: "darkgray",
               },
             },
           },

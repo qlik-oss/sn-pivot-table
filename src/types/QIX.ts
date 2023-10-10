@@ -60,9 +60,8 @@ export interface Component {
     fontFamily?: string;
     fontSize?: string;
     fontStyle?: FontStyleOptions[];
+    fontColor?: PaletteColor;
     background?: PaletteColor;
-    rowTitle?: ComponentCellStyling;
-    columnTitle?: ComponentCellStyling;
   };
   content: {
     fontFamily?: string;
@@ -100,6 +99,7 @@ export interface Component {
     rowHeight?: "compact";
     border?: PaletteColor;
     divider?: PaletteColor;
+    background?: PaletteColor;
   };
 }
 

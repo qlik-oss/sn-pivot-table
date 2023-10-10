@@ -104,6 +104,11 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     DEFAULT_LINE_CLAMP
   );
 
+  const headerBackground =
+    resolveColor(theme, headerStyling?.[Attribute.Background]) ??
+    getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
+    Colors.Transparent;
+
   const styleService: StyleService = {
     header: {
       fontSize:
@@ -117,30 +122,13 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       fontWeight: resolveFontWeight(headerStyling?.[Attribute.FontStyle], BOLD_FONT_WEIGHT),
       fontStyle: resolveFontStyle(headerStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(headerStyling?.[Attribute.FontStyle]),
-      background:
-        resolveColor(theme, headerStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.Header], Attribute.Background) ??
-        Colors.Transparent,
-      rowTitle: {
-        color:
-          resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.Header, Path.RowTitle], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, headerStyling?.[Path.RowTitle]?.[Attribute.Background]) ??
-          getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
-          Colors.Transparent,
-      },
-      columnTitle: {
-        color:
-          resolveColor(theme, headerStyling?.[Path.ColumnTitle]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.Header, Path.ColumnTitle], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, headerStyling?.[Path.ColumnTitle]?.[Attribute.Background]) ??
-          getThemeStyle([Path.Header, Path.ColumnTitle], Attribute.Background) ??
-          Colors.Black3,
-      },
+      color:
+        resolveColor(theme, headerStyling?.[Attribute.FontColor]) ??
+        getThemeStyle([Path.Header, Path.RowTitle], Attribute.Color) ??
+        Colors.PrimaryText,
+      background: headerBackground,
+      hoverBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.hover),
+      activeBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.active),
     },
     content: {
       fontSize:
@@ -279,6 +267,10 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, gridStyling?.[Attribute.Divider]) ??
         getThemeStyle([Path.Grid], Attribute.Divider) ??
         Colors.Black60,
+      background:
+        resolveColor(theme, gridStyling?.[Attribute.Background]) ??
+        getThemeStyle([Path.Grid], Attribute.Background) ??
+        Colors.Transparent,
     },
   } as StyleService;
 
@@ -294,23 +286,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     DEFAULT_CELL_HEIGHT,
   );
 
-  styleService.header.rowTitle.hoverBackground = getHoverColor(
-    styleService.header.rowTitle.background,
-    HEADER_MENU_COLOR_MODIFIER.hover,
-  );
-  styleService.header.rowTitle.activeBackground = getHoverColor(
-    styleService.header.rowTitle.background,
-    HEADER_MENU_COLOR_MODIFIER.active,
-  );
-  styleService.header.columnTitle.hoverBackground = getHoverColor(
-    styleService.header.columnTitle.background,
-    HEADER_MENU_COLOR_MODIFIER.hover,
-  );
-  styleService.header.columnTitle.activeBackground = getHoverColor(
-    styleService.header.columnTitle.background,
-    HEADER_MENU_COLOR_MODIFIER.active,
-  );
-  console.log("%c styleService", "color: orangered", styleService);
   return styleService;
 };
 

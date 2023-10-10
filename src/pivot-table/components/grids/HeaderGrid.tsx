@@ -46,7 +46,7 @@ const HeaderGrid = ({
         ...containerStyle,
         gridTemplateColumns: columnWidths.map((w) => `${w}px`).join(" "),
         gridTemplateRows: hasMultipleRows ? `1fr ${rowHight}px` : undefined,
-        background: styleService.header.background,
+        background: styleService.grid.background,
         height,
       }}
     >

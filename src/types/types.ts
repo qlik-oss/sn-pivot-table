@@ -215,20 +215,9 @@ export interface CellStyling {
   background: string;
 }
 
-interface RowTitleStyling extends CellStyling {
+interface HeaderStyling extends FontStyling, CellStyling {
   hoverBackground: string;
   activeBackground: string;
-}
-
-interface ColumnTitleStyling extends CellStyling {
-  hoverBackground: string;
-  activeBackground: string;
-}
-
-interface HeaderStyling extends Omit<FontStyling, "color"> {
-  background: string;
-  rowTitle: RowTitleStyling;
-  columnTitle: ColumnTitleStyling;
 }
 
 interface MeasureContentStyling extends FontStyling {
@@ -247,10 +236,11 @@ interface GridStyling {
   rowHeight: "compact";
   border: string;
   divider: string;
+  background: string;
 }
 
 interface NullStyling {
-  fontWeight: "600" | "normal";
+  fontWeight: "600" | "normal" | undefined;
   fontStyle: "italic" | "normal";
   textDecoration: "underline" | "none";
   color: string;

@@ -32,19 +32,10 @@ const TestWithProvider = (props: Props) => {
         fontWeight: "600",
         fontStyle: "normal",
         textDecoration: "none",
+        color: "#404040",
         background: "transparent",
-        rowTitle: {
-          color: "#404040",
-          background: "transparent",
-          activeBackground: "rgba(0, 0, 0, 0.05)",
-          hoverBackground: "rgba(0, 0, 0, 0.03)",
-        },
-        columnTitle: {
-          color: "#404040",
-          background: "transparent",
-          activeBackground: "rgba(0, 0, 0, 0.05)",
-          hoverBackground: "rgba(0, 0, 0, 0.03)",
-        },
+        activeBackground: "rgba(0, 0, 0, 0.05)",
+        hoverBackground: "rgba(0, 0, 0, 0.03)",
       },
       content: {
         fontSize: "12px",
@@ -55,10 +46,6 @@ const TestWithProvider = (props: Props) => {
         color: "contentColor",
         background: "contentBackground",
         lineClamp: 1,
-        nullValue: {
-          color: "contentNullColor",
-          background: "contentNullBackground",
-        },
         totalValue: {
           color: "totalValueColor",
           background: "totalValueBackground",
@@ -72,10 +59,6 @@ const TestWithProvider = (props: Props) => {
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
-        nullValue: {
-          color: "#404040",
-          background: "rgba(0, 0, 0, 0.05)",
-        },
         totalLabel: {
           color: "#404040",
           background: "transparent",
@@ -93,10 +76,6 @@ const TestWithProvider = (props: Props) => {
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
-        nullValue: {
-          color: "#404040",
-          background: "rgba(0, 0, 0, 0.05)",
-        },
         totalLabel: {
           color: "#404040",
           background: "transparent",
@@ -106,10 +85,18 @@ const TestWithProvider = (props: Props) => {
           background: "transparent",
         },
       },
+      nullValue: {
+        fontWeight: undefined,
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "#404040",
+        background: "rgba(0, 0, 0, 0.05)",
+      },
       grid: {
         rowHeight: "compact",
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",
+        background: "transparent",
       },
       headerCellHeight: DEFAULT_CELL_HEIGHT,
       contentCellHeight: DEFAULT_CELL_HEIGHT,
