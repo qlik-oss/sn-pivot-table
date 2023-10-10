@@ -85,13 +85,11 @@ export const getContainerStyle = ({
   expressionBackground,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
-  const { nullValue, background: styleServiceBackground } = isLeftColumn
-    ? styleService.rowContent
-    : styleService.columnContent;
+  const { background: styleServiceBackground } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
   const background = expressionBackground ?? styleServiceBackground;
   const resolvedLockedSelectionStyle = isCellLocked ? getLockedStyleFromSelection(background) : {};
   const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
-  const resolvedNullStyle = isNull ? nullValue : { background };
+  const resolvedNullStyle = isNull ? styleService.nullValue : { background };
 
   return {
     ...style,
@@ -124,19 +122,25 @@ export const getTextStyle = ({
   isNull,
   expressionColor,
 }: GetTextStyle): React.CSSProperties => {
-  const { nullValue, totalLabel, measureLabel, background, fontWeight, ...serviceStyle } = isLeftColumn
+  const { totalLabel, measureLabel, background, fontWeight, ...serviceStyle } = isLeftColumn
     ? styleService.rowContent
     : styleService.columnContent;
+  const nullValueStyling = isNull && {
+    color: styleService.nullValue.color,
+    fontWeight: styleService.nullValue.fontWeight,
+    fontStyle: styleService.nullValue.fontStyle,
+    textDecoration: styleService.nullValue.textDecoration,
+  };
 
   return {
     ...serviceStyle,
     ...textStyle,
     ...(expressionColor && { color: expressionColor }),
-    ...(isNull && { color: nullValue.color }),
-    ...(isCellSelected && { color: selectedStyle.color }),
     // fontWeight coming from Styling panel is undefined when the user have not
     // explicity set it to bold or normal
     fontWeight: fontWeight === undefined && (qCanExpand || qCanCollapse) ? "600" : fontWeight,
+    ...nullValueStyling,
+    ...(isCellSelected && { color: selectedStyle.color }),
     overflow: "hidden",
     textOverflow: "ellipsis",
     ...getLineClampStyle(isLeftColumn ? styleService.content.lineClamp : DEFAULT_LINE_CLAMP),

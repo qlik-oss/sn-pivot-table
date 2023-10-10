@@ -233,14 +233,12 @@ interface HeaderStyling extends Omit<FontStyling, "color"> {
 
 interface MeasureContentStyling extends FontStyling {
   background: string;
-  nullValue: CellStyling;
   totalValue: CellStyling;
   lineClamp: number;
 }
 
 interface DimensionContentStyling extends FontStyling {
   background: string;
-  nullValue: CellStyling;
   totalLabel: CellStyling;
   measureLabel: CellStyling;
 }
@@ -251,11 +249,20 @@ interface GridStyling {
   divider: string;
 }
 
+interface NullStyling {
+  fontWeight: "600" | "normal";
+  fontStyle: "italic" | "normal";
+  textDecoration: "underline" | "none";
+  color: string;
+  background: string;
+}
+
 export interface StylingOptions {
   header: HeaderStyling;
   content: MeasureContentStyling;
   rowContent: DimensionContentStyling;
   columnContent: DimensionContentStyling;
+  nullValue: NullStyling;
   grid: GridStyling;
 }
 

@@ -47,22 +47,6 @@ const getDimensionSection = (type: "rowContent" | "columnContent", translator: s
           (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.background ?? Colors.Transparent,
         ),
 
-        // Null value styling
-        nullValues: {
-          component: "header",
-          label: translator.get("library.colors.nullvalues"),
-        },
-        nullValueFontColor: createColorPickerItem(
-          `${type}.nullValue.fontColor`,
-          "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.nullValue?.color ?? currentTheme.color,
-        ),
-        nullValueBackground: createColorPickerItem(
-          `${type}.nullValue.background`,
-          "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.nullValue?.background ?? Colors.Transparent,
-        ),
-
         // Total label styling
         totalsHeader: {
           component: "header",

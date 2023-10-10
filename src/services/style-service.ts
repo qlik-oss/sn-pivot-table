@@ -94,6 +94,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const contentStyling = chartStyling?.[Path.Content];
   const rowContentStyling = chartStyling?.[Path.RowContent];
   const columnContentStyling = chartStyling?.[Path.ColumnContent];
+  const nullValueStyling = chartStyling?.[Path.NullValue];
   const gridStyling = chartStyling?.[Path.Grid];
   const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
 
@@ -162,16 +163,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         getThemeStyle([Path.Content], Attribute.Background) ??
         Colors.Transparent,
       lineClamp,
-      nullValue: {
-        color:
-          resolveColor(theme, contentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.Content, Path.NullValue], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, contentStyling?.[Path.NullValue]?.[Attribute.Background]) ??
-          getThemeStyle([Path.Content, Path.NullValue], Attribute.Background) ??
-          Colors.Black5,
-      },
       totalValue: {
         color:
           resolveColor(theme, contentStyling?.[Path.TotalValue]?.[Attribute.FontColor]) ??
@@ -203,16 +194,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, rowContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.RowContent], Attribute.Background) ??
         Colors.Transparent,
-      nullValue: {
-        color:
-          resolveColor(theme, rowContentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.RowContent, Path.NullValue], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, rowContentStyling?.[Path.NullValue]?.[Attribute.Background]) ??
-          getThemeStyle([Path.RowContent, Path.NullValue], Attribute.Background) ??
-          Colors.Black5,
-      },
       totalLabel: {
         color:
           resolveColor(theme, rowContentStyling?.[Path.TotalLabel]?.[Attribute.FontColor]) ??
@@ -254,16 +235,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, columnContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.ColumnContent], Attribute.Background) ??
         Colors.Transparent,
-      nullValue: {
-        color:
-          resolveColor(theme, columnContentStyling?.[Path.NullValue]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.ColumnContent, Path.NullValue], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, columnContentStyling?.[Path.NullValue]?.[Attribute.Background]) ??
-          getThemeStyle([Path.ColumnContent, Path.NullValue], Attribute.Background) ??
-          Colors.Black5,
-      },
       totalLabel: {
         color:
           resolveColor(theme, columnContentStyling?.[Path.TotalLabel]?.[Attribute.FontColor]) ??
@@ -284,6 +255,19 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
           getThemeStyle([Path.ColumnContent, Path.MeasureLabel], Attribute.Background) ??
           Colors.Transparent,
       },
+    },
+    nullValue: {
+      fontWeight: resolveFontWeight(nullValueStyling?.[Attribute.FontStyle], "normal"),
+      fontStyle: resolveFontStyle(nullValueStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(nullValueStyling?.[Attribute.FontStyle]),
+      color:
+        resolveColor(theme, nullValueStyling?.[Attribute.FontColor]) ??
+        getThemeStyle([Path.NullValue], Attribute.Color) ??
+        Colors.PrimaryText,
+      background:
+        resolveColor(theme, nullValueStyling?.[Attribute.Background]) ??
+        getThemeStyle([Path.NullValue], Attribute.Background) ??
+        Colors.Black5,
     },
     grid: {
       rowHeight: gridStyling?.[Attribute.RowHeight] ?? getThemeStyle([Path.Grid], Attribute.RowHeight) ?? "compact",
@@ -326,7 +310,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     styleService.header.columnTitle.background,
     HEADER_MENU_COLOR_MODIFIER.active,
   );
-
+  console.log("%c styleService", "color: orangered", styleService);
   return styleService;
 };
 

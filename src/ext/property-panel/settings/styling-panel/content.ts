@@ -61,21 +61,6 @@ const contentSection = (translator: stardust.Translator) => ({
             },
           },
         },
-        // Null value styling
-        nullValues: {
-          component: "header",
-          label: translator.get("library.colors.nullvalues"),
-        },
-        nullValueFontColor: createColorPickerItem(
-          "content.nullValue.fontColor",
-          "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.nullValue?.color ?? currentTheme.color,
-        ),
-        nullValueBackground: createColorPickerItem(
-          "content.nullValue.background",
-          "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.nullValue?.background ?? Colors.Transparent,
-        ),
 
         // Total value styling
         totalsHeader: {

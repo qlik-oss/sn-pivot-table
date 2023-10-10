@@ -34,7 +34,7 @@ export const getCellStyle = (
   expressionBackground: string | null,
 ) => {
   if (isNull) {
-    return { ...nilStyle, ...styleService.content.nullValue };
+    return { ...nilStyle, ...styleService.nullValue };
   }
 
   if (isTotalValue) {
@@ -57,16 +57,32 @@ export const getTextStyle = (
   expressionColor: string | null,
   isNumeric: boolean,
   isTotalValue: boolean,
+  isNull: boolean,
 ) => {
-  const { fontFamily, fontSize, fontWeight, fontStyle, textDecoration } = styleService.content;
-
-  return {
+  const { fontFamily, fontSize } = styleService.content;
+  const sharedStyle = {
     ...textStyle,
     ...(!isNumeric && getGridTextClampStyle(styleService.content.lineClamp)),
     ...(expressionColor && { color: expressionColor }),
     alignSelf: "flex-start",
     fontFamily,
     fontSize,
+  };
+
+  if (isNull) {
+    const { fontWeight, fontStyle, textDecoration } = styleService.nullValue;
+    return {
+      ...sharedStyle,
+      fontWeight,
+      fontStyle,
+      textDecoration,
+    };
+  }
+
+  const { fontWeight, fontStyle, textDecoration } = styleService.content;
+
+  return {
+    ...sharedStyle,
     fontWeight: isTotalValue && fontWeight === undefined ? BOLD_FONT_WEIGHT : fontWeight,
     fontStyle,
     textDecoration,

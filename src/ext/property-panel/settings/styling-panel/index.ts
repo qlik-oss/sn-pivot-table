@@ -3,6 +3,7 @@ import contentSection from "./content";
 import getDimensionSection from "./dimension-content";
 import gridSection from "./grid";
 import headerSection from "./header";
+import nullValueSection from "./null-value";
 
 const getStylingPanelConfig = (translator: stardust.Translator) => ({
   type: "items",
@@ -20,6 +21,7 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
         contentSection: contentSection(translator),
         rowContentSection: getDimensionSection("rowContent", translator),
         columnContentSection: getDimensionSection("columnContent", translator),
+        nullValueSection: nullValueSection(),
         gridSection,
       },
     },

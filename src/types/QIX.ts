@@ -71,7 +71,6 @@ export interface Component {
     fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
     lineClamp?: number;
-    nullValue?: ComponentCellStyling;
     totalValue?: ComponentCellStyling;
   };
   rowContent: {
@@ -80,7 +79,6 @@ export interface Component {
     fontColor?: PaletteColor;
     fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
-    nullValue?: ComponentCellStyling;
     totalLabel?: ComponentCellStyling;
     measureLabel?: ComponentCellStyling;
   };
@@ -90,9 +88,13 @@ export interface Component {
     fontColor?: PaletteColor;
     fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
-    nullValue?: ComponentCellStyling;
     totalLabel?: ComponentCellStyling;
     measureLabel?: ComponentCellStyling;
+  };
+  nullValue?: {
+    fontStyle?: FontStyleOptions[];
+    fontColor?: PaletteColor;
+    background?: PaletteColor;
   };
   grid: {
     rowHeight?: "compact";
