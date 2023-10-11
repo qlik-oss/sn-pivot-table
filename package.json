@@ -68,7 +68,6 @@
     ],
     "rules": {
       "@typescript-eslint/consistent-type-imports": "error",
-      "react/require-default-props": "warn",
       "import/no-extraneous-dependencies": [
         "error",
         {
@@ -76,7 +75,8 @@
           "optionalDependencies": false,
           "peerDependencies": true
         }
-      ]
+      ],
+      "react/require-default-props": "warn"
     },
     "root": true
   },
