@@ -222,13 +222,11 @@ interface HeaderStyling extends FontStyling, CellStyling {
 
 interface MeasureContentStyling extends FontStyling {
   background: string;
-  totalValue: CellStyling;
   lineClamp: number;
 }
 
 interface DimensionContentStyling extends FontStyling {
   background: string;
-  totalLabel: CellStyling;
   measureLabel: CellStyling;
 }
 
@@ -253,6 +251,7 @@ export interface StylingOptions {
   rowContent: DimensionContentStyling;
   columnContent: DimensionContentStyling;
   nullValue: NullStyling;
+  totalValue: NullStyling;
   grid: GridStyling;
 }
 

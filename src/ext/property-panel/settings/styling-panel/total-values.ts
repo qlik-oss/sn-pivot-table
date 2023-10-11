@@ -1,9 +1,9 @@
 import { Colors } from "../../../../pivot-table/components/shared-styles";
 import createColorPickerItem from "./utils/create-color-picker-item";
 
-const nullValueSection = () => ({
+const totalValuesSection = () => ({
   component: "panel-section",
-  translation: "properties.nullValue",
+  translation: "properties.totalValues",
   items: {
     content: {
       component: "items",
@@ -15,25 +15,25 @@ const nullValueSection = () => ({
           items: {
             fontStyle: {
               component: "font-style-buttons",
-              width: false,
-              ref: "nullValue.fontStyle",
-              defaultValue: [],
+              fullWidth: true,
+              ref: "totalValue.fontStyle",
+              defaultValue: ["bold"],
             },
             fontColor: createColorPickerItem(
-              "nullValue.fontColor",
+              "totalValue.fontColor",
               undefined,
-              (currentTheme) => currentTheme.object?.pivotTableV2?.nullValue?.color ?? currentTheme.color,
+              (currentTheme) => currentTheme.object?.pivotTableV2?.totalValue?.color ?? currentTheme.color,
             ),
           },
         },
         background: createColorPickerItem(
-          "nullValue.background",
+          "totalValue.background",
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.nullValue?.background ?? Colors.Transparent,
+          (currentTheme) => currentTheme.object?.pivotTableV2?.totalValue?.background ?? Colors.Transparent,
         ),
       },
     },
   },
 });
 
-export default nullValueSection;
+export default totalValuesSection;

@@ -46,22 +46,6 @@ const getDimensionSection = (type: "rowContent" | "columnContent", translator: s
           "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.background ?? Colors.Transparent,
         ),
-
-        // Total label styling
-        totalsHeader: {
-          component: "header",
-          label: translator.get("properties.totals"),
-        },
-        totalLabelFontColor: createColorPickerItem(
-          `${type}.totalLabel.fontColor`,
-          "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.totalLabel?.color ?? currentTheme.color,
-        ),
-        totalLabelBackground: createColorPickerItem(
-          `${type}.totalLabel.background`,
-          "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.totalLabel?.background ?? Colors.Transparent,
-        ),
       },
     },
   },

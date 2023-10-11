@@ -40,8 +40,8 @@ export const getCellStyle = (
   if (isTotalValue) {
     return {
       ...numericStyle,
-      color: styleService.content.totalValue.color,
-      background: expressionBackground ?? styleService.content.totalValue.background,
+      color: styleService.totalValue.color,
+      background: expressionBackground ?? styleService.totalValue.background,
     };
   }
 
@@ -79,11 +79,21 @@ export const getTextStyle = (
     };
   }
 
+  if (isTotalValue) {
+    const { fontWeight, fontStyle, textDecoration } = styleService.totalValue;
+    return {
+      ...sharedStyle,
+      fontWeight,
+      fontStyle,
+      textDecoration,
+    };
+  }
+
   const { fontWeight, fontStyle, textDecoration } = styleService.content;
 
   return {
     ...sharedStyle,
-    fontWeight: isTotalValue && fontWeight === undefined ? BOLD_FONT_WEIGHT : fontWeight,
+    fontWeight: fontWeight === undefined ? BOLD_FONT_WEIGHT : fontWeight,
     fontStyle,
     textDecoration,
   };

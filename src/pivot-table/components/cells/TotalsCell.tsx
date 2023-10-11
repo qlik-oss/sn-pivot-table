@@ -38,8 +38,8 @@ const TotalsCell = ({
   showLastBorder,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
-  const serviceStyle = isLeftColumn ? styleService.rowContent.totalLabel : styleService.columnContent.totalLabel;
-  const { fontSize, fontFamily } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
+  const { fontWeight, fontStyle, textDecoration, ...serviceStyle } = styleService.totalValue;
+  const { fontSize, fontFamily } = styleService.rowContent;
   const containerStyle = isLeftColumn ? leftContainerCellStyle : topContainerCellStyle;
 
   const totalCellDividerStyle = getTotalCellDividerStyle({
@@ -65,6 +65,9 @@ const TotalsCell = ({
           ...labelTextStyle,
           ...stickyCell,
           ...(cell.expressionColor.color && { color: cell.expressionColor.color }),
+          fontWeight,
+          fontStyle,
+          textDecoration,
           fontSize,
           fontFamily,
         }}

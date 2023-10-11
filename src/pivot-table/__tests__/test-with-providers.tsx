@@ -46,10 +46,6 @@ const TestWithProvider = (props: Props) => {
         color: "contentColor",
         background: "contentBackground",
         lineClamp: 1,
-        totalValue: {
-          color: "totalValueColor",
-          background: "totalValueBackground",
-        },
       },
       rowContent: {
         fontSize: "12px",
@@ -59,10 +55,6 @@ const TestWithProvider = (props: Props) => {
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
-        totalLabel: {
-          color: "#404040",
-          background: "transparent",
-        },
         measureLabel: {
           color: "rgba(0, 0, 0, 0.55)",
           background: "transparent",
@@ -76,21 +68,24 @@ const TestWithProvider = (props: Props) => {
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
-        totalLabel: {
-          color: "#404040",
-          background: "transparent",
-        },
         measureLabel: {
           color: "rgba(0, 0, 0, 0.55)",
           background: "transparent",
         },
       },
-      nullValue: {
-        fontWeight: undefined,
+      totalValue: {
+        fontWeight: "600",
         fontStyle: "normal",
         textDecoration: "none",
-        color: "#404040",
-        background: "rgba(0, 0, 0, 0.05)",
+        color: "totalValueColor",
+        background: "totalValueBackground",
+      },
+      nullValue: {
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "nullColor",
+        background: "nullBackground",
       },
       grid: {
         rowHeight: "compact",

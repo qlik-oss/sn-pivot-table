@@ -94,6 +94,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const contentStyling = chartStyling?.[Path.Content];
   const rowContentStyling = chartStyling?.[Path.RowContent];
   const columnContentStyling = chartStyling?.[Path.ColumnContent];
+  const totalValuesStyling = chartStyling?.[Path.TotalValue];
   const nullValueStyling = chartStyling?.[Path.NullValue];
   const gridStyling = chartStyling?.[Path.Grid];
   const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
@@ -139,7 +140,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         contentStyling?.[Attribute.FontFamily] ??
         getThemeStyle([Path.Content], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(contentStyling?.[Attribute.FontStyle], undefined),
+      fontWeight: resolveFontWeight(contentStyling?.[Attribute.FontStyle], "normal"),
       fontStyle: resolveFontStyle(contentStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(contentStyling?.[Attribute.FontStyle]),
       color:
@@ -151,16 +152,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         getThemeStyle([Path.Content], Attribute.Background) ??
         Colors.Transparent,
       lineClamp,
-      totalValue: {
-        color:
-          resolveColor(theme, contentStyling?.[Path.TotalValue]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.Content, Path.TotalValue], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, contentStyling?.[Path.TotalValue]?.[Attribute.Background]) ??
-          getThemeStyle([Path.Content, Path.TotalValue], Attribute.Background) ??
-          Colors.Transparent,
-      },
     },
     rowContent: {
       fontSize:
@@ -182,16 +173,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, rowContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.RowContent], Attribute.Background) ??
         Colors.Transparent,
-      totalLabel: {
-        color:
-          resolveColor(theme, rowContentStyling?.[Path.TotalLabel]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.RowContent, Path.TotalLabel], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, rowContentStyling?.[Path.TotalLabel]?.[Attribute.Background]) ??
-          getThemeStyle([Path.RowContent, Path.TotalLabel], Attribute.Background) ??
-          Colors.Transparent,
-      },
       measureLabel: {
         color:
           resolveColor(theme, rowContentStyling?.[Path.MeasureLabel]?.[Attribute.FontColor]) ??
@@ -223,16 +204,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, columnContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.ColumnContent], Attribute.Background) ??
         Colors.Transparent,
-      totalLabel: {
-        color:
-          resolveColor(theme, columnContentStyling?.[Path.TotalLabel]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.ColumnContent, Path.TotalLabel], Attribute.Color) ??
-          Colors.PrimaryText,
-        background:
-          resolveColor(theme, columnContentStyling?.[Path.TotalLabel]?.[Attribute.Background]) ??
-          getThemeStyle([Path.ColumnContent, Path.TotalLabel], Attribute.Background) ??
-          Colors.Transparent,
-      },
       measureLabel: {
         color:
           resolveColor(theme, columnContentStyling?.[Path.MeasureLabel]?.[Attribute.FontColor]) ??
@@ -243,6 +214,19 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
           getThemeStyle([Path.ColumnContent, Path.MeasureLabel], Attribute.Background) ??
           Colors.Transparent,
       },
+    },
+    totalValue: {
+      fontWeight: resolveFontWeight(totalValuesStyling?.[Attribute.FontStyle], BOLD_FONT_WEIGHT),
+      fontStyle: resolveFontStyle(totalValuesStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(totalValuesStyling?.[Attribute.FontStyle]),
+      color:
+        resolveColor(theme, totalValuesStyling?.[Attribute.FontColor]) ??
+        getThemeStyle([Path.TotalValue], Attribute.Color) ??
+        Colors.PrimaryText,
+      background:
+        resolveColor(theme, totalValuesStyling?.[Attribute.Background]) ??
+        getThemeStyle([Path.TotalValue], Attribute.Background) ??
+        Colors.Black5,
     },
     nullValue: {
       fontWeight: resolveFontWeight(nullValueStyling?.[Attribute.FontStyle], "normal"),

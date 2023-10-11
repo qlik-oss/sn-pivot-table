@@ -19,6 +19,7 @@ interface GetTextStyle {
   isCellSelected: boolean;
   isNull: boolean;
   expressionColor: string | null;
+  isTotal: boolean;
 }
 
 interface GetContainerStyle {
@@ -121,8 +122,9 @@ export const getTextStyle = ({
   isCellSelected,
   isNull,
   expressionColor,
+  isTotal,
 }: GetTextStyle): React.CSSProperties => {
-  const { totalLabel, measureLabel, background, fontWeight, ...serviceStyle } = isLeftColumn
+  const { measureLabel, background, fontWeight, ...serviceStyle } = isLeftColumn
     ? styleService.rowContent
     : styleService.columnContent;
   const nullValueStyling = isNull && {
@@ -132,6 +134,13 @@ export const getTextStyle = ({
     textDecoration: styleService.nullValue.textDecoration,
   };
 
+  const totalValueStyling = isTotal && {
+    color: styleService.totalValue.color,
+    fontWeight: styleService.totalValue.fontWeight,
+    fontStyle: styleService.totalValue.fontStyle,
+    textDecoration: styleService.totalValue.textDecoration,
+  };
+
   return {
     ...serviceStyle,
     ...textStyle,
@@ -139,6 +148,7 @@ export const getTextStyle = ({
     // fontWeight coming from Styling panel is undefined when the user have not
     // explicity set it to bold or normal
     fontWeight: fontWeight === undefined && (qCanExpand || qCanCollapse) ? "600" : fontWeight,
+    ...totalValueStyling,
     ...nullValueStyling,
     ...(isCellSelected && { color: selectedStyle.color }),
     overflow: "hidden",

@@ -98,8 +98,8 @@ describe("DataCell", () => {
     expect(screen.getByText(layoutService.getNullValueText())).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0]).toHaveStyle({
       justifyContent: "center",
-      backgroundColor: "contentNullBackground",
-      color: "contentNullColor",
+      backgroundColor: "nullBackground",
+      color: "nullColor",
     } as Record<string, unknown>);
   });
 

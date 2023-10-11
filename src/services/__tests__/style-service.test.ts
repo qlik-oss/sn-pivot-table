@@ -44,14 +44,6 @@ describe("style-service", () => {
               fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
-              nullValue: {
-                fontColor: { index: -1, color },
-                background: { index: -1, color },
-              },
-              totalValue: {
-                fontColor: { index: -1, color },
-                background: { index: -1, color },
-              },
             },
             rowContent: {
               fontSize,
@@ -59,14 +51,6 @@ describe("style-service", () => {
               fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
-              nullValue: {
-                fontColor: { index: -1, color },
-                background: { index: -1, color },
-              },
-              totalLabel: {
-                fontColor: { index: -1, color },
-                background: { index: -1, color },
-              },
               measureLabel: {
                 fontColor: { index: -1, color },
                 background: { index: -1, color },
@@ -78,18 +62,18 @@ describe("style-service", () => {
               fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
-              nullValue: {
-                fontColor: { index: -1, color },
-                background: { index: -1, color },
-              },
-              totalLabel: {
-                fontColor: { index: -1, color },
-                background: { index: -1, color },
-              },
               measureLabel: {
                 fontColor: { index: -1, color },
                 background: { index: -1, color },
               },
+            },
+            nullValue: {
+              fontColor: { index: -1, color },
+              background: { index: -1, color },
+            },
+            totalValue: {
+              fontColor: { index: -1, color },
+              background: { index: -1, color },
             },
             grid: {
               rowHeight: "compact",
@@ -128,14 +112,6 @@ describe("style-service", () => {
         color,
         background: color,
         lineClamp,
-        nullValue: {
-          color,
-          background: color,
-        },
-        totalValue: {
-          color,
-          background: color,
-        },
       },
       rowContent: {
         fontSize: `${fontSize}px`,
@@ -145,14 +121,6 @@ describe("style-service", () => {
         textDecoration: "underline",
         color,
         background: color,
-        nullValue: {
-          color,
-          background: color,
-        },
-        totalLabel: {
-          color,
-          background: color,
-        },
         measureLabel: {
           color,
           background: color,
@@ -166,18 +134,24 @@ describe("style-service", () => {
         textDecoration: "underline",
         color,
         background: color,
-        nullValue: {
-          color,
-          background: color,
-        },
-        totalLabel: {
-          color,
-          background: color,
-        },
         measureLabel: {
           color,
           background: color,
         },
+      },
+      totalValue: {
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color,
+        background: color,
+      },
+      nullValue: {
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color,
+        background: color,
       },
       grid: {
         rowHeight: "compact",
@@ -215,8 +189,6 @@ describe("style-service", () => {
         color: "18px",
         background: "18px",
         lineClamp,
-        nullValue: { color: "18px", background: "18px" },
-        totalValue: { color: "18px", background: "18px" },
       },
       rowContent: {
         fontSize: "18px",
@@ -226,8 +198,6 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "18px",
         background: "18px",
-        nullValue: { color: "18px", background: "18px" },
-        totalLabel: { color: "18px", background: "18px" },
         measureLabel: { color: "18px", background: "18px" },
       },
       columnContent: {
@@ -238,9 +208,21 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "18px",
         background: "18px",
-        nullValue: { color: "18px", background: "18px" },
-        totalLabel: { color: "18px", background: "18px" },
         measureLabel: { color: "18px", background: "18px" },
+      },
+      totalValue: {
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "18px",
+        background: "18px",
+      },
+      nullValue: {
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "18px",
+        background: "18px",
       },
       grid: {
         rowHeight: "18px",
@@ -279,8 +261,6 @@ describe("style-service", () => {
         color: "rgba(0, 0, 0, 0.55)",
         background: "transparent",
         lineClamp: 1,
-        nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
-        totalValue: { color: "#404040", background: "transparent" },
       },
       rowContent: {
         fontSize: "12px",
@@ -290,8 +270,6 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
-        nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
-        totalLabel: { color: "#404040", background: "transparent" },
         measureLabel: { color: "rgba(0, 0, 0, 0.55)", background: "transparent" },
       },
       columnContent: {
@@ -302,9 +280,21 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
-        nullValue: { color: "#404040", background: "rgba(0, 0, 0, 0.05)" },
-        totalLabel: { color: "#404040", background: "transparent" },
         measureLabel: { color: "rgba(0, 0, 0, 0.55)", background: "transparent" },
+      },
+      totalValue: {
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "#404040",
+        background: "rgba(0, 0, 0, 0.05)",
+      },
+      nullValue: {
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "#404040",
+        background: "rgba(0, 0, 0, 0.05)",
       },
       grid: {
         rowHeight: "compact",

@@ -61,22 +61,6 @@ const contentSection = (translator: stardust.Translator) => ({
             },
           },
         },
-
-        // Total value styling
-        totalsHeader: {
-          component: "header",
-          label: translator.get("properties.totals"),
-        },
-        totalValueFontColor: createColorPickerItem(
-          "content.totalValue.fontColor",
-          "properties.fontColor",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.totalValue?.color ?? currentTheme.color,
-        ),
-        totalValueBackground: createColorPickerItem(
-          "content.totalValue.background",
-          "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.totalValue?.background ?? Colors.Transparent,
-        ),
       },
     },
   },
