@@ -90,6 +90,11 @@ export interface Component {
     totalLabel?: ComponentCellStyling;
     measureLabel?: ComponentCellStyling;
   };
+  measureLabel?: {
+    fontStyle?: FontStyleOptions[];
+    fontColor?: PaletteColor;
+    background?: PaletteColor;
+  };
   totalValue?: {
     fontStyle?: FontStyleOptions[];
     fontColor?: PaletteColor;

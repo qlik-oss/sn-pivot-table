@@ -227,7 +227,6 @@ interface MeasureContentStyling extends FontStyling {
 
 interface DimensionContentStyling extends FontStyling {
   background: string;
-  measureLabel: CellStyling;
 }
 
 interface GridStyling {
@@ -250,6 +249,7 @@ export interface StylingOptions {
   content: MeasureContentStyling;
   rowContent: DimensionContentStyling;
   columnContent: DimensionContentStyling;
+  measureLabel: NullStyling;
   nullValue: NullStyling;
   totalValue: NullStyling;
   grid: GridStyling;

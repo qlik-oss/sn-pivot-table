@@ -94,6 +94,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const contentStyling = chartStyling?.[Path.Content];
   const rowContentStyling = chartStyling?.[Path.RowContent];
   const columnContentStyling = chartStyling?.[Path.ColumnContent];
+  const measureLabelStyling = chartStyling?.[Path.MeasureLabel];
   const totalValuesStyling = chartStyling?.[Path.TotalValue];
   const nullValueStyling = chartStyling?.[Path.NullValue];
   const gridStyling = chartStyling?.[Path.Grid];
@@ -173,16 +174,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, rowContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.RowContent], Attribute.Background) ??
         Colors.Transparent,
-      measureLabel: {
-        color:
-          resolveColor(theme, rowContentStyling?.[Path.MeasureLabel]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.RowContent, Path.MeasureLabel], Attribute.Color) ??
-          Colors.Black55,
-        background:
-          resolveColor(theme, rowContentStyling?.[Path.MeasureLabel]?.[Attribute.Background]) ??
-          getThemeStyle([Path.RowContent, Path.MeasureLabel], Attribute.Background) ??
-          Colors.Transparent,
-      },
     },
     columnContent: {
       fontSize:
@@ -204,16 +195,19 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, columnContentStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.ColumnContent], Attribute.Background) ??
         Colors.Transparent,
-      measureLabel: {
-        color:
-          resolveColor(theme, columnContentStyling?.[Path.MeasureLabel]?.[Attribute.FontColor]) ??
-          getThemeStyle([Path.ColumnContent, Path.MeasureLabel], Attribute.Color) ??
-          Colors.Black55,
-        background:
-          resolveColor(theme, columnContentStyling?.[Path.MeasureLabel]?.[Attribute.Background]) ??
-          getThemeStyle([Path.ColumnContent, Path.MeasureLabel], Attribute.Background) ??
-          Colors.Transparent,
-      },
+    },
+    measureLabel: {
+      fontWeight: resolveFontWeight(measureLabelStyling?.[Attribute.FontStyle], "normal"),
+      fontStyle: resolveFontStyle(measureLabelStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(measureLabelStyling?.[Attribute.FontStyle]),
+      color:
+        resolveColor(theme, measureLabelStyling?.[Attribute.FontColor]) ??
+        getThemeStyle([Path.TotalValue], Attribute.Color) ??
+        Colors.PrimaryText,
+      background:
+        resolveColor(theme, measureLabelStyling?.[Attribute.Background]) ??
+        getThemeStyle([Path.TotalValue], Attribute.Background) ??
+        Colors.Transparent,
     },
     totalValue: {
       fontWeight: resolveFontWeight(totalValuesStyling?.[Attribute.FontStyle], BOLD_FONT_WEIGHT),
@@ -226,7 +220,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       background:
         resolveColor(theme, totalValuesStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.TotalValue], Attribute.Background) ??
-        Colors.Black5,
+        Colors.Transparent,
     },
     nullValue: {
       fontWeight: resolveFontWeight(nullValueStyling?.[Attribute.FontStyle], "normal"),

@@ -51,10 +51,6 @@ describe("style-service", () => {
               fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
-              measureLabel: {
-                fontColor: { index: -1, color },
-                background: { index: -1, color },
-              },
             },
             columnContent: {
               fontSize,
@@ -62,10 +58,10 @@ describe("style-service", () => {
               fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
-              measureLabel: {
-                fontColor: { index: -1, color },
-                background: { index: -1, color },
-              },
+            },
+            measureLabel: {
+              fontColor: { index: -1, color },
+              background: { index: -1, color },
             },
             nullValue: {
               fontColor: { index: -1, color },
@@ -121,10 +117,6 @@ describe("style-service", () => {
         textDecoration: "underline",
         color,
         background: color,
-        measureLabel: {
-          color,
-          background: color,
-        },
       },
       columnContent: {
         fontSize: `${fontSize}px`,
@@ -134,10 +126,13 @@ describe("style-service", () => {
         textDecoration: "underline",
         color,
         background: color,
-        measureLabel: {
-          color,
-          background: color,
-        },
+      },
+      measureLabel: {
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color,
+        background: color,
       },
       totalValue: {
         fontWeight: "600",
@@ -198,7 +193,6 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "18px",
         background: "18px",
-        measureLabel: { color: "18px", background: "18px" },
       },
       columnContent: {
         fontSize: "18px",
@@ -208,7 +202,13 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "18px",
         background: "18px",
-        measureLabel: { color: "18px", background: "18px" },
+      },
+      measureLabel: {
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "18px",
+        background: "18px",
       },
       totalValue: {
         fontWeight: "600",
@@ -270,7 +270,6 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
-        measureLabel: { color: "rgba(0, 0, 0, 0.55)", background: "transparent" },
       },
       columnContent: {
         fontSize: "12px",
@@ -280,14 +279,20 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
-        measureLabel: { color: "rgba(0, 0, 0, 0.55)", background: "transparent" },
+      },
+      measureLabel: {
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "#404040",
+        background: "transparent",
       },
       totalValue: {
         fontWeight: "600",
         fontStyle: "normal",
         textDecoration: "none",
         color: "#404040",
-        background: "rgba(0, 0, 0, 0.05)",
+        background: "transparent",
       },
       nullValue: {
         fontWeight: "normal",

@@ -3,6 +3,7 @@ import contentSection from "./content";
 import getDimensionSection from "./dimension-content";
 import gridSection from "./grid";
 import headerSection from "./header";
+import measureLabelsSection from "./measure-label";
 import nullValuesSection from "./null-values";
 import totalValuesSection from "./total-values";
 
@@ -22,6 +23,7 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
         contentSection: contentSection(translator),
         rowContentSection: getDimensionSection("rowContent", translator),
         columnContentSection: getDimensionSection("columnContent", translator),
+        measureLabelSection: measureLabelsSection(),
         totalValuesSection: totalValuesSection(),
         nullValuesSection: nullValuesSection(),
         gridSection,

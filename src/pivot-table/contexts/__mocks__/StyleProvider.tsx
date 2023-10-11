@@ -23,14 +23,19 @@ export const useStyleContext = () => ({
     fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
     color: "#404040",
     background: "transparent",
-    measureLabel: { color: "rgba(0, 0, 0, 0.55)", background: "transparent" },
   },
   columnContent: {
     fontSize: "12px",
     fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
     color: "#404040",
     background: "transparent",
-    measureLabel: { color: "rgba(0, 0, 0, 0.55)", background: "transparent" },
+  },
+  measureLabel: {
+    fontWeight: "600",
+    fontStyle: "normal",
+    textDecoration: "none",
+    color: "measureLabelColor",
+    background: "measureLabelBackground",
   },
   totalValue: {
     fontWeight: "600",

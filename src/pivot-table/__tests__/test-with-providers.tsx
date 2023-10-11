@@ -73,6 +73,13 @@ const TestWithProvider = (props: Props) => {
           background: "transparent",
         },
       },
+      measureLabel: {
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "measureLabelColor",
+        background: "measureLabelBackground",
+      },
       totalValue: {
         fontWeight: "600",
         fontStyle: "normal",

@@ -124,7 +124,7 @@ export const getTextStyle = ({
   expressionColor,
   isTotal,
 }: GetTextStyle): React.CSSProperties => {
-  const { measureLabel, background, fontWeight, ...serviceStyle } = isLeftColumn
+  const { background, fontWeight, ...serviceStyle } = isLeftColumn
     ? styleService.rowContent
     : styleService.columnContent;
   const nullValueStyling = isNull && {
