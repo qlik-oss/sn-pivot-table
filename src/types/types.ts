@@ -201,63 +201,36 @@ export interface PageInfo {
   rowsOnCurrentPage: number;
 }
 
-export interface FontStyling {
+export type CellStyling = {
   fontSize: string;
   fontFamily: string;
-  fontWeight: "600" | "normal" | undefined;
-  fontStyle: "italic" | "normal";
-  textDecoration: "underline" | "none";
-  color: string;
-}
-
-export interface CellStyling {
+  fontWeight: string | undefined; // "600" | "normal" from Styling panel, but from Theme it can be any supported font-weight value
+  fontStyle: string; // "italic" | "normal" from Styling panel, but from Theme it can be any supported font-weight value
+  textDecoration: string; // "underline" | "none" from Styling panel, but from Theme it can be any supported font-weight value
   color: string;
   background: string;
-}
+};
 
-interface HeaderStyling extends FontStyling, CellStyling {
-  hoverBackground: string;
-  activeBackground: string;
-}
+export type ThemeStyling = {
+  header: CellStyling;
+  dimensionValue: CellStyling;
+  measureValue: CellStyling;
+  measureLabel: Omit<CellStyling, "fontSize" | "fontFamily">;
+  nullValue: Omit<CellStyling, "fontSize" | "fontFamily">;
+  totalValue: Omit<CellStyling, "fontSize" | "fontFamily">;
+  grid: {
+    lineClamp: number;
+    border: string;
+    divider: string;
+    background: string;
+  };
+};
 
-interface MeasureContentStyling extends FontStyling {
-  background: string;
-}
-
-interface DimensionContentStyling extends FontStyling {
-  background: string;
-}
-
-interface GridStyling {
-  lineClamp: number;
-  rowHeight: "compact";
-  border: string;
-  divider: string;
-  background: string;
-}
-
-interface NullStyling {
-  fontWeight: "600" | "normal" | undefined;
-  fontStyle: "italic" | "normal";
-  textDecoration: "underline" | "none";
-  color: string;
-  background: string;
-}
-
-export interface StylingOptions {
-  header: HeaderStyling;
-  dimensionValue: DimensionContentStyling;
-  measureValue: MeasureContentStyling;
-  measureLabel: NullStyling;
-  nullValue: NullStyling;
-  totalValue: NullStyling;
-  grid: GridStyling;
-}
-
-export interface StyleService extends StylingOptions {
+export type StyleService = ThemeStyling & {
+  header: CellStyling & { hoverBackground: string; activeBackground: string };
   headerCellHeight: number;
   contentCellHeight: number;
-}
+};
 
 export type ActivelySortedColumn = {
   colIdx: number;

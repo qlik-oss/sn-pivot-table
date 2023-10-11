@@ -1,4 +1,4 @@
-import type { ActivelySortedColumn, StylingOptions } from "./types";
+import type { ActivelySortedColumn, ThemeStyling } from "./types";
 
 enum NxDimCellType {
   NX_DIM_CELL_VALUE = "V",
@@ -37,10 +37,6 @@ interface NullValueRepresentation {
   text?: string;
 }
 
-export interface RowHeight {
-  linesCount: number;
-}
-
 export interface PaletteColor {
   index?: number;
   color?: string;
@@ -50,15 +46,14 @@ export type FontStyleOptions = "bold" | "italic" | "underline";
 
 export interface Component {
   key: "general" | "theme";
-  rowHeight?: RowHeight;
-  header: {
+  header?: {
     fontFamily?: string;
     fontSize?: string;
     fontStyle?: FontStyleOptions[];
     fontColor?: PaletteColor;
     background?: PaletteColor;
   };
-  dimensionValue: {
+  dimensionValue?: {
     fontFamily?: string;
     fontSize?: string;
     fontColor?: PaletteColor;
@@ -87,9 +82,8 @@ export interface Component {
     fontColor?: PaletteColor;
     background?: PaletteColor;
   };
-  grid: {
+  grid?: {
     lineClamp?: number;
-    rowHeight?: "compact";
     border?: PaletteColor;
     divider?: PaletteColor;
     background?: PaletteColor;
@@ -98,7 +92,7 @@ export interface Component {
 
 export interface CurrentTheme {
   object?: {
-    pivotTableV2?: StylingOptions;
+    pivotTableV2?: ThemeStyling;
   };
   fontSize: string;
   fontSizes?: string[];

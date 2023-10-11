@@ -65,7 +65,6 @@ describe("style-service", () => {
               background: { index: -1, color },
             },
             grid: {
-              rowHeight: "compact",
               lineClamp,
               border: "borderColor",
               divider: "dividerColor",
@@ -133,7 +132,6 @@ describe("style-service", () => {
       },
       grid: {
         lineClamp,
-        rowHeight: "compact",
         border: color,
         divider: color,
         background: color,
@@ -200,7 +198,6 @@ describe("style-service", () => {
       },
       grid: {
         lineClamp,
-        rowHeight: "18px",
         border: "18px",
         divider: "18px",
         background: "18px",
@@ -268,7 +265,6 @@ describe("style-service", () => {
       },
       grid: {
         lineClamp: 1,
-        rowHeight: "compact",
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",
         background: "transparent",

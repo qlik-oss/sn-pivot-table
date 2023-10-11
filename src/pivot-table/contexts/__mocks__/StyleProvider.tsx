@@ -54,7 +54,6 @@ export const useStyleContext = (): StyleService => ({
   },
   grid: {
     lineClamp: 1,
-    rowHeight: "compact",
     border: "rgba(0, 0, 0, 0.15)",
     divider: "rgba(0, 0, 0, 0.6)",
     background: "transparent",

@@ -38,8 +38,8 @@ enum Path {
   TotalValue = "totalValue",
   TotalLabel = "totalLabel",
   MeasureLabel = "measureLabel",
-  Root = "",
 }
+
 enum Attribute {
   FontSize = "fontSize",
   FontFamily = "fontFamily",
@@ -48,7 +48,6 @@ enum Attribute {
   Color = "color",
   CellHeight = "cellHeight",
   Background = "background",
-  RowHeight = "rowHeight",
   LineClamp = "lineClamp",
   Border = "border",
   Divider = "divider",
@@ -211,7 +210,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     },
     grid: {
       lineClamp,
-      rowHeight: gridStyling?.[Attribute.RowHeight] ?? getThemeStyle([Path.Grid], Attribute.RowHeight) ?? "compact",
       border:
         resolveColor(theme, gridStyling?.[Attribute.Border]) ??
         getThemeStyle([Path.Grid], Attribute.Border) ??
@@ -227,13 +225,13 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     },
   } as StyleService;
 
-  styleService["headerCellHeight"] = Math.max(
+  styleService.headerCellHeight = Math.max(
     fontSizeToCellHeight(styleService.header.fontSize, DEFAULT_LINE_CLAMP),
     fontSizeToCellHeight(styleService.dimensionValue.fontSize, DEFAULT_LINE_CLAMP),
     DEFAULT_HEADER_CELL_HEIGHT,
   );
 
-  styleService["contentCellHeight"] = Math.max(
+  styleService.contentCellHeight = Math.max(
     fontSizeToCellHeight(styleService.measureValue.fontSize, lineClamp),
     fontSizeToCellHeight(styleService.dimensionValue.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT,
