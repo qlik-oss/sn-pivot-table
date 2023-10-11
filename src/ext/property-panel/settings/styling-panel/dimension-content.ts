@@ -4,9 +4,9 @@ import createColorPickerItem from "./utils/create-color-picker-item";
 import createFontFamilyItem from "./utils/create-font-family-item";
 import createFontSizeItem from "./utils/create-font-size-item";
 
-const getDimensionSection = (type: "rowContent" | "columnContent", translator: stardust.Translator) => ({
+const getDimensionSection = (translator: stardust.Translator) => ({
   component: "panel-section",
-  translation: `properties.pivot.${type}`,
+  translation: "properties.pivot.dimensionValue",
   items: {
     content: {
       component: "items",
@@ -14,9 +14,9 @@ const getDimensionSection = (type: "rowContent" | "columnContent", translator: s
       key: "theme",
       items: {
         fontFamily: createFontFamilyItem({
-          ref: `${type}.fontFamily`,
+          ref: "dimensionValue.fontFamily",
           themeAccessor: (currentTheme) =>
-            currentTheme.object?.pivotTableV2?.[type]?.fontFamily ?? currentTheme.fontFamily,
+            currentTheme.object?.pivotTableV2?.dimensionValue?.fontFamily ?? currentTheme.fontFamily,
           translator,
         }),
         fontWrapperItem: {
@@ -25,26 +25,26 @@ const getDimensionSection = (type: "rowContent" | "columnContent", translator: s
             fontStyle: {
               component: "font-style-buttons",
               width: false,
-              ref: `${type}.fontStyle`,
+              ref: "dimensionValue.fontStyle",
               defaultValue: [],
             },
             fontSize: createFontSizeItem({
-              ref: `${type}.fontSize`,
+              ref: "dimensionValue.fontSize",
               themeAccessor: (currentTheme) =>
-                currentTheme.object?.pivotTableV2?.[type]?.fontSize ?? currentTheme.fontSize,
+                currentTheme.object?.pivotTableV2?.dimensionValue?.fontSize ?? currentTheme.fontSize,
               translator,
             }),
             fontColor: createColorPickerItem(
-              `${type}.fontColor`,
+              "dimensionValue.fontColor",
               undefined,
-              (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.color ?? currentTheme.color,
+              (currentTheme) => currentTheme.object?.pivotTableV2?.dimensionValue?.color ?? currentTheme.color,
             ),
           },
         },
         background: createColorPickerItem(
-          `${type}.background`,
+          "dimensionValue.background",
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[type]?.background ?? Colors.Transparent,
+          (currentTheme) => currentTheme.object?.pivotTableV2?.dimensionValue?.background ?? Colors.Transparent,
         ),
       },
     },

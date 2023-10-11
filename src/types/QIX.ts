@@ -46,11 +46,6 @@ export interface PaletteColor {
   color?: string;
 }
 
-interface ComponentCellStyling {
-  background?: PaletteColor;
-  fontColor?: PaletteColor;
-}
-
 export type FontStyleOptions = "bold" | "italic" | "underline";
 
 export interface Component {
@@ -63,6 +58,13 @@ export interface Component {
     fontColor?: PaletteColor;
     background?: PaletteColor;
   };
+  dimensionValue: {
+    fontFamily?: string;
+    fontSize?: string;
+    fontColor?: PaletteColor;
+    fontStyle?: FontStyleOptions[];
+    background?: PaletteColor;
+  };
   content: {
     fontFamily?: string;
     fontSize?: string;
@@ -70,25 +72,6 @@ export interface Component {
     fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
     lineClamp?: number;
-    totalValue?: ComponentCellStyling;
-  };
-  rowContent: {
-    fontFamily?: string;
-    fontSize?: string;
-    fontColor?: PaletteColor;
-    fontStyle?: FontStyleOptions[];
-    background?: PaletteColor;
-    totalLabel?: ComponentCellStyling;
-    measureLabel?: ComponentCellStyling;
-  };
-  columnContent: {
-    fontFamily?: string;
-    fontSize?: string;
-    fontColor?: PaletteColor;
-    fontStyle?: FontStyleOptions[];
-    background?: PaletteColor;
-    totalLabel?: ComponentCellStyling;
-    measureLabel?: ComponentCellStyling;
   };
   measureLabel?: {
     fontStyle?: FontStyleOptions[];

@@ -37,6 +37,15 @@ const TestWithProvider = (props: Props) => {
         activeBackground: "rgba(0, 0, 0, 0.05)",
         hoverBackground: "rgba(0, 0, 0, 0.03)",
       },
+      dimensionValue: {
+        fontSize: "12px",
+        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "#404040",
+        background: "transparent",
+      },
       content: {
         fontSize: "12px",
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
@@ -46,32 +55,6 @@ const TestWithProvider = (props: Props) => {
         color: "contentColor",
         background: "contentBackground",
         lineClamp: 1,
-      },
-      rowContent: {
-        fontSize: "12px",
-        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-        fontWeight: "600",
-        fontStyle: "normal",
-        textDecoration: "none",
-        color: "#404040",
-        background: "transparent",
-        measureLabel: {
-          color: "rgba(0, 0, 0, 0.55)",
-          background: "transparent",
-        },
-      },
-      columnContent: {
-        fontSize: "12px",
-        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-        fontWeight: "600",
-        fontStyle: "normal",
-        textDecoration: "none",
-        color: "#404040",
-        background: "transparent",
-        measureLabel: {
-          color: "rgba(0, 0, 0, 0.55)",
-          background: "transparent",
-        },
       },
       measureLabel: {
         fontWeight: "600",

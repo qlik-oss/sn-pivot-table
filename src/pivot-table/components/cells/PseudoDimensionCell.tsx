@@ -41,7 +41,7 @@ const PseudoDimensionCell = ({
   showTotalCellDivider,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
-  const { fontSize, fontFamily } = styleService.rowContent;
+  const { fontSize, fontFamily } = styleService.dimensionValue;
   const { fontWeight, fontStyle, textDecoration, ...measureLabelStyle } = styleService.measureLabel;
   const containerStyle = isLeftColumn ? leftContainerCellStyle : topContainerCellStyle;
   const totalCellDividerStyle = getTotalCellDividerStyle({

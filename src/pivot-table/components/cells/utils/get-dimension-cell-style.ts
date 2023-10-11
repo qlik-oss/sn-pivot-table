@@ -86,7 +86,7 @@ export const getContainerStyle = ({
   expressionBackground,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
-  const { background: styleServiceBackground } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
+  const { background: styleServiceBackground } = styleService.dimensionValue;
   const background = expressionBackground ?? styleServiceBackground;
   const resolvedLockedSelectionStyle = isCellLocked ? getLockedStyleFromSelection(background) : {};
   const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
@@ -124,9 +124,7 @@ export const getTextStyle = ({
   expressionColor,
   isTotal,
 }: GetTextStyle): React.CSSProperties => {
-  const { background, fontWeight, ...serviceStyle } = isLeftColumn
-    ? styleService.rowContent
-    : styleService.columnContent;
+  const { background, fontWeight, ...serviceStyle } = styleService.dimensionValue;
   const nullValueStyling = isNull && {
     color: styleService.nullValue.color,
     fontWeight: styleService.nullValue.fontWeight,

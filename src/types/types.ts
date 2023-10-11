@@ -204,7 +204,7 @@ export interface PageInfo {
 export interface FontStyling {
   fontSize: string;
   fontFamily: string;
-  fontWeight: "600" | "normal";
+  fontWeight: "600" | "normal" | undefined;
   fontStyle: "italic" | "normal";
   textDecoration: "underline" | "none";
   color: string;
@@ -246,9 +246,8 @@ interface NullStyling {
 
 export interface StylingOptions {
   header: HeaderStyling;
+  dimensionValue: DimensionContentStyling;
   content: MeasureContentStyling;
-  rowContent: DimensionContentStyling;
-  columnContent: DimensionContentStyling;
   measureLabel: NullStyling;
   nullValue: NullStyling;
   totalValue: NullStyling;

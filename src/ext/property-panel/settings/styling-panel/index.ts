@@ -20,9 +20,8 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
       defaultValue: [],
       items: {
         headerSection: headerSection(translator),
+        dimensionValueSection: getDimensionSection(translator),
         contentSection: contentSection(translator),
-        rowContentSection: getDimensionSection("rowContent", translator),
-        columnContentSection: getDimensionSection("columnContent", translator),
         measureLabelSection: measureLabelsSection(),
         totalValuesSection: totalValuesSection(),
         nullValuesSection: nullValuesSection(),

@@ -32,9 +32,8 @@ const HEADER_MENU_COLOR_MODIFIER = {
 enum Path {
   Header = "header",
   Content = "content",
-  RowContent = "rowContent",
+  DimensionValue = "dimensionValue",
   RowTitle = "rowTitle",
-  ColumnContent = "columnContent",
   ColumnTitle = "columnTitle",
   Grid = "grid",
   NullValue = "nullValue",
@@ -92,8 +91,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const chartStyling = layoutService.layout.components?.find((n) => n.key === "theme");
   const headerStyling = chartStyling?.[Path.Header];
   const contentStyling = chartStyling?.[Path.Content];
-  const rowContentStyling = chartStyling?.[Path.RowContent];
-  const columnContentStyling = chartStyling?.[Path.ColumnContent];
+  const dimensionValue = chartStyling?.[Path.DimensionValue];
   const measureLabelStyling = chartStyling?.[Path.MeasureLabel];
   const totalValuesStyling = chartStyling?.[Path.TotalValue];
   const nullValueStyling = chartStyling?.[Path.NullValue];
@@ -132,6 +130,27 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       hoverBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.hover),
       activeBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.active),
     },
+    dimensionValue: {
+      fontSize:
+        resolveFontSize(dimensionValue?.[Attribute.FontSize]) ??
+        getThemeStyle([Path.DimensionValue], Attribute.FontSize) ??
+        DEFAULT_FONT_SIZE,
+      fontFamily:
+        dimensionValue?.[Attribute.FontFamily] ??
+        getThemeStyle([Path.DimensionValue], Attribute.FontFamily) ??
+        DEFAULT_FONT_FAMILY,
+      fontWeight: resolveFontWeight(dimensionValue?.[Attribute.FontStyle], undefined),
+      fontStyle: resolveFontStyle(dimensionValue?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(dimensionValue?.[Attribute.FontStyle]),
+      color:
+        resolveColor(theme, dimensionValue?.[Attribute.FontColor]) ??
+        getThemeStyle([Path.DimensionValue], Attribute.Color) ??
+        Colors.PrimaryText,
+      background:
+        resolveColor(theme, dimensionValue?.[Attribute.Background]) ??
+        getThemeStyle([Path.DimensionValue], Attribute.Background) ??
+        Colors.Transparent,
+    },
     content: {
       fontSize:
         resolveFontSize(contentStyling?.[Attribute.FontSize]) ??
@@ -153,48 +172,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         getThemeStyle([Path.Content], Attribute.Background) ??
         Colors.Transparent,
       lineClamp,
-    },
-    rowContent: {
-      fontSize:
-        resolveFontSize(rowContentStyling?.[Attribute.FontSize]) ??
-        getThemeStyle([Path.RowContent], Attribute.FontSize) ??
-        DEFAULT_FONT_SIZE,
-      fontFamily:
-        rowContentStyling?.[Attribute.FontFamily] ??
-        getThemeStyle([Path.RowContent], Attribute.FontFamily) ??
-        DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(rowContentStyling?.[Attribute.FontStyle], undefined),
-      fontStyle: resolveFontStyle(rowContentStyling?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(rowContentStyling?.[Attribute.FontStyle]),
-      color:
-        resolveColor(theme, rowContentStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.RowContent], Attribute.Color) ??
-        Colors.PrimaryText,
-      background:
-        resolveColor(theme, rowContentStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.RowContent], Attribute.Background) ??
-        Colors.Transparent,
-    },
-    columnContent: {
-      fontSize:
-        resolveFontSize(columnContentStyling?.[Attribute.FontSize]) ??
-        getThemeStyle([Path.ColumnContent], Attribute.FontSize) ??
-        DEFAULT_FONT_SIZE,
-      fontFamily:
-        columnContentStyling?.[Attribute.FontFamily] ??
-        getThemeStyle([Path.ColumnContent], Attribute.FontFamily) ??
-        DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(columnContentStyling?.[Attribute.FontStyle], undefined),
-      fontStyle: resolveFontStyle(columnContentStyling?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(columnContentStyling?.[Attribute.FontStyle]),
-      color:
-        resolveColor(theme, columnContentStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.ColumnContent], Attribute.Color) ??
-        Colors.PrimaryText,
-      background:
-        resolveColor(theme, columnContentStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.ColumnContent], Attribute.Background) ??
-        Colors.Transparent,
     },
     measureLabel: {
       fontWeight: resolveFontWeight(measureLabelStyling?.[Attribute.FontStyle], "normal"),
@@ -254,13 +231,13 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
 
   styleService["headerCellHeight"] = Math.max(
     fontSizeToCellHeight(styleService.header.fontSize, DEFAULT_LINE_CLAMP),
-    fontSizeToCellHeight(styleService.columnContent.fontSize, DEFAULT_LINE_CLAMP),
+    fontSizeToCellHeight(styleService.dimensionValue.fontSize, DEFAULT_LINE_CLAMP),
     DEFAULT_HEADER_CELL_HEIGHT,
   );
 
   styleService["contentCellHeight"] = Math.max(
     fontSizeToCellHeight(styleService.content.fontSize, lineClamp),
-    fontSizeToCellHeight(styleService.rowContent.fontSize, lineClamp),
+    fontSizeToCellHeight(styleService.dimensionValue.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT,
   );
 

@@ -39,7 +39,7 @@ const TotalsCell = ({
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const { fontWeight, fontStyle, textDecoration, ...serviceStyle } = styleService.totalValue;
-  const { fontSize, fontFamily } = styleService.rowContent;
+  const { fontSize, fontFamily } = styleService.dimensionValue;
   const containerStyle = isLeftColumn ? leftContainerCellStyle : topContainerCellStyle;
 
   const totalCellDividerStyle = getTotalCellDividerStyle({

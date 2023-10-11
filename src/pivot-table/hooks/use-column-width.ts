@@ -72,9 +72,8 @@ export default function useColumnWidth(
   const { measureText: measureTextForContent, estimateWidth: estimateWidthForContent } = useMeasureText(
     styleService.content,
   );
-  const { estimateWidth: estimateWidthForRowContent } = useMeasureText(styleService.rowContent);
-  const { estimateWidth: estimateWidthForColumnContent, measureText: measureTextForColumnContent } = useMeasureText(
-    styleService.columnContent,
+  const { estimateWidth: estimateWidthForDimensionValue, measureText: measureTextForDimensionValue } = useMeasureText(
+    styleService.dimensionValue,
   );
 
   /**
@@ -111,7 +110,7 @@ export default function useColumnWidth(
         const iconWidth = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0;
         const fitToContentWidth = Math.max(
           measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING,
-          estimateWidthForRowContent(qApprMaxGlyphCount) + iconWidth,
+          estimateWidthForDimensionValue(qApprMaxGlyphCount) + iconWidth,
         );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);
@@ -133,7 +132,7 @@ export default function useColumnWidth(
     isFullyExpanded,
     qNoOfLeftDims,
     measureTextForHeader,
-    estimateWidthForRowContent,
+    estimateWidthForDimensionValue,
   ]);
 
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
@@ -213,11 +212,11 @@ export default function useColumnWidth(
             const fitToContentWidth = topGridLeavesIsPseudo
               ? Math.max(
                   estimateWidthForContent(qApprMaxGlyphCount),
-                  measureTextForColumnContent(qFallbackTitle) + TOTAL_CELL_PADDING,
+                  measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING,
                 )
               : Math.max(
                   Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
-                  estimateWidthForColumnContent(qApprMaxGlyphCount) + leavesIconWidth,
+                  estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
                 );
             addKnownWidth(idx, fitToContentWidth);
             break;
@@ -243,12 +242,12 @@ export default function useColumnWidth(
 
     return widths;
   }, [
-    estimateWidthForColumnContent,
+    estimateWidthForDimensionValue,
     estimateWidthForContent,
     size.x,
     leafTopDimension,
     leavesIconWidth,
-    measureTextForColumnContent,
+    measureTextForDimensionValue,
     qMeasureInfo,
     rightGridAvailableWidth,
     topGridLeavesIsPseudo,

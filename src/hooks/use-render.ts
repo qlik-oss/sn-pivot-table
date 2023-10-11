@@ -48,12 +48,15 @@ const useRender = () => {
   const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);
   const fonts = useMemo(
     () => [
+      `${styleService.header.fontSize} ${styleService.header.fontFamily}`,
       `600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,
-      `600 ${styleService.columnContent.fontSize} ${styleService.columnContent.fontFamily}`,
-      `${styleService.columnContent.fontSize} ${styleService.columnContent.fontFamily}`,
-      `600 ${styleService.rowContent.fontSize} ${styleService.rowContent.fontFamily}`,
-      `${styleService.rowContent.fontSize} ${styleService.rowContent.fontFamily}`,
+      `italic 600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,
+      `${styleService.dimensionValue.fontSize} ${styleService.dimensionValue.fontFamily}`,
+      `600 ${styleService.dimensionValue.fontSize} ${styleService.dimensionValue.fontFamily}`,
+      `italic 600 ${styleService.dimensionValue.fontSize} ${styleService.dimensionValue.fontFamily}`,
       `${styleService.content.fontSize} ${styleService.content.fontFamily}`,
+      `600 ${styleService.content.fontSize} ${styleService.content.fontFamily}`,
+      `italic 600 ${styleService.content.fontSize} ${styleService.content.fontFamily}`,
     ],
     [styleService],
   );

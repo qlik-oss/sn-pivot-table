@@ -1,7 +1,7 @@
 import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import { DEFAULT_FONT_FAMILY } from "../../pivot-table/constants";
 import type { PaletteColor } from "../../types/QIX";
-import type { LayoutService } from "../../types/types";
+import type { LayoutService, StyleService } from "../../types/types";
 import createStyleService from "../style-service";
 
 describe("style-service", () => {
@@ -45,14 +45,7 @@ describe("style-service", () => {
               fontColor: { index: -1, color },
               background: { index: -1, color },
             },
-            rowContent: {
-              fontSize,
-              fontFamily,
-              fontStyle: ["bold", "italic", "underline"],
-              fontColor: { index: -1, color },
-              background: { index: -1, color },
-            },
-            columnContent: {
+            dimensionValue: {
               fontSize,
               fontFamily,
               fontStyle: ["bold", "italic", "underline"],
@@ -109,16 +102,7 @@ describe("style-service", () => {
         background: color,
         lineClamp,
       },
-      rowContent: {
-        fontSize: `${fontSize}px`,
-        fontFamily,
-        fontWeight: "600",
-        fontStyle: "italic",
-        textDecoration: "underline",
-        color,
-        background: color,
-      },
-      columnContent: {
+      dimensionValue: {
         fontSize: `${fontSize}px`,
         fontFamily,
         fontWeight: "600",
@@ -156,7 +140,7 @@ describe("style-service", () => {
       },
       headerCellHeight: 32,
       contentCellHeight: 48,
-    });
+    } as StyleService);
   });
 
   test("should resolve style from theme", () => {
@@ -185,16 +169,7 @@ describe("style-service", () => {
         background: "18px",
         lineClamp,
       },
-      rowContent: {
-        fontSize: "18px",
-        fontFamily: "18px",
-        fontWeight: undefined,
-        fontStyle: "normal",
-        textDecoration: "none",
-        color: "18px",
-        background: "18px",
-      },
-      columnContent: {
+      dimensionValue: {
         fontSize: "18px",
         fontFamily: "18px",
         fontWeight: undefined,
@@ -262,16 +237,7 @@ describe("style-service", () => {
         background: "transparent",
         lineClamp: 1,
       },
-      rowContent: {
-        fontSize: "12px",
-        fontFamily: DEFAULT_FONT_FAMILY,
-        fontWeight: undefined,
-        fontStyle: "normal",
-        textDecoration: "none",
-        color: "#404040",
-        background: "transparent",
-      },
-      columnContent: {
+      dimensionValue: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
         fontWeight: undefined,
@@ -309,6 +275,6 @@ describe("style-service", () => {
       },
       headerCellHeight: 32,
       contentCellHeight: 24,
-    });
+    } as StyleService);
   });
 });
