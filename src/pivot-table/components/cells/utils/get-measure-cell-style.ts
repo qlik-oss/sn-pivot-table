@@ -47,8 +47,8 @@ export const getCellStyle = (
 
   return {
     ...numericStyle,
-    color: styleService.content.color,
-    background: expressionBackground ?? styleService.content.background,
+    color: styleService.measureValue.color,
+    background: expressionBackground ?? styleService.measureValue.background,
   };
 };
 
@@ -59,10 +59,10 @@ export const getTextStyle = (
   isTotalValue: boolean,
   isNull: boolean,
 ) => {
-  const { fontFamily, fontSize } = styleService.content;
+  const { fontFamily, fontSize } = styleService.measureValue;
   const sharedStyle = {
     ...textStyle,
-    ...(!isNumeric && getGridTextClampStyle(styleService.content.lineClamp)),
+    ...(!isNumeric && getGridTextClampStyle(styleService.measureValue.lineClamp)),
     ...(expressionColor && { color: expressionColor }),
     alignSelf: "flex-start",
     fontFamily,
@@ -89,7 +89,7 @@ export const getTextStyle = (
     };
   }
 
-  const { fontWeight, fontStyle, textDecoration } = styleService.content;
+  const { fontWeight, fontStyle, textDecoration } = styleService.measureValue;
 
   return {
     ...sharedStyle,

@@ -17,7 +17,7 @@ export const testId = "measure-cell";
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
-  const { background } = styleService.content;
+  const { background } = styleService.measureValue;
   const {
     grid,
     layoutService,

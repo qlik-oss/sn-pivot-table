@@ -38,7 +38,7 @@ describe("style-service", () => {
               fontStyle: ["bold", "italic", "underline"],
               background: { index: -1, color },
             },
-            content: {
+            measureValue: {
               fontSize,
               fontFamily,
               fontStyle: ["bold", "italic", "underline"],
@@ -92,7 +92,7 @@ describe("style-service", () => {
         activeBackground: "rgb(255, 59, 29)",
         hoverBackground: "rgb(255, 43, 18)",
       },
-      content: {
+      measureValue: {
         fontSize: `${fontSize}px`,
         fontFamily,
         fontWeight: "600",
@@ -159,7 +159,7 @@ describe("style-service", () => {
         activeBackground: "rgb(0, 0, 0)",
         hoverBackground: "rgb(0, 0, 0)",
       },
-      content: {
+      measureValue: {
         fontSize: "18px",
         fontFamily: "18px",
         fontWeight: "normal",
@@ -227,7 +227,7 @@ describe("style-service", () => {
         activeBackground: "rgba(0, 0, 0, 0.05)",
         hoverBackground: "rgba(0, 0, 0, 0.03)",
       },
-      content: {
+      measureValue: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
         fontWeight: "normal",

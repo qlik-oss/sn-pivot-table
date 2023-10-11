@@ -4,9 +4,9 @@ import createColorPickerItem from "./utils/create-color-picker-item";
 import createFontFamilyItem from "./utils/create-font-family-item";
 import createFontSizeItem from "./utils/create-font-size-item";
 
-const contentSection = (translator: stardust.Translator) => ({
+const measureValueSection = (translator: stardust.Translator) => ({
   component: "panel-section",
-  translation: "properties.Content",
+  translation: "properties.MeasureValues",
   items: {
     content: {
       component: "items",
@@ -14,9 +14,9 @@ const contentSection = (translator: stardust.Translator) => ({
       key: "theme",
       items: {
         fontFamily: createFontFamilyItem({
-          ref: "content.fontFamily",
+          ref: "measureValue.fontFamily",
           themeAccessor: (currentTheme) =>
-            currentTheme.object?.pivotTableV2?.content?.fontFamily ?? currentTheme.fontFamily,
+            currentTheme.object?.pivotTableV2?.measureValue?.fontFamily ?? currentTheme.fontFamily,
           translator,
         }),
         fontWrapperItem: {
@@ -25,33 +25,33 @@ const contentSection = (translator: stardust.Translator) => ({
             fontStyle: {
               component: "font-style-buttons",
               width: false,
-              ref: "content.fontStyle",
+              ref: "measureValue.fontStyle",
               defaultValue: [],
             },
             fontSize: createFontSizeItem({
-              ref: "content.fontSize",
+              ref: "measureValue.fontSize",
               themeAccessor: (currentTheme) =>
-                currentTheme.object?.pivotTableV2?.content?.fontSize ?? currentTheme.fontSize,
+                currentTheme.object?.pivotTableV2?.measureValue?.fontSize ?? currentTheme.fontSize,
               translator,
             }),
             fontColor: createColorPickerItem(
-              "content.fontColor",
+              "measureValue.fontColor",
               undefined,
-              (currentTheme) => currentTheme.object?.pivotTableV2?.content?.color ?? currentTheme.color,
+              (currentTheme) => currentTheme.object?.pivotTableV2?.measureValue?.color ?? currentTheme.color,
             ),
           },
         },
         background: createColorPickerItem(
-          "content.background",
+          "measureValue.background",
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.content?.background ?? Colors.Transparent,
+          (currentTheme) => currentTheme.object?.pivotTableV2?.measureValue?.background ?? Colors.Transparent,
         ),
         lineClamp: {
           component: "inline-wrapper",
           items: {
             rowHeight: {
               component: "dropdown",
-              ref: "content.lineClamp",
+              ref: "measureValue.lineClamp",
               translation: "ThemeStyleEditor.style.rowHeight",
               options: [...Array(10).keys()].map((x) => ({
                 value: x + 1,
@@ -66,4 +66,4 @@ const contentSection = (translator: stardust.Translator) => ({
   },
 });
 
-export default contentSection;
+export default measureValueSection;

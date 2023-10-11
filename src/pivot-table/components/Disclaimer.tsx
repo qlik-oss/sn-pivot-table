@@ -11,7 +11,7 @@ interface DisclaimerProps {
 
 const Disclaimer = ({ styleService, translator }: DisclaimerProps): JSX.Element => {
   const text = translator.get("SNPivotTable.LimitedData");
-  const { fontFamily } = styleService.content; // TODO Resolve from root of theme?
+  const { fontFamily } = styleService.measureValue; // TODO Resolve from root of theme?
 
   return (
     <div style={{ width: "100%", height: `${DISCLAIMER_HEIGHT}px` }}>

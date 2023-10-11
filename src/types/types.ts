@@ -247,7 +247,7 @@ interface NullStyling {
 export interface StylingOptions {
   header: HeaderStyling;
   dimensionValue: DimensionContentStyling;
-  content: MeasureContentStyling;
+  measureValue: MeasureContentStyling;
   measureLabel: NullStyling;
   nullValue: NullStyling;
   totalValue: NullStyling;

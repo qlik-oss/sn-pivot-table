@@ -49,7 +49,7 @@ const PseudoDimensionCell = ({
     rightDivider: showTotalCellDivider && !isLeftColumn,
     borderColor: styleService.grid.divider,
   });
-  const lineClamp = isLeftColumn ? styleService.content.lineClamp : DEFAULT_LINE_CLAMP;
+  const lineClamp = isLeftColumn ? styleService.measureValue.lineClamp : DEFAULT_LINE_CLAMP;
 
   return (
     <div

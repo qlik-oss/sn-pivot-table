@@ -1,9 +1,9 @@
 import type { stardust } from "@nebula.js/stardust";
-import contentSection from "./content";
-import getDimensionSection from "./dimension-content";
+import getDimensionSection from "./dimension-value";
 import gridSection from "./grid";
 import headerSection from "./header";
 import measureLabelsSection from "./measure-label";
+import measureValueSection from "./measure-value";
 import nullValuesSection from "./null-values";
 import totalValuesSection from "./total-values";
 
@@ -21,7 +21,7 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
       items: {
         headerSection: headerSection(translator),
         dimensionValueSection: getDimensionSection(translator),
-        contentSection: contentSection(translator),
+        measureValueSection: measureValueSection(translator),
         measureLabelSection: measureLabelsSection(),
         totalValuesSection: totalValuesSection(),
         nullValuesSection: nullValuesSection(),

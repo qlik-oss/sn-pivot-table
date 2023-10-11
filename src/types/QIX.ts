@@ -65,7 +65,7 @@ export interface Component {
     fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
   };
-  content: {
+  measureValue: {
     fontFamily?: string;
     fontSize?: string;
     fontColor?: PaletteColor;

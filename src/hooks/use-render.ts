@@ -54,9 +54,9 @@ const useRender = () => {
       `${styleService.dimensionValue.fontSize} ${styleService.dimensionValue.fontFamily}`,
       `600 ${styleService.dimensionValue.fontSize} ${styleService.dimensionValue.fontFamily}`,
       `italic 600 ${styleService.dimensionValue.fontSize} ${styleService.dimensionValue.fontFamily}`,
-      `${styleService.content.fontSize} ${styleService.content.fontFamily}`,
-      `600 ${styleService.content.fontSize} ${styleService.content.fontFamily}`,
-      `italic 600 ${styleService.content.fontSize} ${styleService.content.fontFamily}`,
+      `${styleService.measureValue.fontSize} ${styleService.measureValue.fontFamily}`,
+      `600 ${styleService.measureValue.fontSize} ${styleService.measureValue.fontFamily}`,
+      `italic 600 ${styleService.measureValue.fontSize} ${styleService.measureValue.fontFamily}`,
     ],
     [styleService],
   );

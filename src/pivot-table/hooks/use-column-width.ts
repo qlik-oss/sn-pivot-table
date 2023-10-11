@@ -69,8 +69,8 @@ export default function useColumnWidth(
     ...styleService.header,
     bold: true,
   });
-  const { measureText: measureTextForContent, estimateWidth: estimateWidthForContent } = useMeasureText(
-    styleService.content,
+  const { measureText: measureTextForMeasureValue, estimateWidth: estimateWidthForMeasureValue } = useMeasureText(
+    styleService.measureValue,
   );
   const { estimateWidth: estimateWidthForDimensionValue, measureText: measureTextForDimensionValue } = useMeasureText(
     styleService.dimensionValue,
@@ -101,7 +101,7 @@ export default function useColumnWidth(
         // Use the max width of all measures
         width = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
-            const fitToContentWidth = measureTextForContent(qFallbackTitle) + TOTAL_CELL_PADDING;
+            const fitToContentWidth = measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING;
             return getColumnWidth(columnWidth, fitToContentWidth);
           }),
         );
@@ -128,7 +128,7 @@ export default function useColumnWidth(
     visibleLeftDimensionInfo,
     rect.width,
     qMeasureInfo,
-    measureTextForContent,
+    measureTextForMeasureValue,
     isFullyExpanded,
     qNoOfLeftDims,
     measureTextForHeader,
@@ -211,11 +211,11 @@ export default function useColumnWidth(
             // eslint-disable-next-line no-case-declarations
             const fitToContentWidth = topGridLeavesIsPseudo
               ? Math.max(
-                  estimateWidthForContent(qApprMaxGlyphCount),
+                  estimateWidthForMeasureValue(qApprMaxGlyphCount),
                   measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING,
                 )
               : Math.max(
-                  Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
+                  Math.max(...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
                   estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
                 );
             addKnownWidth(idx, fitToContentWidth);
@@ -243,7 +243,7 @@ export default function useColumnWidth(
     return widths;
   }, [
     estimateWidthForDimensionValue,
-    estimateWidthForContent,
+    estimateWidthForMeasureValue,
     size.x,
     leafTopDimension,
     leavesIconWidth,

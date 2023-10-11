@@ -31,10 +31,8 @@ const HEADER_MENU_COLOR_MODIFIER = {
 
 enum Path {
   Header = "header",
-  Content = "content",
+  MeasureValue = "measureValue",
   DimensionValue = "dimensionValue",
-  RowTitle = "rowTitle",
-  ColumnTitle = "columnTitle",
   Grid = "grid",
   NullValue = "nullValue",
   TotalValue = "totalValue",
@@ -90,8 +88,8 @@ const resolveTextDecoration = (fontStyleOptions: FontStyleOptions[] | undefined)
 const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService): StyleService => {
   const chartStyling = layoutService.layout.components?.find((n) => n.key === "theme");
   const headerStyling = chartStyling?.[Path.Header];
-  const contentStyling = chartStyling?.[Path.Content];
   const dimensionValue = chartStyling?.[Path.DimensionValue];
+  const measureValueStyling = chartStyling?.[Path.MeasureValue];
   const measureLabelStyling = chartStyling?.[Path.MeasureLabel];
   const totalValuesStyling = chartStyling?.[Path.TotalValue];
   const nullValueStyling = chartStyling?.[Path.NullValue];
@@ -99,14 +97,14 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
 
   const lineClamp = +(
-    contentStyling?.[Attribute.LineClamp] ??
-    getThemeStyle([Path.Content], Attribute.LineClamp) ??
+    measureValueStyling?.[Attribute.LineClamp] ??
+    getThemeStyle([Path.MeasureValue], Attribute.LineClamp) ??
     DEFAULT_LINE_CLAMP
   );
 
   const headerBackground =
     resolveColor(theme, headerStyling?.[Attribute.Background]) ??
-    getThemeStyle([Path.Header, Path.RowTitle], Attribute.Background) ??
+    getThemeStyle([Path.Header], Attribute.Background) ??
     Colors.Transparent;
 
   const styleService: StyleService = {
@@ -124,7 +122,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       textDecoration: resolveTextDecoration(headerStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, headerStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.Header, Path.RowTitle], Attribute.Color) ??
+        getThemeStyle([Path.Header], Attribute.Color) ??
         Colors.PrimaryText,
       background: headerBackground,
       hoverBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.hover),
@@ -151,25 +149,25 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         getThemeStyle([Path.DimensionValue], Attribute.Background) ??
         Colors.Transparent,
     },
-    content: {
+    measureValue: {
       fontSize:
-        resolveFontSize(contentStyling?.[Attribute.FontSize]) ??
-        getThemeStyle([Path.Content], Attribute.FontSize) ??
+        resolveFontSize(measureValueStyling?.[Attribute.FontSize]) ??
+        getThemeStyle([Path.MeasureValue], Attribute.FontSize) ??
         DEFAULT_FONT_SIZE,
       fontFamily:
-        contentStyling?.[Attribute.FontFamily] ??
-        getThemeStyle([Path.Content], Attribute.FontFamily) ??
+        measureValueStyling?.[Attribute.FontFamily] ??
+        getThemeStyle([Path.MeasureValue], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(contentStyling?.[Attribute.FontStyle], "normal"),
-      fontStyle: resolveFontStyle(contentStyling?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(contentStyling?.[Attribute.FontStyle]),
+      fontWeight: resolveFontWeight(measureValueStyling?.[Attribute.FontStyle], "normal"),
+      fontStyle: resolveFontStyle(measureValueStyling?.[Attribute.FontStyle]),
+      textDecoration: resolveTextDecoration(measureValueStyling?.[Attribute.FontStyle]),
       color:
-        resolveColor(theme, contentStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.Content], Attribute.Color) ??
+        resolveColor(theme, measureValueStyling?.[Attribute.FontColor]) ??
+        getThemeStyle([Path.MeasureValue], Attribute.Color) ??
         Colors.Black55,
       background:
-        resolveColor(theme, contentStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.Content], Attribute.Background) ??
+        resolveColor(theme, measureValueStyling?.[Attribute.Background]) ??
+        getThemeStyle([Path.MeasureValue], Attribute.Background) ??
         Colors.Transparent,
       lineClamp,
     },
@@ -236,7 +234,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   );
 
   styleService["contentCellHeight"] = Math.max(
-    fontSizeToCellHeight(styleService.content.fontSize, lineClamp),
+    fontSizeToCellHeight(styleService.measureValue.fontSize, lineClamp),
     fontSizeToCellHeight(styleService.dimensionValue.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT,
   );

@@ -22,7 +22,7 @@ export const useStyleContext = (): StyleService => ({
     color: "#404040",
     background: "transparent",
   },
-  content: {
+  measureValue: {
     fontSize: "12px",
     fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
     fontWeight: "600",
