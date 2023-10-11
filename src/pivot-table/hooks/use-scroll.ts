@@ -30,8 +30,11 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   // change because a node was expanded or collapsed
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
-      if (horizontalScrollableContainerRef.current && verticalScrollableContainerRef.current) {
+      if (horizontalScrollableContainerRef.current) {
         horizontalScrollableContainerRef.current.scrollLeft = 0;
+      }
+
+      if (verticalScrollableContainerRef.current) {
         verticalScrollableContainerRef.current.scrollTop = 0;
       }
     }
@@ -39,14 +42,18 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
 
   // Reset scroll position when page has changed
   useLayoutEffect(() => {
-    if (horizontalScrollableContainerRef.current && verticalScrollableContainerRef.current) {
+    if (horizontalScrollableContainerRef.current) {
       horizontalScrollableContainerRef.current.scrollLeft = 0;
+    }
+
+    if (verticalScrollableContainerRef.current) {
       verticalScrollableContainerRef.current.scrollTop = 0;
     }
   }, [pageInfo.page]);
 
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
+
     if (evt.target.dataset["testid"] === "scrollable-container--dataGrid") {
       if (topGridRef.current) {
         topGridRef.current.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));
@@ -57,16 +64,18 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
           scrollLeft: evt.currentTarget.scrollLeft,
         });
       }
-    }
 
-    if (currentScrollLeft.current !== undefined) {
-      // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
-      // Otherwise it will be out-of-sync with the other rows.
-      currentScrollLeft.current = evt.currentTarget.scrollLeft;
+      if (currentScrollLeft.current !== undefined) {
+        // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
+        // Otherwise it will be out-of-sync with the other rows.
+        currentScrollLeft.current = evt.currentTarget.scrollLeft;
+      }
     }
   };
 
   const onVerticalScrollHandler = (evt: React.SyntheticEvent) => {
+    if (!(evt.target instanceof HTMLDivElement)) return;
+
     if (leftGridRef.current) {
       leftGridRef.current.forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
     }
