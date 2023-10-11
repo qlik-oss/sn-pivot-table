@@ -30,7 +30,6 @@ export const useStyleContext = (): StyleService => ({
     textDecoration: "none",
     color: "contentColor",
     background: "contentBackground",
-    lineClamp: 1,
   },
   measureLabel: {
     fontWeight: "600",
@@ -54,6 +53,7 @@ export const useStyleContext = (): StyleService => ({
     background: "nullBackground",
   },
   grid: {
+    lineClamp: 1,
     rowHeight: "compact",
     border: "rgba(0, 0, 0, 0.15)",
     divider: "rgba(0, 0, 0, 0.6)",

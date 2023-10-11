@@ -54,7 +54,6 @@ const TestWithProvider = (props: Props) => {
         textDecoration: "none",
         color: "contentColor",
         background: "contentBackground",
-        lineClamp: 1,
       },
       measureLabel: {
         fontWeight: "600",
@@ -78,6 +77,7 @@ const TestWithProvider = (props: Props) => {
         background: "nullBackground",
       },
       grid: {
+        lineClamp: 1,
         rowHeight: "compact",
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",

@@ -100,7 +100,6 @@ describe("style-service", () => {
         textDecoration: "underline",
         color,
         background: color,
-        lineClamp,
       },
       dimensionValue: {
         fontSize: `${fontSize}px`,
@@ -133,6 +132,7 @@ describe("style-service", () => {
         background: color,
       },
       grid: {
+        lineClamp,
         rowHeight: "compact",
         border: color,
         divider: color,
@@ -167,7 +167,6 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "18px",
         background: "18px",
-        lineClamp,
       },
       dimensionValue: {
         fontSize: "18px",
@@ -200,6 +199,7 @@ describe("style-service", () => {
         background: "18px",
       },
       grid: {
+        lineClamp,
         rowHeight: "18px",
         border: "18px",
         divider: "18px",
@@ -235,7 +235,6 @@ describe("style-service", () => {
         textDecoration: "none",
         color: "rgba(0, 0, 0, 0.55)",
         background: "transparent",
-        lineClamp: 1,
       },
       dimensionValue: {
         fontSize: "12px",
@@ -268,6 +267,7 @@ describe("style-service", () => {
         background: "rgba(0, 0, 0, 0.05)",
       },
       grid: {
+        lineClamp: 1,
         rowHeight: "compact",
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",

@@ -151,6 +151,6 @@ export const getTextStyle = ({
     ...(isCellSelected && { color: selectedStyle.color }),
     overflow: "hidden",
     textOverflow: "ellipsis",
-    ...getLineClampStyle(isLeftColumn ? styleService.measureValue.lineClamp : DEFAULT_LINE_CLAMP),
+    ...getLineClampStyle(isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP),
   };
 };

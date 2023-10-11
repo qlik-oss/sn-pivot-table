@@ -71,7 +71,6 @@ export interface Component {
     fontColor?: PaletteColor;
     fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
-    lineClamp?: number;
   };
   measureLabel?: {
     fontStyle?: FontStyleOptions[];
@@ -89,6 +88,7 @@ export interface Component {
     background?: PaletteColor;
   };
   grid: {
+    lineClamp?: number;
     rowHeight?: "compact";
     border?: PaletteColor;
     divider?: PaletteColor;

@@ -97,8 +97,8 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
 
   const lineClamp = +(
-    measureValueStyling?.[Attribute.LineClamp] ??
-    getThemeStyle([Path.MeasureValue], Attribute.LineClamp) ??
+    gridStyling?.[Attribute.LineClamp] ??
+    getThemeStyle([Path.Grid], Attribute.LineClamp) ??
     DEFAULT_LINE_CLAMP
   );
 
@@ -169,7 +169,6 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         resolveColor(theme, measureValueStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.MeasureValue], Attribute.Background) ??
         Colors.Transparent,
-      lineClamp,
     },
     measureLabel: {
       fontWeight: resolveFontWeight(measureLabelStyling?.[Attribute.FontStyle], "normal"),
@@ -211,6 +210,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
         Colors.Black5,
     },
     grid: {
+      lineClamp,
       rowHeight: gridStyling?.[Attribute.RowHeight] ?? getThemeStyle([Path.Grid], Attribute.RowHeight) ?? "compact",
       border:
         resolveColor(theme, gridStyling?.[Attribute.Border]) ??

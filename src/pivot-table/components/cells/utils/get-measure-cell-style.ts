@@ -62,7 +62,7 @@ export const getTextStyle = (
   const { fontFamily, fontSize } = styleService.measureValue;
   const sharedStyle = {
     ...textStyle,
-    ...(!isNumeric && getGridTextClampStyle(styleService.measureValue.lineClamp)),
+    ...(!isNumeric && getGridTextClampStyle(styleService.grid.lineClamp)),
     ...(expressionColor && { color: expressionColor }),
     alignSelf: "flex-start",
     fontFamily,

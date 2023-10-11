@@ -10,6 +10,21 @@ const gridSection = {
       ref: "components",
       key: "theme",
       items: {
+        lineClamp: {
+          component: "inline-wrapper",
+          items: {
+            rowHeight: {
+              component: "dropdown",
+              ref: "grid.lineClamp",
+              translation: "ThemeStyleEditor.style.rowHeight",
+              options: [...Array(10).keys()].map((x) => ({
+                value: x + 1,
+                translation: x + 1,
+              })),
+              defaultValue: 1,
+            },
+          },
+        },
         border: createColorPickerItem(
           "grid.border",
           "properties.border",

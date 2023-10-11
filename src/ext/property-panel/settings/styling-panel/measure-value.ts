@@ -46,21 +46,6 @@ const measureValueSection = (translator: stardust.Translator) => ({
           "properties.background",
           (currentTheme) => currentTheme.object?.pivotTableV2?.measureValue?.background ?? Colors.Transparent,
         ),
-        lineClamp: {
-          component: "inline-wrapper",
-          items: {
-            rowHeight: {
-              component: "dropdown",
-              ref: "measureValue.lineClamp",
-              translation: "ThemeStyleEditor.style.rowHeight",
-              options: [...Array(10).keys()].map((x) => ({
-                value: x + 1,
-                translation: x + 1,
-              })),
-              defaultValue: 1,
-            },
-          },
-        },
       },
     },
   },

@@ -222,7 +222,6 @@ interface HeaderStyling extends FontStyling, CellStyling {
 
 interface MeasureContentStyling extends FontStyling {
   background: string;
-  lineClamp: number;
 }
 
 interface DimensionContentStyling extends FontStyling {
@@ -230,6 +229,7 @@ interface DimensionContentStyling extends FontStyling {
 }
 
 interface GridStyling {
+  lineClamp: number;
   rowHeight: "compact";
   border: string;
   divider: string;
