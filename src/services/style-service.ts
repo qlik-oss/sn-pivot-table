@@ -31,13 +31,13 @@ const HEADER_MENU_COLOR_MODIFIER = {
 
 enum Path {
   Header = "header",
-  MeasureValue = "measureValue",
-  DimensionValue = "dimensionValue",
+  MeasureValues = "measureValues",
+  DimensionValues = "dimensionValues",
   Grid = "grid",
-  NullValue = "nullValue",
-  TotalValue = "totalValue",
-  TotalLabel = "totalLabel",
-  MeasureLabel = "measureLabel",
+  NullValues = "nullValues",
+  TotalValues = "totalValues",
+  TotalLabels = "totalLabels",
+  MeasureLabels = "measureLabels",
 }
 
 enum Attribute {
@@ -87,11 +87,11 @@ const resolveTextDecoration = (fontStyleOptions: FontStyleOptions[] | undefined)
 const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService): StyleService => {
   const chartStyling = layoutService.layout.components?.find((n) => n.key === "theme");
   const headerStyling = chartStyling?.[Path.Header];
-  const dimensionValue = chartStyling?.[Path.DimensionValue];
-  const measureValueStyling = chartStyling?.[Path.MeasureValue];
-  const measureLabelStyling = chartStyling?.[Path.MeasureLabel];
-  const totalValuesStyling = chartStyling?.[Path.TotalValue];
-  const nullValueStyling = chartStyling?.[Path.NullValue];
+  const dimensionValue = chartStyling?.[Path.DimensionValues];
+  const measureValueStyling = chartStyling?.[Path.MeasureValues];
+  const measureLabelStyling = chartStyling?.[Path.MeasureLabels];
+  const totalValuesStyling = chartStyling?.[Path.TotalValues];
+  const nullValueStyling = chartStyling?.[Path.NullValues];
   const gridStyling = chartStyling?.[Path.Grid];
   const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
 
@@ -128,85 +128,85 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       hoverBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.hover),
       activeBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.active),
     },
-    dimensionValue: {
+    dimensionValues: {
       fontSize:
         resolveFontSize(dimensionValue?.[Attribute.FontSize]) ??
-        getThemeStyle([Path.DimensionValue], Attribute.FontSize) ??
+        getThemeStyle([Path.DimensionValues], Attribute.FontSize) ??
         DEFAULT_FONT_SIZE,
       fontFamily:
         dimensionValue?.[Attribute.FontFamily] ??
-        getThemeStyle([Path.DimensionValue], Attribute.FontFamily) ??
+        getThemeStyle([Path.DimensionValues], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
       fontWeight: resolveFontWeight(dimensionValue?.[Attribute.FontStyle], undefined),
       fontStyle: resolveFontStyle(dimensionValue?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(dimensionValue?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, dimensionValue?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.DimensionValue], Attribute.Color) ??
+        getThemeStyle([Path.DimensionValues], Attribute.Color) ??
         Colors.PrimaryText,
       background:
         resolveColor(theme, dimensionValue?.[Attribute.Background]) ??
-        getThemeStyle([Path.DimensionValue], Attribute.Background) ??
+        getThemeStyle([Path.DimensionValues], Attribute.Background) ??
         Colors.Transparent,
     },
-    measureValue: {
+    measureValues: {
       fontSize:
         resolveFontSize(measureValueStyling?.[Attribute.FontSize]) ??
-        getThemeStyle([Path.MeasureValue], Attribute.FontSize) ??
+        getThemeStyle([Path.MeasureValues], Attribute.FontSize) ??
         DEFAULT_FONT_SIZE,
       fontFamily:
         measureValueStyling?.[Attribute.FontFamily] ??
-        getThemeStyle([Path.MeasureValue], Attribute.FontFamily) ??
+        getThemeStyle([Path.MeasureValues], Attribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
       fontWeight: resolveFontWeight(measureValueStyling?.[Attribute.FontStyle], "normal"),
       fontStyle: resolveFontStyle(measureValueStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(measureValueStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, measureValueStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.MeasureValue], Attribute.Color) ??
+        getThemeStyle([Path.MeasureValues], Attribute.Color) ??
         Colors.Black55,
       background:
         resolveColor(theme, measureValueStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.MeasureValue], Attribute.Background) ??
+        getThemeStyle([Path.MeasureValues], Attribute.Background) ??
         Colors.Transparent,
     },
-    measureLabel: {
+    measureLabels: {
       fontWeight: resolveFontWeight(measureLabelStyling?.[Attribute.FontStyle], "normal"),
       fontStyle: resolveFontStyle(measureLabelStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(measureLabelStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, measureLabelStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.TotalValue], Attribute.Color) ??
+        getThemeStyle([Path.TotalValues], Attribute.Color) ??
         Colors.PrimaryText,
       background:
         resolveColor(theme, measureLabelStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.TotalValue], Attribute.Background) ??
+        getThemeStyle([Path.TotalValues], Attribute.Background) ??
         Colors.Transparent,
     },
-    totalValue: {
+    totalValues: {
       fontWeight: resolveFontWeight(totalValuesStyling?.[Attribute.FontStyle], BOLD_FONT_WEIGHT),
       fontStyle: resolveFontStyle(totalValuesStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(totalValuesStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, totalValuesStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.TotalValue], Attribute.Color) ??
+        getThemeStyle([Path.TotalValues], Attribute.Color) ??
         Colors.PrimaryText,
       background:
         resolveColor(theme, totalValuesStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.TotalValue], Attribute.Background) ??
+        getThemeStyle([Path.TotalValues], Attribute.Background) ??
         Colors.Transparent,
     },
-    nullValue: {
+    nullValues: {
       fontWeight: resolveFontWeight(nullValueStyling?.[Attribute.FontStyle], "normal"),
       fontStyle: resolveFontStyle(nullValueStyling?.[Attribute.FontStyle]),
       textDecoration: resolveTextDecoration(nullValueStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, nullValueStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.NullValue], Attribute.Color) ??
+        getThemeStyle([Path.NullValues], Attribute.Color) ??
         Colors.PrimaryText,
       background:
         resolveColor(theme, nullValueStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.NullValue], Attribute.Background) ??
+        getThemeStyle([Path.NullValues], Attribute.Background) ??
         Colors.Black5,
     },
     grid: {
@@ -228,13 +228,13 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
 
   styleService.headerCellHeight = Math.max(
     fontSizeToCellHeight(styleService.header.fontSize, DEFAULT_LINE_CLAMP),
-    fontSizeToCellHeight(styleService.dimensionValue.fontSize, DEFAULT_LINE_CLAMP),
+    fontSizeToCellHeight(styleService.dimensionValues.fontSize, DEFAULT_LINE_CLAMP),
     DEFAULT_HEADER_CELL_HEIGHT,
   );
 
   styleService.contentCellHeight = Math.max(
-    fontSizeToCellHeight(styleService.measureValue.fontSize, lineClamp),
-    fontSizeToCellHeight(styleService.dimensionValue.fontSize, lineClamp),
+    fontSizeToCellHeight(styleService.measureValues.fontSize, lineClamp),
+    fontSizeToCellHeight(styleService.dimensionValues.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT,
   );
 

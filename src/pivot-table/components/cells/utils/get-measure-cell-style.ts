@@ -34,21 +34,21 @@ export const getCellStyle = (
   expressionBackground: string | null,
 ) => {
   if (isNull) {
-    return { ...nilStyle, ...styleService.nullValue };
+    return { ...nilStyle, ...styleService.nullValues };
   }
 
   if (isTotalValue) {
     return {
       ...numericStyle,
-      color: styleService.totalValue.color,
-      background: expressionBackground ?? styleService.totalValue.background,
+      color: styleService.totalValues.color,
+      background: expressionBackground ?? styleService.totalValues.background,
     };
   }
 
   return {
     ...numericStyle,
-    color: styleService.measureValue.color,
-    background: expressionBackground ?? styleService.measureValue.background,
+    color: styleService.measureValues.color,
+    background: expressionBackground ?? styleService.measureValues.background,
   };
 };
 
@@ -59,7 +59,7 @@ export const getTextStyle = (
   isTotalValue: boolean,
   isNull: boolean,
 ) => {
-  const { fontFamily, fontSize } = styleService.measureValue;
+  const { fontFamily, fontSize } = styleService.measureValues;
   const sharedStyle = {
     ...textStyle,
     ...(!isNumeric && getGridTextClampStyle(styleService.grid.lineClamp)),
@@ -70,7 +70,7 @@ export const getTextStyle = (
   };
 
   if (isNull) {
-    const { fontWeight, fontStyle, textDecoration } = styleService.nullValue;
+    const { fontWeight, fontStyle, textDecoration } = styleService.nullValues;
     return {
       ...sharedStyle,
       fontWeight,
@@ -80,7 +80,7 @@ export const getTextStyle = (
   }
 
   if (isTotalValue) {
-    const { fontWeight, fontStyle, textDecoration } = styleService.totalValue;
+    const { fontWeight, fontStyle, textDecoration } = styleService.totalValues;
     return {
       ...sharedStyle,
       fontWeight,
@@ -89,7 +89,7 @@ export const getTextStyle = (
     };
   }
 
-  const { fontWeight, fontStyle, textDecoration } = styleService.measureValue;
+  const { fontWeight, fontStyle, textDecoration } = styleService.measureValues;
 
   return {
     ...sharedStyle,

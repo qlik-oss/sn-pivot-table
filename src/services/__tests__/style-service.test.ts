@@ -1,12 +1,12 @@
 import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import { DEFAULT_FONT_FAMILY } from "../../pivot-table/constants";
-import type { PaletteColor } from "../../types/QIX";
+import type { Component, PaletteColor } from "../../types/QIX";
 import type { LayoutService, StyleService } from "../../types/types";
 import createStyleService from "../style-service";
 
 describe("style-service", () => {
   let themeValue: string | undefined = "18px"; // Choosing a value that works for the cellHeight calculation
-  let fontSize: number;
+  let fontSize: string;
   let fontFamily: string;
   let color: string;
   let colorFromPalette: string;
@@ -15,7 +15,7 @@ describe("style-service", () => {
   let themeMock: ExtendedTheme;
 
   beforeEach(() => {
-    fontSize = 15;
+    fontSize = "15px";
     fontFamily = "Arial";
     color = "#ff0000";
     colorFromPalette = "#00ff00";
@@ -38,29 +38,32 @@ describe("style-service", () => {
               fontStyle: ["bold", "italic", "underline"],
               background: { index: -1, color },
             },
-            measureValue: {
+            measureValues: {
               fontSize,
               fontFamily,
               fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
             },
-            dimensionValue: {
+            dimensionValues: {
               fontSize,
               fontFamily,
               fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
             },
-            measureLabel: {
+            measureLabels: {
+              fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
             },
-            nullValue: {
+            nullValues: {
+              fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
             },
-            totalValue: {
+            totalValues: {
+              fontStyle: ["bold", "italic", "underline"],
               fontColor: { index: -1, color },
               background: { index: -1, color },
             },
@@ -70,7 +73,7 @@ describe("style-service", () => {
               divider: "dividerColor",
               background: { index: -1, color },
             },
-          },
+          } as Component,
           { key: "general" },
         ],
       },
@@ -81,7 +84,7 @@ describe("style-service", () => {
     const styleService = createStyleService(themeMock, layoutServiceMock);
     expect(styleService).toEqual({
       header: {
-        fontSize: `${fontSize}px`,
+        fontSize,
         fontFamily,
         fontWeight: "600",
         fontStyle: "italic",
@@ -91,8 +94,8 @@ describe("style-service", () => {
         activeBackground: "rgb(255, 59, 29)",
         hoverBackground: "rgb(255, 43, 18)",
       },
-      measureValue: {
-        fontSize: `${fontSize}px`,
+      measureValues: {
+        fontSize,
         fontFamily,
         fontWeight: "600",
         fontStyle: "italic",
@@ -100,8 +103,8 @@ describe("style-service", () => {
         color,
         background: color,
       },
-      dimensionValue: {
-        fontSize: `${fontSize}px`,
+      dimensionValues: {
+        fontSize,
         fontFamily,
         fontWeight: "600",
         fontStyle: "italic",
@@ -109,24 +112,24 @@ describe("style-service", () => {
         color,
         background: color,
       },
-      measureLabel: {
-        fontWeight: "normal",
-        fontStyle: "normal",
-        textDecoration: "none",
-        color,
-        background: color,
-      },
-      totalValue: {
+      measureLabels: {
         fontWeight: "600",
-        fontStyle: "normal",
-        textDecoration: "none",
+        fontStyle: "italic",
+        textDecoration: "underline",
         color,
         background: color,
       },
-      nullValue: {
-        fontWeight: "normal",
-        fontStyle: "normal",
-        textDecoration: "none",
+      totalValues: {
+        fontWeight: "600",
+        fontStyle: "italic",
+        textDecoration: "underline",
+        color,
+        background: color,
+      },
+      nullValues: {
+        fontWeight: "600",
+        fontStyle: "italic",
+        textDecoration: "underline",
         color,
         background: color,
       },
@@ -157,7 +160,7 @@ describe("style-service", () => {
         activeBackground: "rgb(0, 0, 0)",
         hoverBackground: "rgb(0, 0, 0)",
       },
-      measureValue: {
+      measureValues: {
         fontSize: "18px",
         fontFamily: "18px",
         fontWeight: "normal",
@@ -166,7 +169,7 @@ describe("style-service", () => {
         color: "18px",
         background: "18px",
       },
-      dimensionValue: {
+      dimensionValues: {
         fontSize: "18px",
         fontFamily: "18px",
         fontWeight: undefined,
@@ -175,21 +178,21 @@ describe("style-service", () => {
         color: "18px",
         background: "18px",
       },
-      measureLabel: {
+      measureLabels: {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",
         color: "18px",
         background: "18px",
       },
-      totalValue: {
+      totalValues: {
         fontWeight: "600",
         fontStyle: "normal",
         textDecoration: "none",
         color: "18px",
         background: "18px",
       },
-      nullValue: {
+      nullValues: {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",
@@ -204,7 +207,7 @@ describe("style-service", () => {
       },
       headerCellHeight: 32,
       contentCellHeight: 56,
-    });
+    } as StyleService);
   });
 
   test("should resolve style from default values", () => {
@@ -224,7 +227,7 @@ describe("style-service", () => {
         activeBackground: "rgba(0, 0, 0, 0.05)",
         hoverBackground: "rgba(0, 0, 0, 0.03)",
       },
-      measureValue: {
+      measureValues: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
         fontWeight: "normal",
@@ -233,7 +236,7 @@ describe("style-service", () => {
         color: "rgba(0, 0, 0, 0.55)",
         background: "transparent",
       },
-      dimensionValue: {
+      dimensionValues: {
         fontSize: "12px",
         fontFamily: DEFAULT_FONT_FAMILY,
         fontWeight: undefined,
@@ -242,21 +245,21 @@ describe("style-service", () => {
         color: "#404040",
         background: "transparent",
       },
-      measureLabel: {
+      measureLabels: {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
       },
-      totalValue: {
+      totalValues: {
         fontWeight: "600",
         fontStyle: "normal",
         textDecoration: "none",
         color: "#404040",
         background: "transparent",
       },
-      nullValue: {
+      nullValues: {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",

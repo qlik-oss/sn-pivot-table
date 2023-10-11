@@ -86,11 +86,11 @@ export const getContainerStyle = ({
   expressionBackground,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
-  const { background: styleServiceBackground } = styleService.dimensionValue;
+  const { background: styleServiceBackground } = styleService.dimensionValues;
   const background = expressionBackground ?? styleServiceBackground;
   const resolvedLockedSelectionStyle = isCellLocked ? getLockedStyleFromSelection(background) : {};
   const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
-  const resolvedNullStyle = isNull ? styleService.nullValue : { background };
+  const resolvedNullStyle = isNull ? styleService.nullValues : { background };
 
   return {
     ...style,
@@ -124,19 +124,19 @@ export const getTextStyle = ({
   expressionColor,
   isTotal,
 }: GetTextStyle): React.CSSProperties => {
-  const { background, fontWeight, ...serviceStyle } = styleService.dimensionValue;
+  const { background, fontWeight, ...serviceStyle } = styleService.dimensionValues;
   const nullValueStyling = isNull && {
-    color: styleService.nullValue.color,
-    fontWeight: styleService.nullValue.fontWeight,
-    fontStyle: styleService.nullValue.fontStyle,
-    textDecoration: styleService.nullValue.textDecoration,
+    color: styleService.nullValues.color,
+    fontWeight: styleService.nullValues.fontWeight,
+    fontStyle: styleService.nullValues.fontStyle,
+    textDecoration: styleService.nullValues.textDecoration,
   };
 
   const totalValueStyling = isTotal && {
-    color: styleService.totalValue.color,
-    fontWeight: styleService.totalValue.fontWeight,
-    fontStyle: styleService.totalValue.fontStyle,
-    textDecoration: styleService.totalValue.textDecoration,
+    color: styleService.totalValues.color,
+    fontWeight: styleService.totalValues.fontWeight,
+    fontStyle: styleService.totalValues.fontStyle,
+    textDecoration: styleService.totalValues.textDecoration,
   };
 
   return {

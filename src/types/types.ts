@@ -213,11 +213,11 @@ export type CellStyling = {
 
 export type ThemeStyling = {
   header: CellStyling;
-  dimensionValue: CellStyling;
-  measureValue: CellStyling;
-  measureLabel: Omit<CellStyling, "fontSize" | "fontFamily">;
-  nullValue: Omit<CellStyling, "fontSize" | "fontFamily">;
-  totalValue: Omit<CellStyling, "fontSize" | "fontFamily">;
+  dimensionValues: CellStyling;
+  measureValues: CellStyling;
+  measureLabels: Omit<CellStyling, "fontSize" | "fontFamily">;
+  nullValues: Omit<CellStyling, "fontSize" | "fontFamily">;
+  totalValues: Omit<CellStyling, "fontSize" | "fontFamily">;
   grid: {
     lineClamp: number;
     border: string;

@@ -31,7 +31,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
 
   if (cell === undefined || cell.isEmpty) {
-    const { background } = styleService.dimensionValue;
+    const { background } = styleService.dimensionValues;
 
     return (
       <EmptyCell

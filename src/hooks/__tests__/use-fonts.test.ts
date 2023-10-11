@@ -13,27 +13,27 @@ describe("useFonts", () => {
         fontSize: "Header-FontSize",
         fontFamily: "Header-FontFamily",
       },
-      dimensionValue: {
+      dimensionValues: {
         fontStyle: "DimensionValue-FontStyle",
         fontWeight: "DimensionValue-FontWeight",
         fontSize: "DimensionValue-FontSize",
         fontFamily: "DimensionValue-FontFamily",
       },
-      measureValue: {
+      measureValues: {
         fontStyle: "MeasureValue-FontStyle",
         fontWeight: "MeasureValue-FontWeight",
         fontSize: "MeasureValue-FontSize",
         fontFamily: "MeasureValue-FontFamily",
       },
-      measureLabel: {
+      measureLabels: {
         fontStyle: "MeasureLabel-FontStyle",
         fontWeight: "MeasureLabel-FontWeight",
       },
-      nullValue: {
+      nullValues: {
         fontStyle: "NullValue-FontStyle",
         fontWeight: "NullValue-FontWeight",
       },
-      totalValue: {
+      totalValues: {
         fontStyle: "TotalValue-FontStyle",
         fontWeight: "TotalValue-FontWeight",
       },
@@ -74,19 +74,19 @@ describe("useFonts", () => {
         fontSize: "Header-FontSize",
         fontFamily: "Header-FontFamily",
       },
-      dimensionValue: {
+      dimensionValues: {
         ...sharedStyle,
         fontSize: "DimensionValue-FontSize",
         fontFamily: "DimensionValue-FontFamily",
       },
-      measureValue: {
+      measureValues: {
         ...sharedStyle,
         fontSize: "MeasureValue-FontSize",
         fontFamily: "MeasureValue-FontFamily",
       },
-      measureLabel: sharedStyle,
-      nullValue: sharedStyle,
-      totalValue: sharedStyle,
+      measureLabels: sharedStyle,
+      nullValues: sharedStyle,
+      totalValues: sharedStyle,
     } as StyleService;
     const { result } = renderHook(() => useFonts(styleService));
 
@@ -112,19 +112,19 @@ describe("useFonts", () => {
         fontSize: "Header-FontSize",
         fontFamily: "Header-FontFamily",
       },
-      dimensionValue: {
+      dimensionValues: {
         ...sharedStyle,
         fontSize: "DimensionValue-FontSize",
         fontFamily: "DimensionValue-FontFamily",
       },
-      measureValue: {
+      measureValues: {
         ...sharedStyle,
         fontSize: "MeasureValue-FontSize",
         fontFamily: "MeasureValue-FontFamily",
       },
-      measureLabel: sharedStyle,
-      nullValue: sharedStyle,
-      totalValue: sharedStyle,
+      measureLabels: sharedStyle,
+      nullValues: sharedStyle,
+      totalValues: sharedStyle,
     } as StyleService;
     const { result } = renderHook(() => useFonts(styleService));
 

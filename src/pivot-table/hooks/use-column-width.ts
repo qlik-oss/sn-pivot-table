@@ -70,10 +70,10 @@ export default function useColumnWidth(
     bold: true,
   });
   const { measureText: measureTextForMeasureValue, estimateWidth: estimateWidthForMeasureValue } = useMeasureText(
-    styleService.measureValue,
+    styleService.measureValues,
   );
   const { estimateWidth: estimateWidthForDimensionValue, measureText: measureTextForDimensionValue } = useMeasureText(
-    styleService.dimensionValue,
+    styleService.dimensionValues,
   );
 
   /**

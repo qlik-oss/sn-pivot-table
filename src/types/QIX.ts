@@ -53,31 +53,31 @@ export interface Component {
     fontColor?: PaletteColor;
     background?: PaletteColor;
   };
-  dimensionValue?: {
+  dimensionValues?: {
     fontFamily?: string;
     fontSize?: string;
     fontColor?: PaletteColor;
     fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
   };
-  measureValue: {
+  measureValues: {
     fontFamily?: string;
     fontSize?: string;
     fontColor?: PaletteColor;
     fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
   };
-  measureLabel?: {
+  measureLabels?: {
     fontStyle?: FontStyleOptions[];
     fontColor?: PaletteColor;
     background?: PaletteColor;
   };
-  totalValue?: {
+  totalValues?: {
     fontStyle?: FontStyleOptions[];
     fontColor?: PaletteColor;
     background?: PaletteColor;
   };
-  nullValue?: {
+  nullValues?: {
     fontStyle?: FontStyleOptions[];
     fontColor?: PaletteColor;
     background?: PaletteColor;

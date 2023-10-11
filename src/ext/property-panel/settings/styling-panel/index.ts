@@ -1,11 +1,7 @@
 import type { stardust } from "@nebula.js/stardust";
-import getDimensionSection from "./dimension-value";
 import gridSection from "./grid";
-import headerSection from "./header";
-import measureLabelsSection from "./measure-label";
-import measureValueSection from "./measure-value";
-import nullValuesSection from "./null-values";
-import totalValuesSection from "./total-values";
+import largePanelSection from "./large-panal-section";
+import smallPanelSection from "./small-panel-section";
 
 const getStylingPanelConfig = (translator: stardust.Translator) => ({
   type: "items",
@@ -19,12 +15,18 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
       useGeneral: true,
       defaultValue: [],
       items: {
-        headerSection: headerSection(translator),
-        dimensionValueSection: getDimensionSection(translator),
-        measureValueSection: measureValueSection(translator),
-        measureLabelSection: measureLabelsSection(),
-        totalValuesSection: totalValuesSection(),
-        nullValuesSection: nullValuesSection(),
+        headerSection: largePanelSection({ section: "header", defaultFontStyle: ["bold"], translator }),
+        dimensionValueSection: largePanelSection({
+          section: "dimensionValues",
+          translator,
+        }),
+        measureValueSection: largePanelSection({
+          section: "measureValues",
+          translator,
+        }),
+        measureLabelSection: smallPanelSection({ section: "measureLabels" }),
+        totalValuesSection: smallPanelSection({ section: "totalValues", defaultFontStyle: ["bold"] }),
+        nullValuesSection: smallPanelSection({ section: "nullValues" }),
         gridSection,
       },
     },
