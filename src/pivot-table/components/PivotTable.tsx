@@ -112,18 +112,18 @@ export const StickyPivotTable = ({
               : `${rightGridWidth}px`,
           }}
         >
-          <ScrollableContainer
-            ref={horizontalScrollableContainerRef}
-            width={leftGridWidth}
-            height={tableRect.height}
-            onScroll={onHorizontalScrollHandler}
-            showVerticalScrollbar={false}
-            showHorizontalScrollbar={true}
-            origin="leftGrid"
-          >
-            <FullSizeContainer width={leftGridWidth} height={containerHeight}>
-              <StickyContainer width={leftGridWidth} height={tableRect.height}>
-                {Boolean(leftGridWidth) && (
+          {Boolean(leftGridWidth) && (
+            <ScrollableContainer
+              ref={horizontalScrollableContainerRef}
+              width={leftGridWidth}
+              height={tableRect.height}
+              onScroll={onHorizontalScrollHandler}
+              showVerticalScrollbar={false}
+              showHorizontalScrollbar={true}
+              origin="leftGrid"
+            >
+              <FullSizeContainer width={leftGridWidth} height={containerHeight}>
+                <StickyContainer width={leftGridWidth} height={tableRect.height}>
                   <div style={getLeftGridStyles(leftGridWidth)}>
                     <HeaderGrid
                       columnWidths={leftGridColumnWidths}
@@ -150,10 +150,10 @@ export const StickyPivotTable = ({
                       pageInfo={pageInfo}
                     />
                   </div>
-                )}
-              </StickyContainer>
-            </FullSizeContainer>
-          </ScrollableContainer>
+                </StickyContainer>
+              </FullSizeContainer>
+            </ScrollableContainer>
+          )}
 
           <ScrollableContainer
             ref={horizontalScrollableContainerRef}
