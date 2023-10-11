@@ -2,7 +2,7 @@ import { Colors } from "../../../../pivot-table/components/shared-styles";
 import createColorPickerItem from "./utils/create-color-picker-item";
 
 const gridSection = {
-  translation: "properties.filterpane.grid",
+  translation: "properties.pivot.grid",
   component: "panel-section",
   items: {
     rowHeightItem: {

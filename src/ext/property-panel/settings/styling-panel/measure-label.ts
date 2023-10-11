@@ -3,7 +3,7 @@ import createColorPickerItem from "./utils/create-color-picker-item";
 
 const measureLabelsSection = () => ({
   component: "panel-section",
-  translation: "properties.measureLabels",
+  translation: "properties.pivot.measureLabels",
   items: {
     content: {
       component: "items",

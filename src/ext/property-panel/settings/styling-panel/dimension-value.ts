@@ -6,7 +6,7 @@ import createFontSizeItem from "./utils/create-font-size-item";
 
 const getDimensionSection = (translator: stardust.Translator) => ({
   component: "panel-section",
-  translation: "properties.pivot.dimensionValue",
+  translation: "properties.pivot.dimensionValues",
   items: {
     content: {
       component: "items",

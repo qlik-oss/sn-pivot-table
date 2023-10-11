@@ -3,7 +3,7 @@ import createColorPickerItem from "./utils/create-color-picker-item";
 
 const totalValuesSection = () => ({
   component: "panel-section",
-  translation: "properties.totalValues",
+  translation: "properties.pivot.totalValues",
   items: {
     content: {
       component: "items",

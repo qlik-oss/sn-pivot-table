@@ -6,7 +6,7 @@ import createFontSizeItem from "./utils/create-font-size-item";
 
 const measureValueSection = (translator: stardust.Translator) => ({
   component: "panel-section",
-  translation: "properties.MeasureValues",
+  translation: "properties.pivot.measureValues",
   items: {
     content: {
       component: "items",

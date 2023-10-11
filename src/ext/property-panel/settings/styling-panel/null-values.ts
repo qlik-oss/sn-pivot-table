@@ -3,7 +3,7 @@ import createColorPickerItem from "./utils/create-color-picker-item";
 
 const nullValuesSection = () => ({
   component: "panel-section",
-  translation: "library.colors.nullvalues",
+  translation: "properties.pivot.nullValues",
   items: {
     content: {
       component: "items",

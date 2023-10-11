@@ -5,7 +5,7 @@ import createFontFamilyItem from "./utils/create-font-family-item";
 import createFontSizeItem from "./utils/create-font-size-item";
 
 const headerSection = (translator: stardust.Translator) => ({
-  translation: "properties.Header",
+  translation: "properties.pivot.header",
   component: "panel-section",
   items: {
     headerFontItem: {
