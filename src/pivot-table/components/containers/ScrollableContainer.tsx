@@ -1,6 +1,4 @@
-import { styled } from "@mui/material";
 import React from "react";
-import type { Rect } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 
 type Origin = "leftGrid" | "dataGrid" | "containerGrid";
@@ -36,13 +34,11 @@ const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyR
       ref={ref}
       data-testid={getTestId(origin)}
       style={{
-        width: width,
-        height: height,
+        width,
+        height,
         overscrollBehaviorX: "contain",
         overflowX: interactions.active && showHorizontalScrollbar ? "auto" : "hidden",
         overflowY: interactions.active && showVerticalScrollbar ? "auto" : "hidden",
-        // display: "inline-block",
-        // paddingBottom: 14, // TODO: this is unstable
         ...style,
       }}
       onScroll={onScroll}

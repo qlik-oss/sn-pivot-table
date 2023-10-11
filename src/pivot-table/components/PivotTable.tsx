@@ -104,7 +104,7 @@ export const StickyPivotTable = ({
       width={tableRect.width}
       height={tableRect.height}
       onScroll={onVerticalScrollHandler}
-      showVerticalScrollbar={true}
+      showVerticalScrollbar
       showHorizontalScrollbar={false}
       origin="containerGrid"
     >
@@ -126,7 +126,7 @@ export const StickyPivotTable = ({
               height={rowsCanFitInTableViewPort ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height}
               onScroll={onHorizontalScrollHandler}
               showVerticalScrollbar={false}
-              showHorizontalScrollbar={true}
+              showHorizontalScrollbar
               origin="leftGrid"
             >
               <FullSizeContainer width={leftGridWidth} height={containerHeight}>
@@ -168,7 +168,7 @@ export const StickyPivotTable = ({
             height={rowsCanFitInTableViewPort ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height}
             onScroll={onHorizontalScrollHandler}
             showVerticalScrollbar={false}
-            showHorizontalScrollbar={true}
+            showHorizontalScrollbar
             origin="dataGrid"
           >
             <FullSizeContainer width={totalWidth - leftGridWidth} height={containerHeight}>
