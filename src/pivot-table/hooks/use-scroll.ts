@@ -9,12 +9,14 @@ interface Props {
     topGridRef?: VariableSizeList<unknown>[];
     leftGridRef?: VariableSizeList<unknown>[];
     dataGridRef?: VariableSizeGrid<unknown>;
-    scrollableContainerRef?: HTMLDivElement;
+    verticalScrollableContainerRef?: HTMLDivElement;
+    horizontalScrollableContainerRef?: HTMLDivElement;
   };
 }
 
 const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
-  const scrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.scrollableContainerRef ?? null);
+  const verticalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.verticalScrollableContainerRef ?? null);
+  const horizontalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.horizontalScrollableContainerRef ?? null);
   const topGridRef = useRef<VariableSizeList[]>(mockedRefs?.topGridRef ?? []);
   const leftGridRef = useRef<VariableSizeList[]>(mockedRefs?.leftGridRef ?? []);
   const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
@@ -28,55 +30,68 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   // change because a node was expanded or collapsed
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
-      if (scrollableContainerRef.current) {
-        scrollableContainerRef.current.scrollLeft = 0;
-        scrollableContainerRef.current.scrollTop = 0;
+      if (horizontalScrollableContainerRef.current && verticalScrollableContainerRef.current) {
+        horizontalScrollableContainerRef.current.scrollLeft = 0;
+        verticalScrollableContainerRef.current.scrollTop = 0;
       }
     }
   }, [layoutService]);
 
   // Reset scroll position when page has changed
   useLayoutEffect(() => {
-    if (scrollableContainerRef.current) {
-      scrollableContainerRef.current.scrollLeft = 0;
-      scrollableContainerRef.current.scrollTop = 0;
+    if (horizontalScrollableContainerRef.current && verticalScrollableContainerRef.current) {
+      horizontalScrollableContainerRef.current.scrollLeft = 0;
+      verticalScrollableContainerRef.current.scrollTop = 0;
     }
   }, [pageInfo.page]);
 
-  const onScrollHandler = (event: React.SyntheticEvent) => {
-    if (topGridRef.current) {
-      topGridRef.current.forEach((list) => list?.scrollTo(event.currentTarget.scrollLeft));
-    }
+  const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
+    // console.log({ evtTrg: evt.target });
+    // console.log(evt.target.dataset["testid"]);
+    if (evt.target.dataset["testid"] === "scrollable-container--dataGrid") {
+      if (topGridRef.current) {
+        topGridRef.current.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));
+      }
 
-    if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list?.scrollTo(event.currentTarget.scrollTop));
-    }
-
-    if (dataGridRef.current) {
-      dataGridRef.current.scrollTo({
-        scrollLeft: event.currentTarget.scrollLeft,
-        scrollTop: event.currentTarget.scrollTop,
-      });
+      if (dataGridRef.current) {
+        dataGridRef.current.scrollTo({
+          scrollLeft: evt.currentTarget.scrollLeft,
+        });
+      }
     }
 
     if (currentScrollLeft.current !== undefined) {
       // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
       // Otherwise it will be out-of-sync with the other rows.
-      currentScrollLeft.current = event.currentTarget.scrollLeft;
+      currentScrollLeft.current = evt.currentTarget.scrollLeft;
+    }
+  };
+
+  const onVerticalScrollHandler = (evt: React.SyntheticEvent) => {
+    if (leftGridRef.current) {
+      leftGridRef.current.forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
+    }
+
+    if (dataGridRef.current) {
+      dataGridRef.current.scrollTo({
+        scrollTop: evt.currentTarget.scrollTop,
+      });
     }
 
     if (currentScrollTop.current !== undefined) {
       // Set scrollTop here so that when a left grid is expanded with a new column, scroll that row to scrollTop position.
       // Otherwise it will be out-of-sync with the other columns.
-      currentScrollTop.current = event.currentTarget.scrollTop;
+      currentScrollTop.current = evt.currentTarget.scrollTop;
     }
   };
 
   return {
     getScrollLeft,
     getScrollTop,
-    onScrollHandler,
-    scrollableContainerRef,
+    onHorizontalScrollHandler,
+    onVerticalScrollHandler,
+    verticalScrollableContainerRef,
+    horizontalScrollableContainerRef,
     dataGridRef,
     leftGridRef,
     topGridRef,

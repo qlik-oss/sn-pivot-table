@@ -18,7 +18,7 @@ describe("useScroll", () => {
           layoutService: layoutServiceAsProp,
           pageInfo: pageInfoAsProp,
           mockedRefs: {
-            scrollableContainerRef: {} as HTMLDivElement,
+            horizontalScrollableContainerRef: {} as HTMLDivElement,
             topGridRef: [mockedTopGridRef],
             leftGridRef: [mockedLeftGridRef],
             dataGridRef,
@@ -51,41 +51,41 @@ describe("useScroll", () => {
   test("a change to layout service should reset scrollable container scroll positions", async () => {
     const {
       result: {
-        current: { scrollableContainerRef },
+        current: { horizontalScrollableContainerRef },
       },
       rerender,
     } = renderUseScroll();
 
-    if (scrollableContainerRef.current) {
-      scrollableContainerRef.current.scrollLeft = 100;
-      scrollableContainerRef.current.scrollTop = 100;
+    if (horizontalScrollableContainerRef.current) {
+      horizontalScrollableContainerRef.current.scrollLeft = 100;
+      horizontalScrollableContainerRef.current.scrollTop = 100;
     }
 
-    expect(scrollableContainerRef.current?.scrollLeft).toBe(100);
-    expect(scrollableContainerRef.current?.scrollTop).toBe(100);
+    expect(horizontalScrollableContainerRef.current?.scrollLeft).toBe(100);
+    expect(horizontalScrollableContainerRef.current?.scrollTop).toBe(100);
     rerender({ layoutServiceAsProp: { ...layoutService }, pageInfoAsProp: pageInfo });
-    await waitFor(() => expect(scrollableContainerRef.current?.scrollLeft).toBe(0));
-    await waitFor(() => expect(scrollableContainerRef.current?.scrollTop).toBe(0));
+    await waitFor(() => expect(horizontalScrollableContainerRef.current?.scrollLeft).toBe(0));
+    await waitFor(() => expect(horizontalScrollableContainerRef.current?.scrollTop).toBe(0));
   });
 
   test("a change to page should reset scrollable container scroll positions", async () => {
     const {
       result: {
-        current: { scrollableContainerRef },
+        current: { horizontalScrollableContainerRef },
       },
       rerender,
     } = renderUseScroll();
 
-    if (scrollableContainerRef.current) {
-      scrollableContainerRef.current.scrollLeft = 100;
-      scrollableContainerRef.current.scrollTop = 100;
+    if (horizontalScrollableContainerRef.current) {
+      horizontalScrollableContainerRef.current.scrollLeft = 100;
+      horizontalScrollableContainerRef.current.scrollTop = 100;
     }
 
-    expect(scrollableContainerRef.current?.scrollLeft).toBe(100);
-    expect(scrollableContainerRef.current?.scrollTop).toBe(100);
+    expect(horizontalScrollableContainerRef.current?.scrollLeft).toBe(100);
+    expect(horizontalScrollableContainerRef.current?.scrollTop).toBe(100);
     rerender({ layoutServiceAsProp: layoutService, pageInfoAsProp: { ...pageInfo, page: 1 } });
-    await waitFor(() => expect(scrollableContainerRef.current?.scrollLeft).toBe(0));
-    await waitFor(() => expect(scrollableContainerRef.current?.scrollTop).toBe(0));
+    await waitFor(() => expect(horizontalScrollableContainerRef.current?.scrollLeft).toBe(0));
+    await waitFor(() => expect(horizontalScrollableContainerRef.current?.scrollTop).toBe(0));
   });
 
   describe("onScrollHandler", () => {
@@ -94,11 +94,11 @@ describe("useScroll", () => {
       const scrollTop = 321;
       const {
         result: {
-          current: { onScrollHandler, getScrollLeft, getScrollTop },
+          current: { onHorizontalScrollHandler, getScrollLeft, getScrollTop },
         },
       } = renderUseScroll();
 
-      onScrollHandler({ currentTarget: { scrollLeft, scrollTop } } as React.SyntheticEvent);
+      onHorizontalScrollHandler({ currentTarget: { scrollLeft, scrollTop } } as React.SyntheticEvent);
 
       expect(mockedTopGridRef.scrollTo).toHaveBeenCalledWith(scrollLeft);
       expect(mockedLeftGridRef.scrollTo).toHaveBeenCalledWith(scrollTop);
