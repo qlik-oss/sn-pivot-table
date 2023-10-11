@@ -7,12 +7,11 @@ import createFontSizeItem from "./utils/create-font-size-item";
 interface Props {
   section: "dimensionValues" | "measureValues" | "header";
   defaultFontStyle?: string[];
+  fallbackFontColor?: string;
   translator: stardust.Translator;
 }
 
-const getFallbackColor = (section: string) => (section === "measureValues" ? Colors.Black55 : Colors.PrimaryText);
-
-const largePanelSection = ({ section, defaultFontStyle, translator }: Props) => ({
+const largePanelSection = ({ section, defaultFontStyle, fallbackFontColor, translator }: Props) => ({
   component: "panel-section",
   translation: `properties.pivot.${section}`,
   items: {
@@ -45,7 +44,8 @@ const largePanelSection = ({ section, defaultFontStyle, translator }: Props) => 
             fontColor: createColorPickerItem(
               `${section}.fontColor`,
               undefined,
-              (currentTheme) => currentTheme.object?.pivotTableV2?.[section]?.color ?? getFallbackColor(section),
+              (currentTheme) =>
+                currentTheme.object?.pivotTableV2?.[section]?.color ?? fallbackFontColor ?? Colors.PrimaryText,
             ),
           },
         },

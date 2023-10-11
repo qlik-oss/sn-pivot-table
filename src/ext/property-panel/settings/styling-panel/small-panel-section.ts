@@ -4,11 +4,10 @@ import createColorPickerItem from "./utils/create-color-picker-item";
 interface Props {
   section: "measureLabels" | "totalValues" | "nullValues";
   defaultFontStyle?: string[];
+  fallbackBackground?: string;
 }
 
-const getFallbackBackground = (section: string) => (section === "nullValues" ? Colors.Black5 : Colors.Transparent);
-
-const smallPanelSection = ({ section, defaultFontStyle }: Props) => ({
+const smallPanelSection = ({ section, defaultFontStyle, fallbackBackground }: Props) => ({
   component: "panel-section",
   translation: `properties.pivot.${section}`,
   items: {
@@ -36,7 +35,8 @@ const smallPanelSection = ({ section, defaultFontStyle }: Props) => ({
         background: createColorPickerItem(
           `${section}.background`,
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[section]?.background ?? getFallbackBackground(section),
+          (currentTheme) =>
+            currentTheme.object?.pivotTableV2?.[section]?.background ?? fallbackBackground ?? Colors.Transparent,
         ),
       },
     },

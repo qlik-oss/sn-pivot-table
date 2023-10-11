@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import { Colors } from "../../../../pivot-table/components/shared-styles";
 import gridSection from "./grid";
 import largePanelSection from "./large-panal-section";
 import smallPanelSection from "./small-panel-section";
@@ -22,11 +23,12 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
         }),
         measureValueSection: largePanelSection({
           section: "measureValues",
+          fallbackFontColor: Colors.Black55,
           translator,
         }),
         measureLabelSection: smallPanelSection({ section: "measureLabels" }),
         totalValuesSection: smallPanelSection({ section: "totalValues", defaultFontStyle: ["bold"] }),
-        nullValuesSection: smallPanelSection({ section: "nullValues" }),
+        nullValuesSection: smallPanelSection({ section: "nullValues", fallbackBackground: Colors.Black5 }),
         gridSection,
       },
     },
