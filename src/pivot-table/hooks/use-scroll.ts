@@ -46,8 +46,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   }, [pageInfo.page]);
 
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
-    // console.log({ evtTrg: evt.target });
-    // console.log(evt.target.dataset["testid"]);
+    if (!(evt.target instanceof HTMLDivElement)) return;
     if (evt.target.dataset["testid"] === "scrollable-container--dataGrid") {
       if (topGridRef.current) {
         topGridRef.current.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));

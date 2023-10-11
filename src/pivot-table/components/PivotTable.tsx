@@ -157,7 +157,7 @@ export const StickyPivotTable = ({
 
           <ScrollableContainer
             ref={horizontalScrollableContainerRef}
-            width={rightGridWidth}
+            width={rightGridWidth + GRID_BORDER}
             height={tableRect.height}
             onScroll={onHorizontalScrollHandler}
             showVerticalScrollbar={false}
@@ -166,7 +166,7 @@ export const StickyPivotTable = ({
           >
             <FullSizeContainer width={totalWidth - leftGridWidth} height={containerHeight}>
               <StickyContainer width={tableRect.width - leftGridWidth} height={tableRect.height}>
-                <div style={{ width: rightGridWidth }}>
+                <div style={{ width: rightGridWidth + GRID_BORDER }}>
                   <TopGrid
                     dataModel={dataModel}
                     topGridRef={topGridRef}
