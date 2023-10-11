@@ -106,6 +106,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     getThemeStyle([Path.Header], Attribute.Background) ??
     Colors.Transparent;
 
+  // TODO Support fontWeight, fontStyle and textDecoration in Theme
   const styleService: StyleService = {
     header: {
       fontSize:
