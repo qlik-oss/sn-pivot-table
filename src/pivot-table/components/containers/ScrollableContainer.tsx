@@ -17,16 +17,7 @@ interface ScrollableContainerProps {
 const getTestId = (origin: Origin) => `scrollable-container--${origin}`;
 
 const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyRef<HTMLDivElement>): JSX.Element => {
-  const {
-    width,
-    height,
-    children,
-    onScroll,
-    style,
-    showVerticalScrollbar = true,
-    showHorizontalScrollbar = true,
-    origin,
-  } = props;
+  const { width, height, children, onScroll, style, showVerticalScrollbar, showHorizontalScrollbar, origin } = props;
   const { interactions } = useBaseContext();
 
   return (
