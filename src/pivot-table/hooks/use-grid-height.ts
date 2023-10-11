@@ -24,5 +24,12 @@ export default function useGridHeight({ pageInfo, headersData, topDimensionData,
   const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
   const showLastBottomBorder = pageInfo.rowsOnCurrentPage < rowsCanFitInTableViewPort;
 
-  return { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder };
+  return {
+    containerHeight,
+    topGridHeight,
+    leftGridHeight,
+    dataGridHeight,
+    showLastBottomBorder,
+    rowsCanFitInTableViewPort,
+  };
 }

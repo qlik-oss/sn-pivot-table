@@ -36,12 +36,13 @@ const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyR
       ref={ref}
       data-testid={getTestId(origin)}
       style={{
-        // overflow: interactions.active ? "auto" : "hidden",
         width: width,
         height: height,
         overscrollBehaviorX: "contain",
         overflowX: interactions.active && showHorizontalScrollbar ? "auto" : "hidden",
         overflowY: interactions.active && showVerticalScrollbar ? "auto" : "hidden",
+        // display: "inline-block",
+        // paddingBottom: 14, // TODO: this is unstable
         ...style,
       }}
       onScroll={onScroll}
