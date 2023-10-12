@@ -67,7 +67,7 @@ const ColumnAdjuster = ({ cell, columnWidth, dataModel }: AdjusterProps) => {
       key={`adjuster-${cell.x}`}
       onMouseDown={mouseDownHandler}
       onDoubleClick={handleDoubleClick}
-      // onMouseUp={() => {}}
+      data-testid="sn-pivot-table-column-adjuster"
     >
       <AdjusterBorder className="sn-pivot-table-column-adjuster-border" />
     </AdjusterHitArea>
