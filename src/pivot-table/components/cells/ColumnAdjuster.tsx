@@ -46,7 +46,6 @@ const ColumnAdjuster = ({ cell, columnWidth, dataModel }: AdjusterProps) => {
 
   const mouseDownHandler = (evt: React.MouseEvent) => {
     evt.stopPropagation();
-    evt.preventDefault();
 
     tempWidth.current = {
       initX: evt.clientX,
