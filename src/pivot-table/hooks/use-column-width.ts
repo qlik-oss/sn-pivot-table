@@ -69,12 +69,9 @@ export default function useColumnWidth(
     ...styleService.header,
     bold: true,
   });
-  const { measureText: measureTextForContent, estimateWidth: estimateWidthForContent } = useMeasureText(
-    styleService.content,
-  );
-  const { estimateWidth: estimateWidthForRowContent } = useMeasureText(styleService.rowContent);
-  const { estimateWidth: estimateWidthForColumnContent, measureText: measureTextForColumnContent } = useMeasureText(
-    styleService.columnContent,
+  const { estimateWidth: estimateWidthForMeasureValue } = useMeasureText(styleService.measureValues);
+  const { estimateWidth: estimateWidthForDimensionValue, measureText: measureTextForDimensionValue } = useMeasureText(
+    styleService.dimensionValues,
   );
 
   /**
@@ -102,7 +99,7 @@ export default function useColumnWidth(
         // Use the max width of all measures
         width = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
-            const fitToContentWidth = measureTextForContent(qFallbackTitle) + TOTAL_CELL_PADDING;
+            const fitToContentWidth = measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING;
             return getColumnWidth(columnWidth, fitToContentWidth);
           }),
         );
@@ -111,7 +108,7 @@ export default function useColumnWidth(
         const iconWidth = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0;
         const fitToContentWidth = Math.max(
           measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING,
-          estimateWidthForRowContent(qApprMaxGlyphCount) + iconWidth,
+          estimateWidthForDimensionValue(qApprMaxGlyphCount) + iconWidth,
         );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);
@@ -129,11 +126,11 @@ export default function useColumnWidth(
     visibleLeftDimensionInfo,
     rect.width,
     qMeasureInfo,
-    measureTextForContent,
+    measureTextForDimensionValue,
     isFullyExpanded,
     qNoOfLeftDims,
     measureTextForHeader,
-    estimateWidthForRowContent,
+    estimateWidthForDimensionValue,
   ]);
 
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
@@ -212,12 +209,12 @@ export default function useColumnWidth(
             // eslint-disable-next-line no-case-declarations
             const fitToContentWidth = topGridLeavesIsPseudo
               ? Math.max(
-                  estimateWidthForContent(qApprMaxGlyphCount),
-                  measureTextForColumnContent(qFallbackTitle) + TOTAL_CELL_PADDING,
+                  estimateWidthForMeasureValue(qApprMaxGlyphCount),
+                  measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING,
                 )
               : Math.max(
-                  Math.max(...qMeasureInfo.map((m) => estimateWidthForContent(m.qApprMaxGlyphCount))),
-                  estimateWidthForColumnContent(qApprMaxGlyphCount) + leavesIconWidth,
+                  Math.max(...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
+                  estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
                 );
             addKnownWidth(idx, fitToContentWidth);
             break;
@@ -243,12 +240,12 @@ export default function useColumnWidth(
 
     return widths;
   }, [
-    estimateWidthForColumnContent,
-    estimateWidthForContent,
+    estimateWidthForDimensionValue,
+    estimateWidthForMeasureValue,
     size.x,
     leafTopDimension,
     leavesIconWidth,
-    measureTextForColumnContent,
+    measureTextForDimensionValue,
     qMeasureInfo,
     rightGridAvailableWidth,
     topGridLeavesIsPseudo,

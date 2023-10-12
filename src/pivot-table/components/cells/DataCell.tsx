@@ -17,7 +17,7 @@ export const testId = "measure-cell";
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
-  const { background } = styleService.content;
+  const { background } = styleService.measureValues;
   const {
     grid,
     layoutService,
@@ -68,7 +68,9 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
       data-col-index={columnIndex}
     >
       <div style={cellStyle}>
-        <span style={getTextStyle(styleService, cell.expressionColor.color, isNumeric)}>{text}</span>
+        <span style={getTextStyle(styleService, cell.expressionColor.color, isNumeric, isTotalValueCell, cell.isNull)}>
+          {text}
+        </span>
       </div>
     </div>
   );
