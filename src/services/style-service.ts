@@ -176,11 +176,11 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       textDecoration: resolveTextDecoration(measureLabelStyling?.[Attribute.FontStyle]),
       color:
         resolveColor(theme, measureLabelStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.TotalValues], Attribute.Color) ??
+        getThemeStyle([Path.MeasureLabels], Attribute.Color) ??
         Colors.PrimaryText,
       background:
         resolveColor(theme, measureLabelStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.TotalValues], Attribute.Background) ??
+        getThemeStyle([Path.MeasureLabels], Attribute.Background) ??
         Colors.Transparent,
     },
     totalValues: {
