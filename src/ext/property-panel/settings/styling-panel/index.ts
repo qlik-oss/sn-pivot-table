@@ -23,7 +23,6 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
         }),
         measureValueSection: largePanelSection({
           section: "measureValues",
-          fallbackFontColor: Colors.Black55,
           translator,
         }),
         measureLabelSection: smallPanelSection({ section: "measureLabels" }),
