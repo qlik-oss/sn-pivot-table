@@ -3,7 +3,6 @@ import { PaginationFooter } from "@qlik/nebula-table-utils/lib/components";
 import React from "react";
 import type { PageInfo, Rect } from "../../types/types";
 import { useBaseContext } from "../contexts/BaseProvider";
-import { useStyleContext } from "../contexts/StyleProvider";
 import Disclaimer from "./Disclaimer";
 import { StickyPivotTable, type PivotTableProps } from "./PivotTable";
 
@@ -21,13 +20,12 @@ export const Wrapper = (props: WrapperProps) => {
     updatePageInfo,
     rect,
   } = props;
-  const styleService = useStyleContext();
   const { keyboard, theme, interactions } = useBaseContext();
 
   return (
     <>
       <StickyPivotTable {...props} />
-      {hasLimitedData && <Disclaimer styleService={styleService} translator={translator} />}
+      {hasLimitedData && <Disclaimer translator={translator} />}
       <PaginationFooter
         paginationNeeded={pageInfo.shouldShowPagination}
         handleChangePage={(page) => updatePageInfo({ page })}

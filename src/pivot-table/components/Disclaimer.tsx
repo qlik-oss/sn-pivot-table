@@ -1,17 +1,17 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import type { StyleService } from "../../types/types";
-import { DISCLAIMER_HEIGHT } from "../constants";
+import { DEFAULT_FONT_FAMILY, DISCLAIMER_HEIGHT } from "../constants";
+import { useBaseContext } from "../contexts/BaseProvider";
 import { textStyle } from "./shared-styles";
 
 interface DisclaimerProps {
-  styleService: StyleService;
   translator: stardust.Translator;
 }
 
-const Disclaimer = ({ styleService, translator }: DisclaimerProps): JSX.Element => {
+const Disclaimer = ({ translator }: DisclaimerProps): JSX.Element => {
   const text = translator.get("SNPivotTable.LimitedData");
-  const { fontFamily } = styleService.measureValues; // TODO Resolve from root of theme?
+  const { theme } = useBaseContext();
+  const fontFamily = theme.getStyle("", "", "fontFamily") ?? DEFAULT_FONT_FAMILY;
 
   return (
     <div style={{ width: "100%", height: `${DISCLAIMER_HEIGHT}px` }}>

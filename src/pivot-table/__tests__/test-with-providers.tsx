@@ -90,6 +90,7 @@ const TestWithProvider = (props: Props) => {
     interactions = { select: true, active: true },
     embed = {} as stardust.Embed,
     theme = {
+      getStyle: (base, path, attr) => attr,
       background: { tableColorFromTheme: "inherit", isDark: false, isTransparent: false, color: "transparent" },
     } as ExtendedTheme,
     keyboard = {} as stardust.Keyboard,
