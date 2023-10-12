@@ -88,7 +88,7 @@ const TopGrid = ({
   }
 
   return (
-    <div style={resolvedContainerStyle}>
+    <div style={resolvedContainerStyle} data-tetid="topgrid-wrapper">
       {topDimensionData.grid.map((list, topRowIndex) => {
         const isLastRow = topRowIndex === topDimensionData.rowCount - 1;
         const { itemCount, estimatedItemSize, listValues } = getListMeta(

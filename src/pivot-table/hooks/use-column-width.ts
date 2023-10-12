@@ -56,6 +56,7 @@ export default function useColumnWidth(
   rect: Rect,
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
   visibleTopDimensionInfo: VisibleDimensionInfo[],
+  verticalScrollbarWidth: number,
 ): ColumnWidthHook {
   const {
     layout: {
@@ -279,8 +280,8 @@ export default function useColumnWidth(
 
   // The width that will be assigned to the top and data grid
   const rightGridWidth = useMemo(
-    () => Math.min(rightGridFullWidth, rightGridAvailableWidth),
-    [rightGridFullWidth, rightGridAvailableWidth],
+    () => Math.min(rightGridFullWidth, rightGridAvailableWidth) - verticalScrollbarWidth,
+    [rightGridFullWidth, rightGridAvailableWidth, verticalScrollbarWidth],
   );
 
   // The full scrollable width of the chart
