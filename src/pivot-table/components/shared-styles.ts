@@ -29,9 +29,10 @@ export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
   borderStyle: "solid",
 };
 
-export const cellStyle: Pick<React.CSSProperties, "boxSizing" | "padding"> = {
+export const cellStyle: Pick<React.CSSProperties, "boxSizing" | "padding" | "userSelect"> = {
   boxSizing: "border-box",
   padding: CELL_PADDING,
+  userSelect: "none",
 };
 
 export const textStyle: React.CSSProperties = {
