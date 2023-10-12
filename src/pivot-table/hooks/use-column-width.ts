@@ -69,9 +69,7 @@ export default function useColumnWidth(
     ...styleService.header,
     bold: true,
   });
-  const { measureText: measureTextForMeasureValue, estimateWidth: estimateWidthForMeasureValue } = useMeasureText(
-    styleService.measureValues,
-  );
+  const { estimateWidth: estimateWidthForMeasureValue } = useMeasureText(styleService.measureValues);
   const { estimateWidth: estimateWidthForDimensionValue, measureText: measureTextForDimensionValue } = useMeasureText(
     styleService.dimensionValues,
   );
@@ -101,7 +99,7 @@ export default function useColumnWidth(
         // Use the max width of all measures
         width = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
-            const fitToContentWidth = measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING;
+            const fitToContentWidth = measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING;
             return getColumnWidth(columnWidth, fitToContentWidth);
           }),
         );
@@ -128,7 +126,7 @@ export default function useColumnWidth(
     visibleLeftDimensionInfo,
     rect.width,
     qMeasureInfo,
-    measureTextForMeasureValue,
+    measureTextForDimensionValue,
     isFullyExpanded,
     qNoOfLeftDims,
     measureTextForHeader,
