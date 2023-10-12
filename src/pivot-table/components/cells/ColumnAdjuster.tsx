@@ -7,6 +7,8 @@ import { ColumnWidthValues } from "../../hooks/use-column-width";
 import { CELL_PADDING } from "../shared-styles";
 import { AdjusterBorder, AdjusterHitArea } from "./styles";
 
+const POSITION_ADJUSTMENT = CELL_PADDING + GRID_BORDER;
+
 interface AdjusterProps {
   cell: Cell;
   columnWidth: number;
@@ -21,7 +23,6 @@ interface AdjusterProps {
 const ColumnAdjuster = ({ cell, columnWidth, dataModel }: AdjusterProps) => {
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
-  const LEFT_ADJUSTMENT = CELL_PADDING + GRID_BORDER;
 
   useEffect(() => setInternalWidth(columnWidth), [columnWidth]);
 
@@ -61,12 +62,13 @@ const ColumnAdjuster = ({ cell, columnWidth, dataModel }: AdjusterProps) => {
 
   return (
     <AdjusterHitArea
-      style={{ left: internalWidth - LEFT_ADJUSTMENT }}
+      style={{ left: internalWidth - POSITION_ADJUSTMENT }}
       isLastColumn={false}
       className="sn-pivot-table-column-adjuster"
       key={`adjuster-${cell.x}`}
       onMouseDown={mouseDownHandler}
       onDoubleClick={handleDoubleClick}
+      // onMouseUp={() => {}}
     >
       <AdjusterBorder className="sn-pivot-table-column-adjuster-border" />
     </AdjusterHitArea>
