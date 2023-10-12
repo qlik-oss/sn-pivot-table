@@ -83,15 +83,15 @@ export default function useDataModel({
   );
 
   const applyColumnWidth = useCallback<ApplyColumnWidth>(
-    (newColumnWidth: ColumnWidth, { isPseudoDimension, isPseudoDimensionBefore, isLeftColumn, x, y }: Cell) => {
+    (newColumnWidth: ColumnWidth, { isPseudoDimension, isAncestorPseudoDimension, isLeftColumn, x, y }: Cell) => {
       let index: number;
       if (isPseudoDimension) {
         // TODO: what todo with the left pseudo dim? set all measures?
         index = isLeftColumn ? 0 : layoutService.getMeasureInfoIndexFromCellIndex(x);
       } else {
         index = isLeftColumn
-          ? x - Number(isPseudoDimensionBefore)
-          : y - Number(isPseudoDimensionBefore) + layoutService.layout.qHyperCube.qNoOfLeftDims;
+          ? x - Number(isAncestorPseudoDimension)
+          : y - Number(isAncestorPseudoDimension) + layoutService.layout.qHyperCube.qNoOfLeftDims;
       }
 
       const qPath = `${Q_PATH}/${isPseudoDimension ? "qMeasures" : "qDimensions"}/${index}/qDef/columnWidth`;

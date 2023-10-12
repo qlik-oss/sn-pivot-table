@@ -97,7 +97,7 @@ export interface Cell {
   isPseudoDimension: boolean;
   isLockedByDimension: boolean;
   isLeafNode: boolean;
-  isPseudoDimensionBefore: boolean;
+  isAncestorPseudoDimension: boolean;
   expressionColor: ExpressionColor;
 }
 

@@ -69,7 +69,7 @@ export const StyledLabel = styled("div", {
   fontFamily,
 }));
 
-export const AdjusterHitArea = styled(Box, {
+export const AdjusterHitArea = styled("div", {
   shouldForwardProp: (prop: string) => prop !== "isLastColumn",
 })(({ isLastColumn = false }: { isLastColumn: boolean }) => ({
   display: "flex",
@@ -94,7 +94,7 @@ export const AdjusterHitArea = styled(Box, {
   },
 }));
 
-export const AdjusterBorder = styled(Box)({
+export const AdjusterBorder = styled("div")({
   position: "absolute",
   height: "100%",
   width: "3px",
