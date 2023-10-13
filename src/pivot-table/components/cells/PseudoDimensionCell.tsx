@@ -1,6 +1,7 @@
 import React from "react";
-import type { Cell, ShowLastBorder } from "../../../types/types";
+import type { Cell, ListItemData, ShowLastBorder } from "../../../types/types";
 import { DEFAULT_LINE_CLAMP } from "../../constants";
+import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
   getBorderStyle,
@@ -11,9 +12,12 @@ import {
   textStyle,
   topContainerCellStyle,
 } from "../shared-styles";
+import ColumnAdjuster from "./ColumnAdjuster";
+import shouldRenderColumnAdjuster from "./utils/should-render-column-adjuster";
 
 interface LabelCellProps {
   cell: Cell;
+  data: ListItemData;
   style: React.CSSProperties;
   isLeftColumn: boolean;
   isLastRow: boolean;
@@ -33,6 +37,7 @@ export const testId = "pseudo-dimension-cell";
 
 const PseudoDimensionCell = ({
   cell,
+  data,
   style,
   isLeftColumn,
   isLastRow,
@@ -40,6 +45,7 @@ const PseudoDimensionCell = ({
   showLastBorder,
   showTotalCellDivider,
 }: LabelCellProps): JSX.Element => {
+  const { isActive } = useSelectionsContext();
   const styleService = useStyleContext();
   const { fontSize, fontFamily } = styleService.dimensionValues;
   const { fontWeight, fontStyle, textDecoration, ...measureLabelStyle } = styleService.measureLabels;
@@ -51,6 +57,10 @@ const PseudoDimensionCell = ({
   });
   const lineClamp = isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP;
 
+  const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
+    <ColumnAdjuster cell={cell} columnWidth={style.width as number} dataModel={data.dataModel} />
+  ) : null;
+
   return (
     <div
       title={cell.ref.qText}
@@ -60,6 +70,7 @@ const PseudoDimensionCell = ({
         ...totalCellDividerStyle,
         ...containerStyle,
         ...measureLabelStyle,
+        zIndex: data.layoutService.size.x - cell.x,
       }}
       data-testid={testId}
     >
@@ -76,6 +87,7 @@ const PseudoDimensionCell = ({
       >
         {cell.ref.qText}
       </div>
+      {columnAdjuster}
     </div>
   );
 };

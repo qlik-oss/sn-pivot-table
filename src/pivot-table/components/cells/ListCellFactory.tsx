@@ -50,6 +50,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     return (
       <PseudoDimensionCell
         cell={cell}
+        data={data}
         style={style}
         isLeftColumn={isLeftColumn}
         isLastRow={isLastRow}

@@ -127,10 +127,11 @@ const DataGrid = ({
     grid: { divider },
     contentCellHeight,
   } = useStyleContext();
-  const resolvedGridStyle = {
+  const resolvedGridStyle: React.CSSProperties = {
     ...(layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions),
     borderColor: divider,
     willChange: "auto",
+    userSelect: "none",
   };
 
   const shouldShowTotalCellBottomDivider = useShouldShowTotalCellBottomDivider(leftDimensionData);
