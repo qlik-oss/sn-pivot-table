@@ -75,7 +75,6 @@ export const AdjusterHitArea = styled("div", {
   position: "absolute",
   height: "100%",
   top: 0,
-  left: `100%`,
   cursor: "col-resize",
   // last column padding, other double padding + border
   width: `${isLastColumn ? 4 : 9}px`,

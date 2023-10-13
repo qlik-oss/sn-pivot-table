@@ -1,5 +1,6 @@
+import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { preventDefaultBehavior } from "@qlik/nebula-table-utils/lib/utils";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { Cell, DataModel } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
@@ -24,7 +25,9 @@ const ColumnAdjuster = ({ cell, columnWidth, dataModel }: AdjusterProps) => {
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
 
-  useEffect(() => setInternalWidth(columnWidth), [columnWidth]);
+  useOnPropsChange(() => {
+    setInternalWidth(columnWidth);
+  }, [columnWidth]);
 
   const mouseMoveHandler = (evt: MouseEvent) => {
     const deltaWidth = evt.clientX - tempWidth.current.initX;
