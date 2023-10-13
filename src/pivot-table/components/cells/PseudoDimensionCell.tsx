@@ -47,24 +47,15 @@ const PseudoDimensionCell = ({
 }: LabelCellProps): JSX.Element => {
   const { isActive } = useSelectionsContext();
   const styleService = useStyleContext();
-  const serviceStyle = isLeftColumn
-    ? {
-        fontSize: styleService.rowContent.fontSize,
-        fontFamily: styleService.rowContent.fontFamily,
-        ...styleService.rowContent.measureLabel,
-      }
-    : {
-        fontSize: styleService.columnContent.fontSize,
-        fontFamily: styleService.columnContent.fontFamily,
-        ...styleService.columnContent.measureLabel,
-      };
+  const { fontSize, fontFamily } = styleService.dimensionValues;
+  const { fontWeight, fontStyle, textDecoration, ...measureLabelStyle } = styleService.measureLabels;
   const containerStyle = isLeftColumn ? leftContainerCellStyle : topContainerCellStyle;
   const totalCellDividerStyle = getTotalCellDividerStyle({
     bottomDivider: showTotalCellDivider && isLeftColumn,
     rightDivider: showTotalCellDivider && !isLeftColumn,
     borderColor: styleService.grid.divider,
   });
-  const lineClamp = isLeftColumn ? styleService.content.lineClamp : DEFAULT_LINE_CLAMP;
+  const lineClamp = isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP;
 
   const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
     <ColumnAdjuster cell={cell} columnWidth={style.width as number} dataModel={data.dataModel} />
@@ -78,12 +69,24 @@ const PseudoDimensionCell = ({
         ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
         ...totalCellDividerStyle,
         ...containerStyle,
-        ...serviceStyle,
+        ...measureLabelStyle,
         zIndex: data.layoutService.size.x - cell.x,
       }}
       data-testid={testId}
     >
-      <div style={{ ...getTextStyle(lineClamp), ...stickyCell }}>{cell.ref.qText}</div>
+      <div
+        style={{
+          ...getTextStyle(lineClamp),
+          ...stickyCell,
+          fontSize,
+          fontFamily,
+          fontWeight,
+          fontStyle,
+          textDecoration,
+        }}
+      >
+        {cell.ref.qText}
+      </div>
       {columnAdjuster}
     </div>
   );

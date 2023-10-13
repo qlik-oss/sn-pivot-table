@@ -1,4 +1,4 @@
-import type { ActivelySortedColumn, StylingOptions } from "./types";
+import type { ActivelySortedColumn, ThemeStyling } from "./types";
 
 enum NxDimCellType {
   NX_DIM_CELL_VALUE = "V",
@@ -37,67 +37,62 @@ interface NullValueRepresentation {
   text?: string;
 }
 
-export interface RowHeight {
-  linesCount: number;
-}
-
 export interface PaletteColor {
   index?: number;
   color?: string;
 }
 
-interface ComponentCellStyling {
-  background?: PaletteColor;
-  fontColor?: PaletteColor;
-}
+export type FontStyleOptions = "bold" | "italic" | "underline";
 
 export interface Component {
   key: "general" | "theme";
-  rowHeight?: RowHeight;
-  header: {
+  header?: {
     fontFamily?: string;
     fontSize?: string;
+    fontStyle?: FontStyleOptions[];
+    fontColor?: PaletteColor;
     background?: PaletteColor;
-    rowTitle?: ComponentCellStyling;
-    columnTitle?: ComponentCellStyling;
   };
-  content: {
+  dimensionValues?: {
     fontFamily?: string;
     fontSize?: string;
     fontColor?: PaletteColor;
+    fontStyle?: FontStyleOptions[];
     background?: PaletteColor;
+  };
+  measureValues: {
+    fontFamily?: string;
+    fontSize?: string;
+    fontColor?: PaletteColor;
+    fontStyle?: FontStyleOptions[];
+    background?: PaletteColor;
+  };
+  measureLabels?: {
+    fontStyle?: FontStyleOptions[];
+    fontColor?: PaletteColor;
+    background?: PaletteColor;
+  };
+  totalValues?: {
+    fontStyle?: FontStyleOptions[];
+    fontColor?: PaletteColor;
+    background?: PaletteColor;
+  };
+  nullValues?: {
+    fontStyle?: FontStyleOptions[];
+    fontColor?: PaletteColor;
+    background?: PaletteColor;
+  };
+  grid?: {
     lineClamp?: number;
-    nullValue?: ComponentCellStyling;
-    totalValue?: ComponentCellStyling;
-  };
-  rowContent: {
-    fontFamily?: string;
-    fontSize?: string;
-    fontColor?: PaletteColor;
-    background?: PaletteColor;
-    nullValue?: ComponentCellStyling;
-    totalLabel?: ComponentCellStyling;
-    measureLabel?: ComponentCellStyling;
-  };
-  columnContent: {
-    fontFamily?: string;
-    fontSize?: string;
-    fontColor?: PaletteColor;
-    background?: PaletteColor;
-    nullValue?: ComponentCellStyling;
-    totalLabel?: ComponentCellStyling;
-    measureLabel?: ComponentCellStyling;
-  };
-  grid: {
-    rowHeight?: "compact";
     border?: PaletteColor;
     divider?: PaletteColor;
+    background?: PaletteColor;
   };
 }
 
 export interface CurrentTheme {
   object?: {
-    pivotTableV2?: StylingOptions;
+    pivotTableV2?: ThemeStyling;
   };
   fontSize: string;
   fontSizes?: string[];

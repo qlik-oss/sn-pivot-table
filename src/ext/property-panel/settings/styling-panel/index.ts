@@ -1,8 +1,8 @@
 import type { stardust } from "@nebula.js/stardust";
-import contentSection from "./content";
-import getDimensionSection from "./dimension-content";
+import { Colors } from "../../../../pivot-table/components/shared-styles";
 import gridSection from "./grid";
-import headerSection from "./header";
+import largePanelSection from "./large-panal-section";
+import smallPanelSection from "./small-panel-section";
 
 const getStylingPanelConfig = (translator: stardust.Translator) => ({
   type: "items",
@@ -16,10 +16,18 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
       useGeneral: true,
       defaultValue: [],
       items: {
-        headerSection: headerSection(translator),
-        contentSection: contentSection(translator),
-        rowContentSection: getDimensionSection("rowContent", translator),
-        columnContentSection: getDimensionSection("columnContent", translator),
+        headerSection: largePanelSection({ section: "header", defaultFontStyle: ["bold"], translator }),
+        dimensionValueSection: largePanelSection({
+          section: "dimensionValues",
+          translator,
+        }),
+        measureValueSection: largePanelSection({
+          section: "measureValues",
+          translator,
+        }),
+        measureLabelSection: smallPanelSection({ section: "measureLabels" }),
+        totalValuesSection: smallPanelSection({ section: "totalValues", defaultFontStyle: ["bold"] }),
+        nullValuesSection: smallPanelSection({ section: "nullValues", fallbackBackground: Colors.Black5 }),
         gridSection,
       },
     },

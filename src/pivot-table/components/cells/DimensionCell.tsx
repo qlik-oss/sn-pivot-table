@@ -111,6 +111,7 @@ const DimensionCell = ({
     isCellSelected,
     isNull: cell.isNull,
     expressionColor: cell.expressionColor.color,
+    isTotal: cell.isTotal,
   });
   const resolvedInnerContainerStyle = getInnerContainerStyle(isLeftColumn);
   const resolvedContainerStyle = getContainerStyle({

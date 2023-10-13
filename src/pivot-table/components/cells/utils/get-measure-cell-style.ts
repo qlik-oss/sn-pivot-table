@@ -1,4 +1,5 @@
 import type { StyleService } from "../../../../types/types";
+import { BOLD_FONT_WEIGHT } from "../../../constants";
 import { getLineClampStyle, textStyle } from "../../shared-styles";
 
 const numericStyle: React.CSSProperties = {
@@ -33,34 +34,67 @@ export const getCellStyle = (
   expressionBackground: string | null,
 ) => {
   if (isNull) {
-    return { ...nilStyle, ...styleService.content.nullValue };
+    return { ...nilStyle, ...styleService.nullValues };
   }
 
   if (isTotalValue) {
     return {
       ...numericStyle,
-      color: styleService.content.totalValue.color,
-      background: expressionBackground ?? styleService.content.totalValue.background,
-      fontWeight: "600",
+      color: styleService.totalValues.color,
+      background: expressionBackground ?? styleService.totalValues.background,
     };
   }
 
   return {
     ...numericStyle,
-    color: styleService.content.color,
-    background: expressionBackground ?? styleService.content.background,
+    color: styleService.measureValues.color,
+    background: expressionBackground ?? styleService.measureValues.background,
   };
 };
 
-export const getTextStyle = (styleService: StyleService, expressionColor: string | null, isNumeric: boolean) => {
-  const { fontFamily, fontSize } = styleService.content;
-
-  return {
+export const getTextStyle = (
+  styleService: StyleService,
+  expressionColor: string | null,
+  isNumeric: boolean,
+  isTotalValue: boolean,
+  isNull: boolean,
+) => {
+  const { fontFamily, fontSize } = styleService.measureValues;
+  const sharedStyle = {
     ...textStyle,
-    ...(!isNumeric && getGridTextClampStyle(styleService.content.lineClamp)),
+    ...(!isNumeric && getGridTextClampStyle(styleService.grid.lineClamp)),
     ...(expressionColor && { color: expressionColor }),
     alignSelf: "flex-start",
     fontFamily,
     fontSize,
+  };
+
+  if (isNull) {
+    const { fontWeight, fontStyle, textDecoration } = styleService.nullValues;
+    return {
+      ...sharedStyle,
+      fontWeight,
+      fontStyle,
+      textDecoration,
+    };
+  }
+
+  if (isTotalValue) {
+    const { fontWeight, fontStyle, textDecoration } = styleService.totalValues;
+    return {
+      ...sharedStyle,
+      fontWeight,
+      fontStyle,
+      textDecoration,
+    };
+  }
+
+  const { fontWeight, fontStyle, textDecoration } = styleService.measureValues;
+
+  return {
+    ...sharedStyle,
+    fontWeight: fontWeight === undefined ? BOLD_FONT_WEIGHT : fontWeight,
+    fontStyle,
+    textDecoration,
   };
 };

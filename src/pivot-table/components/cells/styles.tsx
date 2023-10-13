@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
+import type { CellStyling } from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
 import { CELL_PADDING, textStyle } from "../shared-styles";
 
@@ -53,20 +54,18 @@ export const StyledLockIcon = styled("div")(() => ({
   ...baseFlex,
 }));
 
-interface StyledLabelProps {
-  fontSize: string;
-  fontFamily: string;
-}
-
 export const StyledLabel = styled("div", {
-  shouldForwardProp: (prop: string) => !["fontSize", "fontFamily"].includes(prop),
-})(({ fontSize, fontFamily }: StyledLabelProps) => ({
+  shouldForwardProp: (prop: string) =>
+    !["fontSize", "fontFamily", "fontWeight", "fontStyle", "textDecoration"].includes(prop),
+})(({ fontSize, fontFamily, fontWeight, fontStyle, textDecoration }: Omit<CellStyling, "color" | "background">) => ({
   ...textStyle,
-  fontWeight: "600",
   alignSelf: "center",
   flexGrow: 1,
+  fontWeight,
   fontSize,
   fontFamily,
+  fontStyle,
+  textDecoration,
 }));
 
 export const AdjusterHitArea = styled("div", {

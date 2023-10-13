@@ -19,6 +19,7 @@ interface GetTextStyle {
   isCellSelected: boolean;
   isNull: boolean;
   expressionColor: string | null;
+  isTotal: boolean;
 }
 
 interface GetContainerStyle {
@@ -87,13 +88,11 @@ export const getContainerStyle = ({
   zIndex,
 }: GetContainerStyle) => {
   const resolvedSelectedStyle = isCellSelected ? selectedStyle : {};
-  const { nullValue, background: styleServiceBackground } = isLeftColumn
-    ? styleService.rowContent
-    : styleService.columnContent;
+  const { background: styleServiceBackground } = styleService.dimensionValues;
   const background = expressionBackground ?? styleServiceBackground;
   const resolvedLockedSelectionStyle = isCellLocked ? getLockedStyleFromSelection(background) : {};
   const resolvedSelectableCellStyle = isNonSelectableCell ? {} : selectableCellStyle;
-  const resolvedNullStyle = isNull ? nullValue : { background };
+  const resolvedNullStyle = isNull ? styleService.nullValues : { background };
 
   return {
     ...style,
@@ -126,20 +125,35 @@ export const getTextStyle = ({
   isCellSelected,
   isNull,
   expressionColor,
+  isTotal,
 }: GetTextStyle): React.CSSProperties => {
-  const { nullValue, totalLabel, measureLabel, background, ...serviceStyle } = isLeftColumn
-    ? styleService.rowContent
-    : styleService.columnContent;
+  const { background, fontWeight, ...serviceStyle } = styleService.dimensionValues;
+  const nullValueStyling = isNull && {
+    color: styleService.nullValues.color,
+    fontWeight: styleService.nullValues.fontWeight,
+    fontStyle: styleService.nullValues.fontStyle,
+    textDecoration: styleService.nullValues.textDecoration,
+  };
+
+  const totalValueStyling = isTotal && {
+    color: styleService.totalValues.color,
+    fontWeight: styleService.totalValues.fontWeight,
+    fontStyle: styleService.totalValues.fontStyle,
+    textDecoration: styleService.totalValues.textDecoration,
+  };
 
   return {
     ...serviceStyle,
     ...textStyle,
     ...(expressionColor && { color: expressionColor }),
-    ...(isNull && { color: nullValue.color }),
+    // fontWeight coming from Styling panel is undefined when the user have not
+    // explicity set it to bold or normal
+    fontWeight: fontWeight === undefined && (qCanExpand || qCanCollapse) ? "600" : fontWeight,
+    ...totalValueStyling,
+    ...nullValueStyling,
     ...(isCellSelected && { color: selectedStyle.color }),
-    fontWeight: qCanExpand || qCanCollapse ? "600" : undefined,
     overflow: "hidden",
     textOverflow: "ellipsis",
-    ...getLineClampStyle(isLeftColumn ? styleService.content.lineClamp : DEFAULT_LINE_CLAMP),
+    ...getLineClampStyle(isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP),
   };
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import type { Cell, ShowLastBorder } from "../../../types/types";
+import { BOLD_FONT_WEIGHT } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
   getBorderStyle,
@@ -22,7 +23,7 @@ interface LabelCellProps {
 
 const labelTextStyle: React.CSSProperties = {
   ...textStyle,
-  fontWeight: "600",
+  fontWeight: BOLD_FONT_WEIGHT,
 };
 
 export const testId = "totals-cell";
@@ -37,8 +38,8 @@ const TotalsCell = ({
   showLastBorder,
 }: LabelCellProps): JSX.Element => {
   const styleService = useStyleContext();
-  const serviceStyle = isLeftColumn ? styleService.rowContent.totalLabel : styleService.columnContent.totalLabel;
-  const { fontSize, fontFamily } = isLeftColumn ? styleService.rowContent : styleService.columnContent;
+  const { fontWeight, fontStyle, textDecoration, ...serviceStyle } = styleService.totalValues;
+  const { fontSize, fontFamily } = styleService.dimensionValues;
   const containerStyle = isLeftColumn ? leftContainerCellStyle : topContainerCellStyle;
 
   const totalCellDividerStyle = getTotalCellDividerStyle({
@@ -64,6 +65,9 @@ const TotalsCell = ({
           ...labelTextStyle,
           ...stickyCell,
           ...(cell.expressionColor.color && { color: cell.expressionColor.color }),
+          fontWeight,
+          fontStyle,
+          textDecoration,
           fontSize,
           fontFamily,
         }}

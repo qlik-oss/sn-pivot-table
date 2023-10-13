@@ -7,28 +7,30 @@ import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
 interface HeaderGridProps {
-  columnWidthCallback: (index: number) => number;
+  columnWidths: number[];
   rowHight: number;
   headersData: HeadersData;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
   getHeaderCellsIconsVisibilityStatus: GetHeaderCellsIconsVisibilityStatus;
+  height: number;
 }
 
 const containerStyle: React.CSSProperties = {
   display: "grid",
-  background: "red",
+  width: "fit-content",
 };
 
 const HeaderGrid = ({
-  columnWidthCallback,
+  columnWidths,
   rowHight,
   headersData,
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
   getHeaderCellsIconsVisibilityStatus,
+  height,
 }: HeaderGridProps): JSX.Element | null => {
   const styleService = useStyleContext();
 
@@ -37,7 +39,6 @@ const HeaderGrid = ({
   }
 
   const hasMultipleRows = headersData.size.y > 1;
-  const columnWidths = headersData.data.map((_, colIndex) => columnWidthCallback(colIndex));
 
   return (
     <div
@@ -45,7 +46,8 @@ const HeaderGrid = ({
         ...containerStyle,
         gridTemplateColumns: columnWidths.map((w) => `${w}px`).join(" "),
         gridTemplateRows: hasMultipleRows ? `1fr ${rowHight}px` : undefined,
-        background: styleService.header.background,
+        background: styleService.grid.background,
+        height,
       }}
     >
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}

@@ -1,14 +1,11 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import type { Rect } from "../../../types/types";
-import { GRID_BORDER } from "../../constants";
 
 interface StickyContainerProps {
   rect: Rect;
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
   leftColumnsWidth: number;
   rightColumnsWidth: number;
-  topRowsHeight: number;
-  bottomRowsHeight: number;
 }
 
 const StickyContainer = ({
@@ -16,8 +13,6 @@ const StickyContainer = ({
   children,
   leftColumnsWidth,
   rightColumnsWidth,
-  topRowsHeight,
-  bottomRowsHeight,
 }: StickyContainerProps): JSX.Element => (
   <div
     data-testid="sticky-container"
@@ -29,7 +24,6 @@ const StickyContainer = ({
       gridTemplateColumns: leftColumnsWidth // If leftColumnsWidth is 0, this means no data exist for "headers" or "left"
         ? `${leftColumnsWidth}px ${rightColumnsWidth}px`
         : `${rightColumnsWidth}px`,
-      gridTemplateRows: `${topRowsHeight}px ${bottomRowsHeight + GRID_BORDER}px`,
       width: rect.width,
       height: rect.height,
     }}
