@@ -268,11 +268,14 @@ export default function useColumnWidth(
    * Gets the width of a right grid column. This is always based on the leaf width(s)
    */
   const getRightGridColumnWidth = useCallback(
-    (index?: number) =>
-      topGridLeavesIsPseudo && index !== undefined
-        ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)]
-        : averageLeafWidth,
-    [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth],
+    (index?: number) => {
+      // since we calculate each column width by its own, we need to deduct the width share of scrollbar in case if it was enabled
+      const scrollbarWidthSharePerColumn = parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12));
+      return topGridLeavesIsPseudo && index !== undefined
+        ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)] - scrollbarWidthSharePerColumn
+        : averageLeafWidth - scrollbarWidthSharePerColumn;
+    },
+    [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth, verticalScrollbarWidth],
   );
 
   // The width of the sum of all columns, can be smaller or greater than what fits in the chart
@@ -280,8 +283,8 @@ export default function useColumnWidth(
 
   // The width that will be assigned to the top and data grid
   const rightGridWidth = useMemo(
-    () => Math.min(rightGridFullWidth, rightGridAvailableWidth) - verticalScrollbarWidth,
-    [rightGridFullWidth, rightGridAvailableWidth, verticalScrollbarWidth],
+    () => Math.min(rightGridFullWidth, rightGridAvailableWidth),
+    [rightGridFullWidth, rightGridAvailableWidth],
   );
 
   // The full scrollable width of the chart

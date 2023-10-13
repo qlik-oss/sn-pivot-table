@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import type { LayoutService, PageInfo } from "../../types/types";
 
