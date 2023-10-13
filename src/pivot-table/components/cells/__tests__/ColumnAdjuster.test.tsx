@@ -20,11 +20,11 @@ describe("<ColumnAdjuster />", () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  it("should render columnAdjuster", () => {
+  test("should render columnAdjuster", () => {
     expect(screen.queryByTestId("sn-pivot-table-column-adjuster")).toBeInTheDocument();
   });
 
-  it("should change column width using mouse", async () => {
+  test("should change column width using mouse", async () => {
     const columnAdjuster = screen.queryByTestId("sn-pivot-table-column-adjuster") as HTMLElement;
     const coord = {
       clientX: 0,
@@ -44,7 +44,7 @@ describe("<ColumnAdjuster />", () => {
     });
   });
 
-  it("should not change column width using mouse when mouse is not moved", async () => {
+  test("should not change column width using mouse when mouse is not moved", async () => {
     const columnAdjuster = screen.queryByTestId("sn-pivot-table-column-adjuster") as HTMLElement;
     fireEvent.mouseDown(columnAdjuster);
     fireEvent.mouseUp(columnAdjuster);
@@ -54,7 +54,7 @@ describe("<ColumnAdjuster />", () => {
     });
   });
 
-  it("should call applyColumnWidths with type fitToContent on double click", async () => {
+  test("should call applyColumnWidths with type fitToContent on double click", async () => {
     const columnAdjuster = screen.queryByTestId("sn-pivot-table-column-adjuster") as HTMLElement;
     fireEvent.doubleClick(columnAdjuster);
 

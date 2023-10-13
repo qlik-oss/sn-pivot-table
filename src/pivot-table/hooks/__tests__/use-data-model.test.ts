@@ -1,7 +1,13 @@
 import { renderHook } from "@testing-library/react";
 import { Q_PATH } from "../../../constants";
-import type { Model } from "../../../types/QIX";
-import type { LayoutService, PageInfo } from "../../../types/types";
+import {
+  ColumnWidthType,
+  type ColumnWidth,
+  type ExtendedDimensionInfo,
+  type ExtendedMeasureInfo,
+  type Model,
+} from "../../../types/QIX";
+import type { Cell, LayoutService, PageInfo } from "../../../types/types";
 import useDataModel from "../use-data-model";
 
 const pivotPage = {};
@@ -12,17 +18,21 @@ describe("useDataModel", () => {
   let pageInfo: PageInfo;
   let layoutService: LayoutService;
   let getHyperCubePivotDataMock: jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>;
+  let applyPatchesMock: jest.MockedFunction<() => Promise<void>>;
 
   beforeEach(() => {
     getHyperCubePivotDataMock = jest.fn() as jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>;
+    applyPatchesMock = jest.fn() as jest.MockedFunction<() => Promise<void>>;
     model = {
       collapseLeft: jest.fn(),
       collapseTop: jest.fn(),
       expandLeft: jest.fn(),
       expandTop: jest.fn(),
       getHyperCubePivotData: getHyperCubePivotDataMock,
+      applyPatches: applyPatchesMock,
     } as unknown as EngineAPI.IGenericObject;
     (model.getHyperCubePivotData as jest.Mock).mockResolvedValue([pivotPage]);
+    (model.applyPatches as jest.Mock).mockResolvedValue({ then: () => {} });
     nextPageHandler = jest.fn();
     pageInfo = {
       page: 0,
@@ -177,6 +187,70 @@ describe("useDataModel", () => {
         },
       ]);
       expect(nextPageHandler).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("applyColumnWidth", () => {
+    const dimension = {} as ExtendedDimensionInfo;
+    const measure = {} as ExtendedMeasureInfo;
+    let newColumnWidth: ColumnWidth;
+    let cell: Cell;
+    let patch: EngineAPI.INxPatch;
+
+    beforeEach(() => {
+      newColumnWidth = { type: ColumnWidthType.Pixels, pixels: 100 };
+      cell = { isPseudoDimension: false, isAncestorPseudoDimension: false, isLeftColumn: false, x: 0, y: 0 } as Cell;
+      layoutService = {
+        layout: {
+          qHyperCube: { qDimensionInfo: [dimension, dimension], qMeasureInfo: [measure, measure], qNoOfLeftDims: 0 },
+        },
+        getMeasureInfoIndexFromCellIndex: (index: number) => index,
+      } as unknown as LayoutService;
+
+      patch = {
+        qPath: "/qHyperCubeDef/qDimensions/0/qDef/columnWidth",
+        qOp: "Add",
+        qValue: JSON.stringify(newColumnWidth),
+      };
+    });
+
+    test("should call applyPatches with qPath for dimension", () => {
+      const { applyColumnWidth } = renderer();
+      applyColumnWidth(newColumnWidth, cell);
+
+      expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
+    });
+
+    test("should call applyPatches with qPath for dimension with pseudo as ancestor", () => {
+      layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
+      cell.isAncestorPseudoDimension = true;
+      cell.y = 1;
+      patch.qPath = "/qHyperCubeDef/qDimensions/1/qDef/columnWidth";
+
+      const { applyColumnWidth } = renderer();
+      applyColumnWidth(newColumnWidth, cell);
+
+      expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
+    });
+
+    test("should call applyPatches with qOp replace when columnWidth exists on dimension", () => {
+      layoutService.layout.qHyperCube.qDimensionInfo[0].columnWidth = { type: ColumnWidthType.Auto };
+      patch.qOp = "Replace";
+
+      const { applyColumnWidth } = renderer();
+      applyColumnWidth(newColumnWidth, cell);
+
+      expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
+    });
+
+    test("should call applyPatches with qPath for measure", async () => {
+      cell.isPseudoDimension = true;
+      patch.qPath = "/qHyperCubeDef/qMeasures/0/qDef/columnWidth";
+
+      const { applyColumnWidth } = renderer();
+      applyColumnWidth(newColumnWidth, cell);
+
+      expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
     });
   });
 });

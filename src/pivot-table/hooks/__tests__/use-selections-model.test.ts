@@ -53,6 +53,21 @@ describe("useSelectionsModel", () => {
     expect(selections.removeListener).toHaveBeenCalledWith("cleared", expect.any(Function));
   });
 
+  test("should not select cell when mouse event is comming from ColumnAdjuster", async () => {
+    mouseEvt.target = {
+      className: "sn-pivot-table-column-adjuster",
+    } as HTMLElement;
+    const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
+
+    await act(async () => {
+      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
+    });
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    await waitFor(() => expect(selections.begin).toHaveBeenCalledTimes(0));
+    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy());
+  });
+
   test("should select cell and call begin selection", async () => {
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
