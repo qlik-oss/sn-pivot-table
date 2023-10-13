@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import type { HeaderData, SortDirection } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import type { ColumnWidth, ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
@@ -13,18 +14,10 @@ export type List = Record<number, Cell>;
 
 export type Grid = List[];
 
-export type HeaderCell = {
-  id: string;
-  title: string;
-  sortDirection: SortDirection;
+export interface HeaderCell extends HeaderData {
   qReverseSort?: boolean;
-  colIdx: number;
   isLocked: boolean;
-
-  fieldId: string;
-  qLibraryId?: string;
-  isActivelySorted: boolean;
-};
+}
 
 export type MeasureData = MeasureCell[][];
 
@@ -244,21 +237,6 @@ export type ActivelySortedColumn = {
   sortDirection: SortDirection;
 };
 
-export interface Header {
-  id: string;
-  qLibraryId?: string;
-  fieldId: string;
-  label: string;
-  headTextAlign: Align;
-  sortDirection: SortDirection;
-
-  // sorting in PVT
-  isDim: boolean;
-  colIdx: number;
-  qReverseSort?: boolean;
-  isActivelySorted?: boolean;
-}
-
 export enum AttrExprInfoIDs {
   CellForegroundColor = "cellForegroundColor",
   CellBackgroundColor = "cellBackgroundColor",
@@ -280,11 +258,8 @@ export type ExpressionColor = {
   background: string | null;
 };
 
-export type Align = "left" | "center" | "right";
-export type SortDirection = "A" | "D";
-
-export type ChangeSortOrder = (header: Header, sortOrder: SortDirection) => Promise<boolean>;
-export type ChangeActivelySortedHeader = (header: Omit<Header, "isActivelySorted">) => Promise<boolean>;
+export type ChangeSortOrder = (headerCell: HeaderCell, sortOrder: SortDirection) => Promise<boolean>;
+export type ChangeActivelySortedHeader = (headerData: Omit<HeaderData, "isActivelySorted">) => Promise<boolean>;
 
 export enum ScrollableContainerOrigin {
   LEFT_GRID = "leftGrid",

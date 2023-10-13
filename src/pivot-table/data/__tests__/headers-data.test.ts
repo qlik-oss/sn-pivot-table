@@ -19,8 +19,8 @@ describe("create headers data", () => {
   test("should return correct headers data", () => {
     const headers = [
       [
-        { id: "a", title: "a" },
-        { id: "b", title: "b" },
+        { id: "a", label: "a" },
+        { id: "b", label: "b" },
       ] as HeaderCell[],
     ];
     mockedExtractHeaders.mockReturnValue(headers);

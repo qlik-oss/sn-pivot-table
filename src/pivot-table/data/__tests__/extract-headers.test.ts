@@ -18,7 +18,7 @@ describe("extractHeaders", () => {
 
     expect(headers).toHaveLength(1);
     expect(headers[0]).toHaveLength(1);
-    expect(headers[0][0]?.title).toBe("dim 0");
+    expect(headers[0][0]?.label).toBe("dim 0");
     expect(headers[0][0]?.id).toBe("id-0");
   });
 
@@ -28,9 +28,9 @@ describe("extractHeaders", () => {
 
     expect(headers).toHaveLength(2);
     expect(headers[0]).toHaveLength(1);
-    expect(headers[0][0]?.title).toBe("dim 0");
+    expect(headers[0][0]?.label).toBe("dim 0");
     expect(headers[0][0]?.id).toBe("id-0");
-    expect(headers[1][0]?.title).toBe("dim 1");
+    expect(headers[1][0]?.label).toBe("dim 1");
     expect(headers[1][0]?.id).toBe("id-1");
   });
 
@@ -41,9 +41,9 @@ describe("extractHeaders", () => {
 
     expect(headers).toHaveLength(2);
     expect(headers[0]).toHaveLength(1);
-    expect(headers[0][0]?.title).toBe("");
+    expect(headers[0][0]?.label).toBe("");
     expect(headers[0][0]?.id).toBe("PSEUDO-DIM");
-    expect(headers[1][0]?.title).toBe("dim 0");
+    expect(headers[1][0]?.label).toBe("dim 0");
     expect(headers[1][0]?.id).toBe("id-0");
   });
 
@@ -54,9 +54,9 @@ describe("extractHeaders", () => {
 
     expect(headers).toHaveLength(2);
     expect(headers[0]).toHaveLength(1);
-    expect(headers[0][0]?.title).toBe("dim 0");
+    expect(headers[0][0]?.label).toBe("dim 0");
     expect(headers[0][0]?.id).toBe("id-0");
-    expect(headers[1][0]?.title).toBe("");
+    expect(headers[1][0]?.label).toBe("");
     expect(headers[1][0]?.id).toBe("PSEUDO-DIM");
   });
 
@@ -67,7 +67,7 @@ describe("extractHeaders", () => {
     expect(headers).toHaveLength(1);
     expect(headers[0]).toHaveLength(2);
     expect(headers[0][0]).toBe(null);
-    expect(headers[0][1]?.title).toBe("dim 0");
+    expect(headers[0][1]?.label).toBe("dim 0");
     expect(headers[0][1]?.id).toBe("id-0");
   });
 
@@ -79,9 +79,9 @@ describe("extractHeaders", () => {
     expect(headers[0]).toHaveLength(2);
     expect(headers[0][0]).toBe(null);
     expect(headers[1][0]).toBe(null);
-    expect(headers[0][1]?.title).toBe("dim 0");
+    expect(headers[0][1]?.label).toBe("dim 0");
     expect(headers[0][1]?.id).toBe("id-0");
-    expect(headers[1][1]?.title).toBe("dim 1");
+    expect(headers[1][1]?.label).toBe("dim 1");
     expect(headers[1][1]?.id).toBe("id-1");
   });
 });

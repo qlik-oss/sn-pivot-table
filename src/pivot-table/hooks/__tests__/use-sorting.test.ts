@@ -1,6 +1,7 @@
+import type { SortDirection } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import { renderHook } from "@testing-library/react";
 import type { ExtendedHyperCube, Model } from "../../../types/QIX";
-import type { Header, SortDirection } from "../../../types/types";
+import type { HeaderCell } from "../../../types/types";
 import useSorting from "../use-sorting";
 
 describe("use-sorting", () => {
@@ -8,7 +9,7 @@ describe("use-sorting", () => {
   let applyPatches: jest.MockedFunction<() => Promise<void>>;
   let hyperCube: ExtendedHyperCube;
 
-  let header: Header;
+  let header: HeaderCell;
   let newSortDirection: SortDirection;
 
   const renderer = () => renderHook(() => useSorting(model, hyperCube)).result.current;
@@ -18,7 +19,7 @@ describe("use-sorting", () => {
     model = { applyPatches } as unknown as Model;
     hyperCube = { qDimensionInfo: [{}, {}, {}] } as unknown as ExtendedHyperCube;
 
-    header = { isDim: true, colIdx: 0, qReverseSort: false } as Header;
+    header = { isDim: true, colIdx: 0, qReverseSort: false } as HeaderCell;
     newSortDirection = "A";
   });
 
@@ -86,7 +87,7 @@ describe("use-sorting", () => {
   });
 
   describe("changeActivelySortedHeader", () => {
-    let expectedHeaderObject: Header;
+    let expectedHeaderObject: HeaderCell;
     beforeEach(() => {
       header = {
         ...header,
@@ -98,7 +99,7 @@ describe("use-sorting", () => {
         qLibraryId: header.qLibraryId,
         fieldId: header.fieldId,
         sortDirection: header.sortDirection,
-      } as Header;
+      } as HeaderCell;
     });
 
     test("should throw error if there was no model", async () => {
