@@ -5,9 +5,10 @@ import getKey from "../components/helpers/get-key";
 
 const extractHeaders = (
   hyperCube: ExtendedHyperCube,
-  rowCount: number,
+  visibleTopDimensionInfo: VisibleDimensionInfo[],
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): (null | HeaderCell)[][] => {
+  const rowCount = visibleTopDimensionInfo.length;
   const matrix: (null | HeaderCell)[][] = Array(visibleLeftDimensionInfo.length)
     .fill(null)
     .map(() => Array.from({ length: rowCount }, () => null));

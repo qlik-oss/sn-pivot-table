@@ -4,11 +4,11 @@ import extractHeaders from "./extract-headers";
 
 const createHeadersData = (
   qHyperCube: ExtendedHyperCube,
-  rowCount: number,
+  visibleTopDimensionInfo: VisibleDimensionInfo[],
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): HeadersData => {
-  // rowCount cannot be 0, as it couse issue when there is no top data but there is left data
-  const data = extractHeaders(qHyperCube, Math.max(rowCount, 1), visibleLeftDimensionInfo);
+  // rowCount cannot be 0, as it cause issue when there is no top data but there is left data
+  const data = extractHeaders(qHyperCube, visibleTopDimensionInfo, visibleLeftDimensionInfo);
 
   return {
     data,
