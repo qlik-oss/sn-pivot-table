@@ -119,9 +119,9 @@ export const StickyPivotTable = ({
       showHorizontalScrollbar={false}
       origin="containerGrid"
     >
-      <FullSizeContainer width={totalWidth} height={containerHeight}>
+      <FullSizeContainer width={totalWidth - verticalScrollbarWidth} height={containerHeight}>
         <StickyContainer
-          width={tableRect.width}
+          width={tableRect.width - verticalScrollbarWidth}
           height={tableRect.height}
           style={{
             display: "grid",
@@ -202,7 +202,7 @@ export const StickyPivotTable = ({
                     visibleTopDimensionInfo={visibleTopDimensionInfo}
                   />
 
-                  <DataGrid
+                  {/* <DataGrid
                     dataModel={dataModel}
                     dataGridRef={dataGridRef}
                     rowHightCallback={contentCellRowHightCallback}
@@ -215,7 +215,7 @@ export const StickyPivotTable = ({
                     topDimensionData={topDimensionData}
                     showLastBorder={{ right: showLastRightBorder, bottom: showLastBottomBorder }}
                     getRightGridColumnWidth={getRightGridColumnWidth}
-                  />
+                  /> */}
                 </div>
               </StickyContainer>
             </FullSizeContainer>
