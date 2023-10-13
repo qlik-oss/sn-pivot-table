@@ -132,8 +132,7 @@
     "typescript": "5.2.2"
   },
   "peerDependencies": {
-    "@nebula.js/stardust": "^4.5.0",
-    "@qlik-trial/sprout": "^3.4.0"
+    "@nebula.js/stardust": "^4.5.0"
   },
   "packageManager": "yarn@1.22.19",
   "engines": {
