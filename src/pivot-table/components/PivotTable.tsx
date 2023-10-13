@@ -56,9 +56,10 @@ export const StickyPivotTable = ({
     leftGridRef,
     topGridRef,
     verticalScrollbarWidth,
+    horizontalScrollbarHeight,
   } = useScroll({ layoutService, pageInfo });
 
-  console.log({ verticalScrollbarWidth });
+  console.log({ verticalScrollbarWidth, horizontalScrollbarHeight });
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
@@ -117,7 +118,10 @@ export const StickyPivotTable = ({
       showHorizontalScrollbar={false}
       origin="containerGrid"
     >
-      <FullSizeContainer width={totalWidth - verticalScrollbarWidth} height={containerHeight}>
+      <FullSizeContainer
+        width={totalWidth - verticalScrollbarWidth}
+        height={containerHeight + horizontalScrollbarHeight}
+      >
         <StickyContainer
           width={tableRect.width - verticalScrollbarWidth}
           height={tableRect.height}
@@ -138,8 +142,8 @@ export const StickyPivotTable = ({
               showHorizontalScrollbar
               origin="leftGrid"
             >
-              <FullSizeContainer width={leftGridWidth} height={containerHeight}>
-                <StickyContainer width={leftGridWidth} height={tableRect.height}>
+              <FullSizeContainer width={leftGridWidth} height={containerHeight - horizontalScrollbarHeight}>
+                <StickyContainer width={leftGridWidth} height={tableRect.height - horizontalScrollbarHeight}>
                   <div style={getLeftGridStyles(leftGridWidth)}>
                     <HeaderGrid
                       columnWidths={leftGridColumnWidths}
@@ -156,7 +160,7 @@ export const StickyPivotTable = ({
                       dataModel={dataModel}
                       leftGridRef={leftGridRef}
                       width={leftGridWidth}
-                      height={leftGridHeight}
+                      height={leftGridHeight - horizontalScrollbarHeight}
                       columnWidths={leftGridColumnWidths}
                       getScrollTop={getScrollTop}
                       layoutService={layoutService}
@@ -174,16 +178,23 @@ export const StickyPivotTable = ({
           <ScrollableContainer
             ref={horizontalScrollableContainerRef}
             width={rightGridWidth + GRID_BORDER - verticalScrollbarWidth}
-            height={rowsCanFitInTableViewPort ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height}
+            height={
+              rowsCanFitInTableViewPort
+                ? topGridHeight + dataGridHeight + GRID_BORDER
+                : tableRect.height - horizontalScrollbarHeight
+            }
             onScroll={onHorizontalScrollHandler}
             showVerticalScrollbar={false}
             showHorizontalScrollbar
             origin="dataGrid"
           >
-            <FullSizeContainer width={totalWidth - leftGridWidth - verticalScrollbarWidth} height={containerHeight}>
+            <FullSizeContainer
+              width={totalWidth - leftGridWidth - verticalScrollbarWidth}
+              height={containerHeight - horizontalScrollbarHeight}
+            >
               <StickyContainer
                 width={tableRect.width - leftGridWidth - verticalScrollbarWidth}
-                height={tableRect.height}
+                height={tableRect.height - horizontalScrollbarHeight}
               >
                 <div style={{ width: rightGridWidth + GRID_BORDER - verticalScrollbarWidth }}>
                   <TopGrid
@@ -205,7 +216,7 @@ export const StickyPivotTable = ({
                     dataGridRef={dataGridRef}
                     rowHightCallback={contentCellRowHightCallback}
                     width={rightGridWidth - verticalScrollbarWidth}
-                    height={dataGridHeight}
+                    height={dataGridHeight - horizontalScrollbarHeight}
                     viewService={viewService}
                     layoutService={layoutService}
                     measureData={measureData}
