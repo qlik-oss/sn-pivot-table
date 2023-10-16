@@ -65,7 +65,11 @@ describe("useData", () => {
   >;
   // Header data mocks
   let mockedCreateHeadersData: jest.MockedFunction<
-    (hyperCube: ExtendedHyperCube, rowCount: number, sortedLeftDimensionInfo: VisibleDimensionInfo[]) => HeadersData
+    (
+      hyperCube: ExtendedHyperCube,
+      visibleTopDimensionInfo: VisibleDimensionInfo[],
+      sortedLeftDimensionInfo: VisibleDimensionInfo[],
+    ) => HeadersData
   >;
 
   let topDimensionData: TopDimensionData;

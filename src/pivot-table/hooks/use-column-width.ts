@@ -1,8 +1,15 @@
 import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
 import { useCallback, useMemo } from "react";
-import { PSEUDO_DIMENSION_INDEX } from "../../constants";
+import { PSEUDO_DIMENSION_INDEX, PSEUDO_DIMENSION_KEY } from "../../constants";
 import { ColumnWidthType, type ColumnWidth } from "../../types/QIX";
-import type { CellStyling, LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
+import type {
+  CellStyling,
+  HeaderCell,
+  HeadersData,
+  LayoutService,
+  Rect,
+  VisibleDimensionInfo,
+} from "../../types/types";
 import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
@@ -56,7 +63,7 @@ const getPercentageValue = (percentage: number | undefined) =>
 export default function useColumnWidth(
   layoutService: LayoutService,
   rect: Rect,
-  visibleLeftDimensionInfo: VisibleDimensionInfo[],
+  headersData: HeadersData,
   visibleTopDimensionInfo: VisibleDimensionInfo[],
 ): ColumnWidthHook {
   const {
@@ -98,10 +105,11 @@ export default function useColumnWidth(
 
     let sumOfWidths = 0;
 
-    const columnWidths = visibleLeftDimensionInfo.map((qDimensionInfo, index) => {
+    const lastRow = headersData.data[headersData.size.y - 1] as HeaderCell[];
+    const columnWidths = lastRow.map((cell, index) => {
       let width: number;
 
-      if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
+      if (cell.id === PSEUDO_DIMENSION_KEY) {
         // Use the max width of all measures
         width = Math.max(
           ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
@@ -110,11 +118,11 @@ export default function useColumnWidth(
           }),
         );
       } else {
-        const { qFallbackTitle, qApprMaxGlyphCount, columnWidth } = qDimensionInfo;
+        const { label, qApprMaxGlyphCount, columnWidth } = cell;
         const iconWidth = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0;
         const fitToContentWidth = Math.max(
-          measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING,
-          estimateWidthForDimensionValue(qApprMaxGlyphCount) + iconWidth,
+          measureTextForHeader(label) + TOTAL_CELL_PADDING,
+          estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + iconWidth,
         );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);
@@ -129,7 +137,7 @@ export default function useColumnWidth(
       leftGridColumnWidths: columnWidths,
     };
   }, [
-    visibleLeftDimensionInfo,
+    headersData,
     rect.width,
     qMeasureInfo,
     measureTextForDimensionValue,
@@ -196,6 +204,17 @@ export default function useColumnWidth(
       sumAutoWidths -= widths[idx] * numberOfColumnRepetitions;
     };
 
+    const fitToContentWidth = (qApprMaxGlyphCount: number, qFallbackTitle: string) =>
+      topGridLeavesIsPseudo
+        ? Math.max(
+            estimateWidthForMeasureValue(qApprMaxGlyphCount),
+            measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING,
+          )
+        : Math.max(
+            Math.max(...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
+            estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
+          );
+
     columnArray.forEach((col, idx) => {
       if (col?.columnWidth) {
         const {
@@ -212,17 +231,7 @@ export default function useColumnWidth(
             addKnownWidth(idx, getPercentageValue(percentage) * rightGridAvailableWidth);
             break;
           case ColumnWidthType.FitToContent:
-            // eslint-disable-next-line no-case-declarations
-            const fitToContentWidth = topGridLeavesIsPseudo
-              ? Math.max(
-                  estimateWidthForMeasureValue(qApprMaxGlyphCount),
-                  measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING,
-                )
-              : Math.max(
-                  Math.max(...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
-                  estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
-                );
-            addKnownWidth(idx, fitToContentWidth);
+            addKnownWidth(idx, fitToContentWidth(qApprMaxGlyphCount, qFallbackTitle));
             break;
           case ColumnWidthType.Auto:
           default:

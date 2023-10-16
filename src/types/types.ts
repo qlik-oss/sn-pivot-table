@@ -1,5 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import type { HeaderData, SortDirection } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
+import type { PSEUDO_DIMENSION_INDEX } from "../constants";
 import type { ColumnWidth, ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
@@ -15,13 +16,15 @@ export type List = Record<number, Cell>;
 export type Grid = List[];
 
 export interface HeaderCell extends HeaderData {
+  columnWidth?: ColumnWidth;
   qReverseSort?: boolean;
   isLocked: boolean;
+  qApprMaxGlyphCount?: number;
 }
 
 export type MeasureData = MeasureCell[][];
 
-export type VisibleDimensionInfo = ExtendedDimensionInfo | -1;
+export type VisibleDimensionInfo = ExtendedDimensionInfo | typeof PSEUDO_DIMENSION_INDEX;
 
 export interface Rect {
   width: number;
