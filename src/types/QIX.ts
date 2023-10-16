@@ -45,7 +45,7 @@ export interface PaletteColor {
 export type FontStyleOptions = "bold" | "italic" | "underline";
 
 export interface Component {
-  key: "general" | "theme";
+  key: "theme";
   header?: {
     fontFamily?: string;
     fontSize?: string;

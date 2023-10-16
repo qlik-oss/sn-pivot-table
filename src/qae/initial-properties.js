@@ -68,8 +68,8 @@ const properties = {
     text: "-",
   },
   /**
-   * Holds general styling
-   * @type {?Component[]}
+   * General and chart specific styling
+   * @type {(Component[])=}
    */
   components: [],
 };
@@ -117,34 +117,121 @@ const properties = {
  */
 
 /**
- * General styling for all columns.
- * Split up into header and content (body) styling.
- * If any property is not set, default values specific for each property is used.
+ * Styling defintions
  * @name Component
- * @type object
- * @property {string} key - This should be set to `theme`
- * @property {ContentStyling=} content
- * @property {HeaderStyling=} header
+ * @type {ChartStyling | GeneralStyling}
  */
 
 /**
- * Holds properties for font size, font color and hover styling.
- * @name ContentStyling
- * @type object
- * @property {number=} fontSize - Defaults to `14`
- * @property {PaletteColor=} fontColor - Defaults to `#404040`
- * @property {boolean=} hoverEffect - Toggles hover effect
- * @property {PaletteColor=} hoverColor - Background hover color. Uses `#f4f4f4` if no hover colors are set, is transparent if only `hoverFontColor` is set
- * @property {PaletteColor=} hoverFontColor - When only `hoverColor` is set, this is adjusted to either `#f4f4f4` or `#ffffff` for optimal contrast
- * @property {string=} padding - Css setting for the cell padding, defaults to `4px 12px`
+ * Mandatory key for general styling
+ * @name GeneralStylingKey
+ * @type {"general"}
  */
 
 /**
- * Holds properties for font size and color.
- * @name HeaderStyling
+ * Font styling values
+ * @name FontStyleValues
+ * @type {"bold" | "italic" | "underline"}
+ */
+
+/**
+ * General chart styling
+ * @name GeneralStyling
  * @type object
- * @property {number=} fontSize - Defaults to `14`
- * @property {PaletteColor=} fontColor - Defaults to `#404040`
+ * @property {GeneralStylingKey} key
+ * @property {TitleStyling} title
+ * @example
+ * {
+ *  key: "general",
+ *  title: {
+ *    main: {
+ *      fontSize: "18px",
+ *      fontFamily: "Arial",
+ *      fontStyle: ["bold", "italic"],
+ *      color: { color: "orangered" },
+ *    }
+ *  }
+ * }
+ */
+
+/**
+ * Title styling options
+ * @name TitleOptions
+ * @type object
+ * @property {string} [fontSize] - Font size in pixel value
+ * @property {string} [fontFamily] - Font family
+ * @property {FontStyleValues[]} [fontStyle] - Font style
+ * @property {PaletteColor} [color] - Font color palette
+ */
+
+/**
+ * Title styling
+ * @name TitleStyling
+ * @type object
+ * @property {TitleOptions} [main] - Styling for chart title
+ * @property {TitleOptions} [subTitle] - Styling for chart sub title
+ * @property {TitleOptions} [footer] - Styling for chart footer
+ */
+
+/**
+ * Mandatory key for chart styling
+ * @name ChartStylingKey
+ * @type {"theme"}
+ */
+
+/**
+ * Custom styling of cells
+ * @name ChartStyling
+ * @type object
+ * @property {ChartStylingKey} key
+ * @property {CellStyling} [header] - Styling for header cells
+ * @property {CellStyling} [dimensionValues] - Styling for dimension value cells
+ * @property {CellStyling} [measureValues] - Styling for measure value cells
+ * @property {PartialCellStyling} [measureLabels] - Styling for measure label cells
+ * @property {PartialCellStyling} [totalValues] - Styling for total value cells
+ * @property {PartialCellStyling} [nullValues] - Styling for null values cells
+ * @property {GridStyling} [grid] - General grid styling
+ * @example
+ * {
+ *  key: "theme",
+ *  dimensionValues: {
+ *    fontSize: "18px",
+ *    fontFamily: "Arial",
+ *    fontStyle: ["bold", "italic"],
+ *    fontColor: { color: "orangered" },
+ *    background: { index: 2 }
+ *  }
+ * }
+ */
+
+/**
+ * Properties for styling a cell
+ * @name CellStyling
+ * @type object
+ * @property {string} [fontSize] - Font size in pixel value
+ * @property {string} [fontFamily] - Font family
+ * @property {FontStyleValues[]} [fontStyle] - Font style
+ * @property {PaletteColor} [fontColor] - Font color palette
+ * @property {PaletteColor} [background] - Cell background color palette
+ */
+
+/**
+ * Properties for styling a cell
+ * @name PartialCellStyling
+ * @type object
+ * @property {FontStyleValues[]} [fontStyle] - Font style
+ * @property {PaletteColor} [fontColor] - Font color palette
+ * @property {PaletteColor} [background] - Cell background color palette
+ */
+
+/**
+ * General grid styling
+ * @name GridStyling
+ * @type object
+ * @property {number} [lineClamp] - A numerical value that represents the number of lines a text at most can be splitt into
+ * @property {PaletteColor} [border] - Border color between cells
+ * @property {PaletteColor} [divider] - Border color between row and column dimensions sections
+ * @property {PaletteColor} [background]
  */
 
 /**
