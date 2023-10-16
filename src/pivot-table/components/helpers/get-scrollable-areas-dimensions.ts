@@ -58,6 +58,7 @@ const getScrollableAreasDimensions = ({
   horizontalScrollbarHeight,
 }: getScrollableAreasDimensionsProps): getScrollableAreasDimensionsResult => {
   const modifiedVerticalScrollbarWidth = !isEmptySpaceExistsBelowLastRow ? verticalScrollbarWidth : 0;
+  const modifiedHorizontalScrollbarHeight = horizontalScrollbarHeight;
 
   return {
     ROOT_WRAPPER: {
@@ -67,7 +68,7 @@ const getScrollableAreasDimensions = ({
       },
       fullSize: {
         width: totalWidth - modifiedVerticalScrollbarWidth,
-        height: containerHeight,
+        height: containerHeight + modifiedHorizontalScrollbarHeight,
       },
       sticky: {
         width: totalWidth - modifiedVerticalScrollbarWidth,
@@ -82,11 +83,11 @@ const getScrollableAreasDimensions = ({
         },
         fullSize: {
           width: leftGridWidth,
-          height: containerHeight,
+          height: containerHeight - modifiedHorizontalScrollbarHeight,
         },
         sticky: {
           width: leftGridWidth,
-          height: tableRect.height,
+          height: tableRect.height - modifiedHorizontalScrollbarHeight,
         },
       },
       headerGrid: {
@@ -95,7 +96,7 @@ const getScrollableAreasDimensions = ({
       },
       leftGrid: {
         width: leftGridWidth,
-        height: leftGridHeight,
+        height: leftGridHeight - modifiedHorizontalScrollbarHeight,
       },
     },
     RIGHT_WRAPPER: {
@@ -106,11 +107,11 @@ const getScrollableAreasDimensions = ({
         },
         fullSize: {
           width: totalWidth - leftGridWidth - modifiedVerticalScrollbarWidth,
-          height: containerHeight,
+          height: containerHeight - modifiedHorizontalScrollbarHeight,
         },
         sticky: {
           width: tableRect.width - leftGridWidth - modifiedVerticalScrollbarWidth,
-          height: tableRect.height,
+          height: tableRect.height - modifiedHorizontalScrollbarHeight,
         },
       },
       topGrid: {
@@ -119,7 +120,7 @@ const getScrollableAreasDimensions = ({
       },
       dataGrid: {
         width: rightGridWidth - modifiedVerticalScrollbarWidth,
-        height: dataGridHeight,
+        height: dataGridHeight - modifiedHorizontalScrollbarHeight,
       },
     },
   };
