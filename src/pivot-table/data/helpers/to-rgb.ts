@@ -6,8 +6,9 @@ const toRGB = (color: string) => {
   const matches = ARGB_REGEX.exec(color);
 
   if (matches) {
-    const [, r, g, b, a] = matches;
-    return rgb(+r, +g, +b, +a).toString();
+    const [, a, r, g, b] = matches;
+    const normalizedAlpha = +a / 255;
+    return rgb(+r, +g, +b, normalizedAlpha).toString();
   }
 
   return rgb(color).toString();
