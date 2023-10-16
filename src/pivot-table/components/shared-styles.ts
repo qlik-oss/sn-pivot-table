@@ -3,7 +3,6 @@ import type { ShowLastBorder } from "../../types/types";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 export enum Colors {
-  PrimaryText = "#404040",
   Black3 = "rgba(0, 0, 0, 0.03)",
   Black5 = "rgba(0, 0, 0, 0.05)",
   Black15 = "rgba(0, 0, 0, 0.15)",
