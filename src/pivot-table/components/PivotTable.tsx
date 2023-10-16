@@ -87,6 +87,8 @@ export const StickyPivotTable = ({
     tableRect,
   });
 
+  console.log({ isEmptySpaceExistsBelowLastRow });
+
   const {
     leftGridWidth,
     leftGridColumnWidths,
@@ -95,7 +97,14 @@ export const StickyPivotTable = ({
     showLastRightBorder,
     getRightGridColumnWidth,
     getHeaderCellsIconsVisibilityStatus,
-  } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
+  } = useColumnWidth(
+    layoutService,
+    tableRect,
+    visibleLeftDimensionInfo,
+    visibleTopDimensionInfo,
+    verticalScrollbarWidth,
+    // isEmptySpaceExistsBelowLastRow,
+  );
 
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
   const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
@@ -110,9 +119,9 @@ export const StickyPivotTable = ({
       showHorizontalScrollbar={false}
       origin={ScrollableContainerOrigin.CONTAINER_GRID}
     >
-      <FullSizeContainer width={totalWidth} height={containerHeight}>
+      <FullSizeContainer width={totalWidth - verticalScrollbarWidth} height={containerHeight}>
         <StickyContainer
-          width={tableRect.width}
+          width={tableRect.width - verticalScrollbarWidth}
           height={tableRect.height}
           style={{
             display: "grid",
@@ -166,21 +175,24 @@ export const StickyPivotTable = ({
 
           <ScrollableContainer
             ref={horizontalScrollableContainerRef}
-            width={rightGridWidth + GRID_BORDER}
+            width={rightGridWidth + GRID_BORDER - verticalScrollbarWidth}
             height={isEmptySpaceExistsBelowLastRow ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height}
             onScroll={onHorizontalScrollHandler}
             showVerticalScrollbar={false}
             showHorizontalScrollbar
             origin={ScrollableContainerOrigin.DATA_GRID}
           >
-            <FullSizeContainer width={totalWidth - leftGridWidth} height={containerHeight}>
-              <StickyContainer width={tableRect.width - leftGridWidth} height={tableRect.height}>
-                <div style={{ width: rightGridWidth + GRID_BORDER }}>
+            <FullSizeContainer width={totalWidth - leftGridWidth - verticalScrollbarWidth} height={containerHeight}>
+              <StickyContainer
+                width={tableRect.width - leftGridWidth - verticalScrollbarWidth}
+                height={tableRect.height}
+              >
+                <div style={{ width: rightGridWidth + GRID_BORDER - verticalScrollbarWidth }}>
                   <TopGrid
                     dataModel={dataModel}
                     topGridRef={topGridRef}
                     rowHightCallback={headerCellRowHightCallback}
-                    width={rightGridWidth}
+                    width={rightGridWidth - verticalScrollbarWidth}
                     height={topGridHeight}
                     getScrollLeft={getScrollLeft}
                     layoutService={layoutService}
@@ -194,7 +206,7 @@ export const StickyPivotTable = ({
                     dataModel={dataModel}
                     dataGridRef={dataGridRef}
                     rowHightCallback={contentCellRowHightCallback}
-                    width={rightGridWidth}
+                    width={rightGridWidth - verticalScrollbarWidth}
                     height={dataGridHeight}
                     viewService={viewService}
                     layoutService={layoutService}

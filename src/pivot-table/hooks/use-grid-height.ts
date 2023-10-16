@@ -24,7 +24,9 @@ export default function useGridHeight({ pageInfo, headersData, topDimensionData,
   const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
   const showLastBottomBorder = pageInfo.rowsOnCurrentPage < rowsCanFitInTableViewPort;
 
-  const isEmptySpaceExistsBelowLastRow = topGridHeight + GRID_BORDER + dataGridHeight <= tableRect.height;
+  console.log({ cond1: topGridHeight + GRID_BORDER + dataGridHeight, cond2: tableRect.height });
+
+  const isEmptySpaceExistsBelowLastRow = topGridHeight + GRID_BORDER + dataGridHeight < tableRect.height;
 
   return {
     containerHeight,
