@@ -55,6 +55,7 @@ export const StickyPivotTable = ({
     dataGridRef,
     leftGridRef,
     topGridRef,
+    verticalScrollbarWidth,
   } = useScroll({ layoutService, pageInfo });
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(

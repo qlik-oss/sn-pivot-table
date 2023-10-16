@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import type { LayoutService, PageInfo } from "../../types/types";
 import { ScrollableContainerOrigin } from "../components/containers/ScrollableContainer";
@@ -23,6 +23,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
+  const [verticalScrollbarWidth, setVerticalScrollbarWidth] = useState<number>(0);
 
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
@@ -51,6 +52,15 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
       verticalScrollableContainerRef.current.scrollTop = 0;
     }
   }, [pageInfo.page]);
+
+  // get vertical/horizontal scrollbar width/height
+  useLayoutEffect(() => {
+    if (verticalScrollableContainerRef.current) {
+      const el = verticalScrollableContainerRef.current;
+      const w = el.offsetWidth - el.clientWidth;
+      setVerticalScrollbarWidth(w);
+    }
+  }, []);
 
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
@@ -104,6 +114,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     dataGridRef,
     leftGridRef,
     topGridRef,
+    verticalScrollbarWidth,
   };
 };
 
