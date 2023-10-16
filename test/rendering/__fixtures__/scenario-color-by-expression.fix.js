@@ -302,7 +302,7 @@ export default () => ({
                       qAttrExps: {
                         qValues: [
                           {
-                            qText: "ARGB(6,118,138,70)",
+                            qText: "ARGB(255,118,138,70)",
                             qNum: 108431942,
                           },
                         ],
