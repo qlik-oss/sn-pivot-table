@@ -93,11 +93,6 @@ export const getTotalCellDividerStyle = ({
 
 export const getLeftGridStyles = (leftGridWidth: number): React.CSSProperties => ({
   width: leftGridWidth,
-  // overflow: "scroll",
-  // overflow: "hidden",
-
-  // overflowY: "hidden",
-  // overflowX: "auto",
   position: "relative",
   display: "flex",
   flexDirection: "column",
