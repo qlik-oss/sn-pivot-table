@@ -1,7 +1,9 @@
 import type { stardust } from "@nebula.js/stardust";
-import type { ExtendedDimensionInfo, PivotLayout } from "./QIX";
+import type { ColumnWidth, ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
+
+export type ApplyColumnWidth = (columnWidth: ColumnWidth, cell: Cell) => void;
 
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
@@ -44,6 +46,7 @@ export interface DataModel {
   collapseTop: ExpandOrCollapser;
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
+  applyColumnWidth: ApplyColumnWidth;
 }
 
 export interface ItemData {
@@ -82,6 +85,7 @@ export interface Cell {
   pageX: number; // X position of cell in page
   pageY: number; // Y position of cell in page
   mainAxisPageCoord: number; // Either equal pageX or pageY depending on if a cell is in the left or top grid
+  isLeftColumn: boolean;
   parent: Cell | null;
   root: Cell | null;
   children: Cell[];
@@ -93,6 +97,7 @@ export interface Cell {
   isPseudoDimension: boolean;
   isLockedByDimension: boolean;
   isLeafNode: boolean;
+  isAncestorPseudoDimension: boolean;
   expressionColor: ExpressionColor;
 }
 
@@ -201,58 +206,36 @@ export interface PageInfo {
   rowsOnCurrentPage: number;
 }
 
-export interface FontStyling {
+export type CellStyling = {
   fontSize: string;
   fontFamily: string;
-  fontWeight: "600" | "normal";
-  fontStyle: "italic" | "normal";
-  textDecoration: "underline" | "none";
-  color: string;
-}
-
-export interface CellStyling {
+  fontWeight: string | undefined; // "600" | "normal" from Styling panel, but from Theme it can be any supported font-weight value
+  fontStyle: string; // "italic" | "normal" from Styling panel, but from Theme it can be any supported font-weight value
+  textDecoration: string; // "underline" | "none" from Styling panel, but from Theme it can be any supported font-weight value
   color: string;
   background: string;
-}
+};
 
-interface HeaderStyling extends FontStyling, CellStyling {
-  hoverBackground: string;
-  activeBackground: string;
-}
+export type ThemeStyling = {
+  header: CellStyling;
+  dimensionValues: CellStyling;
+  measureValues: CellStyling;
+  measureLabels: Omit<CellStyling, "fontSize" | "fontFamily">;
+  nullValues: Omit<CellStyling, "fontSize" | "fontFamily">;
+  totalValues: Omit<CellStyling, "fontSize" | "fontFamily">;
+  grid: {
+    lineClamp: number;
+    border: string;
+    divider: string;
+    background: string;
+  };
+};
 
-interface MeasureContentStyling extends Pick<FontStyling, "fontSize" | "fontFamily" | "color"> {
-  background: string;
-  nullValue: CellStyling;
-  totalValue: CellStyling;
-  lineClamp: number;
-}
-
-interface DimensionContentStyling extends Pick<FontStyling, "fontSize" | "fontFamily" | "color"> {
-  background: string;
-  nullValue: CellStyling;
-  totalLabel: CellStyling;
-  measureLabel: CellStyling;
-}
-
-interface GridStyling {
-  rowHeight: "compact";
-  border: string;
-  divider: string;
-  background: string;
-}
-
-export interface StylingOptions {
-  header: HeaderStyling;
-  content: MeasureContentStyling;
-  rowContent: DimensionContentStyling;
-  columnContent: DimensionContentStyling;
-  grid: GridStyling;
-}
-
-export interface StyleService extends StylingOptions {
+export type StyleService = ThemeStyling & {
+  header: CellStyling & { hoverBackground: string; activeBackground: string };
   headerCellHeight: number;
   contentCellHeight: number;
-}
+};
 
 export type ActivelySortedColumn = {
   colIdx: number;

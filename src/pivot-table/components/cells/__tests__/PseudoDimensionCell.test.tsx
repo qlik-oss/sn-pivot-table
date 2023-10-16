@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import type { Cell } from "../../../../types/types";
+import type { Cell, ListItemData } from "../../../../types/types";
 import { leftContainerCellStyle, topContainerCellStyle } from "../../shared-styles";
 import PseudoDimensionCell, { testId } from "../PseudoDimensionCell";
 
@@ -8,6 +8,7 @@ jest.mock("../../../contexts/StyleProvider");
 
 test("should render on the top", () => {
   const cell = { ref: { qText: "test" }, root: null, isPseudoDimension: true } as Cell;
+  const data = { layoutService: { size: { x: 100 } }, dataModel: undefined } as ListItemData;
   const style: React.CSSProperties = {
     position: "absolute",
     left: "25px",
@@ -21,6 +22,7 @@ test("should render on the top", () => {
   render(
     <PseudoDimensionCell
       cell={cell}
+      data={data}
       style={style}
       isLeftColumn={false}
       isLastRow
@@ -36,6 +38,7 @@ test("should render on the top", () => {
 
 test("should render on the left", () => {
   const cell = { ref: { qText: "test" }, root: null, isPseudoDimension: true } as Cell;
+  const data = { layoutService: { size: { x: 100 } }, dataModel: undefined } as ListItemData;
   const style: React.CSSProperties = {
     position: "absolute",
     left: "25px",
@@ -49,6 +52,7 @@ test("should render on the left", () => {
   render(
     <PseudoDimensionCell
       cell={cell}
+      data={data}
       style={style}
       isLeftColumn
       isLastRow

@@ -4,20 +4,26 @@ import createColorPickerItem from "./utils/create-color-picker-item";
 import createFontFamilyItem from "./utils/create-font-family-item";
 import createFontSizeItem from "./utils/create-font-size-item";
 
-const headerSection = (translator: stardust.Translator) => ({
-  translation: "properties.Header",
+interface Props {
+  section: "dimensionValues" | "measureValues" | "header";
+  defaultFontStyle?: string[];
+  translator: stardust.Translator;
+}
+
+const largePanelSection = ({ section, defaultFontStyle, translator }: Props) => ({
   component: "panel-section",
+  translation: `properties.pivot.${section}`,
   items: {
-    headerFontItem: {
+    content: {
       component: "items",
       ref: "components",
       key: "theme",
       items: {
         fontFamily: createFontFamilyItem({
-          ref: "header.fontFamily",
-          translator,
+          ref: `${section}.fontFamily`,
           themeAccessor: (currentTheme) =>
-            currentTheme.object?.pivotTableV2?.header?.fontFamily ?? currentTheme.fontFamily,
+            currentTheme.object?.pivotTableV2?.[section]?.fontFamily ?? currentTheme.fontFamily,
+          translator,
         }),
         fontWrapperItem: {
           component: "inline-wrapper",
@@ -25,30 +31,30 @@ const headerSection = (translator: stardust.Translator) => ({
             fontStyle: {
               component: "font-style-buttons",
               width: false,
-              ref: "header.fontStyle",
-              defaultValue: ["bold"],
+              ref: `${section}.fontStyle`,
+              defaultValue: defaultFontStyle ?? [],
             },
             fontSize: createFontSizeItem({
-              ref: "header.fontSize",
+              ref: `${section}.fontSize`,
               themeAccessor: (currentTheme) =>
-                currentTheme.object?.pivotTableV2?.header?.fontSize ?? currentTheme.fontSize,
+                currentTheme.object?.pivotTableV2?.[section]?.fontSize ?? currentTheme.fontSize,
               translator,
             }),
             fontColor: createColorPickerItem(
-              "header.fontColor",
+              `${section}.fontColor`,
               undefined,
-              (currentTheme) => currentTheme.object?.pivotTableV2?.header?.color ?? currentTheme.color,
+              (currentTheme) => currentTheme.object?.pivotTableV2?.[section]?.color ?? currentTheme.color,
             ),
           },
         },
         background: createColorPickerItem(
-          "header.background",
+          `${section}.background`,
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.header?.background ?? Colors.Transparent,
+          (currentTheme) => currentTheme.object?.pivotTableV2?.[section]?.background ?? Colors.Transparent,
         ),
       },
     },
   },
 });
 
-export default headerSection;
+export default largePanelSection;

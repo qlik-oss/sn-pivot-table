@@ -37,59 +37,47 @@ const TestWithProvider = (props: Props) => {
         activeBackground: "rgba(0, 0, 0, 0.05)",
         hoverBackground: "rgba(0, 0, 0, 0.03)",
       },
-      content: {
+      dimensionValues: {
         fontSize: "12px",
         fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "#404040",
+        background: "transparent",
+      },
+      measureValues: {
+        fontSize: "12px",
+        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
         color: "contentColor",
         background: "contentBackground",
-        lineClamp: 1,
-        nullValue: {
-          color: "contentNullColor",
-          background: "contentNullBackground",
-        },
-        totalValue: {
-          color: "totalValueColor",
-          background: "totalValueBackground",
-        },
       },
-      rowContent: {
-        fontSize: "12px",
-        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-        color: "#404040",
-        background: "transparent",
-        nullValue: {
-          color: "#404040",
-          background: "rgba(0, 0, 0, 0.05)",
-        },
-        totalLabel: {
-          color: "#404040",
-          background: "transparent",
-        },
-        measureLabel: {
-          color: "rgba(0, 0, 0, 0.55)",
-          background: "transparent",
-        },
+      measureLabels: {
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "measureLabelColor",
+        background: "measureLabelBackground",
       },
-      columnContent: {
-        fontSize: "12px",
-        fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-        color: "#404040",
-        background: "transparent",
-        nullValue: {
-          color: "#404040",
-          background: "rgba(0, 0, 0, 0.05)",
-        },
-        totalLabel: {
-          color: "#404040",
-          background: "transparent",
-        },
-        measureLabel: {
-          color: "rgba(0, 0, 0, 0.55)",
-          background: "transparent",
-        },
+      totalValues: {
+        fontWeight: "600",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "totalValueColor",
+        background: "totalValueBackground",
+      },
+      nullValues: {
+        fontWeight: "normal",
+        fontStyle: "normal",
+        textDecoration: "none",
+        color: "nullColor",
+        background: "nullBackground",
       },
       grid: {
-        rowHeight: "compact",
+        lineClamp: 1,
         border: "rgba(0, 0, 0, 0.15)",
         divider: "rgba(0, 0, 0, 0.6)",
         background: "transparent",
@@ -102,6 +90,7 @@ const TestWithProvider = (props: Props) => {
     interactions = { select: true, active: true },
     embed = {} as stardust.Embed,
     theme = {
+      getStyle: (base, path, attr) => attr,
       background: { tableColorFromTheme: "inherit", isDark: false, isTransparent: false, color: "transparent" },
     } as ExtendedTheme,
     keyboard = {} as stardust.Keyboard,

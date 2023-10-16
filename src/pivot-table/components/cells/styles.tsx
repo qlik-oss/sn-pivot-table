@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
-import type { FontStyling } from "../../../types/types";
+import type { CellStyling } from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
 import { CELL_PADDING, textStyle } from "../shared-styles";
 
@@ -57,7 +57,7 @@ export const StyledLockIcon = styled("div")(() => ({
 export const StyledLabel = styled("div", {
   shouldForwardProp: (prop: string) =>
     !["fontSize", "fontFamily", "fontWeight", "fontStyle", "textDecoration"].includes(prop),
-})(({ fontSize, fontFamily, fontWeight, fontStyle, textDecoration }: Omit<FontStyling, "color">) => ({
+})(({ fontSize, fontFamily, fontWeight, fontStyle, textDecoration }: Omit<CellStyling, "color" | "background">) => ({
   ...textStyle,
   alignSelf: "center",
   flexGrow: 1,
@@ -67,3 +67,33 @@ export const StyledLabel = styled("div", {
   fontStyle,
   textDecoration,
 }));
+
+export const AdjusterHitArea = styled("div", {
+  shouldForwardProp: (prop: string) => prop !== "isLastColumn",
+})(({ isLastColumn = false }: { isLastColumn: boolean }) => ({
+  display: "flex",
+  position: "absolute",
+  height: "100%",
+  top: 0,
+  cursor: "col-resize",
+  // last column padding, other double padding + border
+  width: `${isLastColumn ? 4 : 9}px`,
+  justifyContent: isLastColumn ? "flex-end" : "center",
+  "&&:hover:not(:focus, :active)": {
+    "& .sn-pivot-table-column-adjuster-border": {
+      background: "#D9D9D9",
+    },
+  },
+  "&&:focus-visible, :active": {
+    outline: "none",
+    "& .sn-pivot-table-column-adjuster-border": {
+      background: "#177fe6",
+    },
+  },
+}));
+
+export const AdjusterBorder = styled("div")({
+  position: "absolute",
+  height: "100%",
+  width: "3px",
+});

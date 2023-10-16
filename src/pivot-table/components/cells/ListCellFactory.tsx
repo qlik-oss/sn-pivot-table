@@ -31,7 +31,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
 
   if (cell === undefined || cell.isEmpty) {
-    const background = isLeftColumn ? styleService.rowContent.background : styleService.columnContent.background;
+    const { background } = styleService.dimensionValues;
 
     return (
       <EmptyCell
@@ -50,6 +50,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     return (
       <PseudoDimensionCell
         cell={cell}
+        data={data}
         style={style}
         isLeftColumn={isLeftColumn}
         isLastRow={isLastRow}

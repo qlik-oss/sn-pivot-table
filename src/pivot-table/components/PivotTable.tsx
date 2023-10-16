@@ -69,6 +69,7 @@ export const StickyPivotTable = ({
     model,
     nextPageHandler,
     pageInfo,
+    layoutService,
   });
 
   const {

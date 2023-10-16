@@ -79,13 +79,14 @@ describe("DataCell", () => {
     data.shouldShowTotalCellRightDivider = () => true;
     renderDataCell();
 
-    expect(screen.getByText(cell.ref.qText)).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0]).toHaveStyle({
       color: "totalValueColor",
       background: "totalValueBackground",
-      fontWeight: "600",
       borderBottomColor: "rgba(0, 0, 0, 0.6)",
       borderRightColor: "rgba(0, 0, 0, 0.6)",
+    } as Record<string, unknown>);
+    expect(screen.getByText(cell.ref.qText)).toHaveStyle({
+      fontWeight: "600",
     } as Record<string, unknown>);
   });
 
@@ -97,8 +98,8 @@ describe("DataCell", () => {
     expect(screen.getByText(layoutService.getNullValueText())).toBeInTheDocument();
     expect(screen.getByTestId(testId).childNodes[0]).toHaveStyle({
       justifyContent: "center",
-      backgroundColor: "contentNullBackground",
-      color: "contentNullColor",
+      backgroundColor: "nullBackground",
+      color: "nullColor",
     } as Record<string, unknown>);
   });
 

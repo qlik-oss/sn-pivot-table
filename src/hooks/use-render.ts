@@ -17,6 +17,7 @@ import createStyleService from "../services/style-service";
 import type { Model, PivotLayout } from "../types/QIX";
 import type { ExtendedSelections } from "../types/types";
 import useEffectiveProperties from "./use-effective-properties";
+import useFonts from "./use-fonts";
 import useLayoutService from "./use-layout-service";
 import useLoadDataPages from "./use-load-data-pages";
 import usePagination from "./use-pagination";
@@ -46,17 +47,7 @@ const useRender = () => {
   // It needs to be theme.name() because the reference to the theme object does not change when a theme is changed
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const styleService = useMemo(() => createStyleService(theme, layoutService), [theme.name(), layoutService]);
-  const fonts = useMemo(
-    () => [
-      `600 ${styleService.header.fontSize} ${styleService.header.fontFamily}`,
-      `600 ${styleService.columnContent.fontSize} ${styleService.columnContent.fontFamily}`,
-      `${styleService.columnContent.fontSize} ${styleService.columnContent.fontFamily}`,
-      `600 ${styleService.rowContent.fontSize} ${styleService.rowContent.fontFamily}`,
-      `${styleService.rowContent.fontSize} ${styleService.rowContent.fontFamily}`,
-      `${styleService.content.fontSize} ${styleService.content.fontFamily}`,
-    ],
-    [styleService],
-  );
+  const fonts = useFonts(styleService);
   const isFontLoaded = useWaitForFonts(fonts);
 
   useEffect(() => {
