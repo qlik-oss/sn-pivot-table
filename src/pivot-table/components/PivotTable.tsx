@@ -13,7 +13,7 @@ import useSorting from "../hooks/use-sorting";
 import useTableRect from "../hooks/use-table-rect";
 import useVisibleDimensions from "../hooks/use-visible-dimensions";
 import FullSizeContainer from "./containers/FullSizeContainer";
-import ScrollableContainer from "./containers/ScrollableContainer";
+import ScrollableContainer, { ScrollableContainerOrigin } from "./containers/ScrollableContainer";
 import StickyContainer from "./containers/StickyContainer";
 import DataGrid from "./grids/DataGrid";
 import HeaderGrid from "./grids/HeaderGrid";
@@ -106,7 +106,7 @@ export const StickyPivotTable = ({
       onScroll={onVerticalScrollHandler}
       showVerticalScrollbar
       showHorizontalScrollbar={false}
-      origin="containerGrid"
+      origin={ScrollableContainerOrigin.CONTAINER_GRID}
     >
       <FullSizeContainer width={totalWidth} height={containerHeight}>
         <StickyContainer
@@ -127,7 +127,7 @@ export const StickyPivotTable = ({
               onScroll={onHorizontalScrollHandler}
               showVerticalScrollbar={false}
               showHorizontalScrollbar
-              origin="leftGrid"
+              origin={ScrollableContainerOrigin.LEFT_GRID}
             >
               <FullSizeContainer width={leftGridWidth} height={containerHeight}>
                 <StickyContainer width={leftGridWidth} height={tableRect.height}>
@@ -169,7 +169,7 @@ export const StickyPivotTable = ({
             onScroll={onHorizontalScrollHandler}
             showVerticalScrollbar={false}
             showHorizontalScrollbar
-            origin="dataGrid"
+            origin={ScrollableContainerOrigin.DATA_GRID}
           >
             <FullSizeContainer width={totalWidth - leftGridWidth} height={containerHeight}>
               <StickyContainer width={tableRect.width - leftGridWidth} height={tableRect.height}>

@@ -1,7 +1,11 @@
 import React from "react";
 import { useBaseContext } from "../../contexts/BaseProvider";
 
-type Origin = "leftGrid" | "dataGrid" | "containerGrid";
+export enum ScrollableContainerOrigin {
+  LEFT_GRID = "leftGrid",
+  DATA_GRID = "dataGrid",
+  CONTAINER_GRID = "containerGrid",
+}
 
 interface ScrollableContainerProps {
   width: number;
@@ -11,10 +15,10 @@ interface ScrollableContainerProps {
   style?: React.CSSProperties;
   showVerticalScrollbar?: boolean;
   showHorizontalScrollbar?: boolean;
-  origin: Origin;
+  origin: ScrollableContainerOrigin;
 }
 
-const getTestId = (origin: Origin) => `scrollable-container--${origin}`;
+const getTestId = (origin: ScrollableContainerOrigin) => `scrollable-container--${origin}`;
 
 const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyRef<HTMLDivElement>): JSX.Element => {
   const { width, height, children, onScroll, style, showVerticalScrollbar, showHorizontalScrollbar, origin } = props;

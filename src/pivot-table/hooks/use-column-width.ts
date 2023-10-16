@@ -267,11 +267,10 @@ export default function useColumnWidth(
    * Gets the width of a right grid column. This is always based on the leaf width(s)
    */
   const getRightGridColumnWidth = useCallback(
-    (index?: number) => {
-      return topGridLeavesIsPseudo && index !== undefined
+    (index?: number) =>
+      topGridLeavesIsPseudo && index !== undefined
         ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)]
-        : averageLeafWidth;
-    },
+        : averageLeafWidth,
     [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth],
   );
 
