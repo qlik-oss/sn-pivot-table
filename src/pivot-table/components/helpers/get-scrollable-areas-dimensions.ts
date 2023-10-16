@@ -64,7 +64,7 @@ const getScrollableAreasDimensions = ({
     ROOT_WRAPPER: {
       scrollable: {
         width: tableRect.width,
-        height: tableRect.height,
+        height: tableRect.height + (isEmptySpaceExistsBelowLastRow ? modifiedHorizontalScrollbarHeight : 0),
       },
       fullSize: {
         width: totalWidth - modifiedVerticalScrollbarWidth,
@@ -79,7 +79,9 @@ const getScrollableAreasDimensions = ({
       containers: {
         scrollable: {
           width: leftGridWidth,
-          height: isEmptySpaceExistsBelowLastRow ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height,
+          height: isEmptySpaceExistsBelowLastRow
+            ? topGridHeight + dataGridHeight + GRID_BORDER + modifiedHorizontalScrollbarHeight
+            : tableRect.height,
         },
         fullSize: {
           width: leftGridWidth,
@@ -96,14 +98,16 @@ const getScrollableAreasDimensions = ({
       },
       leftGrid: {
         width: leftGridWidth,
-        height: leftGridHeight - modifiedHorizontalScrollbarHeight,
+        height: leftGridHeight + modifiedHorizontalScrollbarHeight * (isEmptySpaceExistsBelowLastRow ? 1 : -1),
       },
     },
     RIGHT_WRAPPER: {
       containers: {
         scrollable: {
           width: rightGridWidth + GRID_BORDER - modifiedVerticalScrollbarWidth,
-          height: isEmptySpaceExistsBelowLastRow ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height,
+          height: isEmptySpaceExistsBelowLastRow
+            ? topGridHeight + dataGridHeight + GRID_BORDER + modifiedHorizontalScrollbarHeight
+            : tableRect.height,
         },
         fullSize: {
           width: totalWidth - leftGridWidth - modifiedVerticalScrollbarWidth,
@@ -120,7 +124,7 @@ const getScrollableAreasDimensions = ({
       },
       dataGrid: {
         width: rightGridWidth - modifiedVerticalScrollbarWidth,
-        height: dataGridHeight - modifiedHorizontalScrollbarHeight,
+        height: dataGridHeight + modifiedHorizontalScrollbarHeight * (isEmptySpaceExistsBelowLastRow ? 1 : -1),
       },
     },
   };
