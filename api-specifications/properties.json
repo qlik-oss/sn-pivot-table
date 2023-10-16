@@ -273,7 +273,10 @@
         "title": {
           "type": "#/definitions/TitleStyling"
         }
-      }
+      },
+      "examples": [
+        "{\n key: \"general\",\n title: {\n   main: {\n     fontSize: \"18px\",\n     fontFamily: \"Arial\",\n     fontStyle: [\"bold\", \"italic\"],\n     color: { color: \"orangered\" },\n   }\n }\n}"
+      ]
     },
     "TitleOptions": {
       "description": "Title styling options",
@@ -372,7 +375,10 @@
           "optional": true,
           "type": "#/definitions/GridStyling"
         }
-      }
+      },
+      "examples": [
+        "{\n key: \"theme\",\n dimensionValues: {\n   fontSize: \"18px\",\n   fontFamily: \"Arial\",\n   fontStyle: [\"bold\", \"italic\"],\n   fontColor: { color: \"orangered\" },\n   background: { index: 2 }\n }\n}"
+      ]
     },
     "CellStyling": {
       "description": "Properties for styling a cell",

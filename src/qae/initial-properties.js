@@ -140,6 +140,18 @@ const properties = {
  * @type object
  * @property {GeneralStylingKey} key
  * @property {TitleStyling} title
+ * @example
+ * {
+ *  key: "general",
+ *  title: {
+ *    main: {
+ *      fontSize: "18px",
+ *      fontFamily: "Arial",
+ *      fontStyle: ["bold", "italic"],
+ *      color: { color: "orangered" },
+ *    }
+ *  }
+ * }
  */
 
 /**
@@ -179,6 +191,17 @@ const properties = {
  * @property {PartialCellStyling} [totalValues] - Styling for total value cells
  * @property {PartialCellStyling} [nullValues] - Styling for null values cells
  * @property {GridStyling} [grid] - General grid styling
+ * @example
+ * {
+ *  key: "theme",
+ *  dimensionValues: {
+ *    fontSize: "18px",
+ *    fontFamily: "Arial",
+ *    fontStyle: ["bold", "italic"],
+ *    fontColor: { color: "orangered" },
+ *    background: { index: 2 }
+ *  }
+ * }
  */
 
 /**
