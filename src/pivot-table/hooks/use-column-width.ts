@@ -2,7 +2,7 @@ import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
 import { useCallback, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import { ColumnWidthType, type ColumnWidth } from "../../types/QIX";
-import type { LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
+import type { CellStyling, LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
 import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
@@ -45,6 +45,8 @@ export enum ColumnWidthValues {
   AutoMin = 80,
 }
 
+const isBold = ({ fontWeight }: CellStyling) => fontWeight !== "normal";
+
 const getValidValue = (value: number | undefined, defaultValue: number) =>
   !!value && typeof value === "number" && !Number.isNaN(value) ? value : defaultValue;
 const getPixelValue = (pixels: number | undefined) => getValidValue(pixels, ColumnWidthValues.PixelsDefault);
@@ -67,12 +69,16 @@ export default function useColumnWidth(
   const styleService = useStyleContext();
   const { measureText: measureTextForHeader } = useMeasureText({
     ...styleService.header,
-    bold: true,
+    bold: isBold(styleService.header),
   });
-  const { estimateWidth: estimateWidthForMeasureValue } = useMeasureText(styleService.measureValues);
-  const { estimateWidth: estimateWidthForDimensionValue, measureText: measureTextForDimensionValue } = useMeasureText(
-    styleService.dimensionValues,
-  );
+  const { estimateWidth: estimateWidthForMeasureValue } = useMeasureText({
+    ...styleService.measureValues,
+    bold: isBold(styleService.measureValues),
+  });
+  const { estimateWidth: estimateWidthForDimensionValue, measureText: measureTextForDimensionValue } = useMeasureText({
+    ...styleService.dimensionValues,
+    bold: isBold(styleService.dimensionValues),
+  });
 
   /**
    * The widths of the left columns. Scales the width to fit LEFT_SIDE_MAX_WIDTH_RATIO * rect.width if wider than that
