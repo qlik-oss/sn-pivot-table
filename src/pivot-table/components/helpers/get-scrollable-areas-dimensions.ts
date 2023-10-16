@@ -25,6 +25,7 @@ interface getScrollableAreasDimensionsProps {
   leftGridWidth: number;
   rightGridWidth: number;
   verticalScrollbarWidth: number;
+  horizontalScrollbarHeight: number;
 }
 
 interface getScrollableAreasDimensionsResult {
@@ -35,7 +36,7 @@ interface getScrollableAreasDimensionsResult {
     leftGrid: Rect;
   };
   RIGHT_WRAPPER: {
-    containers: ContainerDims; // & WrapperDims;
+    containers: ContainerDims;
     topGrid: Rect;
     dataGrid: Rect;
   };
@@ -54,6 +55,7 @@ const getScrollableAreasDimensions = ({
   leftGridWidth,
   rightGridWidth,
   verticalScrollbarWidth,
+  horizontalScrollbarHeight,
 }: getScrollableAreasDimensionsProps): getScrollableAreasDimensionsResult => {
   const modifiedVerticalScrollbarWidth = !isEmptySpaceExistsBelowLastRow ? verticalScrollbarWidth : 0;
 
@@ -110,10 +112,6 @@ const getScrollableAreasDimensions = ({
           width: tableRect.width - leftGridWidth - modifiedVerticalScrollbarWidth,
           height: tableRect.height,
         },
-        // wrapper: {
-        //   width: rightGridWidth + GRID_BORDER - modifiedVerticalScrollbarWidth,
-        //   height: tableRect.height,
-        // },
       },
       topGrid: {
         width: rightGridWidth - modifiedVerticalScrollbarWidth,
