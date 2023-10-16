@@ -76,6 +76,20 @@ export const StickyPivotTable = ({
   });
 
   const {
+    containerHeight,
+    topGridHeight,
+    leftGridHeight,
+    dataGridHeight,
+    showLastBottomBorder,
+    isEmptySpaceExistsBelowLastRow,
+  } = useGridHeight({
+    pageInfo,
+    headersData,
+    topDimensionData,
+    tableRect,
+  });
+
+  const {
     leftGridWidth,
     leftGridColumnWidths,
     rightGridWidth,
@@ -89,21 +103,8 @@ export const StickyPivotTable = ({
     visibleLeftDimensionInfo,
     visibleTopDimensionInfo,
     verticalScrollbarWidth,
+    isEmptySpaceExistsBelowLastRow,
   );
-
-  const {
-    containerHeight,
-    topGridHeight,
-    leftGridHeight,
-    dataGridHeight,
-    showLastBottomBorder,
-    rowsCanFitInTableViewPort,
-  } = useGridHeight({
-    pageInfo,
-    headersData,
-    topDimensionData,
-    tableRect,
-  });
 
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
   const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
@@ -136,7 +137,7 @@ export const StickyPivotTable = ({
             <ScrollableContainer
               ref={horizontalScrollableContainerRef}
               width={leftGridWidth}
-              height={rowsCanFitInTableViewPort ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height}
+              height={isEmptySpaceExistsBelowLastRow ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height}
               onScroll={onHorizontalScrollHandler}
               showVerticalScrollbar={false}
               showHorizontalScrollbar
@@ -179,7 +180,7 @@ export const StickyPivotTable = ({
             ref={horizontalScrollableContainerRef}
             width={rightGridWidth + GRID_BORDER - verticalScrollbarWidth}
             height={
-              rowsCanFitInTableViewPort
+              isEmptySpaceExistsBelowLastRow
                 ? topGridHeight + dataGridHeight + GRID_BORDER
                 : tableRect.height - horizontalScrollbarHeight
             }

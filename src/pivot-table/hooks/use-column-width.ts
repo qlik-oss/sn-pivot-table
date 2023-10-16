@@ -57,6 +57,7 @@ export default function useColumnWidth(
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
   visibleTopDimensionInfo: VisibleDimensionInfo[],
   verticalScrollbarWidth: number,
+  isEmptySpaceExistsBelowLastRow: boolean,
 ): ColumnWidthHook {
   const {
     layout: {
@@ -270,12 +271,22 @@ export default function useColumnWidth(
   const getRightGridColumnWidth = useCallback(
     (index?: number) => {
       // since we calculate each column width by its own, we need to deduct the width share of scrollbar in case if it was enabled
-      const scrollbarWidthSharePerColumn = parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12));
+      const scrollbarWidthSharePerColumn = !isEmptySpaceExistsBelowLastRow
+        ? parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12))
+        : 0;
+
       return topGridLeavesIsPseudo && index !== undefined
         ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)] - scrollbarWidthSharePerColumn
         : averageLeafWidth - scrollbarWidthSharePerColumn;
     },
-    [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth, verticalScrollbarWidth],
+    [
+      topGridLeavesIsPseudo,
+      leafWidths,
+      layoutService,
+      averageLeafWidth,
+      verticalScrollbarWidth,
+      isEmptySpaceExistsBelowLastRow,
+    ],
   );
 
   // The width of the sum of all columns, can be smaller or greater than what fits in the chart
