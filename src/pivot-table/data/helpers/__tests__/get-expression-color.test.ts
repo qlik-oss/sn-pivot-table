@@ -1,3 +1,4 @@
+import { COLORING } from "@qlik/nebula-table-utils/lib/utils";
 import type { AttrExprInfoIndex } from "../../../../types/types";
 import getExpressionColor from "../get-expression-color";
 
@@ -30,7 +31,20 @@ describe("getExpressionColor", () => {
 
     expect(expressionColor).toEqual({
       background: "rgb(0, 0, 0)",
-      color: "#FFFFFF",
+      color: COLORING.WHITE,
+    });
+  });
+
+  test("should return contrasting color when background is light and there is no expression for color", () => {
+    attrsExprInfoIndex = { cellForegroundColor: -1, cellBackgroundColor: 0 };
+    cell = {
+      qAttrExps: { qValues: [{ qText: "white" }] },
+    } as unknown as EngineAPI.INxPivotDimensionCell;
+    const expressionColor = getExpressionColor(attrsExprInfoIndex, cell);
+
+    expect(expressionColor).toEqual({
+      background: "rgb(255, 255, 255)",
+      color: COLORING.TEXT,
     });
   });
 
