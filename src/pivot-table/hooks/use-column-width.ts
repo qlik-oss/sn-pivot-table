@@ -59,7 +59,7 @@ export default function useColumnWidth(
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
   visibleTopDimensionInfo: VisibleDimensionInfo[],
   verticalScrollbarWidth: number,
-  // isEmptySpaceExistsBelowLastRow: boolean,
+  isEmptySpaceExistsBelowLastRow: boolean,
 ): ColumnWidthHook {
   const {
     layout: {
@@ -273,7 +273,9 @@ export default function useColumnWidth(
    */
   const getRightGridColumnWidth = useCallback(
     (index?: number) => {
-      const scrollbarWidthSharePerColumn = parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12));
+      const scrollbarWidthSharePerColumn = !isEmptySpaceExistsBelowLastRow
+        ? parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12))
+        : 0;
 
       return topGridLeavesIsPseudo && index !== undefined
         ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)] - scrollbarWidthSharePerColumn
@@ -285,7 +287,7 @@ export default function useColumnWidth(
       layoutService,
       averageLeafWidth,
       verticalScrollbarWidth,
-      // isEmptySpaceExistsBelowLastRow,
+      isEmptySpaceExistsBelowLastRow,
     ],
   );
 
