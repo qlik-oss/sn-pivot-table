@@ -285,3 +285,9 @@ export type SortDirection = "A" | "D";
 
 export type ChangeSortOrder = (header: Header, sortOrder: SortDirection) => Promise<boolean>;
 export type ChangeActivelySortedHeader = (header: Omit<Header, "isActivelySorted">) => Promise<boolean>;
+
+export enum ScrollableContainerOrigin {
+  LEFT_GRID = "leftGrid",
+  DATA_GRID = "dataGrid",
+  CONTAINER_GRID = "containerGrid",
+}
