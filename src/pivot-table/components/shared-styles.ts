@@ -2,6 +2,7 @@ import type React from "react";
 import type { ShowLastBorder } from "../../types/types";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
+// TODO Replace with colors from Sprout
 export enum Colors {
   Black3 = "rgba(0, 0, 0, 0.03)",
   Black5 = "rgba(0, 0, 0, 0.05)",
