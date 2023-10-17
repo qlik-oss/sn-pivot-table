@@ -58,13 +58,13 @@ const getScrollableAreasDimensions = ({
   horizontalScrollbarHeight,
 }: getScrollableAreasDimensionsProps): getScrollableAreasDimensionsResult => {
   const modifiedVerticalScrollbarWidth = !allRowsVisible ? verticalScrollbarWidth : 0;
-  const modifiedHorizontalScrollbarHeight = horizontalScrollbarHeight;
+  const modifiedHorizontalScrollbarHeight = horizontalScrollbarHeight * (allRowsVisible ? 0 : 1);
 
   return {
     ROOT_WRAPPER: {
       scrollable: {
         width: tableRect.width,
-        height: tableRect.height + (allRowsVisible ? modifiedHorizontalScrollbarHeight : 0),
+        height: tableRect.height,
       },
       fullSize: {
         width: totalWidth - modifiedVerticalScrollbarWidth,
@@ -80,12 +80,12 @@ const getScrollableAreasDimensions = ({
         scrollable: {
           width: leftGridWidth,
           height: allRowsVisible
-            ? topGridHeight + dataGridHeight + GRID_BORDER + modifiedHorizontalScrollbarHeight
+            ? topGridHeight + dataGridHeight + GRID_BORDER + horizontalScrollbarHeight
             : tableRect.height,
         },
         fullSize: {
           width: leftGridWidth,
-          height: containerHeight - modifiedHorizontalScrollbarHeight,
+          height: containerHeight,
         },
         sticky: {
           width: leftGridWidth,
@@ -98,7 +98,7 @@ const getScrollableAreasDimensions = ({
       },
       leftGrid: {
         width: leftGridWidth,
-        height: leftGridHeight + modifiedHorizontalScrollbarHeight * (allRowsVisible ? 1 : -1),
+        height: leftGridHeight - modifiedHorizontalScrollbarHeight,
       },
     },
     RIGHT_WRAPPER: {
@@ -106,12 +106,12 @@ const getScrollableAreasDimensions = ({
         scrollable: {
           width: rightGridWidth + GRID_BORDER - modifiedVerticalScrollbarWidth,
           height: allRowsVisible
-            ? topGridHeight + dataGridHeight + GRID_BORDER + modifiedHorizontalScrollbarHeight
+            ? topGridHeight + dataGridHeight + GRID_BORDER + horizontalScrollbarHeight
             : tableRect.height,
         },
         fullSize: {
           width: totalWidth - leftGridWidth - modifiedVerticalScrollbarWidth,
-          height: containerHeight - modifiedHorizontalScrollbarHeight,
+          height: containerHeight,
         },
         sticky: {
           width: tableRect.width - leftGridWidth - modifiedVerticalScrollbarWidth,
@@ -124,7 +124,7 @@ const getScrollableAreasDimensions = ({
       },
       dataGrid: {
         width: rightGridWidth - modifiedVerticalScrollbarWidth,
-        height: dataGridHeight + modifiedHorizontalScrollbarHeight * (allRowsVisible ? 1 : -1),
+        height: dataGridHeight - modifiedHorizontalScrollbarHeight,
       },
     },
   };

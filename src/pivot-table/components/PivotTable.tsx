@@ -104,7 +104,6 @@ export const StickyPivotTable = ({
     allRowsVisible,
   );
 
-  // TODO: convert this into a function
   const { ROOT_WRAPPER, LEFT_WRAPPER, RIGHT_WRAPPER } = getScrollableAreasDimensions({
     tableRect,
 
