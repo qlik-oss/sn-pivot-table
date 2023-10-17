@@ -204,6 +204,7 @@ describe("useDataModel", () => {
         layout: {
           qHyperCube: { qDimensionInfo: [dimension, dimension], qMeasureInfo: [measure, measure], qNoOfLeftDims: 0 },
         },
+        hasPseudoDimOnLeft: false,
         getMeasureInfoIndexFromCellIndex: (index: number) => index,
       } as unknown as LayoutService;
 
@@ -224,6 +225,18 @@ describe("useDataModel", () => {
     test("should call applyPatches with qPath for dimension with pseudo as ancestor", () => {
       layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
       cell.isAncestorPseudoDimension = true;
+      cell.y = 1;
+      patch.qPath = "/qHyperCubeDef/qDimensions/1/qDef/columnWidth";
+
+      const { applyColumnWidth } = renderer();
+      applyColumnWidth(newColumnWidth, cell);
+
+      expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
+    });
+
+    test("should call applyPatches with qPath for dimension when hasPseudoDimOnLeft is true", () => {
+      layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
+      layoutService.hasPseudoDimOnLeft = true;
       cell.y = 1;
       patch.qPath = "/qHyperCubeDef/qDimensions/1/qDef/columnWidth";
 
