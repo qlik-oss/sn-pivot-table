@@ -1,6 +1,6 @@
 import { useCallback, useLayoutEffect, useRef } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
-import type { LayoutService, PageInfo } from "../../types/types";
+import { ScrollableContainerOrigin, type LayoutService, type PageInfo } from "../../types/types";
 
 interface Props {
   layoutService: LayoutService;
@@ -9,12 +9,14 @@ interface Props {
     topGridRef?: VariableSizeList<unknown>[];
     leftGridRef?: VariableSizeList<unknown>[];
     dataGridRef?: VariableSizeGrid<unknown>;
-    scrollableContainerRef?: HTMLDivElement;
+    verticalScrollableContainerRef?: HTMLDivElement;
+    horizontalScrollableContainerRef?: HTMLDivElement;
   };
 }
 
 const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
-  const scrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.scrollableContainerRef ?? null);
+  const verticalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.verticalScrollableContainerRef ?? null);
+  const horizontalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.horizontalScrollableContainerRef ?? null);
   const topGridRef = useRef<VariableSizeList[]>(mockedRefs?.topGridRef ?? []);
   const leftGridRef = useRef<VariableSizeList[]>(mockedRefs?.leftGridRef ?? []);
   const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
@@ -28,55 +30,76 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   // change because a node was expanded or collapsed
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
-      if (scrollableContainerRef.current) {
-        scrollableContainerRef.current.scrollLeft = 0;
-        scrollableContainerRef.current.scrollTop = 0;
+      if (horizontalScrollableContainerRef.current) {
+        horizontalScrollableContainerRef.current.scrollLeft = 0;
+      }
+
+      if (verticalScrollableContainerRef.current) {
+        verticalScrollableContainerRef.current.scrollTop = 0;
       }
     }
   }, [layoutService]);
 
   // Reset scroll position when page has changed
   useLayoutEffect(() => {
-    if (scrollableContainerRef.current) {
-      scrollableContainerRef.current.scrollLeft = 0;
-      scrollableContainerRef.current.scrollTop = 0;
+    if (horizontalScrollableContainerRef.current) {
+      horizontalScrollableContainerRef.current.scrollLeft = 0;
+    }
+
+    if (verticalScrollableContainerRef.current) {
+      verticalScrollableContainerRef.current.scrollTop = 0;
     }
   }, [pageInfo.page]);
 
-  const onScrollHandler = (event: React.SyntheticEvent) => {
-    if (topGridRef.current) {
-      topGridRef.current.forEach((list) => list?.scrollTo(event.currentTarget.scrollLeft));
+  const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
+    if (!(evt.target instanceof HTMLDivElement)) return;
+
+    if (evt.target.dataset["key"] === `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`) {
+      if (topGridRef.current) {
+        topGridRef.current.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));
+      }
+
+      if (dataGridRef.current) {
+        dataGridRef.current.scrollTo({
+          scrollLeft: evt.currentTarget.scrollLeft,
+        });
+      }
+
+      if (currentScrollLeft.current !== undefined) {
+        // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
+        // Otherwise it will be out-of-sync with the other rows.
+        currentScrollLeft.current = evt.currentTarget.scrollLeft;
+      }
     }
+  };
+
+  const onVerticalScrollHandler = (evt: React.SyntheticEvent) => {
+    if (!(evt.target instanceof HTMLDivElement)) return;
 
     if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list?.scrollTo(event.currentTarget.scrollTop));
+      leftGridRef.current.forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
     }
 
     if (dataGridRef.current) {
       dataGridRef.current.scrollTo({
-        scrollLeft: event.currentTarget.scrollLeft,
-        scrollTop: event.currentTarget.scrollTop,
+        scrollTop: evt.currentTarget.scrollTop,
       });
-    }
-
-    if (currentScrollLeft.current !== undefined) {
-      // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
-      // Otherwise it will be out-of-sync with the other rows.
-      currentScrollLeft.current = event.currentTarget.scrollLeft;
     }
 
     if (currentScrollTop.current !== undefined) {
       // Set scrollTop here so that when a left grid is expanded with a new column, scroll that row to scrollTop position.
       // Otherwise it will be out-of-sync with the other columns.
-      currentScrollTop.current = event.currentTarget.scrollTop;
+      currentScrollTop.current = evt.currentTarget.scrollTop;
     }
   };
 
   return {
     getScrollLeft,
     getScrollTop,
-    onScrollHandler,
-    scrollableContainerRef,
+    onHorizontalScrollHandler,
+    onVerticalScrollHandler,
+    verticalScrollableContainerRef,
+    horizontalScrollableContainerRef,
     dataGridRef,
     leftGridRef,
     topGridRef,

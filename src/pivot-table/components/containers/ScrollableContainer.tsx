@@ -1,26 +1,35 @@
 import React from "react";
-import type { Rect } from "../../../types/types";
+import type { ScrollableContainerOrigin } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 
 interface ScrollableContainerProps {
-  rect: Rect;
+  width: number;
+  height: number;
   children: JSX.Element;
   onScroll: (e: React.SyntheticEvent) => void;
+  style?: React.CSSProperties;
+  showVerticalScrollbar?: boolean;
+  showHorizontalScrollbar?: boolean;
+  origin: ScrollableContainerOrigin;
 }
 
+const getDataKey = (origin: ScrollableContainerOrigin) => `scrollable-container--${origin}`;
+
 const ScrollableContainer = (props: ScrollableContainerProps, ref: React.LegacyRef<HTMLDivElement>): JSX.Element => {
-  const { rect, children, onScroll } = props;
+  const { width, height, children, onScroll, style, showVerticalScrollbar, showHorizontalScrollbar, origin } = props;
   const { interactions } = useBaseContext();
 
   return (
     <div
       ref={ref}
-      data-testid="scrollable-container"
+      data-key={getDataKey(origin)}
       style={{
-        overflow: interactions.active ? "auto" : "hidden",
-        width: rect.width,
-        height: rect.height,
+        width,
+        height,
         overscrollBehaviorX: "contain",
+        overflowX: interactions.active && showHorizontalScrollbar ? "auto" : "hidden",
+        overflowY: interactions.active && showVerticalScrollbar ? "auto" : "hidden",
+        ...style,
       }}
       onScroll={onScroll}
     >

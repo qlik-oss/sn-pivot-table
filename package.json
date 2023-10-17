@@ -75,7 +75,8 @@
           "optionalDependencies": false,
           "peerDependencies": true
         }
-      ]
+      ],
+      "react/require-default-props": "warn"
     },
     "root": true
   },

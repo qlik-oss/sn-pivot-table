@@ -1,7 +1,14 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback } from "react";
 import type { Model } from "../../types/QIX";
-import type { LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
+import {
+  ScrollableContainerOrigin,
+  type LayoutService,
+  type PageInfo,
+  type Rect,
+  type ViewService,
+} from "../../types/types";
+import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
@@ -18,7 +25,6 @@ import DataGrid from "./grids/DataGrid";
 import HeaderGrid from "./grids/HeaderGrid";
 import LeftGrid from "./grids/LeftGrid";
 import TopGrid from "./grids/TopGrid";
-import { getLeftGridStyles } from "./shared-styles";
 
 export interface PivotTableProps {
   rect: Rect;
@@ -44,8 +50,17 @@ export const StickyPivotTable = ({
   const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
 
-  const { getScrollLeft, getScrollTop, onScrollHandler, scrollableContainerRef, dataGridRef, leftGridRef, topGridRef } =
-    useScroll({ layoutService, pageInfo });
+  const {
+    getScrollLeft,
+    getScrollTop,
+    onHorizontalScrollHandler,
+    onVerticalScrollHandler,
+    verticalScrollableContainerRef,
+    horizontalScrollableContainerRef,
+    dataGridRef,
+    leftGridRef,
+    topGridRef,
+  } = useScroll({ layoutService, pageInfo });
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
@@ -62,6 +77,13 @@ export const StickyPivotTable = ({
     layoutService,
   });
 
+  const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } = useGridHeight({
+    pageInfo,
+    headersData,
+    topDimensionData,
+    tableRect,
+  });
+
   const {
     leftGridWidth,
     leftGridColumnWidths,
@@ -72,79 +94,113 @@ export const StickyPivotTable = ({
     getHeaderCellsIconsVisibilityStatus,
   } = useColumnWidth(layoutService, tableRect, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
-  const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder } = useGridHeight({
-    pageInfo,
-    headersData,
-    topDimensionData,
-    tableRect,
-  });
-
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
   const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
 
   return (
-    <ScrollableContainer ref={scrollableContainerRef} rect={tableRect} onScroll={onScrollHandler}>
+    <ScrollableContainer
+      ref={verticalScrollableContainerRef}
+      width={tableRect.width}
+      height={tableRect.height}
+      onScroll={onVerticalScrollHandler}
+      showVerticalScrollbar
+      showHorizontalScrollbar={false}
+      origin={ScrollableContainerOrigin.CONTAINER_GRID}
+    >
       <FullSizeContainer width={totalWidth} height={containerHeight}>
-        <StickyContainer rect={tableRect} leftColumnsWidth={leftGridWidth} rightColumnsWidth={rightGridWidth}>
+        <StickyContainer
+          width={tableRect.width}
+          height={tableRect.height}
+          style={{
+            display: "grid",
+            gridTemplateColumns: leftGridWidth // If leftColumnsWidth is 0, this means no data exist for "headers" or "left"
+              ? `${leftGridWidth}px ${rightGridWidth}px`
+              : `${rightGridWidth}px`,
+          }}
+        >
           {Boolean(leftGridWidth) && (
-            <div style={getLeftGridStyles(leftGridWidth)}>
-              <HeaderGrid
-                columnWidths={leftGridColumnWidths}
-                getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
-                rowHight={headerCellHeight}
-                height={topGridHeight}
-                headersData={headersData}
-                translator={translator}
-                changeSortOrder={changeSortOrder}
-                changeActivelySortedHeader={changeActivelySortedHeader}
-              />
+            <ScrollableContainer
+              ref={horizontalScrollableContainerRef}
+              width={leftGridWidth}
+              height={allRowsVisible ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height}
+              onScroll={onHorizontalScrollHandler}
+              showVerticalScrollbar={false}
+              showHorizontalScrollbar
+              origin={ScrollableContainerOrigin.LEFT_GRID}
+            >
+              <FullSizeContainer width={leftGridWidth} height={containerHeight}>
+                <StickyContainer width={leftGridWidth} height={tableRect.height}>
+                  <HeaderGrid
+                    columnWidths={leftGridColumnWidths}
+                    getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
+                    rowHight={headerCellHeight}
+                    height={topGridHeight}
+                    headersData={headersData}
+                    translator={translator}
+                    changeSortOrder={changeSortOrder}
+                    changeActivelySortedHeader={changeActivelySortedHeader}
+                  />
 
-              <LeftGrid
-                dataModel={dataModel}
-                leftGridRef={leftGridRef}
-                width={leftGridWidth}
-                height={leftGridHeight}
-                columnWidths={leftGridColumnWidths}
-                getScrollTop={getScrollTop}
-                layoutService={layoutService}
-                leftDimensionData={leftDimensionData}
-                showLastBorder={{ right: false, bottom: showLastBottomBorder }}
-                visibleLeftDimensionInfo={visibleLeftDimensionInfo}
-                pageInfo={pageInfo}
-              />
-            </div>
+                  <LeftGrid
+                    dataModel={dataModel}
+                    leftGridRef={leftGridRef}
+                    width={leftGridWidth}
+                    height={leftGridHeight}
+                    columnWidths={leftGridColumnWidths}
+                    getScrollTop={getScrollTop}
+                    layoutService={layoutService}
+                    leftDimensionData={leftDimensionData}
+                    showLastBorder={{ right: false, bottom: allRowsVisible }}
+                    visibleLeftDimensionInfo={visibleLeftDimensionInfo}
+                    pageInfo={pageInfo}
+                  />
+                </StickyContainer>
+              </FullSizeContainer>
+            </ScrollableContainer>
           )}
 
-          <div style={{ width: rightGridWidth }}>
-            <TopGrid
-              dataModel={dataModel}
-              topGridRef={topGridRef}
-              rowHightCallback={headerCellRowHightCallback}
-              width={rightGridWidth}
-              height={topGridHeight}
-              getScrollLeft={getScrollLeft}
-              layoutService={layoutService}
-              topDimensionData={topDimensionData}
-              showLastBorder={{ right: showLastRightBorder, bottom: false }}
-              getRightGridColumnWidth={getRightGridColumnWidth}
-              visibleTopDimensionInfo={visibleTopDimensionInfo}
-            />
+          <ScrollableContainer
+            ref={horizontalScrollableContainerRef}
+            width={rightGridWidth + GRID_BORDER}
+            height={allRowsVisible ? topGridHeight + dataGridHeight + GRID_BORDER : tableRect.height}
+            onScroll={onHorizontalScrollHandler}
+            showVerticalScrollbar={false}
+            showHorizontalScrollbar
+            origin={ScrollableContainerOrigin.DATA_GRID}
+          >
+            <FullSizeContainer width={totalWidth - leftGridWidth} height={containerHeight}>
+              <StickyContainer width={tableRect.width - leftGridWidth} height={tableRect.height}>
+                <TopGrid
+                  dataModel={dataModel}
+                  topGridRef={topGridRef}
+                  rowHightCallback={headerCellRowHightCallback}
+                  width={rightGridWidth}
+                  height={topGridHeight}
+                  getScrollLeft={getScrollLeft}
+                  layoutService={layoutService}
+                  topDimensionData={topDimensionData}
+                  showLastBorder={{ right: showLastRightBorder, bottom: false }}
+                  getRightGridColumnWidth={getRightGridColumnWidth}
+                  visibleTopDimensionInfo={visibleTopDimensionInfo}
+                />
 
-            <DataGrid
-              dataModel={dataModel}
-              dataGridRef={dataGridRef}
-              rowHightCallback={contentCellRowHightCallback}
-              width={rightGridWidth}
-              height={dataGridHeight}
-              viewService={viewService}
-              layoutService={layoutService}
-              measureData={measureData}
-              leftDimensionData={leftDimensionData}
-              topDimensionData={topDimensionData}
-              showLastBorder={{ right: showLastRightBorder, bottom: showLastBottomBorder }}
-              getRightGridColumnWidth={getRightGridColumnWidth}
-            />
-          </div>
+                <DataGrid
+                  dataModel={dataModel}
+                  dataGridRef={dataGridRef}
+                  rowHightCallback={contentCellRowHightCallback}
+                  width={rightGridWidth}
+                  height={dataGridHeight}
+                  viewService={viewService}
+                  layoutService={layoutService}
+                  measureData={measureData}
+                  leftDimensionData={leftDimensionData}
+                  topDimensionData={topDimensionData}
+                  showLastBorder={{ right: showLastRightBorder, bottom: allRowsVisible }}
+                  getRightGridColumnWidth={getRightGridColumnWidth}
+                />
+              </StickyContainer>
+            </FullSizeContainer>
+          </ScrollableContainer>
         </StickyContainer>
       </FullSizeContainer>
     </ScrollableContainer>
