@@ -1,5 +1,5 @@
 import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
-import { getHoverColor } from "@qlik/nebula-table-utils/lib/utils";
+import { COLORING, getHoverColor } from "@qlik/nebula-table-utils/lib/utils";
 import { Colors } from "../pivot-table/components/shared-styles";
 import {
   BOLD_FONT_WEIGHT,
@@ -123,7 +123,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, headerStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.Header], Attribute.Color) ??
-        Colors.PrimaryText,
+        COLORING.TEXT,
       background: headerBackground,
       hoverBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.hover),
       activeBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.active),
@@ -143,7 +143,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, dimensionValue?.[Attribute.FontColor]) ??
         getThemeStyle([Path.DimensionValues], Attribute.Color) ??
-        Colors.PrimaryText,
+        COLORING.TEXT,
       background:
         resolveColor(theme, dimensionValue?.[Attribute.Background]) ??
         getThemeStyle([Path.DimensionValues], Attribute.Background) ??
@@ -190,7 +190,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, totalValuesStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.TotalValues], Attribute.Color) ??
-        Colors.PrimaryText,
+        COLORING.TEXT,
       background:
         resolveColor(theme, totalValuesStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.TotalValues], Attribute.Background) ??
@@ -203,7 +203,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, nullValueStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.NullValues], Attribute.Color) ??
-        Colors.PrimaryText,
+        COLORING.TEXT,
       background:
         resolveColor(theme, nullValueStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.NullValues], Attribute.Background) ??
