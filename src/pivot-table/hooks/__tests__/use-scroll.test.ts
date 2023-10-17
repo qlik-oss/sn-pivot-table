@@ -91,7 +91,7 @@ describe("useScroll", () => {
 
     beforeEach(() => {
       fakeTarget = document.createElement("DIV");
-      fakeTarget.dataset.testid = `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`;
+      fakeTarget.dataset.key = `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`;
     });
 
     test("when called `onHorizontalScrollHandler()` should update grids with new scroll position", () => {
