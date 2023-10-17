@@ -21,18 +21,13 @@ export default function useGridHeight({ pageInfo, headersData, topDimensionData,
   const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
   const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
 
-  const rowsCanFitInTableViewPort = Math.floor((tableRect.height - topGridHeight - GRID_BORDER) / contentCellHeight);
-  // -1 to exclude last row height from height calculation, leaving a generous amount of space for the actual last row
-  const showLastBottomBorder = pageInfo.rowsOnCurrentPage - 1 < rowsCanFitInTableViewPort;
-
-  const isEmptySpaceExistsBelowLastRow = topGridHeight + GRID_BORDER + dataGridHeight < tableRect.height;
+  const allRowsVisible = topGridHeight + GRID_BORDER + dataGridHeight < tableRect.height;
 
   return {
     containerHeight,
     topGridHeight,
     leftGridHeight,
     dataGridHeight,
-    showLastBottomBorder,
-    isEmptySpaceExistsBelowLastRow,
+    allRowsVisible,
   };
 }
