@@ -126,11 +126,11 @@ export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
   qCardinalities: {
     qHypercubeCardinal: number;
   };
-  columnWidth: ColumnWidth;
+  columnWidth?: ColumnWidth;
 }
 
 export interface ExtendedMeasureInfo extends EngineAPI.INxMeasureInfo {
-  columnWidth: ColumnWidth;
+  columnWidth?: ColumnWidth;
 }
 
 export interface ExtendedHyperCube extends EngineAPI.IHyperCube {

@@ -1,7 +1,13 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback } from "react";
 import type { Model } from "../../types/QIX";
-import type { LayoutService, PageInfo, Rect, ViewService } from "../../types/types";
+import {
+  ScrollableContainerOrigin,
+  type LayoutService,
+  type PageInfo,
+  type Rect,
+  type ViewService,
+} from "../../types/types";
 import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
@@ -13,7 +19,7 @@ import useSorting from "../hooks/use-sorting";
 import useTableRect from "../hooks/use-table-rect";
 import useVisibleDimensions from "../hooks/use-visible-dimensions";
 import FullSizeContainer from "./containers/FullSizeContainer";
-import ScrollableContainer, { ScrollableContainerOrigin } from "./containers/ScrollableContainer";
+import ScrollableContainer from "./containers/ScrollableContainer";
 import StickyContainer from "./containers/StickyContainer";
 import DataGrid from "./grids/DataGrid";
 import HeaderGrid from "./grids/HeaderGrid";
@@ -74,14 +80,7 @@ export const StickyPivotTable = ({
     layoutService,
   });
 
-  const {
-    containerHeight,
-    topGridHeight,
-    leftGridHeight,
-    dataGridHeight,
-    showLastBottomBorder,
-    isEmptySpaceExistsBelowLastRow,
-  } = useGridHeight({
+  const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } = useGridHeight({
     pageInfo,
     headersData,
     topDimensionData,
@@ -102,7 +101,7 @@ export const StickyPivotTable = ({
     visibleLeftDimensionInfo,
     visibleTopDimensionInfo,
     verticalScrollbarWidth,
-    isEmptySpaceExistsBelowLastRow,
+    allRowsVisible,
   );
 
   // TODO: convert this into a function
@@ -113,7 +112,7 @@ export const StickyPivotTable = ({
     leftGridHeight,
     topGridHeight,
     dataGridHeight,
-    isEmptySpaceExistsBelowLastRow,
+    allRowsVisible,
 
     totalWidth,
     leftGridWidth,
@@ -174,7 +173,7 @@ export const StickyPivotTable = ({
                     getScrollTop={getScrollTop}
                     layoutService={layoutService}
                     leftDimensionData={leftDimensionData}
-                    showLastBorder={{ right: false, bottom: showLastBottomBorder }}
+                    showLastBorder={{ right: false, bottom: allRowsVisible }}
                     visibleLeftDimensionInfo={visibleLeftDimensionInfo}
                     pageInfo={pageInfo}
                   />
@@ -216,7 +215,7 @@ export const StickyPivotTable = ({
                   measureData={measureData}
                   leftDimensionData={leftDimensionData}
                   topDimensionData={topDimensionData}
-                  showLastBorder={{ right: showLastRightBorder, bottom: showLastBottomBorder }}
+                  showLastBorder={{ right: showLastRightBorder, bottom: allRowsVisible }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
                 />
               </StickyContainer>

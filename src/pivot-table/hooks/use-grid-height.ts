@@ -21,18 +21,13 @@ export default function useGridHeight({ pageInfo, headersData, topDimensionData,
   const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
   const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
 
-  const rowsCanFitInTableViewPort = Math.floor(tableRect.height / contentCellHeight);
-  const showLastBottomBorder = pageInfo.rowsOnCurrentPage < rowsCanFitInTableViewPort;
-
-  const isEmptySpaceExistsBelowLastRow = topGridHeight + GRID_BORDER + dataGridHeight < tableRect.height;
+  const allRowsVisible = topGridHeight + GRID_BORDER + dataGridHeight < tableRect.height;
 
   return {
     containerHeight,
     topGridHeight,
     leftGridHeight,
     dataGridHeight,
-    showLastBottomBorder,
-    rowsCanFitInTableViewPort,
-    isEmptySpaceExistsBelowLastRow,
+    allRowsVisible,
   };
 }

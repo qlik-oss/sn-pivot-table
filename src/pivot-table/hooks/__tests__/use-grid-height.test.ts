@@ -29,25 +29,23 @@ describe("useGridHeight", () => {
   };
 
   test("should return grid heights when data overflows the chart", () => {
-    const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder } =
-      renderUseGridHeight();
+    const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } = renderUseGridHeight();
 
     expect(containerHeight).toBe(1660);
     expect(topGridHeight).toBe(60);
     expect(leftGridHeight).toBe(439);
     expect(dataGridHeight).toBe(439);
-    expect(showLastBottomBorder).toBe(false);
+    expect(allRowsVisible).toBe(false);
   });
   test("should return grid heights when data doesn't overflows the chart", () => {
     pageInfo.rowsOnCurrentPage = 10;
 
-    const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, showLastBottomBorder } =
-      renderUseGridHeight();
+    const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } = renderUseGridHeight();
 
     expect(containerHeight).toBe(220);
     expect(topGridHeight).toBe(60);
     expect(leftGridHeight).toBe(160);
     expect(dataGridHeight).toBe(160);
-    expect(showLastBottomBorder).toBe(true);
+    expect(allRowsVisible).toBe(true);
   });
 });

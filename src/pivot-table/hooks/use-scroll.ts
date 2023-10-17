@@ -1,7 +1,6 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
-import type { LayoutService, PageInfo } from "../../types/types";
-import { ScrollableContainerOrigin } from "../components/containers/ScrollableContainer";
+import { ScrollableContainerOrigin, type LayoutService, type PageInfo } from "../../types/types";
 
 interface Props {
   layoutService: LayoutService;
@@ -71,7 +70,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
 
-    if (evt.target.dataset["testid"] === `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`) {
+    if (evt.target.dataset["key"] === `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`) {
       if (topGridRef.current) {
         topGridRef.current.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));
       }

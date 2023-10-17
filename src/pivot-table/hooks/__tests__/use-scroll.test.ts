@@ -2,8 +2,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import type React from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
-import type { LayoutService, PageInfo } from "../../../types/types";
-import { ScrollableContainerOrigin } from "../../components/containers/ScrollableContainer";
+import { ScrollableContainerOrigin, type LayoutService, type PageInfo } from "../../../types/types";
 import useScroll from "../use-scroll";
 
 describe("useScroll", () => {
@@ -92,7 +91,7 @@ describe("useScroll", () => {
 
     beforeEach(() => {
       fakeTarget = document.createElement("DIV");
-      fakeTarget.dataset.testid = `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`;
+      fakeTarget.dataset.key = `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`;
     });
 
     test("when called `onHorizontalScrollHandler()` should update grids with new scroll position", () => {

@@ -19,7 +19,7 @@ interface getScrollableAreasDimensionsProps {
   leftGridHeight: number;
   topGridHeight: number;
   dataGridHeight: number;
-  isEmptySpaceExistsBelowLastRow: boolean;
+  allRowsVisible: boolean;
 
   totalWidth: number;
   leftGridWidth: number;
@@ -49,7 +49,7 @@ const getScrollableAreasDimensions = ({
   leftGridHeight,
   topGridHeight,
   dataGridHeight,
-  isEmptySpaceExistsBelowLastRow,
+  allRowsVisible,
 
   totalWidth,
   leftGridWidth,
@@ -57,14 +57,14 @@ const getScrollableAreasDimensions = ({
   verticalScrollbarWidth,
   horizontalScrollbarHeight,
 }: getScrollableAreasDimensionsProps): getScrollableAreasDimensionsResult => {
-  const modifiedVerticalScrollbarWidth = !isEmptySpaceExistsBelowLastRow ? verticalScrollbarWidth : 0;
+  const modifiedVerticalScrollbarWidth = !allRowsVisible ? verticalScrollbarWidth : 0;
   const modifiedHorizontalScrollbarHeight = horizontalScrollbarHeight;
 
   return {
     ROOT_WRAPPER: {
       scrollable: {
         width: tableRect.width,
-        height: tableRect.height + (isEmptySpaceExistsBelowLastRow ? modifiedHorizontalScrollbarHeight : 0),
+        height: tableRect.height + (allRowsVisible ? modifiedHorizontalScrollbarHeight : 0),
       },
       fullSize: {
         width: totalWidth - modifiedVerticalScrollbarWidth,
@@ -79,7 +79,7 @@ const getScrollableAreasDimensions = ({
       containers: {
         scrollable: {
           width: leftGridWidth,
-          height: isEmptySpaceExistsBelowLastRow
+          height: allRowsVisible
             ? topGridHeight + dataGridHeight + GRID_BORDER + modifiedHorizontalScrollbarHeight
             : tableRect.height,
         },
@@ -98,14 +98,14 @@ const getScrollableAreasDimensions = ({
       },
       leftGrid: {
         width: leftGridWidth,
-        height: leftGridHeight + modifiedHorizontalScrollbarHeight * (isEmptySpaceExistsBelowLastRow ? 1 : -1),
+        height: leftGridHeight + modifiedHorizontalScrollbarHeight * (allRowsVisible ? 1 : -1),
       },
     },
     RIGHT_WRAPPER: {
       containers: {
         scrollable: {
           width: rightGridWidth + GRID_BORDER - modifiedVerticalScrollbarWidth,
-          height: isEmptySpaceExistsBelowLastRow
+          height: allRowsVisible
             ? topGridHeight + dataGridHeight + GRID_BORDER + modifiedHorizontalScrollbarHeight
             : tableRect.height,
         },
@@ -124,7 +124,7 @@ const getScrollableAreasDimensions = ({
       },
       dataGrid: {
         width: rightGridWidth - modifiedVerticalScrollbarWidth,
-        height: dataGridHeight + modifiedHorizontalScrollbarHeight * (isEmptySpaceExistsBelowLastRow ? 1 : -1),
+        height: dataGridHeight + modifiedHorizontalScrollbarHeight * (allRowsVisible ? 1 : -1),
       },
     },
   };
