@@ -1,6 +1,5 @@
-import { COLORING, isDarkColor } from "@qlik/nebula-table-utils/lib/utils";
+import { COLORING, isDarkColor, toRGB } from "@qlik/nebula-table-utils/lib/utils";
 import type { AttrExprInfoIndex } from "../../../types/types";
-import toRGB from "./to-rgb";
 
 const getContrastingColor = (color: string | null, background: string | null) => {
   if (color || !background) {

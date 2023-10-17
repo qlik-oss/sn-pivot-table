@@ -9,7 +9,7 @@ describe("getExpressionColor", () => {
   beforeEach(() => {
     attrsExprInfoIndex = { cellForegroundColor: 0, cellBackgroundColor: 1 };
     cell = {
-      qAttrExps: { qValues: [{ qText: "ARGB(255,176,134,82)" }, { qText: "RGB(10,9,23)" }] },
+      qAttrExps: { qValues: [{ qText: "ARGB(153,176,134,82)" }, { qText: "RGB(10,9,23)" }] },
     } as unknown as EngineAPI.INxPivotDimensionCell;
   });
 
@@ -18,7 +18,7 @@ describe("getExpressionColor", () => {
 
     expect(expressionColor).toEqual({
       background: "rgb(10, 9, 23)",
-      color: "rgb(255, 176, 134)",
+      color: "rgba(176, 134, 82, 0.6)",
     });
   });
 
