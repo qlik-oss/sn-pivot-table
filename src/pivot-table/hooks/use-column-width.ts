@@ -84,7 +84,7 @@ export default function useColumnWidth(
    * The widths of the left columns. Scales the width to fit LEFT_SIDE_MAX_WIDTH_RATIO * rect.width if wider than that
    */
   const leftGridWidthInfo = useMemo<LeftGridWidthInfo>(() => {
-    const getColumnWidth = (columnWidth: ColumnWidth, fitToContentWidth: number) => {
+    const getColumnWidth = (columnWidth: ColumnWidth | undefined, fitToContentWidth: number) => {
       switch (columnWidth?.type) {
         case ColumnWidthType.Pixels:
           return getPixelValue(columnWidth.pixels);
