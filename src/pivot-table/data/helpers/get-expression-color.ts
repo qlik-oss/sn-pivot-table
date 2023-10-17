@@ -2,6 +2,14 @@ import { COLORING, isDarkColor } from "@qlik/nebula-table-utils/lib/utils";
 import type { AttrExprInfoIndex } from "../../../types/types";
 import toRGB from "./to-rgb";
 
+const getContrastingColor = (color: string | null, background: string | null) => {
+  if (color || !background) {
+    return null;
+  }
+
+  return isDarkColor(background) ? COLORING.WHITE : COLORING.TEXT;
+};
+
 const getExpressionColor = (
   attrsExprInfo: AttrExprInfoIndex,
   cell: EngineAPI.INxPivotValuePoint | EngineAPI.INxPivotDimensionCell,
@@ -12,8 +20,8 @@ const getExpressionColor = (
   const expressionBackground = attrsExprValues?.qValues?.[attrsExprInfo.cellBackgroundColor]?.qText;
 
   const background = expressionBackground ? toRGB(expressionBackground) : null;
-  const contrastingColor = !expressionColor && background && isDarkColor(background) ? COLORING.WHITE : null;
   const color = expressionColor ? toRGB(expressionColor) : null;
+  const contrastingColor = getContrastingColor(color, background);
 
   return {
     color: contrastingColor ?? color,

@@ -177,7 +177,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, measureLabelStyling?.[Attribute.FontColor]) ??
         getThemeStyle([Path.MeasureLabels], Attribute.Color) ??
-        COLORING.TEXT,
+        Colors.Black55,
       background:
         resolveColor(theme, measureLabelStyling?.[Attribute.Background]) ??
         getThemeStyle([Path.MeasureLabels], Attribute.Background) ??

@@ -249,7 +249,7 @@ describe("style-service", () => {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",
-        color: "#404040",
+        color: "rgba(0, 0, 0, 0.55)",
         background: "transparent",
       },
       totalValues: {
