@@ -113,7 +113,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
 
     if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
+      leftGridRef.current.filter(Boolean).forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
     }
 
     if (dataGridRef.current) {

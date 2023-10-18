@@ -129,12 +129,6 @@ export const StickyPivotTable = ({
     }
   }, [leftGridWidth, leftGridColumnWidths, rightGridWidth, rightGridFullWidth, setHorizontalScrollbarHeight]);
 
-  // if (layoutService.layout.title == "TEST (LESS MEASURES)") {
-  //   // console.log({ leftGridColumnWidths, leftGridWidth });
-  //   // console.log({ rightGridWidth, rightGridFullWidth });
-  //   console.log({ horizontalScrollbarHeight, allLeftGridColumnsVisible, allDataGridColumnsVisible });
-  // }
-
   const { ROOT_WRAPPER, LEFT_WRAPPER, RIGHT_WRAPPER } = getScrollableAreasDimensions({
     tableRect,
 
