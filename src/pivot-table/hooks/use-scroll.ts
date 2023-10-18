@@ -10,13 +10,19 @@ interface Props {
     leftGridRef?: VariableSizeList<unknown>[];
     dataGridRef?: VariableSizeGrid<unknown>;
     verticalScrollableContainerRef?: HTMLDivElement;
-    horizontalScrollableContainerRef?: HTMLDivElement;
+    leftGridHorizontalScrollableContainerRef?: HTMLDivElement;
+    dataGridHorizontalScrollableContainerRef?: HTMLDivElement;
   };
 }
 
 const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   const verticalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.verticalScrollableContainerRef ?? null);
-  const horizontalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.horizontalScrollableContainerRef ?? null);
+  const leftGridHorizontalScrollableContainerRef = useRef<HTMLDivElement>(
+    mockedRefs?.leftGridHorizontalScrollableContainerRef ?? null,
+  );
+  const dataGridHorizontalScrollableContainerRef = useRef<HTMLDivElement>(
+    mockedRefs?.dataGridHorizontalScrollableContainerRef ?? null,
+  );
   const topGridRef = useRef<VariableSizeList[]>(mockedRefs?.topGridRef ?? []);
   const leftGridRef = useRef<VariableSizeList[]>(mockedRefs?.leftGridRef ?? []);
   const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
@@ -32,8 +38,12 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   // change because a node was expanded or collapsed
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
-      if (horizontalScrollableContainerRef.current) {
-        horizontalScrollableContainerRef.current.scrollLeft = 0;
+      if (leftGridHorizontalScrollableContainerRef.current) {
+        leftGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
+      }
+
+      if (dataGridHorizontalScrollableContainerRef.current) {
+        dataGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
       }
 
       if (verticalScrollableContainerRef.current) {
@@ -44,8 +54,12 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
 
   // Reset scroll position when page has changed
   useLayoutEffect(() => {
-    if (horizontalScrollableContainerRef.current) {
-      horizontalScrollableContainerRef.current.scrollLeft = 0;
+    if (leftGridHorizontalScrollableContainerRef.current) {
+      leftGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
+    }
+
+    if (dataGridHorizontalScrollableContainerRef.current) {
+      dataGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
     }
 
     if (verticalScrollableContainerRef.current) {
@@ -60,11 +74,17 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
       const w = el.offsetWidth - el.clientWidth;
       setVerticalScrollbarWidth(w);
     }
-    if (horizontalScrollableContainerRef.current) {
-      const el = horizontalScrollableContainerRef.current;
-      const h = el.offsetHeight - el.clientHeight;
-      setHorizontalScrollbarHeight(h);
+
+    let maxScrollbarHeight = 0;
+    if (leftGridHorizontalScrollableContainerRef.current) {
+      const el = leftGridHorizontalScrollableContainerRef.current;
+      maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
     }
+    if (dataGridHorizontalScrollableContainerRef.current) {
+      const el = dataGridHorizontalScrollableContainerRef.current;
+      maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
+    }
+    setHorizontalScrollbarHeight(maxScrollbarHeight);
   }, []);
 
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
@@ -115,7 +135,8 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     onHorizontalScrollHandler,
     onVerticalScrollHandler,
     verticalScrollableContainerRef,
-    horizontalScrollableContainerRef,
+    leftGridHorizontalScrollableContainerRef,
+    dataGridHorizontalScrollableContainerRef,
     dataGridRef,
     leftGridRef,
     topGridRef,

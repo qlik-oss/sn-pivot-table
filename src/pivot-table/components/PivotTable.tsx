@@ -51,20 +51,6 @@ export const StickyPivotTable = ({
   const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
 
-  const {
-    getScrollLeft,
-    getScrollTop,
-    onHorizontalScrollHandler,
-    onVerticalScrollHandler,
-    verticalScrollableContainerRef,
-    horizontalScrollableContainerRef,
-    dataGridRef,
-    leftGridRef,
-    topGridRef,
-    verticalScrollbarWidth,
-    horizontalScrollbarHeight,
-  } = useScroll({ layoutService, pageInfo });
-
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,
     layoutService,
@@ -86,6 +72,22 @@ export const StickyPivotTable = ({
     topDimensionData,
     tableRect,
   });
+
+  const {
+    getScrollLeft,
+    getScrollTop,
+    onHorizontalScrollHandler,
+    onVerticalScrollHandler,
+    verticalScrollableContainerRef,
+    // horizontalScrollableContainerRef,
+    leftGridHorizontalScrollableContainerRef,
+    dataGridHorizontalScrollableContainerRef,
+    dataGridRef,
+    leftGridRef,
+    topGridRef,
+    verticalScrollbarWidth,
+    horizontalScrollbarHeight,
+  } = useScroll({ layoutService, pageInfo });
 
   const {
     leftGridWidth,
@@ -144,7 +146,7 @@ export const StickyPivotTable = ({
         >
           {Boolean(leftGridWidth) && (
             <ScrollableContainer
-              ref={horizontalScrollableContainerRef}
+              ref={leftGridHorizontalScrollableContainerRef}
               {...LEFT_WRAPPER.containers.scrollable}
               onScroll={onHorizontalScrollHandler}
               showVerticalScrollbar={false}
@@ -182,7 +184,7 @@ export const StickyPivotTable = ({
           )}
 
           <ScrollableContainer
-            ref={horizontalScrollableContainerRef}
+            ref={dataGridHorizontalScrollableContainerRef}
             {...RIGHT_WRAPPER.containers.scrollable}
             onScroll={onHorizontalScrollHandler}
             showVerticalScrollbar={false}
