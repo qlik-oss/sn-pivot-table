@@ -53,7 +53,7 @@ const HeaderGrid = ({
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
       {headersData.data.map((col, colIndex) => {
         const cell = col[col.length - 1] as HeaderCell;
-        const iconsVisibilityStatus = getHeaderCellsIconsVisibilityStatus(colIndex, cell.isLocked, cell.title);
+        const iconsVisibilityStatus = getHeaderCellsIconsVisibilityStatus(colIndex, cell.isLocked, cell.label);
 
         return (
           <DimensionTitleCell

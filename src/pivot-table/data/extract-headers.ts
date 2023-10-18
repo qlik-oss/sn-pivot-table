@@ -17,18 +17,20 @@ const extractHeaders = (
       matrix[colIdx][rowCount - 1] = {
         id: "PSEUDO-DIM",
         colIdx: -1,
-        title: "",
+        label: "",
         sortDirection: "A",
         fieldId: "",
         isActivelySorted: false,
         isLocked: false,
+        isDim: false,
+        headTextAlign: "left",
       };
     } else {
       const id: string = getKey(qDimensionInfo);
       matrix[colIdx][rowCount - 1] = {
         id,
         colIdx,
-        title: qDimensionInfo.qFallbackTitle,
+        label: qDimensionInfo.qFallbackTitle,
         qReverseSort: qDimensionInfo.qReverseSort,
         sortDirection:
           qDimensionInfo.qSortIndicator && qDimensionInfo.qSortIndicator !== "N" ? qDimensionInfo.qSortIndicator : "A",
@@ -36,6 +38,8 @@ const extractHeaders = (
         fieldId: qDimensionInfo.qGroupFieldDefs[qDimensionInfo.qGroupPos],
         isActivelySorted: colIdx === (hyperCube.activelySortedColumn?.colIdx ?? 0),
         isLocked: qDimensionInfo.qLocked ?? false,
+        isDim: true,
+        headTextAlign: "left",
       };
     }
   });
