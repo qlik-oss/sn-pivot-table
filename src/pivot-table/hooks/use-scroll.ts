@@ -142,6 +142,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     topGridRef,
     verticalScrollbarWidth,
     horizontalScrollbarHeight,
+    setHorizontalScrollbarHeight,
   };
 };
 

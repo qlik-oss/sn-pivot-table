@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import type { Model } from "../../types/QIX";
 import {
   ScrollableContainerOrigin,
@@ -79,7 +79,6 @@ export const StickyPivotTable = ({
     onHorizontalScrollHandler,
     onVerticalScrollHandler,
     verticalScrollableContainerRef,
-    // horizontalScrollableContainerRef,
     leftGridHorizontalScrollableContainerRef,
     dataGridHorizontalScrollableContainerRef,
     dataGridRef,
@@ -87,12 +86,14 @@ export const StickyPivotTable = ({
     topGridRef,
     verticalScrollbarWidth,
     horizontalScrollbarHeight,
+    setHorizontalScrollbarHeight,
   } = useScroll({ layoutService, pageInfo });
 
   const {
     leftGridWidth,
     leftGridColumnWidths,
     rightGridWidth,
+    rightGridFullWidth,
     totalWidth,
     showLastRightBorder,
     getRightGridColumnWidth,
@@ -105,6 +106,34 @@ export const StickyPivotTable = ({
     verticalScrollbarWidth,
     allRowsVisible,
   );
+
+  // if either of these are false -> consider horiz scrollbar height
+  // if both true -> reset horiz scrollbar height to 0
+  const allLeftGridColumnsVisible = leftGridWidth == leftGridColumnWidths.reduce((acc, curr) => acc + curr, 0);
+  const allDataGridColumnsVisible = rightGridWidth == rightGridFullWidth;
+
+  useEffect(() => {
+    if (allLeftGridColumnsVisible && allDataGridColumnsVisible) {
+      setHorizontalScrollbarHeight(0);
+    } else {
+      let maxScrollbarHeight = 0;
+      if (leftGridHorizontalScrollableContainerRef.current) {
+        const el = leftGridHorizontalScrollableContainerRef.current;
+        maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
+      }
+      if (dataGridHorizontalScrollableContainerRef.current) {
+        const el = dataGridHorizontalScrollableContainerRef.current;
+        maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
+      }
+      setHorizontalScrollbarHeight(maxScrollbarHeight);
+    }
+  }, [leftGridWidth, leftGridColumnWidths, rightGridWidth, rightGridFullWidth, setHorizontalScrollbarHeight]);
+
+  // if (layoutService.layout.title == "TEST (LESS MEASURES)") {
+  //   // console.log({ leftGridColumnWidths, leftGridWidth });
+  //   // console.log({ rightGridWidth, rightGridFullWidth });
+  //   console.log({ horizontalScrollbarHeight, allLeftGridColumnsVisible, allDataGridColumnsVisible });
+  // }
 
   const { ROOT_WRAPPER, LEFT_WRAPPER, RIGHT_WRAPPER } = getScrollableAreasDimensions({
     tableRect,

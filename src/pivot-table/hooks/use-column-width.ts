@@ -9,6 +9,7 @@ import { useStyleContext } from "../contexts/StyleProvider";
 
 interface ColumnWidthHook extends LeftGridWidthInfo {
   rightGridWidth: number;
+  rightGridFullWidth: number;
   totalWidth: number;
   showLastRightBorder: boolean;
   getRightGridColumnWidth: (index?: number) => number;
@@ -311,6 +312,7 @@ export default function useColumnWidth(
   return {
     ...leftGridWidthInfo,
     rightGridWidth,
+    rightGridFullWidth,
     totalWidth,
     showLastRightBorder,
     getRightGridColumnWidth,
