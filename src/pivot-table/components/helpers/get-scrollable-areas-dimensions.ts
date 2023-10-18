@@ -1,15 +1,10 @@
 import type { HeadersData, PageInfo, Rect, TopDimensionData } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
-import useGridHeight from "../../hooks/use-grid-height";
 
 type ContainerDims = {
   scrollable: Rect;
   fullSize: Rect;
   sticky: Rect;
-};
-
-type WrapperDims = {
-  wrapper: Rect;
 };
 
 interface getScrollableAreasDimensionsProps {
@@ -57,7 +52,7 @@ const getScrollableAreasDimensions = ({
   verticalScrollbarWidth,
   horizontalScrollbarHeight,
 }: getScrollableAreasDimensionsProps): getScrollableAreasDimensionsResult => {
-  const modifiedVerticalScrollbarWidth = !allRowsVisible ? verticalScrollbarWidth : 0;
+  const modifiedVerticalScrollbarWidth = verticalScrollbarWidth * (allRowsVisible ? 0 : 1);
   const modifiedHorizontalScrollbarHeight = horizontalScrollbarHeight * (allRowsVisible ? 0 : 1);
 
   return {
