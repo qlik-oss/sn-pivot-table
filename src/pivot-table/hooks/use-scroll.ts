@@ -62,8 +62,8 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     }
     if (horizontalScrollableContainerRef.current) {
       const el = horizontalScrollableContainerRef.current;
-      const w = el.offsetHeight - el.clientHeight;
-      setHorizontalScrollbarHeight(w);
+      const h = el.offsetHeight - el.clientHeight;
+      setHorizontalScrollbarHeight(h);
     }
   }, []);
 
