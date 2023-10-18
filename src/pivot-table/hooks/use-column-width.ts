@@ -1,5 +1,5 @@
 import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import { ColumnWidthType, type ColumnWidth } from "../../types/QIX";
 import type { CellStyling, LayoutService, Rect, VisibleDimensionInfo } from "../../types/types";
@@ -9,7 +9,6 @@ import { useStyleContext } from "../contexts/StyleProvider";
 
 interface ColumnWidthHook extends LeftGridWidthInfo {
   rightGridWidth: number;
-  rightGridFullWidth: number;
   totalWidth: number;
   showLastRightBorder: boolean;
   getRightGridColumnWidth: (index?: number) => number;
@@ -30,6 +29,7 @@ export interface GetHeaderCellsIconsVisibilityStatus {
 interface LeftGridWidthInfo {
   leftGridWidth: number;
   leftGridColumnWidths: number[];
+  leftGridFullWidth: number;
 }
 
 export const EXPAND_ICON_WIDTH = 30;
@@ -59,8 +59,9 @@ export default function useColumnWidth(
   rect: Rect,
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
   visibleTopDimensionInfo: VisibleDimensionInfo[],
-  verticalScrollbarWidth: number,
   isEmptySpaceExistsBelowLastRow: boolean,
+  verticalScrollbarWidth: number,
+  horizontalScrollbarHeightSetter: (shouldResetHeight?: boolean) => void,
 ): ColumnWidthHook {
   const {
     layout: {
@@ -130,6 +131,7 @@ export default function useColumnWidth(
     return {
       leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
       leftGridColumnWidths: columnWidths,
+      leftGridFullWidth: columnWidths.reduce((acc, curr) => acc + curr, 0),
     };
   }, [
     visibleLeftDimensionInfo,
@@ -309,10 +311,19 @@ export default function useColumnWidth(
 
   const showLastRightBorder = useMemo(() => totalWidth < rect.width, [totalWidth, rect.width]);
 
+  // Horizontal scrollbar managment
+  // if either of these are false -> consider horizontal scrollbar height
+  // if both true -> reset horizontal scrollbar height to 0
+  const allLeftGridColumnsVisible = leftGridWidthInfo.leftGridWidth == leftGridWidthInfo.leftGridFullWidth;
+  const allDataGridColumnsVisible = rightGridWidth == rightGridFullWidth;
+  useEffect(() => {
+    if (allLeftGridColumnsVisible && allDataGridColumnsVisible) horizontalScrollbarHeightSetter(true);
+    else horizontalScrollbarHeightSetter();
+  }, [leftGridWidthInfo.leftGridWidth, leftGridWidthInfo.leftGridColumnWidths, rightGridWidth, rightGridFullWidth]);
+
   return {
     ...leftGridWidthInfo,
     rightGridWidth,
-    rightGridFullWidth,
     totalWidth,
     showLastRightBorder,
     getRightGridColumnWidth,

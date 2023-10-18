@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import type { Model } from "../../types/QIX";
 import {
   ScrollableContainerOrigin,
@@ -8,7 +8,6 @@ import {
   type Rect,
   type ViewService,
 } from "../../types/types";
-import { GRID_BORDER } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
@@ -86,14 +85,13 @@ export const StickyPivotTable = ({
     topGridRef,
     verticalScrollbarWidth,
     horizontalScrollbarHeight,
-    setHorizontalScrollbarHeight,
+    horizontalScrollbarHeightSetter,
   } = useScroll({ layoutService, pageInfo });
 
   const {
     leftGridWidth,
     leftGridColumnWidths,
     rightGridWidth,
-    rightGridFullWidth,
     totalWidth,
     showLastRightBorder,
     getRightGridColumnWidth,
@@ -103,31 +101,10 @@ export const StickyPivotTable = ({
     tableRect,
     visibleLeftDimensionInfo,
     visibleTopDimensionInfo,
-    verticalScrollbarWidth,
     allRowsVisible,
+    verticalScrollbarWidth,
+    horizontalScrollbarHeightSetter,
   );
-
-  // if either of these are false -> consider horiz scrollbar height
-  // if both true -> reset horiz scrollbar height to 0
-  const allLeftGridColumnsVisible = leftGridWidth == leftGridColumnWidths.reduce((acc, curr) => acc + curr, 0);
-  const allDataGridColumnsVisible = rightGridWidth == rightGridFullWidth;
-
-  useEffect(() => {
-    if (allLeftGridColumnsVisible && allDataGridColumnsVisible) {
-      setHorizontalScrollbarHeight(0);
-    } else {
-      let maxScrollbarHeight = 0;
-      if (leftGridHorizontalScrollableContainerRef.current) {
-        const el = leftGridHorizontalScrollableContainerRef.current;
-        maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
-      }
-      if (dataGridHorizontalScrollableContainerRef.current) {
-        const el = dataGridHorizontalScrollableContainerRef.current;
-        maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
-      }
-      setHorizontalScrollbarHeight(maxScrollbarHeight);
-    }
-  }, [leftGridWidth, leftGridColumnWidths, rightGridWidth, rightGridFullWidth, setHorizontalScrollbarHeight]);
 
   const { ROOT_WRAPPER, LEFT_WRAPPER, RIGHT_WRAPPER } = getScrollableAreasDimensions({
     tableRect,
