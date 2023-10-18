@@ -82,6 +82,7 @@ describe("use-sorting", () => {
       newSortDirection = "A";
       await changeSortOrder(header, newSortDirection);
       expect(applyPatches).toHaveBeenCalledTimes(1);
+      // eslint-disable-next-line no-console
       expect(console.error).toHaveBeenCalledTimes(1);
     });
   });
@@ -175,6 +176,7 @@ describe("use-sorting", () => {
       newSortDirection = "A";
       await changeActivelySortedHeader(header);
       expect(applyPatches).toHaveBeenCalledTimes(1);
+      // eslint-disable-next-line no-console
       expect(console.error).toHaveBeenCalledTimes(1);
     });
   });
