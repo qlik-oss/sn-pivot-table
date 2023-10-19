@@ -29,8 +29,6 @@ interface LabelCellProps {
 
 const getTextStyle = (clampCount: number): React.CSSProperties => ({
   ...textStyle,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
   ...getLineClampStyle(clampCount),
 });
 
@@ -75,7 +73,7 @@ const PseudoDimensionCell = ({
       }}
       data-testid={testId}
     >
-      <div
+      <span
         style={{
           ...getTextStyle(lineClamp),
           ...stickyCell,
@@ -88,7 +86,7 @@ const PseudoDimensionCell = ({
         }}
       >
         {cell.ref.qText}
-      </div>
+      </span>
       {columnAdjuster}
     </div>
   );
