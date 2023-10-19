@@ -3,6 +3,7 @@ import type React from "react";
 import type { ShowLastBorder, StyleService } from "../../../../types/types";
 import { DEFAULT_LINE_CLAMP } from "../../../constants";
 import {
+  CELL_PADDING,
   Colors,
   getBorderStyle,
   getLineClampStyle,
@@ -108,6 +109,7 @@ export const getContainerStyle = ({
     ...resolvedLockedSelectionStyle,
     display: "flex",
     zIndex,
+    ...(!isLeftColumn && { justifyContent: "center" }),
   };
 };
 
@@ -115,6 +117,7 @@ export const getInnerContainerStyle = (isLeftColumn: boolean) => ({
   ...cellStyle,
   ...stickyCell,
   alignSelf: isLeftColumn ? "flex-start" : "center",
+  ...(!isLeftColumn && { right: CELL_PADDING }),
 });
 
 export const getTextStyle = ({
