@@ -118,10 +118,10 @@ export default function useColumnWidth(
         const { qFallbackTitle, qApprMaxGlyphCount, columnWidth, qLocked } = qDimensionInfo;
         const expandIconSize = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
         const lockedIconSize = qLocked ? LOCK_ICON_SIZE : 0;
-        const staticWidth = TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize;
+
         const fitToContentWidth = Math.max(
-          measureTextForHeader(qFallbackTitle) + staticWidth,
-          estimateWidthForDimensionValue(qApprMaxGlyphCount) + expandIconSize + staticWidth,
+          measureTextForHeader(qFallbackTitle) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize,
+          estimateWidthForDimensionValue(qApprMaxGlyphCount) + expandIconSize,
         );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);

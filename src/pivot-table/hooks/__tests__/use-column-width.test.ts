@@ -92,8 +92,8 @@ describe("useColumnWidth", () => {
       mockMeasureText(width);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
-      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
-      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
+      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE);
+      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE);
       expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
 
@@ -303,7 +303,7 @@ describe("useColumnWidth", () => {
   describe("grid widths", () => {
     beforeEach(() => {
       // This makes the total of the left grid 3 * measured width + 2 * icon width = 150
-      mockEstimateWidth(30 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
+      mockEstimateWidth(30);
       mockMeasureText(30 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
     });
     test("should return grid and total widths when sum of all widths is rect.width", () => {
