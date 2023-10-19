@@ -2,15 +2,9 @@
 import type { stardust } from "@nebula.js/stardust";
 import Locked from "@qlik-trial/sprout/icons/react/Lock";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
-import React, { useMemo, useRef } from "react";
-import type {
-  Align,
-  ChangeActivelySortedHeader,
-  ChangeSortOrder,
-  Header,
-  HeaderCell,
-  SortDirection,
-} from "../../../types/types";
+import type { SortDirection, SortingRelatedArgs } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
+import React, { useRef } from "react";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell } from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
@@ -64,41 +58,23 @@ const DimensionTitleCell = ({
   const { shouldShowLockIcon, shouldShowMenuIcon } = iconsVisibilityStatus;
   const { open, setOpen, handleOpenMenu } = useHeadCellDim({ interactions });
 
-  const isDim = cell.id !== "PSEUDO-DIM";
-
-  const headerData = useMemo<Header>(
-    () => ({
-      id: cell.id,
-      isDim,
-      fieldId: cell.fieldId,
-      qLibraryId: cell.qLibraryId,
-      label: cell.title,
-      headTextAlign: "right" as Align,
-      sortDirection: cell.sortDirection,
-      colIdx: cell.colIdx,
-      qReverseSort: cell.qReverseSort,
-      isActivelySorted: cell.isActivelySorted,
-    }),
-    [cell, isDim],
-  );
-
   const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
     evt.stopPropagation();
-    await changeSortOrder(headerData, newSortDirection);
+    await changeSortOrder(cell, newSortDirection);
   };
 
-  const sortRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
+  const sortRelatedArgs: SortingRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
   const searchRelatedArgs = { embed, listboxRef };
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
   return (
     <StyledHeaderCellWrapper
-      title={cell.title}
+      title={cell.label}
       interactions={interactions}
       background={open ? activeBackground : background}
       hoverBackground={hoverBackground}
       shouldShowMenuIcon={shouldShowMenuIcon}
-      isDimension={isDim}
+      isDimension={cell.isDim}
       style={{
         ...style,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border),
@@ -113,12 +89,12 @@ const DimensionTitleCell = ({
             <Locked height={HEADER_ICON_SIZE} />
           </StyledLockIcon>
         )}
-        <StyledLabel {...{ fontFamily, fontSize, fontStyle, fontWeight, textDecoration }}>{cell.title}</StyledLabel>
+        <StyledLabel {...{ fontFamily, fontSize, fontStyle, fontWeight, textDecoration }}>{cell.label}</StyledLabel>
       </StyledHeaderCell>
-      {isDim && (
+      {cell.isDim && (
         <>
           <HeadCellMenu
-            headerData={headerData}
+            headerData={cell}
             translator={translator}
             tabIndex={-1}
             anchorRef={anchorRef}

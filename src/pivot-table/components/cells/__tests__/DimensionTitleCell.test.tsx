@@ -9,7 +9,11 @@ import type { GetHeaderCellsIconsVisibilityStatus } from "../../../hooks/use-col
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
 
 describe("DimensionTitleCell", () => {
-  const cell = { title: "test value" } as HeaderCell;
+  const cell: HeaderCell = {
+    label: "test value",
+    isDim: true,
+  } as HeaderCell;
+
   const translator = { get: (s) => s } as stardust.Translator;
   const changeSortOrder = jest.fn();
   const changeActivelySortedColumn = jest.fn();
@@ -39,7 +43,7 @@ describe("DimensionTitleCell", () => {
       { wrapper: TestWithProvider },
     );
 
-    await waitFor(() => expect(screen.getByText(cell.title)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(cell.label)).toBeInTheDocument());
     await waitFor(() => expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>));
   });
 
@@ -51,7 +55,7 @@ describe("DimensionTitleCell", () => {
 
     beforeEach(() => {
       qDimensionInfo = {
-        qFallbackTitle: cell.title,
+        qFallbackTitle: cell.label,
         qStateCounts: {
           qAlternative: 1,
           qSelected: 1,

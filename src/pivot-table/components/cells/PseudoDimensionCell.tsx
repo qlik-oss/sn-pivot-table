@@ -4,6 +4,7 @@ import { DEFAULT_LINE_CLAMP } from "../../constants";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
+  CELL_PADDING,
   getBorderStyle,
   getLineClampStyle,
   getTotalCellDividerStyle,
@@ -28,8 +29,6 @@ interface LabelCellProps {
 
 const getTextStyle = (clampCount: number): React.CSSProperties => ({
   ...textStyle,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
   ...getLineClampStyle(clampCount),
 });
 
@@ -74,10 +73,11 @@ const PseudoDimensionCell = ({
       }}
       data-testid={testId}
     >
-      <div
+      <span
         style={{
           ...getTextStyle(lineClamp),
           ...stickyCell,
+          ...(!isLeftColumn && { right: CELL_PADDING }),
           fontSize,
           fontFamily,
           fontWeight,
@@ -86,7 +86,7 @@ const PseudoDimensionCell = ({
         }}
       >
         {cell.ref.qText}
-      </div>
+      </span>
       {columnAdjuster}
     </div>
   );

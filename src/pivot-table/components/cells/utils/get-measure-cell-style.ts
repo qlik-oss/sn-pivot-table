@@ -21,12 +21,6 @@ export const containerStyle: React.CSSProperties = {
   justifyContent: "center",
 };
 
-const getGridTextClampStyle = (clampCount: number): React.CSSProperties => ({
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  ...getLineClampStyle(clampCount),
-});
-
 export const getCellStyle = (
   styleService: StyleService,
   isNull: boolean,
@@ -62,7 +56,7 @@ export const getTextStyle = (
   const { fontFamily, fontSize } = styleService.measureValues;
   const sharedStyle = {
     ...textStyle,
-    ...(!isNumeric && getGridTextClampStyle(styleService.grid.lineClamp)),
+    ...(!isNumeric && getLineClampStyle(styleService.grid.lineClamp)),
     ...(expressionColor && { color: expressionColor }),
     alignSelf: "flex-start",
     fontFamily,

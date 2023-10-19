@@ -99,7 +99,7 @@ export const StickyPivotTable = ({
   } = useColumnWidth(
     layoutService,
     tableRect,
-    visibleLeftDimensionInfo,
+    headersData,
     visibleTopDimensionInfo,
     allRowsVisible,
     verticalScrollbarWidth,

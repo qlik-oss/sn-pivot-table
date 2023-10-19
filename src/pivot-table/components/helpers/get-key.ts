@@ -1,9 +1,9 @@
-import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
+import { PSEUDO_DIMENSION_INDEX, PSEUDO_DIMENSION_KEY } from "../../../constants";
 import type { VisibleDimensionInfo } from "../../../types/types";
 
 const getKey = (qDimensionInfo: VisibleDimensionInfo): string => {
   if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
-    return "-1";
+    return PSEUDO_DIMENSION_KEY;
   }
 
   return (

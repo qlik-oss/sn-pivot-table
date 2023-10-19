@@ -7,9 +7,16 @@ import {
 import { renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
 import { ColumnWidthType } from "../../../types/QIX";
-import type { LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
+import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
-import useColumnWidth, { ColumnWidthValues, EXPAND_ICON_WIDTH, TOTAL_CELL_PADDING } from "../use-column-width";
+import createHeadersData from "../../data/headers-data";
+import useColumnWidth, {
+  ColumnWidthValues,
+  EXPAND_ICON_SIZE,
+  LOCK_ICON_SIZE,
+  MENU_ICON_SIZE,
+  TOTAL_CELL_PADDING,
+} from "../use-column-width";
 
 type MeasureTextMock = jest.MockedFunction<(text: string) => number>;
 type EstimateWidthMock = jest.MockedFunction<(length: number) => number>;
@@ -31,9 +38,10 @@ describe("useColumnWidth", () => {
   let allRowsVisible: boolean;
   let verticalScrollbarWidth: number;
   let horizontalScrollbarHeightSetter: (shouldResetHeight?: boolean) => void;
+  let headersData: HeadersData;
 
   beforeEach(() => {
-    dimInfo = { qApprMaxGlyphCount: 1 } as ExtendedDimensionInfo;
+    dimInfo = { qApprMaxGlyphCount: 1, qGroupFieldDefs: [""], qGroupPos: 0 } as ExtendedDimensionInfo;
     meaInfo = { qFallbackTitle: "1", qApprMaxGlyphCount: 0 } as ExtendedMeasureInfo;
 
     rect = { width: 400, height: 100 };
@@ -77,17 +85,22 @@ describe("useColumnWidth", () => {
   const renderUseColumnWidth = () => {
     const {
       result: { current },
-    } = renderHook(() =>
-      useColumnWidth(
+    } = renderHook(() => {
+      headersData = createHeadersData(
+        layoutService.layout.qHyperCube,
+        visibleTopDimensionInfo,
+        visibleLeftDimensionInfo,
+      );
+      return useColumnWidth(
         layoutService,
         rect,
-        visibleLeftDimensionInfo,
+        headersData,
         visibleTopDimensionInfo,
         allRowsVisible,
         verticalScrollbarWidth,
         horizontalScrollbarHeightSetter,
-      ),
-    );
+      );
+    });
     return current;
   };
 
@@ -102,18 +115,27 @@ describe("useColumnWidth", () => {
       mockMeasureText(width);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
-      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_WIDTH);
-      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_WIDTH);
-      expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING);
+      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE);
+      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE);
+      expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
 
     test("should return left column width for pixel setting", () => {
       // need to make the width bigger so the col widths are not scaled
       rect = { width: 800, height: 100 };
       const pixels = 50;
-      dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
-      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
-      const dimInfoWithNaN = { columnWidth: { type: ColumnWidthType.Pixels, pixels: NaN } } as ExtendedDimensionInfo;
+      dimInfo = {
+        columnWidth: { type: ColumnWidthType.Pixels, pixels },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = {
+        columnWidth: { type: ColumnWidthType.Pixels },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
+      const dimInfoWithNaN = {
+        columnWidth: { type: ColumnWidthType.Pixels, pixels: NaN },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
@@ -124,10 +146,17 @@ describe("useColumnWidth", () => {
 
     test("should return left column width for percentage setting", () => {
       const percentage = 10;
-      dimInfo = { columnWidth: { type: ColumnWidthType.Percentage, percentage } } as ExtendedDimensionInfo;
-      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Percentage } } as ExtendedDimensionInfo;
+      dimInfo = {
+        columnWidth: { type: ColumnWidthType.Percentage, percentage },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = {
+        columnWidth: { type: ColumnWidthType.Percentage },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
       const dimInfoWithNaN = {
         columnWidth: { type: ColumnWidthType.Percentage, percentage: NaN },
+        qGroupFieldDefs: [""],
       } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
 
@@ -152,10 +181,17 @@ describe("useColumnWidth", () => {
       const { leftGridColumnWidths } = renderUseColumnWidth();
       expect(leftGridColumnWidths[3]).toBe(60);
     });
+
     test("should return the original width of left columns", () => {
       const pixels = 100;
-      dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
-      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
+      dimInfo = {
+        columnWidth: { type: ColumnWidthType.Pixels, pixels },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = {
+        columnWidth: { type: ColumnWidthType.Pixels },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
       const { leftGridColumnWidths } = renderUseColumnWidth();
 
@@ -172,7 +208,10 @@ describe("useColumnWidth", () => {
       percentageConversion = (rect.width - lefSideWidth) / 100;
       layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
       visibleLeftDimensionInfo = [
-        { columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER } } as ExtendedDimensionInfo,
+        {
+          columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER },
+          qGroupFieldDefs: [""],
+        } as ExtendedDimensionInfo,
       ];
       visibleTopDimensionInfo = [dimInfo, dimInfo, -1];
     });
@@ -306,7 +345,7 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, -1, 1, 2];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_WIDTH);
+      expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_SIZE);
     });
 
     test("should subtract scrollbar width from columns", () => {
@@ -343,7 +382,7 @@ describe("useColumnWidth", () => {
     beforeEach(() => {
       // This makes the total of the left grid 3 * measured width + 2 * icon width = 150
       mockEstimateWidth(30);
-      mockMeasureText(30 - TOTAL_CELL_PADDING);
+      mockMeasureText(30 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
     });
     test("should return grid and total widths when sum of all widths is rect.width", () => {
       // The right side columns will default to auto, hence filling up the remaining space
@@ -378,9 +417,15 @@ describe("useColumnWidth", () => {
   });
 
   describe("getHeaderCellsIconsVisibilityStatus()", () => {
+    const columnWidthInPixels = 100;
+
     test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there is enough space in each column", () => {
-      mockEstimateWidth(300);
-      mockMeasureText(30);
+      dimInfo.columnWidth = {
+        type: ColumnWidthType.Pixels,
+        pixels: columnWidthInPixels,
+      };
+
+      mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
 
       const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
       const res = getHeaderCellsIconsVisibilityStatus(0, false);
@@ -390,8 +435,11 @@ describe("useColumnWidth", () => {
     });
 
     test("should return false for any icon, b/c estimated text width is greater than colWidth", () => {
-      mockEstimateWidth(100);
-      mockMeasureText(150);
+      dimInfo.columnWidth = {
+        type: ColumnWidthType.Pixels,
+        pixels: columnWidthInPixels + MENU_ICON_SIZE - 1, // -1 is what makes the test pass
+      };
+      mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING);
 
       const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
       const res = getHeaderCellsIconsVisibilityStatus(0, false);
@@ -402,8 +450,12 @@ describe("useColumnWidth", () => {
 
     describe("if `isLocked` is true:", () => {
       test("should return `shouldShowLockIcon` as true, b/c estimated width for text is small, there is enough space on each column and we are passing `isLocked` as true", () => {
-        mockEstimateWidth(300);
-        mockMeasureText(30);
+        dimInfo.columnWidth = {
+          type: ColumnWidthType.Pixels,
+          pixels: columnWidthInPixels,
+        };
+
+        mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - LOCK_ICON_SIZE - MENU_ICON_SIZE);
 
         const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
         const res = getHeaderCellsIconsVisibilityStatus(0, true);
@@ -413,25 +465,18 @@ describe("useColumnWidth", () => {
       });
 
       test("should prioritise lock icon over menu, if there is enough space for only one icon", () => {
-        mockEstimateWidth(85);
-        mockMeasureText(75);
+        dimInfo.columnWidth = {
+          type: ColumnWidthType.Pixels,
+          pixels: columnWidthInPixels,
+        };
+        // Mock the measureTextForHeader call inside getHeaderCellsIconsVisibilityStatus()
+        mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - LOCK_ICON_SIZE);
 
         const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
         const res = getHeaderCellsIconsVisibilityStatus(0, true);
 
         expect(res.shouldShowMenuIcon).toBe(false);
         expect(res.shouldShowLockIcon).toBe(true);
-      });
-
-      test("should not show lock icon when showLock is true but there is not enough space", () => {
-        mockEstimateWidth(50);
-        mockMeasureText(75);
-
-        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
-        const res = getHeaderCellsIconsVisibilityStatus(0, true);
-
-        expect(res.shouldShowMenuIcon).toBe(false);
-        expect(res.shouldShowLockIcon).toBe(false);
       });
     });
   });

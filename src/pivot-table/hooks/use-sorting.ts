@@ -1,6 +1,7 @@
+import type { HeaderData, SortDirection } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import { useMemo } from "react";
 import type { ExtendedHyperCube, Model } from "../../types/QIX";
-import type { ChangeActivelySortedHeader, ChangeSortOrder, Header, SortDirection } from "../../types/types";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell } from "../../types/types";
 
 interface UseSortingApi {
   changeSortOrder: ChangeSortOrder;
@@ -14,10 +15,10 @@ interface UseSorting {
 const useSorting: UseSorting = (model, qHyperCube) => {
   const api = useMemo(
     () => ({
-      changeSortOrder: async (header: Header, newSortDirection: SortDirection) => {
+      changeSortOrder: async (headerCell: HeaderCell, newSortDirection: SortDirection) => {
         if (!model) throw new Error("No Model provided!");
 
-        const { colIdx, qReverseSort } = header;
+        const { colIdx, qReverseSort } = headerCell;
         const patches: EngineAPI.INxPatch[] = [];
 
         if ((newSortDirection === "D" && !qReverseSort) || (newSortDirection === "A" && qReverseSort)) {
@@ -32,15 +33,16 @@ const useSorting: UseSorting = (model, qHyperCube) => {
           await model.applyPatches(patches, true);
           return true;
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error("Error while applying patch: ", error);
           return false;
         }
       },
 
-      changeActivelySortedHeader: async (header: Header) => {
+      changeActivelySortedHeader: async (headerData: HeaderData) => {
         if (!model) throw new Error("No Model provided!");
 
-        const { colIdx, qLibraryId, fieldId, sortDirection } = header;
+        const { colIdx, qLibraryId, fieldId, sortDirection } = headerData;
         const isActivelySortedColExists = !!qHyperCube.activelySortedColumn;
         const patch: EngineAPI.INxPatch[] = [
           {
@@ -54,6 +56,7 @@ const useSorting: UseSorting = (model, qHyperCube) => {
           await model?.applyPatches(patch, true);
           return true;
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error("Error while applying patch: ", error);
           return false;
         }

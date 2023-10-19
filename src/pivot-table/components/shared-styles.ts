@@ -16,7 +16,7 @@ export const CELL_PADDING = 4;
 
 export const topContainerCellStyle: React.CSSProperties = {
   display: "flex",
-  justifyContent: "flex-start",
+  justifyContent: "center",
   alignItems: "center",
 };
 
@@ -48,6 +48,9 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   WebkitLineClamp: clampCount,
   WebkitBoxOrient: "vertical",
   lineBreak: "auto",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  wordBreak: "break-all",
 });
 
 export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "position" | "left" | "top"> = {

@@ -3,6 +3,7 @@ import type { Cell, ShowLastBorder } from "../../../types/types";
 import { BOLD_FONT_WEIGHT } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
+  CELL_PADDING,
   getBorderStyle,
   getTotalCellDividerStyle,
   leftContainerCellStyle,
@@ -65,6 +66,7 @@ const TotalsCell = ({
           ...labelTextStyle,
           ...stickyCell,
           ...(cell.expressionColor.color && { color: cell.expressionColor.color }),
+          ...(!isLeftColumn && { right: CELL_PADDING }),
           fontWeight,
           fontStyle,
           textDecoration,

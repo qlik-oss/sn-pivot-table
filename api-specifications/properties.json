@@ -143,6 +143,12 @@
       "entries": {
         "qDef": {
           "type": "#/definitions/InlineDimensionDef"
+        },
+        "qAttributeExpressions": {
+          "kind": "array",
+          "items": {
+            "type": "#/definitions/AttributeExpressionDef"
+          }
         }
       }
     },
@@ -157,8 +163,53 @@
       "entries": {
         "qDefs": {
           "type": "#/definitions/InlineMeasureDef"
+        },
+        "qAttributeExpressions": {
+          "kind": "array",
+          "items": {
+            "type": "#/definitions/AttributeExpressionDef"
+          }
         }
       }
+    },
+    "AttributeExpressionDef": {
+      "kind": "union",
+      "items": [
+        {
+          "type": "#/definitions/ColorByExpressionDef"
+        },
+        {
+          "type": "NxAttrExprDef"
+        }
+      ]
+    },
+    "ColorByExpressionId": {
+      "description": "Color by expression identifier",
+      "kind": "union",
+      "items": [
+        {
+          "kind": "literal",
+          "value": "\"cellBackgroundColor\""
+        },
+        {
+          "kind": "literal",
+          "value": "\"cellForegroundColor\""
+        }
+      ]
+    },
+    "ColorByExpressionDef": {
+      "kind": "object",
+      "entries": {
+        "qExpression": {
+          "type": "StringExpression"
+        },
+        "id": {
+          "type": "#/definitions/ColorByExpressionId"
+        }
+      },
+      "examples": [
+        "{ qExpression: \"=if(Sum([Sales Quantity]) > 500, green(), blue())\", id: \"cellBackgroundColor\" }"
+      ]
     },
     "InlineDimensionDef": {
       "description": "Extends `NxInlineDimensionDef`, see Engine API: `NxInlineDimensionDef`.",
