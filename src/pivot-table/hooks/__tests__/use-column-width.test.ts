@@ -28,6 +28,9 @@ describe("useColumnWidth", () => {
   let layoutService: LayoutService;
   let visibleLeftDimensionInfo: VisibleDimensionInfo[];
   let visibleTopDimensionInfo: VisibleDimensionInfo[];
+  let allRowsVisible: boolean;
+  let verticalScrollbarWidth: number;
+  let horizontalScrollbarHeightSetter: (shouldResetHeight?: boolean) => void;
 
   beforeEach(() => {
     dimInfo = { qApprMaxGlyphCount: 1 } as ExtendedDimensionInfo;
@@ -62,6 +65,9 @@ describe("useColumnWidth", () => {
       estimateLineCount: jest.fn() as EstimateLineCountMock,
     };
     mockedUseMeasureText.mockReturnValue(mockedMeasureText);
+    allRowsVisible = false;
+    verticalScrollbarWidth = 0;
+    horizontalScrollbarHeightSetter = jest.fn();
   });
 
   afterEach(() => {
@@ -71,7 +77,17 @@ describe("useColumnWidth", () => {
   const renderUseColumnWidth = () => {
     const {
       result: { current },
-    } = renderHook(() => useColumnWidth(layoutService, rect, visibleLeftDimensionInfo, visibleTopDimensionInfo));
+    } = renderHook(() =>
+      useColumnWidth(
+        layoutService,
+        rect,
+        visibleLeftDimensionInfo,
+        visibleTopDimensionInfo,
+        allRowsVisible,
+        verticalScrollbarWidth,
+        horizontalScrollbarHeightSetter,
+      ),
+    );
     return current;
   };
 
@@ -291,6 +307,35 @@ describe("useColumnWidth", () => {
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_WIDTH);
+    });
+
+    test("should subtract scrollbar width from columns", () => {
+      rect = { width: 110, height: 100 };
+      meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
+      allRowsVisible = false;
+      // normal scrollbar width on mac, it will be automatically calculated on each operating system
+      verticalScrollbarWidth = 14;
+      visibleTopDimensionInfo = [dimInfo, dimInfo, dimInfo];
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+      const targetColWidth = ColumnWidthValues.AutoMin - verticalScrollbarWidth / visibleTopDimensionInfo.length;
+
+      expect(getRightGridColumnWidth(0)).toBeCloseTo(targetColWidth, 12);
+      expect(getRightGridColumnWidth(1)).toBeCloseTo(targetColWidth, 12);
+      expect(getRightGridColumnWidth(2)).toBeCloseTo(targetColWidth, 12);
+    });
+
+    test("should not subtract scrollbar width from columns when all rows are visible", () => {
+      rect = { width: 110, height: 100 };
+      meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
+      allRowsVisible = true;
+      verticalScrollbarWidth = 14;
+      visibleTopDimensionInfo = [dimInfo, dimInfo, dimInfo];
+
+      const { getRightGridColumnWidth } = renderUseColumnWidth();
+
+      expect(getRightGridColumnWidth(0)).toBeCloseTo(ColumnWidthValues.AutoMin);
+      expect(getRightGridColumnWidth(1)).toBeCloseTo(ColumnWidthValues.AutoMin);
+      expect(getRightGridColumnWidth(2)).toBeCloseTo(ColumnWidthValues.AutoMin);
     });
   });
 
