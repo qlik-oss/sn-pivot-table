@@ -46,8 +46,6 @@ describe("getScrollableAreasDimensions()", () => {
     });
 
   test("check result object structure to be correct", () => {
-    const res = callFunction();
-
     const expectRectStructure = expect.objectContaining({
       width: expect.any(Number),
       height: expect.any(Number),
@@ -59,7 +57,7 @@ describe("getScrollableAreasDimensions()", () => {
       sticky: expectRectStructure,
     });
 
-    expect(res).toMatchObject({
+    expect(callFunction()).toMatchObject({
       ROOT_WRAPPER: expectContainerStructure,
       LEFT_WRAPPER: {
         containers: expectContainerStructure,
@@ -75,9 +73,7 @@ describe("getScrollableAreasDimensions()", () => {
   });
 
   test("should return expected results", () => {
-    const res = callFunction();
-
-    expect(res).toEqual({
+    expect(callFunction()).toEqual({
       ROOT_WRAPPER: {
         scrollable: { width: 200, height: 340 },
         fullSize: { width: 187, height: 353 },
@@ -107,9 +103,8 @@ describe("getScrollableAreasDimensions()", () => {
 
   test("should return expected results when `allRowsVisible` is true", () => {
     allRowsVisible = true;
-    const res = callFunction();
 
-    expect(res).toEqual({
+    expect(callFunction()).toEqual({
       ROOT_WRAPPER: {
         scrollable: { width: 200, height: 340 },
         fullSize: { width: 200, height: 340 },
