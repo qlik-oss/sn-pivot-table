@@ -38,9 +38,14 @@ interface LeftGridWidthInfo {
   leftGridColumnWidths: number[];
 }
 
-export const EXPAND_ICON_WIDTH = 30;
+export const EXPAND_ICON_SIZE = 30;
 export const TOTAL_CELL_PADDING = CELL_PADDING * 2 + GRID_BORDER;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
+
+// CELL_PADDING as grid gap between header text and menu icon
+export const MENU_ICON_SIZE = CELL_PADDING + HEADER_ICON_SIZE;
+// CELL_PADDING as space between lock icon and header text
+export const LOCK_ICON_SIZE = CELL_PADDING + HEADER_ICON_SIZE;
 
 export enum ColumnWidthValues {
   PixelsMin = 30,
@@ -118,11 +123,13 @@ export default function useColumnWidth(
           }),
         );
       } else {
-        const { label, qApprMaxGlyphCount, columnWidth } = cell;
-        const iconWidth = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_WIDTH : 0;
+        const { label, qApprMaxGlyphCount, columnWidth, isLocked } = cell;
+        const expandIconSize = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
+        const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
+
         const fitToContentWidth = Math.max(
-          measureTextForHeader(label) + TOTAL_CELL_PADDING,
-          estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + iconWidth,
+          measureTextForHeader(label) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize,
+          estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
         );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);
@@ -154,17 +161,13 @@ export default function useColumnWidth(
       let shouldShowLockIcon = false;
       const measuredTextForHeader = measureTextForHeader(title);
 
-      // CELL_PADDING as grid gap between header text and menu icon
-      const menuIconSize = CELL_PADDING + HEADER_ICON_SIZE;
-      // CELL_PADDING as space between lock icon and header text
-      const lockIconSize = CELL_PADDING + HEADER_ICON_SIZE;
-
       let headerSize = measuredTextForHeader + TOTAL_CELL_PADDING;
-      if (isLocked && headerSize + lockIconSize <= colWidth) {
+
+      if (isLocked && headerSize + LOCK_ICON_SIZE <= colWidth) {
         shouldShowLockIcon = true;
-        headerSize += lockIconSize;
+        headerSize += LOCK_ICON_SIZE;
       }
-      if (headerSize + menuIconSize <= colWidth) {
+      if (headerSize + MENU_ICON_SIZE <= colWidth) {
         shouldShowMenuIcon = true;
       }
 
@@ -184,7 +187,7 @@ export default function useColumnWidth(
   const leafTopDimension = visibleTopDimensionInfo.at(-1);
   const topGridLeavesIsPseudo = leafTopDimension === PSEUDO_DIMENSION_INDEX;
   const leavesIconWidth =
-    qEffectiveInterColumnSortOrder.length - qNoOfLeftDims > visibleTopDimensionInfo.length ? EXPAND_ICON_WIDTH : 0;
+    qEffectiveInterColumnSortOrder.length - qNoOfLeftDims > visibleTopDimensionInfo.length ? EXPAND_ICON_SIZE : 0;
 
   /**
    * Contains the unique column width values

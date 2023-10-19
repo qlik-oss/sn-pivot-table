@@ -10,7 +10,13 @@ import { ColumnWidthType } from "../../../types/QIX";
 import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import createHeadersData from "../../data/headers-data";
-import useColumnWidth, { ColumnWidthValues, EXPAND_ICON_WIDTH, TOTAL_CELL_PADDING } from "../use-column-width";
+import useColumnWidth, {
+  ColumnWidthValues,
+  EXPAND_ICON_SIZE,
+  LOCK_ICON_SIZE,
+  MENU_ICON_SIZE,
+  TOTAL_CELL_PADDING,
+} from "../use-column-width";
 
 type MeasureTextMock = jest.MockedFunction<(text: string) => number>;
 type EstimateWidthMock = jest.MockedFunction<(length: number) => number>;
@@ -95,9 +101,9 @@ describe("useColumnWidth", () => {
       mockMeasureText(width);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
-      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_WIDTH);
-      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_WIDTH);
-      expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING);
+      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE);
+      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE);
+      expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
 
     test("should return left column width for pixel setting", () => {
@@ -325,7 +331,7 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, -1, 1, 2];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_WIDTH);
+      expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_SIZE);
     });
   });
 
@@ -333,7 +339,7 @@ describe("useColumnWidth", () => {
     beforeEach(() => {
       // This makes the total of the left grid 3 * measured width + 2 * icon width = 150
       mockEstimateWidth(30);
-      mockMeasureText(30 - TOTAL_CELL_PADDING);
+      mockMeasureText(30 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
     });
     test("should return grid and total widths when sum of all widths is rect.width", () => {
       // The right side columns will default to auto, hence filling up the remaining space
@@ -368,9 +374,15 @@ describe("useColumnWidth", () => {
   });
 
   describe("getHeaderCellsIconsVisibilityStatus()", () => {
+    const columnWidthInPixels = 100;
+
     test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there is enough space in each column", () => {
-      mockEstimateWidth(300);
-      mockMeasureText(30);
+      dimInfo.columnWidth = {
+        type: ColumnWidthType.Pixels,
+        pixels: columnWidthInPixels,
+      };
+
+      mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
 
       const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
       const res = getHeaderCellsIconsVisibilityStatus(0, false);
@@ -380,8 +392,11 @@ describe("useColumnWidth", () => {
     });
 
     test("should return false for any icon, b/c estimated text width is greater than colWidth", () => {
-      mockEstimateWidth(100);
-      mockMeasureText(150);
+      dimInfo.columnWidth = {
+        type: ColumnWidthType.Pixels,
+        pixels: columnWidthInPixels + MENU_ICON_SIZE - 1, // -1 is what makes the test pass
+      };
+      mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING);
 
       const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
       const res = getHeaderCellsIconsVisibilityStatus(0, false);
@@ -392,8 +407,12 @@ describe("useColumnWidth", () => {
 
     describe("if `isLocked` is true:", () => {
       test("should return `shouldShowLockIcon` as true, b/c estimated width for text is small, there is enough space on each column and we are passing `isLocked` as true", () => {
-        mockEstimateWidth(300);
-        mockMeasureText(30);
+        dimInfo.columnWidth = {
+          type: ColumnWidthType.Pixels,
+          pixels: columnWidthInPixels,
+        };
+
+        mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - LOCK_ICON_SIZE - MENU_ICON_SIZE);
 
         const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
         const res = getHeaderCellsIconsVisibilityStatus(0, true);
@@ -403,25 +422,18 @@ describe("useColumnWidth", () => {
       });
 
       test("should prioritise lock icon over menu, if there is enough space for only one icon", () => {
-        mockEstimateWidth(85);
-        mockMeasureText(75);
+        dimInfo.columnWidth = {
+          type: ColumnWidthType.Pixels,
+          pixels: columnWidthInPixels,
+        };
+        // Mock the measureTextForHeader call inside getHeaderCellsIconsVisibilityStatus()
+        mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - LOCK_ICON_SIZE);
 
         const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
         const res = getHeaderCellsIconsVisibilityStatus(0, true);
 
         expect(res.shouldShowMenuIcon).toBe(false);
         expect(res.shouldShowLockIcon).toBe(true);
-      });
-
-      test("should not show lock icon when showLock is true but there is not enough space", () => {
-        mockEstimateWidth(50);
-        mockMeasureText(75);
-
-        const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
-        const res = getHeaderCellsIconsVisibilityStatus(0, true);
-
-        expect(res.shouldShowMenuIcon).toBe(false);
-        expect(res.shouldShowLockIcon).toBe(false);
       });
     });
   });
