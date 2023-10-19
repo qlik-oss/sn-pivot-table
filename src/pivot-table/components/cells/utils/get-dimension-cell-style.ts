@@ -109,7 +109,7 @@ export const getContainerStyle = ({
     ...resolvedLockedSelectionStyle,
     display: "flex",
     zIndex,
-    justifyContent: isLeftColumn ? undefined : "center",
+    ...(!isLeftColumn && { justifyContent: "center" })
   };
 };
 
