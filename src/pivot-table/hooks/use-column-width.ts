@@ -154,13 +154,7 @@ export default function useColumnWidth(
       const measuredTextForHeader = measureTextForHeader(title);
 
       let headerSize = measuredTextForHeader + TOTAL_CELL_PADDING;
-      // console.log("%c ", "color: orangered", {
-      //   headerSize,
-      //   colWidth,
-      //   headerSizeWithLocked: headerSize + LOCK_ICON_SIZE,
-      //   headerSizeWithMenu: headerSize + MENU_ICON_SIZE,
-      //   headerSizeWithObth: headerSize + MENU_ICON_SIZE + LOCK_ICON_SIZE,
-      // });
+
       if (isLocked && headerSize + LOCK_ICON_SIZE <= colWidth) {
         shouldShowLockIcon = true;
         headerSize += LOCK_ICON_SIZE;
