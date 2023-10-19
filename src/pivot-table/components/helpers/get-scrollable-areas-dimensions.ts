@@ -1,4 +1,4 @@
-import type { HeadersData, PageInfo, Rect, TopDimensionData } from "../../../types/types";
+import type { Rect } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 
 type ContainerDims = {
@@ -7,7 +7,7 @@ type ContainerDims = {
   sticky: Rect;
 };
 
-interface getScrollableAreasDimensionsProps {
+interface GetScrollableAreasDimensionsProps {
   tableRect: Rect;
 
   containerHeight: number;
@@ -23,7 +23,7 @@ interface getScrollableAreasDimensionsProps {
   horizontalScrollbarHeight: number;
 }
 
-interface getScrollableAreasDimensionsResult {
+interface GetScrollableAreasDimensionsResult {
   ROOT_WRAPPER: ContainerDims;
   LEFT_WRAPPER: {
     containers: ContainerDims;
@@ -51,7 +51,7 @@ const getScrollableAreasDimensions = ({
   rightGridWidth,
   verticalScrollbarWidth,
   horizontalScrollbarHeight,
-}: getScrollableAreasDimensionsProps): getScrollableAreasDimensionsResult => {
+}: GetScrollableAreasDimensionsProps): GetScrollableAreasDimensionsResult => {
   const modifiedVerticalScrollbarWidth = verticalScrollbarWidth * (allRowsVisible ? 0 : 1);
   const modifiedHorizontalScrollbarHeight = horizontalScrollbarHeight * (allRowsVisible ? 0 : 1);
 

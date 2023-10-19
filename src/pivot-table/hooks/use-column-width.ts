@@ -313,12 +313,12 @@ export default function useColumnWidth(
 
   // Horizontal scrollbar height control based on columns (full) visibility
   useEffect(() => {
-    const allLeftGridColumnsVisible = leftGridWidthInfo.leftGridWidth == leftGridWidthInfo.leftGridFullWidth;
-    const allDataGridColumnsVisible = rightGridWidth == rightGridFullWidth;
+    const allLeftGridColumnsVisible = leftGridWidthInfo.leftGridWidth === leftGridWidthInfo.leftGridFullWidth;
+    const allDataGridColumnsVisible = rightGridWidth === rightGridFullWidth;
 
     if (allLeftGridColumnsVisible && allDataGridColumnsVisible) horizontalScrollbarHeightSetter(true);
     else horizontalScrollbarHeightSetter();
-  }, [leftGridWidthInfo, rightGridWidth, rightGridFullWidth]);
+  }, [leftGridWidthInfo, rightGridWidth, rightGridFullWidth, horizontalScrollbarHeightSetter]);
 
   return {
     ...leftGridWidthInfo,
