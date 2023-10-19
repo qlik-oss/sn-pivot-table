@@ -33,6 +33,7 @@ const useSorting: UseSorting = (model, qHyperCube) => {
           await model.applyPatches(patches, true);
           return true;
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error("Error while applying patch: ", error);
           return false;
         }
@@ -55,6 +56,7 @@ const useSorting: UseSorting = (model, qHyperCube) => {
           await model?.applyPatches(patch, true);
           return true;
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error("Error while applying patch: ", error);
           return false;
         }

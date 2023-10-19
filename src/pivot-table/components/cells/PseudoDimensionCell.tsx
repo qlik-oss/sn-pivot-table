@@ -4,6 +4,7 @@ import { DEFAULT_LINE_CLAMP } from "../../constants";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
+  CELL_PADDING,
   getBorderStyle,
   getLineClampStyle,
   getTotalCellDividerStyle,
@@ -78,6 +79,7 @@ const PseudoDimensionCell = ({
         style={{
           ...getTextStyle(lineClamp),
           ...stickyCell,
+          ...(!isLeftColumn && { right: CELL_PADDING }),
           fontSize,
           fontFamily,
           fontWeight,

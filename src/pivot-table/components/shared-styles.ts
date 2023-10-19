@@ -16,7 +16,7 @@ export const CELL_PADDING = 4;
 
 export const topContainerCellStyle: React.CSSProperties = {
   display: "flex",
-  justifyContent: "flex-start",
+  justifyContent: "center",
   alignItems: "center",
 };
 

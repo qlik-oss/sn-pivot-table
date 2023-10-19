@@ -145,8 +145,8 @@ const useData = (
   }, [nextPage]);
 
   const headersData = useMemo<HeadersData>(
-    () => createHeadersData(qHyperCube, topDimensionData.rowCount, visibleLeftDimensionInfo),
-    [qHyperCube, topDimensionData.rowCount, visibleLeftDimensionInfo],
+    () => createHeadersData(qHyperCube, visibleTopDimensionInfo, visibleLeftDimensionInfo),
+    [qHyperCube, visibleTopDimensionInfo, visibleLeftDimensionInfo],
   );
 
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
