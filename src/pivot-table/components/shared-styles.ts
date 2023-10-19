@@ -48,6 +48,9 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   WebkitLineClamp: clampCount,
   WebkitBoxOrient: "vertical",
   lineBreak: "auto",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  wordBreak: "break-all",
 });
 
 export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "position" | "left" | "top"> = {
