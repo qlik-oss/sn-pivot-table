@@ -321,8 +321,7 @@ export default function useColumnWidth(
     const allLeftGridColumnsVisible = leftGridWidthInfo.leftGridWidth === leftGridWidthInfo.leftGridFullWidth;
     const allDataGridColumnsVisible = rightGridWidth === rightGridFullWidth;
 
-    if (allLeftGridColumnsVisible && allDataGridColumnsVisible) horizontalScrollbarHeightSetter(true);
-    else horizontalScrollbarHeightSetter();
+    horizontalScrollbarHeightSetter(allLeftGridColumnsVisible && allDataGridColumnsVisible);
   }, [leftGridWidthInfo, rightGridWidth, rightGridFullWidth, horizontalScrollbarHeightSetter]);
 
   return {
