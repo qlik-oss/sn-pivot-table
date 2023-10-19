@@ -117,7 +117,7 @@ export const getInnerContainerStyle = (isLeftColumn: boolean) => ({
   ...cellStyle,
   ...stickyCell,
   alignSelf: isLeftColumn ? "flex-start" : "center",
-  right: isLeftColumn ? undefined : CELL_PADDING,
+    ...(!isLeftColumn && { right: CELL_PADDING })
 });
 
 export const getTextStyle = ({
