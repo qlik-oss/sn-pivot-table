@@ -109,7 +109,7 @@ export const getContainerStyle = ({
     ...resolvedLockedSelectionStyle,
     display: "flex",
     zIndex,
-    ...(!isLeftColumn && { justifyContent: "center" })
+    ...(!isLeftColumn && { justifyContent: "center" }),
   };
 };
 
@@ -117,7 +117,7 @@ export const getInnerContainerStyle = (isLeftColumn: boolean) => ({
   ...cellStyle,
   ...stickyCell,
   alignSelf: isLeftColumn ? "flex-start" : "center",
-    ...(!isLeftColumn && { right: CELL_PADDING })
+  ...(!isLeftColumn && { right: CELL_PADDING }),
 });
 
 export const getTextStyle = ({
