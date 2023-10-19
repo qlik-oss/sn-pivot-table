@@ -311,15 +311,14 @@ export default function useColumnWidth(
 
   const showLastRightBorder = useMemo(() => totalWidth < rect.width, [totalWidth, rect.width]);
 
-  // Horizontal scrollbar managment
-  // if either of these are false -> consider horizontal scrollbar height
-  // if both true -> reset horizontal scrollbar height to 0
-  const allLeftGridColumnsVisible = leftGridWidthInfo.leftGridWidth == leftGridWidthInfo.leftGridFullWidth;
-  const allDataGridColumnsVisible = rightGridWidth == rightGridFullWidth;
+  // Horizontal scrollbar height control based on columns (full) visibility
   useEffect(() => {
+    const allLeftGridColumnsVisible = leftGridWidthInfo.leftGridWidth == leftGridWidthInfo.leftGridFullWidth;
+    const allDataGridColumnsVisible = rightGridWidth == rightGridFullWidth;
+
     if (allLeftGridColumnsVisible && allDataGridColumnsVisible) horizontalScrollbarHeightSetter(true);
     else horizontalScrollbarHeightSetter();
-  }, [leftGridWidthInfo.leftGridWidth, leftGridWidthInfo.leftGridColumnWidths, rightGridWidth, rightGridFullWidth]);
+  }, [leftGridWidthInfo, rightGridWidth, rightGridFullWidth]);
 
   return {
     ...leftGridWidthInfo,
