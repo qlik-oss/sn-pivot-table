@@ -25,18 +25,18 @@ describe("create headers data", () => {
     ];
     mockedExtractHeaders.mockReturnValue(headers);
 
-    const headersData = createHeadersData(hyperCube, 1, []);
+    const headersData = createHeadersData(hyperCube, [], []);
 
     expect(headersData.data).toEqual(headers);
-    expect(headersData.size.x).toBe(1);
-    expect(headersData.size.y).toBe(2);
+    expect(headersData.size.x).toBe(2);
+    expect(headersData.size.y).toBe(1);
   });
 
   test("should handle when there are no headers", () => {
     const headers = [] as HeaderCell[][];
     mockedExtractHeaders.mockReturnValue(headers);
 
-    const headersData = createHeadersData(hyperCube, 1, []);
+    const headersData = createHeadersData(hyperCube, [], []);
 
     expect(headersData.data).toEqual(headers);
     expect(headersData.size.x).toBe(0);

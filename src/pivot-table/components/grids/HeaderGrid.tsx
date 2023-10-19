@@ -40,6 +40,8 @@ const HeaderGrid = ({
 
   const hasMultipleRows = headersData.size.y > 1;
 
+  const lastRow = headersData.data.at(-1) ?? [];
+
   return (
     <div
       style={{
@@ -51,8 +53,8 @@ const HeaderGrid = ({
       }}
     >
       {hasMultipleRows && <EmptyHeaderCell columnWidths={columnWidths} />}
-      {headersData.data.map((col, colIndex) => {
-        const cell = col[col.length - 1] as HeaderCell;
+      {lastRow.map((col, colIndex) => {
+        const cell = col as HeaderCell;
         const iconsVisibilityStatus = getHeaderCellsIconsVisibilityStatus(colIndex, cell.isLocked, cell.label);
 
         return (
