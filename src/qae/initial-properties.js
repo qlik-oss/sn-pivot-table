@@ -80,6 +80,7 @@ const properties = {
  * @type object
  * @extends NxDimension
  * @property {InlineDimensionDef} qDef
+ * @property {AttributeExpressionDef[]} qAttributeExpressions
  */
 
 /**
@@ -88,6 +89,27 @@ const properties = {
  * @type object
  * @extends NxMeasure
  * @property {InlineMeasureDef} qDefs
+ * @property {AttributeExpressionDef[]} qAttributeExpressions
+ */
+
+/**
+ * @name AttributeExpressionDef
+ * @type {ColorByExpressionDef | NxAttrExprDef}
+ */
+
+/**
+ * Color by expression identifier
+ * @name ColorByExpressionId
+ * @type {"cellBackgroundColor" | "cellForegroundColor"}
+ */
+
+/**
+ * @name ColorByExpressionDef
+ * @type object
+ * @property {StringExpression} qExpression
+ * @property {ColorByExpressionId} id
+ * @example
+ * { qExpression: "=if(Sum([Sales Quantity]) > 500, green(), blue())", id: "cellBackgroundColor" }
  */
 
 /**

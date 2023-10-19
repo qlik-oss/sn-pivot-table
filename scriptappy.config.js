@@ -25,6 +25,9 @@ module.exports = {
         GenericObjectProperties: {
           url: "https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FGenericObjectProperties",
         },
+        NxAttrExprDef: {
+          url: "https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FNxAttrExprDef",
+        },
         NxDimension: {
           url: "https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FNxDimension",
         },
