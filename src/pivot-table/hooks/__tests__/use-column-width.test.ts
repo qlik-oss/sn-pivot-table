@@ -7,8 +7,9 @@ import {
 import { renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
 import { ColumnWidthType } from "../../../types/QIX";
-import type { LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
+import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
+import createHeadersData from "../../data/headers-data";
 import useColumnWidth, { ColumnWidthValues, EXPAND_ICON_WIDTH, TOTAL_CELL_PADDING } from "../use-column-width";
 
 type MeasureTextMock = jest.MockedFunction<(text: string) => number>;
@@ -28,9 +29,10 @@ describe("useColumnWidth", () => {
   let layoutService: LayoutService;
   let visibleLeftDimensionInfo: VisibleDimensionInfo[];
   let visibleTopDimensionInfo: VisibleDimensionInfo[];
+  let headersData: HeadersData;
 
   beforeEach(() => {
-    dimInfo = { qApprMaxGlyphCount: 1 } as ExtendedDimensionInfo;
+    dimInfo = { qApprMaxGlyphCount: 1, qGroupFieldDefs: [""], qGroupPos: 0 } as ExtendedDimensionInfo;
     meaInfo = { qFallbackTitle: "1", qApprMaxGlyphCount: 0 } as ExtendedMeasureInfo;
 
     rect = { width: 400, height: 100 };
@@ -71,7 +73,14 @@ describe("useColumnWidth", () => {
   const renderUseColumnWidth = () => {
     const {
       result: { current },
-    } = renderHook(() => useColumnWidth(layoutService, rect, visibleLeftDimensionInfo, visibleTopDimensionInfo));
+    } = renderHook(() => {
+      headersData = createHeadersData(
+        layoutService.layout.qHyperCube,
+        visibleTopDimensionInfo,
+        visibleLeftDimensionInfo,
+      );
+      return useColumnWidth(layoutService, rect, headersData, visibleTopDimensionInfo);
+    });
     return current;
   };
 
@@ -95,9 +104,18 @@ describe("useColumnWidth", () => {
       // need to make the width bigger so the col widths are not scaled
       rect = { width: 800, height: 100 };
       const pixels = 50;
-      dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
-      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
-      const dimInfoWithNaN = { columnWidth: { type: ColumnWidthType.Pixels, pixels: NaN } } as ExtendedDimensionInfo;
+      dimInfo = {
+        columnWidth: { type: ColumnWidthType.Pixels, pixels },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = {
+        columnWidth: { type: ColumnWidthType.Pixels },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
+      const dimInfoWithNaN = {
+        columnWidth: { type: ColumnWidthType.Pixels, pixels: NaN },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
@@ -108,10 +126,17 @@ describe("useColumnWidth", () => {
 
     test("should return left column width for percentage setting", () => {
       const percentage = 10;
-      dimInfo = { columnWidth: { type: ColumnWidthType.Percentage, percentage } } as ExtendedDimensionInfo;
-      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Percentage } } as ExtendedDimensionInfo;
+      dimInfo = {
+        columnWidth: { type: ColumnWidthType.Percentage, percentage },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = {
+        columnWidth: { type: ColumnWidthType.Percentage },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
       const dimInfoWithNaN = {
         columnWidth: { type: ColumnWidthType.Percentage, percentage: NaN },
+        qGroupFieldDefs: [""],
       } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
 
@@ -136,10 +161,17 @@ describe("useColumnWidth", () => {
       const { leftGridColumnWidths } = renderUseColumnWidth();
       expect(leftGridColumnWidths[3]).toBe(60);
     });
+
     test("should return the original width of left columns", () => {
       const pixels = 100;
-      dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedDimensionInfo;
-      const dimInfoWithoutPixels = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedDimensionInfo;
+      dimInfo = {
+        columnWidth: { type: ColumnWidthType.Pixels, pixels },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
+      const dimInfoWithoutPixels = {
+        columnWidth: { type: ColumnWidthType.Pixels },
+        qGroupFieldDefs: [""],
+      } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
       const { leftGridColumnWidths } = renderUseColumnWidth();
 
@@ -156,7 +188,10 @@ describe("useColumnWidth", () => {
       percentageConversion = (rect.width - lefSideWidth) / 100;
       layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
       visibleLeftDimensionInfo = [
-        { columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER } } as ExtendedDimensionInfo,
+        {
+          columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER },
+          qGroupFieldDefs: [""],
+        } as ExtendedDimensionInfo,
       ];
       visibleTopDimensionInfo = [dimInfo, dimInfo, -1];
     });
