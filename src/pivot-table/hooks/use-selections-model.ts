@@ -4,15 +4,17 @@ import { Q_PATH } from "../../constants";
 import { NxSelectionCellType } from "../../types/QIX";
 import type { ExtendedSelections, PageInfo } from "../../types/types";
 
+export type IsCellSelect = (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
+
 export interface SelectionModel {
   select: (
     qType: EngineAPI.NxSelectionCellType,
     qRow: number,
     qCol: number,
   ) => (evt: React.MouseEvent) => Promise<void>;
-  isSelected: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
+  isSelected: IsCellSelect;
   isActive: boolean;
-  isLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
+  isLocked: IsCellSelect;
 }
 
 export interface SelectedPivotCell {

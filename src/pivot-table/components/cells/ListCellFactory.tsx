@@ -4,6 +4,7 @@ import type { ListItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { shouldShowTotalCellDivider } from "../../hooks/use-is-total-cell";
 import DimensionCell from "./DimensionCell";
+import DimensionValue from "./DimensionValue";
 import EmptyCell from "./EmptyCell";
 import PseudoDimensionCell from "./PseudoDimensionCell";
 import TotalsCell from "./TotalsCell";
@@ -30,7 +31,7 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
   const cell = isLast ? list[index] : listValues[index];
   const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
 
-  if (cell === undefined || cell.isEmpty) {
+  if (cell === undefined) {
     const { background } = styleService.dimensionValues;
 
     return (
@@ -46,41 +47,39 @@ const ListCellFactory = ({ index, style, data }: ListCallbackProps): JSX.Element
     );
   }
 
-  if (cell.isPseudoDimension) {
-    return (
-      <PseudoDimensionCell
-        cell={cell}
-        data={data}
-        style={style}
-        isLeftColumn={isLeftColumn}
-        isLastRow={isLastRow}
-        isLastColumn={isLastColumn}
-        showLastBorder={showLastBorder}
-        showTotalCellDivider={showTotalCellDivider}
-      />
-    );
-  }
+  // if (cell.isPseudoDimension) {
+  //   return (
+  //     <PseudoDimensionCell
+  //       cell={cell}
+  //       data={data}
+  //       style={style}
+  //       isLeftColumn={isLeftColumn}
+  //       isLastRow={isLastRow}
+  //       isLastColumn={isLastColumn}
+  //       showLastBorder={showLastBorder}
+  //       showTotalCellDivider={showTotalCellDivider}
+  //     />
+  //   );
+  // }
 
-  if (cell.isTotal) {
-    return (
-      <TotalsCell
-        cell={cell}
-        style={style}
-        isLeftColumn={isLeftColumn}
-        isLastRow={isLastRow}
-        isLastColumn={isLastColumn}
-        showTotalCellDivider={showTotalCellDivider}
-        showLastBorder={showLastBorder}
-      />
-    );
-  }
+  // if (cell.isTotal) {
+  //   return (
+  //     <TotalsCell
+  //       cell={cell}
+  //       style={style}
+  //       isLeftColumn={isLeftColumn}
+  //       isLastRow={isLastRow}
+  //       isLastColumn={isLastColumn}
+  //       showTotalCellDivider={showTotalCellDivider}
+  //       showLastBorder={showLastBorder}
+  //     />
+  //   );
+  // }
 
   return (
-    <DimensionCell
+    <DimensionValue
       cell={cell}
       data={data}
-      rowIndex={cell.pageY}
-      colIndex={cell.x}
       style={style}
       isLeftColumn={isLeftColumn}
       isLastRow={isLastRow}
