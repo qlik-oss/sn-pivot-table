@@ -68,7 +68,7 @@ const getScrollableAreasDimensions = ({
         height: containerHeight + modifiedHorizontalScrollbarHeight,
       },
       sticky: {
-        width: totalWidth - modifiedVerticalScrollbarWidth,
+        width: tableRect.width - modifiedVerticalScrollbarWidth,
         height: tableRect.height,
       },
     },
