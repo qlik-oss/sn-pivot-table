@@ -1,10 +1,11 @@
 import React from "react";
 import type { Cell, ShowLastBorder } from "../../../types/types";
-import { BOLD_FONT_WEIGHT } from "../../constants";
+import { BOLD_FONT_WEIGHT, DEFAULT_LINE_CLAMP } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
   CELL_PADDING,
   getBorderStyle,
+  getLineClampStyle,
   getTotalCellDividerStyle,
   leftContainerCellStyle,
   stickyCell,
@@ -67,6 +68,7 @@ const TotalsCell = ({
           ...stickyCell,
           ...(cell.expressionColor.color && { color: cell.expressionColor.color }),
           ...(!isLeftColumn && { right: CELL_PADDING }),
+          ...getLineClampStyle(isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP),
           fontWeight,
           fontStyle,
           textDecoration,
