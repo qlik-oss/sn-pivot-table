@@ -146,7 +146,7 @@ export default function useColumnWidth(
     return {
       leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
       leftGridColumnWidths: columnWidths,
-      leftGridFullWidth: columnWidths.reduce((acc, curr) => acc + curr, 0),
+      leftGridFullWidth: sumOfWidths,
     };
   }, [
     headersData,
