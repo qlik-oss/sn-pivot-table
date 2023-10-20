@@ -120,23 +120,30 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     }
   };
 
-  const horizontalScrollbarHeightSetter = (shouldResetHeight?: boolean) => {
-    if (shouldResetHeight) {
-      setHorizontalScrollbarHeight(0);
-      return;
-    }
+  const horizontalScrollbarHeightSetter = useCallback(
+    (shouldResetHeight?: boolean) => {
+      if (shouldResetHeight) {
+        setHorizontalScrollbarHeight(0);
+        return;
+      }
 
-    let maxScrollbarHeight = 0;
-    if (leftGridHorizontalScrollableContainerRef.current) {
-      const el = leftGridHorizontalScrollableContainerRef.current;
-      maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
-    }
-    if (dataGridHorizontalScrollableContainerRef.current) {
-      const el = dataGridHorizontalScrollableContainerRef.current;
-      maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
-    }
-    setHorizontalScrollbarHeight(maxScrollbarHeight);
-  };
+      let maxScrollbarHeight = 0;
+      if (leftGridHorizontalScrollableContainerRef.current) {
+        const el = leftGridHorizontalScrollableContainerRef.current;
+        maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
+      }
+      if (dataGridHorizontalScrollableContainerRef.current) {
+        const el = dataGridHorizontalScrollableContainerRef.current;
+        maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
+      }
+      setHorizontalScrollbarHeight(maxScrollbarHeight);
+    },
+    [
+      leftGridHorizontalScrollableContainerRef.current,
+      dataGridHorizontalScrollableContainerRef.current,
+      setHorizontalScrollbarHeight,
+    ],
+  );
 
   return {
     getScrollLeft,
