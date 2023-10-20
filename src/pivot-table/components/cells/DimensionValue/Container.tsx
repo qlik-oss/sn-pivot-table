@@ -42,7 +42,14 @@ const Container = ({
   const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
   const isCellLocked = cell ? isLocked(selectionCellType, cell.y, cell.x) || cell.isLockedByDimension : false;
   const isNonSelectableCell =
-    cell === undefined || isCellLocked || cell.isEmpty || !interactions.active || !interactions.select || cell.isNull;
+    cell === undefined ||
+    isCellLocked ||
+    !interactions.active ||
+    !interactions.select ||
+    cell.isEmpty ||
+    cell.isNull ||
+    cell.isPseudoDimension ||
+    cell.isTotal;
   const isCellSelected = cell ? isSelected(selectionCellType, cell.y, cell.x) : false;
   const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, cell.x);
 
@@ -71,6 +78,7 @@ const Container = ({
       data-testid={testId}
       data-row-idx={cell.y}
       data-column-idx={cell.x}
+      data-cell-type={cell.ref.qType}
     >
       {children}
     </div>
