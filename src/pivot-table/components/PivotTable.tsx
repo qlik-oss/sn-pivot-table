@@ -106,7 +106,7 @@ export const StickyPivotTable = ({
     horizontalScrollbarHeightSetter,
   );
 
-  const { ROOT_WRAPPER, LEFT_WRAPPER, RIGHT_WRAPPER } = getScrollableAreasDimensions({
+  const { rootWrapper, leftWrapper, rightWrapper } = getScrollableAreasDimensions({
     tableRect,
 
     containerHeight,
@@ -128,15 +128,15 @@ export const StickyPivotTable = ({
   return (
     <ScrollableContainer
       ref={verticalScrollableContainerRef}
-      {...ROOT_WRAPPER.scrollable}
+      {...rootWrapper.scrollable}
       onScroll={onVerticalScrollHandler}
       showVerticalScrollbar
       showHorizontalScrollbar={false}
       origin={ScrollableContainerOrigin.CONTAINER_GRID}
     >
-      <FullSizeContainer {...ROOT_WRAPPER.fullSize}>
+      <FullSizeContainer {...rootWrapper.fullSize}>
         <StickyContainer
-          {...ROOT_WRAPPER.sticky}
+          {...rootWrapper.sticky}
           style={{
             display: "grid",
             gridTemplateColumns: leftGridWidth // If leftColumnsWidth is 0, this means no data exist for "headers" or "left"
@@ -147,19 +147,19 @@ export const StickyPivotTable = ({
           {Boolean(leftGridWidth) && (
             <ScrollableContainer
               ref={leftGridHorizontalScrollableContainerRef}
-              {...LEFT_WRAPPER.containers.scrollable}
+              {...leftWrapper.containers.scrollable}
               onScroll={onHorizontalScrollHandler}
               showVerticalScrollbar={false}
               showHorizontalScrollbar
               origin={ScrollableContainerOrigin.LEFT_GRID}
             >
-              <FullSizeContainer {...LEFT_WRAPPER.containers.fullSize}>
-                <StickyContainer {...LEFT_WRAPPER.containers.sticky}>
+              <FullSizeContainer {...leftWrapper.containers.fullSize}>
+                <StickyContainer {...leftWrapper.containers.sticky}>
                   <HeaderGrid
                     columnWidths={leftGridColumnWidths}
                     getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
                     rowHight={headerCellHeight}
-                    height={LEFT_WRAPPER.headerGrid.height}
+                    height={leftWrapper.headerGrid.height}
                     headersData={headersData}
                     translator={translator}
                     changeSortOrder={changeSortOrder}
@@ -169,7 +169,7 @@ export const StickyPivotTable = ({
                   <LeftGrid
                     dataModel={dataModel}
                     leftGridRef={leftGridRef}
-                    {...LEFT_WRAPPER.leftGrid}
+                    {...leftWrapper.leftGrid}
                     columnWidths={leftGridColumnWidths}
                     getScrollTop={getScrollTop}
                     layoutService={layoutService}
@@ -185,19 +185,19 @@ export const StickyPivotTable = ({
 
           <ScrollableContainer
             ref={dataGridHorizontalScrollableContainerRef}
-            {...RIGHT_WRAPPER.containers.scrollable}
+            {...rightWrapper.containers.scrollable}
             onScroll={onHorizontalScrollHandler}
             showVerticalScrollbar={false}
             showHorizontalScrollbar
             origin={ScrollableContainerOrigin.DATA_GRID}
           >
-            <FullSizeContainer {...RIGHT_WRAPPER.containers.fullSize}>
-              <StickyContainer {...RIGHT_WRAPPER.containers.sticky}>
+            <FullSizeContainer {...rightWrapper.containers.fullSize}>
+              <StickyContainer {...rightWrapper.containers.sticky}>
                 <TopGrid
                   dataModel={dataModel}
                   topGridRef={topGridRef}
                   rowHightCallback={headerCellRowHightCallback}
-                  {...RIGHT_WRAPPER.topGrid}
+                  {...rightWrapper.topGrid}
                   getScrollLeft={getScrollLeft}
                   layoutService={layoutService}
                   topDimensionData={topDimensionData}
@@ -210,7 +210,7 @@ export const StickyPivotTable = ({
                   dataModel={dataModel}
                   dataGridRef={dataGridRef}
                   rowHightCallback={contentCellRowHightCallback}
-                  {...RIGHT_WRAPPER.dataGrid}
+                  {...rightWrapper.dataGrid}
                   viewService={viewService}
                   layoutService={layoutService}
                   measureData={measureData}

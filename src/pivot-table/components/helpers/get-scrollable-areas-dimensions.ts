@@ -24,13 +24,13 @@ interface GetScrollableAreasDimensionsProps {
 }
 
 interface GetScrollableAreasDimensionsResult {
-  ROOT_WRAPPER: ContainerDims;
-  LEFT_WRAPPER: {
+  rootWrapper: ContainerDims;
+  leftWrapper: {
     containers: ContainerDims;
     headerGrid: Rect;
     leftGrid: Rect;
   };
-  RIGHT_WRAPPER: {
+  rightWrapper: {
     containers: ContainerDims;
     topGrid: Rect;
     dataGrid: Rect;
@@ -61,7 +61,7 @@ const getScrollableAreasDimensions = ({
   const childWrappersStickyContainerHeight = tableRect.height - modifiedHorizontalScrollbarHeight;
 
   return {
-    ROOT_WRAPPER: {
+    rootWrapper: {
       scrollable: tableRect,
       fullSize: {
         width: totalWidth - modifiedVerticalScrollbarWidth,
@@ -72,7 +72,7 @@ const getScrollableAreasDimensions = ({
         height: tableRect.height,
       },
     },
-    LEFT_WRAPPER: {
+    leftWrapper: {
       containers: {
         scrollable: {
           width: leftGridWidth,
@@ -96,7 +96,7 @@ const getScrollableAreasDimensions = ({
         height: leftGridHeight - modifiedHorizontalScrollbarHeight,
       },
     },
-    RIGHT_WRAPPER: {
+    rightWrapper: {
       containers: {
         scrollable: {
           width: rightGridWidth + GRID_BORDER - modifiedVerticalScrollbarWidth,

@@ -45,41 +45,14 @@ describe("getScrollableAreasDimensions()", () => {
       horizontalScrollbarHeight,
     });
 
-  test("check result object structure to be correct", () => {
-    const expectRectStructure = expect.objectContaining({
-      width: expect.any(Number),
-      height: expect.any(Number),
-    });
-
-    const expectContainerStructure = expect.objectContaining({
-      scrollable: expectRectStructure,
-      fullSize: expectRectStructure,
-      sticky: expectRectStructure,
-    });
-
-    expect(callFunction()).toMatchObject({
-      ROOT_WRAPPER: expectContainerStructure,
-      LEFT_WRAPPER: {
-        containers: expectContainerStructure,
-        headerGrid: expectRectStructure,
-        leftGrid: expectRectStructure,
-      },
-      RIGHT_WRAPPER: {
-        containers: expectContainerStructure,
-        topGrid: expectRectStructure,
-        dataGrid: expectRectStructure,
-      },
-    });
-  });
-
   test("should return expected results", () => {
     expect(callFunction()).toEqual({
-      ROOT_WRAPPER: {
+      rootWrapper: {
         scrollable: { width: 200, height: 340 },
         fullSize: { width: 187, height: 353 },
         sticky: { width: 187, height: 340 },
       },
-      LEFT_WRAPPER: {
+      leftWrapper: {
         containers: {
           scrollable: { width: 80, height: 340 },
           fullSize: { width: 80, height: 340 },
@@ -88,7 +61,7 @@ describe("getScrollableAreasDimensions()", () => {
         headerGrid: { width: -1, height: 40 },
         leftGrid: { width: 80, height: 287 },
       },
-      RIGHT_WRAPPER: {
+      rightWrapper: {
         containers: {
           // one extra pixel because of GRID_BORDER
           scrollable: { width: 108, height: 340 },
@@ -105,12 +78,12 @@ describe("getScrollableAreasDimensions()", () => {
     allRowsVisible = true;
 
     expect(callFunction()).toEqual({
-      ROOT_WRAPPER: {
+      rootWrapper: {
         scrollable: { width: 200, height: 340 },
         fullSize: { width: 200, height: 340 },
         sticky: { width: 200, height: 340 },
       },
-      LEFT_WRAPPER: {
+      leftWrapper: {
         containers: {
           scrollable: { width: 80, height: 354 },
           fullSize: { width: 80, height: 340 },
@@ -119,7 +92,7 @@ describe("getScrollableAreasDimensions()", () => {
         headerGrid: { width: -1, height: 40 },
         leftGrid: { width: 80, height: 300 },
       },
-      RIGHT_WRAPPER: {
+      rightWrapper: {
         containers: {
           // one extra pixel because of GRID_BORDER
           scrollable: { width: 121, height: 354 },
