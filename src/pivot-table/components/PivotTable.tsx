@@ -131,6 +131,7 @@ export const StickyPivotTable = ({
               <FullSizeContainer width={leftGridWidth} height={containerHeight}>
                 <StickyContainer width={leftGridWidth} height={tableRect.height}>
                   <HeaderGrid
+                    dataModel={dataModel}
                     columnWidths={leftGridColumnWidths}
                     getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
                     rowHight={headerCellHeight}

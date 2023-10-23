@@ -1,10 +1,9 @@
 /*  eslint-disable no-param-reassign */
 import { useCallback, useMemo } from "react";
 import { Q_PATH } from "../../constants";
-import type { ColumnWidth, Model } from "../../types/QIX";
+import type { Model } from "../../types/QIX";
 import {
   type ApplyColumnWidth,
-  type Cell,
   type DataModel,
   type ExpandOrCollapser,
   type FetchMoreData,
@@ -83,7 +82,10 @@ export default function useDataModel({
   );
 
   const applyColumnWidth = useCallback<ApplyColumnWidth>(
-    (newColumnWidth: ColumnWidth, { isPseudoDimension, isAncestorPseudoDimension, isLeftColumn, x, y }: Cell) => {
+    (
+      newColumnWidth,
+      { isPseudoDimension = false, isAncestorPseudoDimension = false, isLeftColumn = true, x = 0, y = 0 },
+    ) => {
       const { qNoOfLeftDims, qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
 
       let index: number;
@@ -111,8 +113,8 @@ export default function useDataModel({
             qValue: JSON.stringify(newColumnWidth),
           };
 
-      // typescript doesn't like unresolved promises, so we have to do a no-op then
-      // there is nothing that needs to happen after this, so no need for the function to be async
+      // typescript doesn't like unresolved promises, so we have to do a no-op .then()
+      // there is nothing that needs to happen after applyPatches, so no need for this function to be async
       model?.applyPatches([patch], true).then(
         () => {},
         () => {},

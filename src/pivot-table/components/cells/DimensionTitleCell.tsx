@@ -4,23 +4,27 @@ import Locked from "@qlik-trial/sprout/icons/react/Lock";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
 import type { SortDirection, SortingRelatedArgs } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import React, { useRef } from "react";
-import type { ChangeActivelySortedHeader, ChangeSortOrder, HeaderCell } from "../../../types/types";
+import type { Cell, ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeaderCell } from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import type { GetHeaderCellsIconsVisibilityStatus } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { getBorderStyle } from "../shared-styles";
+import ColumnAdjuster from "./ColumnAdjuster";
 import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
 
 interface DimensionTitleCellProps {
+  dataModel: DataModel;
   cell: HeaderCell;
   style: React.CSSProperties;
   isLastColumn: boolean;
+  isLastRow: boolean;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
   iconsVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus>;
+  columnWidth: number;
 }
 
 export const testId = "title-cell";
@@ -32,13 +36,16 @@ const FLAGS = {
 };
 
 const DimensionTitleCell = ({
+  dataModel,
   cell,
   style,
   isLastColumn,
+  isLastRow,
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
   iconsVisibilityStatus,
+  columnWidth,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -66,6 +73,11 @@ const DimensionTitleCell = ({
   const sortRelatedArgs: SortingRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
   const searchRelatedArgs = { embed, listboxRef };
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
+
+  const cellInfo = {
+    x: cell.colIdx,
+    isAncestorPseudDimension: cell.isAncestorPseudoDimension,
+  };
 
   return (
     <StyledHeaderCellWrapper
@@ -111,6 +123,8 @@ const DimensionTitleCell = ({
           <StyledHeaderAnchor ref={anchorRef} />
         </>
       )}
+      {/* TODO: columnWidth for pseudoDims */}
+      {isLastRow && <ColumnAdjuster cell={cellInfo} columnWidth={columnWidth} dataModel={dataModel} />}
     </StyledHeaderCellWrapper>
   );
 };

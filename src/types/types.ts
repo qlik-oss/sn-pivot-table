@@ -5,7 +5,7 @@ import type { ColumnWidth, ExtendedDimensionInfo, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
-export type ApplyColumnWidth = (columnWidth: ColumnWidth, cell: Cell) => void;
+export type ApplyColumnWidth = (columnWidth: ColumnWidth, cell: CellInfo) => void;
 
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
@@ -20,6 +20,7 @@ export interface HeaderCell extends HeaderData {
   qReverseSort?: boolean;
   isLocked: boolean;
   qApprMaxGlyphCount?: number;
+  isAncestorPseudoDimension?: boolean;
 }
 
 export type MeasureData = MeasureCell[][];
@@ -95,6 +96,14 @@ export interface Cell {
   isLeafNode: boolean;
   isAncestorPseudoDimension: boolean;
   expressionColor: ExpressionColor;
+}
+
+export interface CellInfo {
+  x?: number;
+  y?: number;
+  isLeftColumn?: boolean;
+  isPseudoDimension?: boolean;
+  isAncestorPseudoDimension?: boolean;
 }
 
 export interface MeasureCell {

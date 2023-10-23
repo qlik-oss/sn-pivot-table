@@ -1,11 +1,12 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
-import type { ChangeActivelySortedHeader, ChangeSortOrder, HeadersData } from "../../../types/types";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeadersData } from "../../../types/types";
 import type { GetHeaderCellsIconsVisibilityStatus } from "../../hooks/use-column-width";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
 interface HeaderGridProps {
+  dataModel: DataModel;
   columnWidths: number[];
   rowHight: number;
   headersData: HeadersData;
@@ -22,6 +23,7 @@ const containerStyle: React.CSSProperties = {
 };
 
 const HeaderGrid = ({
+  dataModel,
   columnWidths,
   rowHight,
   headersData,
@@ -46,6 +48,7 @@ const HeaderGrid = ({
           const iconsVisibilityStatus = getHeaderCellsIconsVisibilityStatus(colIndex, cell.isLocked, cell.label);
           acc.push(
             <DimensionTitleCell
+              dataModel={dataModel}
               key={cell.id}
               style={{
                 width: columnWidths[colIndex],
@@ -54,11 +57,13 @@ const HeaderGrid = ({
                 gridRow: rowIndex + 1,
               }}
               isLastColumn={colIndex === headersData.size.x - 1}
+              isLastRow={rowIndex === headersData.size.y - 1}
               translator={translator}
               changeSortOrder={changeSortOrder}
               changeActivelySortedHeader={changeActivelySortedHeader}
               cell={cell}
               iconsVisibilityStatus={iconsVisibilityStatus}
+              columnWidth={columnWidths[colIndex]}
             />,
           );
         }

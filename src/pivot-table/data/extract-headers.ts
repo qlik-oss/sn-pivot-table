@@ -44,6 +44,7 @@ const extractHeaders = (
         qApprMaxGlyphCount: qDimensionInfo.qApprMaxGlyphCount,
         isDim: true,
         headTextAlign: "left",
+        isAncestorPseudoDimension: matrix[rowCount - 1].some((cell) => cell && !cell.isDim),
       };
     }
   });

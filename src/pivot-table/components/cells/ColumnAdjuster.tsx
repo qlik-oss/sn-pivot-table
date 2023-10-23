@@ -2,16 +2,17 @@ import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { preventDefaultBehavior } from "@qlik/nebula-table-utils/lib/utils";
 import React, { useRef, useState } from "react";
 import { ColumnWidthType } from "../../../types/QIX";
-import type { Cell, DataModel } from "../../../types/types";
+import type { DataModel } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import { ColumnWidthValues } from "../../hooks/use-column-width";
+import type { CellInfo } from "../../hooks/use-data-model";
 import { CELL_PADDING } from "../shared-styles";
 import { AdjusterBorder, AdjusterHitArea } from "./styles";
 
 const POSITION_ADJUSTMENT = CELL_PADDING + GRID_BORDER;
 
 interface AdjusterProps {
-  cell: Cell;
+  cell: CellInfo;
   columnWidth: number;
   dataModel: DataModel | undefined;
 }
