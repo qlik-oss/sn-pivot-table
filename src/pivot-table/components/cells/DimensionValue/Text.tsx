@@ -2,7 +2,7 @@ import React, { type ReactNode } from "react";
 import type { Cell, StyleService } from "../../../../types/types";
 import { DEFAULT_LINE_CLAMP } from "../../../constants";
 import { getLineClampStyle } from "../../shared-styles";
-import { getColor, getFontStyle, getFontWeight, getTextDecoration } from "../utils/get-dimension-value-cell-style";
+import { getColor, getFontStyle, getFontWeight, getTextDecoration } from "./utils/get-style";
 
 type Props = {
   isLeftColumn: boolean;
@@ -19,6 +19,8 @@ const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Pr
       fontWeight: getFontWeight({ cell, styleService }),
       fontStyle: getFontStyle({ cell, styleService }),
       textDecoration: getTextDecoration({ cell, styleService }),
+      fontFamily: styleService.dimensionValues.fontFamily,
+      fontSize: styleService.dimensionValues.fontSize,
       ...getLineClampStyle(isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP),
     }}
   >

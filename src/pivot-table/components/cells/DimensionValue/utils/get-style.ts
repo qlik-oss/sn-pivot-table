@@ -1,6 +1,6 @@
-import type { Cell, StyleService } from "../../../../types/types";
-import { BOLD_FONT_WEIGHT } from "../../../constants";
-import { getLockedStyleFromSelection } from "./get-dimension-cell-style";
+import type { Cell, StyleService } from "../../../../../types/types";
+import { BOLD_FONT_WEIGHT } from "../../../../constants";
+import { getLockedStyleFromSelection } from "../../utils/get-dimension-cell-style";
 
 type GetStyleServiceValueProps = {
   cell?: Cell;

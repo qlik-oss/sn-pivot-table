@@ -6,7 +6,7 @@ import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import MinusIcon from "../../icons/Minus";
 import PlusIcon from "../../icons/Plus";
-import { getColor } from "../utils/get-dimension-value-cell-style";
+import { getColor } from "./utils/get-style";
 
 type Props = {
   isLeftColumn: boolean;

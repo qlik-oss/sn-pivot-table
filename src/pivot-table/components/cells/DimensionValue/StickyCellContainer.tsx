@@ -13,7 +13,7 @@ const StickyCellContainer = ({ children, isLeftColumn }: Props): JSX.Element => 
       flexDirection: "row",
       alignItems: "center",
       gap: `${CELL_PADDING}px`,
-      ...stickyCell,
+      ...stickyCell, // TODO can be hard-coded here?
       alignSelf: isLeftColumn ? "flex-start" : "center",
       ...(!isLeftColumn && { right: CELL_PADDING }),
     }}

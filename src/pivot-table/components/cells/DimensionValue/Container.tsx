@@ -5,7 +5,7 @@ import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import { getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
-import { getBackground, getCursor } from "../utils/get-dimension-value-cell-style";
+import { getBackground, getCursor } from "./utils/get-style";
 
 type Props = {
   text: string;
