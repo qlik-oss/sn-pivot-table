@@ -35,7 +35,6 @@ describe("useColumnWidth", () => {
   let layoutService: LayoutService;
   let visibleLeftDimensionInfo: VisibleDimensionInfo[];
   let visibleTopDimensionInfo: VisibleDimensionInfo[];
-  let allRowsVisible: boolean;
   let verticalScrollbarWidth: number;
   let horizontalScrollbarHeightSetter: (shouldResetHeight?: boolean) => void;
   let headersData: HeadersData;
@@ -73,7 +72,6 @@ describe("useColumnWidth", () => {
       estimateLineCount: jest.fn() as EstimateLineCountMock,
     };
     mockedUseMeasureText.mockReturnValue(mockedMeasureText);
-    allRowsVisible = false;
     verticalScrollbarWidth = 0;
     horizontalScrollbarHeightSetter = jest.fn();
   });
@@ -96,7 +94,6 @@ describe("useColumnWidth", () => {
         rect,
         headersData,
         visibleTopDimensionInfo,
-        allRowsVisible,
         verticalScrollbarWidth,
         horizontalScrollbarHeightSetter,
       );
@@ -351,7 +348,6 @@ describe("useColumnWidth", () => {
     test("should subtract scrollbar width from columns", () => {
       rect = { width: 110, height: 100 };
       meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
-      allRowsVisible = false;
       // normal scrollbar width on mac, it will be automatically calculated on each operating system
       verticalScrollbarWidth = 14;
       visibleTopDimensionInfo = [dimInfo, dimInfo, dimInfo];
@@ -366,8 +362,7 @@ describe("useColumnWidth", () => {
     test("should not subtract scrollbar width from columns when all rows are visible", () => {
       rect = { width: 110, height: 100 };
       meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
-      allRowsVisible = true;
-      verticalScrollbarWidth = 14;
+      verticalScrollbarWidth = 0;
       visibleTopDimensionInfo = [dimInfo, dimInfo, dimInfo];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();

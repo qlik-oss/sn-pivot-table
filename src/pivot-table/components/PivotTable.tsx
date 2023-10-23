@@ -101,7 +101,6 @@ export const StickyPivotTable = ({
     tableRect,
     headersData,
     visibleTopDimensionInfo,
-    allRowsVisible,
     verticalScrollbarWidth,
     horizontalScrollbarHeightSetter,
   );
