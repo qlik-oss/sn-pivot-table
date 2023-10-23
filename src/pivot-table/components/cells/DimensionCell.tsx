@@ -1,6 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import { NxSelectionCellType } from "../../../types/QIX";
 import type { Cell, DataModel, ListItemData } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
@@ -98,11 +97,10 @@ const DimensionCell = ({
   const styleService = useStyleContext();
   const { interactions } = useBaseContext();
   const { select, isSelected, isActive, isLocked } = useSelectionsContext();
-  const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellLocked = isLocked(selectionCellType, cell.y, colIndex) || cell.isLockedByDimension;
+  const isCellLocked = isLocked(cell) || cell.isLockedByDimension;
   const isNonSelectableCell =
     isCellLocked || cell.isEmpty || !interactions.active || !interactions.select || cell.isNull;
-  const isCellSelected = isSelected(selectionCellType, cell.y, colIndex);
+  const isCellSelected = isSelected(cell);
   const resolvedTextStyle = getTextStyle({
     isLeftColumn,
     styleService,
@@ -129,7 +127,7 @@ const DimensionCell = ({
     expressionBackground: cell.expressionColor.background,
     zIndex: layoutService.size.x - colIndex,
   });
-  const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, colIndex);
+  const onClickHandler = isNonSelectableCell ? undefined : select(cell);
   const text = cell.isNull ? layoutService.getNullValueText() : qText;
   let cellIcon = null;
 
