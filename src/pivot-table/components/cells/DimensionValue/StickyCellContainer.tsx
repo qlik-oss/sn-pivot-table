@@ -6,17 +6,13 @@ type Props = {
   children: ReactNode;
 };
 
-const cellStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  gap: "4px",
-};
-
-const InnerContainer = ({ children, isLeftColumn }: Props): JSX.Element => (
+const StickyCellContainer = ({ children, isLeftColumn }: Props): JSX.Element => (
   <div
     style={{
-      ...cellStyle,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      gap: `${CELL_PADDING}px`,
       ...stickyCell,
       alignSelf: isLeftColumn ? "flex-start" : "center",
       ...(!isLeftColumn && { right: CELL_PADDING }),
@@ -26,4 +22,4 @@ const InnerContainer = ({ children, isLeftColumn }: Props): JSX.Element => (
   </div>
 );
 
-export default InnerContainer;
+export default StickyCellContainer;
