@@ -24,12 +24,8 @@ type SelectedRowOrColumn = {
   coord: number;
 };
 
-const getNextState = (
-  cell: Cell,
-  selectedPivotCells: Map<Cell, SelectedPivotCell>,
-  selectedRowOrColumn: SelectedRowOrColumn,
-) => {
-  const nextSelectedPivotCells = new Map(selectedPivotCells);
+const getNextState = (cell: Cell, selectedPivotCells: Set<Cell>, selectedRowOrColumn: SelectedRowOrColumn) => {
+  const nextSelectedPivotCells = new Set(selectedPivotCells);
   const nextSelectedRowOrColumn = { ...selectedRowOrColumn };
 
   if (nextSelectedPivotCells.has(cell)) {
@@ -46,7 +42,7 @@ const getNextState = (
     };
   }
 
-  nextSelectedPivotCells.set(cell, { qType: cell.selectionCellType, qRow: cell.y, qCol: cell.x });
+  nextSelectedPivotCells.add(cell);
   nextSelectedRowOrColumn.selectionCellType = cell.selectionCellType;
   nextSelectedRowOrColumn.coord = cell.selectionCellType === NxSelectionCellType.NX_CELL_LEFT ? cell.x : cell.y;
 
@@ -61,7 +57,7 @@ export default function useSelectionsModel(
   updatePageInfo: (args: Partial<PageInfo>) => void,
 ): SelectionModel {
   const isActive = selections.isActive();
-  const [selectedPivotCells, setSelectedPivotCells] = useState<Map<Cell, SelectedPivotCell>>(new Map());
+  const [selectedPivotCells, setSelectedPivotCells] = useState<Set<Cell>>(new Set());
   const [selectedRowOrColumn, setSelectedRowOrColumn] = useState<SelectedRowOrColumn>({
     selectionCellType: null,
     coord: -1,
@@ -70,7 +66,7 @@ export default function useSelectionsModel(
   useEffect(() => {
     const clearSelections = () => {
       setSelectedRowOrColumn({ selectionCellType: null, coord: -1 });
-      setSelectedPivotCells(new Map());
+      setSelectedPivotCells(new Set());
     };
     const clearSelectionAndResetPage = () => {
       clearSelections();
@@ -131,7 +127,14 @@ export default function useSelectionsModel(
       try {
         await selections.select({
           method: "selectPivotCells",
-          params: [Q_PATH, Array.from(nextSelectedPivotCells.values())],
+          params: [
+            Q_PATH,
+            Array.from(nextSelectedPivotCells.values()).map((c) => ({
+              qType: c.selectionCellType,
+              qRow: c.y,
+              qCol: c.x,
+            })),
+          ],
         });
 
         setSelectedPivotCells(nextSelectedPivotCells);
