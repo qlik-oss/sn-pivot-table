@@ -1,4 +1,4 @@
-import type { ListItemData } from "../../../../../types/types";
+import type { Cell, ListItemData } from "../../../../../types/types";
 import { shouldShowTotalCellDivider } from "../../../../hooks/use-is-total-cell";
 
 const getCell = (index: number, data: ListItemData) => {
@@ -13,7 +13,7 @@ const getCell = (index: number, data: ListItemData) => {
    * But when "isLast" is false, the keys in "list" object, are not guaranteed to match "index".
    * To get around that, the "list" object is converted to an array.
    */
-  const cell = isLast ? list[index] : listValues[index];
+  const cell = (isLast ? list[index] : listValues[index]) as Cell | undefined;
 
   return {
     cell,
