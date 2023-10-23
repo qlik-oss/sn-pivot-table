@@ -1,6 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback } from "react";
-import useDebug from "../../debug/use-debug";
 import type { Model } from "../../types/QIX";
 import {
   ScrollableContainerOrigin,
@@ -71,11 +70,6 @@ export const StickyPivotTable = ({
     headersData,
     topDimensionData,
     tableRect,
-  });
-
-  useDebug("PT", {
-    leftDimensionData,
-    visibleLeftDimensionInfo,
   });
 
   const {
