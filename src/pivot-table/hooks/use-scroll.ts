@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import { ScrollableContainerOrigin, type LayoutService, type PageInfo } from "../../types/types";
 
@@ -10,18 +10,26 @@ interface Props {
     leftGridRef?: VariableSizeList<unknown>[];
     dataGridRef?: VariableSizeGrid<unknown>;
     verticalScrollableContainerRef?: HTMLDivElement;
-    horizontalScrollableContainerRef?: HTMLDivElement;
+    leftGridHorizontalScrollableContainerRef?: HTMLDivElement;
+    dataGridHorizontalScrollableContainerRef?: HTMLDivElement;
   };
 }
 
 const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   const verticalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.verticalScrollableContainerRef ?? null);
-  const horizontalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.horizontalScrollableContainerRef ?? null);
+  const leftGridHorizontalScrollableContainerRef = useRef<HTMLDivElement>(
+    mockedRefs?.leftGridHorizontalScrollableContainerRef ?? null,
+  );
+  const dataGridHorizontalScrollableContainerRef = useRef<HTMLDivElement>(
+    mockedRefs?.dataGridHorizontalScrollableContainerRef ?? null,
+  );
   const topGridRef = useRef<VariableSizeList[]>(mockedRefs?.topGridRef ?? []);
   const leftGridRef = useRef<VariableSizeList[]>(mockedRefs?.leftGridRef ?? []);
   const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
   const currentScrollLeft = useRef<number>(0);
   const currentScrollTop = useRef<number>(0);
+  const [verticalScrollbarWidth, setVerticalScrollbarWidth] = useState<number>(0);
+  const [horizontalScrollbarHeight, setHorizontalScrollbarHeight] = useState<number>(0);
 
   const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
   const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
@@ -30,8 +38,12 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   // change because a node was expanded or collapsed
   useLayoutEffect(() => {
     if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
-      if (horizontalScrollableContainerRef.current) {
-        horizontalScrollableContainerRef.current.scrollLeft = 0;
+      if (leftGridHorizontalScrollableContainerRef.current) {
+        leftGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
+      }
+
+      if (dataGridHorizontalScrollableContainerRef.current) {
+        dataGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
       }
 
       if (verticalScrollableContainerRef.current) {
@@ -42,14 +54,50 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
 
   // Reset scroll position when page has changed
   useLayoutEffect(() => {
-    if (horizontalScrollableContainerRef.current) {
-      horizontalScrollableContainerRef.current.scrollLeft = 0;
+    if (leftGridHorizontalScrollableContainerRef.current) {
+      leftGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
+    }
+
+    if (dataGridHorizontalScrollableContainerRef.current) {
+      dataGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
     }
 
     if (verticalScrollableContainerRef.current) {
       verticalScrollableContainerRef.current.scrollTop = 0;
     }
   }, [pageInfo.page]);
+
+  const horizontalScrollbarHeightSetter = useCallback(
+    (shouldResetHeight?: boolean) => {
+      if (shouldResetHeight) {
+        setHorizontalScrollbarHeight(0);
+        return;
+      }
+
+      let maxScrollbarHeight = 0;
+      if (leftGridHorizontalScrollableContainerRef.current) {
+        const el = leftGridHorizontalScrollableContainerRef.current;
+        maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
+      }
+      if (dataGridHorizontalScrollableContainerRef.current) {
+        const el = dataGridHorizontalScrollableContainerRef.current;
+        maxScrollbarHeight = Math.max(maxScrollbarHeight, el.offsetHeight - el.clientHeight);
+      }
+      setHorizontalScrollbarHeight(maxScrollbarHeight);
+    },
+    [setHorizontalScrollbarHeight],
+  );
+
+  // get vertical/horizontal scrollbar width/height
+  useLayoutEffect(() => {
+    if (verticalScrollableContainerRef.current) {
+      const el = verticalScrollableContainerRef.current;
+      const w = el.offsetWidth - el.clientWidth;
+      setVerticalScrollbarWidth(w);
+    }
+
+    horizontalScrollbarHeightSetter();
+  }, [horizontalScrollbarHeightSetter]);
 
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
@@ -77,7 +125,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
 
     if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
+      leftGridRef.current.filter(Boolean).forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
     }
 
     if (dataGridRef.current) {
@@ -99,10 +147,14 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     onHorizontalScrollHandler,
     onVerticalScrollHandler,
     verticalScrollableContainerRef,
-    horizontalScrollableContainerRef,
+    leftGridHorizontalScrollableContainerRef,
+    dataGridHorizontalScrollableContainerRef,
     dataGridRef,
     leftGridRef,
     topGridRef,
+    verticalScrollbarWidth,
+    horizontalScrollbarHeight,
+    horizontalScrollbarHeightSetter,
   };
 };
 

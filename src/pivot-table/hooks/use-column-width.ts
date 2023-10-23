@@ -1,5 +1,5 @@
 import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { PSEUDO_DIMENSION_INDEX, PSEUDO_DIMENSION_KEY } from "../../constants";
 import { ColumnWidthType, type ColumnWidth } from "../../types/QIX";
 import type {
@@ -36,6 +36,7 @@ export interface GetHeaderCellsIconsVisibilityStatus {
 interface LeftGridWidthInfo {
   leftGridWidth: number;
   leftGridColumnWidths: number[];
+  leftGridFullWidth: number;
 }
 
 export const EXPAND_ICON_SIZE = 30;
@@ -70,6 +71,8 @@ export default function useColumnWidth(
   rect: Rect,
   headersData: HeadersData,
   visibleTopDimensionInfo: VisibleDimensionInfo[],
+  verticalScrollbarWidth: number,
+  horizontalScrollbarHeightSetter: (shouldResetHeight?: boolean) => void,
 ): ColumnWidthHook {
   const {
     layout: {
@@ -142,6 +145,7 @@ export default function useColumnWidth(
     return {
       leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
       leftGridColumnWidths: columnWidths,
+      leftGridFullWidth: sumOfWidths,
     };
   }, [
     headersData,
@@ -282,11 +286,16 @@ export default function useColumnWidth(
    * Gets the width of a right grid column. This is always based on the leaf width(s)
    */
   const getRightGridColumnWidth = useCallback(
-    (index?: number) =>
-      topGridLeavesIsPseudo && index !== undefined
-        ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)]
-        : averageLeafWidth,
-    [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth],
+    (index?: number) => {
+      // when verticalScrollbarWidth is 0 (scrollbar is invisible)
+      // there will be a 0/n division in below line which will result in 0
+      const scrollbarWidthSharePerColumn = parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12));
+
+      return topGridLeavesIsPseudo && index !== undefined
+        ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)] - scrollbarWidthSharePerColumn
+        : averageLeafWidth - scrollbarWidthSharePerColumn;
+    },
+    [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth, verticalScrollbarWidth],
   );
 
   // The width of the sum of all columns, can be smaller or greater than what fits in the chart
@@ -305,6 +314,14 @@ export default function useColumnWidth(
   );
 
   const showLastRightBorder = useMemo(() => totalWidth < rect.width, [totalWidth, rect.width]);
+
+  // Horizontal scrollbar height control based on columns (full) visibility
+  useEffect(() => {
+    const allLeftGridColumnsVisible = leftGridWidthInfo.leftGridWidth === leftGridWidthInfo.leftGridFullWidth;
+    const allDataGridColumnsVisible = rightGridWidth === rightGridFullWidth;
+
+    horizontalScrollbarHeightSetter(allLeftGridColumnsVisible && allDataGridColumnsVisible);
+  }, [leftGridWidthInfo, rightGridWidth, rightGridFullWidth, horizontalScrollbarHeightSetter]);
 
   return {
     ...leftGridWidthInfo,
