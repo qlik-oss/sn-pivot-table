@@ -74,8 +74,10 @@ const Container = ({
       role="button"
       tabIndex={0}
       data-testid={testId}
-      data-row-idx={cell.y}
-      data-column-idx={cell.x}
+      data-x={cell.x}
+      data-page-x={cell.pageX}
+      data-y={cell.y}
+      data-page-y={cell.pageY}
       data-cell-type={cell.ref.qType}
     >
       {children}

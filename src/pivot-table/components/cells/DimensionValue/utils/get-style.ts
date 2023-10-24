@@ -16,20 +16,23 @@ enum Properties {
 }
 
 const getStyleServiceValue = (prop: Properties, { cell, styleService }: GetStyleServiceValueProps) => {
-  if (cell.isNull) {
-    return styleService.nullValues[prop];
+  if (prop === Properties.Background || prop === Properties.Color) {
+    const expressionValue = cell.expressionColor[prop];
+    if (expressionValue) {
+      return expressionValue;
+    }
   }
 
-  if (cell.isTotal) {
-    return styleService.totalValues[prop];
+  if (cell.isNull) {
+    return styleService.nullValues[prop];
   }
 
   if (cell.isPseudoDimension) {
     return styleService.measureLabels[prop];
   }
 
-  if (prop === Properties.Background || prop === Properties.Color) {
-    return cell.expressionColor[prop] ?? styleService.dimensionValues[prop];
+  if (cell.isTotal) {
+    return styleService.totalValues[prop];
   }
 
   return styleService.dimensionValues[prop];
