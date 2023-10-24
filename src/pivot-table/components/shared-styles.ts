@@ -14,10 +14,14 @@ export enum Colors {
 
 export const CELL_PADDING = 4;
 
-export const topContainerCellStyle: React.CSSProperties = {
+export const baseFlex: React.CSSProperties = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+};
+
+export const topContainerCellStyle: React.CSSProperties = {
+  ...baseFlex,
 };
 
 export const leftContainerCellStyle: React.CSSProperties = {
