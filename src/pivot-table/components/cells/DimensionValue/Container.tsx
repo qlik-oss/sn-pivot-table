@@ -1,5 +1,4 @@
 import React, { type ReactNode } from "react";
-import { NxSelectionCellType } from "../../../../types/QIX";
 import type { Cell, ListItemData } from "../../../../types/types";
 import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
@@ -39,8 +38,7 @@ const Container = ({
   const { select, isSelected, isLocked } = useSelectionsContext();
   const { layoutService, showLastBorder } = data;
 
-  const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellLocked = cell ? isLocked(selectionCellType, cell.y, cell.x) || cell.isLockedByDimension : false;
+  const isCellLocked = cell ? isLocked(cell) || cell.isLockedByDimension : false;
   const isNonSelectableCell =
     cell === undefined ||
     isCellLocked ||
@@ -50,8 +48,8 @@ const Container = ({
     cell.isNull ||
     cell.isPseudoDimension ||
     cell.isTotal;
-  const isCellSelected = cell ? isSelected(selectionCellType, cell.y, cell.x) : false;
-  const onClickHandler = isNonSelectableCell ? undefined : select(selectionCellType, cell.y, cell.x);
+  const isCellSelected = cell ? isSelected(cell) : false;
+  const onClickHandler = isNonSelectableCell ? undefined : select(cell);
 
   return (
     <div
