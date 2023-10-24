@@ -127,7 +127,7 @@ const DimensionCell = ({
     expressionBackground: cell.expressionColor.background,
     zIndex: layoutService.size.x - colIndex,
   });
-  const onClickHandler = isNonSelectableCell ? undefined : select(cell);
+  const onClickHandler = !isNonSelectableCell && select(cell);
   const text = cell.isNull ? layoutService.getNullValueText() : qText;
   let cellIcon = null;
 
