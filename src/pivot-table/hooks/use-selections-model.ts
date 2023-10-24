@@ -19,36 +19,31 @@ export interface SelectedPivotCell {
   qCol: number;
 }
 
-type SelectedRowOrColumn = {
-  selectionCellType: NxSelectionCellType | null;
+type SelectedField = {
+  selectionCellType: NxSelectionCellType;
   coord: number;
 };
 
-const getNextState = (cell: Cell, selectedPivotCells: Set<Cell>, selectedRowOrColumn: SelectedRowOrColumn) => {
+const getNextState = (cell: Cell, selectedPivotCells: Set<Cell>, selectedField: SelectedField | null) => {
   const nextSelectedPivotCells = new Set(selectedPivotCells);
-  const nextSelectedRowOrColumn = { ...selectedRowOrColumn };
 
   if (nextSelectedPivotCells.has(cell)) {
     nextSelectedPivotCells.delete(cell);
 
-    if (nextSelectedPivotCells.size === 0) {
-      nextSelectedRowOrColumn.selectionCellType = null;
-      nextSelectedRowOrColumn.coord = -1;
-    }
-
     return {
       nextSelectedPivotCells,
-      nextSelectedRowOrColumn,
+      nextSelectedField: nextSelectedPivotCells.size === 0 ? null : selectedField,
     };
   }
 
   nextSelectedPivotCells.add(cell);
-  nextSelectedRowOrColumn.selectionCellType = cell.selectionCellType;
-  nextSelectedRowOrColumn.coord = cell.selectionCellType === NxSelectionCellType.NX_CELL_LEFT ? cell.x : cell.y;
 
   return {
     nextSelectedPivotCells,
-    nextSelectedRowOrColumn,
+    nextSelectedField: {
+      selectionCellType: cell.selectionCellType,
+      coord: cell.selectionCellType === NxSelectionCellType.NX_CELL_LEFT ? cell.x : cell.y,
+    },
   };
 };
 
@@ -58,14 +53,11 @@ export default function useSelectionsModel(
 ): SelectionModel {
   const isActive = selections.isActive();
   const [selectedPivotCells, setSelectedPivotCells] = useState<Set<Cell>>(new Set());
-  const [selectedRowOrColumn, setSelectedRowOrColumn] = useState<SelectedRowOrColumn>({
-    selectionCellType: null,
-    coord: -1,
-  });
+  const [selectedField, setSelectedField] = useState<SelectedField | null>(null);
 
   useEffect(() => {
     const clearSelections = () => {
-      setSelectedRowOrColumn({ selectionCellType: null, coord: -1 });
+      setSelectedField(null);
       setSelectedPivotCells(new Set());
     };
     const clearSelectionAndResetPage = () => {
@@ -85,23 +77,27 @@ export default function useSelectionsModel(
     };
   }, [selections, updatePageInfo]);
 
+  /**
+   * You can only do selections in one dimension field at the time. So if there are
+   * ongoing selections in a field. All other fields are locked.
+   */
   const isLocked = useCallback(
     (cell: Cell) => {
-      if (selectedPivotCells.size === 0 || selectedRowOrColumn.selectionCellType === null) {
+      if (selectedPivotCells.size === 0 || selectedField === null) {
         return false;
       }
 
-      if (cell.selectionCellType !== selectedRowOrColumn.selectionCellType) {
+      if (cell.selectionCellType !== selectedField.selectionCellType) {
         return true;
       }
 
       if (cell.selectionCellType === NxSelectionCellType.NX_CELL_LEFT) {
-        return selectedRowOrColumn.coord !== cell.x;
+        return selectedField.coord !== cell.x;
       }
 
-      return selectedRowOrColumn.coord !== cell.y;
+      return selectedField.coord !== cell.y;
     },
-    [selectedPivotCells, selectedRowOrColumn],
+    [selectedPivotCells, selectedField],
   );
 
   const select = useCallback(
@@ -118,11 +114,7 @@ export default function useSelectionsModel(
         return;
       }
 
-      const { nextSelectedPivotCells, nextSelectedRowOrColumn } = getNextState(
-        cell,
-        selectedPivotCells,
-        selectedRowOrColumn,
-      );
+      const { nextSelectedPivotCells, nextSelectedField } = getNextState(cell, selectedPivotCells, selectedField);
 
       try {
         await selections.select({
@@ -138,13 +130,13 @@ export default function useSelectionsModel(
         });
 
         setSelectedPivotCells(nextSelectedPivotCells);
-        setSelectedRowOrColumn(nextSelectedRowOrColumn);
+        setSelectedField(nextSelectedField);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
       }
     },
-    [selections, isLocked, selectedPivotCells, selectedRowOrColumn],
+    [selections, isLocked, selectedPivotCells, selectedField],
   );
 
   const isSelected = useCallback((cell: Cell) => selectedPivotCells.has(cell), [selectedPivotCells]);
