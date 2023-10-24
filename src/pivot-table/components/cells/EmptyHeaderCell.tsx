@@ -1,23 +1,26 @@
 import React from "react";
+import { useStyleContext } from "../../contexts/StyleProvider";
 
 interface Props {
-  columnWidths: number[];
+  rowSpan: number;
+  columnSpan: number;
 }
+export const testId = "empty-header-cell";
 
-const innerStyle: React.CSSProperties = {
-  backgroundColor: "transparent", // TODO Set via PP or Theme
-  height: "100%",
-  width: "100%",
+const EmptyHeaderCell = ({ rowSpan, columnSpan }: Props) => {
+  const styleService = useStyleContext();
+  return (
+    <div
+      style={{
+        gridRowStart: 1,
+        gridRowEnd: `span ${rowSpan}`,
+        gridColumnStart: 1,
+        gridColumnEnd: `span ${columnSpan}`,
+        background: styleService.grid.background,
+      }}
+      data-testid={testId}
+    />
+  );
 };
-
-const EmptyHeaderCell = ({ columnWidths }: Props) => (
-  <div
-    style={{
-      gridColumn: `span ${columnWidths.length}`,
-    }}
-  >
-    <div style={innerStyle} />
-  </div>
-);
 
 export default EmptyHeaderCell;

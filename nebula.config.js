@@ -2,6 +2,14 @@ const path = require("path");
 
 const { version } = require(path.resolve(__dirname, "./package.json")); // eslint-disable-line
 
+const randomColor = () => {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  const a = Math.random() * 0.5 + 0.5;
+  return `rgba(${r},${g},${b},${a})`;
+};
+
 module.exports = {
   build: {
     typescript: true,
@@ -126,6 +134,52 @@ module.exports = {
             pivotTableV2: {
               grid: {
                 lineClamp: 10,
+              },
+            },
+          },
+        },
+      },
+      {
+        id: "Random Color",
+        theme: {
+          object: {
+            pivotTableV2: {
+              header: {
+                fontSize: "12px",
+                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                background: randomColor(),
+                color: randomColor(),
+              },
+              measureValues: {
+                fontSize: "12px",
+                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                color: randomColor(),
+                background: randomColor(),
+              },
+              dimensionValues: {
+                fontSize: "12px",
+                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                color: randomColor(),
+                background: randomColor(),
+              },
+              measureLabels: {
+                color: randomColor(),
+                background: randomColor(),
+              },
+              nullValues: {
+                color: randomColor(),
+                background: randomColor(),
+              },
+              totalValues: {
+                color: randomColor(),
+                background: randomColor(),
+              },
+              grid: {
+                lineClamp: 1,
+                rowHeight: "compact",
+                border: randomColor(),
+                divider: randomColor(),
+                background: randomColor(),
               },
             },
           },
