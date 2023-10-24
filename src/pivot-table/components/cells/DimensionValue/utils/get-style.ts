@@ -1,6 +1,6 @@
+import { getHoverColor as getContrastingColor } from "@qlik/nebula-table-utils/lib/utils";
 import type { Cell, StyleService } from "../../../../../types/types";
 import { BOLD_FONT_WEIGHT } from "../../../../constants";
-import { getLockedStyleFromSelection } from "../../utils/get-dimension-cell-style";
 
 type GetStyleServiceValueProps = {
   cell: Cell;
@@ -14,6 +14,18 @@ enum Properties {
   FontStyle = "fontStyle",
   TextDecoration = "textDecoration",
 }
+
+const lockedColorModifiers = { brighter: 0.5, darker: 0.3, opacity: 0.03 };
+
+const getLockedBackground = (originalBackgroundColor: string) => {
+  const strip = getContrastingColor(originalBackgroundColor, lockedColorModifiers);
+
+  return `repeating-linear-gradient(
+    -45deg,
+    ${strip} 0px 2px,
+    ${originalBackgroundColor} 0px 4px
+  )`;
+};
 
 const getStyleServiceValue = (prop: Properties, { cell, styleService }: GetStyleServiceValueProps) => {
   if (prop === Properties.Background || prop === Properties.Color) {
@@ -50,8 +62,8 @@ export const getBackground = ({ styleService, isCellLocked, isCellSelected, cell
     return "#0aaf54";
   }
 
-  if (isCellLocked && !cell.isPseudoDimension && !cell.isEmpty && !cell.isNull && !cell.isTotal) {
-    return getLockedStyleFromSelection(background).background as string;
+  if (isCellLocked && background && !cell.isPseudoDimension && !cell.isEmpty && !cell.isNull && !cell.isTotal) {
+    return getLockedBackground(background);
   }
 
   return background;
@@ -70,7 +82,7 @@ export const getColor = ({ cell, styleService, isCellSelected }: GetColorProps) 
 };
 
 export const getFontWeight = ({ cell, styleService }: GetStyleServiceValueProps) => {
-  const { qCanCollapse, qCanExpand } = cell.ref ?? { qCanCollapse: false, qCanExpand: false };
+  const { qCanCollapse, qCanExpand } = cell.ref;
 
   // fontWeight coming from Styling panel is undefined when the user have not
   // explicity set it to bold or normal
@@ -89,4 +101,4 @@ type GetTextDecorationProps = {
 export const getTextDecoration = ({ cell, styleService }: GetTextDecorationProps) =>
   getStyleServiceValue(Properties.TextDecoration, { cell, styleService });
 
-export const getCursor = (isNonSelectableCell: boolean) => (isNonSelectableCell ? "default" : "pointer");
+export const getCursor = (canBeSelected: boolean) => (canBeSelected ? "pointer" : "default");

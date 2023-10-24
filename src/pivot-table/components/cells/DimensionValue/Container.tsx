@@ -41,15 +41,15 @@ const Container = ({
   const { layoutService, showLastBorder } = data;
 
   const isCellLocked = isLocked(cell) || cell.isLockedByDimension;
-  const isNonSelectableCell =
-    isCellLocked ||
-    !interactions.active ||
-    !interactions.select ||
-    cell.isEmpty ||
-    cell.isNull ||
-    cell.isPseudoDimension ||
-    cell.isTotal;
-  const onClickHandler = isNonSelectableCell ? undefined : select(cell);
+  const canBeSelected =
+    !isCellLocked &&
+    !!interactions.active &&
+    !!interactions.select &&
+    !cell.isEmpty &&
+    !cell.isNull &&
+    !cell.isPseudoDimension &&
+    !cell.isTotal;
+  const onClickHandler = canBeSelected ? select(cell) : undefined;
 
   return (
     <div
@@ -62,8 +62,9 @@ const Container = ({
           rightDivider: showTotalCellDivider && !isLeftColumn,
           borderColor: styleService.grid.divider,
         }),
-        cursor: getCursor(isNonSelectableCell),
+        cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellLocked, isCellSelected, cell }),
+        backgroundClip: "padding-box",
         zIndex: layoutService.size.x - cell.x,
         justifyContent: isLeftColumn ? undefined : "center",
         display: "flex",
