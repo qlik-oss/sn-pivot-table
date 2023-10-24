@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import { CELL_PADDING, stickyCell } from "../../shared-styles";
+import { CELL_PADDING } from "../../shared-styles";
 
 type Props = {
   isLeftColumn: boolean;
@@ -13,7 +13,11 @@ const StickyCellContainer = ({ children, isLeftColumn }: Props): JSX.Element => 
       flexDirection: "row",
       alignItems: "center",
       gap: `${CELL_PADDING}px`,
-      ...stickyCell, // TODO can be hard-coded here?
+      width: "fit-content",
+      maxWidth: "100%",
+      position: "sticky",
+      left: CELL_PADDING,
+      top: CELL_PADDING,
       alignSelf: isLeftColumn ? "flex-start" : "center",
       ...(!isLeftColumn && { right: CELL_PADDING }),
     }}
