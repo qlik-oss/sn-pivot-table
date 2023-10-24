@@ -7,6 +7,13 @@ type GetStyleServiceValueProps = {
   styleService: StyleService;
 };
 
+type GetBackgroundProps = GetStyleServiceValueProps & {
+  isCellSelected: boolean;
+  isCellLocked: boolean;
+};
+
+type GetColorProps = GetStyleServiceValueProps & { isCellSelected: boolean };
+
 enum Properties {
   Background = "background",
   Color = "color",
@@ -50,17 +57,12 @@ const getStyleServiceValue = (prop: Properties, { cell, styleService }: GetStyle
   return styleService.dimensionValues[prop];
 };
 
-type GetBackgroundProps = GetStyleServiceValueProps & {
-  isCellSelected: boolean;
-  isCellLocked: boolean;
-};
-
 export const getBackground = ({ styleService, isCellLocked, isCellSelected, cell }: GetBackgroundProps) => {
-  const background = getStyleServiceValue(Properties.Background, { cell, styleService });
-
   if (isCellSelected) {
     return "#0aaf54";
   }
+
+  const background = getStyleServiceValue(Properties.Background, { cell, styleService });
 
   if (isCellLocked && background && !cell.isPseudoDimension && !cell.isEmpty && !cell.isNull && !cell.isTotal) {
     return getLockedBackground(background);
@@ -69,16 +71,12 @@ export const getBackground = ({ styleService, isCellLocked, isCellSelected, cell
   return background;
 };
 
-type GetColorProps = GetStyleServiceValueProps & { isCellSelected: boolean };
-
 export const getColor = ({ cell, styleService, isCellSelected }: GetColorProps) => {
-  const color = getStyleServiceValue(Properties.Color, { cell, styleService }) as string;
-
   if (isCellSelected) {
     return "white";
   }
 
-  return color;
+  return getStyleServiceValue(Properties.Color, { cell, styleService }) as string;
 };
 
 export const getFontWeight = ({ cell, styleService }: GetStyleServiceValueProps) => {
@@ -93,12 +91,7 @@ export const getFontWeight = ({ cell, styleService }: GetStyleServiceValueProps)
 export const getFontStyle = ({ cell, styleService }: GetStyleServiceValueProps) =>
   getStyleServiceValue(Properties.FontStyle, { cell, styleService });
 
-type GetTextDecorationProps = {
-  cell: Cell;
-  styleService: StyleService;
-};
-
-export const getTextDecoration = ({ cell, styleService }: GetTextDecorationProps) =>
+export const getTextDecoration = ({ cell, styleService }: GetStyleServiceValueProps) =>
   getStyleServiceValue(Properties.TextDecoration, { cell, styleService });
 
 export const getCursor = (canBeSelected: boolean) => (canBeSelected ? "pointer" : "default");
