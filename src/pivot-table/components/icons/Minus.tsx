@@ -1,5 +1,6 @@
 import MinusOutlineIcon from "@qlik-trial/sprout/icons/react/MinusOutline";
 import React from "react";
+import { PLUS_MINUS_ICON_SIZE } from "../../constants";
 import { headerPlusMinusIconWrapperStyle } from "./styles";
 
 interface IconProps {
@@ -11,7 +12,13 @@ interface IconProps {
 
 const MinusIcon = ({ color, opacity, testid, onClick }: IconProps): JSX.Element => (
   <div style={headerPlusMinusIconWrapperStyle}>
-    <MinusOutlineIcon opacity={opacity} color={color} data-testid={testid} onClick={onClick} height="13px" />
+    <MinusOutlineIcon
+      opacity={opacity}
+      color={color}
+      data-testid={testid}
+      onClick={onClick}
+      height={PLUS_MINUS_ICON_SIZE}
+    />
   </div>
 );
 
