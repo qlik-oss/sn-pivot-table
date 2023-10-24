@@ -12,6 +12,7 @@ type Props = {
   isLeftColumn: boolean;
   isLastRow: boolean;
   isLastColumn: boolean;
+  isCellSelected: boolean;
   showTotalCellDivider: boolean;
   cell: Cell;
   data: ListItemData;
@@ -32,15 +33,15 @@ const Container = ({
   isLastRow,
   isLastColumn,
   isLeftColumn,
+  isCellSelected,
 }: Props): JSX.Element => {
   const styleService = useStyleContext();
   const { interactions } = useBaseContext();
-  const { select, isSelected, isLocked } = useSelectionsContext();
+  const { select, isLocked } = useSelectionsContext();
   const { layoutService, showLastBorder } = data;
 
-  const isCellLocked = cell ? isLocked(cell) || cell.isLockedByDimension : false;
+  const isCellLocked = isLocked(cell) || cell.isLockedByDimension;
   const isNonSelectableCell =
-    cell === undefined ||
     isCellLocked ||
     !interactions.active ||
     !interactions.select ||
@@ -48,7 +49,6 @@ const Container = ({
     cell.isNull ||
     cell.isPseudoDimension ||
     cell.isTotal;
-  const isCellSelected = cell ? isSelected(cell) : false;
   const onClickHandler = isNonSelectableCell ? undefined : select(cell);
 
   return (

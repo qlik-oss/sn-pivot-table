@@ -1,9 +1,9 @@
 import React from "react";
 import { areEqual } from "react-window";
-import { NxSelectionCellType } from "../../../../types/QIX";
 import type { ListItemData } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
+import { shouldShowTotalCellDivider } from "../../../hooks/use-is-total-cell";
 import ColumnAdjuster from "../ColumnAdjuster";
 import EmptyCell from "../EmptyCell";
 import shouldRenderColumnAdjuster from "../utils/should-render-column-adjuster";
@@ -22,8 +22,11 @@ export interface DimensionCellProps {
 const DimensionValue = ({ index, style, data }: DimensionCellProps): JSX.Element => {
   const styleService = useStyleContext();
   const { isSelected, isActive } = useSelectionsContext();
-  const { dataModel, layoutService, isLeftColumn = false, showLastBorder } = data;
-  const { cell, isLastRow, isLastColumn, showTotalCellDivider } = getCell(index, data);
+  const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
+  const cell = getCell(index, data);
+  const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
+  const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
+  const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
 
   if (cell === undefined) {
     const { background } = styleService.dimensionValues;
@@ -41,8 +44,7 @@ const DimensionValue = ({ index, style, data }: DimensionCellProps): JSX.Element
     );
   }
 
-  const selectionCellType = isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP;
-  const isCellSelected = isSelected(selectionCellType, cell.y, cell.x);
+  const isCellSelected = isSelected(cell);
   const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
 
   const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
@@ -56,6 +58,7 @@ const DimensionValue = ({ index, style, data }: DimensionCellProps): JSX.Element
       isLeftColumn={isLeftColumn}
       isLastRow={isLastRow}
       isLastColumn={isLastColumn}
+      isCellSelected={isCellSelected}
       showTotalCellDivider={showTotalCellDivider}
       cell={cell}
       data={data}
