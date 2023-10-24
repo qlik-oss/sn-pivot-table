@@ -63,6 +63,7 @@ export const getLockedStyleFromSelection = (originalBackgroundColor?: string): R
         ${originalBackgroundColor ?? Colors.Transparent} 0px 4px
       )`,
     color: "#bebebe",
+    backgroundClip: "padding-box",
   };
 };
 
