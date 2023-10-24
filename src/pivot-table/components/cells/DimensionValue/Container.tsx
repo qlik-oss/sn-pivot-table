@@ -64,10 +64,10 @@ const Container = ({
           rightDivider: showTotalCellDivider && !isLeftColumn,
           borderColor: styleService.grid.divider,
         }),
-        ...(!isLeftColumn && { justifyContent: "center" }),
         cursor: getCursor(isNonSelectableCell),
         background: getBackground({ styleService, isCellLocked, isCellSelected, cell }),
         zIndex: layoutService.size.x - cell.x,
+        justifyContent: isLeftColumn ? undefined : "center",
         display: "flex",
       }}
       aria-hidden="true"
