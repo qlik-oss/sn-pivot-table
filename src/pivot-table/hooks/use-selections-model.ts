@@ -129,7 +129,7 @@ export default function useSelectionsModel(
           method: "selectPivotCells",
           params: [
             Q_PATH,
-            Array.from(nextSelectedPivotCells).map((c) => ({
+            Array.from(nextSelectedPivotCells, (c) => ({
               qType: c.selectionCellType,
               qRow: c.y,
               qCol: c.x,
