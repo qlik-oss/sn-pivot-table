@@ -1,6 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { Q_PATH } from "../../../constants";
 import { NxSelectionCellType } from "../../../types/QIX";
-import type { ExtendedSelections, PageInfo } from "../../../types/types";
+import type { Cell, ExtendedSelections, PageInfo } from "../../../types/types";
 import useSelectionsModel from "../use-selections-model";
 
 describe("useSelectionsModel", () => {
@@ -54,53 +55,81 @@ describe("useSelectionsModel", () => {
   });
 
   test("should not select cell when mouse event is comming from ColumnAdjuster", async () => {
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
     mouseEvt.target = {
-      className: "sn-pivot-table-column-adjuster",
-    } as HTMLElement;
+      getAttribute: () => "sn-pivot-table-column-adjuster",
+    } as unknown as HTMLElement;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
+      await result.current.select(cell)(mouseEvt);
     });
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
     await waitFor(() => expect(selections.begin).toHaveBeenCalledTimes(0));
-    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy());
+    await waitFor(() => expect(result.current.isSelected(cell)).toBeFalsy());
   });
 
   test("should select cell and call begin selection", async () => {
+    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 2, y: 0 } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 2)(mouseEvt);
+      await result.current.select(cell1)(mouseEvt);
     });
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    await waitFor(() => expect(selections.begin).toHaveBeenCalled());
-    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
-    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 2)).toBeTruthy());
+    await waitFor(() => expect(selections.begin).toHaveBeenCalledWith([Q_PATH]));
+    await waitFor(() => expect(result.current.isSelected(cell1)).toBeTruthy());
+    await act(async () => {
+      await result.current.select(cell2)(mouseEvt);
+    });
+    await waitFor(() => expect(result.current.isSelected(cell2)).toBeTruthy());
+    await waitFor(() =>
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(selections.select).toHaveBeenCalledWith({
+        method: "selectPivotCells",
+        params: [
+          Q_PATH,
+          [
+            {
+              qType: cell1.selectionCellType,
+              qCol: cell1.x,
+              qRow: cell1.y,
+            },
+            {
+              qType: cell2.selectionCellType,
+              qCol: cell2.x,
+              qRow: cell2.y,
+            },
+          ],
+        ],
+      }),
+    );
   });
 
   test("should select cell and not call begin selection when already active", async () => {
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
     selections.isActive = () => true;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
+      await result.current.select(cell)(mouseEvt);
     });
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
     await waitFor(() => expect(selections.begin).toHaveBeenCalledTimes(0));
-    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
+    await waitFor(() => expect(result.current.isSelected(cell)).toBeTruthy());
   });
 
   test("should select cell and confirm by calling related callback", async () => {
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
     selections.isActive = () => true;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
+      await result.current.select(cell)(mouseEvt);
 
       // trigger confirm callback
       callbacks.confirmed();
@@ -110,84 +139,111 @@ describe("useSelectionsModel", () => {
   });
 
   test("should de-select cell", async () => {
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
+      await result.current.select(cell)(mouseEvt);
     });
 
-    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
+    await waitFor(() => expect(result.current.isSelected(cell)).toBeTruthy());
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
+      await result.current.select(cell)(mouseEvt);
     });
 
-    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy());
-  });
-
-  test("should not select lock cell type", async () => {
-    const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
-
-    await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
-    });
-
-    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
-
-    await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_LEFT, 0, 1)(mouseEvt);
-    });
-
-    await waitFor(() => expect(result.current.isSelected(NxSelectionCellType.NX_CELL_LEFT, 0, 1)).toBeFalsy());
+    await waitFor(() => expect(result.current.isSelected(cell)).toBeFalsy());
   });
 
   test("should lock cells with qType=T when qType=L is already selected", async () => {
+    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0 } as Cell;
+    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0 } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_LEFT, 0, 1)(mouseEvt);
+      await result.current.select(cellLeft)(mouseEvt);
     });
 
-    await waitFor(() => expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeTruthy());
-    await waitFor(() => expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT, 0, 1)).toBeFalsy());
+    await waitFor(() => expect(result.current.isLocked(cellTop)).toBeTruthy());
+    await waitFor(() => expect(result.current.isLocked(cellLeft)).toBeFalsy());
   });
 
   test("should lock cells with qType=T and not on the same row", async () => {
+    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0 } as Cell;
+    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 1 } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
+      await result.current.select(cell1)(mouseEvt);
     });
 
-    await waitFor(() => expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy());
-    await waitFor(() => expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP, 1, 1)).toBeTruthy());
+    await waitFor(() => expect(result.current.isLocked(cell1)).toBeFalsy());
+    await waitFor(() => expect(result.current.isLocked(cell2)).toBeTruthy());
   });
 
   test("should lock cells with qType=L when qType=T is already selected", async () => {
+    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0 } as Cell;
+    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0 } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_TOP, 0, 1)(mouseEvt);
+      await result.current.select(cellTop)(mouseEvt);
     });
 
-    await waitFor(() => expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT, 0, 1)).toBeTruthy());
-    await waitFor(() => expect(result.current.isLocked(NxSelectionCellType.NX_CELL_TOP, 0, 1)).toBeFalsy());
+    await waitFor(() => expect(result.current.isLocked(cellLeft)).toBeTruthy());
+    await waitFor(() => expect(result.current.isLocked(cellTop)).toBeFalsy());
   });
 
   test("should lock cells with qType=L and not on the same column", async () => {
+    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0 } as Cell;
+    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 1, y: 0 } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
-      await result.current.select(NxSelectionCellType.NX_CELL_LEFT, 0, 0)(mouseEvt);
+      await result.current.select(cell1)(mouseEvt);
     });
 
-    await waitFor(() => expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT, 0, 0)).toBeFalsy());
-    await waitFor(() => expect(result.current.isLocked(NxSelectionCellType.NX_CELL_LEFT, 0, 1)).toBeTruthy());
+    await waitFor(() => expect(result.current.isLocked(cell1)).toBeFalsy());
+    await waitFor(() => expect(result.current.isLocked(cell2)).toBeTruthy());
   });
 
-  test("should not lock unknown cell type", () => {
+  test("should not be possible to select a cell if it's locked", async () => {
+    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0 } as Cell;
+    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
-    expect(result.current.isLocked(NxSelectionCellType.NX_CELL_DATA, 0, 0)).toBeFalsy();
+    await act(async () => {
+      await result.current.select(cellLeft)(mouseEvt);
+    });
+
+    await waitFor(() => expect(result.current.isLocked(cellTop)).toBeTruthy());
+    await act(async () => {
+      await result.current.select(cellTop)(mouseEvt);
+    });
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    await waitFor(() => expect(selections.select).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(result.current.isSelected(cellTop)).toBeFalsy());
+  });
+
+  test("should handle when select method fails", async () => {
+    jest.spyOn(console, "error");
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
+    const err = new Error("FAIL");
+    selections.select = () => Promise.reject(err);
+
+    await act(async () => {
+      await result.current.select(cell)(mouseEvt);
+    });
+    await waitFor(() => expect(result.current.isSelected(cell)).toBeFalsy());
+    // eslint-disable-next-line no-console
+    await waitFor(() => expect(console.error).toHaveBeenCalledWith(err));
+  });
+
+  test("should not lock cell when there are not active selections", async () => {
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
+
+    await waitFor(() => expect(result.current.isLocked(cell)).toBeFalsy());
   });
 });
