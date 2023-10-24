@@ -102,41 +102,64 @@ export default function useColumnWidth(
             return getPixelValue(columnWidth.pixels);
           case ColumnWidthType.Percentage:
             return getPercentageValue(columnWidth.percentage) * rect.width;
+          case ColumnWidthType.FitToContent:
+          case ColumnWidthType.Auto:
           default:
-            // fit to content / auto
             return fitToContentWidth;
         }
       };
 
+      const maxMeasureCellWidth = qMeasureInfo.reduce((maxWidth, { qFallbackTitle, columnWidth }) => {
+        const fitToContentWidth = measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING;
+        return Math.max(maxWidth, getColumnWidth(columnWidth, fitToContentWidth));
+      }, 0);
+
       let sumOfWidths = 0;
 
-      const lastRow = headersData.data[headersData.size.y - 1] as HeaderCell[];
-      const columnWidths = lastRow.map((cell, index) => {
-        let width: number;
+      const lastRow = headersData.data.at(-1) as HeaderCell[];
+      const columnWidths = lastRow.map((_, collIdx) => {
+        let width = TOTAL_CELL_PADDING;
 
-        if (widthOverride && overrideIndex !== undefined && overrideIndex === index) {
+        if (widthOverride && overrideIndex !== undefined && overrideIndex === collIdx) {
           width = widthOverride;
-        } else if (cell.id === PSEUDO_DIMENSION_KEY) {
-          // Use the max width of all measures
-          width = Math.max(
-            ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
-              const fitToContentWidth = measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING;
-              return getColumnWidth(columnWidth, fitToContentWidth);
-            }),
-          );
         } else {
-          const { label, qApprMaxGlyphCount, columnWidth, isLocked } = cell;
-          const expandIconSize = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
-          const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
+          width = headersData.data.reduce((maxWidth, row, rowIdx) => {
+            const header = row[collIdx];
+            if (!header) return maxWidth;
+            let cellWidth = 0;
 
-          const fitToContentWidth =
-            TOTAL_CELL_PADDING +
-            Math.max(
-              measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
-              estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
-            );
+            if (header.id === PSEUDO_DIMENSION_KEY) {
+              // Use the max width of all measures
+              cellWidth = maxMeasureCellWidth;
+            } else {
+              const { label, qApprMaxGlyphCount, columnWidth, isLocked } = header;
+              const expandIconSize = !isFullyExpanded && collIdx < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
+              const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
 
-          width = getColumnWidth(columnWidth, fitToContentWidth);
+              let fitToContentWidth = 0;
+              if (header.isLeftDimension) {
+                fitToContentWidth =
+                  TOTAL_CELL_PADDING +
+                  Math.max(
+                    measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
+                    estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
+                  );
+              } else if (
+                rowIdx === headersData.size.y - 1 &&
+                collIdx === headersData.size.x - 1 &&
+                !header.isLeftDimension &&
+                layoutService.hasPseudoDimOnLeft
+              ) {
+                fitToContentWidth = maxMeasureCellWidth;
+              } else {
+                fitToContentWidth = TOTAL_CELL_PADDING + measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize;
+              }
+
+              cellWidth = getColumnWidth(columnWidth, fitToContentWidth);
+            }
+
+            return Math.max(maxWidth, cellWidth);
+          }, width);
         }
 
         sumOfWidths += width;
@@ -151,11 +174,11 @@ export default function useColumnWidth(
     },
     [
       estimateWidthForDimensionValue,
-      headersData.data,
-      headersData.size.y,
+      headersData,
       isFullyExpanded,
-      measureTextForDimensionValue,
+      layoutService,
       measureTextForHeader,
+      measureTextForMeasureValue,
       qMeasureInfo,
       qNoOfLeftDims,
       rect.width,

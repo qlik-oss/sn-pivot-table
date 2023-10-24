@@ -23,6 +23,7 @@ export interface HeaderCell extends HeaderData {
   qApprMaxGlyphCount?: number;
   dimensionInfoIndex: number;
   canBeResized: boolean;
+  isLeftDimension: boolean;
 }
 
 export type MeasureData = MeasureCell[][];
@@ -149,8 +150,10 @@ export interface LeftDimensionData {
   totalDividerIndex: number;
 }
 
+export type HeadersDataMatrix = (null | HeaderCell)[][];
+
 export interface HeadersData {
-  data: (null | HeaderCell)[][];
+  data: HeadersDataMatrix;
   size: Point;
 }
 
@@ -185,6 +188,8 @@ export interface LayoutService {
   hasLeftDimensions: boolean;
   showTotalsAbove: boolean;
   hasPseudoDimOnLeft: boolean;
+  leftDimensionInfoIndexes: number[];
+  isLeftDimension: (dimensionInfoIndex: number) => boolean;
   isFullyExpanded: boolean;
 }
 

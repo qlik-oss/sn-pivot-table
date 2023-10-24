@@ -9,7 +9,7 @@ export const testId = "empty-header-cell";
 
 const EmptyHeaderCell = ({ rowSpan, columnSpan }: Props) => {
   const styleService = useStyleContext();
-  return (
+  return rowSpan > 0 && columnSpan > 0 ? (
     <div
       style={{
         gridRowStart: 1,
@@ -20,7 +20,7 @@ const EmptyHeaderCell = ({ rowSpan, columnSpan }: Props) => {
       }}
       data-testid={testId}
     />
-  );
+  ) : null;
 };
 
 export default EmptyHeaderCell;
