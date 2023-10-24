@@ -32,7 +32,7 @@ export const StyledHeaderCellWrapper = styled(Box, {
   cursor: interactions.active ? "pointer" : "default",
   background,
   "&&:hover": {
-    background: interactions.active ? hoverBackground : background,
+    background: interactions.active && isDimension ? hoverBackground : background,
   },
 }));
 
@@ -71,6 +71,7 @@ export const StyledLabel = styled("div", {
 export const AdjusterHitArea = styled("div", {
   shouldForwardProp: (prop: string) => prop !== "isLastColumn",
 })(({ isLastColumn = false }: { isLastColumn: boolean }) => ({
+  pointerEvents: "all",
   display: "flex",
   position: "absolute",
   height: "100%",

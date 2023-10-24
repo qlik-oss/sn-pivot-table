@@ -154,7 +154,7 @@ const DimensionCell = ({
   }
 
   const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
-    <ColumnAdjuster cell={cell} columnWidth={style.width as number} dataModel={dataModel} />
+    <ColumnAdjuster cell={cell} columnWidth={style.width as number} dataModel={dataModel} isLastColumn={isLastColumn} />
   ) : null;
 
   return (

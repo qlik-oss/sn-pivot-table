@@ -4,7 +4,7 @@ import Locked from "@qlik-trial/sprout/icons/react/Lock";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
 import type { SortDirection, SortingRelatedArgs } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import React, { useRef } from "react";
-import type { Cell, ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeaderCell } from "../../../types/types";
+import type { ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeaderCell } from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
@@ -76,7 +76,9 @@ const DimensionTitleCell = ({
 
   const cellInfo = {
     x: cell.colIdx,
-    isAncestorPseudDimension: cell.isAncestorPseudoDimension,
+    isAncestorPseudoDimension: cell.isAncestorPseudoDimension,
+    isPseudoDimension: !cell.isDim,
+    isLeftColumn: true,
   };
 
   return (
@@ -124,7 +126,9 @@ const DimensionTitleCell = ({
         </>
       )}
       {/* TODO: columnWidth for pseudoDims */}
-      {isLastRow && <ColumnAdjuster cell={cellInfo} columnWidth={columnWidth} dataModel={dataModel} />}
+      {isLastRow && (
+        <ColumnAdjuster cell={cellInfo} columnWidth={columnWidth} dataModel={dataModel} isLastColumn={isLastColumn} />
+      )}
     </StyledHeaderCellWrapper>
   );
 };

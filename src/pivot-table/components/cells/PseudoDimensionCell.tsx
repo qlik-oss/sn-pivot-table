@@ -57,7 +57,12 @@ const PseudoDimensionCell = ({
   const lineClamp = isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP;
 
   const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
-    <ColumnAdjuster cell={cell} columnWidth={style.width as number} dataModel={data.dataModel} />
+    <ColumnAdjuster
+      cell={cell}
+      columnWidth={style.width as number}
+      dataModel={data.dataModel}
+      isLastColumn={isLastColumn}
+    />
   ) : null;
 
   return (

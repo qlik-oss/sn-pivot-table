@@ -2,10 +2,9 @@ import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { preventDefaultBehavior } from "@qlik/nebula-table-utils/lib/utils";
 import React, { useRef, useState } from "react";
 import { ColumnWidthType } from "../../../types/QIX";
-import type { DataModel } from "../../../types/types";
+import type { CellInfo, DataModel } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import { ColumnWidthValues } from "../../hooks/use-column-width";
-import type { CellInfo } from "../../hooks/use-data-model";
 import { CELL_PADDING } from "../shared-styles";
 import { AdjusterBorder, AdjusterHitArea } from "./styles";
 
@@ -15,6 +14,7 @@ interface AdjusterProps {
   cell: CellInfo;
   columnWidth: number;
   dataModel: DataModel | undefined;
+  isLastColumn: boolean;
 }
 
 /**
@@ -22,7 +22,7 @@ interface AdjusterProps {
  * When you start dragging, mouse move and mouse up listeners are added.
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
-const ColumnAdjuster = ({ cell, columnWidth, dataModel }: AdjusterProps) => {
+const ColumnAdjuster = ({ cell, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
 
@@ -66,7 +66,7 @@ const ColumnAdjuster = ({ cell, columnWidth, dataModel }: AdjusterProps) => {
   return (
     <AdjusterHitArea
       style={{ left: internalWidth - POSITION_ADJUSTMENT }}
-      isLastColumn={false}
+      isLastColumn={isLastColumn}
       className="sn-pivot-table-column-adjuster"
       key={`adjuster-${cell.x}`}
       onMouseDown={mouseDownHandler}

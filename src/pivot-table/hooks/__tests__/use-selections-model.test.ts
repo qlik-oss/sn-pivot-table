@@ -53,7 +53,7 @@ describe("useSelectionsModel", () => {
     expect(selections.removeListener).toHaveBeenCalledWith("cleared", expect.any(Function));
   });
 
-  test("should not select cell when mouse event is comming from ColumnAdjuster", async () => {
+  test("should not select cell when mouse event is coming from ColumnAdjuster", async () => {
     mouseEvt.target = {
       className: "sn-pivot-table-column-adjuster",
     } as HTMLElement;

@@ -82,40 +82,41 @@ export default function useDataModel({
   );
 
   const applyColumnWidth = useCallback<ApplyColumnWidth>(
-    (
-      newColumnWidth,
-      { isPseudoDimension = false, isAncestorPseudoDimension = false, isLeftColumn = true, x = 0, y = 0 },
-    ) => {
+    (newColumnWidth, { isPseudoDimension, isAncestorPseudoDimension, isLeftColumn, x = 0, y = 0 }) => {
       const { qNoOfLeftDims, qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
+      let indexes: number[];
 
-      let index: number;
       if (isPseudoDimension) {
-        // TODO: what todo with the left pseudo dim? set all measures?
-        index = isLeftColumn ? 0 : layoutService.getMeasureInfoIndexFromCellIndex(x);
+        indexes = isLeftColumn
+          ? [...Array(qMeasureInfo.length).keys()] // apply column width to all measures, since they are in the same column
+          : [layoutService.getMeasureInfoIndexFromCellIndex(x)];
       } else {
-        index = isLeftColumn
-          ? x - Number(isAncestorPseudoDimension)
-          : y - Number(isAncestorPseudoDimension) + qNoOfLeftDims - Number(layoutService.hasPseudoDimOnLeft);
+        // cell indexes don't correspond to dimension indexes, so we need to compensate for potential prior pseudo dim (and left side dims)
+        indexes = isLeftColumn
+          ? [x - Number(isAncestorPseudoDimension)]
+          : [y - Number(isAncestorPseudoDimension) + qNoOfLeftDims - Number(layoutService.hasPseudoDimOnLeft)];
       }
 
-      const qPath = `${Q_PATH}/${isPseudoDimension ? "qMeasures" : "qDimensions"}/${index}/qDef/columnWidth`;
-      const oldColumnWidth = isPseudoDimension ? qMeasureInfo[index].columnWidth : qDimensionInfo[index].columnWidth;
+      const patches = indexes.map((idx) => {
+        const qPath = `${Q_PATH}/${isPseudoDimension ? "qMeasures" : "qDimensions"}/${idx}/qDef/columnWidth`;
+        const oldColumnWidth = isPseudoDimension ? qMeasureInfo[idx].columnWidth : qDimensionInfo[idx].columnWidth;
 
-      const patch = oldColumnWidth
-        ? {
-            qPath,
-            qOp: "Replace" as EngineAPI.NxPatchOpType,
-            qValue: JSON.stringify({ ...oldColumnWidth, ...newColumnWidth }),
-          }
-        : {
-            qPath,
-            qOp: "Add" as EngineAPI.NxPatchOpType,
-            qValue: JSON.stringify(newColumnWidth),
-          };
+        return oldColumnWidth
+          ? {
+              qPath,
+              qOp: "Replace" as EngineAPI.NxPatchOpType,
+              qValue: JSON.stringify({ ...oldColumnWidth, ...newColumnWidth }),
+            }
+          : {
+              qPath,
+              qOp: "Add" as EngineAPI.NxPatchOpType,
+              qValue: JSON.stringify(newColumnWidth),
+            };
+      });
 
       // typescript doesn't like unresolved promises, so we have to do a no-op .then()
       // there is nothing that needs to happen after applyPatches, so no need for this function to be async
-      model?.applyPatches([patch], true).then(
+      model?.applyPatches(patches, true).then(
         () => {},
         () => {},
       );
