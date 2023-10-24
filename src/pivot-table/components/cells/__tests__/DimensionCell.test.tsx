@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import NxDimCellType, { NxSelectionCellType } from "../../../../types/QIX";
+import NxDimCellType from "../../../../types/QIX";
 import type {
   Cell,
   DataModel,
@@ -370,7 +370,7 @@ describe("DimensionCell", () => {
 
         await userEvent.click(screen.getByText(qText));
 
-        expect(selectSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
+        expect(selectSpy).toHaveBeenCalledWith(cell);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(1);
       });
 
@@ -395,7 +395,7 @@ describe("DimensionCell", () => {
           { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
-        expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_LEFT, rowIdx, colIdx);
+        expect(isSelectedSpy).toHaveBeenCalledWith(cell);
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 
@@ -697,7 +697,7 @@ describe("DimensionCell", () => {
 
         await userEvent.click(screen.getByText(qText));
 
-        expect(selectSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
+        expect(selectSpy).toHaveBeenCalledWith(cell);
         expect(onClickHandlerSpy).toHaveBeenCalledTimes(1);
       });
 
@@ -722,7 +722,7 @@ describe("DimensionCell", () => {
           { wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider> },
         );
 
-        expect(isSelectedSpy).toHaveBeenCalledWith(NxSelectionCellType.NX_CELL_TOP, rowIdx, colIdx);
+        expect(isSelectedSpy).toHaveBeenCalledWith(cell);
         expect(screen.getByTestId(testId)).toHaveStyle(selectedStyle as Record<string, string>);
       });
 

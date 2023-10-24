@@ -3,13 +3,7 @@ import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
 import type { CellStyling } from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
-import { CELL_PADDING, textStyle } from "../shared-styles";
-
-const baseFlex: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
+import { CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
 
 interface StyledHeaderCellWrapperProps {
   interactions: stardust.Interactions;

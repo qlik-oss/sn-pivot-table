@@ -1,4 +1,4 @@
-import NxDimCellType from "../../../types/QIX";
+import NxDimCellType, { NxSelectionCellType } from "../../../types/QIX";
 import type { AttrExprInfoIndex, Cell, VisibleDimensionInfo } from "../../../types/types";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../constants";
 import getExpressionColor from "./get-expression-color";
@@ -86,6 +86,7 @@ const createCell = (
     isPseudoDimension: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
     isAncestorPseudoDimension: !!(parent?.isAncestorPseudoDimension || parent?.isPseudoDimension),
     expressionColor: getExpressionColor(attrExprInfoIndex, node),
+    selectionCellType: isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP,
   };
 
   if (parent) {

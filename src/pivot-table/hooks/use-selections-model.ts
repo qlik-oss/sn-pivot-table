@@ -2,17 +2,15 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Q_PATH } from "../../constants";
 import { NxSelectionCellType } from "../../types/QIX";
-import type { ExtendedSelections, PageInfo } from "../../types/types";
+import type { Cell, ExtendedSelections, PageInfo } from "../../types/types";
+
+export type SelectionCellLookup = (cell: Cell) => boolean;
 
 export interface SelectionModel {
-  select: (
-    qType: EngineAPI.NxSelectionCellType,
-    qRow: number,
-    qCol: number,
-  ) => (evt: React.MouseEvent) => Promise<void>;
-  isSelected: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
+  select: (cell: Cell) => (evt: React.MouseEvent) => Promise<void>;
+  isSelected: SelectionCellLookup;
   isActive: boolean;
-  isLocked: (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
+  isLocked: SelectionCellLookup;
 }
 
 export interface SelectedPivotCell {
@@ -21,17 +19,49 @@ export interface SelectedPivotCell {
   qCol: number;
 }
 
+type SelectedField = {
+  selectionCellType: NxSelectionCellType;
+  coord: number;
+};
+
+const getNextState = (cell: Cell, selectedPivotCells: Set<Cell>, selectedField: SelectedField | null) => {
+  const nextSelectedPivotCells = new Set(selectedPivotCells);
+
+  if (nextSelectedPivotCells.has(cell)) {
+    nextSelectedPivotCells.delete(cell);
+
+    return {
+      nextSelectedPivotCells,
+      nextSelectedField: nextSelectedPivotCells.size === 0 ? null : selectedField,
+    };
+  }
+
+  nextSelectedPivotCells.add(cell);
+
+  return {
+    nextSelectedPivotCells,
+    nextSelectedField: {
+      selectionCellType: cell.selectionCellType,
+      coord: cell.selectionCellType === NxSelectionCellType.NX_CELL_LEFT ? cell.x : cell.y,
+    },
+  };
+};
+
 export default function useSelectionsModel(
   selections: ExtendedSelections,
   updatePageInfo: (args: Partial<PageInfo>) => void,
 ): SelectionModel {
   const isActive = selections.isActive();
-  const [selected, setSelected] = useState<SelectedPivotCell[]>([]);
+  const [selectedPivotCells, setSelectedPivotCells] = useState<Set<Cell>>(new Set());
+  const [selectedField, setSelectedField] = useState<SelectedField | null>(null);
 
   useEffect(() => {
-    const clearSelections = () => setSelected([]);
+    const clearSelections = () => {
+      setSelectedField(null);
+      setSelectedPivotCells(new Set());
+    };
     const clearSelectionAndResetPage = () => {
-      setSelected([]);
+      clearSelections();
       updatePageInfo({ page: 0 });
     };
     selections.on("deactivated", clearSelections);
@@ -47,31 +77,32 @@ export default function useSelectionsModel(
     };
   }, [selections, updatePageInfo]);
 
+  /**
+   * You can only do selections in one dimension field at the time. So if there are
+   * ongoing selections in a field. All other fields are locked.
+   */
   const isLocked = useCallback(
-    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => {
-      switch (qType) {
-        case NxSelectionCellType.NX_CELL_LEFT:
-          return !!selected.find(
-            (cell) =>
-              cell.qType === NxSelectionCellType.NX_CELL_TOP ||
-              (cell.qType === NxSelectionCellType.NX_CELL_LEFT && cell.qCol !== qCol),
-          );
-        case NxSelectionCellType.NX_CELL_TOP:
-          return !!selected.find(
-            (cell) =>
-              cell.qType === NxSelectionCellType.NX_CELL_LEFT ||
-              (cell.qType === NxSelectionCellType.NX_CELL_TOP && cell.qRow !== qRow),
-          );
-        default:
-          return false;
+    (cell: Cell) => {
+      if (selectedPivotCells.size === 0 || selectedField === null) {
+        return false;
       }
+
+      if (cell.selectionCellType !== selectedField.selectionCellType) {
+        return true;
+      }
+
+      if (cell.selectionCellType === NxSelectionCellType.NX_CELL_LEFT) {
+        return selectedField.coord !== cell.x;
+      }
+
+      return selectedField.coord !== cell.y;
     },
-    [selected],
+    [selectedPivotCells, selectedField],
   );
 
   const select = useCallback(
-    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => async (evt: React.MouseEvent) => {
-      if ((evt.target as HTMLElement)?.className.includes("sn-pivot-table-column-adjuster")) {
+    (cell: Cell) => async (evt: React.MouseEvent) => {
+      if ((evt.target as HTMLElement | SVGElement)?.getAttribute("class") === "sn-pivot-table-column-adjuster") {
         return;
       }
 
@@ -79,37 +110,36 @@ export default function useSelectionsModel(
         await selections.begin([Q_PATH]);
       }
 
-      if (isLocked(qType, qRow, qCol)) {
+      if (isLocked(cell)) {
         return;
       }
 
-      setSelected((prev) => {
-        const values = [...prev];
-        const idx = values.findIndex((cell) => cell.qType === qType && cell.qRow === qRow && cell.qCol === qCol);
-        if (idx > -1) {
-          values.splice(idx, 1);
-        } else {
-          values.push({ qType, qRow, qCol });
-        }
+      const { nextSelectedPivotCells, nextSelectedField } = getNextState(cell, selectedPivotCells, selectedField);
 
-        selections
-          .select({
-            method: "selectPivotCells",
-            params: [Q_PATH, values],
-          })
-          .catch(() => {});
+      try {
+        await selections.select({
+          method: "selectPivotCells",
+          params: [
+            Q_PATH,
+            Array.from(nextSelectedPivotCells, (c) => ({
+              qType: c.selectionCellType,
+              qRow: c.y,
+              qCol: c.x,
+            })),
+          ],
+        });
 
-        return values;
-      });
+        setSelectedPivotCells(nextSelectedPivotCells);
+        setSelectedField(nextSelectedField);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
     },
-    [selections, isLocked],
+    [selections, isLocked, selectedPivotCells, selectedField],
   );
 
-  const isSelected = useCallback(
-    (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) =>
-      !!selected.find((cell) => cell.qType === qType && cell.qRow === qRow && cell.qCol === qCol),
-    [selected],
-  );
+  const isSelected = useCallback((cell: Cell) => selectedPivotCells.has(cell), [selectedPivotCells]);
 
   const model = useMemo(
     () => ({

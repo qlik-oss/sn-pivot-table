@@ -5,6 +5,7 @@ interface Props {
   rowSpan: number;
   columnSpan: number;
 }
+export const testId = "empty-header-cell";
 
 const EmptyHeaderCell = ({ rowSpan, columnSpan }: Props) => {
   const styleService = useStyleContext();
@@ -17,6 +18,7 @@ const EmptyHeaderCell = ({ rowSpan, columnSpan }: Props) => {
         gridColumnEnd: `span ${columnSpan}`,
         background: styleService.grid.background,
       }}
+      data-testid={testId}
     />
   );
 };

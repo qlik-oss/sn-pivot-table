@@ -12,3 +12,4 @@ export const CELL_PADDING_HEIGHT = 8;
 export const DISCLAIMER_HEIGHT = 22;
 export const GRID_BORDER = 1;
 export const HEADER_ICON_SIZE = 12;
+export const PLUS_MINUS_ICON_SIZE = 13;
