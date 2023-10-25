@@ -4,7 +4,7 @@ import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import { getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
-import { getBackground, getCursor } from "./utils/get-style";
+import { getBackgroundColor, getBackgroundImage, getCursor } from "./utils/get-style";
 
 type Props = {
   text: string;
@@ -50,6 +50,7 @@ const Container = ({
     !cell.isPseudoDimension &&
     !cell.isTotal;
   const onClickHandler = canBeSelected ? select(cell) : undefined;
+  const backgroundColor = getBackgroundColor({ styleService, isCellSelected, cell });
 
   return (
     <div
@@ -63,10 +64,11 @@ const Container = ({
           borderColor: styleService.grid.divider,
         }),
         cursor: getCursor(canBeSelected),
-        background: getBackground({ styleService, isCellLocked, isCellSelected, cell }),
+        backgroundColor,
+        backgroundImage: getBackgroundImage({ backgroundColor, isCellLocked, cell }),
         // TODO Remove if possible. Gradient pattern will render over the border. This is to fix and issue in Chrome where
         // the gradient pattern gets stretched if the width of a cell is really large. See #433
-        backgroundClip: isCellLocked ? "border-box" : undefined,
+        backgroundClip: isCellLocked ? "border-box" : "border-box",
         zIndex: layoutService.size.x - cell.x,
         justifyContent: isLeftColumn ? undefined : "center",
         display: "flex",

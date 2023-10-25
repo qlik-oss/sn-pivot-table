@@ -1,6 +1,14 @@
 import type { Cell, StyleService } from "../../../../../../types/types";
 import { BOLD_FONT_WEIGHT } from "../../../../../constants";
-import { getBackground, getColor, getCursor, getFontStyle, getFontWeight, getTextDecoration } from "../get-style";
+import {
+  getBackgroundColor,
+  getBackgroundImage,
+  getColor,
+  getCursor,
+  getFontStyle,
+  getFontWeight,
+  getTextDecoration,
+} from "../get-style";
 
 describe("getStyle", () => {
   let cell: Cell;
@@ -51,23 +59,56 @@ describe("getStyle", () => {
     } as StyleService;
   });
 
-  describe("getBackground", () => {
+  describe("getBackgroundColor", () => {
     test("should resolve background for cell", () => {
-      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
+      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
         styleService.dimensionValues.background,
       );
     });
 
     test("should resolve background for selected cell", () => {
-      expect(getBackground({ cell, styleService, isCellSelected: true, isCellLocked: false })).toEqual("#0aaf54");
+      expect(getBackgroundColor({ cell, styleService, isCellSelected: true })).toEqual("#0aaf54");
     });
 
+    test("should resolve background from expression", () => {
+      cell.expressionColor.background = "expressionBackground";
+
+      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+        cell.expressionColor.background,
+      );
+    });
+
+    test("should resolve background from null value cell", () => {
+      cell.isNull = true;
+
+      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+        styleService.nullValues.background,
+      );
+    });
+
+    test("should resolve background from pseudo dimnension cell", () => {
+      cell.isPseudoDimension = true;
+
+      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+        styleService.measureLabels.background,
+      );
+    });
+
+    test("should resolve background from total cell", () => {
+      cell.isTotal = true;
+
+      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+        styleService.totalValues.background,
+      );
+    });
+  });
+
+  describe("getBackgroundImage", () => {
     test("should resolve background for locked cell", () => {
-      styleService.dimensionValues.background = "red";
       const whiteSpaceRegEx = /\s/g;
 
       expect(
-        (getBackground({ cell, styleService, isCellSelected: false, isCellLocked: true }) as string).replaceAll(
+        (getBackgroundImage({ cell, isCellLocked: true, backgroundColor: "red" }) as string).replaceAll(
           whiteSpaceRegEx,
           "",
         ),
@@ -77,38 +118,6 @@ describe("getStyle", () => {
           rgb(255, 59, 29) 0px 2px,
           red 0px 4px
         )`.replaceAll(whiteSpaceRegEx, ""),
-      );
-    });
-
-    test("should resolve background from expression", () => {
-      cell.expressionColor.background = "expressionBackground";
-
-      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
-        cell.expressionColor.background,
-      );
-    });
-
-    test("should resolve background from null value cell", () => {
-      cell.isNull = true;
-
-      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
-        styleService.nullValues.background,
-      );
-    });
-
-    test("should resolve background from pseudo dimnension cell", () => {
-      cell.isPseudoDimension = true;
-
-      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
-        styleService.measureLabels.background,
-      );
-    });
-
-    test("should resolve background from total cell", () => {
-      cell.isTotal = true;
-
-      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
-        styleService.totalValues.background,
       );
     });
   });
