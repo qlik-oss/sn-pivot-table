@@ -71,10 +71,22 @@ export const getBorderStyle = (
   borderColor: string,
   showLastBorder?: ShowLastBorder,
 ) => {
-  const borderRightWidth = !isLastColumn || showLastBorder?.right ? 1 : 0;
-  const borderBottomWidth = !isLastRow || showLastBorder?.bottom ? 1 : 0;
+  const showRightBorder = !isLastColumn || showLastBorder?.right;
+  const showBottomBorder = !isLastRow || showLastBorder?.bottom;
+  const borderRightWidth = showRightBorder ? 1 : 0;
+  const borderRightColor = showRightBorder ? borderColor : undefined;
+  const borderBottomWidth = showBottomBorder ? 1 : 0;
+  const borderBottomColor = showBottomBorder ? borderColor : undefined;
 
-  return { ...cellStyle, ...borderStyle, borderColor, borderWidth: 0, borderRightWidth, borderBottomWidth };
+  return {
+    ...cellStyle,
+    ...borderStyle,
+    borderRightColor,
+    borderBottomColor,
+    borderWidth: 0,
+    borderRightWidth,
+    borderBottomWidth,
+  };
 };
 
 export const getTotalCellDividerStyle = ({
