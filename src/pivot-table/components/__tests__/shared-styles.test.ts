@@ -17,13 +17,11 @@ describe("Shared styles", () => {
       borderRightWidth: 1,
       borderBottomWidth: 0,
       borderRightColor: borderColor,
-      borderBottomColor: undefined,
     };
     const borderBottom = {
       ...baseStyle,
       borderRightWidth: 0,
       borderBottomWidth: 1,
-      borderRightColor: undefined,
       borderBottomColor: borderColor,
     };
     const borderRightBottom = {
