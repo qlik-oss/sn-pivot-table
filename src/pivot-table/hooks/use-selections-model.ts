@@ -102,7 +102,7 @@ export default function useSelectionsModel(
 
   const select = useCallback(
     (cell: Cell) => async (evt: React.MouseEvent) => {
-      if ((evt.target as HTMLElement | SVGElement)?.getAttribute("class") === "sn-pivot-table-column-adjuster") {
+      if ((evt.target as HTMLElement | SVGElement)?.getAttribute("class")?.includes("sn-pivot-table-column-adjuster")) {
         return;
       }
 

@@ -54,10 +54,10 @@ describe("useSelectionsModel", () => {
     expect(selections.removeListener).toHaveBeenCalledWith("cleared", expect.any(Function));
   });
 
-  test("should not select cell when mouse event is comming from ColumnAdjuster", async () => {
+  test("should not select cell when mouse event is coming from ColumnAdjuster", async () => {
     const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
     mouseEvt.target = {
-      getAttribute: () => "sn-pivot-table-column-adjuster",
+      getAttribute: () => "sn-pivot-table-column-adjuster some-other-class",
     } as unknown as HTMLElement;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
