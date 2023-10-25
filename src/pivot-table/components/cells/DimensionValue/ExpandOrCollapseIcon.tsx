@@ -1,6 +1,5 @@
-import type { stardust } from "@nebula.js/stardust";
 import React from "react";
-import type { Cell, DataModel } from "../../../../types/types";
+import type { Cell, DataModel, ExpandOrCollapser } from "../../../../types/types";
 import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
@@ -15,78 +14,47 @@ type Props = {
   dataModel?: DataModel;
 };
 
-interface OnExpandOrCollapseProps {
+interface OnClickHandlerProps {
   cell: Cell;
-  isLeftColumn?: boolean;
-  interactions: stardust.Interactions;
-  dataModel?: DataModel;
-  isActive: boolean;
+  expandOrCollapse: ExpandOrCollapser;
 }
 
-const createOnExpand = ({ dataModel, isLeftColumn, cell, interactions, isActive }: OnExpandOrCollapseProps) => {
-  if (!interactions.active || isActive || !dataModel) {
-    return undefined;
-  }
-
-  const action = isLeftColumn ? dataModel.expandLeft : dataModel.expandTop;
-
-  return (e: React.SyntheticEvent) => {
-    action(cell.y, cell.x);
+const createOnClickHandler =
+  ({ expandOrCollapse, cell }: OnClickHandlerProps) =>
+  (e: React.SyntheticEvent) => {
+    expandOrCollapse(cell.y, cell.x);
     e.stopPropagation();
   };
-};
-
-const createOnCollapse = ({ dataModel, isLeftColumn, interactions, isActive, cell }: OnExpandOrCollapseProps) => {
-  if (!interactions.active || isActive || !dataModel) {
-    return undefined;
-  }
-
-  const action = isLeftColumn ? dataModel.collapseLeft : dataModel.collapseTop;
-
-  return (e: React.SyntheticEvent) => {
-    action(cell.y, cell.x);
-    e.stopPropagation();
-  };
-};
 
 const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }: Props): JSX.Element | null => {
   const styleService = useStyleContext();
   const { interactions } = useBaseContext();
   const { isActive } = useSelectionsContext();
 
-  if (cell.ref.qCanExpand) {
-    return (
-      <PlusIcon
-        color={getColor({ cell, styleService, isCellSelected })}
-        opacity={isActive ? 0.4 : 1.0}
-        onClick={createOnExpand({
-          dataModel,
-          isLeftColumn,
-          cell,
-          interactions,
-          isActive,
-        })}
-      />
-    );
+  if (!cell.ref.qCanExpand && !cell.ref.qCanCollapse) {
+    return null;
   }
 
-  if (cell.ref.qCanCollapse) {
-    return (
-      <MinusIcon
-        color={getColor({ cell, styleService, isCellSelected })}
-        opacity={isActive ? 0.4 : 1.0}
-        onClick={createOnCollapse({
-          dataModel,
-          isLeftColumn,
-          cell,
-          interactions,
-          isActive,
-        })}
-      />
-    );
+  const disableOnClickHandler = !interactions.active || isActive || !dataModel;
+  const color = getColor({ cell, styleService, isCellSelected });
+  const opacity = isActive ? 0.4 : 1.0;
+  const Icon = cell.ref.qCanExpand ? PlusIcon : MinusIcon;
+
+  if (disableOnClickHandler) {
+    return <Icon color={color} opacity={opacity} />;
   }
 
-  return null;
+  const onClickHandler = cell.ref.qCanExpand
+    ? createOnClickHandler({
+        expandOrCollapse: isLeftColumn ? dataModel.expandLeft : dataModel.expandTop,
+        cell,
+      })
+    : createOnClickHandler({
+        expandOrCollapse: isLeftColumn ? dataModel.collapseLeft : dataModel.collapseTop,
+        cell,
+      });
+
+  return <Icon color={color} opacity={opacity} onClick={onClickHandler} />;
 };
 
 export default ExpandOrCollapseIcon;

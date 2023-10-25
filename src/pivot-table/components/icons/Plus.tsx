@@ -3,7 +3,7 @@ import React from "react";
 import { PLUS_MINUS_ICON_SIZE } from "../../constants";
 
 interface IconProps {
-  onClick: ((e: React.SyntheticEvent<Element, Event>) => void) | undefined;
+  onClick?: ((e: React.SyntheticEvent<Element, Event>) => void) | undefined;
   color: string;
   opacity: number;
 }
@@ -17,7 +17,7 @@ const PlusIcon = ({ color, opacity, onClick }: IconProps): JSX.Element => (
     data-testid={testIdExpandIcon}
     onClick={onClick}
     height={PLUS_MINUS_ICON_SIZE}
-    style={{ flexShrink: 0 }}
+    style={{ flexShrink: 0, cursor: onClick ? "pointer" : "default" }} // Explicit pointer to handle null values
   />
 );
 
