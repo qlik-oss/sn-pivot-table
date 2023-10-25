@@ -8,8 +8,6 @@ import { ColumnWidthValues } from "../../hooks/use-column-width";
 import { CELL_PADDING } from "../shared-styles";
 import { AdjusterBorder, AdjusterHitArea } from "./styles";
 
-const POSITION_ADJUSTMENT = CELL_PADDING + GRID_BORDER;
-
 interface AdjusterProps {
   cell: CellInfo;
   columnWidth: number;
@@ -25,6 +23,7 @@ interface AdjusterProps {
 const ColumnAdjuster = ({ cell, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
+  const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
 
   useOnPropsChange(() => {
     setInternalWidth(columnWidth);
@@ -65,7 +64,7 @@ const ColumnAdjuster = ({ cell, columnWidth, dataModel, isLastColumn }: Adjuster
 
   return (
     <AdjusterHitArea
-      style={{ left: internalWidth - POSITION_ADJUSTMENT }}
+      style={{ left: internalWidth - positionAdjustment }}
       isLastColumn={isLastColumn}
       className="sn-pivot-table-column-adjuster"
       key={`adjuster-${cell.x}`}

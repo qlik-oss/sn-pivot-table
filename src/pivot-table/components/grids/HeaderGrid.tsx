@@ -55,6 +55,7 @@ const HeaderGrid = ({
                 height: rowHight,
                 gridColumn: colIndex + 1,
                 gridRow: rowIndex + 1,
+                zIndex: Number(!cell.isDim),
               }}
               isLastColumn={colIndex === headersData.size.x - 1}
               isLastRow={rowIndex === headersData.size.y - 1}
