@@ -64,7 +64,9 @@ const Container = ({
         }),
         cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellLocked, isCellSelected, cell }),
-        backgroundClip: isCellLocked ? "padding-box" : undefined, // TODO fix white border on cells with colorful background
+        // TODO Remove if possible. Gradient pattern will render over the border. This is to fix and issue in Chrome where
+        // the gradient pattern gets stretched if the width of a cell is really large. See #433
+        backgroundClip: isCellLocked ? "border-box" : undefined,
         zIndex: layoutService.size.x - cell.x,
         justifyContent: isLeftColumn ? undefined : "center",
         display: "flex",
