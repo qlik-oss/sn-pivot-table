@@ -4,11 +4,35 @@ import { borderStyle, cellStyle, getBorderStyle } from "../shared-styles";
 describe("Shared styles", () => {
   describe("getBorderStyle", () => {
     const borderColor = "red";
-    const baseStyle = { ...cellStyle, ...borderStyle, borderColor, borderWidth: 0 };
+    const baseStyle = {
+      ...cellStyle,
+      ...borderStyle,
+      borderWidth: 0,
+      borderRightColor: undefined,
+      borderBottomColor: undefined,
+    };
     const noBorder = { ...baseStyle, borderRightWidth: 0, borderBottomWidth: 0 };
-    const borderRight = { ...baseStyle, borderRightWidth: 1, borderBottomWidth: 0 };
-    const borderBottom = { ...baseStyle, borderRightWidth: 0, borderBottomWidth: 1 };
-    const borderRightBottom = { ...baseStyle, borderRightWidth: 1, borderBottomWidth: 1 };
+    const borderRight = {
+      ...baseStyle,
+      borderRightWidth: 1,
+      borderBottomWidth: 0,
+      borderRightColor: borderColor,
+      borderBottomColor: undefined,
+    };
+    const borderBottom = {
+      ...baseStyle,
+      borderRightWidth: 0,
+      borderBottomWidth: 1,
+      borderRightColor: undefined,
+      borderBottomColor: borderColor,
+    };
+    const borderRightBottom = {
+      ...baseStyle,
+      borderRightWidth: 1,
+      borderBottomWidth: 1,
+      borderRightColor: borderColor,
+      borderBottomColor: borderColor,
+    };
     let showLastBorder: ShowLastBorder;
 
     beforeEach(() => {
