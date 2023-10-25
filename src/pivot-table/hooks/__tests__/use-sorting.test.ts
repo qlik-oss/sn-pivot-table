@@ -77,7 +77,7 @@ describe("use-sorting", () => {
     });
 
     describe("Pseudo Dimension index in left grid", () => {
-      test("should skip pseudo dimension index in left grid if sorting column comes after psudo dimension", async () => {
+      test("should skip pseudo dimension index in left grid if sorting column comes after pseudo dimension", async () => {
         header = { ...header, colIdx: 2 };
         const { changeSortOrder } = renderer(1);
         newSortDirection = "D";
@@ -95,7 +95,7 @@ describe("use-sorting", () => {
         );
       });
 
-      test("should not skip pseudo dimension index in left grid if sorting column comes before psudo dimension", async () => {
+      test("should not skip pseudo dimension index in left grid if sorting column comes before pseudo dimension", async () => {
         header = { ...header, colIdx: 1 };
         const { changeSortOrder } = renderer(2);
         newSortDirection = "D";
