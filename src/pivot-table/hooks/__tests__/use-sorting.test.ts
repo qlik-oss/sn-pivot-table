@@ -12,7 +12,8 @@ describe("use-sorting", () => {
   let header: HeaderCell;
   let newSortDirection: SortDirection;
 
-  const renderer = () => renderHook(() => useSorting(model, hyperCube)).result.current;
+  const renderer = (pseudoDimInLeftGridIdx?: number) =>
+    renderHook(() => useSorting(model, hyperCube, pseudoDimInLeftGridIdx)).result.current;
 
   beforeEach(() => {
     applyPatches = jest.fn();
@@ -73,6 +74,44 @@ describe("use-sorting", () => {
         ],
         true,
       );
+    });
+
+    describe("Pseudo Dimension index in left grid", () => {
+      test("should skip pseudo dimension index in left grid if sorting column comes after psudo dimension", async () => {
+        header = { ...header, colIdx: 2 };
+        const { changeSortOrder } = renderer(1);
+        newSortDirection = "D";
+        await changeSortOrder(header, newSortDirection);
+        expect(applyPatches).toHaveBeenCalledTimes(1);
+        expect(applyPatches).toHaveBeenCalledWith(
+          [
+            {
+              qOp: "Replace",
+              qPath: `/qHyperCubeDef/qDimensions/${header.colIdx - 1}/qDef/qReverseSort`,
+              qValue: String(!header.qReverseSort),
+            },
+          ],
+          true,
+        );
+      });
+
+      test("should not skip pseudo dimension index in left grid if sorting column comes before psudo dimension", async () => {
+        header = { ...header, colIdx: 1 };
+        const { changeSortOrder } = renderer(2);
+        newSortDirection = "D";
+        await changeSortOrder(header, newSortDirection);
+        expect(applyPatches).toHaveBeenCalledTimes(1);
+        expect(applyPatches).toHaveBeenCalledWith(
+          [
+            {
+              qOp: "Replace",
+              qPath: `/qHyperCubeDef/qDimensions/${header.colIdx}/qDef/qReverseSort`,
+              qValue: String(!header.qReverseSort),
+            },
+          ],
+          true,
+        );
+      });
     });
 
     test("should log error if applyPatches fails", async () => {
