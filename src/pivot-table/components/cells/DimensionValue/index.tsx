@@ -13,13 +13,13 @@ import StickyCellContainer from "./StickyCellContainer";
 import Text from "./Text";
 import getCell from "./utils/get-cell";
 
-export interface DimensionCellProps {
+export interface DimensionValueProps {
   index: number;
   style: React.CSSProperties;
   data: ListItemData;
 }
 
-const DimensionValue = ({ index, style, data }: DimensionCellProps): JSX.Element => {
+const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Element => {
   const styleService = useStyleContext();
   const { isSelected, isActive } = useSelectionsContext();
   const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;

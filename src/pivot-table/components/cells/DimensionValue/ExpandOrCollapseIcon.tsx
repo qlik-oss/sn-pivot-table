@@ -23,9 +23,6 @@ interface OnExpandOrCollapseProps {
   isActive: boolean;
 }
 
-export const testIdExpandIcon = "expand-icon";
-export const testIdCollapseIcon = "collapse-icon";
-
 const createOnExpand = ({ dataModel, isLeftColumn, cell, interactions, isActive }: OnExpandOrCollapseProps) => {
   if (!interactions.active || isActive || !dataModel) {
     return undefined;
@@ -62,7 +59,6 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
       <PlusIcon
         color={getColor({ cell, styleService, isCellSelected })}
         opacity={isActive ? 0.4 : 1.0}
-        testid={testIdExpandIcon}
         onClick={createOnExpand({
           dataModel,
           isLeftColumn,
@@ -79,7 +75,6 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
       <MinusIcon
         color={getColor({ cell, styleService, isCellSelected })}
         opacity={isActive ? 0.4 : 1.0}
-        testid={testIdCollapseIcon}
         onClick={createOnCollapse({
           dataModel,
           isLeftColumn,

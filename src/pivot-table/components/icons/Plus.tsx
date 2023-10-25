@@ -5,15 +5,16 @@ import { PLUS_MINUS_ICON_SIZE } from "../../constants";
 interface IconProps {
   onClick: ((e: React.SyntheticEvent<Element, Event>) => void) | undefined;
   color: string;
-  testid: string;
   opacity: number;
 }
 
-const PlusIcon = ({ color, opacity, testid, onClick }: IconProps): JSX.Element => (
+export const testIdExpandIcon = "expand-icon";
+
+const PlusIcon = ({ color, opacity, onClick }: IconProps): JSX.Element => (
   <PlusOutlineIcon
     opacity={opacity}
     color={color}
-    data-testid={testid}
+    data-testid={testIdExpandIcon}
     onClick={onClick}
     height={PLUS_MINUS_ICON_SIZE}
     style={{ flexShrink: 0 }}

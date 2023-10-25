@@ -19,7 +19,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const testId = "dim-cell";
+export const testId = "dimension-cell";
 
 const NOOP_KEY_HANDLER = () => {};
 
@@ -53,7 +53,7 @@ const Container = ({
 
   return (
     <div
-      title={text}
+      title={interactions.passive ? text : undefined}
       style={{
         ...reactWindowStyle,
         ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
