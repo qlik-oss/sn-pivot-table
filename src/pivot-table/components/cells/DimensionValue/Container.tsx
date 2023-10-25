@@ -64,7 +64,7 @@ const Container = ({
         }),
         cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellLocked, isCellSelected, cell }),
-        backgroundClip: "padding-box",
+        backgroundClip: isCellLocked ? "padding-box" : undefined, // TODO fix white border on cells with colorful background
         zIndex: layoutService.size.x - cell.x,
         justifyContent: isLeftColumn ? undefined : "center",
         display: "flex",
