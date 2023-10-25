@@ -125,7 +125,6 @@ const DimensionTitleCell = ({
           <StyledHeaderAnchor ref={anchorRef} />
         </>
       )}
-      {/* TODO: columnWidth for pseudoDims */}
       {isLastRow && (
         <ColumnAdjuster cell={cellInfo} columnWidth={columnWidth} dataModel={dataModel} isLastColumn={isLastColumn} />
       )}

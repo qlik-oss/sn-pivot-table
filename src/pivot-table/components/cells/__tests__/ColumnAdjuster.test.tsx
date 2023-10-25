@@ -15,7 +15,7 @@ describe("<ColumnAdjuster />", () => {
       applyColumnWidth: jest.fn(),
     } as unknown as DataModel;
 
-    render(<ColumnAdjuster cell={cell} columnWidth={columnWidth} dataModel={dataModel} />);
+    render(<ColumnAdjuster cell={cell} columnWidth={columnWidth} dataModel={dataModel} isLastColumn={false} />);
   });
 
   afterEach(() => jest.clearAllMocks());

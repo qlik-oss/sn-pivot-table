@@ -3,17 +3,17 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import type { App, ExtendedDimensionInfo } from "../../../../types/QIX";
-import type { HeaderCell } from "../../../../types/types";
+import type { DataModel, HeaderCell } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
 import type { GetHeaderCellsIconsVisibilityStatus } from "../../../hooks/use-column-width";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
 
 describe("DimensionTitleCell", () => {
+  const dataModel = {} as DataModel;
   const cell: HeaderCell = {
     label: "test value",
     isDim: true,
   } as HeaderCell;
-
   const translator = { get: (s) => s } as stardust.Translator;
   const changeSortOrder = jest.fn();
   const changeActivelySortedColumn = jest.fn();
@@ -29,19 +29,27 @@ describe("DimensionTitleCell", () => {
     shouldShowLockIcon: true,
   };
 
-  test("should render", async () => {
-    render(
+  let component: React.JSX.Element;
+
+  beforeEach(() => {
+    component = (
       <DimensionTitleCell
+        dataModel={dataModel}
         cell={cell}
         translator={translator}
         style={style}
         isLastColumn={false}
+        isLastRow={false}
         changeSortOrder={changeSortOrder}
         changeActivelySortedHeader={changeActivelySortedColumn}
         iconsVisibilityStatus={iconsVisibilityStatus}
-      />,
-      { wrapper: TestWithProvider },
+        columnWidth={100}
+      />
     );
+  });
+
+  test("should render", async () => {
+    render(component, { wrapper: TestWithProvider });
 
     await waitFor(() => expect(screen.getByText(cell.label)).toBeInTheDocument());
     await waitFor(() => expect(screen.getByTestId(testId)).toHaveStyle(style as Record<string, unknown>));
@@ -68,24 +76,13 @@ describe("DimensionTitleCell", () => {
     });
 
     test("should be able to open header menu", async () => {
-      render(
-        <DimensionTitleCell
-          cell={cell}
-          translator={translator}
-          style={style}
-          isLastColumn={false}
-          changeSortOrder={changeSortOrder}
-          changeActivelySortedHeader={changeActivelySortedColumn}
-          iconsVisibilityStatus={iconsVisibilityStatus}
-        />,
-        {
-          wrapper: ({ children }) => (
-            <TestWithProvider model={model} interactions={interactions}>
-              {children}
-            </TestWithProvider>
-          ),
-        },
-      );
+      render(component, {
+        wrapper: ({ children }) => (
+          <TestWithProvider model={model} interactions={interactions}>
+            {children}
+          </TestWithProvider>
+        ),
+      });
 
       await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
 
@@ -96,48 +93,26 @@ describe("DimensionTitleCell", () => {
 
     test("should not show header menu icon if `interactions.active` is false", async () => {
       interactions = { ...interactions, active: false };
-      render(
-        <DimensionTitleCell
-          cell={cell}
-          translator={translator}
-          style={style}
-          isLastColumn={false}
-          changeSortOrder={changeSortOrder}
-          changeActivelySortedHeader={changeActivelySortedColumn}
-          iconsVisibilityStatus={iconsVisibilityStatus}
-        />,
-        {
-          wrapper: ({ children }) => (
-            <TestWithProvider model={model} interactions={interactions}>
-              {children}
-            </TestWithProvider>
-          ),
-        },
-      );
+      render(component, {
+        wrapper: ({ children }) => (
+          <TestWithProvider model={model} interactions={interactions}>
+            {children}
+          </TestWithProvider>
+        ),
+      });
 
       await waitFor(() => expect(screen.queryByTestId("nebula-table-utils-head-menu-button")).not.toBeInTheDocument());
     });
 
     test("should skip rendering search and select menu items if `interactions.select` is false", async () => {
       interactions = { ...interactions, active: true, select: false };
-      render(
-        <DimensionTitleCell
-          cell={cell}
-          translator={translator}
-          style={style}
-          isLastColumn={false}
-          changeSortOrder={changeSortOrder}
-          changeActivelySortedHeader={changeActivelySortedColumn}
-          iconsVisibilityStatus={iconsVisibilityStatus}
-        />,
-        {
-          wrapper: ({ children }) => (
-            <TestWithProvider model={model} interactions={interactions}>
-              {children}
-            </TestWithProvider>
-          ),
-        },
-      );
+      render(component, {
+        wrapper: ({ children }) => (
+          <TestWithProvider model={model} interactions={interactions}>
+            {children}
+          </TestWithProvider>
+        ),
+      });
 
       await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
 
@@ -152,24 +127,13 @@ describe("DimensionTitleCell", () => {
       const popoverMock = jest.fn();
       const embed = { __DO_NOT_USE__: { popover: popoverMock } } as unknown as stardust.Embed;
 
-      render(
-        <DimensionTitleCell
-          cell={cell}
-          translator={translator}
-          style={style}
-          isLastColumn={false}
-          changeSortOrder={changeSortOrder}
-          changeActivelySortedHeader={changeActivelySortedColumn}
-          iconsVisibilityStatus={iconsVisibilityStatus}
-        />,
-        {
-          wrapper: ({ children }) => (
-            <TestWithProvider model={model} embed={embed} interactions={interactions}>
-              {children}
-            </TestWithProvider>
-          ),
-        },
-      );
+      render(component, {
+        wrapper: ({ children }) => (
+          <TestWithProvider model={model} embed={embed} interactions={interactions}>
+            {children}
+          </TestWithProvider>
+        ),
+      });
 
       await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
       await userEvent.click(screen.getByText("NebulaTableUtils.MenuItemLabel.Search"));
@@ -192,24 +156,13 @@ describe("DimensionTitleCell", () => {
       const appMock = {
         getField: () => Promise.resolve(fieldInstanceMock),
       } as unknown as App;
-      render(
-        <DimensionTitleCell
-          cell={cell}
-          translator={translator}
-          style={style}
-          isLastColumn={false}
-          changeSortOrder={changeSortOrder}
-          changeActivelySortedHeader={changeActivelySortedColumn}
-          iconsVisibilityStatus={iconsVisibilityStatus}
-        />,
-        {
-          wrapper: ({ children }) => (
-            <TestWithProvider model={model} app={appMock} interactions={interactions}>
-              {children}
-            </TestWithProvider>
-          ),
-        },
-      );
+      render(component, {
+        wrapper: ({ children }) => (
+          <TestWithProvider model={model} app={appMock} interactions={interactions}>
+            {children}
+          </TestWithProvider>
+        ),
+      });
 
       await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
       await userEvent.click(screen.getByText("NebulaTableUtils.MenuItemLabel.Selections"));
