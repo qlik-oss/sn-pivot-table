@@ -19,7 +19,7 @@ describe("use-sorting", () => {
     model = { applyPatches } as unknown as Model;
     hyperCube = { qDimensionInfo: [{}, {}, {}] } as unknown as ExtendedHyperCube;
 
-    header = { isDim: true, colIdx: 0, qReverseSort: false } as HeaderCell;
+    header = { isDim: true, colIdx: 0, qReverseSort: false, dimensionInfoIndex: 1 } as HeaderCell;
     newSortDirection = "A";
   });
 
@@ -50,7 +50,7 @@ describe("use-sorting", () => {
         [
           {
             qOp: "Replace",
-            qPath: `/qHyperCubeDef/qDimensions/${header.colIdx}/qDef/qReverseSort`,
+            qPath: `/qHyperCubeDef/qDimensions/${header.dimensionInfoIndex}/qDef/qReverseSort`,
             qValue: String(!header.qReverseSort),
           },
         ],
@@ -67,7 +67,7 @@ describe("use-sorting", () => {
         [
           {
             qOp: "Replace",
-            qPath: `/qHyperCubeDef/qDimensions/${header.colIdx}/qDef/qReverseSort`,
+            qPath: `/qHyperCubeDef/qDimensions/${header.dimensionInfoIndex}/qDef/qReverseSort`,
             qValue: String(!header.qReverseSort),
           },
         ],
