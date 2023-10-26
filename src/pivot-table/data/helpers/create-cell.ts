@@ -1,5 +1,5 @@
 import NxDimCellType, { NxSelectionCellType } from "../../../types/QIX";
-import type { AttrExprInfoIndex, Cell, VisibleDimensionInfo } from "../../../types/types";
+import type { AttrExprInfoIndex, Cell, LayoutService, VisibleDimensionInfo } from "../../../types/types";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../constants";
 import getExpressionColor from "./get-expression-color";
 
@@ -7,6 +7,19 @@ import getExpressionColor from "./get-expression-color";
 // qElemNo === -2 => Null
 // qElemNo === -3 => Others
 // qElemNo === -4 => Empty
+
+type Props = {
+  node: EngineAPI.INxPivotDimensionCell;
+  parent: Cell | null;
+  root: Cell | null;
+  x: number;
+  y: number;
+  pageY: number;
+  dimensionInfo: VisibleDimensionInfo;
+  attrExprInfoIndex: AttrExprInfoIndex;
+  layoutService: LayoutService;
+  isLeftColumn?: boolean;
+};
 
 const countLeafNodes = (count: number, node: EngineAPI.INxPivotDimensionCell): number =>
   node.qSubNodes.reduce((acc, childNode) => {
@@ -42,18 +55,18 @@ const getLeafCount = (
   return Math.min(maxLeafCount, countLeafNodes(nbrOfLeafNodesThatCanBeFetched, node));
 };
 
-const createCell = (
-  node: EngineAPI.INxPivotDimensionCell,
-  parent: Cell | null,
-  root: Cell | null,
-  x: number,
-  y: number,
-  pageY: number,
-  isSnapshot: boolean,
-  dimensionInfo: VisibleDimensionInfo,
-  attrExprInfoIndex: AttrExprInfoIndex,
+const createCell = ({
+  node,
+  parent,
+  root,
+  x,
+  y,
+  pageY,
+  layoutService,
+  dimensionInfo,
+  attrExprInfoIndex,
   isLeftColumn = true,
-): Cell => {
+}: Props): Cell => {
   const cell = {
     ref: node,
     x,
@@ -75,7 +88,7 @@ const createCell = (
      */
     children: [] as Cell[],
     isLeafNode: node.qSubNodes.length === 0,
-    leafCount: getLeafCount(node, y, pageY, x, isSnapshot, isLeftColumn),
+    leafCount: getLeafCount(node, y, pageY, x, layoutService.isSnapshot, isLeftColumn),
     distanceToNextCell: 0,
     isLockedByDimension: !!(typeof dimensionInfo === "object" && dimensionInfo.qLocked),
     // Having "parent.isTotal" means that it's enough that any ancestors is a total cell,
@@ -87,6 +100,7 @@ const createCell = (
     isAncestorPseudoDimension: !!(parent?.isAncestorPseudoDimension || parent?.isPseudoDimension),
     expressionColor: getExpressionColor(attrExprInfoIndex, node),
     selectionCellType: isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP,
+    dimensionInfoIndex: layoutService.getDimensionInfoIndex(dimensionInfo),
   };
 
   if (parent) {

@@ -33,18 +33,18 @@ const extractTopGrid = (
       // If cell already exist do not create a new cell
       const cell =
         grid[rowIdx][x] ??
-        createCell(
+        createCell({
           node,
           parent,
           root,
           x,
-          rowIdx,
-          rowIdx,
-          layoutService.isSnapshot,
-          visibleTopDimensionInfo[rowIdx],
-          attrExprInfoIndexes[rowIdx],
-          false,
-        );
+          y: rowIdx,
+          pageY: rowIdx,
+          layoutService,
+          dimensionInfo: visibleTopDimensionInfo[rowIdx],
+          attrExprInfoIndex: attrExprInfoIndexes[rowIdx],
+          isLeftColumn: false,
+        });
 
       grid[rowIdx][x] = cell;
 

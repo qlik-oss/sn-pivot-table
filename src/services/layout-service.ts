@@ -1,14 +1,14 @@
 import { PSEUDO_DIMENSION_INDEX } from "../constants";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../pivot-table/constants";
 import { type PivotLayout } from "../types/QIX";
-import type { LayoutService } from "../types/types";
+import type { LayoutService, VisibleDimensionInfo } from "../types/types";
 
 const createLayoutService = (
   layout: PivotLayout,
   effectiveProperties: EngineAPI.IGenericObjectProperties | undefined,
 ): LayoutService => {
   const { qHyperCube, nullValueRepresentation, snapshotData } = layout;
-  const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;
+  const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo, qDimensionInfo } = qHyperCube;
   const isSnapshot = !!snapshotData;
   const snapshotDataPage = snapshotData?.content?.qPivotDataPages?.[0]?.qArea ?? { qWidth: 0, qHeight: 0 };
   const size = {
@@ -18,6 +18,9 @@ const createLayoutService = (
   const hasPseudoDimOnLeft = qEffectiveInterColumnSortOrder
     .slice(0, qNoOfLeftDims)
     .some((index) => index === PSEUDO_DIMENSION_INDEX);
+  const dimensionInfoIndexMap: Map<VisibleDimensionInfo, number> = new Map(
+    qEffectiveInterColumnSortOrder.map((index) => [qDimensionInfo[index] ?? PSEUDO_DIMENSION_INDEX, index]),
+  );
 
   return {
     layout,
@@ -29,6 +32,7 @@ const createLayoutService = (
 
       return index % qMeasureInfo.length;
     },
+    getDimensionInfoIndex: (info: VisibleDimensionInfo) => dimensionInfoIndexMap.get(info) ?? -1,
     size,
     isSnapshot,
     hasLimitedData: !isSnapshot && size.x < layout.qHyperCube.qSize.qcx,

@@ -61,6 +61,7 @@ describe("useColumnWidth", () => {
         y: 1,
       },
       getMeasureInfoIndexFromCellIndex: (index: number) => index,
+      getDimensionInfoIndex: () => 0,
     } as unknown as LayoutService;
 
     visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfo];
@@ -84,11 +85,7 @@ describe("useColumnWidth", () => {
     const {
       result: { current },
     } = renderHook(() => {
-      headersData = createHeadersData(
-        layoutService.layout.qHyperCube,
-        visibleTopDimensionInfo,
-        visibleLeftDimensionInfo,
-      );
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
       return useColumnWidth(
         layoutService,
         rect,

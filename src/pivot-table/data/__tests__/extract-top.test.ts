@@ -13,6 +13,7 @@ describe("extractTop", () => {
   beforeEach(() => {
     layoutService = {
       isSnapshot: false,
+      getDimensionInfoIndex: () => 0,
     } as unknown as LayoutService;
   });
 
