@@ -20,15 +20,6 @@ export const baseFlex: React.CSSProperties = {
   alignItems: "center",
 };
 
-export const topContainerCellStyle: React.CSSProperties = {
-  ...baseFlex,
-};
-
-export const leftContainerCellStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "flex-start",
-};
-
 export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
   borderStyle: "solid",
 };
@@ -57,24 +48,28 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   wordBreak: "break-all",
 });
 
-export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "position" | "left" | "top"> = {
-  width: "fit-content",
-  maxWidth: "100%",
-  position: "sticky",
-  left: CELL_PADDING,
-  top: CELL_PADDING,
-};
-
 export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
   showLastBorder?: ShowLastBorder,
 ) => {
-  const borderRightWidth = !isLastColumn || showLastBorder?.right ? 1 : 0;
-  const borderBottomWidth = !isLastRow || showLastBorder?.bottom ? 1 : 0;
+  const showRightBorder = !isLastColumn || showLastBorder?.right;
+  const showBottomBorder = !isLastRow || showLastBorder?.bottom;
+  const borderRightWidth = showRightBorder ? 1 : 0;
+  const borderRightColor = showRightBorder ? borderColor : undefined;
+  const borderBottomWidth = showBottomBorder ? 1 : 0;
+  const borderBottomColor = showBottomBorder ? borderColor : undefined;
 
-  return { ...cellStyle, ...borderStyle, borderColor, borderWidth: 0, borderRightWidth, borderBottomWidth };
+  return {
+    ...cellStyle,
+    ...borderStyle,
+    borderRightColor,
+    borderBottomColor,
+    borderWidth: 0,
+    borderRightWidth,
+    borderBottomWidth,
+  };
 };
 
 export const getTotalCellDividerStyle = ({

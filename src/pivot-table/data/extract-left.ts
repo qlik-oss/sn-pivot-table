@@ -39,18 +39,18 @@ const extractLeftGrid = (
       // If cell already exist do not create a new cell
       const cell =
         grid[colIdx][pageY] ??
-        createCell(
+        createCell({
           node,
           parent,
           root,
-          colIdx,
+          x: colIdx,
           y,
           pageY,
-          layoutService.isSnapshot,
-          visibleLeftDimensionInfo[colIdx],
-          attrExprInfoIndexes[colIdx],
-          true,
-        );
+          layoutService,
+          dimensionInfo: visibleLeftDimensionInfo[colIdx],
+          attrExprInfoIndex: attrExprInfoIndexes[colIdx],
+          isLeftColumn: true,
+        });
 
       grid[colIdx][pageY] = cell;
 

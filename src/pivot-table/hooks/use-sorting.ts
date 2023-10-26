@@ -18,12 +18,12 @@ const useSorting: UseSorting = (model, qHyperCube) => {
       changeSortOrder: async (headerCell: HeaderCell, newSortDirection: SortDirection) => {
         if (!model) throw new Error("No Model provided!");
 
-        const { colIdx, qReverseSort } = headerCell;
+        const { qReverseSort, dimensionInfoIndex } = headerCell;
         const patches: EngineAPI.INxPatch[] = [];
 
         if ((newSortDirection === "D" && !qReverseSort) || (newSortDirection === "A" && qReverseSort)) {
           patches.push({
-            qPath: `/qHyperCubeDef/qDimensions/${colIdx}/qDef/qReverseSort`,
+            qPath: `/qHyperCubeDef/qDimensions/${dimensionInfoIndex}/qDef/qReverseSort`,
             qOp: "Replace",
             qValue: (!qReverseSort).toString(),
           });

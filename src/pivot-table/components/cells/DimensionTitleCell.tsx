@@ -76,7 +76,7 @@ const DimensionTitleCell = ({
 
   const cellInfo = {
     x: cell.colIdx,
-    isAncestorPseudoDimension: cell.isAncestorPseudoDimension,
+    isAncestorPseudoDimension: false,
     isPseudoDimension: !cell.isDim,
     isLeftColumn: true,
   };

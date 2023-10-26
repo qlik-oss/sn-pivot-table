@@ -10,7 +10,7 @@ import type {
   VisibleDimensionInfo,
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import MemoizedListCellFactory from "../cells/ListCellFactory";
+import MemoizedDimensionValue from "../cells/DimensionValue";
 import getItemKey from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
@@ -128,7 +128,7 @@ const LeftGrid = ({
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}
           >
-            {MemoizedListCellFactory}
+            {MemoizedDimensionValue}
           </VariableSizeList>
         );
       })}
