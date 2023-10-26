@@ -9,6 +9,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "children": [
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -40,6 +41,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 2,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -74,6 +76,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "children": [
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -101,6 +104,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               },
               "root": {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -136,6 +140,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 2,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -167,6 +172,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 1,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -199,6 +205,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
     },
     "1": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -235,6 +242,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "children": [
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -266,6 +274,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 2,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -308,6 +317,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "children": [
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -340,6 +350,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             },
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -371,6 +382,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 2,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -417,6 +429,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 1,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -449,6 +462,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
     },
     "3": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -485,6 +499,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -517,6 +532,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "children": [
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -544,6 +560,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                     },
                     "root": {
                       "children": [],
+                      "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
                       "expressionColor": {
                         "background": null,
@@ -579,6 +596,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                     "y": 2,
                   },
                 ],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -610,6 +628,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 1,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -645,6 +664,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 2,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -669,6 +689,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -696,6 +717,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 },
                 "root": {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -731,6 +753,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -762,6 +785,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -806,6 +830,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -833,6 +858,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 },
                 "root": {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -868,6 +894,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -899,6 +926,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -937,6 +965,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -964,6 +993,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           },
           "root": {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -999,6 +1029,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 2,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -1022,6 +1053,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1053,6 +1085,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -1085,6 +1118,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -1128,6 +1162,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1159,6 +1194,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -1191,6 +1227,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -1229,6 +1266,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -1261,6 +1299,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "children": [
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -1293,6 +1332,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   },
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -1324,6 +1364,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                     "y": 2,
                   },
                 ],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1370,6 +1411,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 1,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -1405,6 +1447,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 2,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -1429,6 +1472,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1461,6 +1505,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               },
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1492,6 +1537,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -1538,6 +1584,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -1590,6 +1637,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1622,6 +1670,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               },
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1653,6 +1702,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -1699,6 +1749,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -1737,6 +1788,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -1768,6 +1820,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "children": [
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -1799,6 +1852,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                     "y": 2,
                   },
                 ],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1839,6 +1893,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               },
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -1875,6 +1930,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         },
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -1906,6 +1962,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "children": [
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -1937,6 +1994,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                     "y": 2,
                   },
                 ],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -1977,6 +2035,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               },
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -2012,6 +2071,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 2,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -2035,6 +2095,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -2066,6 +2127,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -2106,6 +2168,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -2164,6 +2227,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -2195,6 +2259,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -2235,6 +2300,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -2273,6 +2339,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
   {
     "0": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -2294,6 +2361,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "children": [
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -2318,6 +2386,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -2345,6 +2414,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   },
                   "root": {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -2380,6 +2450,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -2411,6 +2482,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 1,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -2455,6 +2527,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -2482,6 +2555,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   },
                   "root": {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -2517,6 +2591,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -2548,6 +2623,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 1,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -2595,6 +2671,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -2629,6 +2706,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -2656,6 +2734,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 },
                 "root": {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -2691,6 +2770,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -2722,6 +2802,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -2758,6 +2839,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
     },
     "1": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -2779,6 +2861,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "children": [
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -2802,6 +2885,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -2833,6 +2917,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -2865,6 +2950,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -2908,6 +2994,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -2939,6 +3026,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -2971,6 +3059,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -3014,6 +3103,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       },
       "root": {
         "children": [],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -3050,6 +3140,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
     },
     "2": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -3071,6 +3162,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "children": [
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -3095,6 +3187,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -3127,6 +3220,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 },
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -3158,6 +3252,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -3204,6 +3299,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 1,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -3256,6 +3352,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -3288,6 +3385,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 },
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -3319,6 +3417,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -3365,6 +3464,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 1,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -3412,6 +3512,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -3454,6 +3555,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -3486,6 +3588,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               },
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -3517,6 +3620,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -3563,6 +3667,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -3599,6 +3704,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
     },
     "3": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -3621,6 +3727,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           [Circular],
           {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -3652,6 +3759,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "children": [
                     {
                       "children": [],
+                      "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
                       "expressionColor": {
                         "background": null,
@@ -3683,6 +3791,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                       "y": 2,
                     },
                   ],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -3723,6 +3832,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 },
                 [Circular],
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -3758,6 +3868,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 2,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -3781,6 +3892,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -3812,6 +3924,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -3852,6 +3965,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -3910,6 +4024,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -3941,6 +4056,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -3981,6 +4097,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -4028,6 +4145,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -4059,6 +4177,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -4102,6 +4221,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               [Circular],
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -4133,6 +4253,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -4179,6 +4300,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -4215,6 +4337,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
     },
     "4": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -4236,6 +4359,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "children": [
           {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -4267,6 +4391,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "children": [
                     {
                       "children": [],
+                      "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
                       "expressionColor": {
                         "background": null,
@@ -4298,6 +4423,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                       "y": 2,
                     },
                   ],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -4338,6 +4464,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 },
                 [Circular],
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -4374,6 +4501,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -4397,6 +4525,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -4428,6 +4557,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -4468,6 +4598,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -4526,6 +4657,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -4557,6 +4689,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -4597,6 +4730,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -4644,6 +4778,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -4675,6 +4810,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -4717,6 +4853,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -4749,6 +4886,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               },
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -4795,6 +4933,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -4842,6 +4981,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "children": [
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -4873,6 +5013,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 2,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -4907,6 +5048,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "children": [
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -4934,6 +5076,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               },
               "root": {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -4969,6 +5112,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 2,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -5000,6 +5144,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 1,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -5032,6 +5177,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
     },
     "1": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -5068,6 +5214,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "children": [
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -5099,6 +5246,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 2,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -5141,6 +5289,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "children": [
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -5173,6 +5322,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             },
             {
               "children": [],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -5204,6 +5354,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 2,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -5250,6 +5401,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 1,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -5282,6 +5434,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
     },
     "3": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -5318,6 +5471,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -5350,6 +5504,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "children": [
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -5377,6 +5532,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                     },
                     "root": {
                       "children": [],
+                      "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
                       "expressionColor": {
                         "background": null,
@@ -5412,6 +5568,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                     "y": 2,
                   },
                 ],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -5443,6 +5600,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 1,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -5478,6 +5636,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 2,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -5502,6 +5661,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -5529,6 +5689,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 },
                 "root": {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -5564,6 +5725,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -5595,6 +5757,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -5639,6 +5802,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -5666,6 +5830,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 },
                 "root": {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -5701,6 +5866,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -5732,6 +5898,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -5770,6 +5937,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -5797,6 +5965,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           },
           "root": {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -5832,6 +6001,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 2,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -5855,6 +6025,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -5886,6 +6057,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -5918,6 +6090,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -5961,6 +6134,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -5992,6 +6166,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -6024,6 +6199,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -6062,6 +6238,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -6094,6 +6271,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "children": [
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -6126,6 +6304,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   },
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -6157,6 +6336,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                     "y": 2,
                   },
                 ],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -6203,6 +6383,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 1,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -6238,6 +6419,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 2,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -6262,6 +6444,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -6294,6 +6477,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               },
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -6325,6 +6509,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -6371,6 +6556,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -6423,6 +6609,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -6455,6 +6642,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               },
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -6486,6 +6674,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -6532,6 +6721,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -6570,6 +6760,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -6601,6 +6792,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "children": [
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -6632,6 +6824,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                     "y": 2,
                   },
                 ],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -6672,6 +6865,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               },
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -6708,6 +6902,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         },
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -6739,6 +6934,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "children": [
                   {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -6770,6 +6966,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                     "y": 2,
                   },
                 ],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -6810,6 +7007,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               },
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -6845,6 +7043,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 2,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -6868,6 +7067,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -6899,6 +7099,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -6939,6 +7140,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -6997,6 +7199,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -7028,6 +7231,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -7068,6 +7272,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -7106,6 +7311,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
   {
     "0": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -7127,6 +7333,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "children": [
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -7151,6 +7358,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -7178,6 +7386,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   },
                   "root": {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -7213,6 +7422,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -7244,6 +7454,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 1,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -7288,6 +7499,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -7315,6 +7527,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   },
                   "root": {
                     "children": [],
+                    "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
                     "expressionColor": {
                       "background": null,
@@ -7350,6 +7563,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -7381,6 +7595,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 1,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -7428,6 +7643,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -7462,6 +7678,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -7489,6 +7706,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 },
                 "root": {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -7524,6 +7742,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -7555,6 +7774,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -7591,6 +7811,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
     },
     "1": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -7612,6 +7833,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "children": [
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -7635,6 +7857,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -7666,6 +7889,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -7698,6 +7922,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -7741,6 +7966,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -7772,6 +7998,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -7804,6 +8031,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -7847,6 +8075,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       },
       "root": {
         "children": [],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -7883,6 +8112,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
     },
     "2": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -7904,6 +8134,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "children": [
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -7928,6 +8159,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -7960,6 +8192,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 },
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -7991,6 +8224,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -8037,6 +8271,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 1,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -8089,6 +8324,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -8121,6 +8357,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 },
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -8152,6 +8389,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -8198,6 +8436,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 1,
             },
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -8245,6 +8484,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -8287,6 +8527,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -8319,6 +8560,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               },
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -8350,6 +8592,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -8396,6 +8639,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -8432,6 +8676,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
     },
     "3": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -8454,6 +8699,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           [Circular],
           {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -8485,6 +8731,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "children": [
                     {
                       "children": [],
+                      "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
                       "expressionColor": {
                         "background": null,
@@ -8516,6 +8763,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                       "y": 2,
                     },
                   ],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -8556,6 +8804,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 },
                 [Circular],
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -8591,6 +8840,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 2,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -8614,6 +8864,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -8645,6 +8896,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -8685,6 +8937,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -8743,6 +8996,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -8774,6 +9028,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -8814,6 +9069,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -8861,6 +9117,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -8892,6 +9149,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -8935,6 +9193,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               [Circular],
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -8966,6 +9225,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -9012,6 +9272,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -9048,6 +9309,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
     },
     "4": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -9069,6 +9331,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "children": [
           {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -9100,6 +9363,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "children": [
                     {
                       "children": [],
+                      "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
                       "expressionColor": {
                         "background": null,
@@ -9131,6 +9395,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                       "y": 2,
                     },
                   ],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -9171,6 +9436,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 },
                 [Circular],
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -9207,6 +9473,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -9230,6 +9497,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -9261,6 +9529,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -9301,6 +9570,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -9359,6 +9629,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "children": [
                 {
                   "children": [],
+                  "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
                   "expressionColor": {
                     "background": null,
@@ -9390,6 +9661,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
               ],
+              "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
               "expressionColor": {
                 "background": null,
@@ -9430,6 +9702,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             },
             [Circular],
           ],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -9477,6 +9750,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -9508,6 +9782,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -9550,6 +9825,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "children": [
               {
                 "children": [],
+                "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
                 "expressionColor": {
                   "background": null,
@@ -9582,6 +9858,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               },
               [Circular],
             ],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -9628,6 +9905,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -9673,6 +9951,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "children": [
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -9705,6 +9984,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         },
         {
           "children": [],
+          "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
           "expressionColor": {
             "background": null,
@@ -9736,6 +10016,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
           "y": 1,
         },
       ],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -9768,6 +10049,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
     },
     "1": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -9800,6 +10082,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
     },
     "2": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -9832,6 +10115,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
     },
     "3": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -9866,6 +10150,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
   {
     "0": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -9888,6 +10173,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
           [Circular],
           {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -9919,6 +10205,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -9961,6 +10248,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
           [Circular],
           {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -9992,6 +10280,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
             "y": 1,
           },
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -10028,6 +10317,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
     },
     "1": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -10049,6 +10339,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         "children": [
           {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -10081,6 +10372,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -10122,6 +10414,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         "children": [
           {
             "children": [],
+            "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
             "expressionColor": {
               "background": null,
@@ -10154,6 +10447,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
           },
           [Circular],
         ],
+        "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
         "expressionColor": {
           "background": null,
@@ -10197,6 +10491,7 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
   {
     "0": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -10229,6 +10524,7 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
     },
     "1": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,
@@ -10261,6 +10557,7 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
     },
     "2": {
       "children": [],
+      "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
       "expressionColor": {
         "background": null,

@@ -20,6 +20,7 @@ export interface HeaderCell extends HeaderData {
   qReverseSort?: boolean;
   isLocked: boolean;
   qApprMaxGlyphCount?: number;
+  dimensionInfoIndex: number;
 }
 
 export type MeasureData = MeasureCell[][];
@@ -96,6 +97,7 @@ export interface Cell {
   isAncestorPseudoDimension: boolean;
   expressionColor: ExpressionColor;
   selectionCellType: NxSelectionCellType;
+  dimensionInfoIndex: number;
 }
 
 export interface MeasureCell {
@@ -166,6 +168,7 @@ export interface ViewService {
 export interface LayoutService {
   layout: PivotLayout;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
+  getDimensionInfoIndex: (qDimensionInfo: VisibleDimensionInfo) => number;
   getNullValueText: () => string;
   size: Point;
   isSnapshot: boolean;
