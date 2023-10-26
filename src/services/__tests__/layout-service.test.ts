@@ -24,7 +24,7 @@ describe("createLayoutService", () => {
       qHyperCube: {
         qNoOfLeftDims: 1,
         qEffectiveInterColumnSortOrder: [0, 1, -1],
-        qMeasureInfo: [getMeasureInfo()],
+        qMeasureInfo: [getMeasureInfo(), getMeasureInfo()],
         qDimensionInfo: [
           getDimensionInfo({ qLocked: false, isVisible: true }),
           getDimensionInfo({ qLocked: false, isVisible: true }),
@@ -54,6 +54,7 @@ describe("createLayoutService", () => {
 
   describe("getMeasureInfoIndexFromCellIndex", () => {
     test("should return measure info index when there is only a single measure", () => {
+      layout.qHyperCube.qMeasureInfo = [getMeasureInfo()];
       layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1];
       const service = create();
       expect(service.getMeasureInfoIndexFromCellIndex(0)).toEqual(0);
@@ -80,6 +81,26 @@ describe("createLayoutService", () => {
       expect(service.getMeasureInfoIndexFromCellIndex(3)).toEqual(0);
       expect(service.getMeasureInfoIndexFromCellIndex(4)).toEqual(1);
       expect(service.getMeasureInfoIndexFromCellIndex(5)).toEqual(2);
+    });
+  });
+
+  describe("getDimensionInfoIndex", () => {
+    test("should return index for dimension info", () => {
+      layout.qHyperCube.qEffectiveInterColumnSortOrder = [2, -1, 0];
+      layout.qHyperCube.qMeasureInfo = [getMeasureInfo(), getMeasureInfo()];
+      layout.qHyperCube.qDimensionInfo = [
+        getDimensionInfo({ qLocked: false, isVisible: true }),
+        getDimensionInfo({ qLocked: false, isVisible: true }),
+        getDimensionInfo({ qLocked: false, isVisible: true }),
+        getDimensionInfo({ qLocked: false, isVisible: true }),
+      ];
+
+      const service = create();
+      expect(service.getDimensionInfoIndex(layout.qHyperCube.qDimensionInfo[0])).toEqual(0);
+      expect(service.getDimensionInfoIndex(layout.qHyperCube.qDimensionInfo[2])).toEqual(2);
+      expect(service.getDimensionInfoIndex(layout.qHyperCube.qDimensionInfo[1])).toEqual(-1);
+      expect(service.getDimensionInfoIndex(layout.qHyperCube.qDimensionInfo[3])).toEqual(-1);
+      expect(service.getDimensionInfoIndex(-1)).toEqual(-1);
     });
   });
 

@@ -23,7 +23,6 @@ const useData = (
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
   visibleTopDimensionInfo: VisibleDimensionInfo[],
 ): Data => {
-  const { qHyperCube } = layoutService.layout;
   const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
 
   const attrExprInfoIndexes = useAttrExprInfoIndexes(
@@ -145,8 +144,8 @@ const useData = (
   }, [nextPage]);
 
   const headersData = useMemo<HeadersData>(
-    () => createHeadersData(qHyperCube, visibleTopDimensionInfo, visibleLeftDimensionInfo),
-    [qHyperCube, visibleTopDimensionInfo, visibleLeftDimensionInfo],
+    () => createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo),
+    [layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo],
   );
 
   const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {

@@ -1,5 +1,4 @@
 import { act, renderHook } from "@testing-library/react";
-import type { ExtendedHyperCube } from "../../../types/QIX";
 import type {
   AttrExprInfoIndex,
   HeadersData,
@@ -66,7 +65,7 @@ describe("useData", () => {
   // Header data mocks
   let mockedCreateHeadersData: jest.MockedFunction<
     (
-      hyperCube: ExtendedHyperCube,
+      layoutService: LayoutService,
       visibleTopDimensionInfo: VisibleDimensionInfo[],
       sortedLeftDimensionInfo: VisibleDimensionInfo[],
     ) => HeadersData

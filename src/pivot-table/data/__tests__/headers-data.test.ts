@@ -1,5 +1,4 @@
-import type { ExtendedHyperCube } from "../../../types/QIX";
-import type { HeaderCell } from "../../../types/types";
+import type { HeaderCell, LayoutService, VisibleDimensionInfo } from "../../../types/types";
 import extractHeaders from "../extract-headers";
 import createHeadersData from "../headers-data";
 
@@ -7,13 +6,18 @@ jest.mock("../extract-headers");
 const mockedExtractHeaders = extractHeaders as jest.MockedFunction<typeof extractHeaders>;
 
 describe("create headers data", () => {
-  let hyperCube: ExtendedHyperCube;
+  let layoutService: LayoutService;
 
   beforeEach(() => {
     jest.resetAllMocks();
-    hyperCube = {
-      activelySortedColumn: { colIdx: 0 },
-    } as ExtendedHyperCube;
+    layoutService = {
+      layout: {
+        qHyperCube: {
+          activelySortedColumn: { colIdx: 0 },
+        },
+      },
+      getDimensionInfoIndex: (info: VisibleDimensionInfo) => (info === -1 ? -1 : 0),
+    } as LayoutService;
   });
 
   test("should return correct headers data", () => {
@@ -25,7 +29,7 @@ describe("create headers data", () => {
     ];
     mockedExtractHeaders.mockReturnValue(headers);
 
-    const headersData = createHeadersData(hyperCube, [], []);
+    const headersData = createHeadersData(layoutService, [], []);
 
     expect(headersData.data).toEqual(headers);
     expect(headersData.size.x).toBe(2);
@@ -36,7 +40,7 @@ describe("create headers data", () => {
     const headers = [] as HeaderCell[][];
     mockedExtractHeaders.mockReturnValue(headers);
 
-    const headersData = createHeadersData(hyperCube, [], []);
+    const headersData = createHeadersData(layoutService, [], []);
 
     expect(headersData.data).toEqual(headers);
     expect(headersData.size.x).toBe(0);
