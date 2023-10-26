@@ -1,6 +1,6 @@
 /*  eslint-disable no-param-reassign */
 import { useCallback, useMemo } from "react";
-import { Q_PATH } from "../../constants";
+import { PSEUDO_DIMENSION_INDEX, Q_PATH } from "../../constants";
 import type { Model } from "../../types/QIX";
 import {
   type ApplyColumnWidth,
@@ -82,8 +82,9 @@ export default function useDataModel({
   );
 
   const applyColumnWidth = useCallback<ApplyColumnWidth>(
-    (newColumnWidth, { isPseudoDimension, isAncestorPseudoDimension, isLeftColumn, x = 0, y = 0 }) => {
-      const { qNoOfLeftDims, qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
+    (newColumnWidth, { dimensionInfoIndex, isLeftColumn, x = 0 }) => {
+      const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
+      const isPseudoDimension = dimensionInfoIndex === PSEUDO_DIMENSION_INDEX;
       let indexes: number[];
 
       if (isPseudoDimension) {
@@ -92,9 +93,7 @@ export default function useDataModel({
           : [layoutService.getMeasureInfoIndexFromCellIndex(x)];
       } else {
         // cell indexes don't correspond to dimension indexes, so we need to compensate for potential prior pseudo dim (and left side dims)
-        indexes = isLeftColumn
-          ? [x - Number(isAncestorPseudoDimension)]
-          : [y - Number(isAncestorPseudoDimension) + qNoOfLeftDims - Number(layoutService.hasPseudoDimOnLeft)];
+        indexes = [dimensionInfoIndex];
       }
 
       const patches = indexes.map((idx) => {

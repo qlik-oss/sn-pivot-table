@@ -5,7 +5,7 @@ import type { ColumnWidth, ExtendedDimensionInfo, NxSelectionCellType, PivotLayo
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
-export type ApplyColumnWidth = (columnWidth: ColumnWidth, cell: CellInfo) => void;
+export type ApplyColumnWidth = (columnWidth: ColumnWidth, cellInfo: AdjusterCellInfo) => void;
 
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
@@ -75,6 +75,12 @@ export interface ListItemData extends ItemData {
   totalDividerIndex: number;
 }
 
+export interface AdjusterCellInfo {
+  dimensionInfoIndex: number;
+  isLeftColumn: boolean;
+  x?: number;
+}
+
 export interface Cell {
   ref: EngineAPI.INxPivotDimensionCell;
   x: number; // x position of cell in dataset
@@ -94,18 +100,9 @@ export interface Cell {
   isPseudoDimension: boolean;
   isLockedByDimension: boolean;
   isLeafNode: boolean;
-  isAncestorPseudoDimension: boolean;
   expressionColor: ExpressionColor;
   selectionCellType: NxSelectionCellType;
   dimensionInfoIndex: number;
-}
-
-export interface CellInfo {
-  x?: number;
-  y?: number;
-  isLeftColumn?: boolean;
-  isPseudoDimension?: boolean;
-  isAncestorPseudoDimension?: boolean;
 }
 
 export interface MeasureCell {

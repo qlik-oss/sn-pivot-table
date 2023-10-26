@@ -75,9 +75,7 @@ const DimensionTitleCell = ({
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
   const cellInfo = {
-    x: cell.colIdx,
-    isAncestorPseudoDimension: false,
-    isPseudoDimension: !cell.isDim,
+    dimensionInfoIndex: cell.dimensionInfoIndex,
     isLeftColumn: true,
   };
 
@@ -126,7 +124,12 @@ const DimensionTitleCell = ({
         </>
       )}
       {isLastRow && (
-        <ColumnAdjuster cell={cellInfo} columnWidth={columnWidth} dataModel={dataModel} isLastColumn={isLastColumn} />
+        <ColumnAdjuster
+          cellInfo={cellInfo}
+          columnWidth={columnWidth}
+          dataModel={dataModel}
+          isLastColumn={isLastColumn}
+        />
       )}
     </StyledHeaderCellWrapper>
   );
