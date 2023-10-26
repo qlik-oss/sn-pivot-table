@@ -15,11 +15,9 @@ import type {
 import TestWithProvider from "../../../../__tests__/test-with-providers";
 import type { SelectionModel } from "../../../../hooks/use-selections-model";
 import useSelectionsModel from "../../../../hooks/use-selections-model";
-import { testId } from "../Container";
-// import { getLockedStyleFromSelection, selectedStyle } from "../../utils/get-dimension-cell-style";
-import { testIdCollapseIcon } from "../../../icons/Minus";
-import { testIdExpandIcon } from "../../../icons/Plus";
 import { testId as emptyCellTestId } from "../../EmptyCell";
+import { testId } from "../Container";
+import { testIdCollapseIcon, testIdExpandIcon } from "../ExpandOrCollapseIcon";
 // eslint-disable-next-line jest/no-mocks-import
 import dataModelMock from "../../__tests__/__mocks__/data-model-mock";
 
