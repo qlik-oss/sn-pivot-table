@@ -9,11 +9,6 @@ type GetStyleServiceValueProps = {
 
 type GetBackgroundColorProps = GetStyleServiceValueProps & {
   isCellSelected: boolean;
-};
-
-type GetBackgroundImageProps = {
-  cell: Cell;
-  backgroundColor?: string;
   isCellLocked: boolean;
 };
 
@@ -36,7 +31,7 @@ const getLockedBackground = (originalBackgroundColor: string) => {
     -45deg,
     ${strip} 0px 2px,
     ${originalBackgroundColor} 0px 4px
-  )`;
+  ) border-box`;
 };
 
 const getStyleServiceValue = (prop: Properties, { cell, styleService }: GetStyleServiceValueProps) => {
@@ -62,20 +57,18 @@ const getStyleServiceValue = (prop: Properties, { cell, styleService }: GetStyle
   return styleService.dimensionValues[prop];
 };
 
-export const getBackgroundColor = ({ styleService, isCellSelected, cell }: GetBackgroundColorProps) => {
+export const getBackground = ({ styleService, isCellSelected, cell, isCellLocked }: GetBackgroundColorProps) => {
   if (isCellSelected) {
     return "#0aaf54";
   }
 
-  return getStyleServiceValue(Properties.Background, { cell, styleService });
-};
+  const backgroundColor = getStyleServiceValue(Properties.Background, { cell, styleService });
 
-export const getBackgroundImage = ({ backgroundColor, isCellLocked, cell }: GetBackgroundImageProps) => {
   if (isCellLocked && backgroundColor && !cell.isPseudoDimension && !cell.isEmpty && !cell.isNull && !cell.isTotal) {
     return getLockedBackground(backgroundColor);
   }
 
-  return undefined;
+  return getStyleServiceValue(Properties.Background, { cell, styleService });
 };
 
 export const getColor = ({ cell, styleService, isCellSelected }: GetColorProps) => {

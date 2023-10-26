@@ -1,14 +1,6 @@
 import type { Cell, StyleService } from "../../../../../../types/types";
 import { BOLD_FONT_WEIGHT } from "../../../../../constants";
-import {
-  getBackgroundColor,
-  getBackgroundImage,
-  getColor,
-  getCursor,
-  getFontStyle,
-  getFontWeight,
-  getTextDecoration,
-} from "../get-style";
+import { getBackground, getColor, getCursor, getFontStyle, getFontWeight, getTextDecoration } from "../get-style";
 
 describe("getStyle", () => {
   let cell: Cell;
@@ -61,19 +53,19 @@ describe("getStyle", () => {
 
   describe("getBackgroundColor", () => {
     test("should resolve background for cell", () => {
-      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
         styleService.dimensionValues.background,
       );
     });
 
     test("should resolve background for selected cell", () => {
-      expect(getBackgroundColor({ cell, styleService, isCellSelected: true })).toEqual("#0aaf54");
+      expect(getBackground({ cell, styleService, isCellSelected: true, isCellLocked: false })).toEqual("#0aaf54");
     });
 
     test("should resolve background from expression", () => {
       cell.expressionColor.background = "expressionBackground";
 
-      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
         cell.expressionColor.background,
       );
     });
@@ -81,7 +73,7 @@ describe("getStyle", () => {
     test("should resolve background from null value cell", () => {
       cell.isNull = true;
 
-      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
         styleService.nullValues.background,
       );
     });
@@ -89,7 +81,7 @@ describe("getStyle", () => {
     test("should resolve background from pseudo dimnension cell", () => {
       cell.isPseudoDimension = true;
 
-      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
         styleService.measureLabels.background,
       );
     });
@@ -97,18 +89,17 @@ describe("getStyle", () => {
     test("should resolve background from total cell", () => {
       cell.isTotal = true;
 
-      expect(getBackgroundColor({ cell, styleService, isCellSelected: false })).toEqual(
+      expect(getBackground({ cell, styleService, isCellSelected: false, isCellLocked: false })).toEqual(
         styleService.totalValues.background,
       );
     });
-  });
 
-  describe("getBackgroundImage", () => {
     test("should resolve background for locked cell", () => {
       const whiteSpaceRegEx = /\s/g;
+      styleService.dimensionValues.background = "red";
 
       expect(
-        (getBackgroundImage({ cell, isCellLocked: true, backgroundColor: "red" }) as string).replaceAll(
+        (getBackground({ cell, styleService, isCellSelected: false, isCellLocked: true }) as string).replaceAll(
           whiteSpaceRegEx,
           "",
         ),
@@ -117,7 +108,7 @@ describe("getStyle", () => {
           -45deg,
           rgb(255, 59, 29) 0px 2px,
           red 0px 4px
-        )`.replaceAll(whiteSpaceRegEx, ""),
+        ) border-box`.replaceAll(whiteSpaceRegEx, ""),
       );
     });
   });
