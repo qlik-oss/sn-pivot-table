@@ -1,6 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { useCallback } from "react";
-import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import type { Model } from "../../types/QIX";
 import {
   ScrollableContainerOrigin,
@@ -49,11 +48,7 @@ export const StickyPivotTable = ({
   const { headerCellHeight, contentCellHeight } = useStyleContext();
   const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
-  const { changeSortOrder, changeActivelySortedHeader } = useSorting(
-    model,
-    layoutService.layout.qHyperCube,
-    visibleLeftDimensionInfo.indexOf(PSEUDO_DIMENSION_INDEX),
-  );
+  const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
 
   const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
     qPivotDataPages,

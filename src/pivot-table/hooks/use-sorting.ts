@@ -9,26 +9,21 @@ interface UseSortingApi {
 }
 
 interface UseSorting {
-  (model: Model, hyperCube: ExtendedHyperCube, pseudoDimInLeftGridIdx?: number): UseSortingApi;
+  (model: Model, hyperCube: ExtendedHyperCube): UseSortingApi;
 }
 
-const useSorting: UseSorting = (model, qHyperCube, pseudoDimInLeftGridIdx) => {
+const useSorting: UseSorting = (model, qHyperCube) => {
   const api = useMemo(
     () => ({
       changeSortOrder: async (headerCell: HeaderCell, newSortDirection: SortDirection) => {
         if (!model) throw new Error("No Model provided!");
 
-        const { colIdx, qReverseSort } = headerCell;
+        const { qReverseSort, dimensionInfoIndex } = headerCell;
         const patches: EngineAPI.INxPatch[] = [];
-
-        let modifiedColIdx = colIdx;
-        if (pseudoDimInLeftGridIdx && pseudoDimInLeftGridIdx !== -1 && colIdx > pseudoDimInLeftGridIdx) {
-          modifiedColIdx -= 1;
-        }
 
         if ((newSortDirection === "D" && !qReverseSort) || (newSortDirection === "A" && qReverseSort)) {
           patches.push({
-            qPath: `/qHyperCubeDef/qDimensions/${modifiedColIdx}/qDef/qReverseSort`,
+            qPath: `/qHyperCubeDef/qDimensions/${dimensionInfoIndex}/qDef/qReverseSort`,
             qOp: "Replace",
             qValue: (!qReverseSort).toString(),
           });
@@ -67,7 +62,7 @@ const useSorting: UseSorting = (model, qHyperCube, pseudoDimInLeftGridIdx) => {
         }
       },
     }),
-    [model, qHyperCube.activelySortedColumn, pseudoDimInLeftGridIdx],
+    [model, qHyperCube.activelySortedColumn],
   );
 
   return api;
