@@ -6,8 +6,6 @@ import type { Cell, ExtendedSelections, PageInfo } from "../../types/types";
 
 export type SelectionCellLookup = (cell: Cell) => boolean;
 
-export type IsCellSelect = (qType: EngineAPI.NxSelectionCellType, qRow: number, qCol: number) => boolean;
-
 export interface SelectionModel {
   select: (cell: Cell) => (evt: React.MouseEvent) => Promise<void>;
   isSelected: SelectionCellLookup;
