@@ -8,7 +8,7 @@ const createLayoutService = (
   effectiveProperties: EngineAPI.IGenericObjectProperties | undefined,
 ): LayoutService => {
   const { qHyperCube, nullValueRepresentation, snapshotData } = layout;
-  const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo } = qHyperCube;
+  const { qNoOfLeftDims, qEffectiveInterColumnSortOrder, qMeasureInfo, qDimensionInfo } = qHyperCube;
   const isSnapshot = !!snapshotData;
   const snapshotDataPage = snapshotData?.content?.qPivotDataPages?.[0]?.qArea ?? { qWidth: 0, qHeight: 0 };
   const size = {
@@ -38,6 +38,9 @@ const createLayoutService = (
     showTotalsAbove: !!effectiveProperties?.qHyperCubeDef?.qShowTotalsAbove,
     hasPseudoDimOnLeft,
     isFullyExpanded: !!effectiveProperties?.qHyperCubeDef?.qAlwaysFullyExpanded,
+    dimensionInfoIndexMap: new Map(
+      qEffectiveInterColumnSortOrder.filter((index) => index >= 0).map((index) => [qDimensionInfo[index], index]),
+    ),
   };
 };
 

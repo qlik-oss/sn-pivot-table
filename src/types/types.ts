@@ -174,6 +174,7 @@ export interface LayoutService {
   showTotalsAbove: boolean;
   hasPseudoDimOnLeft: boolean;
   isFullyExpanded: boolean;
+  dimensionInfoIndexMap: Map<ExtendedDimensionInfo, number>;
 }
 
 export interface DataService {
