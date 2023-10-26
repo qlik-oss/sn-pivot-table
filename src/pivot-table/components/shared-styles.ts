@@ -20,15 +20,6 @@ export const baseFlex: React.CSSProperties = {
   alignItems: "center",
 };
 
-export const topContainerCellStyle: React.CSSProperties = {
-  ...baseFlex,
-};
-
-export const leftContainerCellStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "flex-start",
-};
-
 export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
   borderStyle: "solid",
 };
@@ -56,14 +47,6 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   textOverflow: "ellipsis",
   wordBreak: "break-all",
 });
-
-export const stickyCell: Pick<React.CSSProperties, "width" | "maxWidth" | "position" | "left" | "top"> = {
-  width: "fit-content",
-  maxWidth: "100%",
-  position: "sticky",
-  left: CELL_PADDING,
-  top: CELL_PADDING,
-};
 
 export const getBorderStyle = (
   isLastRow: boolean,
