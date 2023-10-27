@@ -47,6 +47,18 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     }
   }, [layoutService]);
 
+  // Call scrollTo here so that when a cell is expanded or collapsed, scroll to the last known position.
+  // Otherwise it will be out-of-sync with the data grid.
+  useLayoutEffect(() => {
+    if (layoutService.layout.qHyperCube.qLastExpandedPos) {
+      const scrollLeft = leftGridHorizontalScrollableContainerRef.current?.scrollLeft ?? 0;
+      const scrollTop = verticalScrollableContainerRef.current?.scrollTop ?? 0;
+
+      leftGridRef.current?.forEach((list) => list?.scrollTo(scrollTop));
+      topGridRef.current?.forEach((list) => list?.scrollTo(scrollLeft));
+    }
+  }, [layoutService]);
+
   // Reset scroll position when page has changed
   useLayoutEffect(() => {
     if (leftGridHorizontalScrollableContainerRef.current) {
@@ -93,18 +105,6 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
 
     horizontalScrollbarHeightSetter();
   }, [horizontalScrollbarHeightSetter]);
-
-  useLayoutEffect(() => {
-    // Call scrollTo here so that when a cell is expanded or collapsed, scroll to the last known position.
-    // Otherwise it will be out-of-sync with the data grid.
-    if (layoutService.layout.qHyperCube.qLastExpandedPos) {
-      const scrollLeft = leftGridHorizontalScrollableContainerRef.current?.scrollLeft ?? 0;
-      const scrollTop = verticalScrollableContainerRef.current?.scrollTop ?? 0;
-
-      leftGridRef.current?.forEach((list) => list?.scrollTo(scrollTop));
-      topGridRef.current?.forEach((list) => list?.scrollTo(scrollLeft));
-    }
-  }, [layoutService]);
 
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
