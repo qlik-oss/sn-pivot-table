@@ -98,7 +98,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     // Call scrollTo here so that when a cell is expanded or collapsed, scroll to the last known position.
     // Otherwise it will be out-of-sync with the data grid.
     if (layoutService.layout.qHyperCube.qLastExpandedPos) {
-      const scrollLeft = dataGridHorizontalScrollableContainerRef.current?.scrollLeft ?? 0;
+      const scrollLeft = leftGridHorizontalScrollableContainerRef.current?.scrollLeft ?? 0;
       const scrollTop = verticalScrollableContainerRef.current?.scrollTop ?? 0;
 
       leftGridRef.current?.forEach((list) => list?.scrollTo(scrollTop));

@@ -14,6 +14,7 @@ describe("useScroll", () => {
   let dataGridRef: VariableSizeGrid;
   let leftGridHorizontalScrollableContainerRefMock: HTMLDivElement;
   let dataGridHorizontalScrollableContainerRefMock: HTMLDivElement;
+  let verticalScrollableContainerRefMock: HTMLDivElement;
 
   const renderUseScroll = () =>
     renderHook(
@@ -24,7 +25,7 @@ describe("useScroll", () => {
           mockedRefs: {
             leftGridHorizontalScrollableContainerRef: leftGridHorizontalScrollableContainerRefMock,
             dataGridHorizontalScrollableContainerRef: dataGridHorizontalScrollableContainerRefMock,
-            verticalScrollableContainerRef: {} as HTMLDivElement,
+            verticalScrollableContainerRef: verticalScrollableContainerRefMock,
             topGridRef: [mockedTopGridRef],
             leftGridRef: [mockedLeftGridRef],
             dataGridRef,
@@ -48,6 +49,7 @@ describe("useScroll", () => {
     } as LayoutService;
     leftGridHorizontalScrollableContainerRefMock = {} as HTMLDivElement;
     dataGridHorizontalScrollableContainerRefMock = {} as HTMLDivElement;
+    verticalScrollableContainerRefMock = {} as HTMLDivElement;
 
     pageInfo = { page: 0 } as PageInfo;
 
@@ -108,6 +110,21 @@ describe("useScroll", () => {
     await waitFor(() => expect(leftGridHorizontalScrollableContainerRef.current?.scrollLeft).toBe(0));
     await waitFor(() => expect(dataGridHorizontalScrollableContainerRef.current?.scrollLeft).toBe(0));
     await waitFor(() => expect(verticalScrollableContainerRef.current?.scrollTop).toBe(0));
+  });
+
+  test("should scroll to last known scroll position when a cell is expanded or collapsed", async () => {
+    layoutService.layout.qHyperCube.qLastExpandedPos = { qx: 0, qy: 0 };
+    verticalScrollableContainerRefMock.scrollTop = 123;
+    leftGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
+
+    renderUseScroll();
+
+    await waitFor(() =>
+      expect(mockedTopGridRef.scrollTo).toHaveBeenCalledWith(leftGridHorizontalScrollableContainerRefMock.scrollLeft),
+    );
+    await waitFor(() =>
+      expect(mockedLeftGridRef.scrollTo).toHaveBeenCalledWith(verticalScrollableContainerRefMock.scrollTop),
+    );
   });
 
   describe("onScrollHandlers", () => {
