@@ -127,6 +127,23 @@ describe("useScroll", () => {
     );
   });
 
+  test("should not scroll to last known scroll position when a cell has not been expanded or collapsed", async () => {
+    layoutService.layout.qHyperCube.qLastExpandedPos = undefined;
+    verticalScrollableContainerRefMock.scrollTop = 123;
+    leftGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
+
+    renderUseScroll();
+
+    await waitFor(() =>
+      expect(mockedTopGridRef.scrollTo).not.toHaveBeenCalledWith(
+        leftGridHorizontalScrollableContainerRefMock.scrollLeft,
+      ),
+    );
+    await waitFor(() =>
+      expect(mockedLeftGridRef.scrollTo).not.toHaveBeenCalledWith(verticalScrollableContainerRefMock.scrollTop),
+    );
+  });
+
   describe("onScrollHandlers", () => {
     let fakeTarget: HTMLElement;
 
