@@ -56,10 +56,6 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   const isCellSelected = isSelected(cell);
   const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
 
-  // if (cell.ref.qText.toLowerCase().includes("avg")) {
-  //   console.log({ w: style.width }, cell.ref.qText);
-  // }
-
   const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
     <ColumnAdjuster
       cellInfo={cell}

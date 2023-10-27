@@ -37,11 +37,6 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, scroll
     setInternalWidth(adjustedWidth - scrollbarSharePerCol);
 
     tempWidth.current.columnWidth = adjustedWidth;
-    // console.log(
-    //   { adjustedWidth, init: tempWidth.current.initWidth, deltaWidth, positionAdjustment, scrollbarSharePerCol },
-    //   // @ts-ignore
-    //   cellInfo?.ref?.qText,
-    // );
   };
 
   const mouseUpHandler = (evt: MouseEvent) => {
