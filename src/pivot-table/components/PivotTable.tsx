@@ -139,8 +139,8 @@ export const StickyPivotTable = ({
           style={{
             display: "grid",
             gridTemplateColumns: leftGridWidth // If leftColumnsWidth is 0, this means no data exist for "headers" or "left"
-              ? `${leftGridWidth}px ${rightGridWidth}px`
-              : `${rightGridWidth}px`,
+              ? `${leftGridWidth}px ${rightGridWidth - verticalScrollbarWidth}px`
+              : `${rightGridWidth - verticalScrollbarWidth}px`,
           }}
         >
           {Boolean(leftGridWidth) && (
@@ -204,6 +204,7 @@ export const StickyPivotTable = ({
                   showLastBorder={{ right: showLastRightBorder, bottom: false }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
                   visibleTopDimensionInfo={visibleTopDimensionInfo}
+                  verticalScrollbarWidth={verticalScrollbarWidth}
                 />
 
                 <DataGrid

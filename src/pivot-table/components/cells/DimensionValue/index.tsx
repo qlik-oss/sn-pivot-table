@@ -22,7 +22,16 @@ export interface DimensionValueProps {
 const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Element => {
   const styleService = useStyleContext();
   const { isSelected, isActive } = useSelectionsContext();
-  const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
+  const {
+    dataModel,
+    layoutService,
+    isLeftColumn = false,
+    showLastBorder,
+    itemCount,
+    isLast,
+    totalDividerIndex,
+    verticalScrollbarWidth,
+  } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
@@ -47,12 +56,17 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   const isCellSelected = isSelected(cell);
   const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
 
+  // if (cell.ref.qText.toLowerCase().includes("avg")) {
+  //   console.log({ w: style.width }, cell.ref.qText);
+  // }
+
   const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
     <ColumnAdjuster
       cellInfo={cell}
       columnWidth={style.width as number}
       dataModel={dataModel}
       isLastColumn={isLastColumn}
+      scrollbarSharePerCol={parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12))}
     />
   ) : null;
 

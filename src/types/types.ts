@@ -73,6 +73,7 @@ export interface ListItemData extends ItemData {
   showLastBorder: ShowLastBorder;
   listValues: Cell[];
   totalDividerIndex: number;
+  verticalScrollbarWidth: number;
 }
 
 export interface AdjusterCellInfo {
