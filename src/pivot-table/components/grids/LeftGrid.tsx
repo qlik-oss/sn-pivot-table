@@ -78,8 +78,6 @@ const LeftGrid = ({
     }
   }, [dataModel, width, height, leftDimensionData, leftGridRef, contentCellHeight]);
 
-  // useScrollToOnExpand({ listRef: leftGridRef, layoutService, getLastKnownScrollPosition: getScrollTop });
-
   const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
 
   if (leftDimensionData.columnCount === 0) {
