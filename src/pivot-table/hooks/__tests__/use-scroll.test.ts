@@ -115,33 +115,23 @@ describe("useScroll", () => {
   test("should scroll to last known scroll position when a cell is expanded or collapsed", async () => {
     layoutService.layout.qHyperCube.qLastExpandedPos = { qx: 0, qy: 0 };
     verticalScrollableContainerRefMock.scrollTop = 123;
-    leftGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
+    dataGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
 
     renderUseScroll();
 
-    await waitFor(() =>
-      expect(mockedTopGridRef.scrollTo).toHaveBeenCalledWith(leftGridHorizontalScrollableContainerRefMock.scrollLeft),
-    );
-    await waitFor(() =>
-      expect(mockedLeftGridRef.scrollTo).toHaveBeenCalledWith(verticalScrollableContainerRefMock.scrollTop),
-    );
+    await waitFor(() => expect(mockedTopGridRef.scrollTo).toHaveBeenCalledWith(321));
+    await waitFor(() => expect(mockedLeftGridRef.scrollTo).toHaveBeenCalledWith(123));
   });
 
   test("should not scroll to last known scroll position when a cell has not been expanded or collapsed", async () => {
     layoutService.layout.qHyperCube.qLastExpandedPos = undefined;
     verticalScrollableContainerRefMock.scrollTop = 123;
-    leftGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
+    dataGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
 
     renderUseScroll();
 
-    await waitFor(() =>
-      expect(mockedTopGridRef.scrollTo).not.toHaveBeenCalledWith(
-        leftGridHorizontalScrollableContainerRefMock.scrollLeft,
-      ),
-    );
-    await waitFor(() =>
-      expect(mockedLeftGridRef.scrollTo).not.toHaveBeenCalledWith(verticalScrollableContainerRefMock.scrollTop),
-    );
+    await waitFor(() => expect(mockedTopGridRef.scrollTo).not.toHaveBeenCalledWith(321));
+    await waitFor(() => expect(mockedLeftGridRef.scrollTo).not.toHaveBeenCalledWith(123));
   });
 
   describe("onScrollHandlers", () => {

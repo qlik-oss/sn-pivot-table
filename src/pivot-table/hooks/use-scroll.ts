@@ -51,7 +51,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   // Otherwise it will be out-of-sync with the data grid.
   useLayoutEffect(() => {
     if (layoutService.layout.qHyperCube.qLastExpandedPos) {
-      const scrollLeft = leftGridHorizontalScrollableContainerRef.current?.scrollLeft ?? 0;
+      const scrollLeft = dataGridHorizontalScrollableContainerRef.current?.scrollLeft ?? 0;
       const scrollTop = verticalScrollableContainerRef.current?.scrollTop ?? 0;
 
       leftGridRef.current?.forEach((list) => list?.scrollTo(scrollTop));
