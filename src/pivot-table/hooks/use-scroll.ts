@@ -26,13 +26,8 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   const topGridRef = useRef<VariableSizeList[]>(mockedRefs?.topGridRef ?? []);
   const leftGridRef = useRef<VariableSizeList[]>(mockedRefs?.leftGridRef ?? []);
   const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
-  const currentScrollLeft = useRef<number>(0);
-  const currentScrollTop = useRef<number>(0);
   const [verticalScrollbarWidth, setVerticalScrollbarWidth] = useState<number>(0);
   const [horizontalScrollbarHeight, setHorizontalScrollbarHeight] = useState<number>(0);
-
-  const getScrollLeft = useCallback(() => currentScrollLeft.current, [currentScrollLeft]);
-  const getScrollTop = useCallback(() => currentScrollTop.current, [currentScrollTop]);
 
   // If the layout change reset the scroll position, except if the layout
   // change because a node was expanded or collapsed
@@ -103,55 +98,34 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     // Call scrollTo here so that when a cell is expanded or collapsed, scroll to the last known position.
     // Otherwise it will be out-of-sync with the data grid.
     if (layoutService.layout.qHyperCube.qLastExpandedPos) {
-      console.log("%c compare", "color: orangered", {
-        getScrollLeft: getScrollLeft(),
-        containerLeft: dataGridHorizontalScrollableContainerRef.current?.scrollLeft,
-      });
-      leftGridRef.current?.forEach((list) => list?.scrollTo(getScrollTop()));
-      topGridRef.current?.forEach((list) => list?.scrollTo(getScrollLeft()));
+      const scrollLeft = dataGridHorizontalScrollableContainerRef.current?.scrollLeft ?? 0;
+      const scrollTop = verticalScrollableContainerRef.current?.scrollTop ?? 0;
+
+      leftGridRef.current?.forEach((list) => list?.scrollTo(scrollTop));
+      topGridRef.current?.forEach((list) => list?.scrollTo(scrollLeft));
     }
-  }, [layoutService, getScrollTop, getScrollLeft]);
+  }, [layoutService]);
 
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
 
     if (evt.target.dataset["key"] === `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`) {
-      if (topGridRef.current) {
-        topGridRef.current.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));
-      }
+      topGridRef.current?.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));
 
-      if (dataGridRef.current) {
-        dataGridRef.current.scrollTo({
-          scrollLeft: evt.currentTarget.scrollLeft,
-        });
-      }
-
-      if (currentScrollLeft.current !== undefined) {
-        // Set scrollLeft here so that when a top grid is expanded with a new row, scroll that row to scrollLeft position.
-        // Otherwise it will be out-of-sync with the other rows.
-        currentScrollLeft.current = evt.currentTarget.scrollLeft;
-      }
+      dataGridRef.current?.scrollTo({
+        scrollLeft: evt.currentTarget.scrollLeft,
+      });
     }
   };
 
   const onVerticalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
 
-    if (leftGridRef.current) {
-      leftGridRef.current.filter(Boolean).forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
-    }
+    leftGridRef.current?.filter(Boolean).forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
 
-    if (dataGridRef.current) {
-      dataGridRef.current.scrollTo({
-        scrollTop: evt.currentTarget.scrollTop,
-      });
-    }
-
-    if (currentScrollTop.current !== undefined) {
-      // Set scrollTop here so that when a left grid is expanded with a new column, scroll that row to scrollTop position.
-      // Otherwise it will be out-of-sync with the other columns.
-      currentScrollTop.current = evt.currentTarget.scrollTop;
-    }
+    dataGridRef.current?.scrollTo({
+      scrollTop: evt.currentTarget.scrollTop,
+    });
   };
 
   return {

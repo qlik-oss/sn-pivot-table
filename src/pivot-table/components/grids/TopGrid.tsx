@@ -113,21 +113,6 @@ const TopGrid = ({
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}
-            onScroll={({
-              scrollDirection,
-
-              scrollOffset,
-
-              scrollUpdateWasRequested,
-            }) =>
-              console.log("%c onScroll", "color: orangered", {
-                scrollDirection,
-
-                scrollOffset,
-
-                scrollUpdateWasRequested,
-              })
-            }
           >
             {MemoizedDimensionValue}
           </VariableSizeList>
