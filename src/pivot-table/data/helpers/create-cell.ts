@@ -97,7 +97,6 @@ const createCell = ({
     isEmpty: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
     isNull: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
     isPseudoDimension: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
-    isAncestorPseudoDimension: !!(parent?.isAncestorPseudoDimension || parent?.isPseudoDimension),
     expressionColor: getExpressionColor(attrExprInfoIndex, node),
     selectionCellType: isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP,
     dimensionInfoIndex: layoutService.getDimensionInfoIndex(dimensionInfo),

@@ -8,7 +8,10 @@ interface UseHeadCellDim {
 export const useHeadCellDim = ({ interactions }: UseHeadCellDim) => {
   const [open, setOpen] = useState(false);
 
-  const handleOpenMenu = () => interactions.active && setOpen(true);
+  const handleOpenMenu = (evt: React.MouseEvent) =>
+    interactions.active &&
+    !(evt.target as HTMLElement)?.className.includes("sn-pivot-table-column-adjuster") &&
+    setOpen(true);
 
   return { open, setOpen, handleOpenMenu };
 };

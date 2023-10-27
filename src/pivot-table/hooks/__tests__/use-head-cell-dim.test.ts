@@ -5,9 +5,11 @@ import { useHeadCellDim } from "../use-head-cell-dim";
 
 describe("UseHeadCellDim", () => {
   let interactions: stardust.Interactions;
+  let evt: React.MouseEvent;
 
   beforeEach(() => {
     interactions = { active: true };
+    evt = {} as React.MouseEvent;
   });
 
   const renderer = () => renderHook(() => useHeadCellDim({ interactions })).result;
@@ -21,7 +23,7 @@ describe("UseHeadCellDim", () => {
     const result = renderer();
 
     act(() => {
-      result.current.handleOpenMenu();
+      result.current.handleOpenMenu(evt);
     });
 
     expect(result.current.open).toBe(true);
@@ -32,7 +34,18 @@ describe("UseHeadCellDim", () => {
     const result = renderer();
 
     act(() => {
-      result.current.handleOpenMenu();
+      result.current.handleOpenMenu(evt);
+    });
+
+    expect(result.current.open).toBe(false);
+  });
+
+  test("handleOpenMenu should not set open state to true when event is coming from column adjuster", () => {
+    evt.target = { className: "sn-pivot-table-column-adjuster" } as unknown as EventTarget;
+    const result = renderer();
+
+    act(() => {
+      result.current.handleOpenMenu(evt);
     });
 
     expect(result.current.open).toBe(false);

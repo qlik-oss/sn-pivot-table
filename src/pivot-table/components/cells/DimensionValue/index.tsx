@@ -48,7 +48,12 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
 
   const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
-    <ColumnAdjuster cell={cell} columnWidth={style.width as number} dataModel={dataModel} />
+    <ColumnAdjuster
+      cellInfo={cell}
+      columnWidth={style.width as number}
+      dataModel={dataModel}
+      isLastColumn={isLastColumn}
+    />
   ) : null;
 
   return (
