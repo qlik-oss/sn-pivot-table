@@ -122,7 +122,7 @@ describe("useScroll", () => {
       const scrollLeft = 123;
       const {
         result: {
-          current: { onHorizontalScrollHandler, getScrollLeft },
+          current: { onHorizontalScrollHandler },
         },
       } = renderUseScroll();
 
@@ -133,14 +133,13 @@ describe("useScroll", () => {
 
       expect(mockedTopGridRef.scrollTo).toHaveBeenCalledWith(scrollLeft);
       expect(dataGridRef.scrollTo).toHaveBeenCalledWith({ scrollLeft });
-      expect(getScrollLeft()).toEqual(scrollLeft);
     });
 
     test("when called `onVerticalScrollHandler()` should update grids with new scroll position", () => {
       const scrollTop = 321;
       const {
         result: {
-          current: { onVerticalScrollHandler, getScrollTop },
+          current: { onVerticalScrollHandler },
         },
       } = renderUseScroll();
 
@@ -151,7 +150,6 @@ describe("useScroll", () => {
 
       expect(mockedLeftGridRef.scrollTo).toHaveBeenCalledWith(scrollTop);
       expect(dataGridRef.scrollTo).toHaveBeenCalledWith({ scrollTop });
-      expect(getScrollTop()).toEqual(scrollTop);
     });
   });
 

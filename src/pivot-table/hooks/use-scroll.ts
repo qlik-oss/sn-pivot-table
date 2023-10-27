@@ -99,6 +99,19 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     horizontalScrollbarHeightSetter();
   }, [horizontalScrollbarHeightSetter]);
 
+  useLayoutEffect(() => {
+    // Call scrollTo here so that when a cell is expanded or collapsed, scroll to the last known position.
+    // Otherwise it will be out-of-sync with the data grid.
+    if (layoutService.layout.qHyperCube.qLastExpandedPos) {
+      console.log("%c compare", "color: orangered", {
+        getScrollLeft: getScrollLeft(),
+        containerLeft: dataGridHorizontalScrollableContainerRef.current?.scrollLeft,
+      });
+      leftGridRef.current?.forEach((list) => list?.scrollTo(getScrollTop()));
+      topGridRef.current?.forEach((list) => list?.scrollTo(getScrollLeft()));
+    }
+  }, [layoutService, getScrollTop, getScrollLeft]);
+
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
 
@@ -142,8 +155,6 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   };
 
   return {
-    getScrollLeft,
-    getScrollTop,
     onHorizontalScrollHandler,
     onVerticalScrollHandler,
     verticalScrollableContainerRef,
