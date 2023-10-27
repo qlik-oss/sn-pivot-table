@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Q_PATH } from "../../constants";
 import { NxSelectionCellType } from "../../types/QIX";
 import type { Cell, ExtendedSelections, PageInfo } from "../../types/types";
+import cancelEventsFromColumnAdjuster from "../components/cells/utils/cancel-events-from-column-adjuster";
 
 export type SelectionCellLookup = (cell: Cell) => boolean;
 
@@ -102,7 +103,7 @@ export default function useSelectionsModel(
 
   const select = useCallback(
     (cell: Cell) => async (evt: React.MouseEvent) => {
-      if ((evt.target as HTMLElement | SVGElement)?.getAttribute("class")?.includes("sn-pivot-table-column-adjuster")) {
+      if (cancelEventsFromColumnAdjuster(evt)) {
         return;
       }
 

@@ -47,15 +47,6 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   const isCellSelected = isSelected(cell);
   const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
 
-  const columnAdjuster = shouldRenderColumnAdjuster(cell, isActive) ? (
-    <ColumnAdjuster
-      cellInfo={cell}
-      columnWidth={style.width as number}
-      dataModel={dataModel}
-      isLastColumn={isLastColumn}
-    />
-  ) : null;
-
   return (
     <Container
       text={text}
@@ -79,7 +70,13 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
           {text}
         </Text>
       </StickyCellContainer>
-      {columnAdjuster}
+      <ColumnAdjuster
+        cellInfo={cell}
+        columnWidth={style.width as number}
+        dataModel={dataModel}
+        isLastColumn={isLastColumn}
+        isLastRow={isLastRow}
+      />
     </Container>
   );
 };

@@ -13,6 +13,9 @@ interface StyledHeaderCellWrapperProps {
   isDimension: boolean;
 }
 
+export const COLUMN_ADJUSTER_CLASS = "sn-pivot-table-column-adjuster";
+const COLUMN_ADJUSTER_BORDER_CLASS = `& .${COLUMN_ADJUSTER_CLASS}-border`;
+
 export const StyledHeaderCellWrapper = styled(Box, {
   shouldForwardProp: (prop: string) =>
     !["interactions", "hoverBackground", "background", "shouldShowMenuIcon", "isDimension"].includes(prop),
@@ -75,13 +78,13 @@ export const AdjusterHitArea = styled("div", {
   width: `${isLastColumn ? CELL_PADDING : CELL_PADDING * 2 + GRID_BORDER}px`,
   justifyContent: isLastColumn ? "flex-end" : "center",
   "&&:hover:not(:focus, :active)": {
-    "& .sn-pivot-table-column-adjuster-border": {
+    [COLUMN_ADJUSTER_BORDER_CLASS]: {
       background: "#D9D9D9",
     },
   },
   "&&:focus-visible, :active": {
     outline: "none",
-    "& .sn-pivot-table-column-adjuster-border": {
+    [COLUMN_ADJUSTER_BORDER_CLASS]: {
       background: "#177fe6",
     },
   },

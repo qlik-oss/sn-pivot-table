@@ -74,11 +74,6 @@ const DimensionTitleCell = ({
   const searchRelatedArgs = { embed, listboxRef };
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
 
-  const cellInfo = {
-    dimensionInfoIndex: cell.dimensionInfoIndex,
-    isLeftColumn: true,
-  };
-
   return (
     <StyledHeaderCellWrapper
       title={cell.label}
@@ -123,14 +118,13 @@ const DimensionTitleCell = ({
           <StyledHeaderAnchor ref={anchorRef} />
         </>
       )}
-      {isLastRow && (
-        <ColumnAdjuster
-          cellInfo={cellInfo}
-          columnWidth={columnWidth}
-          dataModel={dataModel}
-          isLastColumn={isLastColumn}
-        />
-      )}
+      <ColumnAdjuster
+        cellInfo={{ ...cell, isLeftColumn: true }}
+        columnWidth={columnWidth}
+        dataModel={dataModel}
+        isLastColumn={isLastColumn}
+        isLastRow={isLastRow}
+      />
     </StyledHeaderCellWrapper>
   );
 };

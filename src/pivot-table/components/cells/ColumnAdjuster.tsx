@@ -4,15 +4,17 @@ import React, { useRef, useState } from "react";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
+import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { ColumnWidthValues } from "../../hooks/use-column-width";
 import { CELL_PADDING } from "../shared-styles";
-import { AdjusterBorder, AdjusterHitArea } from "./styles";
+import { AdjusterBorder, AdjusterHitArea, COLUMN_ADJUSTER_CLASS } from "./styles";
 
 interface AdjusterProps {
   cellInfo: AdjusterCellInfo;
   columnWidth: number;
   dataModel: DataModel | undefined;
   isLastColumn: boolean;
+  isLastRow: boolean;
 }
 
 /**
@@ -20,14 +22,18 @@ interface AdjusterProps {
  * When you start dragging, mouse move and mouse up listeners are added.
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
-const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
+const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, isLastRow }: AdjusterProps) => {
+  const { isActive } = useSelectionsContext();
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
+  const shouldRender = (isLastRow && !isActive) || !("isLeafNode" in cellInfo && cellInfo.isLeftColumn);
 
   useOnPropsChange(() => {
-    setInternalWidth(columnWidth);
+    if (shouldRender) setInternalWidth(columnWidth);
   }, [columnWidth]);
+
+  if (!shouldRender) return undefined;
 
   const mouseMoveHandler = (evt: MouseEvent) => {
     const deltaWidth = evt.clientX - tempWidth.current.initX;
@@ -66,13 +72,13 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
     <AdjusterHitArea
       style={{ left: internalWidth - positionAdjustment }}
       isLastColumn={isLastColumn}
-      className="sn-pivot-table-column-adjuster"
+      className={COLUMN_ADJUSTER_CLASS}
       key={`adjuster-${cellInfo.dimensionInfoIndex}`}
       onMouseDown={mouseDownHandler}
       onDoubleClick={handleDoubleClick}
-      data-testid="sn-pivot-table-column-adjuster"
+      data-testid={COLUMN_ADJUSTER_CLASS}
     >
-      <AdjusterBorder className="sn-pivot-table-column-adjuster-border" />
+      <AdjusterBorder className={`${COLUMN_ADJUSTER_CLASS}-border`} />
     </AdjusterHitArea>
   );
 };
