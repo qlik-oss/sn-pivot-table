@@ -112,7 +112,6 @@ describe("DimensionValue", () => {
       isEmpty: false,
       isPseudoDimension: false,
       isTotal: false,
-      isAncestorPseudoDimension: false,
     } as Cell;
 
     data = {

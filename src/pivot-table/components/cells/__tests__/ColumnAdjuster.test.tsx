@@ -1,11 +1,11 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { ColumnWidthType } from "../../../../types/QIX";
-import type { Cell, DataModel } from "../../../../types/types";
+import type { AdjusterCellInfo, DataModel } from "../../../../types/types";
 import ColumnAdjuster from "../ColumnAdjuster";
 
 describe("<ColumnAdjuster />", () => {
-  const cell = {} as Cell;
+  const cellInfo = {} as AdjusterCellInfo;
   let columnWidth: number;
   let dataModel: DataModel | undefined;
 
@@ -15,7 +15,7 @@ describe("<ColumnAdjuster />", () => {
       applyColumnWidth: jest.fn(),
     } as unknown as DataModel;
 
-    render(<ColumnAdjuster cell={cell} columnWidth={columnWidth} dataModel={dataModel} />);
+    render(<ColumnAdjuster cellInfo={cellInfo} columnWidth={columnWidth} dataModel={dataModel} isLastColumn={false} />);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -39,7 +39,7 @@ describe("<ColumnAdjuster />", () => {
       expect(dataModel?.applyColumnWidth).toHaveBeenNthCalledWith(
         1,
         { type: ColumnWidthType.Pixels, pixels: 200 },
-        cell,
+        cellInfo,
       );
     });
   });
@@ -59,7 +59,7 @@ describe("<ColumnAdjuster />", () => {
     fireEvent.doubleClick(columnAdjuster);
 
     await waitFor(() => {
-      expect(dataModel?.applyColumnWidth).toHaveBeenNthCalledWith(1, { type: ColumnWidthType.FitToContent }, cell);
+      expect(dataModel?.applyColumnWidth).toHaveBeenNthCalledWith(1, { type: ColumnWidthType.FitToContent }, cellInfo);
     });
   });
 });

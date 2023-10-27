@@ -7,7 +7,7 @@ import {
   type ExtendedMeasureInfo,
   type Model,
 } from "../../../types/QIX";
-import type { Cell, LayoutService, PageInfo } from "../../../types/types";
+import type { AdjusterCellInfo, LayoutService, PageInfo } from "../../../types/types";
 import useDataModel from "../use-data-model";
 
 const pivotPage = {};
@@ -194,12 +194,12 @@ describe("useDataModel", () => {
     const dimension = {} as ExtendedDimensionInfo;
     const measure = {} as ExtendedMeasureInfo;
     let newColumnWidth: ColumnWidth;
-    let cell: Cell;
+    let cellInfo: AdjusterCellInfo;
     let patch: EngineAPI.INxPatch;
 
     beforeEach(() => {
       newColumnWidth = { type: ColumnWidthType.Pixels, pixels: 100 };
-      cell = { isPseudoDimension: false, isAncestorPseudoDimension: false, isLeftColumn: false, x: 0, y: 0 } as Cell;
+      cellInfo = { dimensionInfoIndex: 0, isLeftColumn: false } as AdjusterCellInfo;
       layoutService = {
         layout: {
           qHyperCube: { qDimensionInfo: [dimension, dimension], qMeasureInfo: [measure, measure], qNoOfLeftDims: 0 },
@@ -217,31 +217,7 @@ describe("useDataModel", () => {
 
     test("should call applyPatches with qPath for dimension", () => {
       const { applyColumnWidth } = renderer();
-      applyColumnWidth(newColumnWidth, cell);
-
-      expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
-    });
-
-    test("should call applyPatches with qPath for dimension with pseudo as ancestor", () => {
-      layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
-      cell.isAncestorPseudoDimension = true;
-      cell.y = 1;
-      patch.qPath = "/qHyperCubeDef/qDimensions/1/qDef/columnWidth";
-
-      const { applyColumnWidth } = renderer();
-      applyColumnWidth(newColumnWidth, cell);
-
-      expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
-    });
-
-    test("should call applyPatches with qPath for dimension when hasPseudoDimOnLeft is true", () => {
-      layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
-      layoutService.hasPseudoDimOnLeft = true;
-      cell.y = 1;
-      patch.qPath = "/qHyperCubeDef/qDimensions/1/qDef/columnWidth";
-
-      const { applyColumnWidth } = renderer();
-      applyColumnWidth(newColumnWidth, cell);
+      applyColumnWidth(newColumnWidth, cellInfo);
 
       expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
     });
@@ -251,19 +227,33 @@ describe("useDataModel", () => {
       patch.qOp = "Replace";
 
       const { applyColumnWidth } = renderer();
-      applyColumnWidth(newColumnWidth, cell);
+      applyColumnWidth(newColumnWidth, cellInfo);
 
       expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
     });
 
-    test("should call applyPatches with qPath for measure", async () => {
-      cell.isPseudoDimension = true;
+    test("should call applyPatches with qPath for top grid measure", async () => {
+      cellInfo.dimensionInfoIndex = -1;
       patch.qPath = "/qHyperCubeDef/qMeasures/0/qDef/columnWidth";
 
       const { applyColumnWidth } = renderer();
-      applyColumnWidth(newColumnWidth, cell);
+      applyColumnWidth(newColumnWidth, cellInfo);
 
       expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
+    });
+
+    test("should call applyPatches with patches for all measures when resizing header grid pseudo dimension", async () => {
+      cellInfo.dimensionInfoIndex = -1;
+      cellInfo.isLeftColumn = true;
+      const patches = [
+        { ...patch, qPath: "/qHyperCubeDef/qMeasures/0/qDef/columnWidth" },
+        { ...patch, qPath: "/qHyperCubeDef/qMeasures/1/qDef/columnWidth" },
+      ];
+
+      const { applyColumnWidth } = renderer();
+      applyColumnWidth(newColumnWidth, cellInfo);
+
+      expect(model?.applyPatches).toHaveBeenCalledWith(patches, true);
     });
   });
 });

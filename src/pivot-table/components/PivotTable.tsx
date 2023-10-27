@@ -155,6 +155,7 @@ export const StickyPivotTable = ({
               <FullSizeContainer {...leftWrapper.containers.fullSize}>
                 <StickyContainer {...leftWrapper.containers.sticky}>
                   <HeaderGrid
+                    dataModel={dataModel}
                     columnWidths={leftGridColumnWidths}
                     getHeaderCellsIconsVisibilityStatus={getHeaderCellsIconsVisibilityStatus}
                     rowHight={headerCellHeight}

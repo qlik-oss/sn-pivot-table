@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
 import type { CellStyling } from "../../../types/types";
-import { HEADER_ICON_SIZE } from "../../constants";
+import { GRID_BORDER, HEADER_ICON_SIZE } from "../../constants";
 import { CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
 
 interface StyledHeaderCellWrapperProps {
@@ -26,7 +26,7 @@ export const StyledHeaderCellWrapper = styled(Box, {
   cursor: interactions.active ? "pointer" : "default",
   background,
   "&&:hover": {
-    background: interactions.active ? hoverBackground : background,
+    background: interactions.active && isDimension ? hoverBackground : background,
   },
 }));
 
@@ -65,13 +65,14 @@ export const StyledLabel = styled("div", {
 export const AdjusterHitArea = styled("div", {
   shouldForwardProp: (prop: string) => prop !== "isLastColumn",
 })(({ isLastColumn = false }: { isLastColumn: boolean }) => ({
+  pointerEvents: "all",
   display: "flex",
   position: "absolute",
   height: "100%",
   top: 0,
   cursor: "col-resize",
   // last column padding, other double padding + border
-  width: `${isLastColumn ? 4 : 9}px`,
+  width: `${isLastColumn ? CELL_PADDING : CELL_PADDING * 2 + GRID_BORDER}px`,
   justifyContent: isLastColumn ? "flex-end" : "center",
   "&&:hover:not(:focus, :active)": {
     "& .sn-pivot-table-column-adjuster-border": {
