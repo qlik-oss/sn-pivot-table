@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Q_PATH } from "../../constants";
 import { NxSelectionCellType } from "../../types/QIX";
 import type { Cell, ExtendedSelections, PageInfo } from "../../types/types";
-import cancelEventsFromColumnAdjuster from "../components/cells/utils/is-event-from-column-adjuster";
+import isEventFromColumnAdjuster from "../components/cells/utils/is-event-from-column-adjuster";
 
 export type SelectionCellLookup = (cell: Cell) => boolean;
 
