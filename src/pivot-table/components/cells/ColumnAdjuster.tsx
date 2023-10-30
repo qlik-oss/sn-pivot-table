@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
-import { ColumnWidthValues } from "../../hooks/use-column-width";
+import { ColumnWidthValues, type OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import { CELL_PADDING } from "../shared-styles";
 import { AdjusterBorder, AdjusterHitArea } from "./styles";
 
@@ -13,6 +13,7 @@ interface AdjusterProps {
   columnWidth: number;
   dataModel: DataModel | undefined;
   isLastColumn: boolean;
+  setWidthCallback?: OverrideLeftGridWidth;
 }
 
 /**
@@ -20,7 +21,7 @@ interface AdjusterProps {
  * When you start dragging, mouse move and mouse up listeners are added.
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
-const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
+const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, setWidthCallback }: AdjusterProps) => {
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
@@ -34,6 +35,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
     const adjustedWidth = Math.max(tempWidth.current.initWidth + deltaWidth, ColumnWidthValues.PixelsMin);
     setInternalWidth(adjustedWidth);
     tempWidth.current.columnWidth = adjustedWidth;
+    setWidthCallback?.(adjustedWidth, cellInfo.dimensionInfoIndex);
   };
 
   const mouseUpHandler = (evt: MouseEvent) => {

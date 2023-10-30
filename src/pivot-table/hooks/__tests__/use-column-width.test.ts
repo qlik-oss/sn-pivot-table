@@ -408,7 +408,7 @@ describe("useColumnWidth", () => {
     });
   });
 
-  describe("getHeaderCellsIconsVisibilityStatus()", () => {
+  describe("getHeaderCellsIconsVisibilityStatus", () => {
     const columnWidthInPixels = 100;
 
     test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there is enough space in each column", () => {

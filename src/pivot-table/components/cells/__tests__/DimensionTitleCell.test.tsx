@@ -17,6 +17,7 @@ describe("DimensionTitleCell", () => {
   const translator = { get: (s) => s } as stardust.Translator;
   const changeSortOrder = jest.fn();
   const changeActivelySortedColumn = jest.fn();
+  const overrideLeftGridWidth = jest.fn();
   const style: React.CSSProperties = {
     position: "relative",
     left: "25px",
@@ -28,7 +29,6 @@ describe("DimensionTitleCell", () => {
     shouldShowMenuIcon: true,
     shouldShowLockIcon: true,
   };
-
   let component: React.JSX.Element;
 
   beforeEach(() => {
@@ -44,6 +44,7 @@ describe("DimensionTitleCell", () => {
         changeActivelySortedHeader={changeActivelySortedColumn}
         iconsVisibilityStatus={iconsVisibilityStatus}
         columnWidth={100}
+        overrideLeftGridWidth={overrideLeftGridWidth}
       />
     );
   });

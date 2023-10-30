@@ -1,5 +1,5 @@
 import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { PSEUDO_DIMENSION_INDEX, PSEUDO_DIMENSION_KEY } from "../../constants";
 import { ColumnWidthType, type ColumnWidth } from "../../types/QIX";
 import type {
@@ -14,12 +14,15 @@ import { CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
+export type OverrideLeftGridWidth = (width: number, index: number) => void;
+
 interface ColumnWidthHook extends LeftGridWidthInfo {
   rightGridWidth: number;
   totalWidth: number;
   showLastRightBorder: boolean;
   getRightGridColumnWidth: (index?: number) => number;
   getHeaderCellsIconsVisibilityStatus: GetHeaderCellsIconsVisibilityStatus;
+  overrideLeftGridWidth: OverrideLeftGridWidth;
 }
 
 export interface GetHeaderCellsIconsVisibilityStatus {
@@ -95,58 +98,79 @@ export default function useColumnWidth(
     bold: isBold(styleService.dimensionValues),
   });
 
+  const calculateLeftGridWidthInfo = useCallback(
+    (widthOverride?: number, overrideIndex?: number) => {
+      const getColumnWidth = (columnWidth: ColumnWidth | undefined, fitToContentWidth: number) => {
+        switch (columnWidth?.type) {
+          case ColumnWidthType.Pixels:
+            return getPixelValue(columnWidth.pixels);
+          case ColumnWidthType.Percentage:
+            return getPercentageValue(columnWidth.percentage) * rect.width;
+          default:
+            // fit to content / auto
+            return fitToContentWidth;
+        }
+      };
+
+      let sumOfWidths = 0;
+
+      const lastRow = headersData.data[headersData.size.y - 1] as HeaderCell[];
+      const columnWidths = lastRow.map((cell, index) => {
+        let width: number;
+
+        if (widthOverride && overrideIndex !== undefined && overrideIndex === index) {
+          width = widthOverride;
+        } else if (cell.id === PSEUDO_DIMENSION_KEY) {
+          // Use the max width of all measures
+          width = Math.max(
+            ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
+              const fitToContentWidth = measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING;
+              return getColumnWidth(columnWidth, fitToContentWidth);
+            }),
+          );
+        } else {
+          const { label, qApprMaxGlyphCount, columnWidth, isLocked } = cell;
+          const expandIconSize = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
+          const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
+
+          const fitToContentWidth = Math.max(
+            measureTextForHeader(label) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize,
+            estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
+          );
+
+          width = getColumnWidth(columnWidth, fitToContentWidth);
+        }
+
+        sumOfWidths += width;
+        return width;
+      });
+
+      return {
+        leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
+        leftGridColumnWidths: columnWidths,
+        leftGridFullWidth: sumOfWidths,
+      };
+    },
+    [
+      estimateWidthForDimensionValue,
+      headersData.data,
+      headersData.size.y,
+      isFullyExpanded,
+      measureTextForDimensionValue,
+      measureTextForHeader,
+      qMeasureInfo,
+      qNoOfLeftDims,
+      rect.width,
+    ],
+  );
+
   /**
    * The widths of the left columns. Scales the width to fit LEFT_SIDE_MAX_WIDTH_RATIO * rect.width if wider than that
    */
-  const leftGridWidthInfo = useMemo<LeftGridWidthInfo>(() => {
-    const getColumnWidth = (columnWidth: ColumnWidth | undefined, fitToContentWidth: number) => {
-      switch (columnWidth?.type) {
-        case ColumnWidthType.Pixels:
-          return getPixelValue(columnWidth.pixels);
-        case ColumnWidthType.Percentage:
-          return getPercentageValue(columnWidth.percentage) * rect.width;
-        default:
-          // fit to content / auto
-          return fitToContentWidth;
-      }
-    };
+  const [leftGridWidthInfo, setLeftGridWidthInfo] = useState<LeftGridWidthInfo>(calculateLeftGridWidthInfo);
 
-    let sumOfWidths = 0;
-
-    const lastRow = headersData.data[headersData.size.y - 1] as HeaderCell[];
-    const columnWidths = lastRow.map((cell, index) => {
-      let width: number;
-
-      if (cell.id === PSEUDO_DIMENSION_KEY) {
-        // Use the max width of all measures
-        width = Math.max(
-          ...qMeasureInfo.map(({ qFallbackTitle, columnWidth }) => {
-            const fitToContentWidth = measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING;
-            return getColumnWidth(columnWidth, fitToContentWidth);
-          }),
-        );
-      } else {
-        const { label, qApprMaxGlyphCount, columnWidth, isLocked } = cell;
-        const expandIconSize = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
-        const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
-
-        const fitToContentWidth = Math.max(
-          measureTextForHeader(label) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize,
-          estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
-        );
-
-        width = getColumnWidth(columnWidth, fitToContentWidth);
-      }
-
-      sumOfWidths += width;
-      return width;
-    });
-
-    return {
-      leftGridWidth: Math.min(rect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
-      leftGridColumnWidths: columnWidths,
-      leftGridFullWidth: sumOfWidths,
-    };
+  useEffect(() => {
+    setLeftGridWidthInfo(calculateLeftGridWidthInfo());
   }, [
     headersData,
     rect.width,
@@ -156,7 +180,15 @@ export default function useColumnWidth(
     qNoOfLeftDims,
     measureTextForHeader,
     estimateWidthForDimensionValue,
+    calculateLeftGridWidthInfo,
   ]);
+
+  const overrideLeftGridWidth = useCallback(
+    (width: number, index: number) => {
+      setLeftGridWidthInfo(calculateLeftGridWidthInfo(width, index));
+    },
+    [calculateLeftGridWidthInfo],
+  );
 
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
@@ -330,5 +362,6 @@ export default function useColumnWidth(
     showLastRightBorder,
     getRightGridColumnWidth,
     getHeaderCellsIconsVisibilityStatus,
+    overrideLeftGridWidth,
   };
 }
