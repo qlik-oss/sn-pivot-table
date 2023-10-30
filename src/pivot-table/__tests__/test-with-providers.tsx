@@ -89,6 +89,7 @@ const TestWithProvider = (props: Props) => {
     keyboard = {} as stardust.Keyboard,
   } = props;
 
+  // This enables only overriding one or several default properties, not necessarily the entire object
   const mockedSelections = {
     ...{
       isActive: () => false,
