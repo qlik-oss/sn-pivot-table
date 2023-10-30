@@ -16,7 +16,7 @@ interface Props extends Partial<RootProps> {
 const TestWithProvider = (props: Props) => {
   const {
     children,
-    selections,
+    selections = {},
     updatePageInfo = () => undefined,
     styleService = {
       header: {
