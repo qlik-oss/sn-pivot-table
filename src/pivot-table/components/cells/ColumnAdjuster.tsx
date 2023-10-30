@@ -65,6 +65,8 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, scroll
 
   const handleDoubleClick = () => dataModel?.applyColumnWidth({ type: ColumnWidthType.FitToContent }, cellInfo);
 
+  console.log({ internalWidth, positionAdjustment });
+
   return (
     <AdjusterHitArea
       style={{ left: internalWidth - positionAdjustment }}
