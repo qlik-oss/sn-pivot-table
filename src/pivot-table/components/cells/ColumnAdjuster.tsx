@@ -14,7 +14,6 @@ interface AdjusterProps {
   columnWidth: number;
   dataModel: DataModel | undefined;
   isLastColumn: boolean;
-  isLastRow: boolean;
 }
 
 /**
@@ -22,12 +21,12 @@ interface AdjusterProps {
  * When you start dragging, mouse move and mouse up listeners are added.
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
-const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, isLastRow }: AdjusterProps) => {
+const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
   const { isActive } = useSelectionsContext();
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
-  const shouldRender = (isLastRow && !isActive) || !("isLeafNode" in cellInfo && cellInfo.isLeftColumn);
+  const shouldRender = !isActive && cellInfo.canBeResized;
 
   useOnPropsChange(() => {
     if (shouldRender) setInternalWidth(columnWidth);

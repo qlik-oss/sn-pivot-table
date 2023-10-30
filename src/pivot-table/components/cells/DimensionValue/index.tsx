@@ -6,7 +6,6 @@ import { useStyleContext } from "../../../contexts/StyleProvider";
 import { shouldShowTotalCellDivider } from "../../../hooks/use-is-total-cell";
 import ColumnAdjuster from "../ColumnAdjuster";
 import EmptyCell from "../EmptyCell";
-import shouldRenderColumnAdjuster from "../utils/should-render-column-adjuster";
 import Container from "./Container";
 import ExpandOrCollapseIcon from "./ExpandOrCollapseIcon";
 import StickyCellContainer from "./StickyCellContainer";
@@ -21,7 +20,7 @@ export interface DimensionValueProps {
 
 const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Element => {
   const styleService = useStyleContext();
-  const { isSelected, isActive } = useSelectionsContext();
+  const { isSelected } = useSelectionsContext();
   const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
@@ -75,7 +74,6 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
         columnWidth={style.width as number}
         dataModel={dataModel}
         isLastColumn={isLastColumn}
-        isLastRow={isLastRow}
       />
     </Container>
   );

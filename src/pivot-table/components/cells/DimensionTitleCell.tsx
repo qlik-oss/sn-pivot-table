@@ -19,7 +19,6 @@ interface DimensionTitleCellProps {
   cell: HeaderCell;
   style: React.CSSProperties;
   isLastColumn: boolean;
-  isLastRow: boolean;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
@@ -40,7 +39,6 @@ const DimensionTitleCell = ({
   cell,
   style,
   isLastColumn,
-  isLastRow,
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
@@ -123,7 +121,6 @@ const DimensionTitleCell = ({
         columnWidth={columnWidth}
         dataModel={dataModel}
         isLastColumn={isLastColumn}
-        isLastRow={isLastRow}
       />
     </StyledHeaderCellWrapper>
   );

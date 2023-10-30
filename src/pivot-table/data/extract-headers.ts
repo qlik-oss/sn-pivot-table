@@ -32,6 +32,7 @@ const extractHeaders = (
         isDim: false,
         headTextAlign: "left",
         dimensionInfoIndex: -1,
+        canBeResized: true, // TODO: this should only be true for the bottom cells, when we add horizontal headers
       };
     } else {
       matrix[rowCount - 1][colIdx] = {
@@ -50,6 +51,7 @@ const extractHeaders = (
         isDim: true,
         headTextAlign: "left",
         dimensionInfoIndex: getDimensionInfoIndex(qDimensionInfo),
+        canBeResized: true, // TODO: this should only be true for the bottom cells, when we add horizontal headers
       };
     }
   });
