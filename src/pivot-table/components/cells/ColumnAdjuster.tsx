@@ -13,7 +13,7 @@ interface AdjusterProps {
   columnWidth: number;
   dataModel: DataModel | undefined;
   isLastColumn: boolean;
-  scrollbarSharePerCol: number;
+  scrollbarSharePerCol?: number;
 }
 
 /**

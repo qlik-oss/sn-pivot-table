@@ -30,7 +30,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
     itemCount,
     isLast,
     totalDividerIndex,
-    verticalScrollbarWidth,
+    verticalScrollbarWidth = 0,
   } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
