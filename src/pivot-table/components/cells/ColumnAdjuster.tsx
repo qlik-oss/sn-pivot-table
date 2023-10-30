@@ -35,10 +35,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, scroll
     const deltaWidth = evt.clientX - tempWidth.current.initX;
     const adjustedWidth = Math.max(tempWidth.current.initWidth + deltaWidth, ColumnWidthValues.PixelsMin);
 
-    // for header grid value of `scrollbarSharePerCol` will be undefined
-    const modifiedScrollbarShareWidth = scrollbarSharePerCol || 0;
-    setInternalWidth(adjustedWidth - modifiedScrollbarShareWidth);
-
+    setInternalWidth(adjustedWidth);
     tempWidth.current.columnWidth = adjustedWidth;
   };
 
@@ -48,7 +45,10 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, scroll
     document.removeEventListener("mouseup", mouseUpHandler);
 
     if (tempWidth.current.columnWidth !== tempWidth.current.initWidth) {
-      const newWidthData = { type: ColumnWidthType.Pixels, pixels: tempWidth.current.columnWidth };
+      const newWidthData = {
+        type: ColumnWidthType.Pixels,
+        pixels: tempWidth.current.columnWidth + (scrollbarSharePerCol || 0),
+      };
       dataModel?.applyColumnWidth(newWidthData, cellInfo);
     }
   };
@@ -67,8 +67,6 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, scroll
   };
 
   const handleDoubleClick = () => dataModel?.applyColumnWidth({ type: ColumnWidthType.FitToContent }, cellInfo);
-
-  console.log({ internalWidth, positionAdjustment, res: internalWidth - positionAdjustment });
 
   return (
     <AdjusterHitArea
