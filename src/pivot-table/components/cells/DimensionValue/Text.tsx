@@ -16,7 +16,11 @@ const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Pr
   <span
     style={{
       ...textStyle,
-      ...getLineClampStyle(isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP),
+      ...getLineClampStyle(
+        isLeftColumn
+          ? Math.max(styleService.grid.lineClamp, cell.leafCount * styleService.grid.lineClamp)
+          : DEFAULT_LINE_CLAMP,
+      ),
       color: getColor({ cell, styleService, isCellSelected }),
       fontWeight: getFontWeight({ cell, styleService }),
       fontStyle: getFontStyle({ cell, styleService }),
