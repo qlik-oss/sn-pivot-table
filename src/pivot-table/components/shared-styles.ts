@@ -14,6 +14,8 @@ export enum Colors {
 
 export const CELL_PADDING = 4;
 
+export const DOUBLE_CELL_PADDING = CELL_PADDING * 2;
+
 export const baseFlex: React.CSSProperties = {
   display: "flex",
   justifyContent: "center",
@@ -26,7 +28,7 @@ export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
 
 export const baseCellStyle: React.CSSProperties = {
   boxSizing: "border-box",
-  padding: `${CELL_PADDING}px ${CELL_PADDING * 2}px`,
+  padding: `${CELL_PADDING}px ${DOUBLE_CELL_PADDING}px`,
   userSelect: "none",
 };
 

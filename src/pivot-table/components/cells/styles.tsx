@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
 import type { CellStyling } from "../../../types/types";
 import { GRID_BORDER, HEADER_ICON_SIZE } from "../../constants";
-import { CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
+import { CELL_PADDING, DOUBLE_CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
 
 interface StyledHeaderCellWrapperProps {
   interactions: stardust.Interactions;
@@ -72,7 +72,7 @@ export const AdjusterHitArea = styled("div", {
   top: 0,
   cursor: "col-resize",
   // last column padding, other double padding + border
-  width: `${isLastColumn ? CELL_PADDING : CELL_PADDING * 2 + GRID_BORDER}px`,
+  width: `${isLastColumn ? CELL_PADDING : DOUBLE_CELL_PADDING + GRID_BORDER}px`,
   justifyContent: isLastColumn ? "flex-end" : "center",
   "&&:hover:not(:focus, :active)": {
     "& .sn-pivot-table-column-adjuster-border": {

@@ -10,7 +10,7 @@ import type {
   Rect,
   VisibleDimensionInfo,
 } from "../../types/types";
-import { CELL_PADDING } from "../components/shared-styles";
+import { CELL_PADDING, DOUBLE_CELL_PADDING } from "../components/shared-styles";
 import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
@@ -40,7 +40,7 @@ interface LeftGridWidthInfo {
 }
 
 export const EXPAND_ICON_SIZE = 30;
-export const TOTAL_CELL_PADDING = CELL_PADDING * 2 + GRID_BORDER;
+export const TOTAL_CELL_PADDING = DOUBLE_CELL_PADDING * 2 + GRID_BORDER;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
 
 // CELL_PADDING as grid gap between header text and menu icon
