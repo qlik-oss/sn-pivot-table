@@ -1,5 +1,5 @@
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
-import React, { memo, useLayoutEffect } from "react";
+import React, { memo } from "react";
 import { VariableSizeList } from "react-window";
 import type {
   DataModel,
@@ -23,7 +23,6 @@ interface TopGridProps {
   rowHightCallback: () => number;
   width: number;
   height: number;
-  getScrollLeft: () => number;
   layoutService: LayoutService;
   topDimensionData: TopDimensionData;
   showLastBorder: ShowLastBorder;
@@ -52,7 +51,6 @@ const TopGrid = ({
   rowHightCallback,
   width,
   height,
-  getScrollLeft,
   layoutService,
   topDimensionData,
   showLastBorder,
@@ -73,12 +71,6 @@ const TopGrid = ({
       topGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
     }
   }, [dataModel, width, height, topDimensionData, topGridRef, headerCellHeight]);
-
-  useLayoutEffect(() => {
-    if (topGridRef.current) {
-      topGridRef.current.forEach((list) => list?.scrollTo(getScrollLeft()));
-    }
-  }, [layoutService, getScrollLeft, topGridRef]);
 
   const totalWidth = layoutService.size.x * getRightGridColumnWidth();
 

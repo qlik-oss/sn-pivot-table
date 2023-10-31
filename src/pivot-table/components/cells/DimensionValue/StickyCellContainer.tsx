@@ -6,24 +6,28 @@ type Props = {
   children: ReactNode;
 };
 
-const StickyCellContainer = ({ children, isLeftColumn }: Props): JSX.Element => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "row",
-      alignItems: isLeftColumn ? "flex-start" : "center",
-      gap: 0,
-      width: "fit-content",
-      maxWidth: "100%",
-      position: "sticky",
-      left: CELL_PADDING,
-      top: 0,
-      right: isLeftColumn ? undefined : CELL_PADDING,
-      alignSelf: isLeftColumn ? "flex-start" : "center",
-    }}
-  >
-    {children}
-  </div>
-);
+const StickyCellContainer = ({ children, isLeftColumn }: Props): JSX.Element => {
+  const align = isLeftColumn ? "flex-start" : "center";
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: align,
+        gap: `${CELL_PADDING}px`,
+        width: "fit-content",
+        maxWidth: "100%",
+        position: "sticky",
+        left: CELL_PADDING,
+        top: CELL_PADDING,
+        right: isLeftColumn ? undefined : CELL_PADDING,
+        alignSelf: align,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 export default StickyCellContainer;
