@@ -65,7 +65,6 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
         marginTop: isLeftColumn
           ? styleService.contentCellHeight / 2 - PLUS_MINUS_ICON_SIZE / 2 - CELL_PADDING
           : undefined,
-        background: "orangered",
       }}
       onClick={disableOnClickHandler ? undefined : createOnClickHandler({ cell, expandOrCollapse })}
     />

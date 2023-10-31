@@ -1,6 +1,6 @@
 import React, { type ReactNode } from "react";
 import type { Cell, StyleService } from "../../../../types/types";
-import { DEFAULT_LINE_CLAMP, LINE_HEIGHT_COEFFICIENT } from "../../../constants";
+import { DEFAULT_LINE_CLAMP } from "../../../constants";
 import { CELL_PADDING, getLineClampStyle, textStyle } from "../../shared-styles";
 import { getColor, getFontStyle, getFontWeight, getTextDecoration } from "./utils/get-style";
 
@@ -30,8 +30,6 @@ const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Pr
       // 0px at bottom to handle an issue in Firefox where line clamped text, after the ellipsis, is still drawn
       // on the next text line
       padding: isLeftColumn ? `${CELL_PADDING}px ${CELL_PADDING}px 0px ${CELL_PADDING}px` : CELL_PADDING,
-      background: "orange",
-      minHeight: `${LINE_HEIGHT_COEFFICIENT}em`, // Needed when text string is empty
     }}
   >
     {children}
