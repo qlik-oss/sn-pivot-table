@@ -21,11 +21,9 @@ interface AdjusterProps {
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
 const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
-  // columnWidth here does not encounter the width of verticalScrollbar
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
-
   useOnPropsChange(() => {
     setInternalWidth(columnWidth);
   }, [columnWidth]);
