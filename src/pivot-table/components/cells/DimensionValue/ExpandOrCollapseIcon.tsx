@@ -6,6 +6,7 @@ import { PLUS_MINUS_ICON_SIZE } from "../../../constants";
 import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
+import { CELL_PADDING } from "../../shared-styles";
 import { getColor } from "./utils/get-style";
 
 type Props = {
@@ -57,7 +58,15 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
       color={color}
       data-testid={cell.ref.qCanExpand ? testIdExpandIcon : testIdCollapseIcon}
       height={PLUS_MINUS_ICON_SIZE}
-      style={{ flexShrink: 0, cursor: disableOnClickHandler ? "default" : "pointer" }}
+      style={{
+        flexShrink: 0,
+        cursor: disableOnClickHandler ? "default" : "pointer",
+        padding: CELL_PADDING,
+        marginTop: isLeftColumn
+          ? styleService.contentCellHeight / 2 - PLUS_MINUS_ICON_SIZE / 2 - CELL_PADDING
+          : undefined,
+        background: "orangered",
+      }}
       onClick={disableOnClickHandler ? undefined : createOnClickHandler({ cell, expandOrCollapse })}
     />
   );

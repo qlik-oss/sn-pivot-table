@@ -24,9 +24,9 @@ export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
   borderStyle: "solid",
 };
 
-export const cellStyle: Pick<React.CSSProperties, "boxSizing" | "padding" | "userSelect"> = {
+export const baseCellStyle: React.CSSProperties = {
   boxSizing: "border-box",
-  padding: CELL_PADDING,
+  padding: `${CELL_PADDING}px ${CELL_PADDING * 2}px`,
   userSelect: "none",
 };
 
@@ -41,6 +41,7 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   whiteSpace: "unset",
   display: "-webkit-box",
   WebkitLineClamp: clampCount,
+  lineClamp: clampCount,
   WebkitBoxOrient: "vertical",
   lineBreak: "auto",
   overflow: "hidden",
@@ -62,7 +63,6 @@ export const getBorderStyle = (
   const borderBottomColor = showBottomBorder ? borderColor : undefined;
 
   return {
-    ...cellStyle,
     ...borderStyle,
     borderRightColor,
     borderBottomColor,
