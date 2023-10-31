@@ -29,7 +29,6 @@ interface TopGridProps {
   showLastBorder: ShowLastBorder;
   getRightGridColumnWidth: (index?: number) => number;
   visibleTopDimensionInfo: VisibleDimensionInfo[];
-  verticalScrollbarWidth: number;
 }
 
 const listStyle: React.CSSProperties = {
@@ -59,7 +58,6 @@ const TopGrid = ({
   showLastBorder,
   getRightGridColumnWidth,
   visibleTopDimensionInfo,
-  verticalScrollbarWidth,
 }: TopGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -120,7 +118,6 @@ const TopGrid = ({
               showLastBorder,
               listValues,
               totalDividerIndex: topDimensionData.totalDividerIndex,
-              verticalScrollbarWidth,
             }}
             itemKey={getItemKey}
             estimatedItemSize={estimatedItemSize}

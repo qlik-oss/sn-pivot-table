@@ -13,7 +13,6 @@ interface AdjusterProps {
   columnWidth: number;
   dataModel: DataModel | undefined;
   isLastColumn: boolean;
-  scrollbarSharePerCol?: number;
 }
 
 /**
@@ -21,7 +20,7 @@ interface AdjusterProps {
  * When you start dragging, mouse move and mouse up listeners are added.
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
-const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, scrollbarSharePerCol }: AdjusterProps) => {
+const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
   // columnWidth here does not encounter the width of verticalScrollbar
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
@@ -45,10 +44,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, scroll
     document.removeEventListener("mouseup", mouseUpHandler);
 
     if (tempWidth.current.columnWidth !== tempWidth.current.initWidth) {
-      const newWidthData = {
-        type: ColumnWidthType.Pixels,
-        pixels: tempWidth.current.columnWidth + (scrollbarSharePerCol || 0),
-      };
+      const newWidthData = { type: ColumnWidthType.Pixels, pixels: tempWidth.current.columnWidth };
       dataModel?.applyColumnWidth(newWidthData, cellInfo);
     }
   };

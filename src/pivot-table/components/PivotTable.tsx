@@ -204,7 +204,6 @@ export const StickyPivotTable = ({
                   showLastBorder={{ right: showLastRightBorder, bottom: false }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
                   visibleTopDimensionInfo={visibleTopDimensionInfo}
-                  verticalScrollbarWidth={verticalScrollbarWidth}
                 />
 
                 <DataGrid
