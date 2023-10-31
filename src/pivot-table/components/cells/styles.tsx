@@ -14,7 +14,7 @@ interface StyledHeaderCellWrapperProps {
 }
 
 export const COLUMN_ADJUSTER_CLASS = "sn-pivot-table-column-adjuster";
-const COLUMN_ADJUSTER_BORDER_CLASS = `& .${COLUMN_ADJUSTER_CLASS}-border`;
+export const COLUMN_ADJUSTER_BORDER_CLASS = `${COLUMN_ADJUSTER_CLASS}-border`;
 
 export const StyledHeaderCellWrapper = styled(Box, {
   shouldForwardProp: (prop: string) =>
@@ -78,13 +78,13 @@ export const AdjusterHitArea = styled("div", {
   width: `${isLastColumn ? CELL_PADDING : CELL_PADDING * 2 + GRID_BORDER}px`,
   justifyContent: isLastColumn ? "flex-end" : "center",
   "&&:hover:not(:focus, :active)": {
-    [COLUMN_ADJUSTER_BORDER_CLASS]: {
+    [`& .${COLUMN_ADJUSTER_BORDER_CLASS}`]: {
       background: "#D9D9D9",
     },
   },
   "&&:focus-visible, :active": {
     outline: "none",
-    [COLUMN_ADJUSTER_BORDER_CLASS]: {
+    [`& .${COLUMN_ADJUSTER_BORDER_CLASS}`]: {
       background: "#177fe6",
     },
   },

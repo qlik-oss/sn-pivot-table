@@ -7,7 +7,7 @@ import { GRID_BORDER } from "../../constants";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { ColumnWidthValues } from "../../hooks/use-column-width";
 import { CELL_PADDING } from "../shared-styles";
-import { AdjusterBorder, AdjusterHitArea, COLUMN_ADJUSTER_CLASS } from "./styles";
+import { AdjusterBorder, AdjusterHitArea, COLUMN_ADJUSTER_BORDER_CLASS, COLUMN_ADJUSTER_CLASS } from "./styles";
 
 interface AdjusterProps {
   cellInfo: AdjusterCellInfo;
@@ -32,7 +32,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
     if (shouldRender) setInternalWidth(columnWidth);
   }, [columnWidth]);
 
-  if (!shouldRender) return undefined;
+  if (!shouldRender) return null;
 
   const mouseMoveHandler = (evt: MouseEvent) => {
     const deltaWidth = evt.clientX - tempWidth.current.initX;
@@ -77,7 +77,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
       onDoubleClick={handleDoubleClick}
       data-testid={COLUMN_ADJUSTER_CLASS}
     >
-      <AdjusterBorder className={`${COLUMN_ADJUSTER_CLASS}-border`} />
+      <AdjusterBorder className={COLUMN_ADJUSTER_BORDER_CLASS} />
     </AdjusterHitArea>
   );
 };
