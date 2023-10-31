@@ -1,7 +1,7 @@
 import React, { type ReactNode } from "react";
 import type { Cell, StyleService } from "../../../../types/types";
-import { DEFAULT_LINE_CLAMP } from "../../../constants";
-import { getLineClampStyle, textStyle } from "../../shared-styles";
+import { DEFAULT_LINE_CLAMP, LINE_HEIGHT_COEFFICIENT } from "../../../constants";
+import { CELL_PADDING, getLineClampStyle, textStyle } from "../../shared-styles";
 import { getColor, getFontStyle, getFontWeight, getTextDecoration } from "./utils/get-style";
 
 type Props = {
@@ -12,17 +12,29 @@ type Props = {
   children: ReactNode;
 };
 
+const getMarginTop = (styleService: StyleService) => {
+  const textHeight = parseInt(styleService.dimensionValues.fontSize, 10) * LINE_HEIGHT_COEFFICIENT;
+
+  return styleService.contentCellHeight / 2 - textHeight / 2 - CELL_PADDING;
+};
+
 const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Props): JSX.Element => (
   <span
     style={{
       ...textStyle,
-      ...getLineClampStyle(isLeftColumn ? styleService.grid.lineClamp : DEFAULT_LINE_CLAMP),
+      ...getLineClampStyle(
+        isLeftColumn
+          ? Math.max(styleService.grid.lineClamp, cell.leafCount * styleService.grid.lineClamp)
+          : DEFAULT_LINE_CLAMP,
+      ),
       color: getColor({ cell, styleService, isCellSelected }),
       fontWeight: getFontWeight({ cell, styleService }),
       fontStyle: getFontStyle({ cell, styleService }),
       textDecoration: getTextDecoration({ cell, styleService }),
       fontFamily: styleService.dimensionValues.fontFamily,
       fontSize: styleService.dimensionValues.fontSize,
+      // marginTop is need on left side to put the align the expand/collapse icon and the text
+      marginTop: isLeftColumn ? getMarginTop(styleService) : undefined,
     }}
   >
     {children}
