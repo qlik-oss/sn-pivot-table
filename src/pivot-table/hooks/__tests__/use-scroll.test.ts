@@ -14,6 +14,7 @@ describe("useScroll", () => {
   let dataGridRef: VariableSizeGrid;
   let leftGridHorizontalScrollableContainerRefMock: HTMLDivElement;
   let dataGridHorizontalScrollableContainerRefMock: HTMLDivElement;
+  let verticalScrollableContainerRefMock: HTMLDivElement;
 
   const renderUseScroll = () =>
     renderHook(
@@ -24,7 +25,7 @@ describe("useScroll", () => {
           mockedRefs: {
             leftGridHorizontalScrollableContainerRef: leftGridHorizontalScrollableContainerRefMock,
             dataGridHorizontalScrollableContainerRef: dataGridHorizontalScrollableContainerRefMock,
-            verticalScrollableContainerRef: {} as HTMLDivElement,
+            verticalScrollableContainerRef: verticalScrollableContainerRefMock,
             topGridRef: [mockedTopGridRef],
             leftGridRef: [mockedLeftGridRef],
             dataGridRef,
@@ -48,6 +49,7 @@ describe("useScroll", () => {
     } as LayoutService;
     leftGridHorizontalScrollableContainerRefMock = {} as HTMLDivElement;
     dataGridHorizontalScrollableContainerRefMock = {} as HTMLDivElement;
+    verticalScrollableContainerRefMock = {} as HTMLDivElement;
 
     pageInfo = { page: 0 } as PageInfo;
 
@@ -110,6 +112,28 @@ describe("useScroll", () => {
     await waitFor(() => expect(verticalScrollableContainerRef.current?.scrollTop).toBe(0));
   });
 
+  test("should scroll to last known scroll position when a cell is expanded or collapsed", async () => {
+    layoutService.layout.qHyperCube.qLastExpandedPos = { qx: 0, qy: 0 };
+    verticalScrollableContainerRefMock.scrollTop = 123;
+    dataGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
+
+    renderUseScroll();
+
+    await waitFor(() => expect(mockedTopGridRef.scrollTo).toHaveBeenCalledWith(321));
+    await waitFor(() => expect(mockedLeftGridRef.scrollTo).toHaveBeenCalledWith(123));
+  });
+
+  test("should not scroll to last known scroll position when a cell has not been expanded or collapsed", async () => {
+    layoutService.layout.qHyperCube.qLastExpandedPos = undefined;
+    verticalScrollableContainerRefMock.scrollTop = 123;
+    dataGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
+
+    renderUseScroll();
+
+    await waitFor(() => expect(mockedTopGridRef.scrollTo).not.toHaveBeenCalledWith(321));
+    await waitFor(() => expect(mockedLeftGridRef.scrollTo).not.toHaveBeenCalledWith(123));
+  });
+
   describe("onScrollHandlers", () => {
     let fakeTarget: HTMLElement;
 
@@ -122,7 +146,7 @@ describe("useScroll", () => {
       const scrollLeft = 123;
       const {
         result: {
-          current: { onHorizontalScrollHandler, getScrollLeft },
+          current: { onHorizontalScrollHandler },
         },
       } = renderUseScroll();
 
@@ -133,14 +157,13 @@ describe("useScroll", () => {
 
       expect(mockedTopGridRef.scrollTo).toHaveBeenCalledWith(scrollLeft);
       expect(dataGridRef.scrollTo).toHaveBeenCalledWith({ scrollLeft });
-      expect(getScrollLeft()).toEqual(scrollLeft);
     });
 
     test("when called `onVerticalScrollHandler()` should update grids with new scroll position", () => {
       const scrollTop = 321;
       const {
         result: {
-          current: { onVerticalScrollHandler, getScrollTop },
+          current: { onVerticalScrollHandler },
         },
       } = renderUseScroll();
 
@@ -151,7 +174,6 @@ describe("useScroll", () => {
 
       expect(mockedLeftGridRef.scrollTo).toHaveBeenCalledWith(scrollTop);
       expect(dataGridRef.scrollTo).toHaveBeenCalledWith({ scrollTop });
-      expect(getScrollTop()).toEqual(scrollTop);
     });
   });
 
