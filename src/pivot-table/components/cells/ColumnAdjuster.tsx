@@ -24,6 +24,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
+
   useOnPropsChange(() => {
     setInternalWidth(columnWidth);
   }, [columnWidth]);
@@ -31,7 +32,6 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
   const mouseMoveHandler = (evt: MouseEvent) => {
     const deltaWidth = evt.clientX - tempWidth.current.initX;
     const adjustedWidth = Math.max(tempWidth.current.initWidth + deltaWidth, ColumnWidthValues.PixelsMin);
-
     setInternalWidth(adjustedWidth);
     tempWidth.current.columnWidth = adjustedWidth;
   };
