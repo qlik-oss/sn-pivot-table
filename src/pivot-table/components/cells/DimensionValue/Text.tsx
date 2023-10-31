@@ -27,6 +27,8 @@ const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Pr
       textDecoration: getTextDecoration({ cell, styleService }),
       fontFamily: styleService.dimensionValues.fontFamily,
       fontSize: styleService.dimensionValues.fontSize,
+      // 0px at bottom to handle an issue in Firefox where line clamped text, after the ellipsis, is still drawn
+      // on the next text line
       padding: isLeftColumn ? `${CELL_PADDING}px ${CELL_PADDING}px 0px ${CELL_PADDING}px` : CELL_PADDING,
       background: "orange",
       minHeight: `${LINE_HEIGHT_COEFFICIENT}em`, // Needed when text string is empty

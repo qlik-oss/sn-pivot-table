@@ -4,7 +4,7 @@ import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import { CELL_PADDING, baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
-import { getBackground, getCursor, getPadding } from "./utils/get-style";
+import { getBackground, getCursor } from "./utils/get-style";
 
 type Props = {
   text: string;
