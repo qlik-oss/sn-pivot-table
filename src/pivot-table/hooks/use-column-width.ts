@@ -39,7 +39,7 @@ interface LeftGridWidthInfo {
   leftGridFullWidth: number;
 }
 
-export const EXPAND_ICON_SIZE = 30;
+export const EXPAND_ICON_SIZE = 33;
 export const TOTAL_CELL_PADDING = DOUBLE_CELL_PADDING * 2 + GRID_BORDER;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
 
