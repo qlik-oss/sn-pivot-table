@@ -24,6 +24,8 @@ interface OnClickHandlerProps {
 export const testIdExpandIcon = "expand-icon";
 export const testIdCollapseIcon = "collapse-icon";
 
+const halfIconHeight = PLUS_MINUS_ICON_SIZE / 2;
+
 const createOnClickHandler =
   ({ expandOrCollapse, cell }: OnClickHandlerProps) =>
   (e: React.SyntheticEvent) => {
@@ -44,7 +46,6 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
   const color = getColor({ cell, styleService, isCellSelected });
   const opacity = isActive ? 0.4 : 1.0;
   const halfCellHeight = styleService.contentCellHeight / 2;
-  const halfIconHeight = PLUS_MINUS_ICON_SIZE / 2;
   const Icon = cell.ref.qCanExpand ? PlusOutlineIcon : MinusOutlineIcon;
   let expandOrCollapse: ExpandOrCollapser | undefined;
 
@@ -63,7 +64,7 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
       style={{
         flexShrink: 0,
         cursor: disableOnClickHandler ? "default" : "pointer",
-        // marginTop is need on left side to put the Icon aligned at the center of the first row.
+        // marginTop is need on left side to put the align the expand/collapse icon and the text
         marginTop: isLeftColumn ? halfCellHeight - halfIconHeight - CELL_PADDING : undefined,
       }}
       onClick={disableOnClickHandler ? undefined : createOnClickHandler({ cell, expandOrCollapse })}
