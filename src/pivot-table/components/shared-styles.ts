@@ -43,7 +43,6 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   whiteSpace: "unset",
   display: "-webkit-box",
   WebkitLineClamp: clampCount,
-  lineClamp: clampCount,
   WebkitBoxOrient: "vertical",
   lineBreak: "auto",
   overflow: "hidden",
