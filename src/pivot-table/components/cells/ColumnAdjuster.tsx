@@ -3,9 +3,10 @@ import React, { useMemo, useState } from "react";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
+import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { ColumnWidthValues } from "../../hooks/use-column-width";
 import { CELL_PADDING } from "../shared-styles";
-import { AdjusterBorder, AdjusterHitArea } from "./styles";
+import { AdjusterBorder, AdjusterHitArea, COLUMN_ADJUSTER_BORDER_CLASS, COLUMN_ADJUSTER_CLASS } from "./styles";
 
 interface AdjusterProps {
   cellInfo: AdjusterCellInfo;
@@ -19,10 +20,14 @@ interface AdjusterProps {
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
 const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
+  const { isActive } = useSelectionsContext();
   const [, forceRerender] = useState({});
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
+  const shouldRender = !isActive && cellInfo.canBeResized;
 
   const tempWidth = useMemo(() => ({ initWidth: columnWidth, columnWidth, initX: 0 }), [columnWidth]);
+
+  if (!shouldRender) return null;
 
   const mouseMoveHandler = (evt: MouseEvent) => {
     const deltaWidth = evt.clientX - tempWidth.initX;
@@ -57,13 +62,13 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
     <AdjusterHitArea
       style={{ left: tempWidth.columnWidth - positionAdjustment }}
       isLastColumn={isLastColumn}
-      className="sn-pivot-table-column-adjuster"
+      className={COLUMN_ADJUSTER_CLASS}
       key={`adjuster-${cellInfo.dimensionInfoIndex}`}
       onMouseDown={mouseDownHandler}
       onDoubleClick={handleDoubleClick}
-      data-testid="sn-pivot-table-column-adjuster"
+      data-testid={COLUMN_ADJUSTER_CLASS}
     >
-      <AdjusterBorder className="sn-pivot-table-column-adjuster-border" />
+      <AdjusterBorder className={COLUMN_ADJUSTER_BORDER_CLASS} />
     </AdjusterHitArea>
   );
 };

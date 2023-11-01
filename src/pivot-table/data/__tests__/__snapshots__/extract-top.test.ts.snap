@@ -4,10 +4,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
 [
   {
     "0": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -71,8 +74,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 1,
         },
         {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -100,6 +105,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "qUp": 1,
               },
               "root": {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -198,6 +204,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 0,
     },
     "1": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -230,10 +237,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 0,
     },
     "2": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -305,8 +315,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 1,
         },
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -339,6 +351,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "y": 2,
             },
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -448,6 +461,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 0,
     },
     "3": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -482,8 +496,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
   },
   {
     "0": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -511,11 +527,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [
               [Circular],
               {
+                "canBeResized": true,
                 "children": [
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -543,6 +562,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                       "qUp": 1,
                     },
                     "root": {
+                      "canBeResized": true,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -663,11 +683,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 0,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -695,6 +718,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -800,11 +824,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -832,6 +859,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -934,8 +962,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 1,
     },
     "1": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -963,6 +993,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -1017,10 +1048,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 1,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1123,10 +1157,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1226,8 +1263,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -1255,11 +1294,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [
               [Circular],
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -1292,6 +1334,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                     "y": 2,
                   },
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -1423,11 +1466,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 2,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1460,6 +1506,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1584,11 +1631,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1621,6 +1671,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1734,8 +1785,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 1,
     },
     "3": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -1763,10 +1816,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -1874,6 +1930,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "y": 2,
         },
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -1901,10 +1958,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -2030,10 +2090,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 3,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -2159,10 +2222,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -2272,6 +2338,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
   },
   {
     "0": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -2291,6 +2358,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 0,
       "pageY": 2,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
         ],
@@ -2312,11 +2380,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "pageX": 0,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             [Circular],
             {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -2344,6 +2415,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                     "qUp": 1,
                   },
                   "root": {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -2449,11 +2521,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             [Circular],
             {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -2481,6 +2556,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                     "qUp": 1,
                   },
                   "root": {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -2590,8 +2666,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": true,
             "children": [
               [Circular],
             ],
@@ -2626,8 +2704,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -2655,6 +2735,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -2757,6 +2838,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 2,
     },
     "1": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -2776,6 +2858,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 1,
       "pageY": 2,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
         ],
@@ -2797,10 +2880,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "pageX": 1,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -2903,10 +2989,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3013,6 +3102,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [],
         "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
@@ -3049,6 +3139,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 2,
     },
     "2": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -3068,6 +3159,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 2,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
         ],
@@ -3089,11 +3181,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "pageX": 2,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3126,6 +3221,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3250,11 +3346,14 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3287,6 +3386,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                   "y": 2,
                 },
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3407,8 +3507,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               [Circular],
             ],
@@ -3451,8 +3553,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -3485,6 +3589,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
                 "y": 2,
               },
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -3598,6 +3703,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 2,
     },
     "3": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -3617,9 +3723,11 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 3,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -3647,10 +3755,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "qUp": 1,
             },
             "root": {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [
                     {
+                      "canBeResized": true,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -3776,10 +3887,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "pageX": 3,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3905,10 +4019,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -4023,10 +4140,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -4098,9 +4218,11 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
           {
+            "canBeResized": false,
             "children": [
               [Circular],
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -4214,6 +4336,7 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "y": 2,
     },
     "4": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -4233,8 +4356,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
       "pageX": 4,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -4262,10 +4387,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
               "qUp": 1,
             },
             "root": {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [
                     {
+                      "canBeResized": true,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -4392,10 +4520,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "pageX": 3,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -4521,10 +4652,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -4639,10 +4773,13 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -4714,8 +4851,10 @@ exports[`extractTop should extract top data when data tree has a depth of 2 1`] 
             "y": 1,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -4837,10 +4976,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
 [
   {
     "0": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -4904,8 +5046,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 1,
         },
         {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -4933,6 +5077,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "qUp": 1,
               },
               "root": {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -5031,6 +5176,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 0,
     },
     "1": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -5063,10 +5209,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 0,
     },
     "2": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -5138,8 +5287,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 1,
         },
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -5172,6 +5323,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "y": 2,
             },
             {
+              "canBeResized": true,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -5281,6 +5433,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 0,
     },
     "3": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -5315,8 +5468,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
   },
   {
     "0": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -5344,11 +5499,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [
               [Circular],
               {
+                "canBeResized": true,
                 "children": [
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -5376,6 +5534,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                       "qUp": 1,
                     },
                     "root": {
+                      "canBeResized": true,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -5496,11 +5655,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 0,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -5528,6 +5690,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -5633,11 +5796,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -5665,6 +5831,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -5767,8 +5934,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 1,
     },
     "1": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -5796,6 +5965,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -5850,10 +6020,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 1,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -5956,10 +6129,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6059,8 +6235,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -6088,11 +6266,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [
               [Circular],
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -6125,6 +6306,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                     "y": 2,
                   },
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -6256,11 +6438,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 2,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6293,6 +6478,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6417,11 +6603,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6454,6 +6643,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6567,8 +6757,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 1,
     },
     "3": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -6596,10 +6788,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -6707,6 +6902,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "y": 2,
         },
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -6734,10 +6930,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -6863,10 +7062,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 3,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6992,10 +7194,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -7105,6 +7310,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
   },
   {
     "0": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -7124,6 +7330,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 0,
       "pageY": 2,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
         ],
@@ -7145,11 +7352,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "pageX": 0,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             [Circular],
             {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7177,6 +7387,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                     "qUp": 1,
                   },
                   "root": {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -7282,11 +7493,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             [Circular],
             {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7314,6 +7528,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                     "qUp": 1,
                   },
                   "root": {
+                    "canBeResized": true,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -7423,8 +7638,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": true,
             "children": [
               [Circular],
             ],
@@ -7459,8 +7676,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
           {
+            "canBeResized": true,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -7488,6 +7707,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7590,6 +7810,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 2,
     },
     "1": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -7609,6 +7830,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 1,
       "pageY": 2,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
         ],
@@ -7630,10 +7852,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "pageX": 1,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7736,10 +7961,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7846,6 +8074,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [],
         "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
@@ -7882,6 +8111,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 2,
     },
     "2": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -7901,6 +8131,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 2,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
         ],
@@ -7922,11 +8153,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "pageX": 2,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7959,6 +8193,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8083,11 +8318,14 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8120,6 +8358,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                   "y": 2,
                 },
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8240,8 +8479,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               [Circular],
             ],
@@ -8284,8 +8525,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -8318,6 +8561,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
                 "y": 2,
               },
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -8431,6 +8675,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 2,
     },
     "3": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -8450,9 +8695,11 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 3,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -8480,10 +8727,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "qUp": 1,
             },
             "root": {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [
                     {
+                      "canBeResized": true,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -8609,10 +8859,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "pageX": 3,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8738,10 +8991,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8856,10 +9112,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -8931,9 +9190,11 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
           {
+            "canBeResized": false,
             "children": [
               [Circular],
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -9047,6 +9308,7 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "y": 2,
     },
     "4": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9066,8 +9328,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
       "pageX": 4,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -9095,10 +9359,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
               "qUp": 1,
             },
             "root": {
+              "canBeResized": true,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [
                     {
+                      "canBeResized": true,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -9225,10 +9492,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "pageX": 3,
         "pageY": 1,
         "parent": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -9354,10 +9624,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": true,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": true,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -9472,10 +9745,13 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -9547,8 +9823,10 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
             "y": 1,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": true,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -9670,8 +9948,10 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
 [
   {
     "0": {
+      "canBeResized": true,
       "children": [
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -9704,6 +9984,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
           "y": 1,
         },
         {
+          "canBeResized": true,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -9767,6 +10048,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "y": 0,
     },
     "1": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9799,6 +10081,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "y": 0,
     },
     "2": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9831,6 +10114,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "y": 0,
     },
     "3": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9865,6 +10149,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
   },
   {
     "0": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9884,9 +10169,11 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "pageX": 0,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -9957,9 +10244,11 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           [Circular],
           {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -10027,6 +10316,7 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "y": 1,
     },
     "1": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -10046,8 +10336,10 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
       "pageX": 1,
       "pageY": 1,
       "parent": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -10119,8 +10411,10 @@ exports[`extractTop should extract top data with first node expanded 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": true,
         "children": [
           {
+            "canBeResized": true,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -10196,6 +10490,7 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
 [
   {
     "0": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -10228,6 +10523,7 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
       "y": 0,
     },
     "1": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -10260,6 +10556,7 @@ exports[`extractTop should extract top data with no nodes expanded 1`] = `
       "y": 0,
     },
     "2": {
+      "canBeResized": true,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
