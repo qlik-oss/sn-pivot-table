@@ -8,7 +8,6 @@ import { renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
-import { DOUBLE_CELL_PADDING } from "../../components/shared-styles";
 import { GRID_BORDER } from "../../constants";
 import createHeadersData from "../../data/headers-data";
 import useColumnWidth, {
@@ -111,8 +110,8 @@ describe("useColumnWidth", () => {
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
 
-      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE + DOUBLE_CELL_PADDING);
-      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE + DOUBLE_CELL_PADDING);
+      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
+      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
       expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
 
@@ -243,15 +242,16 @@ describe("useColumnWidth", () => {
 
     test("should return right column width for fit to content setting", () => {
       const width = 50;
-      mockEstimateWidth(width + 1);
+      const estimatedWidth = width + 1;
+      mockEstimateWidth(estimatedWidth);
       mockMeasureText(width);
       meaInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth(0)).toBe(width + TOTAL_CELL_PADDING);
-      expect(getRightGridColumnWidth(1)).toBe(width + TOTAL_CELL_PADDING);
-      expect(getRightGridColumnWidth(2)).toBe(width + TOTAL_CELL_PADDING);
+      expect(getRightGridColumnWidth(0)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
+      expect(getRightGridColumnWidth(1)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
+      expect(getRightGridColumnWidth(2)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
     });
 
     test("should return right column width for pixel setting", () => {
@@ -295,18 +295,20 @@ describe("useColumnWidth", () => {
 
     test("should return right column widths for columns with mixed settings", () => {
       const width = 50;
-      mockEstimateWidth(width + 1);
+      const estimatedWidth = width + 1;
+      const pixels = 100;
+      mockEstimateWidth(estimatedWidth);
       mockMeasureText(width);
-      const meaInfoPixels = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 100 } } as ExtendedMeasureInfo;
+      const meaInfoPixels = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedMeasureInfo;
       const meaInfoFitToContent = {
         columnWidth: { type: ColumnWidthType.FitToContent },
       } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth(0)).toBe(133);
-      expect(getRightGridColumnWidth(1)).toBe(100);
-      expect(getRightGridColumnWidth(2)).toBe(width + TOTAL_CELL_PADDING);
+      expect(getRightGridColumnWidth(0)).toBe(132);
+      expect(getRightGridColumnWidth(1)).toBe(pixels);
+      expect(getRightGridColumnWidth(2)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
     });
 
     test("should return right column width for non-pseudo dimension", () => {
@@ -328,7 +330,7 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, -1, 2];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth()).toBe(width);
+      expect(getRightGridColumnWidth()).toBe(width + TOTAL_CELL_PADDING);
     });
 
     test("should return right column width for non-pseudo dimension for fit to content when dimension is collapsed", () => {
@@ -341,7 +343,7 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, -1, 1, 2];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_SIZE);
+      expect(getRightGridColumnWidth()).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
     });
 
     test("should subtract scrollbar width from columns", () => {
@@ -380,9 +382,10 @@ describe("useColumnWidth", () => {
     });
     test("should return grid and total widths when sum of all widths is rect.width", () => {
       // The right side columns will default to auto, hence filling up the remaining space
+      rect.width = 500;
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(140);
-      expect(rightGridWidth).toBe(259);
+      expect(leftGridWidth).toBe(191);
+      expect(rightGridWidth).toBe(308);
       expect(totalWidth).toEqual(rect.width);
       expect(showLastRightBorder).toBe(false);
     });
@@ -392,9 +395,9 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(140);
-      expect(rightGridWidth).toBe(259);
-      expect(totalWidth).toBe(441);
+      expect(leftGridWidth).toBe(191);
+      expect(rightGridWidth).toBe(208);
+      expect(totalWidth).toBe(492);
       expect(totalWidth).toBeGreaterThan(rect.width);
       expect(showLastRightBorder).toBe(false);
     });
@@ -404,9 +407,9 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(140);
+      expect(leftGridWidth).toBe(191);
       expect(rightGridWidth).toBe(120);
-      expect(totalWidth).toBe(261);
+      expect(totalWidth).toBe(312);
       expect(totalWidth).toBeLessThan(rect.width);
       expect(showLastRightBorder).toBe(true);
     });

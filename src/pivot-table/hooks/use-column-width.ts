@@ -87,7 +87,7 @@ export default function useColumnWidth(
     ...styleService.header,
     bold: isBold(styleService.header),
   });
-  const { estimateWidth: estimateWidthForMeasureValue } = useMeasureText({
+  const { estimateWidth: estimateWidthForMeasureValue, measureText: measureTextForMeasureValue } = useMeasureText({
     ...styleService.measureValues,
     bold: isBold(styleService.measureValues),
   });
@@ -133,7 +133,7 @@ export default function useColumnWidth(
 
         const fitToContentWidth = Math.max(
           measureTextForHeader(label) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize,
-          estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
+          estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize + TOTAL_CELL_PADDING,
         );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);
@@ -215,12 +215,14 @@ export default function useColumnWidth(
     const fitToContentWidth = (qApprMaxGlyphCount: number, qFallbackTitle: string) =>
       topGridLeavesIsPseudo
         ? Math.max(
-            estimateWidthForMeasureValue(qApprMaxGlyphCount),
-            measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING,
+            estimateWidthForMeasureValue(qApprMaxGlyphCount) + TOTAL_CELL_PADDING,
+            measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING,
           )
         : Math.max(
-            Math.max(...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
-            estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
+            Math.max(
+              ...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount) + TOTAL_CELL_PADDING),
+            ),
+            estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth + TOTAL_CELL_PADDING,
           );
 
     columnArray.forEach((col, idx) => {
@@ -263,15 +265,15 @@ export default function useColumnWidth(
 
     return widths;
   }, [
-    estimateWidthForDimensionValue,
-    estimateWidthForMeasureValue,
-    size.x,
-    leafTopDimension,
-    leavesIconWidth,
-    measureTextForDimensionValue,
-    qMeasureInfo,
-    rightGridAvailableWidth,
     topGridLeavesIsPseudo,
+    qMeasureInfo,
+    leafTopDimension,
+    size.x,
+    rightGridAvailableWidth,
+    estimateWidthForMeasureValue,
+    measureTextForMeasureValue,
+    estimateWidthForDimensionValue,
+    leavesIconWidth,
   ]);
 
   const averageLeafWidth = useMemo(() => {
