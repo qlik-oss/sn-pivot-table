@@ -60,6 +60,8 @@ export const useStyleContext = (): StyleService => ({
   },
   headerCellHeight: 24,
   contentCellHeight: 24,
+  contentRowHeight: 24,
+  contentTextHeight: 16,
 });
 
 const StyleProvider = (): JSX.Element => <div />;
