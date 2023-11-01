@@ -19,7 +19,7 @@ interface AdjusterProps {
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
 const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
-  const [, forceRerender] = useState(null);
+  const [, forceRerender] = useState({});
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
 
   const tempWidth = useMemo(() => ({ initWidth: columnWidth, columnWidth, initX: 0 }), [columnWidth]);
@@ -27,7 +27,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
   const mouseMoveHandler = (evt: MouseEvent) => {
     const deltaWidth = evt.clientX - tempWidth.initX;
     const adjustedWidth = Math.max(tempWidth.initWidth + deltaWidth, ColumnWidthValues.PixelsMin);
-    forceRerender(null);
+    forceRerender({});
     tempWidth.columnWidth = adjustedWidth;
   };
 
