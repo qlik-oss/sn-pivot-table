@@ -13,7 +13,7 @@ interface AdjusterProps {
   columnWidth: number;
   dataModel: DataModel | undefined;
   isLastColumn: boolean;
-  setWidthCallback?: OverrideLeftGridWidth;
+  overrideLeftGridWidth?: OverrideLeftGridWidth;
 }
 
 /**
@@ -21,7 +21,7 @@ interface AdjusterProps {
  * When you start dragging, mouse move and mouse up listeners are added.
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
-const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, setWidthCallback }: AdjusterProps) => {
+const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, overrideLeftGridWidth }: AdjusterProps) => {
   const [internalWidth, setInternalWidth] = useState(columnWidth);
   const tempWidth = useRef({ initWidth: 0, columnWidth: 0, initX: 0 });
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
@@ -35,7 +35,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, setWid
     const adjustedWidth = Math.max(tempWidth.current.initWidth + deltaWidth, ColumnWidthValues.PixelsMin);
     setInternalWidth(adjustedWidth);
     tempWidth.current.columnWidth = adjustedWidth;
-    setWidthCallback?.(adjustedWidth, cellInfo.dimensionInfoIndex);
+    overrideLeftGridWidth?.(adjustedWidth, cellInfo.dimensionInfoIndex);
   };
 
   const mouseUpHandler = (evt: MouseEvent) => {

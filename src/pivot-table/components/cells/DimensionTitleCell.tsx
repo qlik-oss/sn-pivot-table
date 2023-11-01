@@ -131,7 +131,7 @@ const DimensionTitleCell = ({
           columnWidth={columnWidth}
           dataModel={dataModel}
           isLastColumn={isLastColumn}
-          setWidthCallback={overrideLeftGridWidth}
+          overrideLeftGridWidth={overrideLeftGridWidth}
         />
       )}
     </StyledHeaderCellWrapper>
