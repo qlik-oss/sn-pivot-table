@@ -37,7 +37,7 @@ const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Pr
       marginTop: isLeftColumn ? getMarginTop(styleService) : undefined,
       // 0px at bottom to handle an issue in Firefox where line clamped text, after the ellipsis, is still drawn
       // on the next text line
-      padding: isLeftColumn ? `${CELL_PADDING}px ${CELL_PADDING}px 0px ${CELL_PADDING}px` : CELL_PADDING,
+      padding: isLeftColumn ? `${CELL_PADDING}px ${CELL_PADDING}px 0px ${CELL_PADDING}px` : `0px ${CELL_PADDING}px`,
     }}
   >
     {children}
