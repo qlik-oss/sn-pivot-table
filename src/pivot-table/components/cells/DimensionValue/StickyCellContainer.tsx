@@ -20,7 +20,7 @@ const StickyCellContainer = ({ children, isLeftColumn }: Props): JSX.Element => 
         maxWidth: "100%",
         position: "sticky",
         left: CELL_PADDING,
-        top: CELL_PADDING,
+        top: 0,
         right: isLeftColumn ? undefined : CELL_PADDING,
         alignSelf: align,
       }}
