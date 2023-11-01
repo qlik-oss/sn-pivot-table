@@ -8,6 +8,7 @@ import { renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
+import { DOUBLE_CELL_PADDING } from "../../components/shared-styles";
 import { GRID_BORDER } from "../../constants";
 import createHeadersData from "../../data/headers-data";
 import useColumnWidth, {
@@ -109,9 +110,9 @@ describe("useColumnWidth", () => {
       mockMeasureText(width);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
-      console.log("%c leftGridColumnWidths", "color: orangered", leftGridColumnWidths);
-      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE);
-      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE);
+
+      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE + DOUBLE_CELL_PADDING);
+      expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE + DOUBLE_CELL_PADDING);
       expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
 
@@ -380,9 +381,9 @@ describe("useColumnWidth", () => {
     test("should return grid and total widths when sum of all widths is rect.width", () => {
       // The right side columns will default to auto, hence filling up the remaining space
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(156);
-      expect(rightGridWidth).toBe(243);
-      expect(totalWidth).toBe(rect.width);
+      expect(leftGridWidth).toBe(140);
+      expect(rightGridWidth).toBe(259);
+      expect(totalWidth).toEqual(rect.width);
       expect(showLastRightBorder).toBe(false);
     });
 
@@ -391,9 +392,10 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(156);
-      expect(rightGridWidth).toBe(243);
-      expect(totalWidth).toBe(457);
+      expect(leftGridWidth).toBe(140);
+      expect(rightGridWidth).toBe(259);
+      expect(totalWidth).toBe(441);
+      expect(totalWidth).toBeGreaterThan(rect.width);
       expect(showLastRightBorder).toBe(false);
     });
 
@@ -402,9 +404,10 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(156);
+      expect(leftGridWidth).toBe(140);
       expect(rightGridWidth).toBe(120);
-      expect(totalWidth).toBe(277);
+      expect(totalWidth).toBe(261);
+      expect(totalWidth).toBeLessThan(rect.width);
       expect(showLastRightBorder).toBe(true);
     });
   });
