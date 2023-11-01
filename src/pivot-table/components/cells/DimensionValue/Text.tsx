@@ -15,7 +15,7 @@ type Props = {
 const getMarginTop = (styleService: StyleService) => {
   const textHeight = parseInt(styleService.dimensionValues.fontSize, 10) * LINE_HEIGHT_COEFFICIENT;
 
-  return styleService.contentCellHeight / 2 - textHeight / 2 - CELL_PADDING;
+  return styleService.contentCellHeight / 2 - textHeight / 2;
 };
 
 const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Props): JSX.Element => (
@@ -37,7 +37,7 @@ const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Pr
       marginTop: isLeftColumn ? getMarginTop(styleService) : undefined,
       // 0px at bottom to handle an issue in Firefox where line clamped text, after the ellipsis, is still drawn
       // on the next text line
-      padding: isLeftColumn ? `${CELL_PADDING}px ${CELL_PADDING}px 0px ${CELL_PADDING}px` : `0px ${CELL_PADDING}px`,
+      padding: `0px ${CELL_PADDING}px`,
     }}
   >
     {children}
