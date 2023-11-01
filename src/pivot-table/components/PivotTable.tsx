@@ -137,8 +137,8 @@ export const StickyPivotTable = ({
           style={{
             display: "grid",
             gridTemplateColumns: leftGridWidth // If leftColumnsWidth is 0, this means no data exist for "headers" or "left"
-              ? `${leftGridWidth}px ${rightGridWidth}px`
-              : `${rightGridWidth}px`,
+              ? `${leftWrapper.containers.scrollable.width}px ${rightWrapper.containers.scrollable.width}px`
+              : `${rightWrapper.containers.scrollable.width}px`,
           }}
         >
           {Boolean(leftGridWidth) && (

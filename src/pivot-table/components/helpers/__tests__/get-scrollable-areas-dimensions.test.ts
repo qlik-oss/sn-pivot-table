@@ -104,4 +104,35 @@ describe("getScrollableAreasDimensions()", () => {
       },
     });
   });
+
+  test("should return the actual width that right grid takes when totalWidth of the table is less than table rect width", () => {
+    tableRect = { width: 500, height: 300 };
+    totalWidth = 300;
+
+    expect(callFunction()).toEqual({
+      rootWrapper: {
+        scrollable: { width: 500, height: 300 },
+        fullSize: { width: 287, height: 353 },
+        sticky: { width: 487, height: 300 },
+      },
+      leftWrapper: {
+        containers: {
+          scrollable: { width: 80, height: 300 },
+          fullSize: { width: 80, height: 340 },
+          sticky: { width: 80, height: 287 },
+        },
+        headerGrid: { width: -1, height: 40 },
+        leftGrid: { width: 80, height: 287 },
+      },
+      rightWrapper: {
+        containers: {
+          scrollable: { width: 108, height: 300 },
+          fullSize: { width: 207, height: 340 },
+          sticky: { width: 207, height: 287 },
+        },
+        topGrid: { width: 107, height: 40 },
+        dataGrid: { width: 107, height: 287 },
+      },
+    });
+  });
 });

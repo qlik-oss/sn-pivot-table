@@ -41,7 +41,7 @@ describe("UseHeadCellDim", () => {
   });
 
   test("handleOpenMenu should not set open state to true when event is coming from column adjuster", () => {
-    evt.target = { className: "sn-pivot-table-column-adjuster" } as unknown as EventTarget;
+    evt.target = { getAttribute: () => "sn-pivot-table-column-adjuster" } as unknown as EventTarget;
     const result = renderer();
 
     act(() => {

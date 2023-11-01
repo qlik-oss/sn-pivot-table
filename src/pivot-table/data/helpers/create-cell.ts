@@ -100,6 +100,7 @@ const createCell = ({
     expressionColor: getExpressionColor(attrExprInfoIndex, node),
     selectionCellType: isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP,
     dimensionInfoIndex: layoutService.getDimensionInfoIndex(dimensionInfo),
+    canBeResized: node.qSubNodes.length === 0 && !isLeftColumn,
   };
 
   if (parent) {
