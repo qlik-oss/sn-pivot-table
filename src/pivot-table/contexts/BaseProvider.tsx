@@ -33,7 +33,8 @@ export const useBaseContext = (): IBaseProvider => useContext(BaseContext);
 const BaseProvider = ({ children, model, app, interactions, embed, theme, keyboard }: BaseProviderProps) => {
   const props = useMemo(
     () => ({ model, app, interactions, embed, theme, keyboard }),
-    [app, interactions, model, embed, theme, keyboard],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [app, interactions, model, embed, theme.name(), keyboard],
   );
 
   return <BaseContext.Provider value={props}>{children}</BaseContext.Provider>;

@@ -93,7 +93,18 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
   const totalValuesStyling = chartStyling?.[Path.TotalValues];
   const nullValueStyling = chartStyling?.[Path.NullValues];
   const gridStyling = chartStyling?.[Path.Grid];
-  const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
+  const getThemeStyle = (paths: string[], attribute: string) => {
+    const value = theme.getStyle(BASE_PATH, paths.join("."), attribute);
+
+    // If the "border" attribute cannot be resolved, theme.getStyle will return a default value
+    // which is an object. All theme values defined for "pivotTableV2" are expected to be either
+    // strings or numbers.
+    if (typeof value === "object") {
+      return undefined;
+    }
+
+    return value;
+  };
 
   const lineClamp = +(
     gridStyling?.[Attribute.LineClamp] ??
