@@ -64,7 +64,7 @@ const Container = ({
         }),
         cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellSelected, cell, isCellLocked }),
-        zIndex: layoutService.size.x - cell.x,
+        zIndex: isLeftColumn ? undefined : layoutService.size.x - cell.x,
         justifyContent: isLeftColumn ? undefined : "center",
         display: "flex",
       }}
