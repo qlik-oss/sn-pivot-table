@@ -98,6 +98,10 @@ export default function useColumnWidth(
     bold: isBold(styleService.dimensionValues),
   });
 
+  /**
+   * Calculates widths of the left columns as well as the sum of the widths.
+   * If the sum of widths exceed LEFT_SIDE_MAX_WIDTH_RATIO * rect.width, the left side will become scrollable
+   */
   const calculateLeftGridWidthInfo = useCallback(
     (widthOverride?: number, overrideIndex?: number) => {
       const getColumnWidth = (columnWidth: ColumnWidth | undefined, fitToContentWidth: number) => {
@@ -164,9 +168,6 @@ export default function useColumnWidth(
     ],
   );
 
-  /**
-   * The widths of the left columns. Scales the width to fit LEFT_SIDE_MAX_WIDTH_RATIO * rect.width if wider than that
-   */
   const [leftGridWidthInfo, setLeftGridWidthInfo] = useState<LeftGridWidthInfo>(calculateLeftGridWidthInfo);
 
   useEffect(() => {
