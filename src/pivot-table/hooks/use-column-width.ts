@@ -131,10 +131,12 @@ export default function useColumnWidth(
         const expandIconSize = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
         const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
 
-        const fitToContentWidth = Math.max(
-          measureTextForHeader(label) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize,
-          estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize + TOTAL_CELL_PADDING,
-        );
+        const fitToContentWidth =
+          TOTAL_CELL_PADDING +
+          Math.max(
+            measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
+            estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
+          );
 
         width = getColumnWidth(columnWidth, fitToContentWidth);
       }
@@ -213,17 +215,13 @@ export default function useColumnWidth(
     };
 
     const fitToContentWidth = (qApprMaxGlyphCount: number, qFallbackTitle: string) =>
-      topGridLeavesIsPseudo
-        ? Math.max(
-            estimateWidthForMeasureValue(qApprMaxGlyphCount) + TOTAL_CELL_PADDING,
-            measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING,
-          )
+      TOTAL_CELL_PADDING +
+      (topGridLeavesIsPseudo
+        ? Math.max(estimateWidthForMeasureValue(qApprMaxGlyphCount), measureTextForMeasureValue(qFallbackTitle))
         : Math.max(
-            Math.max(
-              ...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount) + TOTAL_CELL_PADDING),
-            ),
-            estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth + TOTAL_CELL_PADDING,
-          );
+            Math.max(...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
+            estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
+          ));
 
     columnArray.forEach((col, idx) => {
       if (col?.columnWidth) {
