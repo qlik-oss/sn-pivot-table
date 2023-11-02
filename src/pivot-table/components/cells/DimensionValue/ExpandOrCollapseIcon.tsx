@@ -24,7 +24,7 @@ interface OnClickHandlerProps {
 export const testIdExpandIcon = "expand-icon";
 export const testIdCollapseIcon = "collapse-icon";
 
-const halfIconHeight = PLUS_MINUS_ICON_SIZE / 2;
+const HALF_ICON_HEIGHT = PLUS_MINUS_ICON_SIZE / 2;
 
 const createOnClickHandler =
   ({ expandOrCollapse, cell }: OnClickHandlerProps) =>
@@ -64,8 +64,9 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
       style={{
         flexShrink: 0,
         cursor: disableOnClickHandler ? "default" : "pointer",
+        padding: CELL_PADDING,
         // marginTop is need on left side to put the align the expand/collapse icon and the text
-        marginTop: isLeftColumn ? halfCellHeight - halfIconHeight - CELL_PADDING : undefined,
+        marginTop: isLeftColumn ? halfCellHeight - HALF_ICON_HEIGHT - CELL_PADDING : undefined,
       }}
       onClick={disableOnClickHandler ? undefined : createOnClickHandler({ cell, expandOrCollapse })}
     />

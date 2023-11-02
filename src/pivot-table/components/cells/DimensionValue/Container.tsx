@@ -3,7 +3,7 @@ import type { Cell, ListItemData } from "../../../../types/types";
 import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
-import { getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
+import { CELL_PADDING, baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
 import { getBackground, getCursor } from "./utils/get-style";
 
 type Props = {
@@ -62,6 +62,8 @@ const Container = ({
           rightDivider: showTotalCellDivider && !isLeftColumn,
           borderColor: styleService.grid.divider,
         }),
+        ...baseCellStyle,
+        padding: `0px ${CELL_PADDING}px`,
         cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellSelected, cell, isCellLocked }),
         zIndex: isLeftColumn ? undefined : layoutService.size.x - cell.x,

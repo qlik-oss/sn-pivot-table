@@ -2,7 +2,7 @@ import React from "react";
 import { areEqual } from "react-window";
 import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
+import { baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
 import { containerStyle, getCellStyle, getTextStyle } from "./utils/get-measure-cell-style";
 
@@ -55,6 +55,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
       rightDivider: shouldShowTotalCellRightDivider(columnIndex),
       borderColor: styleService.grid.divider,
     }),
+    ...baseCellStyle,
     display: "flex",
     justifyContent: isNumeric ? "flex-end" : "center",
   };
