@@ -39,7 +39,6 @@ describe("DimensionTitleCell", () => {
         translator={translator}
         style={style}
         isLastColumn={false}
-        isLastRow={false}
         changeSortOrder={changeSortOrder}
         changeActivelySortedHeader={changeActivelySortedColumn}
         iconsVisibilityStatus={iconsVisibilityStatus}

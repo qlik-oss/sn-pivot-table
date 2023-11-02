@@ -1,5 +1,5 @@
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
-import React, { memo, useLayoutEffect } from "react";
+import React, { memo } from "react";
 import { VariableSizeList } from "react-window";
 import type {
   DataModel,
@@ -24,7 +24,6 @@ interface LeftGridProps {
   width: number;
   columnWidths: number[];
   height: number;
-  getScrollTop: () => number;
   layoutService: LayoutService;
   leftDimensionData: LeftDimensionData;
   showLastBorder: ShowLastBorder;
@@ -61,7 +60,6 @@ const LeftGrid = ({
   width,
   columnWidths,
   height,
-  getScrollTop,
   layoutService,
   leftDimensionData,
   showLastBorder,
@@ -79,12 +77,6 @@ const LeftGrid = ({
       leftGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
     }
   }, [dataModel, width, height, leftDimensionData, leftGridRef, contentCellHeight]);
-
-  useLayoutEffect(() => {
-    if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list?.scrollTo(getScrollTop()));
-    }
-  }, [getScrollTop, layoutService, leftGridRef]);
 
   const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
 

@@ -19,7 +19,6 @@ interface DimensionTitleCellProps {
   cell: HeaderCell;
   style: React.CSSProperties;
   isLastColumn: boolean;
-  isLastRow: boolean;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
@@ -41,7 +40,6 @@ const DimensionTitleCell = ({
   cell,
   style,
   isLastColumn,
-  isLastRow,
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
@@ -75,11 +73,6 @@ const DimensionTitleCell = ({
   const sortRelatedArgs: SortingRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
   const searchRelatedArgs = { embed, listboxRef };
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
-
-  const cellInfo = {
-    dimensionInfoIndex: cell.dimensionInfoIndex,
-    isLeftColumn: true,
-  };
 
   return (
     <StyledHeaderCellWrapper
@@ -125,15 +118,13 @@ const DimensionTitleCell = ({
           <StyledHeaderAnchor ref={anchorRef} />
         </>
       )}
-      {isLastRow && (
-        <ColumnAdjuster
-          cellInfo={cellInfo}
-          columnWidth={columnWidth}
-          dataModel={dataModel}
-          isLastColumn={isLastColumn}
-          overrideLeftGridWidth={overrideLeftGridWidth}
-        />
-      )}
+      <ColumnAdjuster
+        cellInfo={{ ...cell, isLeftColumn: true }}
+        columnWidth={columnWidth}
+        dataModel={dataModel}
+        isLastColumn={isLastColumn}
+        overrideLeftGridWidth={overrideLeftGridWidth}
+      />
     </StyledHeaderCellWrapper>
   );
 };

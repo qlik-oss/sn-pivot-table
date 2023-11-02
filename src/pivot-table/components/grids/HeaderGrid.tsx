@@ -60,7 +60,6 @@ const HeaderGrid = ({
                 zIndex: Number(!cell.isDim),
               }}
               isLastColumn={colIndex === headersData.size.x - 1}
-              isLastRow={rowIndex === headersData.size.y - 1}
               translator={translator}
               changeSortOrder={changeSortOrder}
               changeActivelySortedHeader={changeActivelySortedHeader}

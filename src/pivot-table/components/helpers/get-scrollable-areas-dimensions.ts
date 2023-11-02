@@ -60,6 +60,9 @@ const getScrollableAreasDimensions = ({
     : tableRect.height;
   const childWrappersStickyContainerHeight = tableRect.height - modifiedHorizontalScrollbarHeight;
 
+  const actualRightGridWidth = totalWidth - leftGridWidth - modifiedVerticalScrollbarWidth;
+  const avaliableRightGridWidth = tableRect.width - leftGridWidth - modifiedVerticalScrollbarWidth;
+
   return {
     rootWrapper: {
       scrollable: tableRect,
@@ -103,11 +106,11 @@ const getScrollableAreasDimensions = ({
           height: childWrappersScrollableContainerHeight,
         },
         fullSize: {
-          width: totalWidth - leftGridWidth - modifiedVerticalScrollbarWidth,
+          width: actualRightGridWidth,
           height: containerHeight,
         },
         sticky: {
-          width: tableRect.width - leftGridWidth - modifiedVerticalScrollbarWidth,
+          width: actualRightGridWidth < avaliableRightGridWidth ? actualRightGridWidth : avaliableRightGridWidth,
           height: childWrappersStickyContainerHeight,
         },
       },

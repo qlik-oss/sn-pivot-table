@@ -6,6 +6,7 @@ import { PLUS_MINUS_ICON_SIZE } from "../../../constants";
 import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
+import { CELL_PADDING } from "../../shared-styles";
 import { getColor } from "./utils/get-style";
 
 type Props = {
@@ -22,6 +23,8 @@ interface OnClickHandlerProps {
 
 export const testIdExpandIcon = "expand-icon";
 export const testIdCollapseIcon = "collapse-icon";
+
+const halfIconHeight = PLUS_MINUS_ICON_SIZE / 2;
 
 const createOnClickHandler =
   ({ expandOrCollapse, cell }: OnClickHandlerProps) =>
@@ -42,6 +45,7 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
   const disableOnClickHandler = !interactions.active || isActive || !dataModel;
   const color = getColor({ cell, styleService, isCellSelected });
   const opacity = isActive ? 0.4 : 1.0;
+  const halfCellHeight = styleService.contentCellHeight / 2;
   const Icon = cell.ref.qCanExpand ? PlusOutlineIcon : MinusOutlineIcon;
   let expandOrCollapse: ExpandOrCollapser | undefined;
 
@@ -57,7 +61,12 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
       color={color}
       data-testid={cell.ref.qCanExpand ? testIdExpandIcon : testIdCollapseIcon}
       height={PLUS_MINUS_ICON_SIZE}
-      style={{ flexShrink: 0, cursor: disableOnClickHandler ? "default" : "pointer" }}
+      style={{
+        flexShrink: 0,
+        cursor: disableOnClickHandler ? "default" : "pointer",
+        // marginTop is need on left side to put the align the expand/collapse icon and the text
+        marginTop: isLeftColumn ? halfCellHeight - halfIconHeight - CELL_PADDING : undefined,
+      }}
       onClick={disableOnClickHandler ? undefined : createOnClickHandler({ cell, expandOrCollapse })}
     />
   );

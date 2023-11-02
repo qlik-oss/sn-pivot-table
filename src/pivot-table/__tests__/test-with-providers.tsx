@@ -16,14 +16,7 @@ interface Props extends Partial<RootProps> {
 const TestWithProvider = (props: Props) => {
   const {
     children,
-    selections = {
-      isActive: () => false,
-      isModal: () => false,
-      on: () => undefined,
-      removeListener: () => undefined,
-      begin: () => Promise.resolve(),
-      select: () => Promise.resolve(),
-    } as unknown as ExtendedSelections,
+    selections = {},
     updatePageInfo = () => undefined,
     styleService = {
       header: {
@@ -96,9 +89,22 @@ const TestWithProvider = (props: Props) => {
     keyboard = {} as stardust.Keyboard,
   } = props;
 
+  // This enables only overriding one or several default properties, not necessarily the entire object
+  const mockedSelections = {
+    ...{
+      isActive: () => false,
+      isModal: () => false,
+      on: () => undefined,
+      removeListener: () => undefined,
+      begin: () => Promise.resolve(),
+      select: () => Promise.resolve(),
+    },
+    ...selections,
+  } as unknown as ExtendedSelections;
+
   return (
     <BaseProvider model={model} app={app} interactions={interactions} embed={embed} theme={theme} keyboard={keyboard}>
-      <SelectionsProvider selections={selections} updatePageInfo={updatePageInfo}>
+      <SelectionsProvider selections={mockedSelections} updatePageInfo={updatePageInfo}>
         <StyleProvider styleService={styleService}>{children}</StyleProvider>
       </SelectionsProvider>
     </BaseProvider>

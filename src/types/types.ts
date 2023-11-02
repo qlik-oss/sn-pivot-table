@@ -21,6 +21,7 @@ export interface HeaderCell extends HeaderData {
   isLocked: boolean;
   qApprMaxGlyphCount?: number;
   dimensionInfoIndex: number;
+  canBeResized: boolean;
 }
 
 export type MeasureData = MeasureCell[][];
@@ -78,6 +79,7 @@ export interface ListItemData extends ItemData {
 export interface AdjusterCellInfo {
   dimensionInfoIndex: number;
   isLeftColumn: boolean;
+  canBeResized: boolean;
   x?: number;
 }
 
@@ -103,6 +105,7 @@ export interface Cell {
   expressionColor: ExpressionColor;
   selectionCellType: NxSelectionCellType;
   dimensionInfoIndex: number;
+  canBeResized: boolean;
 }
 
 export interface MeasureCell {

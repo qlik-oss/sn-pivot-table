@@ -73,8 +73,6 @@ export const StickyPivotTable = ({
   });
 
   const {
-    getScrollLeft,
-    getScrollTop,
     onHorizontalScrollHandler,
     onVerticalScrollHandler,
     verticalScrollableContainerRef,
@@ -140,8 +138,8 @@ export const StickyPivotTable = ({
           style={{
             display: "grid",
             gridTemplateColumns: leftGridWidth // If leftColumnsWidth is 0, this means no data exist for "headers" or "left"
-              ? `${leftGridWidth}px ${rightGridWidth}px`
-              : `${rightGridWidth}px`,
+              ? `${leftWrapper.containers.scrollable.width}px ${rightWrapper.containers.scrollable.width}px`
+              : `${rightWrapper.containers.scrollable.width}px`,
           }}
         >
           {Boolean(leftGridWidth) && (
@@ -173,7 +171,6 @@ export const StickyPivotTable = ({
                     leftGridRef={leftGridRef}
                     {...leftWrapper.leftGrid}
                     columnWidths={leftGridColumnWidths}
-                    getScrollTop={getScrollTop}
                     layoutService={layoutService}
                     leftDimensionData={leftDimensionData}
                     showLastBorder={{ right: false, bottom: allRowsVisible }}
@@ -200,7 +197,6 @@ export const StickyPivotTable = ({
                   topGridRef={topGridRef}
                   rowHightCallback={headerCellRowHightCallback}
                   {...rightWrapper.topGrid}
-                  getScrollLeft={getScrollLeft}
                   layoutService={layoutService}
                   topDimensionData={topDimensionData}
                   showLastBorder={{ right: showLastRightBorder, bottom: false }}

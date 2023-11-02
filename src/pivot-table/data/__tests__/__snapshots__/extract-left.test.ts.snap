@@ -4,10 +4,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
 [
   {
     "0": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -71,8 +74,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "y": 0,
         },
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -100,6 +105,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 "qUp": 1,
               },
               "root": {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -198,6 +204,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -230,10 +237,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -305,8 +315,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "y": 2,
         },
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -339,6 +351,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               "y": 3,
             },
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -449,6 +462,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 2,
     },
     "3": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -483,8 +497,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
   },
   {
     "0": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -512,11 +528,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [
               [Circular],
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -544,6 +563,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                       "qUp": 1,
                     },
                     "root": {
+                      "canBeResized": false,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -664,11 +684,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 1,
       "pageY": 0,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -696,6 +719,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -801,11 +825,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -833,6 +860,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -935,8 +963,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -964,6 +994,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -1018,10 +1049,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 1,
       "pageY": 1,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1124,10 +1158,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1227,8 +1264,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -1256,11 +1295,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [
               [Circular],
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -1293,6 +1335,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                     "y": 3,
                   },
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -1425,11 +1468,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 1,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1462,6 +1508,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 "y": 3,
               },
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1587,11 +1634,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1624,6 +1674,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 "y": 3,
               },
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -1738,8 +1789,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 2,
     },
     "3": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -1767,10 +1820,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -1878,6 +1934,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "y": 3,
         },
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -1905,10 +1962,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -2034,10 +2094,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 1,
       "pageY": 3,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -2164,10 +2227,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -2277,6 +2343,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
   },
   {
     "0": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -2296,6 +2363,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 2,
       "pageY": 0,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
         ],
@@ -2317,11 +2385,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "pageX": 1,
         "pageY": 0,
         "parent": {
+          "canBeResized": false,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -2349,6 +2420,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                     "qUp": 1,
                   },
                   "root": {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -2454,11 +2526,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -2486,6 +2561,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                     "qUp": 1,
                   },
                   "root": {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -2595,8 +2671,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               [Circular],
             ],
@@ -2631,8 +2709,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "y": 0,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -2660,6 +2740,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -2762,6 +2843,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -2781,6 +2863,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 2,
       "pageY": 1,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
         ],
@@ -2802,10 +2885,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "pageX": 1,
         "pageY": 1,
         "parent": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -2908,10 +2994,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3018,6 +3107,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [],
         "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
@@ -3054,6 +3144,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -3073,6 +3164,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 2,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
         ],
@@ -3094,11 +3186,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "pageX": 1,
         "pageY": 2,
         "parent": {
+          "canBeResized": false,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3131,6 +3226,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   "y": 3,
                 },
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3256,11 +3352,14 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3293,6 +3392,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                   "y": 3,
                 },
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3414,8 +3514,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               [Circular],
             ],
@@ -3458,8 +3560,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "y": 2,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -3492,6 +3596,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
                 "y": 3,
               },
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -3606,6 +3711,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 2,
     },
     "3": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -3625,9 +3731,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 2,
       "pageY": 3,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -3655,10 +3763,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               "qUp": 1,
             },
             "root": {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [
                     {
+                      "canBeResized": false,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -3784,10 +3895,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "pageX": 1,
         "pageY": 3,
         "parent": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -3914,10 +4028,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -4032,10 +4149,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -4107,9 +4227,11 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "y": 2,
           },
           {
+            "canBeResized": false,
             "children": [
               [Circular],
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -4224,6 +4346,7 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "y": 3,
     },
     "4": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -4243,8 +4366,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
       "pageX": 2,
       "pageY": 4,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -4272,10 +4397,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
               "qUp": 1,
             },
             "root": {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [
                     {
+                      "canBeResized": false,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -4402,10 +4530,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "pageX": 1,
         "pageY": 3,
         "parent": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -4532,10 +4663,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -4650,10 +4784,13 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -4725,8 +4862,10 @@ exports[`extractLeftGrid should extract left data when data tree has a depth of 
             "y": 2,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -4849,10 +4988,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
 [
   {
     "0": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -4916,8 +5058,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "y": 0,
         },
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -4945,6 +5089,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 "qUp": 1,
               },
               "root": {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -5043,6 +5188,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -5075,10 +5221,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -5150,8 +5299,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "y": 2,
         },
         {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -5184,6 +5335,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               "y": 3,
             },
             {
+              "canBeResized": false,
               "children": [],
               "dimensionInfoIndex": 0,
               "distanceToNextCell": 0,
@@ -5294,6 +5446,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 2,
     },
     "3": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -5328,8 +5481,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
   },
   {
     "0": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -5357,11 +5512,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [
               [Circular],
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -5389,6 +5547,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                       "qUp": 1,
                     },
                     "root": {
+                      "canBeResized": false,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -5509,11 +5668,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 1,
       "pageY": 0,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -5541,6 +5703,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -5646,11 +5809,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -5678,6 +5844,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -5780,8 +5947,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -5809,6 +5978,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -5863,10 +6033,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 1,
       "pageY": 1,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -5969,10 +6142,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6072,8 +6248,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -6101,11 +6279,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [
               [Circular],
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -6138,6 +6319,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                     "y": 3,
                   },
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -6270,11 +6452,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 1,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6307,6 +6492,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 "y": 3,
               },
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6432,11 +6618,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6469,6 +6658,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 "y": 3,
               },
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -6583,8 +6773,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 2,
     },
     "3": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -6612,10 +6804,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -6723,6 +6918,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "y": 3,
         },
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -6750,10 +6946,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "qUp": 1,
           },
           "root": {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [
                   {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -6879,10 +7078,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 1,
       "pageY": 3,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -7009,10 +7211,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -7122,6 +7327,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
   },
   {
     "0": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -7141,6 +7347,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 2,
       "pageY": 0,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
         ],
@@ -7162,11 +7369,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "pageX": 1,
         "pageY": 0,
         "parent": {
+          "canBeResized": false,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7194,6 +7404,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                     "qUp": 1,
                   },
                   "root": {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -7299,11 +7510,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7331,6 +7545,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                     "qUp": 1,
                   },
                   "root": {
+                    "canBeResized": false,
                     "children": [],
                     "dimensionInfoIndex": 0,
                     "distanceToNextCell": 0,
@@ -7440,8 +7655,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               [Circular],
             ],
@@ -7476,8 +7693,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "y": 0,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -7505,6 +7724,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   "qUp": 1,
                 },
                 "root": {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7607,6 +7827,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -7626,6 +7847,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 2,
       "pageY": 1,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
         ],
@@ -7647,10 +7869,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "pageX": 1,
         "pageY": 1,
         "parent": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7753,10 +7978,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7863,6 +8091,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [],
         "dimensionInfoIndex": 0,
         "distanceToNextCell": 0,
@@ -7899,6 +8128,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -7918,6 +8148,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 2,
       "pageY": 2,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
         ],
@@ -7939,11 +8170,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "pageX": 1,
         "pageY": 2,
         "parent": {
+          "canBeResized": false,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -7976,6 +8210,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   "y": 3,
                 },
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8101,11 +8336,14 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             [Circular],
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8138,6 +8376,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                   "y": 3,
                 },
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8259,8 +8498,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               [Circular],
             ],
@@ -8303,8 +8544,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "y": 2,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -8337,6 +8580,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
                 "y": 3,
               },
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -8451,6 +8695,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 2,
     },
     "3": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -8470,9 +8715,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 2,
       "pageY": 3,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -8500,10 +8747,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               "qUp": 1,
             },
             "root": {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [
                     {
+                      "canBeResized": false,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -8629,10 +8879,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "pageX": 1,
         "pageY": 3,
         "parent": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8759,10 +9012,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -8877,10 +9133,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -8952,9 +9211,11 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "y": 2,
           },
           {
+            "canBeResized": false,
             "children": [
               [Circular],
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -9069,6 +9330,7 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "y": 3,
     },
     "4": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9088,8 +9350,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
       "pageX": 2,
       "pageY": 4,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -9117,10 +9381,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
               "qUp": 1,
             },
             "root": {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [
                     {
+                      "canBeResized": false,
                       "children": [],
                       "dimensionInfoIndex": 0,
                       "distanceToNextCell": 0,
@@ -9247,10 +9514,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "pageX": 1,
         "pageY": 3,
         "parent": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -9377,10 +9647,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
           "qUp": 1,
         },
         "root": {
+          "canBeResized": false,
           "children": [
             {
+              "canBeResized": false,
               "children": [
                 {
+                  "canBeResized": false,
                   "children": [],
                   "dimensionInfoIndex": 0,
                   "distanceToNextCell": 0,
@@ -9495,10 +9768,13 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -9570,8 +9846,10 @@ exports[`extractLeftGrid should extract left data when in snapshot mode 1`] = `
             "y": 2,
           },
           {
+            "canBeResized": false,
             "children": [
               {
+                "canBeResized": false,
                 "children": [],
                 "dimensionInfoIndex": 0,
                 "distanceToNextCell": 0,
@@ -9694,8 +9972,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
 [
   {
     "0": {
+      "canBeResized": false,
       "children": [
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -9728,6 +10008,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
           "y": 0,
         },
         {
+          "canBeResized": false,
           "children": [],
           "dimensionInfoIndex": 0,
           "distanceToNextCell": 0,
@@ -9791,6 +10072,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9823,6 +10105,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9855,6 +10138,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "y": 2,
     },
     "3": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9889,6 +10173,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
   },
   {
     "0": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -9908,9 +10193,11 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "pageX": 1,
       "pageY": 0,
       "parent": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -9981,9 +10268,11 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           [Circular],
           {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -10051,6 +10340,7 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -10070,8 +10360,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
       "pageX": 1,
       "pageY": 1,
       "parent": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -10143,8 +10435,10 @@ exports[`extractLeftGrid should extract left data with first node expanded 1`] =
         "qUp": 1,
       },
       "root": {
+        "canBeResized": false,
         "children": [
           {
+            "canBeResized": false,
             "children": [],
             "dimensionInfoIndex": 0,
             "distanceToNextCell": 0,
@@ -10220,6 +10514,7 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
 [
   {
     "0": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -10252,6 +10547,7 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
       "y": 0,
     },
     "1": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
@@ -10284,6 +10580,7 @@ exports[`extractLeftGrid should extract left data with no nodes expanded 1`] = `
       "y": 1,
     },
     "2": {
+      "canBeResized": false,
       "children": [],
       "dimensionInfoIndex": 0,
       "distanceToNextCell": 0,
