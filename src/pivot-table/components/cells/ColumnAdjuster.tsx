@@ -3,6 +3,7 @@ import React, { useMemo, useState } from "react";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
+import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { ColumnWidthValues } from "../../hooks/use-column-width";
 import { CELL_PADDING } from "../shared-styles";
@@ -20,10 +21,11 @@ interface AdjusterProps {
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
 const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
+  const { interactions } = useBaseContext();
   const { isActive } = useSelectionsContext();
   const [, forceRerender] = useState({});
   const positionAdjustment = isLastColumn ? CELL_PADDING : CELL_PADDING + GRID_BORDER;
-  const shouldRender = !isActive && cellInfo.canBeResized;
+  const shouldRender = cellInfo.canBeResized && !!interactions.active && !isActive;
 
   const tempWidth = useMemo(() => ({ initWidth: columnWidth, columnWidth, initX: 0 }), [columnWidth]);
 
