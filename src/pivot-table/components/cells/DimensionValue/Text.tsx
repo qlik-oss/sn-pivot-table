@@ -13,7 +13,7 @@ type Props = {
 };
 
 const getMarginTop = (styleService: StyleService) =>
-  styleService.contentRowHeight / 2 - styleService.contentTextHeight / 2 - CELL_PADDING;
+  styleService.contentRowHeight / 2 - styleService.contentTextHeight / 2;
 
 const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Props): JSX.Element => (
   <span
@@ -32,6 +32,9 @@ const Text = ({ children, cell, styleService, isCellSelected, isLeftColumn }: Pr
       fontSize: styleService.dimensionValues.fontSize,
       // marginTop is need on left side to put the align the expand/collapse icon and the text
       marginTop: isLeftColumn ? getMarginTop(styleService) : undefined,
+      // 0px at bottom to handle an issue in Firefox where line clamped text, after the ellipsis, is still drawn
+      // on the next text line
+      padding: `0px ${CELL_PADDING}px`,
     }}
   >
     {children}

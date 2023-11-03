@@ -1,11 +1,10 @@
 import type { ShowLastBorder } from "../../../types/types";
-import { borderStyle, cellStyle, getBorderStyle } from "../shared-styles";
+import { borderStyle, getBorderStyle } from "../shared-styles";
 
 describe("Shared styles", () => {
   describe("getBorderStyle", () => {
     const borderColor = "red";
     const baseStyle = {
-      ...cellStyle,
       ...borderStyle,
       borderWidth: 0,
       borderRightColor: undefined,
