@@ -219,7 +219,7 @@ describe("useColumnWidth", () => {
       act(() => result.current.overrideLeftGridWidth(width * 3, 0));
 
       expect(result.current.leftGridColumnWidths[0]).toBe(width * 3);
-      expect(result.current.leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE);
+      expect(result.current.leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
       expect(result.current.leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
   });
