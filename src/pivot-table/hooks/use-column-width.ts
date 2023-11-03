@@ -171,7 +171,7 @@ export default function useColumnWidth(
     ],
   );
 
-  const [leftGridWidthInfo, setLeftGridWidthInfo] = useState<LeftGridWidthInfo>(calculateLeftGridWidthInfo);
+  const [leftGridWidthInfo, setLeftGridWidthInfo] = useState<LeftGridWidthInfo>(calculateLeftGridWidthInfo());
 
   useEffect(() => {
     setLeftGridWidthInfo(calculateLeftGridWidthInfo());
