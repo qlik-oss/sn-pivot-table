@@ -3,9 +3,12 @@ import { Colors } from "../../../../pivot-table/components/shared-styles";
 import createColorPickerItem from "./utils/create-color-picker-item";
 import createFontFamilyItem from "./utils/create-font-family-item";
 import createFontSizeItem from "./utils/create-font-size-item";
+import getThemeValue from "./utils/get-theme-value";
+
+export type LargeSection = "dimensionValues" | "measureValues" | "header";
 
 interface Props {
-  section: "dimensionValues" | "measureValues" | "header";
+  section: LargeSection;
   defaultFontStyle?: string[];
   translator: stardust.Translator;
 }
@@ -22,7 +25,7 @@ const largePanelSection = ({ section, defaultFontStyle, translator }: Props) => 
         fontFamily: createFontFamilyItem({
           ref: `${section}.fontFamily`,
           themeAccessor: (currentTheme) =>
-            currentTheme.object?.pivotTableV2?.[section]?.fontFamily ?? currentTheme.fontFamily,
+            getThemeValue(currentTheme, section, "fontFamily") ?? currentTheme.fontFamily,
           translator,
         }),
         fontWrapperItem: {
@@ -37,20 +40,20 @@ const largePanelSection = ({ section, defaultFontStyle, translator }: Props) => 
             fontSize: createFontSizeItem({
               ref: `${section}.fontSize`,
               themeAccessor: (currentTheme) =>
-                currentTheme.object?.pivotTableV2?.[section]?.fontSize ?? currentTheme.fontSize,
+                getThemeValue(currentTheme, section, "fontSize") ?? currentTheme.fontSize,
               translator,
             }),
             fontColor: createColorPickerItem(
               `${section}.fontColor`,
               undefined,
-              (currentTheme) => currentTheme.object?.pivotTableV2?.[section]?.color ?? currentTheme.color,
+              (currentTheme) => getThemeValue(currentTheme, section, "color") ?? currentTheme.color,
             ),
           },
         },
         background: createColorPickerItem(
           `${section}.background`,
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.[section]?.background ?? Colors.Transparent,
+          (currentTheme) => getThemeValue(currentTheme, section, "backgroundColor") ?? Colors.Transparent,
         ),
       },
     },
