@@ -74,6 +74,7 @@ module.exports = {
               },
               grid: {
                 lineClamp: 1,
+                backgroundColor: "transparent",
                 borderColor: "rgba(0, 0, 0, 0.15)",
                 divider: {
                   borderColor: "rgba(0, 0, 0, 0.6)",
