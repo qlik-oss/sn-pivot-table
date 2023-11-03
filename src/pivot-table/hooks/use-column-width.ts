@@ -171,7 +171,9 @@ export default function useColumnWidth(
     ],
   );
 
-  const [leftGridWidthInfo, setLeftGridWidthInfo] = useState<LeftGridWidthInfo>(calculateLeftGridWidthInfo());
+  // Note that it is not `calculateLeftGridWidthInfo` itself that is stored on the state,
+  // it is the return value of that function, react will run it on first render
+  const [leftGridWidthInfo, setLeftGridWidthInfo] = useState<LeftGridWidthInfo>(calculateLeftGridWidthInfo);
 
   useOnPropsChange(() => {
     setLeftGridWidthInfo(calculateLeftGridWidthInfo());
