@@ -1,4 +1,4 @@
-import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
+import { useMeasureText, useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PSEUDO_DIMENSION_INDEX, PSEUDO_DIMENSION_KEY } from "../../constants";
 import { ColumnWidthType, type ColumnWidth } from "../../types/QIX";
@@ -173,7 +173,7 @@ export default function useColumnWidth(
 
   const [leftGridWidthInfo, setLeftGridWidthInfo] = useState<LeftGridWidthInfo>(calculateLeftGridWidthInfo());
 
-  useEffect(() => {
+  useOnPropsChange(() => {
     setLeftGridWidthInfo(calculateLeftGridWidthInfo());
   }, [
     headersData,
