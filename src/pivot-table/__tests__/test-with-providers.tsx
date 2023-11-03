@@ -4,7 +4,7 @@ import React from "react";
 import type { App, Model } from "../../types/QIX";
 import type { ExtendedSelections } from "../../types/types";
 import type { RootProps } from "../Root";
-import { DEFAULT_CELL_HEIGHT } from "../constants";
+import { CELL_PADDING_HEIGHT, DEFAULT_CELL_HEIGHT } from "../constants";
 import BaseProvider from "../contexts/BaseProvider";
 import SelectionsProvider from "../contexts/SelectionsProvider";
 import StyleProvider from "../contexts/StyleProvider";
@@ -77,6 +77,8 @@ const TestWithProvider = (props: Props) => {
       },
       headerCellHeight: DEFAULT_CELL_HEIGHT,
       contentCellHeight: DEFAULT_CELL_HEIGHT,
+      contentRowHeight: DEFAULT_CELL_HEIGHT,
+      contentTextHeight: DEFAULT_CELL_HEIGHT - CELL_PADDING_HEIGHT,
     },
     app = { getField: () => Promise.resolve() } as unknown as App,
     model = { applyPatches: () => Promise.resolve(), getLayout: () => Promise.resolve({}) } as unknown as Model,

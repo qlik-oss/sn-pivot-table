@@ -238,6 +238,10 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     DEFAULT_CELL_HEIGHT,
   );
 
+  styleService.contentRowHeight = styleService.contentCellHeight / lineClamp;
+
+  styleService.contentTextHeight = styleService.contentRowHeight - CELL_PADDING_HEIGHT;
+
   return styleService;
 };
 

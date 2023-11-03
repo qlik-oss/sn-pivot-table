@@ -45,7 +45,7 @@ const ExpandOrCollapseIcon = ({ cell, dataModel, isLeftColumn, isCellSelected }:
   const disableOnClickHandler = !interactions.active || isActive || !dataModel;
   const color = getColor({ cell, styleService, isCellSelected });
   const opacity = isActive ? 0.4 : 1.0;
-  const halfCellHeight = styleService.contentCellHeight / 2;
+  const halfCellHeight = styleService.contentRowHeight / 2;
   const Icon = cell.ref.qCanExpand ? PlusOutlineIcon : MinusOutlineIcon;
   let expandOrCollapse: ExpandOrCollapser | undefined;
 
