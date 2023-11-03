@@ -10,8 +10,8 @@ import type {
   Rect,
   VisibleDimensionInfo,
 } from "../../types/types";
-import { CELL_PADDING } from "../components/shared-styles";
-import { GRID_BORDER, HEADER_ICON_SIZE } from "../constants";
+import { CELL_PADDING, DOUBLE_CELL_PADDING } from "../components/shared-styles";
+import { GRID_BORDER, HEADER_ICON_SIZE, PLUS_MINUS_ICON_SIZE } from "../constants";
 import { useStyleContext } from "../contexts/StyleProvider";
 
 export type OverrideLeftGridWidth = (width: number, index: number) => void;
@@ -42,8 +42,9 @@ interface LeftGridWidthInfo {
   leftGridFullWidth: number;
 }
 
-export const EXPAND_ICON_SIZE = 30;
-export const TOTAL_CELL_PADDING = CELL_PADDING * 2 + GRID_BORDER;
+// Size of the icon + left/right padding on icon + gap between icon and text
+export const EXPAND_ICON_SIZE = PLUS_MINUS_ICON_SIZE + DOUBLE_CELL_PADDING + CELL_PADDING;
+export const TOTAL_CELL_PADDING = DOUBLE_CELL_PADDING * 2 + GRID_BORDER;
 const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
 
 // CELL_PADDING as grid gap between header text and menu icon
@@ -89,7 +90,7 @@ export default function useColumnWidth(
     ...styleService.header,
     bold: isBold(styleService.header),
   });
-  const { estimateWidth: estimateWidthForMeasureValue } = useMeasureText({
+  const { estimateWidth: estimateWidthForMeasureValue, measureText: measureTextForMeasureValue } = useMeasureText({
     ...styleService.measureValues,
     bold: isBold(styleService.measureValues),
   });
@@ -137,10 +138,12 @@ export default function useColumnWidth(
           const expandIconSize = !isFullyExpanded && index < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
           const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
 
-          const fitToContentWidth = Math.max(
-            measureTextForHeader(label) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize,
-            estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
-          );
+          const fitToContentWidth =
+            TOTAL_CELL_PADDING +
+            Math.max(
+              measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
+              estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
+            );
 
           width = getColumnWidth(columnWidth, fitToContentWidth);
         }
@@ -245,15 +248,13 @@ export default function useColumnWidth(
     };
 
     const fitToContentWidth = (qApprMaxGlyphCount: number, qFallbackTitle: string) =>
-      topGridLeavesIsPseudo
-        ? Math.max(
-            estimateWidthForMeasureValue(qApprMaxGlyphCount),
-            measureTextForDimensionValue(qFallbackTitle) + TOTAL_CELL_PADDING,
-          )
+      TOTAL_CELL_PADDING +
+      (topGridLeavesIsPseudo
+        ? Math.max(estimateWidthForMeasureValue(qApprMaxGlyphCount), measureTextForMeasureValue(qFallbackTitle))
         : Math.max(
             Math.max(...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
             estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
-          );
+          ));
 
     columnArray.forEach((col, idx) => {
       if (col?.columnWidth) {
@@ -295,15 +296,15 @@ export default function useColumnWidth(
 
     return widths;
   }, [
-    estimateWidthForDimensionValue,
-    estimateWidthForMeasureValue,
-    size.x,
-    leafTopDimension,
-    leavesIconWidth,
-    measureTextForDimensionValue,
-    qMeasureInfo,
-    rightGridAvailableWidth,
     topGridLeavesIsPseudo,
+    qMeasureInfo,
+    leafTopDimension,
+    size.x,
+    rightGridAvailableWidth,
+    estimateWidthForMeasureValue,
+    measureTextForMeasureValue,
+    estimateWidthForDimensionValue,
+    leavesIconWidth,
   ]);
 
   const averageLeafWidth = useMemo(() => {

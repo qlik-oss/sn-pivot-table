@@ -1,3 +1,4 @@
+import type { stardust } from "@nebula.js/stardust";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { ColumnWidthType } from "../../../../types/QIX";
@@ -9,6 +10,8 @@ describe("<ColumnAdjuster />", () => {
   let cellInfo: AdjusterCellInfo;
   let columnWidth: number;
   let dataModel: DataModel | undefined;
+  let selections: ExtendedSelections;
+  let interactions: stardust.Interactions;
 
   beforeEach(() => {
     columnWidth = 100;
@@ -16,14 +19,16 @@ describe("<ColumnAdjuster />", () => {
       applyColumnWidth: jest.fn(),
     } as unknown as DataModel;
     cellInfo = { canBeResized: true } as AdjusterCellInfo;
+    interactions = { active: true };
+    selections = { isActive: () => false } as ExtendedSelections;
   });
 
-  const renderAdjuster = (isActive = false) =>
+  const renderAdjuster = () =>
     render(
       <ColumnAdjuster cellInfo={cellInfo} columnWidth={columnWidth} dataModel={dataModel} isLastColumn={false} />,
       {
         wrapper: ({ children }) => (
-          <TestWithProvider selections={{ isActive: () => isActive } as unknown as ExtendedSelections}>
+          <TestWithProvider selections={selections} interactions={interactions}>
             {children}
           </TestWithProvider>
         ),
@@ -37,15 +42,24 @@ describe("<ColumnAdjuster />", () => {
     expect(screen.queryByTestId("sn-pivot-table-column-adjuster")).toBeInTheDocument();
   });
 
-  test("should not render ColumnAdjuster when isActive is true", () => {
-    renderAdjuster(true);
+  test("should not render ColumnAdjuster when canBeResized is false", () => {
+    cellInfo = { canBeResized: false } as AdjusterCellInfo;
+    renderAdjuster();
+
     expect(screen.queryByTestId("sn-pivot-table-column-adjuster")).not.toBeInTheDocument();
   });
 
-  test("should not render ColumnAdjuster when canBeResized is false", () => {
-    cellInfo = { canBeResized: false } as AdjusterCellInfo;
-
+  test("should not render ColumnAdjuster when isActive is true", () => {
+    selections.isActive = () => true;
     renderAdjuster();
+
+    expect(screen.queryByTestId("sn-pivot-table-column-adjuster")).not.toBeInTheDocument();
+  });
+
+  test("should not render ColumnAdjuster when interactions.active is false", () => {
+    interactions.active = false;
+    renderAdjuster();
+
     expect(screen.queryByTestId("sn-pivot-table-column-adjuster")).not.toBeInTheDocument();
   });
 

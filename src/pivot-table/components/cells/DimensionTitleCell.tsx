@@ -10,7 +10,7 @@ import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
-import { getBorderStyle } from "../shared-styles";
+import { baseCellStyle, getBorderStyle } from "../shared-styles";
 import ColumnAdjuster from "./ColumnAdjuster";
 import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
 
@@ -84,6 +84,7 @@ const DimensionTitleCell = ({
       isDimension={cell.isDim}
       style={{
         ...style,
+        ...baseCellStyle,
         ...getBorderStyle(true, isLastColumn, styleService.grid.border),
         color,
       }}

@@ -243,6 +243,8 @@ export type StyleService = ThemeStyling & {
   header: CellStyling & { hoverBackground: string; activeBackground: string };
   headerCellHeight: number;
   contentCellHeight: number;
+  contentRowHeight: number;
+  contentTextHeight: number;
 };
 
 export type ActivelySortedColumn = {

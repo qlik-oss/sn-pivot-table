@@ -141,6 +141,8 @@ describe("style-service", () => {
       },
       headerCellHeight: 32,
       contentCellHeight: 48,
+      contentRowHeight: 24,
+      contentTextHeight: 16,
     } as StyleService);
   });
 
@@ -207,6 +209,8 @@ describe("style-service", () => {
       },
       headerCellHeight: 32,
       contentCellHeight: 56,
+      contentRowHeight: 28,
+      contentTextHeight: 20,
     } as StyleService);
   });
 
@@ -274,6 +278,8 @@ describe("style-service", () => {
       },
       headerCellHeight: 32,
       contentCellHeight: 24,
+      contentRowHeight: 24,
+      contentTextHeight: 16,
     } as StyleService);
   });
 });
