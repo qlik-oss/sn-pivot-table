@@ -4,7 +4,7 @@ import {
   type MeasureTextHook,
   type UseMeasureTextProps,
 } from "@qlik/nebula-table-utils/lib/hooks";
-import { renderHook } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
 import { ColumnWidthType } from "../../../types/QIX";
 import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
@@ -75,6 +75,7 @@ describe("useColumnWidth", () => {
     mockedUseMeasureText.mockReturnValue(mockedMeasureText);
     verticalScrollbarWidth = 0;
     horizontalScrollbarHeightSetter = jest.fn();
+    headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
   });
 
   afterEach(() => {
@@ -84,17 +85,16 @@ describe("useColumnWidth", () => {
   const renderUseColumnWidth = () => {
     const {
       result: { current },
-    } = renderHook(() => {
-      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
-      return useColumnWidth(
+    } = renderHook(() =>
+      useColumnWidth(
         layoutService,
         rect,
         headersData,
         visibleTopDimensionInfo,
         verticalScrollbarWidth,
         horizontalScrollbarHeightSetter,
-      );
-    });
+      ),
+    );
     return current;
   };
 
@@ -132,6 +132,7 @@ describe("useColumnWidth", () => {
         qGroupFieldDefs: [""],
       } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
       expect(leftGridColumnWidths[0]).toBe(pixels);
@@ -154,6 +155,7 @@ describe("useColumnWidth", () => {
         qGroupFieldDefs: [""],
       } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfoWithoutPixels, dimInfoWithNaN];
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
       expect(leftGridColumnWidths[0]).toBe(percentage * percentageConversion);
@@ -172,6 +174,7 @@ describe("useColumnWidth", () => {
         { columnWidth: { type: ColumnWidthType.Percentage, percentage: 10 } } as ExtendedMeasureInfo,
         { columnWidth: { type: ColumnWidthType.Pixels, pixels: 60 } } as ExtendedMeasureInfo,
       ];
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
       expect(leftGridColumnWidths[3]).toBe(60);
@@ -188,11 +191,36 @@ describe("useColumnWidth", () => {
         qGroupFieldDefs: [""],
       } as ExtendedDimensionInfo;
       visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfoWithoutPixels];
-      const { leftGridColumnWidths } = renderUseColumnWidth();
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
 
+      const { leftGridColumnWidths } = renderUseColumnWidth();
       expect(leftGridColumnWidths[0]).toBe(pixels);
       expect(leftGridColumnWidths[1]).toBe(pixels);
       expect(leftGridColumnWidths[2]).toBe(ColumnWidthValues.PixelsDefault);
+    });
+
+    test("should return left column width when overridden using overrideLeftColumnWidth", () => {
+      const width = 25;
+      mockEstimateWidth(width);
+      mockMeasureText(width);
+
+      // Need to render this explicitly, since renderUseColumnWidth returns current, and thus leftGridColumnWidths wont update after overrideLeftGridWidth()
+      const { result } = renderHook(() =>
+        useColumnWidth(
+          layoutService,
+          rect,
+          headersData,
+          visibleTopDimensionInfo,
+          verticalScrollbarWidth,
+          horizontalScrollbarHeightSetter,
+        ),
+      );
+
+      act(() => result.current.overrideLeftGridWidth(width * 3, 0));
+
+      expect(result.current.leftGridColumnWidths[0]).toBe(width * 3);
+      expect(result.current.leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
+      expect(result.current.leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
   });
 
@@ -209,6 +237,7 @@ describe("useColumnWidth", () => {
         } as ExtendedDimensionInfo,
       ];
       visibleTopDimensionInfo = [dimInfo, dimInfo, -1];
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
     });
 
     test("should return right column width when columnWidth is undefined", () => {
@@ -415,7 +444,7 @@ describe("useColumnWidth", () => {
     });
   });
 
-  describe("getHeaderCellsIconsVisibilityStatus()", () => {
+  describe("getHeaderCellsIconsVisibilityStatus", () => {
     const columnWidthInPixels = 100;
 
     test("should return `shouldShowMenuIcon` as true, b/c estimated width for text is small and there is enough space in each column", () => {
@@ -423,7 +452,7 @@ describe("useColumnWidth", () => {
         type: ColumnWidthType.Pixels,
         pixels: columnWidthInPixels,
       };
-
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
       mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
 
       const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
@@ -438,6 +467,7 @@ describe("useColumnWidth", () => {
         type: ColumnWidthType.Pixels,
         pixels: columnWidthInPixels + MENU_ICON_SIZE - 1, // -1 is what makes the test pass
       };
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
       mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING);
 
       const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
@@ -453,7 +483,7 @@ describe("useColumnWidth", () => {
           type: ColumnWidthType.Pixels,
           pixels: columnWidthInPixels,
         };
-
+        headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
         mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - LOCK_ICON_SIZE - MENU_ICON_SIZE);
 
         const { getHeaderCellsIconsVisibilityStatus } = renderUseColumnWidth();
@@ -468,6 +498,7 @@ describe("useColumnWidth", () => {
           type: ColumnWidthType.Pixels,
           pixels: columnWidthInPixels,
         };
+        headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
         // Mock the measureTextForHeader call inside getHeaderCellsIconsVisibilityStatus()
         mockMeasureText(columnWidthInPixels - TOTAL_CELL_PADDING - LOCK_ICON_SIZE);
 

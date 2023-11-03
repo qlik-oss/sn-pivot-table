@@ -5,7 +5,7 @@ import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
-import { ColumnWidthValues } from "../../hooks/use-column-width";
+import { ColumnWidthValues, type OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import { CELL_PADDING } from "../shared-styles";
 import { AdjusterBorder, AdjusterHitArea, COLUMN_ADJUSTER_BORDER_CLASS, COLUMN_ADJUSTER_CLASS } from "./styles";
 
@@ -14,13 +14,14 @@ interface AdjusterProps {
   columnWidth: number;
   dataModel: DataModel | undefined;
   isLastColumn: boolean;
+  overrideLeftGridWidth?: OverrideLeftGridWidth;
 }
 /**
  * Component that is placed on top of column border, to resize the columns.
  * When you start dragging, mouse move and mouse up listeners are added.
  * While dragging this components follows the pointer, and on mouse up all column widths are updated.
  */
-const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: AdjusterProps) => {
+const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn, overrideLeftGridWidth }: AdjusterProps) => {
   const { interactions } = useBaseContext();
   const { isActive } = useSelectionsContext();
   const [, forceRerender] = useState({});
@@ -36,6 +37,7 @@ const ColumnAdjuster = ({ cellInfo, columnWidth, dataModel, isLastColumn }: Adju
     const adjustedWidth = Math.max(tempWidth.initWidth + deltaWidth, ColumnWidthValues.PixelsMin);
     forceRerender({});
     tempWidth.columnWidth = adjustedWidth;
+    overrideLeftGridWidth?.(adjustedWidth, cellInfo.dimensionInfoIndex);
   };
 
   const mouseUpHandler = (evt: MouseEvent) => {

@@ -8,7 +8,7 @@ import type { ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeaderCell
 import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import type { GetHeaderCellsIconsVisibilityStatus } from "../../hooks/use-column-width";
+import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { baseCellStyle, getBorderStyle } from "../shared-styles";
 import ColumnAdjuster from "./ColumnAdjuster";
@@ -24,6 +24,7 @@ interface DimensionTitleCellProps {
   changeActivelySortedHeader: ChangeActivelySortedHeader;
   iconsVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus>;
   columnWidth: number;
+  overrideLeftGridWidth: OverrideLeftGridWidth;
 }
 
 export const testId = "title-cell";
@@ -44,6 +45,7 @@ const DimensionTitleCell = ({
   changeActivelySortedHeader,
   iconsVisibilityStatus,
   columnWidth,
+  overrideLeftGridWidth,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -122,6 +124,7 @@ const DimensionTitleCell = ({
         columnWidth={columnWidth}
         dataModel={dataModel}
         isLastColumn={isLastColumn}
+        overrideLeftGridWidth={overrideLeftGridWidth}
       />
     </StyledHeaderCellWrapper>
   );

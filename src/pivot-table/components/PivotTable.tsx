@@ -94,6 +94,7 @@ export const StickyPivotTable = ({
     showLastRightBorder,
     getRightGridColumnWidth,
     getHeaderCellsIconsVisibilityStatus,
+    overrideLeftGridWidth,
   } = useColumnWidth(
     layoutService,
     tableRect,
@@ -162,6 +163,7 @@ export const StickyPivotTable = ({
                     translator={translator}
                     changeSortOrder={changeSortOrder}
                     changeActivelySortedHeader={changeActivelySortedHeader}
+                    overrideLeftGridWidth={overrideLeftGridWidth}
                   />
 
                   <LeftGrid
