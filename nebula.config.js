@@ -26,42 +26,59 @@ module.exports = {
         theme: {
           object: {
             pivotTableV2: {
-              header: {
-                fontSize: "12px",
-                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-                background: "transparent",
-                color: "#404040",
+              dimension: {
+                label: {
+                  name: {
+                    fontSize: "12px",
+                    fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                    backgroundColor: "transparent",
+                    color: "#404040",
+                  },
+                  value: {
+                    fontSize: "12px",
+                    fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                    color: "#404040",
+                    backgroundColor: "transparent",
+                  },
+                },
               },
-              measureValues: {
-                fontSize: "12px",
-                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-                color: "rgba(0, 0, 0, 0.55)",
-                background: "transparent",
+              measure: {
+                label: {
+                  name: {
+                    color: "rgba(0, 0, 0, 0.55)",
+                    backgroundColor: "transparent",
+                  },
+                  value: {
+                    fontSize: "12px",
+                    fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                    color: "rgba(0, 0, 0, 0.55)",
+                    backgroundColor: "transparent",
+                  },
+                },
               },
-              dimensionValues: {
-                fontSize: "12px",
-                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-                color: "#404040",
-                background: "transparent",
+              total: {
+                label: {
+                  value: {
+                    color: "#404040",
+                    backgroundColor: "transparent",
+                  },
+                },
               },
-              measureLabels: {
-                color: "rgba(0, 0, 0, 0.55)",
-                background: "transparent",
-              },
-              nullValues: {
-                color: "#404040",
-                background: "rgba(0, 0, 0, 0.05)",
-              },
-              totalValues: {
-                color: "#404040",
-                background: "transparent",
+              null: {
+                label: {
+                  value: {
+                    color: "#404040",
+                    backgroundColor: "rgba(0, 0, 0, 0.05)",
+                  },
+                },
               },
               grid: {
                 lineClamp: 1,
-                rowHeight: "compact",
-                border: "rgba(0, 0, 0, 0.15)",
-                divider: "rgba(0, 0, 0, 0.6)",
-                background: "transparent",
+                backgroundColor: "transparent",
+                borderColor: "rgba(0, 0, 0, 0.15)",
+                divider: {
+                  borderColor: "rgba(0, 0, 0, 0.6)",
+                },
               },
             },
           },
@@ -72,42 +89,59 @@ module.exports = {
         theme: {
           object: {
             pivotTableV2: {
-              header: {
-                fontSize: "16px",
-                fontFamily: "Arial",
-                background: "maroon",
-                color: "fuchsia",
+              dimension: {
+                label: {
+                  name: {
+                    fontSize: "16px",
+                    fontFamily: "Arial",
+                    backgroundColor: "maroon",
+                    color: "fuchsia",
+                  },
+                  value: {
+                    fontSize: "14px",
+                    fontFamily: "sans-serif",
+                    color: "olive",
+                    backgroundColor: "aqua",
+                  },
+                },
               },
-              measureValues: {
-                fontSize: "10px",
-                fontFamily: "Verdana",
-                color: "lime",
-                background: "green",
+              measure: {
+                label: {
+                  name: {
+                    color: "black",
+                    backgroundColor: "yellow",
+                  },
+                  value: {
+                    fontSize: "10px",
+                    fontFamily: "Verdana",
+                    color: "lime",
+                    backgroundColor: "green",
+                  },
+                },
               },
-              dimensionValues: {
-                fontSize: "14px",
-                fontFamily: "sans-serif",
-                color: "olive",
-                background: "aqua",
+              total: {
+                label: {
+                  value: {
+                    color: "darkblue",
+                    backgroundColor: "crimson",
+                  },
+                },
               },
-              measureLabels: {
-                color: "black",
-                background: "yellow",
-              },
-              nullValues: {
-                color: "white",
-                background: "orange",
-              },
-              totalValues: {
-                color: "darkblue",
-                background: "crimson",
+              null: {
+                label: {
+                  value: {
+                    color: "white",
+                    backgroundColor: "orange",
+                  },
+                },
               },
               grid: {
                 lineClamp: 1,
-                rowHeight: "compact",
-                border: "darkviolet",
-                divider: "darkred",
-                background: "transparent",
+                borderColor: "darkviolet",
+                backgroundColor: "salmon",
+                divider: {
+                  borderColor: "red",
+                },
               },
             },
           },
@@ -120,8 +154,10 @@ module.exports = {
             pivotTableV2: {
               grid: {
                 rowHeight: "compact",
-                border: "transparent",
-                divider: "rgba(0, 0, 0, 0.6)",
+                borderColor: "transparent",
+                divider: {
+                  borderColor: "rgba(0, 0, 0, 0.6)",
+                },
               },
             },
           },
@@ -144,42 +180,59 @@ module.exports = {
         theme: {
           object: {
             pivotTableV2: {
-              header: {
-                fontSize: "12px",
-                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-                background: randomColor(),
-                color: randomColor(),
+              dimension: {
+                label: {
+                  name: {
+                    fontSize: "12px",
+                    fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                    backgroundColor: randomColor(),
+                    color: randomColor(),
+                  },
+                  value: {
+                    fontSize: "12px",
+                    fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                    color: randomColor(),
+                    backgroundColor: randomColor(),
+                  },
+                },
               },
-              measureValues: {
-                fontSize: "12px",
-                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-                color: randomColor(),
-                background: randomColor(),
+              measure: {
+                label: {
+                  name: {
+                    color: randomColor(),
+                    backgroundColor: randomColor(),
+                  },
+                  value: {
+                    fontSize: "12px",
+                    fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
+                    color: randomColor(),
+                    backgroundColor: randomColor(),
+                  },
+                },
               },
-              dimensionValues: {
-                fontSize: "12px",
-                fontFamily: '"Source Sans Pro", "Arial", "sans-serif"',
-                color: randomColor(),
-                background: randomColor(),
+              total: {
+                label: {
+                  value: {
+                    color: randomColor(),
+                    backgroundColor: randomColor(),
+                  },
+                },
               },
-              measureLabels: {
-                color: randomColor(),
-                background: randomColor(),
-              },
-              nullValues: {
-                color: randomColor(),
-                background: randomColor(),
-              },
-              totalValues: {
-                color: randomColor(),
-                background: randomColor(),
+              null: {
+                label: {
+                  value: {
+                    color: randomColor(),
+                    backgroundColor: randomColor(),
+                  },
+                },
               },
               grid: {
                 lineClamp: 1,
-                rowHeight: "compact",
-                border: randomColor(),
-                divider: randomColor(),
-                background: randomColor(),
+                backgroundColor: randomColor(),
+                borderColor: randomColor(),
+                divider: {
+                  borderColor: randomColor(),
+                },
               },
             },
           },

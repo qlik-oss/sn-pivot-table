@@ -1,4 +1,4 @@
-import type { ActivelySortedColumn, ThemeStyling } from "./types";
+import type { ActivelySortedColumn } from "./types";
 
 enum NxDimCellType {
   NX_DIM_CELL_VALUE = "V",
@@ -90,9 +90,52 @@ export interface Component {
   };
 }
 
+type ThemeColorAttributes = {
+  color?: string;
+  backgroundColor?: string;
+};
+
+type ThemeFontAttributes = {
+  fontFamily?: string;
+  fontSize?: string;
+};
+
+type ThemeStylingOptions = {
+  dimension?: {
+    label?: {
+      name?: ThemeColorAttributes & ThemeFontAttributes;
+      value?: ThemeColorAttributes & ThemeFontAttributes;
+    };
+  };
+  measure?: {
+    label?: {
+      name?: ThemeColorAttributes;
+      value?: ThemeColorAttributes & ThemeFontAttributes;
+    };
+  };
+  total?: {
+    label?: {
+      value?: ThemeColorAttributes;
+    };
+  };
+  null?: {
+    label?: {
+      value?: ThemeColorAttributes;
+    };
+  };
+  grid?: {
+    lineClamp?: number;
+    backgroundColor?: string;
+    borderColor?: string;
+    divider: {
+      borderColor?: string;
+    };
+  };
+};
+
 export interface CurrentTheme {
   object?: {
-    pivotTableV2?: ThemeStyling;
+    pivotTableV2?: ThemeStylingOptions;
   };
   fontSize: string;
   fontSizes?: string[];

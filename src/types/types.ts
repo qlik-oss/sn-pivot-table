@@ -224,7 +224,7 @@ export type CellStyling = {
   background: string;
 };
 
-export type ThemeStyling = {
+export type StylingPanelOptions = {
   header: CellStyling;
   dimensionValues: CellStyling;
   measureValues: CellStyling;
@@ -239,7 +239,7 @@ export type ThemeStyling = {
   };
 };
 
-export type StyleService = ThemeStyling & {
+export type StyleService = StylingPanelOptions & {
   header: CellStyling & { hoverBackground: string; activeBackground: string };
   headerCellHeight: number;
   contentCellHeight: number;

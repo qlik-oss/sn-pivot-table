@@ -28,17 +28,17 @@ const gridSection = {
         border: createColorPickerItem(
           "grid.border",
           "properties.border",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.border ?? Colors.Black15,
+          (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.borderColor ?? Colors.Black15,
         ),
         divider: createColorPickerItem(
           "grid.divider",
           "properties.pivot.divider",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.divider ?? Colors.Black60,
+          (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.divider?.borderColor ?? Colors.Black60,
         ),
         background: createColorPickerItem(
           "grid.background",
           "properties.background",
-          (currentTheme) => currentTheme.object?.pivotTableV2?.header?.background ?? Colors.Transparent,
+          (currentTheme) => currentTheme.object?.pivotTableV2?.grid?.backgroundColor ?? Colors.Transparent,
         ),
       },
     },
