@@ -13,9 +13,6 @@ interface StyledHeaderCellWrapperProps {
   isDimension: boolean;
 }
 
-export const COLUMN_ADJUSTER_CLASS = "sn-pivot-table-column-adjuster";
-export const COLUMN_ADJUSTER_BORDER_CLASS = `${COLUMN_ADJUSTER_CLASS}-border`;
-
 export const StyledHeaderCellWrapper = styled(Box, {
   shouldForwardProp: (prop: string) =>
     !["interactions", "hoverBackground", "background", "shouldShowMenuIcon", "isDimension"].includes(prop),

@@ -1,8 +1,7 @@
 import { ColumnAdjuster } from "@qlik/nebula-table-utils/lib/components";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { type ColumnWidth } from "../../../types/QIX";
 import type { AdjusterCellInfo, DataModel } from "../../../types/types";
-import { GRID_BORDER } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { type OverrideLeftGridWidth } from "../../hooks/use-column-width";
@@ -29,10 +28,7 @@ const ColumnAdjusterWrapper = ({
   const { interactions } = useBaseContext();
   const { isActive } = useSelectionsContext();
   const [, forceRerender] = useState({});
-  const positionAdjustment = isLastColumn ? 0 : GRID_BORDER;
   const shouldRender = cellInfo.canBeResized && !!interactions.active && !isActive;
-
-  const tempWidth = useMemo(() => ({ initWidth: columnWidth, columnWidth, initX: 0 }), [columnWidth]);
 
   if (!shouldRender) return null;
 
@@ -47,7 +43,6 @@ const ColumnAdjusterWrapper = ({
     <ColumnAdjuster
       columnWidth={columnWidth}
       isLastColumn={isLastColumn}
-      style={{ left: tempWidth.columnWidth - positionAdjustment }}
       keyValue={`adjuster-${cellInfo.dimensionInfoIndex}`}
       updateWidthCallback={updateWidth}
       confirmWidthCallback={confirmWidth}
