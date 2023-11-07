@@ -4,7 +4,7 @@ import type { ListItemData } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import { shouldShowTotalCellDivider } from "../../../hooks/use-is-total-cell";
-import ColumnAdjuster from "../ColumnAdjuster";
+import ColumnAdjuster from "../ColumnAdjusterWrapper";
 import EmptyCell from "../EmptyCell";
 import Container from "./Container";
 import ExpandOrCollapseIcon from "./ExpandOrCollapseIcon";

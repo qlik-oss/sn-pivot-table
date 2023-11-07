@@ -11,7 +11,7 @@ import { useStyleContext } from "../../contexts/StyleProvider";
 import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { baseCellStyle, getBorderStyle } from "../shared-styles";
-import ColumnAdjuster from "./ColumnAdjuster";
+import ColumnAdjuster from "./ColumnAdjusterWrapper";
 import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
 
 interface DimensionTitleCellProps {

@@ -1,0 +1,58 @@
+import { ColumnAdjuster } from "@qlik/nebula-table-utils/lib/components";
+import React, { useMemo, useState } from "react";
+import { type ColumnWidth } from "../../../types/QIX";
+import type { AdjusterCellInfo, DataModel } from "../../../types/types";
+import { GRID_BORDER } from "../../constants";
+import { useBaseContext } from "../../contexts/BaseProvider";
+import { useSelectionsContext } from "../../contexts/SelectionsProvider";
+import { type OverrideLeftGridWidth } from "../../hooks/use-column-width";
+
+interface AdjusterProps {
+  cellInfo: AdjusterCellInfo;
+  columnWidth: number;
+  dataModel: DataModel | undefined;
+  isLastColumn: boolean;
+  overrideLeftGridWidth?: OverrideLeftGridWidth;
+}
+/**
+ * Component that is placed on top of column border, to resize the columns.
+ * When you start dragging, mouse move and mouse up listeners are added.
+ * While dragging this components follows the pointer, and on mouse up all column widths are updated.
+ */
+const ColumnAdjusterWrapper = ({
+  cellInfo,
+  columnWidth,
+  dataModel,
+  isLastColumn,
+  overrideLeftGridWidth,
+}: AdjusterProps) => {
+  const { interactions } = useBaseContext();
+  const { isActive } = useSelectionsContext();
+  const [, forceRerender] = useState({});
+  const positionAdjustment = isLastColumn ? 0 : GRID_BORDER;
+  const shouldRender = cellInfo.canBeResized && !!interactions.active && !isActive;
+
+  const tempWidth = useMemo(() => ({ initWidth: columnWidth, columnWidth, initX: 0 }), [columnWidth]);
+
+  if (!shouldRender) return null;
+
+  const updateWidth = (adjustedWidth: number) => {
+    forceRerender({});
+    overrideLeftGridWidth?.(adjustedWidth, cellInfo.dimensionInfoIndex);
+  };
+
+  const confirmWidth = (newWidthData: ColumnWidth) => dataModel?.applyColumnWidth(newWidthData, cellInfo);
+
+  return (
+    <ColumnAdjuster
+      columnWidth={columnWidth}
+      isLastColumn={isLastColumn}
+      style={{ left: tempWidth.columnWidth - positionAdjustment }}
+      keyValue={`adjuster-${cellInfo.dimensionInfoIndex}`}
+      updateWidthCallback={updateWidth}
+      confirmWidthCallback={confirmWidth}
+    />
+  );
+};
+
+export default ColumnAdjusterWrapper;
