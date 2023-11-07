@@ -2,8 +2,8 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
 import type { CellStyling } from "../../../types/types";
-import { GRID_BORDER, HEADER_ICON_SIZE } from "../../constants";
-import { CELL_PADDING, DOUBLE_CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
+import { HEADER_ICON_SIZE } from "../../constants";
+import { CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
 
 interface StyledHeaderCellWrapperProps {
   interactions: stardust.Interactions;
@@ -64,34 +64,3 @@ export const StyledLabel = styled("div", {
   fontStyle,
   textDecoration,
 }));
-
-export const AdjusterHitArea = styled("div", {
-  shouldForwardProp: (prop: string) => prop !== "isLastColumn",
-})(({ isLastColumn = false }: { isLastColumn: boolean }) => ({
-  pointerEvents: "all",
-  display: "flex",
-  position: "absolute",
-  height: "100%",
-  top: 0,
-  cursor: "col-resize",
-  // last column padding, other double padding + border
-  width: `${isLastColumn ? CELL_PADDING : DOUBLE_CELL_PADDING + GRID_BORDER}px`,
-  justifyContent: isLastColumn ? "flex-end" : "center",
-  "&&:hover:not(:focus, :active)": {
-    [`& .${COLUMN_ADJUSTER_BORDER_CLASS}`]: {
-      background: "#D9D9D9",
-    },
-  },
-  "&&:focus-visible, :active": {
-    outline: "none",
-    [`& .${COLUMN_ADJUSTER_BORDER_CLASS}`]: {
-      background: "#177fe6",
-    },
-  },
-}));
-
-export const AdjusterBorder = styled("div")({
-  position: "absolute",
-  height: "100%",
-  width: "3px",
-});
