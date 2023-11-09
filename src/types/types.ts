@@ -1,7 +1,9 @@
 import type { stardust } from "@nebula.js/stardust";
+import type { ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
 import type { HeaderData, SortDirection } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
+
 import type { PSEUDO_DIMENSION_INDEX } from "../constants";
-import type { ColumnWidth, ExtendedDimensionInfo, NxSelectionCellType, PivotLayout } from "./QIX";
+import type { ExtendedDimensionInfo, NxSelectionCellType, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 

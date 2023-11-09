@@ -1,6 +1,5 @@
-import { ColumnAdjuster } from "@qlik/nebula-table-utils/lib/components";
+import ColumnAdjuster, { type ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
 import React, { useState } from "react";
-import { type ColumnWidth } from "../../../types/QIX";
 import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
@@ -41,6 +40,7 @@ const ColumnAdjusterWrapper = ({
 
   return (
     <ColumnAdjuster
+      isPivot
       columnWidth={columnWidth}
       isLastColumn={isLastColumn}
       keyValue={`adjuster-${cellInfo.dimensionInfoIndex}`}

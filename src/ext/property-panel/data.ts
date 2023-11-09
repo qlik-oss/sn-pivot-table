@@ -1,5 +1,5 @@
-import { ColumnWidthValues } from "../../pivot-table/hooks/use-column-width";
-import { ColumnWidthType, type DimensionOrMeasureDef } from "../../types/QIX";
+import { ColumnWidthType, ColumnWidthValues } from "@qlik/nebula-table-utils/lib/constants";
+import { type DimensionOrMeasureDef } from "../../types/QIX";
 import { AttrExprInfoIDs, type Galaxy } from "../../types/types";
 
 export interface Args {

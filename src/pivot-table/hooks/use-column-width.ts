@@ -1,7 +1,8 @@
+import type { ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
+import { ColumnWidthType, ColumnWidthValues } from "@qlik/nebula-table-utils/lib/constants";
 import { useMeasureText, useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PSEUDO_DIMENSION_INDEX, PSEUDO_DIMENSION_KEY } from "../../constants";
-import { ColumnWidthType, type ColumnWidth } from "../../types/QIX";
 import type {
   CellStyling,
   HeaderCell,
@@ -51,16 +52,6 @@ const LEFT_GRID_MAX_WIDTH_RATIO = 0.75;
 export const MENU_ICON_SIZE = CELL_PADDING + HEADER_ICON_SIZE;
 // CELL_PADDING as space between lock icon and header text
 export const LOCK_ICON_SIZE = CELL_PADDING + HEADER_ICON_SIZE;
-
-export enum ColumnWidthValues {
-  PixelsMin = 30,
-  PixelsMax = 7680,
-  PixelsDefault = 200,
-  PercentageMin = 1,
-  PercentageMax = 100,
-  PercentageDefault = 20,
-  AutoMin = 80,
-}
 
 const isBold = ({ fontWeight }: CellStyling) => fontWeight !== "normal";
 
