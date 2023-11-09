@@ -4,7 +4,7 @@ import type { ListItemData } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import { shouldShowTotalCellDivider } from "../../../hooks/use-is-total-cell";
-import ColumnAdjuster from "../ColumnAdjusterWrapper";
+import ColumnAdjusterWrapper from "../ColumnAdjusterWrapper";
 import EmptyCell from "../EmptyCell";
 import Container from "./Container";
 import ExpandOrCollapseIcon from "./ExpandOrCollapseIcon";
@@ -69,7 +69,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
           {text}
         </Text>
       </StickyCellContainer>
-      <ColumnAdjuster
+      <ColumnAdjusterWrapper
         cellInfo={cell}
         columnWidth={style.width as number}
         dataModel={dataModel}

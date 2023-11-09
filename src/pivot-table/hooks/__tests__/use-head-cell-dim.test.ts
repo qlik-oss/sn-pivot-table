@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import { COLUMN_ADJUSTER_CLASS } from "@qlik/nebula-table-utils/lib/constants";
 import { renderHook } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import { useHeadCellDim } from "../use-head-cell-dim";
@@ -41,7 +42,7 @@ describe("UseHeadCellDim", () => {
   });
 
   test("handleOpenMenu should not set open state to true when event is coming from column adjuster", () => {
-    evt.target = { getAttribute: () => "sn-pivot-table-column-adjuster" } as unknown as EventTarget;
+    evt.target = { getAttribute: () => COLUMN_ADJUSTER_CLASS } as unknown as EventTarget;
     const result = renderer();
 
     act(() => {
