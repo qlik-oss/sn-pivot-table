@@ -1,3 +1,4 @@
+import { COLUMN_ADJUSTER_CLASS } from "@qlik/nebula-table-utils/lib/constants";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { Q_PATH } from "../../../constants";
 import { NxSelectionCellType } from "../../../types/QIX";
@@ -57,7 +58,7 @@ describe("useSelectionsModel", () => {
   test("should not select cell when mouse event is coming from ColumnAdjuster", async () => {
     const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
     mouseEvt.target = {
-      getAttribute: () => "sn-pivot-table-column-adjuster some-other-class",
+      getAttribute: () => `${COLUMN_ADJUSTER_CLASS} some-other-class`,
     } as unknown as HTMLElement;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
