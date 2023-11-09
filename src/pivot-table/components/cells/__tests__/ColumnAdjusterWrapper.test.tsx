@@ -33,7 +33,7 @@ describe("<ColumnAdjuster />", () => {
 
   test("should render ColumnAdjuster", () => {
     renderAdjuster();
-    // TODO: import class string
+
     expect(screen.queryByTestId(COLUMN_ADJUSTER_CLASS)).toBeInTheDocument();
   });
 
