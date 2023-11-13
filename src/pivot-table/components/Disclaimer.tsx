@@ -1,27 +1,22 @@
-import type { stardust } from "@nebula.js/stardust";
-import React from "react";
-import { DEFAULT_FONT_FAMILY, DISCLAIMER_HEIGHT } from "../constants";
-import { useBaseContext } from "../contexts/BaseProvider";
+import React, { type ReactNode } from "react";
+import useDisclaimer, { type DisclaimerProps } from "../hooks/use-disclaimer";
 import { textStyle } from "./shared-styles";
 
-interface DisclaimerProps {
-  translator: stardust.Translator;
-}
+const Disclaimer = (props: DisclaimerProps): ReactNode => {
+  const { text, fontFamily, fontSize, justifyContent, alignItems, height } = useDisclaimer(props);
 
-const Disclaimer = ({ translator }: DisclaimerProps): JSX.Element => {
-  const text = translator.get("SNPivotTable.LimitedData");
-  const { theme } = useBaseContext();
-  const fontFamily = theme.getStyle("", "", "fontFamily") ?? DEFAULT_FONT_FAMILY;
+  if (text === undefined) {
+    return null;
+  }
 
   return (
-    <div style={{ width: "100%", height: `${DISCLAIMER_HEIGHT}px` }}>
+    <div style={{ display: "flex", justifyContent, alignItems, width: "100%", height }}>
       <span
         style={{
           ...textStyle,
           fontFamily,
-          fontSize: "13px",
+          fontSize,
           fontStyle: "italic",
-          lineHeight: `${DISCLAIMER_HEIGHT}px`,
           color: "#7b7a78",
         }}
       >
