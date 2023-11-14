@@ -1,12 +1,13 @@
+/* eslint-disable import/extensions */
 import serve from "@nebula.js/cli-serve";
 import { expect, test } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 
-import config from "../../nebula.rendering.config";
-import events from "./utils/events";
-import createPlaywright from "./utils/playwright";
-import createNebulaRoutes from "./utils/routes";
+import config from "../../nebula.rendering.config.js";
+import events from "./utils/events.mjs";
+import createPlaywright from "./utils/playwright.mjs";
+import createNebulaRoutes from "./utils/routes.mjs";
 
 const dirname = path.dirname(new URL(import.meta.url).pathname);
 
