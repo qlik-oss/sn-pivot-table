@@ -1,7 +1,8 @@
 import type { stardust } from "@nebula.js/stardust";
+import type { ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
 import type { HeaderData, SortDirection } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import type { PSEUDO_DIMENSION_INDEX } from "../constants";
-import type { ColumnWidth, ExtendedDimensionInfo, NxSelectionCellType, PivotLayout } from "./QIX";
+import type { ExtendedDimensionInfo, NxSelectionCellType, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -224,7 +225,7 @@ export type CellStyling = {
   background: string;
 };
 
-export type ThemeStyling = {
+export type StylingPanelOptions = {
   header: CellStyling;
   dimensionValues: CellStyling;
   measureValues: CellStyling;
@@ -239,7 +240,7 @@ export type ThemeStyling = {
   };
 };
 
-export type StyleService = ThemeStyling & {
+export type StyleService = StylingPanelOptions & {
   header: CellStyling & { hoverBackground: string; activeBackground: string };
   headerCellHeight: number;
   contentCellHeight: number;

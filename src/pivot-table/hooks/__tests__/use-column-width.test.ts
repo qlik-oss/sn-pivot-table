@@ -1,3 +1,4 @@
+import { ColumnWidthType, ColumnWidthValues } from "@qlik/nebula-table-utils/lib/constants";
 import {
   useMeasureText,
   type EstimateLineCount,
@@ -6,12 +7,10 @@ import {
 } from "@qlik/nebula-table-utils/lib/hooks";
 import { act, renderHook } from "@testing-library/react";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
-import { ColumnWidthType } from "../../../types/QIX";
 import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
 import createHeadersData from "../../data/headers-data";
 import useColumnWidth, {
-  ColumnWidthValues,
   EXPAND_ICON_SIZE,
   LOCK_ICON_SIZE,
   MENU_ICON_SIZE,
