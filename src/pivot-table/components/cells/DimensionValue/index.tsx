@@ -1,9 +1,9 @@
-import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
-import React, { useState } from "react";
+import React from "react";
 import { areEqual } from "react-window";
 import type { ListItemData } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
+import useIsAdjustingWidth from "../../../hooks/use-is-adjusting-width";
 import { shouldShowTotalCellDivider } from "../../../hooks/use-is-total-cell";
 import ColumnAdjusterWrapper from "../ColumnAdjusterWrapper";
 import EmptyCell from "../EmptyCell";
@@ -22,17 +22,13 @@ export interface DimensionValueProps {
 const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Element => {
   const styleService = useStyleContext();
   const { isSelected } = useSelectionsContext();
-  const [isAdjustingWidth, setIsAdjustingWidth] = useState(false);
+  const { isAdjustingWidth, setIsAdjustingWidth } = useIsAdjustingWidth([data]);
 
   const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
   const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
-
-  useOnPropsChange(() => {
-    setIsAdjustingWidth(false);
-  }, [data]);
 
   if (cell === undefined) {
     const { background } = styleService.dimensionValues;
