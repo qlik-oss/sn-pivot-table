@@ -80,6 +80,9 @@
     },
     "root": true
   },
+  "resolutions": {
+    "rollup": "npm:rollup@3.29.4"
+  },
   "devDependencies": {
     "@babel/core": "7.23.3",
     "@babel/preset-env": "7.23.3",
