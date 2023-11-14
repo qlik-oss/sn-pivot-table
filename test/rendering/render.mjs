@@ -4,9 +4,9 @@ import fs from "fs";
 import path from "path";
 
 import config from "../../nebula.rendering.config";
-import events from "./utils/events.mjs";
-import createPlaywright from "./utils/playwright.mjs";
-import createNebulaRoutes from "./utils/routes.mjs";
+import events from "./utils/events";
+import createPlaywright from "./utils/playwright";
+import createNebulaRoutes from "./utils/routes";
 
 const dirname = path.dirname(new URL(import.meta.url).pathname);
 
