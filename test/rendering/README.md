@@ -38,7 +38,7 @@ Sometimes tests might break, if you are certain no UI changes have been made jus
 
 ## Debug tests locally
 
-Run `yarn test:local:rendering:debug`
+Run `yarn start:fixture`
 
 Open in browser `http://localhost:<port>/render?fixture=./<name-of-fixture>.fix.js&theme=default`
 
