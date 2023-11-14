@@ -1,4 +1,5 @@
-import React from "react";
+import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
+import React, { useState } from "react";
 import { areEqual } from "react-window";
 import type { ListItemData } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
@@ -22,10 +23,13 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   const styleService = useStyleContext();
   const { isSelected } = useSelectionsContext();
   const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
+  const [isAdjustingWidth, setIsAdjustingWidth] = useState(false);
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
   const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
+
+  useOnPropsChange(() => setIsAdjustingWidth(false), [data]);
 
   if (cell === undefined) {
     const { background } = styleService.dimensionValues;
@@ -57,6 +61,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
       showTotalCellDivider={showTotalCellDivider}
       cell={cell}
       data={data}
+      isAdjustingWidth={isAdjustingWidth}
     >
       <StickyCellContainer isLeftColumn={isLeftColumn}>
         <ExpandOrCollapseIcon
@@ -74,6 +79,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
         columnWidth={style.width as number}
         dataModel={dataModel}
         isLastColumn={isLastColumn}
+        setIsAdjustingWidth={setIsAdjustingWidth}
       />
     </Container>
   );

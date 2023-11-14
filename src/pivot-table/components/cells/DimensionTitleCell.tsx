@@ -63,7 +63,7 @@ const DimensionTitleCell = ({
   } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
   const { shouldShowLockIcon, shouldShowMenuIcon } = iconsVisibilityStatus;
-  const { open, setOpen, handleOpenMenu } = useHeadCellDim({ interactions });
+  const { open, setOpen, handleOpenMenu, setIsAdjustingWidth } = useHeadCellDim({ interactions, dataModel });
 
   const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
     evt.stopPropagation();
@@ -125,6 +125,7 @@ const DimensionTitleCell = ({
         dataModel={dataModel}
         isLastColumn={isLastColumn}
         overrideLeftGridWidth={overrideLeftGridWidth}
+        setIsAdjustingWidth={setIsAdjustingWidth}
       />
     </StyledHeaderCellWrapper>
   );
