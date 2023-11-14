@@ -36,6 +36,12 @@ Make sure to commit these after you've **confirmed the screenshot changes**.
 
 Sometimes tests might break, if you are certain no UI changes have been made just re-run the failed workflow.
 
+## Debug tests locally
+
+Run `yarn test:local:rendering:debug`
+
+Open in browser `http://localhost:<port>/render?fixture=./<name-of-fixture>.fix.js&theme=default`
+
 ## Test cases description
 
 ### scenario_1.fix.js
