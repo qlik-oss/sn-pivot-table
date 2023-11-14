@@ -41,6 +41,7 @@
     "start:mfe": "yarn run locale:generate && nebula serve --mfe  --type sn-pivot-table",
     "test:e2e": "yarn test:rendering",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
+    "test:local:rendering:debug": "nebula serve --config ./nebula.rendering.config.js",
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",
     "test:rendering": "playwright test",
     "test:unit": "jest",

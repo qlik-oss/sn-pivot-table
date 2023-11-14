@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 
+import config from "../../nebula.rendering.config";
 import events from "./utils/events.mjs";
 import createPlaywright from "./utils/playwright.mjs";
 import createNebulaRoutes from "./utils/routes.mjs";
@@ -26,11 +27,7 @@ test.describe("sn-pivot-table: Rendering tests", () => {
       // the entry is equal to path.resolve(dirname, '../../dist/sn-pivot-table.js'),
       // so before run the testing, yarn build should run first to generate /dist
       entry: path.resolve(dirname, "../../"),
-      type: "sn-pivot-table",
-      open: false,
-      build: false,
-      themes: [],
-      fixturePath: "test/rendering/__fixtures__",
+      ...config.serve,
     });
     route = createNebulaRoutes(nebulaServer.url);
   });
@@ -46,7 +43,7 @@ test.describe("sn-pivot-table: Rendering tests", () => {
   // Iterate testing fixture files
   fs.readdirSync(paths.fixtures).forEach((file) => {
     const name = file.replace(".fix.js", "");
-    const fixturePath = `./${file}`;
+    const fixturePath = `./${file}&theme=default`;
 
     // Create test case per testing fixture file
     test(name, async ({ page }) => {
