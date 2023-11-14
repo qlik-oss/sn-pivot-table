@@ -22,14 +22,17 @@ export interface DimensionValueProps {
 const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Element => {
   const styleService = useStyleContext();
   const { isSelected } = useSelectionsContext();
-  const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
   const [isAdjustingWidth, setIsAdjustingWidth] = useState(false);
+
+  const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
   const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
 
-  useOnPropsChange(() => setIsAdjustingWidth(false), [data]);
+  useOnPropsChange(() => {
+    setIsAdjustingWidth(false);
+  }, [data]);
 
   if (cell === undefined) {
     const { background } = styleService.dimensionValues;

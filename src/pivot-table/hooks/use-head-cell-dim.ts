@@ -15,7 +15,6 @@ export const useHeadCellDim = ({ interactions, dataModel }: UseHeadCellDim) => {
 
   // dataModel is only needed here since we want to reset isAdjustingWidth whenever there is a layout change
   useOnPropsChange(() => {
-    console.log("useonprops");
     setIsAdjustingWidth(false);
   }, [dataModel]);
 
