@@ -188,4 +188,20 @@ describe("createLayoutService", () => {
       expect(service.showTotalsAbove).toBe(false);
     });
   });
+
+  describe("hasData", () => {
+    test("should be true when there is data", () => {
+      layout.qHyperCube.qSize.qcx = 1;
+      layout.qHyperCube.qSize.qcy = 1;
+      const service = create();
+      expect(service.hasData).toBe(true);
+    });
+
+    test("should be false when there is no data", () => {
+      layout.qHyperCube.qSize.qcx = 0;
+      layout.qHyperCube.qSize.qcy = 0;
+      const service = create();
+      expect(service.hasData).toBe(false);
+    });
+  });
 });

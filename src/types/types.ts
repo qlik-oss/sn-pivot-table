@@ -185,6 +185,7 @@ export interface LayoutService {
   size: Point;
   isSnapshot: boolean;
   hasLimitedData: boolean;
+  hasData: boolean;
   hasLeftDimensions: boolean;
   showTotalsAbove: boolean;
   hasPseudoDimOnLeft: boolean;
