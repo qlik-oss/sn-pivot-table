@@ -37,7 +37,7 @@
     "sense": "nebula sense",
     "spec": "npx @scriptappy/cli from-jsdoc -c ./scriptappy.config.js",
     "start": "yarn run locale:generate && nebula serve  --type sn-pivot-table",
-    "start:fixture": "yarn run locale:generate && nebula serve --entry . --type sn-pivot-table --open false --build false --fixturePath test/rendering/__fixtures__",
+    "start:fixture": "yarn run locale:generate && nebula serve --config ./nebula.rendering.config.js",
     "start:mfe": "yarn run locale:generate && nebula serve --mfe  --type sn-pivot-table",
     "test:e2e": "yarn test:rendering",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
@@ -79,6 +79,9 @@
       "react/require-default-props": "off"
     },
     "root": true
+  },
+  "resolutions": {
+    "rollup": "npm:rollup@3.29.4"
   },
   "devDependencies": {
     "@babel/core": "7.23.3",
