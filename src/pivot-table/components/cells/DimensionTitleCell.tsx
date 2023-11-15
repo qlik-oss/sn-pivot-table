@@ -19,6 +19,7 @@ interface DimensionTitleCellProps {
   cell: HeaderCell;
   style: React.CSSProperties;
   isLastColumn: boolean;
+  isLastRow: boolean;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
@@ -40,6 +41,7 @@ const DimensionTitleCell = ({
   cell,
   style,
   isLastColumn,
+  isLastRow,
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
@@ -85,7 +87,7 @@ const DimensionTitleCell = ({
       style={{
         ...style,
         ...baseCellStyle,
-        ...getBorderStyle(true, isLastColumn, styleService.grid.border),
+        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
         color,
       }}
       data-testid={testId}

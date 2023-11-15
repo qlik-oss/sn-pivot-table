@@ -40,11 +40,6 @@ const containerStyle: React.CSSProperties = {
   borderWidth: "0px 0px 0px 1px",
 };
 
-const containerStyleWithoutBorders: React.CSSProperties = {
-  ...borderStyle,
-  borderWidth: "0px",
-};
-
 const TopGrid = ({
   dataModel,
   topGridRef,
@@ -62,8 +57,9 @@ const TopGrid = ({
     headerCellHeight,
   } = useStyleContext();
   const resolvedContainerStyle = {
-    ...(layoutService.hasLeftDimensions ? containerStyle : containerStyleWithoutBorders),
+    ...containerStyle,
     borderColor: divider,
+    height,
   };
 
   useOnPropsChange(() => {

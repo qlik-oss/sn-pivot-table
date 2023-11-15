@@ -6,15 +6,14 @@ const createHeadersData = (
   visibleTopDimensionInfo: VisibleDimensionInfo[],
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
 ): HeadersData => {
-  // rowCount cannot be 0, as it couse issue when there is no top data but there is left data
   const data = extractHeaders(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
-
+  const size = {
+    x: data[0]?.length ?? 0, // number of columns
+    y: data.length, // number of rows
+  };
   return {
     data,
-    size: {
-      x: data[0]?.length || 0,
-      y: data.length,
-    },
+    size,
   };
 };
 
