@@ -17,6 +17,7 @@ type Props = {
   cell: Cell;
   data: ListItemData;
   children: ReactNode;
+  isAdjustingWidth: boolean;
 };
 
 export const testId = "dimension-cell";
@@ -34,6 +35,7 @@ const Container = ({
   isLastColumn,
   isLeftColumn,
   isCellSelected,
+  isAdjustingWidth,
 }: Props): JSX.Element => {
   const styleService = useStyleContext();
   const { interactions } = useBaseContext();
@@ -48,7 +50,8 @@ const Container = ({
     !cell.isEmpty &&
     !cell.isNull &&
     !cell.isPseudoDimension &&
-    !cell.isTotal;
+    !cell.isTotal &&
+    !isAdjustingWidth;
   const onClickHandler = canBeSelected ? select(cell) : undefined;
 
   return (

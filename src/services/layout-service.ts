@@ -15,9 +15,10 @@ const createLayoutService = (
     x: isSnapshot ? snapshotDataPage.qWidth : Math.min(layout.qHyperCube.qSize.qcx, MAX_COLUMN_COUNT),
     y: isSnapshot ? snapshotDataPage.qHeight : Math.min(layout.qHyperCube.qSize.qcy, MAX_ROW_COUNT),
   };
-  const hasPseudoDimOnLeft = qEffectiveInterColumnSortOrder
-    .slice(0, qNoOfLeftDims)
-    .some((index) => index === PSEUDO_DIMENSION_INDEX);
+  const leftDimensionInfoIndexes = qEffectiveInterColumnSortOrder.slice(0, qNoOfLeftDims);
+  const isLeftDimension = (dimensionInfoIndex: number) =>
+    leftDimensionInfoIndexes.some((index) => index === dimensionInfoIndex);
+  const hasPseudoDimOnLeft = isLeftDimension(PSEUDO_DIMENSION_INDEX);
   const dimensionInfoIndexMap: Map<VisibleDimensionInfo, number> = new Map(
     qEffectiveInterColumnSortOrder.map((index) => [qDimensionInfo[index] ?? PSEUDO_DIMENSION_INDEX, index]),
   );
@@ -42,6 +43,8 @@ const createLayoutService = (
     // If not available in the effective properties, assume that it's set to false.
     showTotalsAbove: !!effectiveProperties?.qHyperCubeDef?.qShowTotalsAbove,
     hasPseudoDimOnLeft,
+    leftDimensionInfoIndexes,
+    isLeftDimension,
     isFullyExpanded: !!effectiveProperties?.qHyperCubeDef?.qAlwaysFullyExpanded,
   };
 };

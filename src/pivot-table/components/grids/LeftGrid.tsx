@@ -34,7 +34,6 @@ interface LeftGridProps {
 const containerStyle: React.CSSProperties = {
   display: "flex",
   height: "fit-content",
-  width: "fit-content",
   borderWidth: "1px 0px 0px 0px",
   ...borderStyle,
 };
@@ -80,10 +79,6 @@ const LeftGrid = ({
 
   const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
 
-  if (leftDimensionData.columnCount === 0) {
-    return null;
-  }
-
   return (
     <div style={{ ...containerStyle, borderColor: divider }}>
       {leftDimensionData.grid.map((list, colIndex) => {
@@ -100,7 +95,7 @@ const LeftGrid = ({
           <VariableSizeList
             key={key}
             ref={setListRef(leftGridRef, colIndex)}
-            style={listStyle}
+            style={{ ...listStyle, flexGrow: isLastColumn ? 1 : 0 }}
             height={height}
             width={columnWidths[colIndex]}
             itemCount={itemCount}

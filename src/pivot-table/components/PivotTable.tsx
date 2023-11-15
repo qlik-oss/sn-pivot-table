@@ -65,12 +65,13 @@ export const StickyPivotTable = ({
     layoutService,
   });
 
-  const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } = useGridHeight({
-    pageInfo,
-    headersData,
-    topDimensionData,
-    tableRect,
-  });
+  const { containerHeight, headerGridHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } =
+    useGridHeight({
+      pageInfo,
+      headersData,
+      topDimensionData,
+      tableRect,
+    });
 
   const {
     onHorizontalScrollHandler,
@@ -108,6 +109,7 @@ export const StickyPivotTable = ({
     tableRect,
 
     containerHeight,
+    headerGridHeight,
     leftGridHeight,
     topGridHeight,
     dataGridHeight,

@@ -4,6 +4,7 @@ import getScrollableAreasDimensions from "../get-scrollable-areas-dimensions";
 describe("getScrollableAreasDimensions()", () => {
   let tableRect: Rect;
   let containerHeight: number;
+  let headerGridHeight: number;
   let leftGridHeight: number;
   let topGridHeight: number;
   let dataGridHeight: number;
@@ -18,6 +19,7 @@ describe("getScrollableAreasDimensions()", () => {
   beforeEach(() => {
     tableRect = { width: 200, height: 340 };
     containerHeight = 340;
+    headerGridHeight = 30;
     leftGridHeight = 300;
     topGridHeight = 40;
     dataGridHeight = 300;
@@ -34,6 +36,7 @@ describe("getScrollableAreasDimensions()", () => {
     getScrollableAreasDimensions({
       tableRect,
       containerHeight,
+      headerGridHeight,
       leftGridHeight,
       topGridHeight,
       dataGridHeight,
@@ -58,7 +61,7 @@ describe("getScrollableAreasDimensions()", () => {
           fullSize: { width: 80, height: 340 },
           sticky: { width: 80, height: 327 },
         },
-        headerGrid: { width: -1, height: 40 },
+        headerGrid: { width: -1, height: 30 },
         leftGrid: { width: 80, height: 287 },
       },
       rightWrapper: {
@@ -89,7 +92,7 @@ describe("getScrollableAreasDimensions()", () => {
           fullSize: { width: 80, height: 340 },
           sticky: { width: 80, height: 340 },
         },
-        headerGrid: { width: -1, height: 40 },
+        headerGrid: { width: -1, height: 30 },
         leftGrid: { width: 80, height: 300 },
       },
       rightWrapper: {
@@ -121,7 +124,7 @@ describe("getScrollableAreasDimensions()", () => {
           fullSize: { width: 80, height: 340 },
           sticky: { width: 80, height: 287 },
         },
-        headerGrid: { width: -1, height: 40 },
+        headerGrid: { width: -1, height: 30 },
         leftGrid: { width: 80, height: 287 },
       },
       rightWrapper: {

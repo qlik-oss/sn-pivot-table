@@ -50,16 +50,7 @@ const gridStyle: React.CSSProperties = {
   ...borderStyle,
   overflow: "hidden",
   boxSizing: "content-box",
-};
-
-const gridStyleWithLeftDimensions: React.CSSProperties = {
-  ...gridStyle,
   borderWidth: "1px 0px 0px 1px",
-};
-
-const gridStyleWithoutLeftDimensions: React.CSSProperties = {
-  ...gridStyle,
-  borderWidth: "1px 0px 0px 0px",
 };
 
 const isMissingData = (
@@ -128,7 +119,7 @@ const DataGrid = ({
     contentCellHeight,
   } = useStyleContext();
   const resolvedGridStyle: React.CSSProperties = {
-    ...(layoutService.hasLeftDimensions ? gridStyleWithLeftDimensions : gridStyleWithoutLeftDimensions),
+    ...gridStyle,
     borderColor: divider,
     willChange: "auto",
     userSelect: "none",

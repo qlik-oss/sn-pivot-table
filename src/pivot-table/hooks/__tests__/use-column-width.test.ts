@@ -6,9 +6,11 @@ import {
   type UseMeasureTextProps,
 } from "@qlik/nebula-table-utils/lib/hooks";
 import { act, renderHook } from "@testing-library/react";
+import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
 import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
 import { GRID_BORDER } from "../../constants";
+import { createDimInfos } from "../../data/__tests__/test-helper";
 import createHeadersData from "../../data/headers-data";
 import useColumnWidth, {
   EXPAND_ICON_SIZE,
@@ -31,6 +33,7 @@ describe("useColumnWidth", () => {
   let percentageConversion: number;
   let mockedUseMeasureText: jest.MockedFunction<(styling: UseMeasureTextProps) => MeasureTextHook>;
   let mockedMeasureText: MeasureTextHook;
+  let mockedIsLeftDimension: jest.MockedFunction<(index: number) => boolean>;
   let layoutService: LayoutService;
   let visibleLeftDimensionInfo: VisibleDimensionInfo[];
   let visibleTopDimensionInfo: VisibleDimensionInfo[];
@@ -45,6 +48,7 @@ describe("useColumnWidth", () => {
     rect = { width: 400, height: 100 };
     percentageConversion = rect.width / 100;
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
+    mockedIsLeftDimension = jest.fn().mockReturnValue(true);
 
     layoutService = {
       layout: {
@@ -61,15 +65,16 @@ describe("useColumnWidth", () => {
       },
       getMeasureInfoIndexFromCellIndex: (index: number) => index,
       getDimensionInfoIndex: () => 0,
+      isLeftDimension: mockedIsLeftDimension,
     } as unknown as LayoutService;
 
     visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfo];
     visibleTopDimensionInfo = [-1];
 
     mockedMeasureText = {
-      measureText: jest.fn() as MeasureTextMock,
-      estimateWidth: jest.fn() as EstimateWidthMock,
-      estimateLineCount: jest.fn() as EstimateLineCountMock,
+      measureText: jest.fn().mockReturnValue(0) as MeasureTextMock,
+      estimateWidth: jest.fn().mockReturnValue(0) as EstimateWidthMock,
+      estimateLineCount: jest.fn().mockReturnValue(0) as EstimateLineCountMock,
     };
     mockedUseMeasureText.mockReturnValue(mockedMeasureText);
     verticalScrollbarWidth = 0;
@@ -112,6 +117,19 @@ describe("useColumnWidth", () => {
       expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
       expect(leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
       expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
+    });
+
+    test("should return left column width for auto setting, not left dimension, 3 top dimension and pseudo last", () => {
+      const width = 25;
+      mockEstimateWidth(width);
+      mockMeasureText(width);
+      mockedIsLeftDimension.mockReturnValue(false);
+      visibleLeftDimensionInfo = createDimInfos([]);
+      visibleTopDimensionInfo = createDimInfos([0, 1, PSEUDO_DIMENSION_INDEX]);
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
+
+      const { leftGridColumnWidths } = renderUseColumnWidth();
+      expect(leftGridColumnWidths[0]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
 
     test("should return left column width for pixel setting", () => {
@@ -334,13 +352,13 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth(0)).toBe(132);
+      expect(getRightGridColumnWidth(0)).toBe(98);
       expect(getRightGridColumnWidth(1)).toBe(pixels);
       expect(getRightGridColumnWidth(2)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
     });
 
     test("should return right column width for non-pseudo dimension", () => {
-      dimInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 40 } } as ExtendedDimensionInfo;
+      dimInfo.columnWidth = { type: ColumnWidthType.Pixels, pixels: 40 };
       visibleTopDimensionInfo = [dimInfo, -1, dimInfo];
       layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, -1, 2];
 
@@ -353,7 +371,7 @@ describe("useColumnWidth", () => {
       mockEstimateWidth(width);
       mockMeasureText(width);
 
-      dimInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedDimensionInfo;
+      dimInfo.columnWidth = { type: ColumnWidthType.FitToContent };
       visibleTopDimensionInfo = [dimInfo, -1, dimInfo];
       layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, 1, -1, 2];
 
@@ -366,7 +384,7 @@ describe("useColumnWidth", () => {
       mockEstimateWidth(width);
       mockMeasureText(width + 1);
 
-      dimInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedDimensionInfo;
+      dimInfo.columnWidth = { type: ColumnWidthType.FitToContent };
       visibleTopDimensionInfo = [-1, dimInfo];
       layoutService.layout.qHyperCube.qEffectiveInterColumnSortOrder = [0, -1, 1, 2];
 
@@ -376,7 +394,7 @@ describe("useColumnWidth", () => {
 
     test("should subtract scrollbar width from columns", () => {
       rect = { width: 110, height: 100 };
-      meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
+      meaInfo.columnWidth = { type: ColumnWidthType.Auto };
       // normal scrollbar width on mac, it will be automatically calculated on each operating system
       verticalScrollbarWidth = 14;
       visibleTopDimensionInfo = [dimInfo, dimInfo, dimInfo];

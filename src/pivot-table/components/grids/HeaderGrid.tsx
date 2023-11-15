@@ -43,7 +43,7 @@ const HeaderGrid = ({
       height,
     }}
   >
-    {headersData.size.y > 1 && <EmptyHeaderCell columnSpan={columnWidths.length} rowSpan={headersData.size.y - 1} />}
+    {headersData.size.y > 1 && <EmptyHeaderCell columnSpan={headersData.size.x - 1} rowSpan={headersData.size.y - 1} />}
     {headersData.data.map((row, rowIndex) =>
       row.reduce((acc, cell, colIndex) => {
         if (cell) {
@@ -59,6 +59,7 @@ const HeaderGrid = ({
                 gridRow: rowIndex + 1,
                 zIndex: Number(!cell.isDim),
               }}
+              isLastRow={rowIndex === headersData.size.y - 1}
               isLastColumn={colIndex === headersData.size.x - 1}
               translator={translator}
               changeSortOrder={changeSortOrder}

@@ -11,6 +11,7 @@ interface AdjusterProps {
   dataModel: DataModel | undefined;
   isLastColumn: boolean;
   overrideLeftGridWidth?: OverrideLeftGridWidth;
+  setIsAdjustingWidth: (isAdjusting: boolean) => void;
 }
 /**
  * Component that is placed on top of column border, to resize the columns.
@@ -23,6 +24,7 @@ const ColumnAdjusterWrapper = ({
   dataModel,
   isLastColumn,
   overrideLeftGridWidth,
+  setIsAdjustingWidth,
 }: AdjusterProps) => {
   const { interactions } = useBaseContext();
   const { isActive } = useSelectionsContext();
@@ -46,6 +48,7 @@ const ColumnAdjusterWrapper = ({
       keyValue={`adjuster-${cellInfo.dimensionInfoIndex}`}
       updateWidthCallback={updateWidth}
       confirmWidthCallback={confirmWidth}
+      setIsAdjustingWidth={setIsAdjustingWidth}
     />
   );
 };
