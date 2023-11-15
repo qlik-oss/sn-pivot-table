@@ -2646,10 +2646,10 @@
     eslint-plugin-vitest "0.3.9"
     svelte-eslint-parser "0.33.1"
 
-"@qlik/nebula-table-utils@2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@qlik/nebula-table-utils/-/nebula-table-utils-2.6.0.tgz#99af8ad0b286339341e7f3c8ba8dcb6bf6c2dd71"
-  integrity sha512-a3b5006dawHk8qqaacoP/zhse4ZfMhohAxfkUiAm7GEITmAMLfoXj61pIKp1+fJWi2xEnxoXkinIMt1Ln/X9+g==
+"@qlik/nebula-table-utils@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@qlik/nebula-table-utils/-/nebula-table-utils-2.6.1.tgz#17dff936e7cd1d54c087b108785d86eae9e708db"
+  integrity sha512-Pn77HwCECSQaGIkXmbYaBHNb4GTxZWjcwB0qIIs+VivOJJ2ANJ/4XAJN4hFCQPnSCX19xb6w0PvEFNhJB3+trg==
 
 "@qlik/prettier-config@0.4.1":
   version "0.4.1"
@@ -2760,66 +2760,6 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
-"@rollup/rollup-android-arm-eabi@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.3.0.tgz#8ad8a660b18f1a24ad4a272738a65ac4788a8811"
-  integrity sha512-/4pns6BYi8MXdwnXM44yoGAcFYVHL/BYlB2q1HXZ6AzH++LaiEVWFpBWQ/glXhbMbv3E3o09igrHFbP/snhAvA==
-
-"@rollup/rollup-android-arm64@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.3.0.tgz#17b0f412034d14668c8acc8b7cbd8b1c76279599"
-  integrity sha512-nLO/JsL9idr416vzi3lHm3Xm+QZh4qHij8k3Er13kZr5YhL7/+kBAx84kDmPc7HMexLmwisjDCeDIKNFp8mDlQ==
-
-"@rollup/rollup-darwin-arm64@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.3.0.tgz#80c4a4dd7b120906d4e655808fb9005784a8bf35"
-  integrity sha512-dGhVBlllt4iHwTGy21IEoMOTN5wZoid19zEIxsdY29xcEiOEHqzDa7Sqrkh5OE7LKCowL61eFJXxYe/+pYa7ZQ==
-
-"@rollup/rollup-darwin-x64@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.3.0.tgz#52ad0db40d9b5ae047dfc08e54e4b3f42feaef82"
-  integrity sha512-h8wRfHeLEbU3NzaP1Oku7BYXCJQiTRr+8U0lklyOQXxXiEpHLL8tk1hFl+tezoRKLcPJD7joKaK74ASsqt3Ekg==
-
-"@rollup/rollup-linux-arm-gnueabihf@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-arm-gnueabihf/-/rollup-linux-arm-gnueabihf-4.3.0.tgz#2ad3d190af01d7fc8704e8e782c4a24006a9f21a"
-  integrity sha512-wP4VgR/gfV18sylTuym3sxRTkAgUR2vh6YLeX/GEznk5jCYcYSlx585XlcUcl0c8UffIZlRJ09raWSX3JDb4GA==
-
-"@rollup/rollup-linux-arm64-gnu@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-arm64-gnu/-/rollup-linux-arm64-gnu-4.3.0.tgz#4f7ba42f779f06e93876755b7393c61676e2958a"
-  integrity sha512-v/14JCYVkqRSJeQbxFx4oUkwVQQw6lFMN7bd4vuARBc3X2lmomkxBsc+BFiIDL/BK+CTx5AOh/k9XmqDnKWRVg==
-
-"@rollup/rollup-linux-arm64-musl@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-arm64-musl/-/rollup-linux-arm64-musl-4.3.0.tgz#64795a09dac02b4d779819509a793b93ba7e4c0d"
-  integrity sha512-tNhfYqFH5OxtRzfkTOKdgFYlPSZnlDLNW4+leNEvQZhwTJxoTwsZAAhR97l3qVry/kkLyJPBK+Q8EAJLPinDIg==
-
-"@rollup/rollup-linux-x64-gnu@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.3.0.tgz#00c1ff131ba16881eb1a0ad46b0aa10dcacb010e"
-  integrity sha512-pw77m8QywdsoFdFOgmc8roF1inBI0rciqzO8ffRUgLoq7+ee9o5eFqtEcS6hHOOplgifAUUisP8cAnwl9nUYPw==
-
-"@rollup/rollup-linux-x64-musl@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.3.0.tgz#89479dce5e5bf6850fbca92fa7f1637ddd70c9ef"
-  integrity sha512-tJs7v2MnV2F8w6X1UpPHl/43OfxjUy9SuJ2ZPoxn79v9vYteChVYO/ueLHCpRMmyTUIVML3N9z4azl9ENH8Xxg==
-
-"@rollup/rollup-win32-arm64-msvc@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-arm64-msvc/-/rollup-win32-arm64-msvc-4.3.0.tgz#1a36aba17c7efe6d61e98b8049e70b40e33b1f45"
-  integrity sha512-OKGxp6kATQdTyI2DF+e9s+hB3/QZB45b6e+dzcfW1SUqiF6CviWyevhmT4USsMEdP3mlpC9zxLz3Oh+WaTMOSw==
-
-"@rollup/rollup-win32-ia32-msvc@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-ia32-msvc/-/rollup-win32-ia32-msvc-4.3.0.tgz#a0b1f79afde51e390a7725b7c15ab4e0df780aea"
-  integrity sha512-DDZ5AH68JJ2ClQFEA1aNnfA7Ybqyeh0644rGbrLOdNehTmzfICHiWSn0OprzYi9HAshTPQvlwrM+bi2kuaIOjQ==
-
-"@rollup/rollup-win32-x64-msvc@4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.3.0.tgz#0b9bcc159b93c911efb5a2c39ec5d70dd0a589dc"
-  integrity sha512-dMvGV8p92GQ8jhNlGIKpyhVZPzJlT258pPrM5q2F8lKcc9Iv9BbfdnhX1OfinYWnb9ms5zLw6MlaMnqLfUkKnQ==
-
 "@scriptappy/cli@0.10.0":
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/@scriptappy/cli/-/cli-0.10.0.tgz#ed49a221142258f40d6919d287b42f3a79b9b268"
@@ -2862,6 +2802,11 @@
   version "0.27.8"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
   integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
+
+"@sindresorhus/merge-streams@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@sindresorhus/merge-streams/-/merge-streams-1.0.0.tgz#9cd84cc15bc865a5ca35fcaae198eb899f7b5c90"
+  integrity sha512-rUV5WyJrJLoloD4NDN1V1+LDMDWOa4OTsT4yYJwQNpTU6FWxkxHpL7eu4w+DmiH8x/EAM1otkPE1+LaspIbplw==
 
 "@sinonjs/commons@^3.0.0":
   version "3.0.0"
@@ -5929,6 +5874,17 @@ fast-glob@^3.1.1, fast-glob@^3.2.9, fast-glob@^3.3.0:
     merge2 "^1.3.0"
     micromatch "^4.0.4"
 
+fast-glob@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.3.2.tgz#a904501e57cfdd2ffcded45e99a54fef55e46129"
+  integrity sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==
+  dependencies:
+    "@nodelib/fs.stat" "^2.0.2"
+    "@nodelib/fs.walk" "^1.2.3"
+    glob-parent "^5.1.2"
+    merge2 "^1.3.0"
+    micromatch "^4.0.4"
+
 fast-json-patch@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/fast-json-patch/-/fast-json-patch-3.1.1.tgz#85064ea1b1ebf97a3f7ad01e23f9337e72c66947"
@@ -6313,16 +6269,17 @@ globby@11.0.4:
     merge2 "^1.3.0"
     slash "^3.0.0"
 
-globby@13.2.2, globby@^13.1.2:
-  version "13.2.2"
-  resolved "https://registry.yarnpkg.com/globby/-/globby-13.2.2.tgz#63b90b1bf68619c2135475cbd4e71e66aa090592"
-  integrity sha512-Y1zNGV+pzQdh7H39l9zgB4PJqjRNqydvdYCDG4HFXM4XuvSaQQlEc91IU1yALL8gUTDomgBAfz3XJdmUS+oo0w==
+globby@14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-14.0.0.tgz#ea9c062a3614e33f516804e778590fcf055256b9"
+  integrity sha512-/1WM/LNHRAOH9lZta77uGbq0dAEQM+XjNesWwhlERDVenqothRbnzTrL3/LrIoEPPjeUHC3vrS6TwoyxeHs7MQ==
   dependencies:
-    dir-glob "^3.0.1"
-    fast-glob "^3.3.0"
+    "@sindresorhus/merge-streams" "^1.0.0"
+    fast-glob "^3.3.2"
     ignore "^5.2.4"
-    merge2 "^1.4.1"
-    slash "^4.0.0"
+    path-type "^5.0.0"
+    slash "^5.1.0"
+    unicorn-magic "^0.1.0"
 
 globby@^11.1.0:
   version "11.1.0"
@@ -6335,6 +6292,17 @@ globby@^11.1.0:
     ignore "^5.2.0"
     merge2 "^1.4.1"
     slash "^3.0.0"
+
+globby@^13.1.2:
+  version "13.2.2"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-13.2.2.tgz#63b90b1bf68619c2135475cbd4e71e66aa090592"
+  integrity sha512-Y1zNGV+pzQdh7H39l9zgB4PJqjRNqydvdYCDG4HFXM4XuvSaQQlEc91IU1yALL8gUTDomgBAfz3XJdmUS+oo0w==
+  dependencies:
+    dir-glob "^3.0.1"
+    fast-glob "^3.3.0"
+    ignore "^5.2.4"
+    merge2 "^1.4.1"
+    slash "^4.0.0"
 
 gopd@^1.0.1:
   version "1.0.1"
@@ -8706,6 +8674,11 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+path-type@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/path-type/-/path-type-5.0.0.tgz#14b01ed7aea7ddf9c7c3f46181d4d04f9c785bb8"
+  integrity sha512-5HviZNaZcfqP95rwpv+1HDgUamezbqdSYTyzjTvwtJSnIH+3vnbmWsItli8OFEndS984VT55M3jduxZbX351gg==
+
 pend@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
@@ -9606,23 +9579,11 @@ rollup-pluginutils@^2.8.2:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-4.3.0.tgz#198e6ae4355899db630d75bc0e17b53f5d0fc20e"
-  integrity sha512-scIi1NrKLDIYSPK66jjECtII7vIgdAMFmFo8h6qm++I6nN9qDSV35Ku6erzGVqYjx+lj+j5wkusRMr++8SyDZg==
+rollup@4.3.0, "rollup@npm:rollup@3.29.4":
+  version "3.29.4"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.29.4.tgz#4d70c0f9834146df8705bfb69a9a19c9e1109981"
+  integrity sha512-oWzmBZwvYrU0iJHtDmhsm662rC15FRXmcjCk1xD771dFDx5jJ02ufAQQTn0etB2emNk4J9EZg/yWKpsn9BWGRw==
   optionalDependencies:
-    "@rollup/rollup-android-arm-eabi" "4.3.0"
-    "@rollup/rollup-android-arm64" "4.3.0"
-    "@rollup/rollup-darwin-arm64" "4.3.0"
-    "@rollup/rollup-darwin-x64" "4.3.0"
-    "@rollup/rollup-linux-arm-gnueabihf" "4.3.0"
-    "@rollup/rollup-linux-arm64-gnu" "4.3.0"
-    "@rollup/rollup-linux-arm64-musl" "4.3.0"
-    "@rollup/rollup-linux-x64-gnu" "4.3.0"
-    "@rollup/rollup-linux-x64-musl" "4.3.0"
-    "@rollup/rollup-win32-arm64-msvc" "4.3.0"
-    "@rollup/rollup-win32-ia32-msvc" "4.3.0"
-    "@rollup/rollup-win32-x64-msvc" "4.3.0"
     fsevents "~2.3.2"
 
 run-applescript@^5.0.0:
@@ -9889,6 +9850,11 @@ slash@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-4.0.0.tgz#2422372176c4c6c5addb5e2ada885af984b396a7"
   integrity sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==
+
+slash@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/slash/-/slash-5.1.0.tgz#be3adddcdf09ac38eebe8dcdc7b1a57a75b095ce"
+  integrity sha512-ZA6oR3T/pEyuqwMgAKT0/hAv8oAXckzbkmR0UkUosQ+Mc4RxGoJkRmwHgHufaenlyAgE1Mxgpdcrf75y6XcnDg==
 
 slice-ansi@^5.0.0:
   version "5.0.0"
@@ -10628,6 +10594,11 @@ unicode-property-aliases-ecmascript@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz#43d41e3be698bd493ef911077c9b131f827e8ccd"
   integrity sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==
+
+unicorn-magic@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/unicorn-magic/-/unicorn-magic-0.1.0.tgz#1bb9a51c823aaf9d73a8bfcd3d1a23dde94b0ce4"
+  integrity sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==
 
 universalify@^0.2.0:
   version "0.2.0"
