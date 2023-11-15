@@ -19,7 +19,13 @@ describe("<ColumnAdjuster />", () => {
 
   const renderAdjuster = () =>
     render(
-      <ColumnAdjusterWrapper cellInfo={cellInfo} columnWidth={100} dataModel={{} as DataModel} isLastColumn={false} />,
+      <ColumnAdjusterWrapper
+        cellInfo={cellInfo}
+        columnWidth={100}
+        dataModel={{} as DataModel}
+        isLastColumn={false}
+        setIsAdjustingWidth={() => {}}
+      />,
       {
         wrapper: ({ children }) => (
           <TestWithProvider selections={selections} interactions={interactions}>

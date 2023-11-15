@@ -3,6 +3,7 @@ import { areEqual } from "react-window";
 import type { ListItemData } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
+import useIsAdjustingWidth from "../../../hooks/use-is-adjusting-width";
 import { shouldShowTotalCellDivider } from "../../../hooks/use-is-total-cell";
 import ColumnAdjusterWrapper from "../ColumnAdjusterWrapper";
 import EmptyCell from "../EmptyCell";
@@ -21,6 +22,8 @@ export interface DimensionValueProps {
 const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Element => {
   const styleService = useStyleContext();
   const { isSelected } = useSelectionsContext();
+  const { isAdjustingWidth, setIsAdjustingWidth } = useIsAdjustingWidth([data]);
+
   const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
@@ -57,6 +60,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
       showTotalCellDivider={showTotalCellDivider}
       cell={cell}
       data={data}
+      isAdjustingWidth={isAdjustingWidth}
     >
       <StickyCellContainer isLeftColumn={isLeftColumn}>
         <ExpandOrCollapseIcon
@@ -74,6 +78,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
         columnWidth={style.width as number}
         dataModel={dataModel}
         isLastColumn={isLastColumn}
+        setIsAdjustingWidth={setIsAdjustingWidth}
       />
     </Container>
   );
