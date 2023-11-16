@@ -116,7 +116,7 @@ const extractHeaders = (
   // Update canBeResized on bottom row
   if (matrix.length > 0) {
     for (const cell of matrix[matrix.length - 1]) {
-      if (cell) {
+      if (cell?.isLeftDimension) {
         cell.canBeResized = true;
       }
     }
