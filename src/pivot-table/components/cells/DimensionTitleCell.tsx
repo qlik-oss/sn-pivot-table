@@ -10,7 +10,7 @@ import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
-import { baseCellStyle, getBorderStyle } from "../shared-styles";
+import { baseCellStyle, getHeaderBorderStyle } from "../shared-styles";
 import ColumnAdjusterWrapper from "./ColumnAdjusterWrapper";
 import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
 
@@ -18,6 +18,7 @@ interface DimensionTitleCellProps {
   dataModel: DataModel;
   cell: HeaderCell;
   style: React.CSSProperties;
+  isFirstColumn: boolean;
   isLastColumn: boolean;
   isLastRow: boolean;
   translator: stardust.Translator;
@@ -40,6 +41,7 @@ const DimensionTitleCell = ({
   dataModel,
   cell,
   style,
+  isFirstColumn,
   isLastColumn,
   isLastRow,
   translator,
@@ -87,7 +89,7 @@ const DimensionTitleCell = ({
       style={{
         ...style,
         ...baseCellStyle,
-        ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border),
+        ...getHeaderBorderStyle(cell, isLastRow, isFirstColumn, isLastColumn, styleService.grid.border),
         color,
       }}
       data-testid={testId}

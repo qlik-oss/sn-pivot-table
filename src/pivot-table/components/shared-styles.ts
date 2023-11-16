@@ -1,5 +1,5 @@
 import type React from "react";
-import type { ShowLastBorder } from "../../types/types";
+import type { HeaderCell, ShowLastBorder } from "../../types/types";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 // TODO Replace with colors from Sprout
@@ -55,7 +55,7 @@ export const getBorderStyle = (
   isLastColumn: boolean,
   borderColor: string,
   showLastBorder?: ShowLastBorder,
-) => {
+): React.CSSProperties => {
   const showRightBorder = !isLastColumn || showLastBorder?.right;
   const showBottomBorder = !isLastRow || showLastBorder?.bottom;
   const borderRightWidth = showRightBorder ? 1 : 0;
@@ -71,6 +71,33 @@ export const getBorderStyle = (
     borderRightWidth,
     borderBottomWidth,
   };
+};
+
+export const getHeaderBorderStyle = (
+  cell: HeaderCell,
+  isLastRow: boolean,
+  isFirstColumn: boolean,
+  isLastColumn: boolean,
+  borderColor: string,
+  showLastBorder?: ShowLastBorder,
+) => {
+  const headerBorderStyle = getBorderStyle(isLastRow, isLastColumn, borderColor, showLastBorder);
+
+  if (!cell.isLeftDimension) {
+    if (cell.isLastDimension && !isLastRow) {
+      headerBorderStyle.borderBottomWidth = 2;
+      headerBorderStyle.borderBottomColor = borderColor;
+    }
+
+    if (!isFirstColumn) {
+      headerBorderStyle.borderLeftWidth = 1;
+      headerBorderStyle.borderLeftColor = borderColor;
+    } else {
+      headerBorderStyle.borderLeftWidth = 0;
+    }
+  }
+
+  return headerBorderStyle;
 };
 
 export const getTotalCellDividerStyle = ({
