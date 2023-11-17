@@ -105,11 +105,13 @@ const extractHeaders = (
   }
 
   // Update canBeResized, isActivelySorted and colIdx on bottom row
-  for (const [colIdx, cell] of matrix[matrix.length - 1].entries()) {
-    if (cell) {
-      cell.canBeResized = cell.isLeftDimension;
-      cell.isActivelySorted = colIdx === (layoutService.layout.qHyperCube.activelySortedColumn?.colIdx ?? 0);
-      cell.colIdx = cell.colIdx || colIdx;
+  if (matrix.length) {
+    for (const [colIdx, cell] of matrix[matrix.length - 1].entries()) {
+      if (cell) {
+        cell.canBeResized = cell.isLeftDimension;
+        cell.isActivelySorted = colIdx === (layoutService.layout.qHyperCube.activelySortedColumn?.colIdx ?? 0);
+        cell.colIdx = cell.colIdx || colIdx;
+      }
     }
   }
 
