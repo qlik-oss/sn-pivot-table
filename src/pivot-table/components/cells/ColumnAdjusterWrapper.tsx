@@ -35,7 +35,9 @@ const ColumnAdjusterWrapper = ({
 
   const updateWidth = (adjustedWidth: number) => {
     forceRerender({});
-    overrideLeftGridWidth?.(adjustedWidth, cellInfo.dimensionInfoIndex);
+    if (overrideLeftGridWidth && cellInfo.colIdx) {
+      overrideLeftGridWidth(adjustedWidth, cellInfo.colIdx);
+    }
   };
 
   const confirmWidth = (newWidthData: ColumnWidth) => dataModel?.applyColumnWidth(newWidthData, cellInfo);
