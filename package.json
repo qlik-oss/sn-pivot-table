@@ -81,7 +81,7 @@
     "root": true
   },
   "resolutions": {
-    "rollup": "npm:rollup@3.29.4"
+    "rollup": "npm:rollup@4.5.0"
   },
   "devDependencies": {
     "@babel/core": "7.23.3",
