@@ -10,6 +10,7 @@ import {
   type LayoutService,
   type PageInfo,
 } from "../../types/types";
+import handleMaxEnginePageSize from "../../utils/handle-max-engine-size";
 import useMutableProp from "./use-mutable-prop";
 
 export interface UseDataModelProps {
@@ -68,7 +69,7 @@ export default function useDataModel({
           qHeight: height,
         };
 
-        const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, [nextArea]);
+        const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, handleMaxEnginePageSize(nextArea));
 
         // Guard against page changes
         if (currentPage.current === pageInfo.page) {
