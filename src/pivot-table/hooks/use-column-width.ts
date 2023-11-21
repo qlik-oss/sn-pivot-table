@@ -128,12 +128,13 @@ export default function useColumnWidth(
             if (!header) return maxWidth;
             let cellWidth = 0;
 
-            if (header.id === PSEUDO_DIMENSION_KEY) {
+            if (header.id === PSEUDO_DIMENSION_KEY && header.isLeftDimension) {
               // Use the max width of all measures
               cellWidth = maxMeasureCellWidth;
             } else {
               const { label, qApprMaxGlyphCount, columnWidth, isLocked } = header;
-              const expandIconSize = !isFullyExpanded && collIdx < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
+              const expandIconSize =
+                !isFullyExpanded && header.isLeftDimension && !header.isLastDimension ? EXPAND_ICON_SIZE : 0;
               const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
 
               let fitToContentWidth = 0;
@@ -180,7 +181,6 @@ export default function useColumnWidth(
       measureTextForHeader,
       measureTextForMeasureValue,
       qMeasureInfo,
-      qNoOfLeftDims,
       rect.width,
     ],
   );
