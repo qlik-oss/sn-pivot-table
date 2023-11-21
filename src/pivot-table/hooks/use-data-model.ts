@@ -85,7 +85,7 @@ export default function useDataModel({
   const fetchPages = useCallback(
     async (pages: EngineAPI.INxPage[]): Promise<void> => {
       if (!genericObjectModel?.getHyperCubePivotData) return;
-      console.log("%c pages", "color: orangered", pages);
+      console.log("%c pages size", "color: orangered", pages[0]?.qHeight * pages[0]?.qWidth);
       try {
         const pivotPages = await genericObjectModel.getHyperCubePivotData(Q_PATH, pages);
 

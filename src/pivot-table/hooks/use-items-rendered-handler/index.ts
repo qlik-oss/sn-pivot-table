@@ -1,24 +1,9 @@
 /*  eslint-disable no-param-reassign */
-import { throttler } from "qlik-chart-modules";
 import { useCallback } from "react";
 import { type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../types/types";
-import useScrollDirection, { ScrollDirection } from "../use-scroll-direction";
-import getColumnPages from "./utils/get-column-pages";
-import getRowPages from "./utils/get-row-pages";
-
-type FetchModeData = (
-  dataModel: DataModel,
-  layoutService: LayoutService,
-  measureData: MeasureData,
-  pageInfo: PageInfo,
-  overscanColumnStartIndex: number,
-  overscanColumnStopIndex: number,
-  overscanRowStartIndex: number,
-  overscanRowStopIndex: number,
-  verticalScrollDirection: React.MutableRefObject<ScrollDirection>,
-  horizontalScrollDirection: React.MutableRefObject<ScrollDirection>,
-) => Promise<void>;
+import useScrollDirection from "../use-scroll-direction";
+import { debouncedFetchPages, throttledFetchPages } from "./utils/fetch-pages";
 
 type Props = {
   viewService: ViewService;
@@ -27,65 +12,6 @@ type Props = {
   measureData: MeasureData;
   pageInfo: PageInfo;
 };
-
-const BUFFER = 25;
-
-const getBuffers = (scrollDir: React.MutableRefObject<ScrollDirection>) => ({
-  forwardBuffer: scrollDir.current === ScrollDirection.Forward ? BUFFER : 0,
-  backBuffer: scrollDir.current === ScrollDirection.Back ? BUFFER : 0,
-});
-
-const throttledFetchPages: FetchModeData = throttler(
-  async (
-    dataModel: DataModel,
-    layoutService: LayoutService,
-    measureData: MeasureData,
-    pageInfo: PageInfo,
-    overscanColumnStartIndex: number,
-    overscanColumnStopIndex: number,
-    overscanRowStartIndex: number,
-    overscanRowStopIndex: number,
-    verticalScrollDirection: React.MutableRefObject<ScrollDirection>,
-    horizontalScrollDirection: React.MutableRefObject<ScrollDirection>,
-  ) => {
-    let rowPages: EngineAPI.INxPage[] = [];
-    let columnsPages: EngineAPI.INxPage[] = [];
-    const qLeft = overscanColumnStartIndex;
-    const qTop = overscanRowStartIndex;
-    const qWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
-    const qHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
-
-    if (verticalScrollDirection.current !== ScrollDirection.None) {
-      const { forwardBuffer, backBuffer } = getBuffers(verticalScrollDirection);
-      const top = Math.max(qTop - backBuffer, 0);
-
-      rowPages = getRowPages(
-        pageInfo,
-        measureData,
-        qLeft,
-        top,
-        qWidth,
-        Math.min(qHeight + forwardBuffer + backBuffer, layoutService.size.y - top),
-      );
-    }
-
-    if (horizontalScrollDirection.current !== ScrollDirection.None) {
-      const { forwardBuffer, backBuffer } = getBuffers(horizontalScrollDirection);
-      const left = Math.max(qLeft - backBuffer, 0);
-
-      columnsPages = getColumnPages(
-        measureData,
-        left,
-        qTop,
-        Math.min(qWidth + forwardBuffer + backBuffer, layoutService.size.x - left),
-        qHeight,
-      );
-    }
-
-    await dataModel.fetchPages([...rowPages, ...columnsPages]);
-  },
-  100,
-);
 
 const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutService, pageInfo }: Props) => {
   const { scrollHandler, verticalScrollDirection, horizontalScrollDirection } = useScrollDirection();
@@ -111,7 +37,13 @@ const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutSe
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
-      await throttledFetchPages(
+      let throttledOrDebouncedFetchPages = throttledFetchPages;
+      if (viewService.gridWidth * viewService.gridHeight > 1500) {
+        console.log("%c debouncedFetchPages", "color: orangered", viewService.gridWidth * viewService.gridHeight);
+        throttledOrDebouncedFetchPages = debouncedFetchPages;
+      }
+
+      await throttledOrDebouncedFetchPages(
         dataModel,
         layoutService,
         measureData,
