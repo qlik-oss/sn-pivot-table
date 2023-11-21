@@ -3,5 +3,10 @@
     "value": "* 현재 제한된 수의 열만 표시",
     "comment": "Disclaimer stating that not all columns can be rendered (buy 230502)",
     "version": "qruA8uvQlh+60cItLl0/7Q=="
+  },
+  "SNPivotTable.NoData": {
+    "value": "차트에 값이 없으므로 차트가 표시되지 않습니다.",
+    "comment": "Disclaimer for when the chart cannot render because there is no values",
+    "version": "wME0wOApnbEfAbxAj2dfuw=="
   }
 }

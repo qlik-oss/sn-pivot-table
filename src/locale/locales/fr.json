@@ -3,5 +3,10 @@
     "value": "*Affichage actuel d'un nombre limité de colonnes",
     "comment": "Disclaimer stating that not all columns can be rendered (buy 230502)",
     "version": "qruA8uvQlh+60cItLl0/7Q=="
+  },
+  "SNPivotTable.NoData": {
+    "value": "Le graphique n'est pas affiché, car il ne contient aucune valeur.",
+    "comment": "Disclaimer for when the chart cannot render because there is no values",
+    "version": "wME0wOApnbEfAbxAj2dfuw=="
   }
 }
