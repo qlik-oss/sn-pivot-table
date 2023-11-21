@@ -19,11 +19,6 @@ type FetchPages = (
 
 const BUFFER = 25;
 
-const getBuffers = (scrollDir: React.MutableRefObject<ScrollDirection>) => ({
-  forwardBuffer: scrollDir.current === ScrollDirection.Forward ? BUFFER : 0,
-  backBuffer: scrollDir.current === ScrollDirection.Back ? BUFFER : 0,
-});
-
 const fetchPages = async (
   dataModel: DataModel,
   layoutService: LayoutService,
@@ -44,7 +39,7 @@ const fetchPages = async (
   const qHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
   if (verticalScrollDirection.current !== ScrollDirection.None) {
-    const { forwardBuffer, backBuffer } = getBuffers(verticalScrollDirection);
+    const backBuffer = verticalScrollDirection.current === ScrollDirection.Back ? BUFFER : 0;
     const top = Math.max(qTop - backBuffer, 0);
 
     rowPages = getRowPages(
@@ -53,19 +48,19 @@ const fetchPages = async (
       qLeft,
       top,
       qWidth,
-      Math.min(qHeight + forwardBuffer + backBuffer, layoutService.size.y - top),
+      Math.min(qHeight + BUFFER, layoutService.size.y - top),
     );
   }
 
   if (horizontalScrollDirection.current !== ScrollDirection.None) {
-    const { forwardBuffer, backBuffer } = getBuffers(horizontalScrollDirection);
+    const backBuffer = horizontalScrollDirection.current === ScrollDirection.Back ? BUFFER : 0;
     const left = Math.max(qLeft - backBuffer, 0);
 
     columnsPages = getColumnPages(
       measureData,
       left,
       qTop,
-      Math.min(qWidth + forwardBuffer + backBuffer, layoutService.size.x - left),
+      Math.min(qWidth + BUFFER, layoutService.size.x - left),
       qHeight,
     );
   }
