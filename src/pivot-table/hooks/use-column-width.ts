@@ -117,10 +117,10 @@ export default function useColumnWidth(
       let sumOfWidths = 0;
 
       const lastRow = headersData.data.at(-1) as HeaderCell[];
-      const columnWidths = lastRow.map((_, collIdx) => {
+      const columnWidths = lastRow.map((lastRowHeader, collIdx) => {
         let width = TOTAL_CELL_PADDING;
 
-        if (widthOverride && overrideIndex !== undefined && overrideIndex === collIdx) {
+        if (widthOverride && overrideIndex !== undefined && overrideIndex === lastRowHeader.colIdx) {
           width = widthOverride;
         } else {
           width = headersData.data.reduce((maxWidth, row, rowIdx) => {
