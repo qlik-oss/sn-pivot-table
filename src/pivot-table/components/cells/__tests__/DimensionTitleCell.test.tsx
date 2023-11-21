@@ -40,6 +40,7 @@ describe("DimensionTitleCell", () => {
         translator={translator}
         style={style}
         isLastRow
+        isFirstColumn={false}
         isLastColumn={false}
         changeSortOrder={changeSortOrder}
         changeActivelySortedHeader={changeActivelySortedColumn}

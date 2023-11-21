@@ -143,6 +143,14 @@ const DataGrid = ({
     }
   }, [width, height, dataGridRef, contentCellHeight]);
 
+  /**
+   * react-window callback that is called when the range of items rendered by the VariableSizeGrid changes.
+   *
+   * It's intended to handle the following scenarions that might require additional data to be fetch:
+   * - Scrolling
+   * - Re-sizing the chart
+   * - Theme change (ex: go from large font-size to small could change the number of rendered cells)
+   */
   const onItemsRendered = useCallback(
     async ({
       overscanColumnStartIndex,

@@ -1,31 +1,41 @@
+import type { stardust } from "@nebula.js/stardust";
 import { useFetch } from "@qlik/nebula-table-utils/lib/hooks";
 import { DEFAULT_PAGE_SIZE, Q_PATH } from "../constants";
 import { MAX_COLUMN_COUNT } from "../pivot-table/constants";
 import type { Model, PivotLayout } from "../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../types/types";
+import handleMaxEnginePageSize, { getMaxVisibleRowsAndColumns } from "../utils/handle-max-engine-size";
 
 interface Props {
   model: Model;
   layoutService: LayoutService;
   viewService: ViewService;
   pageInfo: PageInfo;
+  rect: stardust.Rect;
 }
 
 export const shouldFetchAdditionalData = (
   qLastExpandedPos: EngineAPI.INxCellPosition | undefined,
   viewService: ViewService,
+  maxNumberOfVisibleRows: number,
+  maxNumberOfVisibleColumns: number,
 ) => {
   if (!qLastExpandedPos) {
     return false;
   }
 
   return (
-    viewService.gridColumnStartIndex + viewService.gridWidth >= DEFAULT_PAGE_SIZE ||
-    viewService.gridRowStartIndex + viewService.gridHeight >= DEFAULT_PAGE_SIZE
+    viewService.gridColumnStartIndex + viewService.gridWidth >= maxNumberOfVisibleColumns ||
+    viewService.gridRowStartIndex + viewService.gridHeight >= maxNumberOfVisibleRows
   );
 };
 
-export const isMissingLayoutData = (layout: PivotLayout, pageInfo: PageInfo): boolean => {
+export const isMissingLayoutData = (
+  layout: PivotLayout,
+  pageInfo: PageInfo,
+  maxNumberOfVisibleRows: number,
+  maxNumberOfVisibleColumns: number,
+): boolean => {
   const {
     qHyperCube: { qPivotDataPages, qSize },
   } = layout;
@@ -34,7 +44,9 @@ export const isMissingLayoutData = (layout: PivotLayout, pageInfo: PageInfo): bo
   // in case of new page -> return true
   if (qTop < pageInfo.page * pageInfo.rowsPerPage) return true;
   // otherwise check if we are missing data
-  return qWidth < Math.min(DEFAULT_PAGE_SIZE, qSize.qcx) || qHeight < Math.min(DEFAULT_PAGE_SIZE, qSize.qcy);
+  return (
+    qWidth < Math.min(maxNumberOfVisibleColumns, qSize.qcx) || qHeight < Math.min(maxNumberOfVisibleRows, qSize.qcy)
+  );
 };
 
 /**
@@ -46,6 +58,8 @@ export const getFetchArea = (
   viewService: ViewService,
   qSize: EngineAPI.ISize,
   pageInfo: PageInfo,
+  maxNumberOfVisibleRows: number,
+  maxNumberOfVisibleColumns: number,
 ) => {
   const pageStartIndex = pageInfo.page * pageInfo.rowsPerPage;
   const pageEndIndex = pageStartIndex + pageInfo.rowsPerPage;
@@ -72,13 +86,29 @@ export const getFetchArea = (
   return {
     qLeft,
     qTop,
-    qWidth: Math.min(MAX_COLUMN_COUNT - qLeft, qSize.qcx - qLeft, DEFAULT_PAGE_SIZE),
-    qHeight: Math.min(pageEndIndex - qTop, qSize.qcy - qTop, DEFAULT_PAGE_SIZE),
+    qWidth: Math.min(MAX_COLUMN_COUNT - qLeft, qSize.qcx - qLeft, maxNumberOfVisibleColumns),
+    qHeight: Math.min(pageEndIndex - qTop, qSize.qcy - qTop, maxNumberOfVisibleRows),
   };
 };
 
-const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props) => {
+/**
+ * This hook is a safeguard to ensure that there is data available to render when some user action
+ * invalides the currently rendered data OR it's the first time the chart renders.
+ *
+ * In a lot of cases the `qInitialDataFetch` property is sufficient to cover all cells that will be rendered.
+ * But sometimes not even that is enough. Some scenarios that requires additional data to be fetch:
+ * - Expanding/Collapsing a cell that is not within the area of `qInitialDataFetch`.
+ * - The value of `qInitialDataFetch` could be overwritten to a much smaller value
+ *   then the default or have no value at all.
+ * - User changes page to a page greater than 0.
+ * - A high screen resolution with large pivot table can render a lot of cells, that far exceed the
+ *   2500 cells that is the default number of cells. Ex: a 8k resolution could require at least
+ *   ~36 000 cells to fully render.
+ *
+ */
+const useLoadDataPages = ({ model, layoutService, viewService, pageInfo, rect }: Props) => {
   const { layout, isSnapshot } = layoutService;
+  const { maxNumberOfVisibleRows, maxNumberOfVisibleColumns } = getMaxVisibleRowsAndColumns(rect);
 
   // Need to keep track of loading state to prevent double renders when a new layout is received, ex after expanding or collapsing.
   // A double render would cause the scroll position to be lost
@@ -93,16 +123,33 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo }: Props
     if (
       model !== undefined &&
       "getHyperCubePivotData" in model &&
-      (shouldFetchAdditionalData(qLastExpandedPos, viewService) || isMissingLayoutData(layout, pageInfo))
+      (shouldFetchAdditionalData(qLastExpandedPos, viewService, maxNumberOfVisibleRows, maxNumberOfVisibleColumns) ||
+        isMissingLayoutData(layout, pageInfo, maxNumberOfVisibleRows, maxNumberOfVisibleColumns))
     ) {
-      const fetchArea = getFetchArea(qLastExpandedPos, viewService, layout.qHyperCube.qSize, pageInfo);
+      const fetchArea = getFetchArea(
+        qLastExpandedPos,
+        viewService,
+        layout.qHyperCube.qSize,
+        pageInfo,
+        maxNumberOfVisibleRows,
+        maxNumberOfVisibleColumns,
+      );
 
-      return fetchArea ? model.getHyperCubePivotData(Q_PATH, [fetchArea]) : [];
+      return fetchArea ? model.getHyperCubePivotData(Q_PATH, handleMaxEnginePageSize(fetchArea)) : [];
     }
 
     return qHyperCube.qPivotDataPages ?? [];
     // By explicitly using layout, isSnapshot, pageInfo.page and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
-  }, [layout, isSnapshot, model, viewService, pageInfo.page, pageInfo.rowsPerPage]);
+  }, [
+    layout,
+    isSnapshot,
+    model,
+    viewService,
+    pageInfo.page,
+    pageInfo.rowsPerPage,
+    maxNumberOfVisibleRows,
+    maxNumberOfVisibleColumns,
+  ]);
 };
 
 export default useLoadDataPages;

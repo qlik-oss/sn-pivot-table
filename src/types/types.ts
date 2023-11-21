@@ -24,6 +24,7 @@ export interface HeaderCell extends HeaderData {
   dimensionInfoIndex: number;
   canBeResized: boolean;
   isLeftDimension: boolean;
+  isLastDimension: boolean;
 }
 
 export type MeasureData = MeasureCell[][];
@@ -83,6 +84,7 @@ export interface AdjusterCellInfo {
   isLeftColumn: boolean;
   canBeResized: boolean;
   x?: number;
+  colIdx?: number;
 }
 
 export interface Cell {

@@ -1,5 +1,6 @@
 import React from "react";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { borderStyle } from "../shared-styles";
 
 interface Props {
   rowSpan: number;
@@ -12,10 +13,13 @@ const EmptyHeaderCell = ({ rowSpan, columnSpan }: Props) => {
   return rowSpan > 0 && columnSpan > 0 ? (
     <div
       style={{
+        ...borderStyle,
         gridRowStart: 1,
         gridRowEnd: `span ${rowSpan}`,
         gridColumnStart: 1,
         gridColumnEnd: `span ${columnSpan}`,
+        borderWidth: "0px 1px 0px 0px",
+        borderColor: styleService.grid.border,
         background: styleService.grid.background,
       }}
       data-testid={testId}
