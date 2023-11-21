@@ -36,7 +36,7 @@ const getRowPages = (
       const prevPage = pages[pages.length - 1] as EngineAPI.INxPage | undefined;
       const page = {
         qLeft,
-        qTop: top,
+        qTop: pageTop,
         qHeight: 1,
         qWidth,
       };

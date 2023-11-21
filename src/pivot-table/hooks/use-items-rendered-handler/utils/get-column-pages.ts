@@ -1,7 +1,7 @@
 import type { MeasureData } from "../../../../types/types";
 
 const isMissingColumnData = (measureData: MeasureData, x: number, y: number, height: number) => {
-  const targetRows = measureData.slice(y, height);
+  const targetRows = measureData.slice(y, y + height);
 
   if (targetRows.length === 0) {
     return true; // Rows are not cached
