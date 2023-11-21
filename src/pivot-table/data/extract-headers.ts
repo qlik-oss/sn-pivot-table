@@ -22,18 +22,9 @@ const trimTrailingPseudo = (visibleDimensionInfos: VisibleDimensionInfo[]) => {
   return visibleDimensionInfos;
 };
 
-const createHeaderCell = (
-  layoutService: LayoutService,
-  qDimensionInfo: VisibleDimensionInfo,
-  colIdx: number,
-): HeaderCell => {
-  const {
-    layout: { qHyperCube },
-    getDimensionInfoIndex,
-  } = layoutService;
-
+const createHeaderCell = (layoutService: LayoutService, qDimensionInfo: VisibleDimensionInfo): HeaderCell => {
   const id = getKey(qDimensionInfo);
-  const dimensionInfoIndex = getDimensionInfoIndex(qDimensionInfo);
+  const dimensionInfoIndex = layoutService.getDimensionInfoIndex(qDimensionInfo);
   const isLeftDimension = layoutService.isLeftDimension(dimensionInfoIndex);
   if (qDimensionInfo === PSEUDO_DIMENSION_INDEX) {
     return {
@@ -53,21 +44,21 @@ const createHeaderCell = (
   }
   return {
     id,
-    colIdx,
+    colIdx: 0, // has to be properly set later, would be incorrect after transposing otherwise
     label: qDimensionInfo.qFallbackTitle,
     qReverseSort: qDimensionInfo.qReverseSort,
     sortDirection:
       qDimensionInfo.qSortIndicator && qDimensionInfo.qSortIndicator !== "N" ? qDimensionInfo.qSortIndicator : "A",
     qLibraryId: qDimensionInfo.qLibraryId,
     fieldId: qDimensionInfo.qGroupFieldDefs[qDimensionInfo.qGroupPos],
-    isActivelySorted: colIdx === (qHyperCube.activelySortedColumn?.colIdx ?? 0),
+    isActivelySorted: false, // has to be properly set later, would be incorrect after transposing otherwise
     isLocked: qDimensionInfo.qLocked ?? false,
     columnWidth: qDimensionInfo.columnWidth,
     qApprMaxGlyphCount: qDimensionInfo.qApprMaxGlyphCount,
     isDim: true,
     headTextAlign: "left",
     dimensionInfoIndex,
-    canBeResized: false,
+    canBeResized: false, // has to be properly set later, would be incorrect after transposing otherwise
     isLeftDimension,
   };
 };
@@ -82,11 +73,11 @@ const createMatrix = ({ layoutService, lastRow, lastCol }: CreateMatrixProps): H
   const matrix: HeadersDataMatrix = createEmptyMatrix(rowCount, colCount);
 
   lastRow.forEach((dimensionInfo, colIdx) => {
-    matrix[rowCount - 1][colIdx] = createHeaderCell(layoutService, dimensionInfo, colIdx);
+    matrix[rowCount - 1][colIdx] = createHeaderCell(layoutService, dimensionInfo);
   });
 
   prunedLastCol.forEach((dimensionInfo, rowIdx) => {
-    matrix[rowIdx][colCount - 1] = createHeaderCell(layoutService, dimensionInfo, colCount - 1);
+    matrix[rowIdx][colCount - 1] = createHeaderCell(layoutService, dimensionInfo);
   });
   return matrix;
 };
@@ -113,11 +104,13 @@ const extractHeaders = (
     );
   }
 
-  // Update canBeResized on bottom row
-  if (matrix.length > 0) {
-    for (const cell of matrix[matrix.length - 1]) {
+  // Update canBeResized, isActivelySorted and colIdx on bottom row
+  if (matrix.length) {
+    for (const [colIdx, cell] of matrix[matrix.length - 1].entries()) {
       if (cell) {
-        cell.canBeResized = true;
+        cell.canBeResized = cell.isLeftDimension;
+        cell.isActivelySorted = colIdx === (layoutService.layout.qHyperCube.activelySortedColumn?.colIdx ?? 0);
+        cell.colIdx = cell.colIdx || colIdx;
       }
     }
   }

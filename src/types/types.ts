@@ -83,6 +83,7 @@ export interface AdjusterCellInfo {
   isLeftColumn: boolean;
   canBeResized: boolean;
   x?: number;
+  colIdx?: number;
 }
 
 export interface Cell {
