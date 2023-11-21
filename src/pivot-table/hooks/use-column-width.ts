@@ -156,8 +156,8 @@ export default function useColumnWidth(
             }
 
             // The last cell setting should override the other cells in that column, so we don't pick the max
-            const isTypeAuto = !header.columnWidth || header.columnWidth.type !== ColumnWidthType.Auto;
-            if (lastRowLastColumn && isTypeAuto) {
+            const isTypeAuto = !header.columnWidth || header.columnWidth.type === ColumnWidthType.Auto;
+            if (lastRowLastColumn && !isTypeAuto) {
               return cellWidth;
             }
 

@@ -129,7 +129,7 @@ describe("useColumnWidth", () => {
       headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
-      expect(leftGridColumnWidths[0]).toBe(width + TOTAL_CELL_PADDING);
+      expect(leftGridColumnWidths[0]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
 
     test("should return left column width for pixel setting", () => {
