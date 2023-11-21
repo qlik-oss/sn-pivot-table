@@ -1,3 +1,4 @@
+import type { stardust } from "@nebula.js/stardust";
 import { renderHook, waitFor } from "@testing-library/react";
 import { DEFAULT_PAGE_SIZE } from "../../constants";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../pivot-table/constants";
@@ -11,6 +12,7 @@ describe("useLoadDataPages", () => {
   let pageInfo: PageInfo;
   let model: Model;
   let qLastExpandedPos: EngineAPI.INxCellPosition | undefined;
+  let rect: stardust.Rect;
 
   beforeEach(() => {
     viewService = {
@@ -35,6 +37,13 @@ describe("useLoadDataPages", () => {
       rowsPerPage: 100,
     } as PageInfo;
 
+    rect = {
+      left: 0,
+      top: 0,
+      width: 200,
+      height: 100,
+    };
+
     qLastExpandedPos = undefined;
   });
 
@@ -48,7 +57,7 @@ describe("useLoadDataPages", () => {
 
     test("should return false if there was no `qLastExpandedPos`", () => {
       qLastExpandedPos = undefined;
-      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService)).toBe(false);
+      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService, 50, 50)).toBe(false);
     });
 
     test("should return true if viewService indicates that we are scrolling in x axis", () => {
@@ -57,7 +66,7 @@ describe("useLoadDataPages", () => {
         gridColumnStartIndex: 50,
         gridWidth: 100,
       };
-      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService)).toBe(true);
+      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService, 50, 50)).toBe(true);
     });
 
     test("should return true if viewService indicates that we are scrolling in y axis", () => {
@@ -66,7 +75,7 @@ describe("useLoadDataPages", () => {
         gridRowStartIndex: 50,
         gridHeight: 100,
       };
-      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService)).toBe(true);
+      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService, 50, 50)).toBe(true);
     });
 
     test("should return false if viewService is still within the boundary of `DEFAULT_PAGE_SIZE`", () => {
@@ -76,7 +85,7 @@ describe("useLoadDataPages", () => {
         gridRowStartIndex: 20,
         gridHeight: 10,
       };
-      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService)).toBe(false);
+      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService, 50, 50)).toBe(false);
     });
   });
 
@@ -86,7 +95,7 @@ describe("useLoadDataPages", () => {
         ...pageInfo,
         page: 5,
       };
-      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(true);
     });
 
     test("should return true if we are missing data in x axis (columns)", () => {
@@ -98,7 +107,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(true);
     });
 
     test("should return true if we are missing data in y axis (rows)", () => {
@@ -110,7 +119,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(true);
     });
 
     test("should return false if both axis are fulfilled with data", () => {
@@ -122,7 +131,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(false);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(false);
     });
 
     test("should return fallback to default `qArea` if it is not provided (an enforced fetch trigger basically)", () => {
@@ -134,7 +143,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService.layout, pageInfo)).toBe(true);
+      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(true);
     });
   });
 
@@ -146,13 +155,17 @@ describe("useLoadDataPages", () => {
     test("should return null if page does not exist any more", () => {
       layoutService.layout.qHyperCube.qSize.qcy = pageInfo.page * pageInfo.rowsPerPage - 1;
 
-      expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toBe(null);
+      expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50)).toBe(
+        null,
+      );
     });
 
     test("should return default area when a node has not been collapsed or expanded", () => {
       qLastExpandedPos = undefined;
 
-      expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+      expect(
+        getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+      ).toEqual({
         qLeft: 0,
         qTop: 0,
         qWidth: DEFAULT_PAGE_SIZE,
@@ -165,7 +178,9 @@ describe("useLoadDataPages", () => {
       pageInfo.page = 1;
       layoutService.layout.qHyperCube.qSize.qcy = pageInfo.rowsPerPage * 2;
 
-      expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+      expect(
+        getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+      ).toEqual({
         qLeft: 0,
         qTop: pageInfo.rowsPerPage,
         qWidth: DEFAULT_PAGE_SIZE,
@@ -182,7 +197,9 @@ describe("useLoadDataPages", () => {
         qLastExpandedPos = { qx: 125, qy: 0 };
         layoutService.layout.qHyperCube.qSize.qcx = 1000;
 
-        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        expect(
+          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        ).toEqual({
           qLeft: viewService.gridColumnStartIndex,
           qTop: 0,
           qWidth: DEFAULT_PAGE_SIZE,
@@ -198,7 +215,9 @@ describe("useLoadDataPages", () => {
         qLastExpandedPos = { qx: 75, qy: 0 };
         layoutService.layout.qHyperCube.qSize.qcx = 75;
 
-        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        expect(
+          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        ).toEqual({
           qLeft: 25,
           qTop: 0,
           qWidth: DEFAULT_PAGE_SIZE,
@@ -217,7 +236,9 @@ describe("useLoadDataPages", () => {
         layoutService.layout.qHyperCube.qSize.qcy = 1000;
         pageInfo.rowsPerPage = MAX_ROW_COUNT;
 
-        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        expect(
+          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        ).toEqual({
           qLeft: 0,
           qTop: viewService.gridRowStartIndex,
           qWidth: DEFAULT_PAGE_SIZE,
@@ -234,7 +255,9 @@ describe("useLoadDataPages", () => {
         layoutService.layout.qHyperCube.qSize.qcy = 75;
         pageInfo.rowsPerPage = MAX_ROW_COUNT;
 
-        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        expect(
+          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        ).toEqual({
           qLeft: 0,
           qTop: 25,
           qWidth: DEFAULT_PAGE_SIZE,
@@ -250,7 +273,9 @@ describe("useLoadDataPages", () => {
         qLastExpandedPos = { qx: 0, qy: 0 };
         layoutService.layout.qHyperCube.qSize.qcx = MAX_COLUMN_COUNT * 2;
 
-        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        expect(
+          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        ).toEqual({
           qLeft: viewService.gridColumnStartIndex,
           qTop: viewService.gridRowStartIndex,
           qWidth: 10,
@@ -264,7 +289,9 @@ describe("useLoadDataPages", () => {
         viewService.gridWidth = 10;
         qLastExpandedPos = { qx: 0, qy: 0 };
 
-        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        expect(
+          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        ).toEqual({
           qLeft: 950,
           qTop: viewService.gridRowStartIndex,
           qWidth: 50,
@@ -282,7 +309,9 @@ describe("useLoadDataPages", () => {
         pageInfo.rowsPerPage = MAX_ROW_COUNT;
         pageInfo.page = 0;
 
-        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        expect(
+          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        ).toEqual({
           qLeft: 0,
           qTop: viewService.gridRowStartIndex,
           qWidth: DEFAULT_PAGE_SIZE,
@@ -298,7 +327,9 @@ describe("useLoadDataPages", () => {
         pageInfo.rowsPerPage = MAX_ROW_COUNT;
         pageInfo.page = 0;
 
-        expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo)).toEqual({
+        expect(
+          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        ).toEqual({
           qLeft: 0,
           qTop: 950,
           qWidth: DEFAULT_PAGE_SIZE,
@@ -311,7 +342,7 @@ describe("useLoadDataPages", () => {
   describe("useLoadDataPages", () => {
     let getHyperCubePivotDataMock: jest.MockedFunction<() => Promise<EngineAPI.INxPivotPage[]>>;
 
-    const renderer = () => renderHook(() => useLoadDataPages({ model, layoutService, viewService, pageInfo }));
+    const renderer = () => renderHook(() => useLoadDataPages({ model, layoutService, viewService, pageInfo, rect }));
 
     beforeEach(() => {
       getHyperCubePivotDataMock = jest.fn();
@@ -377,6 +408,8 @@ describe("useLoadDataPages", () => {
 
       test("should fetch data if only `isMissingLayoutData()` returns true", async () => {
         // make isMissingLayoutData() returns true by fake arguments
+        rect.height = 10000;
+        rect.width = 10000;
         layoutService = {
           layout: {
             qHyperCube: {
