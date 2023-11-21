@@ -126,6 +126,8 @@ export default function useColumnWidth(
           width = headersData.data.reduce((maxWidth, row, rowIdx) => {
             const header = row[collIdx];
             if (!header) return maxWidth;
+
+            const lastRowLastColumn = rowIdx === headersData.size.y - 1 && collIdx === headersData.size.x - 1;
             let cellWidth = 0;
 
             if (header.id === PSEUDO_DIMENSION_KEY && header.isLeftDimension) {
@@ -145,18 +147,19 @@ export default function useColumnWidth(
                     measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
                     estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
                   );
-              } else if (
-                rowIdx === headersData.size.y - 1 &&
-                collIdx === headersData.size.x - 1 &&
-                !header.isLeftDimension &&
-                layoutService.hasPseudoDimOnLeft
-              ) {
+              } else if (lastRowLastColumn && !header.isLeftDimension && layoutService.hasPseudoDimOnLeft) {
                 fitToContentWidth = maxMeasureCellWidth;
               } else {
                 fitToContentWidth = TOTAL_CELL_PADDING + measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize;
               }
 
               cellWidth = getColumnWidth(columnWidth, fitToContentWidth);
+            }
+
+            // The last cell setting should override the other cells in that column, so we don't pick the max
+            const isTypeAuto = !header.columnWidth || header.columnWidth.type === ColumnWidthType.Auto;
+            if (lastRowLastColumn && !isTypeAuto) {
+              return cellWidth;
             }
 
             return Math.max(maxWidth, cellWidth);
