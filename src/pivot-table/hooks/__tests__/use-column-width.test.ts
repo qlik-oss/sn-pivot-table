@@ -129,7 +129,7 @@ describe("useColumnWidth", () => {
       headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
-      expect(leftGridColumnWidths[0]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
+      expect(leftGridColumnWidths[0]).toBe(width + TOTAL_CELL_PADDING);
     });
 
     test("should return left column width for pixel setting", () => {
@@ -352,7 +352,7 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth(0)).toBe(98);
+      expect(getRightGridColumnWidth(0)).toBe(132);
       expect(getRightGridColumnWidth(1)).toBe(pixels);
       expect(getRightGridColumnWidth(2)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
     });
