@@ -1,14 +1,14 @@
 /*  eslint-disable no-param-reassign */
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
-import { throttler } from "qlik-chart-modules";
-import React, { memo, useCallback, useLayoutEffect } from "react";
-import { VariableSizeGrid, type GridOnItemsRenderedProps } from "react-window";
+import React, { memo, useLayoutEffect } from "react";
+import { VariableSizeGrid } from "react-window";
 import type {
   DataModel,
   GridItemData,
   LayoutService,
   LeftDimensionData,
   MeasureData,
+  PageInfo,
   ShowLastBorder,
   TopDimensionData,
   ViewService,
@@ -19,6 +19,7 @@ import {
   useShouldShowTotalCellBottomDivider,
   useShouldShowTotalCellRightDivider,
 } from "../../hooks/use-is-total-cell";
+import useItemsRenderedHandler from "../../hooks/use-items-rendered-handler";
 import MemoizedDataCell from "../cells/DataCell";
 import { borderStyle } from "../shared-styles";
 
@@ -35,16 +36,8 @@ interface DataGridProps {
   leftDimensionData: LeftDimensionData;
   showLastBorder: ShowLastBorder;
   getRightGridColumnWidth: (index?: number) => number;
+  pageInfo: PageInfo;
 }
-
-type FetchModeData = (
-  dataModel: DataModel,
-  measureData: MeasureData,
-  overscanColumnStartIndex: number,
-  overscanColumnStopIndex: number,
-  overscanRowStartIndex: number,
-  overscanRowStopIndex: number,
-) => Promise<void>;
 
 const gridStyle: React.CSSProperties = {
   ...borderStyle,
@@ -52,53 +45,6 @@ const gridStyle: React.CSSProperties = {
   boxSizing: "content-box",
   borderWidth: "1px 0px 0px 1px",
 };
-
-const isMissingData = (
-  data: MeasureData,
-  visibleColumnStartIndex: number,
-  visibleColumnStopIndex: number,
-  visibleRowStartIndex: number,
-  visibleRowStopIndex: number,
-) => {
-  for (let rowIndex = visibleRowStartIndex; rowIndex <= visibleRowStopIndex; rowIndex++) {
-    for (let colIndex = visibleColumnStartIndex; colIndex <= visibleColumnStopIndex; colIndex++) {
-      if (!data[rowIndex]?.[colIndex]) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-};
-
-const throttledFetchMoreData: FetchModeData = throttler(
-  async (
-    dataModel: DataModel,
-    measureData: MeasureData,
-    overscanColumnStartIndex: number,
-    overscanColumnStopIndex: number,
-    overscanRowStartIndex: number,
-    overscanRowStopIndex: number,
-  ) => {
-    const shouldFetchData = isMissingData(
-      measureData,
-      overscanColumnStartIndex,
-      overscanColumnStopIndex,
-      overscanRowStartIndex,
-      overscanRowStopIndex,
-    );
-
-    if (shouldFetchData) {
-      await dataModel.fetchMoreData(
-        overscanColumnStartIndex,
-        overscanRowStartIndex,
-        overscanColumnStopIndex - overscanColumnStartIndex + 1,
-        overscanRowStopIndex - overscanRowStartIndex + 1,
-      );
-    }
-  },
-  100,
-);
 
 const DataGrid = ({
   dataModel,
@@ -113,6 +59,7 @@ const DataGrid = ({
   topDimensionData,
   showLastBorder,
   getRightGridColumnWidth,
+  pageInfo,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -131,6 +78,14 @@ const DataGrid = ({
 
   const isTotalValue = useIsTotalValue(leftDimensionData, topDimensionData);
 
+  const { onItemsRenderedHandler, scrollHandler } = useItemsRenderedHandler({
+    viewService,
+    layoutService,
+    dataModel,
+    measureData,
+    pageInfo,
+  });
+
   useOnPropsChange(() => {
     if (dataGridRef.current) {
       dataGridRef.current.resetAfterColumnIndex(0, false); // Needs to be re-computed every time the data changes
@@ -142,39 +97,6 @@ const DataGrid = ({
       dataGridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0, shouldForceUpdate: true });
     }
   }, [width, height, dataGridRef, contentCellHeight]);
-
-  /**
-   * react-window callback that is called when the range of items rendered by the VariableSizeGrid changes.
-   *
-   * It's intended to handle the following scenarions that might require additional data to be fetch:
-   * - Scrolling
-   * - Re-sizing the chart
-   * - Theme change (ex: go from large font-size to small could change the number of rendered cells)
-   */
-  const onItemsRendered = useCallback(
-    async ({
-      overscanColumnStartIndex,
-      overscanColumnStopIndex,
-      overscanRowStartIndex,
-      overscanRowStopIndex,
-      visibleColumnStartIndex,
-    }: GridOnItemsRenderedProps) => {
-      viewService.gridColumnStartIndex = visibleColumnStartIndex;
-      viewService.gridRowStartIndex = overscanRowStartIndex;
-      viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
-      viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
-
-      await throttledFetchMoreData(
-        dataModel,
-        measureData,
-        overscanColumnStartIndex,
-        overscanColumnStopIndex,
-        overscanRowStartIndex,
-        overscanRowStopIndex,
-      );
-    },
-    [viewService, dataModel, measureData],
-  );
 
   if (layoutService.size.x === 0) {
     return null;
@@ -201,9 +123,10 @@ const DataGrid = ({
           shouldShowTotalCellRightDivider,
         } as GridItemData
       }
-      onItemsRendered={onItemsRendered}
+      onItemsRendered={onItemsRenderedHandler}
       estimatedRowHeight={rowHightCallback()}
       estimatedColumnWidth={getRightGridColumnWidth()}
+      onScroll={scrollHandler}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>

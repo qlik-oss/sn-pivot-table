@@ -82,6 +82,24 @@ export default function useDataModel({
     [genericObjectModel, nextPageHandler, pageInfo, currentPage],
   );
 
+  const fetchPages = useCallback(
+    async (pages: EngineAPI.INxPage[]): Promise<void> => {
+      if (!genericObjectModel?.getHyperCubePivotData) return;
+      console.log("%c pages", "color: orangered", pages);
+      try {
+        const pivotPages = await genericObjectModel.getHyperCubePivotData(Q_PATH, pages);
+
+        // Guard against page changes
+        if (currentPage.current === pageInfo.page) {
+          nextPageHandler(pivotPages);
+        }
+      } catch (error) {
+        console.error(error); // eslint-disable-line
+      }
+    },
+    [genericObjectModel, nextPageHandler, pageInfo, currentPage],
+  );
+
   const applyColumnWidth = useCallback<ApplyColumnWidth>(
     (newColumnWidth, { dimensionInfoIndex, isLeftColumn, x = 0 }) => {
       const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
@@ -132,8 +150,9 @@ export default function useDataModel({
       expandLeft,
       expandTop,
       applyColumnWidth,
+      fetchPages,
     }),
-    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop, applyColumnWidth],
+    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop, applyColumnWidth, fetchPages],
   );
 
   return dataModel;

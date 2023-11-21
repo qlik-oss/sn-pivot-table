@@ -47,6 +47,7 @@ export interface DataModel {
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
   applyColumnWidth: ApplyColumnWidth;
+  fetchPages: (pages: EngineAPI.INxPage[]) => Promise<void>;
 }
 
 export interface ItemData {
