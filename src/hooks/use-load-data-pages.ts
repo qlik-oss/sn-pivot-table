@@ -5,6 +5,7 @@ import { MAX_COLUMN_COUNT } from "../pivot-table/constants";
 import type { Model, PivotLayout } from "../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../types/types";
 import handleMaxEnginePageSize, { getMaxVisibleRowsAndColumns } from "../utils/handle-max-engine-size";
+import useMutableNebulaProp from "./use-mutable-nebula-prop";
 
 interface Props {
   model: Model;
@@ -108,13 +109,15 @@ export const getFetchArea = (
  */
 const useLoadDataPages = ({ model, layoutService, viewService, pageInfo, rect }: Props) => {
   const { layout, isSnapshot } = layoutService;
-  const { maxNumberOfVisibleRows, maxNumberOfVisibleColumns } = getMaxVisibleRowsAndColumns(rect);
+  // Use mutable prop as there is no need to fetch new data when only rect changes
+  const maxVisibleGrid = useMutableNebulaProp(getMaxVisibleRowsAndColumns(rect));
 
   // Need to keep track of loading state to prevent double renders when a new layout is received, ex after expanding or collapsing.
   // A double render would cause the scroll position to be lost
   return useFetch<EngineAPI.INxPivotPage[]>(async () => {
     const { qHyperCube } = layout;
     const { qLastExpandedPos } = qHyperCube;
+    const { maxNumberOfVisibleRows, maxNumberOfVisibleColumns } = maxVisibleGrid.current;
 
     if (isSnapshot) {
       return layout.snapshotData?.content?.qPivotDataPages ?? [];
@@ -140,16 +143,7 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo, rect }:
 
     return qHyperCube.qPivotDataPages ?? [];
     // By explicitly using layout, isSnapshot, pageInfo.page and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
-  }, [
-    layout,
-    isSnapshot,
-    model,
-    viewService,
-    pageInfo.page,
-    pageInfo.rowsPerPage,
-    maxNumberOfVisibleRows,
-    maxNumberOfVisibleColumns,
-  ]);
+  }, [layout, isSnapshot, model, viewService, pageInfo.page, pageInfo.rowsPerPage, maxVisibleGrid]);
 };
 
 export default useLoadDataPages;
