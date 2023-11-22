@@ -6,30 +6,26 @@ import {
   type UseMeasureTextProps,
 } from "@qlik/nebula-table-utils/lib/hooks";
 import { act, renderHook } from "@testing-library/react";
-import { PSEUDO_DIMENSION_INDEX } from "../../../constants";
-import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../types/QIX";
-import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
-import { GRID_BORDER } from "../../constants";
-import { createDimInfos } from "../../data/__tests__/test-helper";
-import createHeadersData from "../../data/headers-data";
-import useColumnWidth, {
-  EXPAND_ICON_SIZE,
-  LOCK_ICON_SIZE,
-  MENU_ICON_SIZE,
-  TOTAL_CELL_PADDING,
-} from "../use-column-width";
+import { PSEUDO_DIMENSION_INDEX } from "../../../../constants";
+import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../../types/QIX";
+import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../../types/types";
+import { GRID_BORDER } from "../../../constants";
+import { createDimInfos } from "../../../data/__tests__/test-helper";
+import createHeadersData from "../../../data/headers-data";
+import { EXPAND_ICON_SIZE, LOCK_ICON_SIZE, MENU_ICON_SIZE, TOTAL_CELL_PADDING } from "../constants";
+import useColumnWidth from "../use-column-width";
 
 type MeasureTextMock = jest.MockedFunction<(text: string) => number>;
 type EstimateWidthMock = jest.MockedFunction<(length: number) => number>;
 type EstimateLineCountMock = jest.MockedFunction<EstimateLineCount>;
 
 jest.mock("@qlik/nebula-table-utils/lib/hooks");
-jest.mock("../../contexts/StyleProvider");
+jest.mock("../../../contexts/StyleProvider");
 
 describe("useColumnWidth", () => {
   let dimInfo: ExtendedDimensionInfo;
   let meaInfo: ExtendedMeasureInfo;
-  let rect: Rect;
+  let tableRect: Rect;
   let percentageConversion: number;
   let mockedUseMeasureText: jest.MockedFunction<(styling: UseMeasureTextProps) => MeasureTextHook>;
   let mockedMeasureText: MeasureTextHook;
@@ -45,8 +41,8 @@ describe("useColumnWidth", () => {
     dimInfo = { qApprMaxGlyphCount: 1, qGroupFieldDefs: [""], qGroupPos: 0 } as ExtendedDimensionInfo;
     meaInfo = { qFallbackTitle: "1", qApprMaxGlyphCount: 0 } as ExtendedMeasureInfo;
 
-    rect = { width: 400, height: 100 };
-    percentageConversion = rect.width / 100;
+    tableRect = { width: 400, height: 100 };
+    percentageConversion = tableRect.width / 100;
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
     mockedIsLeftDimension = jest.fn().mockReturnValue(true);
 
@@ -90,14 +86,14 @@ describe("useColumnWidth", () => {
     const {
       result: { current },
     } = renderHook(() =>
-      useColumnWidth(
+      useColumnWidth({
         layoutService,
-        rect,
+        tableRect,
         headersData,
         visibleTopDimensionInfo,
         verticalScrollbarWidth,
         horizontalScrollbarHeightSetter,
-      ),
+      }),
     );
     return current;
   };
@@ -134,7 +130,7 @@ describe("useColumnWidth", () => {
 
     test("should return left column width for pixel setting", () => {
       // need to make the width bigger so the col widths are not scaled
-      rect = { width: 800, height: 100 };
+      tableRect = { width: 800, height: 100 };
       const pixels = 50;
       dimInfo = {
         columnWidth: { type: ColumnWidthType.Pixels, pixels },
@@ -223,14 +219,14 @@ describe("useColumnWidth", () => {
 
       // Need to render this explicitly, since renderUseColumnWidth returns current, and thus leftGridColumnWidths wont update after overrideLeftGridWidth()
       const { result } = renderHook(() =>
-        useColumnWidth(
+        useColumnWidth({
           layoutService,
-          rect,
+          tableRect,
           headersData,
           visibleTopDimensionInfo,
           verticalScrollbarWidth,
           horizontalScrollbarHeightSetter,
-        ),
+        }),
       );
 
       act(() => result.current.overrideLeftGridWidth(width * 3, 0));
@@ -244,8 +240,8 @@ describe("useColumnWidth", () => {
   describe("getRightGridColumnWidth", () => {
     beforeEach(() => {
       const lefSideWidth = 50;
-      rect = { width: 350, height: 100 };
-      percentageConversion = (rect.width - lefSideWidth) / 100;
+      tableRect = { width: 350, height: 100 };
+      percentageConversion = (tableRect.width - lefSideWidth) / 100;
       layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
       visibleLeftDimensionInfo = [
         {
@@ -276,7 +272,7 @@ describe("useColumnWidth", () => {
     });
 
     test("should return right column width for auto setting when all columns can't fit (scroll)", () => {
-      rect = { width: 110, height: 100 };
+      tableRect = { width: 110, height: 100 };
       meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
@@ -393,7 +389,7 @@ describe("useColumnWidth", () => {
     });
 
     test("should subtract scrollbar width from columns", () => {
-      rect = { width: 110, height: 100 };
+      tableRect = { width: 110, height: 100 };
       meaInfo.columnWidth = { type: ColumnWidthType.Auto };
       // normal scrollbar width on mac, it will be automatically calculated on each operating system
       verticalScrollbarWidth = 14;
@@ -407,7 +403,7 @@ describe("useColumnWidth", () => {
     });
 
     test("should not subtract scrollbar width from columns when all rows are visible", () => {
-      rect = { width: 110, height: 100 };
+      tableRect = { width: 110, height: 100 };
       meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
       verticalScrollbarWidth = 0;
       visibleTopDimensionInfo = [dimInfo, dimInfo, dimInfo];
@@ -426,17 +422,17 @@ describe("useColumnWidth", () => {
       mockEstimateWidth(30);
       mockMeasureText(30 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
     });
-    test("should return grid and total widths when sum of all widths is rect.width", () => {
+    test("should return grid and total widths when sum of all widths is tableRect.width", () => {
       // The right side columns will default to auto, hence filling up the remaining space
-      rect.width = 500;
+      tableRect.width = 500;
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
       expect(leftGridWidth).toBe(191);
       expect(rightGridWidth).toBe(308);
-      expect(totalWidth).toEqual(rect.width);
+      expect(totalWidth).toEqual(tableRect.width);
       expect(showLastRightBorder).toBe(false);
     });
 
-    test("should return grid and total widths when sum of all widths is greater than rect.width", () => {
+    test("should return grid and total widths when sum of all widths is greater than tableRect.width", () => {
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 100 } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
@@ -444,11 +440,11 @@ describe("useColumnWidth", () => {
       expect(leftGridWidth).toBe(191);
       expect(rightGridWidth).toBe(208);
       expect(totalWidth).toBe(492);
-      expect(totalWidth).toBeGreaterThan(rect.width);
+      expect(totalWidth).toBeGreaterThan(tableRect.width);
       expect(showLastRightBorder).toBe(false);
     });
 
-    test("should return grid and total widths when sum of all widths is smaller than rect.width", () => {
+    test("should return grid and total widths when sum of all widths is smaller than tableRect.width", () => {
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 40 } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
@@ -456,7 +452,7 @@ describe("useColumnWidth", () => {
       expect(leftGridWidth).toBe(191);
       expect(rightGridWidth).toBe(120);
       expect(totalWidth).toBe(312);
-      expect(totalWidth).toBeLessThan(rect.width);
+      expect(totalWidth).toBeLessThan(tableRect.width);
       expect(showLastRightBorder).toBe(true);
     });
   });

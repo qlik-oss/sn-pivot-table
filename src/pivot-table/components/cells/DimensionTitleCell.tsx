@@ -8,7 +8,7 @@ import type { ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeaderCell
 import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
+import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width/types";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { baseCellStyle, getHeaderBorderStyle } from "../shared-styles";
 import ColumnAdjusterWrapper from "./ColumnAdjusterWrapper";
