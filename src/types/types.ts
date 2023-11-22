@@ -10,7 +10,7 @@ export type ApplyColumnWidth = (columnWidth: ColumnWidth, cellInfo: AdjusterCell
 
 export type FetchNextPage = (isRow: boolean, startIndex: number) => Promise<boolean>;
 
-export type FetchMoreData = (left: number, top: number, width: number, height: number) => Promise<void>;
+export type FetchPages = (pages: EngineAPI.INxPage[]) => Promise<void>;
 
 export type List = Record<number, Cell>;
 
@@ -41,13 +41,12 @@ export interface Point {
 }
 
 export interface DataModel {
-  fetchMoreData: FetchMoreData;
   collapseLeft: ExpandOrCollapser;
   collapseTop: ExpandOrCollapser;
   expandLeft: ExpandOrCollapser;
   expandTop: ExpandOrCollapser;
   applyColumnWidth: ApplyColumnWidth;
-  fetchPages: (pages: EngineAPI.INxPage[]) => Promise<void>;
+  fetchPages: FetchPages;
 }
 
 export interface ItemData {
@@ -164,7 +163,7 @@ export interface Data {
   measureData: MeasureData;
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
-  nextPageHandler: (nextPage: EngineAPI.INxPivotPage) => void;
+  nextPageHandler: (nextPages: EngineAPI.INxPivotPage[]) => void;
 }
 
 export interface ExtendedSelections extends stardust.ObjectSelections {

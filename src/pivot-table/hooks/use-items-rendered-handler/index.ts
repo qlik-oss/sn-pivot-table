@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../types/types";
 import useScrollDirection from "../use-scroll-direction";
-import { debouncedFetchPages, throttledFetchPages } from "./utils/fetch-pages";
+import { BUFFER, debouncedFetchPages, throttledFetchPages } from "./utils/fetch-pages";
 
 type Props = {
   viewService: ViewService;
@@ -12,6 +12,8 @@ type Props = {
   measureData: MeasureData;
   pageInfo: PageInfo;
 };
+
+const DEBOUNCED_GRID_SIZE_THRESHOLD = 1500;
 
 const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutService, pageInfo }: Props) => {
   const { scrollHandler, verticalScrollDirection, horizontalScrollDirection } = useScrollDirection();
@@ -38,8 +40,15 @@ const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutSe
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
       let throttledOrDebouncedFetchPages = throttledFetchPages;
-      if (viewService.gridWidth * viewService.gridHeight > 1500) {
-        console.log("%c debouncedFetchPages", "color: orangered", viewService.gridWidth * viewService.gridHeight);
+
+      /**
+       * A throttled fetch gives the best user experience as it reduces the number of empty cells the
+       * user sees. The debounced fetch greatly improves performance at the cost of the user experience.
+       *
+       * This is a control mechanism that allows us to tweak where the user experience vs performance
+       * threshold should be.
+       */
+      if (viewService.gridWidth * (viewService.gridHeight + BUFFER) > DEBOUNCED_GRID_SIZE_THRESHOLD) {
         throttledOrDebouncedFetchPages = debouncedFetchPages;
       }
 
@@ -48,10 +57,7 @@ const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutSe
         layoutService,
         measureData,
         pageInfo,
-        overscanColumnStartIndex,
-        overscanColumnStopIndex,
-        overscanRowStartIndex,
-        overscanRowStopIndex,
+        viewService,
         verticalScrollDirection,
         horizontalScrollDirection,
       );

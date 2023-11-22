@@ -174,7 +174,7 @@ describe("useData", () => {
     const nextPage = {} as EngineAPI.INxPivotPage;
 
     act(() => {
-      result.current.nextPageHandler(nextPage);
+      result.current.nextPageHandler([nextPage]);
     });
 
     expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith({

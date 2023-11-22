@@ -6,16 +6,15 @@ import {
   type ApplyColumnWidth,
   type DataModel,
   type ExpandOrCollapser,
-  type FetchMoreData,
+  type FetchPages,
   type LayoutService,
   type PageInfo,
 } from "../../types/types";
-import handleMaxEnginePageSize from "../../utils/handle-max-engine-size";
 import useMutableProp from "./use-mutable-prop";
 
 export interface UseDataModelProps {
   model: Model;
-  nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
+  nextPageHandler: (pages: EngineAPI.INxPivotPage[]) => void;
   pageInfo: PageInfo;
   layoutService: LayoutService;
 }
@@ -57,35 +56,10 @@ export default function useDataModel({
     [genericObjectModel],
   );
 
-  const fetchMoreData = useCallback<FetchMoreData>(
-    async (left: number, top: number, width: number, height: number): Promise<void> => {
-      if (!genericObjectModel?.getHyperCubePivotData) return;
-
-      try {
-        const nextArea = {
-          qLeft: left,
-          qTop: pageInfo.page * pageInfo.rowsPerPage + top,
-          qWidth: width,
-          qHeight: height,
-        };
-
-        const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, handleMaxEnginePageSize(nextArea));
-
-        // Guard against page changes
-        if (currentPage.current === pageInfo.page) {
-          nextPageHandler(pivotPage);
-        }
-      } catch (error) {
-        console.error(error); // eslint-disable-line
-      }
-    },
-    [genericObjectModel, nextPageHandler, pageInfo, currentPage],
-  );
-
-  const fetchPages = useCallback(
+  const fetchPages = useCallback<FetchPages>(
     async (pages: EngineAPI.INxPage[]): Promise<void> => {
       if (!genericObjectModel?.getHyperCubePivotData) return;
-      console.log("%c pages size", "color: orangered", pages[0]?.qHeight * pages[0]?.qWidth);
+
       try {
         const pivotPages = await genericObjectModel.getHyperCubePivotData(Q_PATH, pages);
 
@@ -144,7 +118,6 @@ export default function useDataModel({
 
   const dataModel = useMemo<DataModel>(
     () => ({
-      fetchMoreData,
       collapseLeft,
       collapseTop,
       expandLeft,
@@ -152,7 +125,7 @@ export default function useDataModel({
       applyColumnWidth,
       fetchPages,
     }),
-    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop, applyColumnWidth, fetchPages],
+    [collapseLeft, collapseTop, expandLeft, expandTop, applyColumnWidth, fetchPages],
   );
 
   return dataModel;
