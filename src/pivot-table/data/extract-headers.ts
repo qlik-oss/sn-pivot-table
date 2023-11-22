@@ -22,7 +22,11 @@ const trimTrailingPseudo = (visibleDimensionInfos: VisibleDimensionInfo[]) => {
   return visibleDimensionInfos;
 };
 
-const createHeaderCell = (layoutService: LayoutService, qDimensionInfo: VisibleDimensionInfo): HeaderCell => {
+const createHeaderCell = (
+  layoutService: LayoutService,
+  qDimensionInfo: VisibleDimensionInfo,
+  isLastDimension: boolean,
+): HeaderCell => {
   const id = getKey(qDimensionInfo);
   const dimensionInfoIndex = layoutService.getDimensionInfoIndex(qDimensionInfo);
   const isLeftDimension = layoutService.isLeftDimension(dimensionInfoIndex);
@@ -40,6 +44,7 @@ const createHeaderCell = (layoutService: LayoutService, qDimensionInfo: VisibleD
       dimensionInfoIndex,
       canBeResized: false,
       isLeftDimension,
+      isLastDimension,
     };
   }
   return {
@@ -60,6 +65,7 @@ const createHeaderCell = (layoutService: LayoutService, qDimensionInfo: VisibleD
     dimensionInfoIndex,
     canBeResized: false, // has to be properly set later, would be incorrect after transposing otherwise
     isLeftDimension,
+    isLastDimension,
   };
 };
 
@@ -72,12 +78,14 @@ const createMatrix = ({ layoutService, lastRow, lastCol }: CreateMatrixProps): H
   const colCount = Math.max(1, lastRow.length);
   const matrix: HeadersDataMatrix = createEmptyMatrix(rowCount, colCount);
 
-  lastRow.forEach((dimensionInfo, colIdx) => {
-    matrix[rowCount - 1][colIdx] = createHeaderCell(layoutService, dimensionInfo);
+  lastRow.forEach((dimensionInfo, colIdx, dimensionInfos) => {
+    const isLastDimension = colIdx === dimensionInfos.length - 1;
+    matrix[rowCount - 1][colIdx] = createHeaderCell(layoutService, dimensionInfo, isLastDimension);
   });
 
-  prunedLastCol.forEach((dimensionInfo, rowIdx) => {
-    matrix[rowIdx][colCount - 1] = createHeaderCell(layoutService, dimensionInfo);
+  prunedLastCol.forEach((dimensionInfo, rowIdx, dimensionInfos) => {
+    const isLastDimension = rowIdx === dimensionInfos.length - 1;
+    matrix[rowIdx][colCount - 1] = createHeaderCell(layoutService, dimensionInfo, isLastDimension);
   });
   return matrix;
 };

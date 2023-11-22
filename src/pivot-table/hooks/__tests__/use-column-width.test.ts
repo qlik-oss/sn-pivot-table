@@ -352,7 +352,7 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth(0)).toBe(98);
+      expect(getRightGridColumnWidth(0)).toBe(132);
       expect(getRightGridColumnWidth(1)).toBe(pixels);
       expect(getRightGridColumnWidth(2)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
     });

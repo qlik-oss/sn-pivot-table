@@ -1,6 +1,6 @@
 {
   "name": "@nebula.js/sn-pivot-table",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "Pivot table supernova",
   "keywords": [
     "qlik",
@@ -102,7 +102,7 @@
     "@playwright/test": "1.39.0",
     "@qlik-trial/sprout": "3.5.0",
     "@qlik/eslint-config": "0.4.30",
-    "@qlik/nebula-table-utils": "2.6.1",
+    "@qlik/nebula-table-utils": "2.6.2",
     "@qlik/prettier-config": "0.4.1",
     "@qlik/tsconfig": "0.2.1",
     "@rollup/plugin-typescript": "11.1.5",

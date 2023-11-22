@@ -3,5 +3,10 @@
     "value": "* 当前显示的列数有限",
     "comment": "Disclaimer stating that not all columns can be rendered (buy 230502)",
     "version": "qruA8uvQlh+60cItLl0/7Q=="
+  },
+  "SNPivotTable.NoData": {
+    "value": "图表未显示，因为它不包含任何值。",
+    "comment": "Disclaimer for when the chart cannot render because there is no values",
+    "version": "wME0wOApnbEfAbxAj2dfuw=="
   }
 }

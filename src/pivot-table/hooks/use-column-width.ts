@@ -117,23 +117,26 @@ export default function useColumnWidth(
       let sumOfWidths = 0;
 
       const lastRow = headersData.data.at(-1) as HeaderCell[];
-      const columnWidths = lastRow.map((_, collIdx) => {
+      const columnWidths = lastRow.map((lastRowHeader, collIdx) => {
         let width = TOTAL_CELL_PADDING;
 
-        if (widthOverride && overrideIndex !== undefined && overrideIndex === collIdx) {
+        if (widthOverride && overrideIndex !== undefined && overrideIndex === lastRowHeader.colIdx) {
           width = widthOverride;
         } else {
           width = headersData.data.reduce((maxWidth, row, rowIdx) => {
             const header = row[collIdx];
             if (!header) return maxWidth;
+
+            const lastRowLastColumn = rowIdx === headersData.size.y - 1 && collIdx === headersData.size.x - 1;
             let cellWidth = 0;
 
-            if (header.id === PSEUDO_DIMENSION_KEY) {
+            if (header.id === PSEUDO_DIMENSION_KEY && header.isLeftDimension) {
               // Use the max width of all measures
               cellWidth = maxMeasureCellWidth;
             } else {
               const { label, qApprMaxGlyphCount, columnWidth, isLocked } = header;
-              const expandIconSize = !isFullyExpanded && collIdx < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
+              const expandIconSize =
+                !isFullyExpanded && header.isLeftDimension && !header.isLastDimension ? EXPAND_ICON_SIZE : 0;
               const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
 
               let fitToContentWidth = 0;
@@ -144,18 +147,19 @@ export default function useColumnWidth(
                     measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
                     estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
                   );
-              } else if (
-                rowIdx === headersData.size.y - 1 &&
-                collIdx === headersData.size.x - 1 &&
-                !header.isLeftDimension &&
-                layoutService.hasPseudoDimOnLeft
-              ) {
+              } else if (lastRowLastColumn && !header.isLeftDimension && layoutService.hasPseudoDimOnLeft) {
                 fitToContentWidth = maxMeasureCellWidth;
               } else {
                 fitToContentWidth = TOTAL_CELL_PADDING + measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize;
               }
 
               cellWidth = getColumnWidth(columnWidth, fitToContentWidth);
+            }
+
+            // The last cell setting should override the other cells in that column, so we don't pick the max
+            const isTypeAuto = !header.columnWidth || header.columnWidth.type === ColumnWidthType.Auto;
+            if (lastRowLastColumn && !isTypeAuto) {
+              return cellWidth;
             }
 
             return Math.max(maxWidth, cellWidth);
@@ -180,7 +184,6 @@ export default function useColumnWidth(
       measureTextForHeader,
       measureTextForMeasureValue,
       qMeasureInfo,
-      qNoOfLeftDims,
       rect.width,
     ],
   );
