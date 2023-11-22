@@ -12,7 +12,7 @@ import {
   MENU_ICON_SIZE,
   TOTAL_CELL_PADDING,
 } from "./constants";
-import type { ColumnWidthLeftHook, GetHeaderCellsIconsVisibilityStatus, LeftGridWidthInfo } from "./types";
+import type { ColumnWidthLeftHook, LeftGridWidthInfo } from "./types";
 import { getMeasureTextArgs, getPercentageValue, getPixelValue } from "./utils";
 
 export default function useColumnWidthLeft({ layoutService, tableRect, headersData }: ColumnWidthLeftHook) {
@@ -148,34 +148,8 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
     [calculateLeftGridWidthInfo],
   );
 
-  const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
-    (idx, isLocked, title = "") => {
-      const colWidth = leftGridWidthInfo.leftGridColumnWidths[idx];
-      let shouldShowMenuIcon = false;
-      let shouldShowLockIcon = false;
-      const measuredTextForHeader = measureTextForHeader(title);
-
-      let headerSize = measuredTextForHeader + TOTAL_CELL_PADDING;
-
-      if (isLocked && headerSize + LOCK_ICON_SIZE <= colWidth) {
-        shouldShowLockIcon = true;
-        headerSize += LOCK_ICON_SIZE;
-      }
-      if (headerSize + MENU_ICON_SIZE <= colWidth) {
-        shouldShowMenuIcon = true;
-      }
-
-      return {
-        shouldShowMenuIcon,
-        shouldShowLockIcon,
-      };
-    },
-    [leftGridWidthInfo, measureTextForHeader],
-  );
-
   return {
     ...leftGridWidthInfo,
-    getHeaderCellsIconsVisibilityStatus,
     overrideLeftGridWidth,
   };
 }
