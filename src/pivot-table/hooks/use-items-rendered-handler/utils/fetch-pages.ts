@@ -14,7 +14,7 @@ type FetchPages = (
   horizontalScrollDirection: React.MutableRefObject<ScrollDirection>,
 ) => Promise<void>;
 
-export const BUFFER = 25;
+export const BUFFER = 10;
 
 const fetchPages = async (
   dataModel: DataModel,
