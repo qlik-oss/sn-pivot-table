@@ -84,6 +84,8 @@ const DataGrid = ({
     dataModel,
     measureData,
     pageInfo,
+    leftColumnCount: leftDimensionData.columnCount,
+    topRowCount: topDimensionData.rowCount,
   });
 
   useOnPropsChange(() => {

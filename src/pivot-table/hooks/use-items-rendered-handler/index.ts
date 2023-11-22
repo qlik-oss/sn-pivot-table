@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import { type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../types/types";
-import useScrollDirection from "../use-scroll-direction";
+import useScrollDirection, { ScrollDirection } from "../use-scroll-direction";
 import { BUFFER, debouncedFetchPages, throttledFetchPages } from "./utils/fetch-pages";
 
 type Props = {
@@ -11,11 +11,21 @@ type Props = {
   dataModel: DataModel;
   measureData: MeasureData;
   pageInfo: PageInfo;
+  leftColumnCount: number;
+  topRowCount: number;
 };
 
 const DEBOUNCED_GRID_SIZE_THRESHOLD = 1500;
 
-const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutService, pageInfo }: Props) => {
+const useItemsRenderedHandler = ({
+  viewService,
+  dataModel,
+  measureData,
+  layoutService,
+  pageInfo,
+  leftColumnCount,
+  topRowCount,
+}: Props) => {
   const { scrollHandler, verticalScrollDirection, horizontalScrollDirection } = useScrollDirection();
 
   /**
@@ -39,7 +49,12 @@ const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutSe
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
-      let throttledOrDebouncedFetchPages = throttledFetchPages;
+      const estimatedColumnCount =
+        viewService.gridWidth +
+        leftColumnCount +
+        (horizontalScrollDirection.current === ScrollDirection.None ? 0 : BUFFER);
+      const estimatedRowCount =
+        viewService.gridHeight + topRowCount + (verticalScrollDirection.current === ScrollDirection.None ? 0 : BUFFER);
 
       /**
        * A throttled fetch gives the best user experience as it reduces the number of empty cells the
@@ -48,7 +63,8 @@ const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutSe
        * This is a control mechanism that allows us to tweak where the user experience vs performance
        * threshold should be.
        */
-      if (viewService.gridWidth * (viewService.gridHeight + BUFFER) > DEBOUNCED_GRID_SIZE_THRESHOLD) {
+      let throttledOrDebouncedFetchPages = throttledFetchPages;
+      if (estimatedRowCount * estimatedColumnCount > DEBOUNCED_GRID_SIZE_THRESHOLD) {
         throttledOrDebouncedFetchPages = debouncedFetchPages;
       }
 
@@ -62,7 +78,17 @@ const useItemsRenderedHandler = ({ viewService, dataModel, measureData, layoutSe
         horizontalScrollDirection,
       );
     },
-    [viewService, layoutService, dataModel, measureData, verticalScrollDirection, horizontalScrollDirection, pageInfo],
+    [
+      viewService,
+      layoutService,
+      dataModel,
+      measureData,
+      verticalScrollDirection,
+      horizontalScrollDirection,
+      pageInfo,
+      leftColumnCount,
+      topRowCount,
+    ],
   );
 
   return {
