@@ -106,6 +106,9 @@ const useData = (
 
   useOnPropsChange(() => {
     if (!nextPages) return;
+
+    // TODO This is not ideal. The data functions should take an array of pages instead
+    // of having to set state per page in a forEach loop.
     nextPages.forEach((nextPage) => {
       setMeasureData((prevData) =>
         addPageToMeasureData({
