@@ -7,7 +7,7 @@ interface OnScroll {
 
 export enum ScrollDirection {
   Forward = "Forward",
-  Back = "Back",
+  Backward = "Back",
   None = "None", // If the user is not scrolling in any direction, use this value
 }
 
@@ -23,7 +23,7 @@ const useScrollDirection = () => {
       if (scrollTop > prevScrollTop.current) {
         verticalScrollDirection.current = ScrollDirection.Forward;
       } else if (scrollTop < prevScrollTop.current) {
-        verticalScrollDirection.current = ScrollDirection.Back;
+        verticalScrollDirection.current = ScrollDirection.Backward;
       } else {
         verticalScrollDirection.current = ScrollDirection.None;
       }
@@ -32,7 +32,7 @@ const useScrollDirection = () => {
       if (scrollLeft > prevScrollLeft.current) {
         horizontalScrollDirection.current = ScrollDirection.Forward;
       } else if (scrollLeft < prevScrollLeft.current) {
-        horizontalScrollDirection.current = ScrollDirection.Back;
+        horizontalScrollDirection.current = ScrollDirection.Backward;
       } else {
         horizontalScrollDirection.current = ScrollDirection.None;
       }

@@ -24,7 +24,7 @@ describe("useScrollDirection", () => {
     result.current.scrollHandler({ scrollTop: 250, scrollLeft: 0 });
     result.current.scrollHandler({ scrollTop: 50, scrollLeft: 0 });
 
-    expect(result.current.verticalScrollDirection.current).toEqual(ScrollDirection.Back);
+    expect(result.current.verticalScrollDirection.current).toEqual(ScrollDirection.Backward);
     expect(result.current.horizontalScrollDirection.current).toEqual(ScrollDirection.None);
   });
 
@@ -44,7 +44,7 @@ describe("useScrollDirection", () => {
     result.current.scrollHandler({ scrollTop: 0, scrollLeft: 50 });
 
     expect(result.current.verticalScrollDirection.current).toEqual(ScrollDirection.None);
-    expect(result.current.horizontalScrollDirection.current).toEqual(ScrollDirection.Back);
+    expect(result.current.horizontalScrollDirection.current).toEqual(ScrollDirection.Backward);
   });
 
   test("should handle when a user scrolls both vertically and horizontally", () => {

@@ -30,7 +30,7 @@ const fetchPages = async (
   let columnsPages: EngineAPI.INxPage[] = [];
 
   if (verticalScrollDirection.current !== ScrollDirection.None) {
-    const backBuffer = verticalScrollDirection.current === ScrollDirection.Back ? BUFFER : 0;
+    const backBuffer = verticalScrollDirection.current === ScrollDirection.Backward ? BUFFER : 0;
     const rowStartIndex = Math.max(gridRowStartIndex - backBuffer, 0);
 
     rowPages = getRowPages(
@@ -44,7 +44,7 @@ const fetchPages = async (
   }
 
   if (horizontalScrollDirection.current !== ScrollDirection.None) {
-    const backBuffer = horizontalScrollDirection.current === ScrollDirection.Back ? BUFFER : 0;
+    const backBuffer = horizontalScrollDirection.current === ScrollDirection.Backward ? BUFFER : 0;
     const columnStartIndex = Math.max(gridColumnStartIndex - backBuffer, 0);
 
     columnsPages = getColumnPages(
