@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
+import { useStyleContext } from "../../contexts/StyleProvider";
 import { type OverrideLeftGridWidth } from "../../hooks/use-column-width";
 
 interface AdjusterProps {
@@ -28,6 +29,9 @@ const ColumnAdjusterWrapper = ({
 }: AdjusterProps) => {
   const { interactions } = useBaseContext();
   const { isActive } = useSelectionsContext();
+  const {
+    grid: { border },
+  } = useStyleContext();
   const [, forceRerender] = useState({});
   const shouldRender = cellInfo.canBeResized && !!interactions.active && !isActive;
 
@@ -48,6 +52,7 @@ const ColumnAdjusterWrapper = ({
       columnWidth={columnWidth}
       isLastColumn={isLastColumn}
       keyValue={`adjuster-${cellInfo.dimensionInfoIndex}`}
+      borderColor={border}
       updateWidthCallback={updateWidth}
       confirmWidthCallback={confirmWidth}
       setIsAdjustingWidth={setIsAdjustingWidth}
