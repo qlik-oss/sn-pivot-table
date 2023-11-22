@@ -23,7 +23,7 @@ const useData = (
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
   visibleTopDimensionInfo: VisibleDimensionInfo[],
 ): Data => {
-  const [nextPages, setNextPage] = useState<EngineAPI.INxPivotPage[] | null>(null);
+  const [nextPages, setNextPages] = useState<EngineAPI.INxPivotPage[] | null>(null);
 
   const attrExprInfoIndexes = useAttrExprInfoIndexes(
     visibleLeftDimensionInfo,
@@ -155,7 +155,7 @@ const useData = (
   );
 
   const nextPageHandler = useCallback((pages: EngineAPI.INxPivotPage[]) => {
-    setNextPage(pages);
+    setNextPages(pages);
   }, []);
 
   return {
