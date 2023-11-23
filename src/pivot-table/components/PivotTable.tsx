@@ -96,14 +96,14 @@ export const StickyPivotTable = ({
     getRightGridColumnWidth,
     getHeaderCellsIconsVisibilityStatus,
     overrideLeftGridWidth,
-  } = useColumnWidth(
+  } = useColumnWidth({
     layoutService,
     tableRect,
     headersData,
     visibleTopDimensionInfo,
     verticalScrollbarWidth,
     horizontalScrollbarHeightSetter,
-  );
+  });
 
   const { rootWrapper, leftWrapper, rightWrapper } = getScrollableAreasDimensions({
     tableRect,
