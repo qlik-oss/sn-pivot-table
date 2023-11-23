@@ -16,7 +16,7 @@ type FetchPages = (
 
 export const BUFFER = 10;
 
-const fetchPages = async (
+export const fetchPages = async (
   dataModel: DataModel,
   layoutService: LayoutService,
   measureData: MeasureData,

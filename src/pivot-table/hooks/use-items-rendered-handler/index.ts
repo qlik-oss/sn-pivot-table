@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import { type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../types/types";
-import useScrollDirection, { ScrollDirection } from "../use-scroll-direction";
+import { ScrollDirection } from "../use-scroll-direction";
 import { BUFFER, debouncedFetchPages, throttledFetchPages } from "./utils/fetch-pages";
 
 type Props = {
@@ -13,6 +13,8 @@ type Props = {
   pageInfo: PageInfo;
   leftColumnCount: number;
   topRowCount: number;
+  verticalScrollDirection: React.MutableRefObject<ScrollDirection>;
+  horizontalScrollDirection: React.MutableRefObject<ScrollDirection>;
 };
 
 const DEBOUNCED_GRID_SIZE_THRESHOLD = 1500;
@@ -25,9 +27,9 @@ const useItemsRenderedHandler = ({
   pageInfo,
   leftColumnCount,
   topRowCount,
-}: Props) => {
-  const { scrollHandler, verticalScrollDirection, horizontalScrollDirection } = useScrollDirection();
-
+  verticalScrollDirection,
+  horizontalScrollDirection,
+}: Props) =>
   /**
    * react-window callback that is called when the range of items rendered by the VariableSizeGrid changes.
    *
@@ -36,7 +38,7 @@ const useItemsRenderedHandler = ({
    * - Re-sizing the chart
    * - Theme change (ex: go from large font-size to small could change the number of rendered cells)
    */
-  const onItemsRenderedHandler = useCallback(
+  useCallback(
     async ({
       overscanColumnStartIndex,
       overscanColumnStopIndex,
@@ -90,11 +92,4 @@ const useItemsRenderedHandler = ({
       topRowCount,
     ],
   );
-
-  return {
-    scrollHandler,
-    onItemsRenderedHandler,
-  };
-};
-
 export default useItemsRenderedHandler;

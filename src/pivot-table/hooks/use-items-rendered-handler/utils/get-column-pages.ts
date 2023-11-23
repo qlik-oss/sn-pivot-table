@@ -7,7 +7,7 @@ const isMissingColumnData = (measureData: MeasureData, x: number, y: number, hei
     return true; // Rows are not cached
   }
 
-  return targetRows.some((row) => !row?.[x]);
+  return targetRows.some((row) => row?.[x] === undefined);
 };
 
 const canMergePages = (prevPage: EngineAPI.INxPage, page: EngineAPI.INxPage) =>

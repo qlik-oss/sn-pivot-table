@@ -64,9 +64,9 @@ export default function useDataModel({
       try {
         const pivotPages = await genericObjectModel.getHyperCubePivotData(
           Q_PATH,
-          pages.reduce(
-            (handlesPages, page) => [...handlesPages, ...handleMaxEnginePageSize(page)],
-            [] as EngineAPI.INxPage[],
+          pages.reduce<EngineAPI.INxPage[]>(
+            (handledPages, page) => [...handledPages, ...handleMaxEnginePageSize(page)],
+            [],
           ),
         );
 

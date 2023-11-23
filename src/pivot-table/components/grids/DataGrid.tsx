@@ -20,6 +20,7 @@ import {
   useShouldShowTotalCellRightDivider,
 } from "../../hooks/use-is-total-cell";
 import useItemsRenderedHandler from "../../hooks/use-items-rendered-handler";
+import useScrollDirection from "../../hooks/use-scroll-direction";
 import MemoizedDataCell from "../cells/DataCell";
 import { borderStyle } from "../shared-styles";
 
@@ -78,7 +79,9 @@ const DataGrid = ({
 
   const isTotalValue = useIsTotalValue(leftDimensionData, topDimensionData);
 
-  const { onItemsRenderedHandler, scrollHandler } = useItemsRenderedHandler({
+  const { scrollHandler, verticalScrollDirection, horizontalScrollDirection } = useScrollDirection();
+
+  const onItemsRenderedHandler = useItemsRenderedHandler({
     viewService,
     layoutService,
     dataModel,
@@ -86,6 +89,8 @@ const DataGrid = ({
     pageInfo,
     leftColumnCount: leftDimensionData.columnCount,
     topRowCount: topDimensionData.rowCount,
+    verticalScrollDirection,
+    horizontalScrollDirection,
   });
 
   useOnPropsChange(() => {
