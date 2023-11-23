@@ -83,7 +83,7 @@ export default function useColumnWidthRight({
             addKnownWidth(idx, getPixelValue(pixels));
             break;
           case ColumnWidthType.Percentage:
-            addKnownWidth(idx, getPercentageValue(percentage) * rightGridAvailableWidth);
+            addKnownWidth(idx, getPercentageValue(percentage, rightGridAvailableWidth));
             break;
           case ColumnWidthType.FitToContent:
             addKnownWidth(idx, fitToContentWidth(qApprMaxGlyphCount, qFallbackTitle));

@@ -1,4 +1,3 @@
-import type { ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
 import { ColumnWidthType } from "@qlik/nebula-table-utils/lib/constants";
 import { useMeasureText, useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { useCallback, useState } from "react";
@@ -13,7 +12,7 @@ import {
   TOTAL_CELL_PADDING,
 } from "./constants";
 import type { ColumnWidthLeftHook, LeftGridWidthInfo } from "./types";
-import { getMeasureTextArgs, getPercentageValue, getPixelValue } from "./utils";
+import { getColumnWidthValue, getMeasureTextArgs } from "./utils";
 
 export default function useColumnWidthLeft({ layoutService, tableRect, headersData }: ColumnWidthLeftHook) {
   const {
@@ -31,22 +30,9 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
 
   const calculateLeftGridWidthInfo = useCallback(
     (widthOverride?: number, overrideIndex?: number) => {
-      const getColumnWidth = (columnWidth: ColumnWidth | undefined, fitToContentWidth: number) => {
-        switch (columnWidth?.type) {
-          case ColumnWidthType.Pixels:
-            return getPixelValue(columnWidth.pixels);
-          case ColumnWidthType.Percentage:
-            return getPercentageValue(columnWidth.percentage) * tableRect.width;
-          case ColumnWidthType.FitToContent:
-          case ColumnWidthType.Auto:
-          default:
-            return fitToContentWidth;
-        }
-      };
-
       const maxMeasureCellWidth = qMeasureInfo.reduce((maxWidth, { qFallbackTitle, columnWidth }) => {
         const fitToContentWidth = measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING;
-        return Math.max(maxWidth, getColumnWidth(columnWidth, fitToContentWidth));
+        return Math.max(maxWidth, getColumnWidthValue(tableRect.width, columnWidth, fitToContentWidth));
       }, 0);
 
       let sumOfWidths = 0;
@@ -88,7 +74,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
                 fitToContentWidth = TOTAL_CELL_PADDING + measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize;
               }
 
-              cellWidth = getColumnWidth(columnWidth, fitToContentWidth);
+              cellWidth = getColumnWidthValue(tableRect.width, columnWidth, fitToContentWidth);
             }
 
             // The last cell setting should override the other cells in that column, so we don't pick the max
