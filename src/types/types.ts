@@ -182,6 +182,7 @@ export interface ViewService {
 export interface LayoutService {
   layout: PivotLayout;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
+  getDimensionInfo: (index: number) => VisibleDimensionInfo | undefined;
   getDimensionInfoIndex: (qDimensionInfo: VisibleDimensionInfo) => number;
   getNullValueText: () => string;
   size: Point;

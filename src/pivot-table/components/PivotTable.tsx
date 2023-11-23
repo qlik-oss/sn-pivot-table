@@ -203,7 +203,7 @@ export const StickyPivotTable = ({
                   topDimensionData={topDimensionData}
                   showLastBorder={{ right: showLastRightBorder, bottom: false }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
-                  visibleTopDimensionInfo={visibleTopDimensionInfo}
+                  headersData={headersData}
                 />
 
                 <DataGrid
