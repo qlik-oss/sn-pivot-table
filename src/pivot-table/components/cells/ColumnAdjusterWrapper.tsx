@@ -29,9 +29,7 @@ const ColumnAdjusterWrapper = ({
 }: AdjusterProps) => {
   const { interactions } = useBaseContext();
   const { isActive } = useSelectionsContext();
-  const {
-    grid: { border },
-  } = useStyleContext();
+  const styleService = useStyleContext();
   const [, forceRerender] = useState({});
   const shouldRender = cellInfo.canBeResized && !!interactions.active && !isActive;
 
@@ -52,7 +50,7 @@ const ColumnAdjusterWrapper = ({
       columnWidth={columnWidth}
       isLastColumn={isLastColumn}
       keyValue={`adjuster-${cellInfo.dimensionInfoIndex}`}
-      borderColor={border}
+      hoverColor={styleService.grid.border}
       updateWidthCallback={updateWidth}
       confirmWidthCallback={confirmWidth}
       setIsAdjustingWidth={setIsAdjustingWidth}
