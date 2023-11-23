@@ -123,6 +123,7 @@ const DataGrid = ({
     borderColor: divider,
     willChange: "auto",
     userSelect: "none",
+    WebkitUserSelect: "none",
   };
 
   const shouldShowTotalCellBottomDivider = useShouldShowTotalCellBottomDivider(leftDimensionData);
