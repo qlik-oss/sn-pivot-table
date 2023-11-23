@@ -1,14 +1,14 @@
 import type { MeasureCell, MeasureData, PageInfo } from "../../../../types/types";
 
-const isMissingRowData = (measureData: MeasureData, x: number, y: number, width: number) => {
-  const row = measureData[y] as MeasureCell[] | undefined;
+const isMissingRowData = (measureData: MeasureData, qLeft: number, pageTop: number, qWidth: number) => {
+  const row = measureData[pageTop] as MeasureCell[] | undefined;
 
   if (row === undefined) {
     return true; // Row is not cached
   }
 
-  for (let currX = x; currX < x + width; currX++) {
-    const cell = row[currX] as MeasureCell | undefined;
+  for (let left = qLeft; left < qLeft + qWidth; left++) {
+    const cell = row[left] as MeasureCell | undefined;
     if (cell === undefined) {
       return true; // Column is not cached
     }
@@ -23,21 +23,21 @@ const canMergePages = (prevPage: EngineAPI.INxPage, page: EngineAPI.INxPage) =>
 const getRowPages = (
   pageInfo: PageInfo,
   measureData: MeasureData,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
+  qLeft: number,
+  pageTop: number,
+  qWidth: number,
+  qHeight: number,
 ) => {
   const pages = [];
 
-  for (let currY = y; currY < y + height; currY++) {
-    if (isMissingRowData(measureData, x, currY, width)) {
+  for (let top = pageTop; top < pageTop + qHeight; top++) {
+    if (isMissingRowData(measureData, qLeft, top, qWidth)) {
       const prevPage = pages[pages.length - 1] as EngineAPI.INxPage | undefined;
       const page = {
-        qLeft: x,
-        qTop: Math.max(0, currY + pageInfo.page * pageInfo.rowsPerPage),
+        qLeft,
+        qTop: Math.max(0, top + pageInfo.page * pageInfo.rowsPerPage),
         qHeight: 1,
-        qWidth: width,
+        qWidth,
       };
 
       if (prevPage !== undefined && canMergePages(prevPage, page)) {
