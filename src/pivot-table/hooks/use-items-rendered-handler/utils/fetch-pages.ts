@@ -48,6 +48,7 @@ const fetchPages = async (
     const columnStartIndex = Math.max(gridColumnStartIndex - backBuffer, 0);
 
     columnsPages = getColumnPages(
+      pageInfo,
       measureData,
       columnStartIndex,
       gridRowStartIndex,

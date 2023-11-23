@@ -1,4 +1,4 @@
-import type { MeasureData } from "../../../../types/types";
+import type { MeasureData, PageInfo } from "../../../../types/types";
 
 const isMissingColumnData = (measureData: MeasureData, x: number, y: number, height: number) => {
   const targetRows = measureData.slice(y, y + height);
@@ -13,16 +13,23 @@ const isMissingColumnData = (measureData: MeasureData, x: number, y: number, hei
 const canMergePages = (prevPage: EngineAPI.INxPage, page: EngineAPI.INxPage) =>
   prevPage.qLeft + prevPage.qWidth === page.qLeft && prevPage.qTop === page.qTop && prevPage.qHeight === page.qHeight;
 
-const getColumnPages = (measureData: MeasureData, qLeft: number, qTop: number, qWidth: number, qHeight: number) => {
+const getColumnPages = (
+  pageInfo: PageInfo,
+  measureData: MeasureData,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+) => {
   const pages = [];
 
-  for (let left = qLeft; left < qLeft + qWidth; left++) {
-    if (isMissingColumnData(measureData, left, qTop, qHeight)) {
+  for (let currX = x; currX < x + width; currX++) {
+    if (isMissingColumnData(measureData, currX, y, height)) {
       const prevPage = pages[pages.length - 1] as EngineAPI.INxPage | undefined;
       const page = {
-        qLeft: left,
-        qTop,
-        qHeight,
+        qLeft: currX,
+        qTop: Math.max(0, y + pageInfo.page * pageInfo.rowsPerPage),
+        qHeight: height,
         qWidth: 1,
       };
 

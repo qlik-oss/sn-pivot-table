@@ -49,11 +49,11 @@ const useItemsRenderedHandler = ({
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
 
-      const estimatedColumnCount =
+      const estimatedWidth =
         viewService.gridWidth +
         leftColumnCount +
         (horizontalScrollDirection.current === ScrollDirection.None ? 0 : BUFFER);
-      const estimatedRowCount =
+      const estimatedHeight =
         viewService.gridHeight + topRowCount + (verticalScrollDirection.current === ScrollDirection.None ? 0 : BUFFER);
 
       /**
@@ -64,7 +64,7 @@ const useItemsRenderedHandler = ({
        * threshold should be.
        */
       let throttledOrDebouncedFetchPages = throttledFetchPages;
-      if (estimatedRowCount * estimatedColumnCount > DEBOUNCED_GRID_SIZE_THRESHOLD) {
+      if (estimatedHeight * estimatedWidth > DEBOUNCED_GRID_SIZE_THRESHOLD) {
         throttledOrDebouncedFetchPages = debouncedFetchPages;
       }
 
