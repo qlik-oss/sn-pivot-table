@@ -6,6 +6,7 @@ import {
   type UseMeasureTextProps,
 } from "@qlik/nebula-table-utils/lib/hooks";
 import { act, renderHook } from "@testing-library/react";
+import useColumnWidth from "..";
 import { PSEUDO_DIMENSION_INDEX } from "../../../../constants";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../../types/QIX";
 import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../../types/types";
@@ -13,7 +14,6 @@ import { GRID_BORDER } from "../../../constants";
 import { createDimInfos } from "../../../data/__tests__/test-helper";
 import createHeadersData from "../../../data/headers-data";
 import { EXPAND_ICON_SIZE, LOCK_ICON_SIZE, MENU_ICON_SIZE, TOTAL_CELL_PADDING } from "../constants";
-import useColumnWidth from "../use-column-width";
 
 type MeasureTextMock = jest.MockedFunction<(text: string) => number>;
 type EstimateWidthMock = jest.MockedFunction<(length: number) => number>;

@@ -1,7 +1,7 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
 import type { ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeadersData } from "../../../types/types";
-import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width/types";
+import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 

@@ -8,6 +8,8 @@ import useColumnWidthLeft from "./use-column-width-left";
 import useColumnWidthRight from "./use-column-width-right";
 import { getMeasureTextArgs } from "./utils";
 
+export type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "./types";
+
 export default function useColumnWidth({
   layoutService,
   tableRect,

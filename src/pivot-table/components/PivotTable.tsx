@@ -9,7 +9,7 @@ import {
   type ViewService,
 } from "../../types/types";
 import { useStyleContext } from "../contexts/StyleProvider";
-import useColumnWidth from "../hooks/use-column-width/use-column-width";
+import useColumnWidth from "../hooks/use-column-width";
 import useData from "../hooks/use-data";
 import useDataModel from "../hooks/use-data-model";
 import useGridHeight from "../hooks/use-grid-height";

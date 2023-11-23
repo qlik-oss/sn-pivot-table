@@ -6,7 +6,7 @@ import React from "react";
 import type { App, ExtendedDimensionInfo } from "../../../../types/QIX";
 import type { DataModel, HeaderCell } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
-import type { GetHeaderCellsIconsVisibilityStatus } from "../../../hooks/use-column-width/types";
+import type { GetHeaderCellsIconsVisibilityStatus } from "../../../hooks/use-column-width";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
 
 describe("DimensionTitleCell", () => {
