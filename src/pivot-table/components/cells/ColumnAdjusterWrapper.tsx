@@ -4,7 +4,7 @@ import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { type OverrideLeftGridWidth } from "../../hooks/use-column-width";
+import type { OverrideLeftGridWidth } from "../../hooks/use-column-width";
 
 interface AdjusterProps {
   cellInfo: AdjusterCellInfo;

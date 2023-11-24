@@ -96,14 +96,14 @@ export const StickyPivotTable = ({
     getRightGridColumnWidth,
     getHeaderCellsIconsVisibilityStatus,
     overrideLeftGridWidth,
-  } = useColumnWidth(
+  } = useColumnWidth({
     layoutService,
     tableRect,
     headersData,
     visibleTopDimensionInfo,
     verticalScrollbarWidth,
     horizontalScrollbarHeightSetter,
-  );
+  });
 
   const { rootWrapper, leftWrapper, rightWrapper } = getScrollableAreasDimensions({
     tableRect,
@@ -153,8 +153,8 @@ export const StickyPivotTable = ({
               showHorizontalScrollbar
               origin={ScrollableContainerOrigin.LEFT_GRID}
             >
-              <FullSizeContainer {...leftWrapper.containers.fullSize}>
-                <StickyContainer {...leftWrapper.containers.sticky}>
+              <FullSizeContainer isLeftGrid {...leftWrapper.containers.fullSize}>
+                <StickyContainer isLeftGrid {...leftWrapper.containers.sticky}>
                   <HeaderGrid
                     dataModel={dataModel}
                     columnWidths={leftGridColumnWidths}
