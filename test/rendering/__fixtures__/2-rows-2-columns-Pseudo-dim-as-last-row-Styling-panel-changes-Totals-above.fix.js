@@ -8,7 +8,7 @@ export default () => ({
           qType: "sn-pivot-table",
         },
         qMeta: {
-          privileges: ["read"],
+          privileges: ["read", "update", "delete"],
         },
         qSelectionInfo: {},
         qHyperCube: {
@@ -14200,7 +14200,7 @@ export default () => ({
           {
             key: "theme",
             header: {
-              fontFamily: "American Typewriter, serif",
+              fontFamily: "Arial, sans-serif",
               fontStyle: ["bold", "italic", "underline"],
               fontSize: "16px",
               fontColor: {
@@ -14213,7 +14213,7 @@ export default () => ({
               },
             },
             dimensionValues: {
-              fontFamily: "Arial, sans-serif",
+              fontFamily: "Times New Roman, serif",
               fontStyle: ["bold", "italic", "underline"],
               fontSize: "14px",
               fontColor: {
@@ -14227,7 +14227,7 @@ export default () => ({
             },
             measureValues: {
               fontSize: "11px",
-              fontFamily: "Georgia, serif",
+              fontFamily: "Source Sans Pro, sans-serif",
               fontStyle: ["bold", "italic", "underline"],
               fontColor: {
                 index: 1,
