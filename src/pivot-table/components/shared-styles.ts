@@ -30,6 +30,7 @@ export const baseCellStyle: React.CSSProperties = {
   boxSizing: "border-box",
   padding: `${CELL_PADDING}px ${DOUBLE_CELL_PADDING}px`,
   userSelect: "none",
+  WebkitUserSelect: "none",
 };
 
 export const textStyle: React.CSSProperties = {

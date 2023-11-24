@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import type { AdjusterCellInfo, DataModel } from "../../../types/types";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
-import { type OverrideLeftGridWidth } from "../../hooks/use-column-width";
+import type { OverrideLeftGridWidth } from "../../hooks/use-column-width";
 
 interface AdjusterProps {
   cellInfo: AdjusterCellInfo;
