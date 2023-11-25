@@ -168,6 +168,7 @@ export interface ExtendedHyperCube extends EngineAPI.IHyperCube {
   qDimensionInfo: ExtendedDimensionInfo[];
   qMeasureInfo: ExtendedMeasureInfo[];
   activelySortedColumn: ActivelySortedColumn;
+  topHeadersColumnWidth: ColumnWidth;
 }
 
 export interface PivotLayout extends EngineAPI.IGenericHyperCubeLayout {

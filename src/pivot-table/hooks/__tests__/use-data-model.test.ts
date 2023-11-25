@@ -3,7 +3,7 @@ import { ColumnWidthType } from "@qlik/nebula-table-utils/lib/constants";
 import { renderHook } from "@testing-library/react";
 import { Q_PATH } from "../../../constants";
 import { type ExtendedDimensionInfo, type ExtendedMeasureInfo, type Model } from "../../../types/QIX";
-import type { AdjusterCellInfo, LayoutService, PageInfo } from "../../../types/types";
+import { ColumnWidthLocation, type AdjusterCellInfo, type LayoutService, type PageInfo } from "../../../types/types";
 import useDataModel from "../use-data-model";
 
 const pivotPage = {};
@@ -181,6 +181,7 @@ describe("useDataModel", () => {
 
     test("should call applyPatches with qPath for dimension", () => {
       const { applyColumnWidth } = renderer();
+      cellInfo.columnWidthLocation = ColumnWidthLocation.Dimension;
       applyColumnWidth(newColumnWidth, cellInfo);
 
       expect(model?.applyPatches).toHaveBeenCalledWith([patch], true);
@@ -188,6 +189,7 @@ describe("useDataModel", () => {
 
     test("should call applyPatches with qOp replace when columnWidth exists on dimension", () => {
       layoutService.layout.qHyperCube.qDimensionInfo[0].columnWidth = { type: ColumnWidthType.Auto };
+      cellInfo.columnWidthLocation = ColumnWidthLocation.Dimension;
       patch.qOp = "Replace";
 
       const { applyColumnWidth } = renderer();
@@ -198,6 +200,7 @@ describe("useDataModel", () => {
 
     test("should call applyPatches with qPath for top grid measure", async () => {
       cellInfo.dimensionInfoIndex = -1;
+      cellInfo.columnWidthLocation = ColumnWidthLocation.Measures;
       patch.qPath = "/qHyperCubeDef/qMeasures/0/qDef/columnWidth";
 
       const { applyColumnWidth } = renderer();
@@ -208,11 +211,22 @@ describe("useDataModel", () => {
 
     test("should call applyPatches with patches for all measures when resizing header grid pseudo dimension", async () => {
       cellInfo.dimensionInfoIndex = -1;
+      cellInfo.columnWidthLocation = ColumnWidthLocation.Measures;
       cellInfo.isLeftColumn = true;
       const patches = [
         { ...patch, qPath: "/qHyperCubeDef/qMeasures/0/qDef/columnWidth" },
         { ...patch, qPath: "/qHyperCubeDef/qMeasures/1/qDef/columnWidth" },
       ];
+
+      const { applyColumnWidth } = renderer();
+      applyColumnWidth(newColumnWidth, cellInfo);
+
+      expect(model?.applyPatches).toHaveBeenCalledWith(patches, true);
+    });
+
+    test("should call applyPatches with patches for pivot when resizing extra column", async () => {
+      cellInfo.columnWidthLocation = ColumnWidthLocation.Pivot;
+      const patches = [{ ...patch, qPath: "/qHyperCubeDef/topHeadersColumnWidth" }];
 
       const { applyColumnWidth } = renderer();
       applyColumnWidth(newColumnWidth, cellInfo);

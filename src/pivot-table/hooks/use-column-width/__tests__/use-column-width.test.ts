@@ -9,7 +9,13 @@ import { act, renderHook } from "@testing-library/react";
 import useColumnWidth from "..";
 import { PSEUDO_DIMENSION_INDEX } from "../../../../constants";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo } from "../../../../types/QIX";
-import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../../types/types";
+import {
+  ColumnWidthLocation,
+  type HeadersData,
+  type LayoutService,
+  type Rect,
+  type VisibleDimensionInfo,
+} from "../../../../types/types";
 import { GRID_BORDER } from "../../../constants";
 import { createDimInfos } from "../../../data/__tests__/test-helper";
 import createHeadersData from "../../../data/headers-data";
@@ -30,6 +36,7 @@ describe("useColumnWidth", () => {
   let mockedUseMeasureText: jest.MockedFunction<(styling: UseMeasureTextProps) => MeasureTextHook>;
   let mockedMeasureText: MeasureTextHook;
   let mockedIsLeftDimension: jest.MockedFunction<(index: number) => boolean>;
+  let mockedGetDimensionInfoIndex: jest.MockedFunction<(info: VisibleDimensionInfo) => number>;
   let layoutService: LayoutService;
   let visibleLeftDimensionInfo: VisibleDimensionInfo[];
   let visibleTopDimensionInfo: VisibleDimensionInfo[];
@@ -45,6 +52,7 @@ describe("useColumnWidth", () => {
     percentageConversion = tableRect.width / 100;
     mockedUseMeasureText = useMeasureText as jest.MockedFunction<typeof useMeasureText>;
     mockedIsLeftDimension = jest.fn().mockReturnValue(true);
+    mockedGetDimensionInfoIndex = jest.fn().mockReturnValue(0);
 
     layoutService = {
       layout: {
@@ -60,7 +68,7 @@ describe("useColumnWidth", () => {
         y: 1,
       },
       getMeasureInfoIndexFromCellIndex: (index: number) => index,
-      getDimensionInfoIndex: () => 0,
+      getDimensionInfoIndex: mockedGetDimensionInfoIndex,
       isLeftDimension: mockedIsLeftDimension,
     } as unknown as LayoutService;
 
@@ -130,7 +138,7 @@ describe("useColumnWidth", () => {
       expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
     });
 
-    test("should return left column width for auto setting, not left dimension, 3 top dimension and pseudo last", () => {
+    test("should return left column width for auto setting, no left dimension, 3 top dimension and pseudo last", () => {
       const width = 25;
       mockEstimateWidth(width);
       mockMeasureText(width);
@@ -141,6 +149,26 @@ describe("useColumnWidth", () => {
 
       const { leftGridColumnWidths } = renderUseColumnWidth();
       expect(leftGridColumnWidths[0]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
+    });
+
+    test("should return left column width for pixel setting, 2 left dimensions and pseudo last", () => {
+      const width = 25;
+      mockEstimateWidth(width);
+      mockMeasureText(width);
+      visibleLeftDimensionInfo = createDimInfos([0, PSEUDO_DIMENSION_INDEX]);
+      visibleTopDimensionInfo = createDimInfos([1, 2]);
+      layoutService.layout.qHyperCube.qMeasureInfo = [
+        { columnWidth: { type: ColumnWidthType.Pixels, pixels: 30 } } as ExtendedMeasureInfo,
+      ];
+      mockedGetDimensionInfoIndex.mockImplementation((info) =>
+        [...visibleLeftDimensionInfo, ...visibleTopDimensionInfo].indexOf(info),
+      );
+      mockedIsLeftDimension.mockImplementation((idx) => idx < visibleLeftDimensionInfo.length);
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
+
+      const { leftGridColumnWidths } = renderUseColumnWidth();
+      expect(leftGridColumnWidths[0]).toBe(width + TOTAL_CELL_PADDING + EXPAND_ICON_SIZE);
+      expect(leftGridColumnWidths[1]).toBe(30);
     });
 
     test("should return left column width for pixel setting", () => {
@@ -249,6 +277,27 @@ describe("useColumnWidth", () => {
       expect(result.current.leftGridColumnWidths[0]).toBe(width * 3);
       expect(result.current.leftGridColumnWidths[1]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
       expect(result.current.leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
+    });
+
+    test("should return left column width when column location is set to pivot", () => {
+      const width = 25;
+      mockEstimateWidth(width);
+      mockMeasureText(width);
+
+      const topHeadersColumnWidth = 100;
+
+      visibleLeftDimensionInfo = createDimInfos([PSEUDO_DIMENSION_INDEX, 0]);
+      visibleTopDimensionInfo = createDimInfos([1]);
+      layoutService.layout.qHyperCube.topHeadersColumnWidth = {
+        type: ColumnWidthType.Pixels,
+        pixels: topHeadersColumnWidth,
+      };
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
+      headersData.data[0][2]!.isLeftDimension = false;
+      headersData.data[0][2]!.columnWidthLocation = ColumnWidthLocation.Pivot;
+
+      const { leftGridColumnWidths } = renderUseColumnWidth();
+      expect(leftGridColumnWidths[2]).toBe(topHeadersColumnWidth);
     });
   });
 
