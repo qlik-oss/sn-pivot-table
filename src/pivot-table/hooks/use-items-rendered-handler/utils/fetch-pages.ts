@@ -16,6 +16,9 @@ type FetchPages = (
 
 export const BUFFER = 10;
 
+const getBackBuffer = (dir: React.MutableRefObject<ScrollDirection>) =>
+  dir.current === ScrollDirection.Backward ? BUFFER : 0;
+
 export const fetchPages = async (
   dataModel: DataModel,
   layoutService: LayoutService,
@@ -30,7 +33,7 @@ export const fetchPages = async (
   let columnsPages: EngineAPI.INxPage[] = [];
 
   if (verticalScrollDirection.current !== ScrollDirection.None) {
-    const backBuffer = verticalScrollDirection.current === ScrollDirection.Backward ? BUFFER : 0;
+    const backBuffer = getBackBuffer(verticalScrollDirection);
     const rowStartIndex = Math.max(gridRowStartIndex - backBuffer, 0);
 
     rowPages = getRowPages(
@@ -44,7 +47,7 @@ export const fetchPages = async (
   }
 
   if (horizontalScrollDirection.current !== ScrollDirection.None) {
-    const backBuffer = horizontalScrollDirection.current === ScrollDirection.Backward ? BUFFER : 0;
+    const backBuffer = getBackBuffer(horizontalScrollDirection);
     const columnStartIndex = Math.max(gridColumnStartIndex - backBuffer, 0);
 
     columnsPages = getColumnPages(
