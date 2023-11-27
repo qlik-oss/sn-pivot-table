@@ -23,7 +23,7 @@ const useData = (
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
   visibleTopDimensionInfo: VisibleDimensionInfo[],
 ): Data => {
-  const [nextPage, setNextPage] = useState<EngineAPI.INxPivotPage | null>(null);
+  const [nextPages, setNextPages] = useState<EngineAPI.INxPivotPage[] | null>(null);
 
   const attrExprInfoIndexes = useAttrExprInfoIndexes(
     visibleLeftDimensionInfo,
@@ -105,35 +105,41 @@ const useData = (
   }, [deriveLeftDimensionDataFromProps]);
 
   useOnPropsChange(() => {
-    if (!nextPage) return;
-    setMeasureData((prevData) =>
-      addPageToMeasureData({
-        prevData,
-        dataPage: nextPage,
-        pageInfo,
-        attrExprInfoIndexes: attrExprInfoIndexes.measures,
-        layoutService,
-      }),
-    );
-    setTopDimensionData((prevData) =>
-      addPageToTopDimensionData({
-        prevData,
-        nextDataPage: nextPage,
-        layoutService,
-        visibleTopDimensionInfo,
-        attrExprInfoIndexes: attrExprInfoIndexes.top,
-      }),
-    );
-    setLeftDimensionData((prevData) =>
-      addPageToLeftDimensionData({
-        prevData,
-        nextDataPage: nextPage,
-        pageInfo,
-        layoutService,
-        visibleLeftDimensionInfo,
-        attrExprInfoIndexes: attrExprInfoIndexes.left,
-      }),
-    );
+    if (!nextPages) return;
+
+    // TODO This is not ideal. The data functions should take an array of pages instead
+    // of having to set state per page in a forEach loop.
+    nextPages.forEach((nextPage) => {
+      setMeasureData((prevData) =>
+        addPageToMeasureData({
+          prevData,
+          dataPage: nextPage,
+          pageInfo,
+          attrExprInfoIndexes: attrExprInfoIndexes.measures,
+          layoutService,
+        }),
+      );
+      setTopDimensionData((prevData) =>
+        addPageToTopDimensionData({
+          prevData,
+          nextDataPage: nextPage,
+          layoutService,
+          visibleTopDimensionInfo,
+          attrExprInfoIndexes: attrExprInfoIndexes.top,
+        }),
+      );
+      setLeftDimensionData((prevData) =>
+        addPageToLeftDimensionData({
+          prevData,
+          nextDataPage: nextPage,
+          pageInfo,
+          layoutService,
+          visibleLeftDimensionInfo,
+          attrExprInfoIndexes: attrExprInfoIndexes.left,
+        }),
+      );
+    });
+
     // we dont need dependency of pageInfo
     // this causes a rerender to add unrelevant data into grids
     // the reson for why we dont need it as dependancy is because
@@ -141,15 +147,15 @@ const useData = (
     // that means the entire react tree will be recreated -> so pageInfo here will be the most updated one!
     // and adding it as a dependency will trigger this hook that would result in extra unrelevant data (basically previous batch/page)
     // being added in to grids
-  }, [nextPage]);
+  }, [nextPages]);
 
   const headersData = useMemo<HeadersData>(
     () => createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo),
     [layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo],
   );
 
-  const nextPageHandler = useCallback((page: EngineAPI.INxPivotPage) => {
-    setNextPage(page);
+  const nextPageHandler = useCallback((pages: EngineAPI.INxPivotPage[]) => {
+    setNextPages(pages);
   }, []);
 
   return {

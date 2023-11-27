@@ -6,7 +6,7 @@ import {
   type ApplyColumnWidth,
   type DataModel,
   type ExpandOrCollapser,
-  type FetchMoreData,
+  type FetchPages,
   type LayoutService,
   type PageInfo,
 } from "../../types/types";
@@ -15,7 +15,7 @@ import useMutableProp from "./use-mutable-prop";
 
 export interface UseDataModelProps {
   model: Model;
-  nextPageHandler: (page: EngineAPI.INxPivotPage) => void;
+  nextPageHandler: (pages: EngineAPI.INxPivotPage[]) => void;
   pageInfo: PageInfo;
   layoutService: LayoutService;
 }
@@ -57,23 +57,22 @@ export default function useDataModel({
     [genericObjectModel],
   );
 
-  const fetchMoreData = useCallback<FetchMoreData>(
-    async (left: number, top: number, width: number, height: number): Promise<void> => {
+  const fetchPages = useCallback<FetchPages>(
+    async (pages: EngineAPI.INxPage[]): Promise<void> => {
       if (!genericObjectModel?.getHyperCubePivotData) return;
 
       try {
-        const nextArea = {
-          qLeft: left,
-          qTop: pageInfo.page * pageInfo.rowsPerPage + top,
-          qWidth: width,
-          qHeight: height,
-        };
-
-        const [pivotPage] = await genericObjectModel.getHyperCubePivotData(Q_PATH, handleMaxEnginePageSize(nextArea));
+        const pivotPages = await genericObjectModel.getHyperCubePivotData(
+          Q_PATH,
+          pages.reduce<EngineAPI.INxPage[]>(
+            (handledPages, page) => [...handledPages, ...handleMaxEnginePageSize(page)],
+            [],
+          ),
+        );
 
         // Guard against page changes
         if (currentPage.current === pageInfo.page) {
-          nextPageHandler(pivotPage);
+          nextPageHandler(pivotPages);
         }
       } catch (error) {
         console.error(error); // eslint-disable-line
@@ -126,14 +125,14 @@ export default function useDataModel({
 
   const dataModel = useMemo<DataModel>(
     () => ({
-      fetchMoreData,
       collapseLeft,
       collapseTop,
       expandLeft,
       expandTop,
       applyColumnWidth,
+      fetchPages,
     }),
-    [fetchMoreData, collapseLeft, collapseTop, expandLeft, expandTop, applyColumnWidth],
+    [collapseLeft, collapseTop, expandLeft, expandTop, applyColumnWidth, fetchPages],
   );
 
   return dataModel;

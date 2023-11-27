@@ -218,6 +218,7 @@ export const StickyPivotTable = ({
                   topDimensionData={topDimensionData}
                   showLastBorder={{ right: showLastRightBorder, bottom: allRowsVisible }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
+                  pageInfo={pageInfo}
                 />
               </StickyContainer>
             </FullSizeContainer>
