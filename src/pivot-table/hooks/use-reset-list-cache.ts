@@ -1,3 +1,4 @@
+import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { useLayoutEffect } from "react";
 import type { VariableSizeList } from "react-window";
 import type { DataModel, LeftDimensionData, TopDimensionData } from "../../types/types";
@@ -12,7 +13,7 @@ export const useResetListCacheAndRerender = (refs: Refs, width: number, height: 
 };
 
 export const useResetListCache = (refs: Refs, dataModel: DataModel, data: LeftDimensionData | TopDimensionData) => {
-  useLayoutEffect(() => {
+  useOnPropsChange(() => {
     refs.current?.forEach((list) => list?.resetAfterIndex(0, false));
   }, [refs, dataModel, data]);
 };
