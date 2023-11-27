@@ -85,6 +85,8 @@ export const StickyPivotTable = ({
     verticalScrollbarWidth,
     horizontalScrollbarHeight,
     horizontalScrollbarHeightSetter,
+    verticalScrollDirection,
+    horizontalScrollDirection,
   } = useScroll({ layoutService, pageInfo });
 
   const {
@@ -219,6 +221,8 @@ export const StickyPivotTable = ({
                   showLastBorder={{ right: showLastRightBorder, bottom: allRowsVisible }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
                   pageInfo={pageInfo}
+                  verticalScrollDirection={verticalScrollDirection}
+                  horizontalScrollDirection={horizontalScrollDirection}
                 />
               </StickyContainer>
             </FullSizeContainer>

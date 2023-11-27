@@ -9,6 +9,7 @@ import type {
   LeftDimensionData,
   MeasureData,
   PageInfo,
+  ScrollDirection,
   ShowLastBorder,
   TopDimensionData,
   ViewService,
@@ -20,7 +21,6 @@ import {
   useShouldShowTotalCellRightDivider,
 } from "../../hooks/use-is-total-cell";
 import useItemsRenderedHandler from "../../hooks/use-items-rendered-handler";
-import useScrollDirection from "../../hooks/use-scroll-direction";
 import MemoizedDataCell from "../cells/DataCell";
 import { borderStyle } from "../shared-styles";
 
@@ -38,6 +38,8 @@ interface DataGridProps {
   showLastBorder: ShowLastBorder;
   getRightGridColumnWidth: (index?: number) => number;
   pageInfo: PageInfo;
+  verticalScrollDirection: React.MutableRefObject<ScrollDirection>;
+  horizontalScrollDirection: React.MutableRefObject<ScrollDirection>;
 }
 
 const gridStyle: React.CSSProperties = {
@@ -61,6 +63,8 @@ const DataGrid = ({
   showLastBorder,
   getRightGridColumnWidth,
   pageInfo,
+  verticalScrollDirection,
+  horizontalScrollDirection,
 }: DataGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -79,8 +83,6 @@ const DataGrid = ({
   const shouldShowTotalCellRightDivider = useShouldShowTotalCellRightDivider(topDimensionData);
 
   const isTotalValue = useIsTotalValue(leftDimensionData, topDimensionData);
-
-  const { scrollHandler, verticalScrollDirection, horizontalScrollDirection } = useScrollDirection();
 
   const onItemsRenderedHandler = useItemsRenderedHandler({
     viewService,
@@ -134,7 +136,6 @@ const DataGrid = ({
       onItemsRendered={onItemsRenderedHandler}
       estimatedRowHeight={rowHightCallback()}
       estimatedColumnWidth={getRightGridColumnWidth()}
-      onScroll={scrollHandler}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>
