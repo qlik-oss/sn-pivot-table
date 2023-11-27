@@ -1,4 +1,3 @@
-import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo } from "react";
 import { VariableSizeList } from "react-window";
 import type {
@@ -10,6 +9,7 @@ import type {
   VisibleDimensionInfo,
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { useResetListCache, useResetListCacheAndRerender } from "../../hooks/use-reset-list-cache";
 import MemoizedDimensionValue from "../cells/DimensionValue";
 import getItemKey from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
@@ -71,11 +71,9 @@ const LeftGrid = ({
     grid: { divider },
   } = useStyleContext();
 
-  useOnPropsChange(() => {
-    if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
-    }
-  }, [dataModel, width, height, leftDimensionData, leftGridRef, contentCellHeight]);
+  useResetListCache(leftGridRef, dataModel, leftDimensionData);
+
+  useResetListCacheAndRerender(leftGridRef, width, height, contentCellHeight);
 
   const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
 

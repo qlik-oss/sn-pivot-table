@@ -1,10 +1,12 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
-import { ScrollableContainerOrigin, type LayoutService, type PageInfo } from "../../types/types";
+import { ScrollableContainerOrigin, type LayoutService, type PageInfo, type Rect } from "../../types/types";
+import { useBaseContext } from "../contexts/BaseProvider";
 
 interface Props {
   layoutService: LayoutService;
   pageInfo: PageInfo;
+  tableRect: Rect;
   mockedRefs?: {
     topGridRef?: VariableSizeList<unknown>[];
     leftGridRef?: VariableSizeList<unknown>[];
@@ -15,7 +17,8 @@ interface Props {
   };
 }
 
-const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
+const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) => {
+  const { theme } = useBaseContext();
   const verticalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.verticalScrollableContainerRef ?? null);
   const leftGridHorizontalScrollableContainerRef = useRef<HTMLDivElement>(
     mockedRefs?.leftGridHorizontalScrollableContainerRef ?? null,
@@ -28,6 +31,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
   const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
   const [verticalScrollbarWidth, setVerticalScrollbarWidth] = useState<number>(0);
   const [horizontalScrollbarHeight, setHorizontalScrollbarHeight] = useState<number>(0);
+  const themeName = theme.name();
 
   // If the layout change reset the scroll position, except if the layout
   // change because a node was expanded or collapsed
@@ -104,7 +108,7 @@ const useScroll = ({ layoutService, pageInfo, mockedRefs }: Props) => {
     }
 
     horizontalScrollbarHeightSetter();
-  }, [horizontalScrollbarHeightSetter]);
+  }, [horizontalScrollbarHeightSetter, layoutService, tableRect.width, tableRect.height, themeName]);
 
   const onHorizontalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;

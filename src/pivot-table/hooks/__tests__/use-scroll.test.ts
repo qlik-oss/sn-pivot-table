@@ -22,6 +22,7 @@ describe("useScroll", () => {
         useScroll({
           layoutService: layoutServiceAsProp,
           pageInfo: pageInfoAsProp,
+          tableRect: { width: 100, height: 200 },
           mockedRefs: {
             leftGridHorizontalScrollableContainerRef: leftGridHorizontalScrollableContainerRefMock,
             dataGridHorizontalScrollableContainerRef: dataGridHorizontalScrollableContainerRefMock,
