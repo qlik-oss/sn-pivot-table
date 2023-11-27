@@ -5,6 +5,8 @@ import { useBaseContext } from "../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import type { OverrideLeftGridWidth } from "../../hooks/use-column-width";
+import { getBorderStyle } from "../shared-styles";
+import getAdjusterColor from "./utils/get-adjuster-color";
 
 interface AdjusterProps {
   cellInfo: AdjusterCellInfo;
@@ -35,6 +37,8 @@ const ColumnAdjusterWrapper = ({
 
   if (!shouldRender) return null;
 
+  const hoverColor = getAdjusterColor(styleService.header.background, styleService.grid.border);
+
   const updateWidth = (adjustedWidth: number) => {
     forceRerender({});
     if (overrideLeftGridWidth && cellInfo.colIdx !== undefined) {
@@ -50,7 +54,7 @@ const ColumnAdjusterWrapper = ({
       columnWidth={columnWidth}
       isLastColumn={isLastColumn}
       keyValue={`adjuster-${cellInfo.dimensionInfoIndex}`}
-      hoverColor={styleService.grid.border}
+      hoverColor={hoverColor}
       updateWidthCallback={updateWidth}
       confirmWidthCallback={confirmWidth}
       setIsAdjustingWidth={setIsAdjustingWidth}
