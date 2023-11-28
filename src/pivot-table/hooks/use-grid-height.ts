@@ -7,9 +7,16 @@ interface GridHeightHook {
   headersData: HeadersData;
   topDimensionData: TopDimensionData;
   tableRect: Rect;
+  horizontalScrollbarHeight: number;
 }
 
-export default function useGridHeight({ pageInfo, headersData, topDimensionData, tableRect }: GridHeightHook) {
+export default function useGridHeight({
+  pageInfo,
+  headersData,
+  topDimensionData,
+  tableRect,
+  horizontalScrollbarHeight,
+}: GridHeightHook) {
   const { headerCellHeight, contentCellHeight } = useStyleContext();
 
   const totalDataHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
@@ -21,7 +28,7 @@ export default function useGridHeight({ pageInfo, headersData, topDimensionData,
   const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
   const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
 
-  const allRowsVisible = topGridHeight + GRID_BORDER + dataGridHeight < tableRect.height;
+  const allRowsVisible = topGridHeight + GRID_BORDER + dataGridHeight + horizontalScrollbarHeight < tableRect.height;
 
   return {
     containerHeight,

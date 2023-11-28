@@ -7,6 +7,7 @@ describe("useGridHeight", () => {
   const headersData = { size: { y: 3 } } as HeadersData;
   const topDimensionData = { rowCount: 3 } as TopDimensionData;
   const tableRect = { height: 500 } as Rect;
+  const horizontalScrollbarHeight = 0;
   let pageInfo: PageInfo;
 
   beforeEach(() => {
@@ -24,7 +25,9 @@ describe("useGridHeight", () => {
   const renderUseGridHeight = () => {
     const {
       result: { current },
-    } = renderHook(() => useGridHeight({ pageInfo, headersData, topDimensionData, tableRect }));
+    } = renderHook(() =>
+      useGridHeight({ pageInfo, headersData, topDimensionData, tableRect, horizontalScrollbarHeight }),
+    );
     return current;
   };
 
