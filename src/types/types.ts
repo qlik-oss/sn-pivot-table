@@ -293,3 +293,9 @@ export enum ScrollableContainerOrigin {
   DATA_GRID = "dataGrid",
   CONTAINER_GRID = "containerGrid",
 }
+
+export enum ScrollDirection {
+  Forward = "forward",
+  Backward = "backward",
+  None = "none", // If the user is not scrolling in any direction, use this value
+}
