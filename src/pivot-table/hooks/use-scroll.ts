@@ -1,6 +1,12 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
-import { ScrollableContainerOrigin, type LayoutService, type PageInfo, type Rect } from "../../types/types";
+import {
+  ScrollDirection,
+  ScrollableContainerOrigin,
+  type LayoutService,
+  type PageInfo,
+  type Rect,
+} from "../../types/types";
 import { useBaseContext } from "../contexts/BaseProvider";
 
 interface Props {
@@ -17,6 +23,18 @@ interface Props {
   };
 }
 
+const getScrollDirection = (scroll: number, prevScroll: number) => {
+  if (scroll > prevScroll) {
+    return ScrollDirection.Forward;
+  }
+
+  if (scroll < prevScroll) {
+    return ScrollDirection.Backward;
+  }
+
+  return ScrollDirection.None;
+};
+
 const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) => {
   const { theme } = useBaseContext();
   const verticalScrollableContainerRef = useRef<HTMLDivElement>(mockedRefs?.verticalScrollableContainerRef ?? null);
@@ -29,6 +47,10 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
   const topGridRef = useRef<VariableSizeList[]>(mockedRefs?.topGridRef ?? []);
   const leftGridRef = useRef<VariableSizeList[]>(mockedRefs?.leftGridRef ?? []);
   const dataGridRef = useRef<VariableSizeGrid>(mockedRefs?.dataGridRef ?? null);
+  const prevScrollLeft = useRef(0);
+  const prevScrollTop = useRef(0);
+  const vScrollDirection = useRef(ScrollDirection.None);
+  const hScrollDirection = useRef(ScrollDirection.None);
   const [verticalScrollbarWidth, setVerticalScrollbarWidth] = useState<number>(0);
   const [horizontalScrollbarHeight, setHorizontalScrollbarHeight] = useState<number>(0);
   const themeName = theme.name();
@@ -114,6 +136,9 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
     if (!(evt.target instanceof HTMLDivElement)) return;
 
     if (evt.target.dataset["key"] === `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`) {
+      hScrollDirection.current = getScrollDirection(evt.currentTarget.scrollLeft, prevScrollLeft.current);
+      prevScrollLeft.current = evt.currentTarget.scrollLeft;
+
       topGridRef.current?.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));
 
       dataGridRef.current?.scrollTo({
@@ -124,6 +149,9 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
 
   const onVerticalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
+
+    vScrollDirection.current = getScrollDirection(evt.currentTarget.scrollTop, prevScrollTop.current);
+    prevScrollTop.current = evt.currentTarget.scrollTop;
 
     leftGridRef.current?.filter(Boolean).forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
 
@@ -144,6 +172,8 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
     verticalScrollbarWidth,
     horizontalScrollbarHeight,
     horizontalScrollbarHeightSetter,
+    verticalScrollDirection: vScrollDirection,
+    horizontalScrollDirection: hScrollDirection,
   };
 };
 

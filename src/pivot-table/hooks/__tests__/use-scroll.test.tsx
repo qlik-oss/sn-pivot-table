@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import React from "react";
 import { act } from "react-dom/test-utils";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
-import { ScrollableContainerOrigin, type LayoutService, type PageInfo } from "../../../types/types";
+import { ScrollDirection, ScrollableContainerOrigin, type LayoutService, type PageInfo } from "../../../types/types";
 import TestWithProvider from "../../__tests__/test-with-providers";
 import useScroll from "../use-scroll";
 
@@ -179,6 +179,100 @@ describe("useScroll", () => {
 
       expect(mockedLeftGridRef.scrollTo).toHaveBeenCalledWith(scrollTop);
       expect(dataGridRef.scrollTo).toHaveBeenCalledWith({ scrollTop });
+    });
+
+    test("should set scroll direction for DOWN and UP", () => {
+      const scrollTopDown = 321;
+      const scrollTopUp = 123;
+      const {
+        result: {
+          current: { onVerticalScrollHandler, verticalScrollDirection },
+        },
+      } = renderUseScroll();
+
+      onVerticalScrollHandler({
+        currentTarget: { scrollTop: scrollTopDown },
+        target: fakeTarget,
+      } as unknown as React.SyntheticEvent);
+
+      expect(verticalScrollDirection.current).toEqual(ScrollDirection.Forward);
+
+      onVerticalScrollHandler({
+        currentTarget: { scrollTop: scrollTopUp },
+        target: fakeTarget,
+      } as unknown as React.SyntheticEvent);
+
+      expect(verticalScrollDirection.current).toEqual(ScrollDirection.Backward);
+    });
+
+    test("should set vertical scroll direction when unchanged", () => {
+      const scrollTop = 321;
+      const {
+        result: {
+          current: { onVerticalScrollHandler, verticalScrollDirection },
+        },
+      } = renderUseScroll();
+
+      onVerticalScrollHandler({
+        currentTarget: { scrollTop },
+        target: fakeTarget,
+      } as unknown as React.SyntheticEvent);
+
+      expect(verticalScrollDirection.current).toEqual(ScrollDirection.Forward);
+
+      onVerticalScrollHandler({
+        currentTarget: { scrollTop },
+        target: fakeTarget,
+      } as unknown as React.SyntheticEvent);
+
+      expect(verticalScrollDirection.current).toEqual(ScrollDirection.None);
+    });
+
+    test("should set scroll direction for RIGHT and LEFT", () => {
+      const scrollLeftRight = 321;
+      const scrollLeftLeft = 123;
+      const {
+        result: {
+          current: { onHorizontalScrollHandler, horizontalScrollDirection },
+        },
+      } = renderUseScroll();
+
+      onHorizontalScrollHandler({
+        currentTarget: { scrollLeft: scrollLeftRight },
+        target: fakeTarget,
+      } as unknown as React.SyntheticEvent);
+
+      expect(horizontalScrollDirection.current).toEqual(ScrollDirection.Forward);
+
+      onHorizontalScrollHandler({
+        currentTarget: { scrollLeft: scrollLeftLeft },
+        target: fakeTarget,
+      } as unknown as React.SyntheticEvent);
+
+      expect(horizontalScrollDirection.current).toEqual(ScrollDirection.Backward);
+    });
+
+    test("should set horizontal scroll direction when unchanged", () => {
+      const scrollLeft = 321;
+      const {
+        result: {
+          current: { onHorizontalScrollHandler, horizontalScrollDirection },
+        },
+      } = renderUseScroll();
+
+      onHorizontalScrollHandler({
+        currentTarget: { scrollLeft },
+        target: fakeTarget,
+      } as unknown as React.SyntheticEvent);
+
+      expect(horizontalScrollDirection.current).toEqual(ScrollDirection.Forward);
+
+      onHorizontalScrollHandler({
+        currentTarget: { scrollLeft },
+        target: fakeTarget,
+      } as unknown as React.SyntheticEvent);
+
+      expect(horizontalScrollDirection.current).toEqual(ScrollDirection.None);
     });
   });
 

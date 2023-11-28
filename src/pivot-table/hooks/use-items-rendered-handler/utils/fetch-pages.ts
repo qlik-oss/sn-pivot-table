@@ -1,6 +1,6 @@
 import { debouncer, throttler } from "qlik-chart-modules";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../../types/types";
-import { ScrollDirection } from "../../use-scroll-direction";
+import { ScrollDirection } from "../../../../types/types";
 import getColumnPages from "./get-column-pages";
 import getRowPages from "./get-row-pages";
 

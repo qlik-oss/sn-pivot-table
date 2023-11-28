@@ -9944,6 +9944,113 @@ exports[`extractTop should extract top data when in snapshot mode 1`] = `
 ]
 `;
 
+exports[`extractTop should extract top data with an empty row 1`] = `
+[
+  {
+    "0": {
+      "canBeResized": true,
+      "children": [],
+      "dimensionInfoIndex": 0,
+      "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
+      "isEmpty": false,
+      "isLeafNode": true,
+      "isLeftColumn": false,
+      "isLockedByDimension": false,
+      "isNull": false,
+      "isPseudoDimension": false,
+      "isTotal": false,
+      "leafCount": 3,
+      "mainAxisPageCoord": 0,
+      "pageX": 0,
+      "pageY": 0,
+      "parent": null,
+      "ref": {
+        "qDown": 2,
+        "qElemNo": 0,
+        "qSubNodes": [],
+        "qType": "N",
+        "qUp": 1,
+      },
+      "root": null,
+      "selectionCellType": "T",
+      "x": 0,
+      "y": 0,
+    },
+    "1": {
+      "canBeResized": true,
+      "children": [],
+      "dimensionInfoIndex": 0,
+      "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
+      "isEmpty": false,
+      "isLeafNode": true,
+      "isLeftColumn": false,
+      "isLockedByDimension": false,
+      "isNull": false,
+      "isPseudoDimension": false,
+      "isTotal": false,
+      "leafCount": 3,
+      "mainAxisPageCoord": 1,
+      "pageX": 1,
+      "pageY": 0,
+      "parent": null,
+      "ref": {
+        "qDown": 2,
+        "qElemNo": 1,
+        "qSubNodes": [],
+        "qType": "N",
+        "qUp": 1,
+      },
+      "root": null,
+      "selectionCellType": "T",
+      "x": 1,
+      "y": 0,
+    },
+    "2": {
+      "canBeResized": true,
+      "children": [],
+      "dimensionInfoIndex": 0,
+      "distanceToNextCell": 0,
+      "expressionColor": {
+        "background": null,
+        "color": null,
+      },
+      "isEmpty": false,
+      "isLeafNode": true,
+      "isLeftColumn": false,
+      "isLockedByDimension": false,
+      "isNull": false,
+      "isPseudoDimension": false,
+      "isTotal": false,
+      "leafCount": 3,
+      "mainAxisPageCoord": 2,
+      "pageX": 2,
+      "pageY": 0,
+      "parent": null,
+      "ref": {
+        "qDown": 2,
+        "qElemNo": 2,
+        "qSubNodes": [],
+        "qType": "N",
+        "qUp": 1,
+      },
+      "root": null,
+      "selectionCellType": "T",
+      "x": 2,
+      "y": 0,
+    },
+  },
+  {},
+]
+`;
+
 exports[`extractTop should extract top data with first node expanded 1`] = `
 [
   {

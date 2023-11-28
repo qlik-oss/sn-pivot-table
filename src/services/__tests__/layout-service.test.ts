@@ -1,3 +1,4 @@
+import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../pivot-table/constants";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo, PivotLayout, SnapshotData } from "../../types/QIX";
 import type { LayoutService } from "../../types/types";
@@ -5,8 +6,9 @@ import createLayoutService from "../layout-service";
 
 const getMeasureInfo = () => ({}) as ExtendedMeasureInfo;
 
-const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible?: boolean }) =>
+const getDimensionInfo = ({ qLocked, isVisible, id }: { qLocked?: boolean; isVisible?: boolean; id?: string }) =>
   ({
+    cId: id ?? "",
     qLocked: !qLocked,
     qCardinalities: {
       qHypercubeCardinal: isVisible ? 1 : 0,
@@ -101,6 +103,25 @@ describe("createLayoutService", () => {
       expect(service.getDimensionInfoIndex(layout.qHyperCube.qDimensionInfo[1])).toEqual(-1);
       expect(service.getDimensionInfoIndex(layout.qHyperCube.qDimensionInfo[3])).toEqual(-1);
       expect(service.getDimensionInfoIndex(-1)).toEqual(-1);
+    });
+  });
+
+  describe("getDimensionInfo", () => {
+    test("should return dimension info for index", () => {
+      layout.qHyperCube.qEffectiveInterColumnSortOrder = [2, -1, 0];
+      layout.qHyperCube.qMeasureInfo = [getMeasureInfo(), getMeasureInfo()];
+      layout.qHyperCube.qDimensionInfo = [
+        getDimensionInfo({ qLocked: false, isVisible: true, id: "a" }),
+        getDimensionInfo({ qLocked: false, isVisible: true, id: "b" }),
+        getDimensionInfo({ qLocked: false, isVisible: true, id: "c" }),
+        getDimensionInfo({ qLocked: false, isVisible: true, id: "d" }),
+      ];
+
+      const service = create();
+      expect(service.getDimensionInfo(0)).toEqual(layout.qHyperCube.qDimensionInfo[2]);
+      expect(service.getDimensionInfo(2)).toEqual(layout.qHyperCube.qDimensionInfo[0]);
+      expect(service.getDimensionInfo(-1)).toEqual(PSEUDO_DIMENSION_INDEX);
+      expect(service.getDimensionInfo(3)).toBeUndefined();
     });
   });
 
