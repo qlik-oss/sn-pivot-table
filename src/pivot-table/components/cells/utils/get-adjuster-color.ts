@@ -11,7 +11,7 @@ import { Colors } from "../../shared-styles";
  * Otherwise the background is assumed to be opaque.
  */
 export default function getAdjusterColor(styleService: StyleService, cellInfo: AdjusterCellInfo) {
-  const topGridBackground = cellInfo.expressionColor?.background || styleService.dimensionValues.background;
+  const topGridBackground = cellInfo.expressionColor?.background ?? styleService.dimensionValues.background;
   const background = cellInfo.isLeftColumn ? styleService.header.background : topGridBackground;
   const nonTransparentBackground = background === Colors.Transparent ? COLORING.WHITE : background;
   const borderColor = color(styleService.grid.border)?.rgb();
