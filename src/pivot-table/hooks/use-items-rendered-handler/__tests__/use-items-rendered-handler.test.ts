@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import type { GridOnItemsRenderedProps } from "react-window";
 import useItemsRenderedHandler from "..";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../../types/types";
-import { ScrollDirection } from "../../use-scroll-direction";
+import { ScrollDirection } from "../../../../types/types";
 import { debouncedFetchPages, throttledFetchPages } from "../utils/fetch-pages";
 
 jest.mock("../utils/fetch-pages");

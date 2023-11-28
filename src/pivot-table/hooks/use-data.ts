@@ -31,6 +31,11 @@ const useData = (
     layoutService.layout.qHyperCube.qMeasureInfo,
   );
 
+  const headersData = useMemo<HeadersData>(
+    () => createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo),
+    [layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo],
+  );
+
   const deriveMeasureDataFromProps = useCallback(
     () =>
       qPivotDataPages.slice(1).reduce(
@@ -57,10 +62,17 @@ const useData = (
             layoutService,
             visibleTopDimensionInfo,
             attrExprInfoIndexes: attrExprInfoIndexes.top,
+            headerRows: headersData.size.y,
           }),
-        createTopDimensionData(qPivotDataPages[0], layoutService, visibleTopDimensionInfo, attrExprInfoIndexes.top),
+        createTopDimensionData(
+          qPivotDataPages[0],
+          layoutService,
+          visibleTopDimensionInfo,
+          attrExprInfoIndexes.top,
+          headersData.size.y,
+        ),
       ),
-    [layoutService, qPivotDataPages, visibleTopDimensionInfo, attrExprInfoIndexes],
+    [qPivotDataPages, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes.top, headersData.size.y],
   );
 
   const deriveLeftDimensionDataFromProps = useCallback(
@@ -126,6 +138,7 @@ const useData = (
           layoutService,
           visibleTopDimensionInfo,
           attrExprInfoIndexes: attrExprInfoIndexes.top,
+          headerRows: headersData.size.y,
         }),
       );
       setLeftDimensionData((prevData) =>
@@ -148,11 +161,6 @@ const useData = (
     // and adding it as a dependency will trigger this hook that would result in extra unrelevant data (basically previous batch/page)
     // being added in to grids
   }, [nextPages]);
-
-  const headersData = useMemo<HeadersData>(
-    () => createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo),
-    [layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo],
-  );
 
   const nextPageHandler = useCallback((pages: EngineAPI.INxPivotPage[]) => {
     setNextPages(pages);

@@ -10,6 +10,7 @@ const extractTopGrid = (
   layoutService: LayoutService,
   visibleTopDimensionInfo: VisibleDimensionInfo[],
   attrExprInfoIndexes: AttrExprInfoIndex[],
+  headerRows: number,
 ): Grid => {
   if (!qTop.length) {
     return grid;
@@ -55,6 +56,10 @@ const extractTopGrid = (
   }
 
   recursiveExtract(null, null, qTop);
+
+  for (let i = 0; i < headerRows - grid.length; i++) {
+    grid.push({});
+  }
 
   return grid;
 };

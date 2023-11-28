@@ -1,5 +1,5 @@
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../../../types/types";
-import { ScrollDirection } from "../../../use-scroll-direction";
+import { ScrollDirection } from "../../../../../types/types";
 import { BUFFER, fetchPages } from "../fetch-pages";
 import getColumnPages from "../get-column-pages";
 import getRowPages from "../get-row-pages";

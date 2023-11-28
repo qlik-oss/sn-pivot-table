@@ -37,6 +37,7 @@ describe("useData", () => {
       layoutService: LayoutService,
       visibleTopDimensionInfo: VisibleDimensionInfo[],
       attrExprInfoIndexes: AttrExprInfoIndex[],
+      headerRows: number,
     ) => TopDimensionData
   >;
   // Measure data mocks
@@ -183,6 +184,7 @@ describe("useData", () => {
       layoutService,
       visibleTopDimensionInfo,
       attrExprInfoIndexes,
+      headerRows: headersData.size.y,
     });
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith({
       prevData: leftDimensionData,

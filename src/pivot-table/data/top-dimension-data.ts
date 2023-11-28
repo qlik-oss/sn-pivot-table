@@ -9,6 +9,7 @@ export interface AddPageToTopDimensionDataProps {
   layoutService: LayoutService;
   visibleTopDimensionInfo: VisibleDimensionInfo[];
   attrExprInfoIndexes: AttrExprInfoIndex[];
+  headerRows: number;
 }
 
 export const addPageToTopDimensionData = ({
@@ -17,11 +18,20 @@ export const addPageToTopDimensionData = ({
   layoutService,
   visibleTopDimensionInfo,
   attrExprInfoIndexes,
+  headerRows,
 }: AddPageToTopDimensionDataProps): TopDimensionData => {
   const { qTop, qArea } = nextDataPage;
   if (!qTop.length) return prevData;
 
-  const grid = extractTopGrid(prevData.grid, qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
+  const grid = extractTopGrid(
+    prevData.grid,
+    qTop,
+    qArea,
+    layoutService,
+    visibleTopDimensionInfo,
+    attrExprInfoIndexes,
+    headerRows,
+  );
   assignDistanceToNextCell(grid, layoutService.size.x);
   const totalDividerIndex = getTotalDividerIndex(grid);
 
@@ -38,9 +48,10 @@ export const createTopDimensionData = (
   layoutService: LayoutService,
   visibleTopDimensionInfo: VisibleDimensionInfo[],
   attrExprInfoIndexes: AttrExprInfoIndex[],
+  headerRows: number,
 ): TopDimensionData => {
   const { qArea, qTop } = dataPage;
-  const grid = extractTopGrid([], qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
+  const grid = extractTopGrid([], qTop, qArea, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes, headerRows);
   assignDistanceToNextCell(grid, layoutService.size.x);
   const totalDividerIndex = getTotalDividerIndex(grid);
 

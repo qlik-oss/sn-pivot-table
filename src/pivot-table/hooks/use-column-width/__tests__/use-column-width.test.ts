@@ -115,6 +115,21 @@ describe("useColumnWidth", () => {
       expect(leftGridColumnWidths[2]).toBe(width + TOTAL_CELL_PADDING + MENU_ICON_SIZE);
     });
 
+    test("should return left column width for auto setting with no expanded columns", () => {
+      const width = 25;
+      mockEstimateWidth(width);
+      mockMeasureText(width);
+
+      visibleLeftDimensionInfo = createDimInfos([0]);
+      visibleTopDimensionInfo = createDimInfos([1, PSEUDO_DIMENSION_INDEX]);
+      headersData = createHeadersData(layoutService, visibleTopDimensionInfo, visibleLeftDimensionInfo);
+
+      const { leftGridColumnWidths } = renderUseColumnWidth();
+
+      expect(leftGridColumnWidths.length).toBe(1);
+      expect(leftGridColumnWidths[0]).toBe(width + EXPAND_ICON_SIZE + TOTAL_CELL_PADDING);
+    });
+
     test("should return left column width for auto setting, not left dimension, 3 top dimension and pseudo last", () => {
       const width = 25;
       mockEstimateWidth(width);

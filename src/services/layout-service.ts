@@ -33,6 +33,10 @@ const createLayoutService = (
 
       return index % qMeasureInfo.length;
     },
+    getDimensionInfo: (index: number): VisibleDimensionInfo | undefined =>
+      index === PSEUDO_DIMENSION_INDEX
+        ? PSEUDO_DIMENSION_INDEX
+        : qDimensionInfo[qEffectiveInterColumnSortOrder[index]] ?? undefined,
     getDimensionInfoIndex: (info: VisibleDimensionInfo) => dimensionInfoIndexMap.get(info) ?? -1,
     size,
     isSnapshot,
