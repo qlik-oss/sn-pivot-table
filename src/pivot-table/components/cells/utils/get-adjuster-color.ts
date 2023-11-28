@@ -1,21 +1,28 @@
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+import { COLORING } from "@qlik/nebula-table-utils/lib/utils";
 import { color } from "d3-color";
+import type { StyleService } from "../../../../types/types";
+import { Colors } from "../../shared-styles";
 
-export default function getAdjusterColor(backgroundColorString: string, borderColorString: string) {
-  const opaqueBackground = backgroundColorString === "transparent" ? "#ffffff" : backgroundColorString;
-  const borderColor = color(borderColorString)?.rgb();
+/**
+ * Converts border color to opaque color,
+ * by alpha blending the border color with the background the header or top grid background.
+ * The background is assumed to be opaque.
+ * If the background is transparent (which is the default color) it is assumed to be white
+ */
+export default function getAdjusterColor(styleService: StyleService, isHeader: boolean) {
+  const background = isHeader ? styleService.header.background : styleService.dimensionValues.background;
+  const opaqueBackground = background === Colors.Transparent ? COLORING.WHITE : background;
+  const borderColor = color(styleService.grid.border)?.rgb();
   const backgroundColor = color(opaqueBackground)?.rgb();
-  let blendedColor = null;
 
-  if (borderColor?.opacity !== undefined && backgroundColor) {
-    blendedColor = {
-      // weighted mean of the components
-      r: borderColor.opacity * borderColor.r + backgroundColor.r * (1 - borderColor.opacity),
-      g: borderColor.opacity * borderColor.g + backgroundColor.g * (1 - borderColor.opacity),
-      b: borderColor.opacity * borderColor.b + backgroundColor.b * (1 - borderColor.opacity),
-    };
+  if (backgroundColor && borderColor && borderColor.opacity < 1) {
+    const r = borderColor.opacity * borderColor.r + backgroundColor.r * (1 - borderColor.opacity);
+    const g = borderColor.opacity * borderColor.g + backgroundColor.g * (1 - borderColor.opacity);
+    const b = borderColor.opacity * borderColor.b + backgroundColor.b * (1 - borderColor.opacity);
 
-    return `rgb(${blendedColor.r}, ${blendedColor.g}, ${blendedColor.b})`;
+    return `rgb(${r}, ${g}, ${b})`;
   }
 
-  return borderColorString;
+  return styleService.grid.border;
 }
