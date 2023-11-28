@@ -9,7 +9,7 @@ import type {
   VisibleDimensionInfo,
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import useResetListCache from "../../hooks/use-reset-list-cache";
+import { useResetListCache, useResetListCacheAndRerender } from "../../hooks/use-reset-list-cache";
 import MemoizedDimensionValue from "../cells/DimensionValue";
 import getItemKey from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
@@ -71,7 +71,9 @@ const LeftGrid = ({
     grid: { divider },
   } = useStyleContext();
 
-  useResetListCache(leftGridRef, [dataModel, leftDimensionData, width, height, contentCellHeight]);
+  useResetListCache(leftGridRef, dataModel, leftDimensionData);
+
+  useResetListCacheAndRerender(leftGridRef, width, height, contentCellHeight);
 
   const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
 
