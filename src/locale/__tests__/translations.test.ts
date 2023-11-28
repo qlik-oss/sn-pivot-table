@@ -15,12 +15,12 @@ describe("translations", () => {
       };
     });
 
-    it("Should call add for every key", () => {
+    test("Should call add for every key", () => {
       registerLocale(translator);
       expect(translator.add).toHaveBeenCalledTimes(Object.keys(all).length);
     });
 
-    it("Should early return when translation is different from id", () => {
+    test("Should early return when translation is different from id", () => {
       translator.get = () => "someTranslation";
       registerLocale(translator);
       expect(translator.add).not.toHaveBeenCalled();
