@@ -19,6 +19,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
     layout: {
       qHyperCube: { qMeasureInfo, qNoOfLeftDims },
     },
+    hasPseudoDimOnLeft,
     isFullyExpanded,
   } = layoutService;
   const styleService = useStyleContext();
@@ -57,7 +58,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
             } else {
               const { label, qApprMaxGlyphCount, columnWidth, isLocked } = header;
               const expandIconSize =
-                !isFullyExpanded && header.isLeftDimension && !header.isLastDimension ? EXPAND_ICON_SIZE : 0;
+                !isFullyExpanded && header.isLeftDimension && collIdx < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
               const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
 
               let fitToContentWidth = 0;
@@ -68,7 +69,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
                     measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
                     estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
                   );
-              } else if (lastRowLastColumn && !header.isLeftDimension && layoutService.hasPseudoDimOnLeft) {
+              } else if (lastRowLastColumn && !header.isLeftDimension && hasPseudoDimOnLeft) {
                 fitToContentWidth = maxMeasureCellWidth;
               } else {
                 fitToContentWidth = TOTAL_CELL_PADDING + measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize;
@@ -99,12 +100,13 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
     },
     [
       estimateWidthForDimensionValue,
+      hasPseudoDimOnLeft,
       headersData,
       isFullyExpanded,
-      layoutService,
       measureTextForHeader,
       measureTextForMeasureValue,
       qMeasureInfo,
+      qNoOfLeftDims,
       tableRect.width,
     ],
   );

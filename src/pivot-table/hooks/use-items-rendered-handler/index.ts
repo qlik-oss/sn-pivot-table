@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import { type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../types/types";
-import { ScrollDirection } from "../use-scroll-direction";
+import { ScrollDirection } from "../../../types/types";
 import { BUFFER, debouncedFetchPages, throttledFetchPages } from "./utils/fetch-pages";
 
 type Props = {

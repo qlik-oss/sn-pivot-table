@@ -183,6 +183,7 @@ export interface ViewService {
 export interface LayoutService {
   layout: PivotLayout;
   getMeasureInfoIndexFromCellIndex: (index: number) => number;
+  getDimensionInfo: (index: number) => VisibleDimensionInfo | undefined;
   getDimensionInfoIndex: (qDimensionInfo: VisibleDimensionInfo) => number;
   getNullValueText: () => string;
   size: Point;
@@ -292,4 +293,10 @@ export enum ScrollableContainerOrigin {
   LEFT_GRID = "leftGrid",
   DATA_GRID = "dataGrid",
   CONTAINER_GRID = "containerGrid",
+}
+
+export enum ScrollDirection {
+  Forward = "forward",
+  Backward = "backward",
+  None = "none", // If the user is not scrolling in any direction, use this value
 }

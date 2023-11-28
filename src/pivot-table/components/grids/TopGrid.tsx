@@ -1,13 +1,7 @@
 import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo } from "react";
 import { VariableSizeList } from "react-window";
-import type {
-  DataModel,
-  LayoutService,
-  ShowLastBorder,
-  TopDimensionData,
-  VisibleDimensionInfo,
-} from "../../../types/types";
+import type { DataModel, HeadersData, LayoutService, ShowLastBorder, TopDimensionData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import MemoizedDimensionValue from "../cells/DimensionValue";
 import getItemKey from "../helpers/get-item-key";
@@ -27,7 +21,7 @@ interface TopGridProps {
   topDimensionData: TopDimensionData;
   showLastBorder: ShowLastBorder;
   getRightGridColumnWidth: (index?: number) => number;
-  visibleTopDimensionInfo: VisibleDimensionInfo[];
+  headersData: HeadersData;
 }
 
 const listStyle: React.CSSProperties = {
@@ -50,7 +44,7 @@ const TopGrid = ({
   topDimensionData,
   showLastBorder,
   getRightGridColumnWidth,
-  visibleTopDimensionInfo,
+  headersData,
 }: TopGridProps): JSX.Element | null => {
   const {
     grid: { divider },
@@ -85,7 +79,11 @@ const TopGrid = ({
           layoutService.size.x,
           isLastRow,
         );
-        const key = getKey(visibleTopDimensionInfo[topRowIndex]);
+        const dimensionInfo = layoutService.getDimensionInfo(
+          headersData.data[topRowIndex][headersData.size.x - 1]!.dimensionInfoIndex,
+        );
+
+        const key = dimensionInfo ? getKey(dimensionInfo) : `empty ${topRowIndex}`;
 
         return (
           <VariableSizeList
