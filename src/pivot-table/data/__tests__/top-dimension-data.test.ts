@@ -40,7 +40,14 @@ describe("top dimension data", () => {
     test("should return correct data", () => {
       const mockedReturnValue = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(mockedReturnValue);
-      const data = createTopDimensionData(dataPage, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
+      const headerRows = 1;
+      const data = createTopDimensionData(
+        dataPage,
+        layoutService,
+        visibleTopDimensionInfo,
+        attrExprInfoIndexes,
+        headerRows,
+      );
 
       expect(data.grid).toEqual(mockedReturnValue);
       expect(data.rowCount).toEqual(1);
@@ -51,7 +58,14 @@ describe("top dimension data", () => {
     test("should add page to data", () => {
       const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
       mockedExtractTop.mockReturnValue(nextTop);
-      const prevData = createTopDimensionData(dataPage, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
+      const headerRows = 1;
+      const prevData = createTopDimensionData(
+        dataPage,
+        layoutService,
+        visibleTopDimensionInfo,
+        attrExprInfoIndexes,
+        headerRows,
+      );
       const nextDataPage = {
         qTop: [{}],
         qArea: {
@@ -65,6 +79,7 @@ describe("top dimension data", () => {
         layoutService,
         visibleTopDimensionInfo,
         attrExprInfoIndexes,
+        headerRows,
       });
 
       expect(nextData).not.toBe(prevData);
@@ -74,8 +89,15 @@ describe("top dimension data", () => {
 
     test("should return previous page if qLeft is an empty array", () => {
       const nextTop = [{ 0: CELL, 1: CELL }] as Grid;
+      const headerRows = 1;
       mockedExtractTop.mockReturnValue(nextTop);
-      const prevData = createTopDimensionData(dataPage, layoutService, visibleTopDimensionInfo, attrExprInfoIndexes);
+      const prevData = createTopDimensionData(
+        dataPage,
+        layoutService,
+        visibleTopDimensionInfo,
+        attrExprInfoIndexes,
+        headerRows,
+      );
       const nextDataPage = {
         qTop: [],
         qArea: {
@@ -89,6 +111,7 @@ describe("top dimension data", () => {
         layoutService,
         visibleTopDimensionInfo,
         attrExprInfoIndexes,
+        headerRows,
       });
 
       expect(nextData).toBe(prevData);

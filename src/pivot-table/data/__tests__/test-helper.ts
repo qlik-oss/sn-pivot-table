@@ -16,7 +16,7 @@ function createNode(qElemNo: number, qType: NxDimCellType): EngineAPI.INxPivotDi
 export default function createNodes(count: number, type: NxDimCellType): EngineAPI.INxPivotDimensionCell[] {
   return Array.from({ length: count }, (_, idx: number) => createNode(idx, type));
 }
-const createDimInfo = (id: number): VisibleDimensionInfo =>
+export const createDimInfo = (id: number): VisibleDimensionInfo =>
   id !== PSEUDO_DIMENSION_INDEX
     ? ({
         cId: `id-${id}`,
