@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, HeadersData, LayoutService, ShowLastBorder, TopDimensionData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import { useResetListCache, useResetListCacheAndRerender } from "../../hooks/use-reset-list-cache";
+import useResetListCache from "../../hooks/use-reset-list-cache";
 import MemoizedDimensionValue from "../cells/DimensionValue";
 import getItemKey from "../helpers/get-item-key";
 import { getColumnWidthHandler } from "../helpers/get-item-size-handler";
@@ -56,9 +56,7 @@ const TopGrid = ({
     height,
   };
 
-  useResetListCache(topGridRef, dataModel, topDimensionData);
-
-  useResetListCacheAndRerender(topGridRef, width, height, headerCellHeight);
+  useResetListCache(topGridRef, [dataModel, topDimensionData, width, height, headerCellHeight]);
 
   const totalWidth = layoutService.size.x * getRightGridColumnWidth();
 
