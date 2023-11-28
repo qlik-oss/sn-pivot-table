@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 import { COLORING } from "@qlik/nebula-table-utils/lib/utils";
 import { color } from "d3-color";
-import type { StyleService } from "../../../../types/types";
+import type { AdjusterCellInfo, StyleService } from "../../../../types/types";
 import { Colors } from "../../shared-styles";
 
 /**
@@ -10,11 +10,12 @@ import { Colors } from "../../shared-styles";
  * The background is assumed to be opaque.
  * If the background is transparent (which is the default color) it is assumed to be white
  */
-export default function getAdjusterColor(styleService: StyleService, isHeader: boolean) {
-  const background = isHeader ? styleService.header.background : styleService.dimensionValues.background;
-  const opaqueBackground = background === Colors.Transparent ? COLORING.WHITE : background;
+export default function getAdjusterColor(styleService: StyleService, cellInfo: AdjusterCellInfo) {
+  const topGridBackground = cellInfo.expressionColor?.background || styleService.dimensionValues.background;
+  const background = cellInfo.isLeftColumn ? styleService.header.background : topGridBackground;
+  const nonTransparentBackground = background === Colors.Transparent ? COLORING.WHITE : background;
   const borderColor = color(styleService.grid.border)?.rgb();
-  const backgroundColor = color(opaqueBackground)?.rgb();
+  const backgroundColor = color(nonTransparentBackground)?.rgb();
 
   if (backgroundColor && borderColor && borderColor.opacity < 1) {
     const r = borderColor.opacity * borderColor.r + backgroundColor.r * (1 - borderColor.opacity);

@@ -36,8 +36,7 @@ const ColumnAdjusterWrapper = ({
 
   if (!shouldRender) return null;
 
-  // hover color depends on if adjuster is on header or not, overrideLeftGridWidth only exists for header
-  const hoverColor = getAdjusterColor(styleService, !!overrideLeftGridWidth);
+  const hoverColor = getAdjusterColor(styleService, cellInfo);
 
   const updateWidth = (adjustedWidth: number) => {
     forceRerender({});

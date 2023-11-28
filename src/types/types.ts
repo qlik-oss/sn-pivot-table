@@ -85,6 +85,7 @@ export interface AdjusterCellInfo {
   canBeResized: boolean;
   x?: number;
   colIdx?: number;
+  expressionColor?: ExpressionColor;
 }
 
 export interface Cell {
