@@ -36,7 +36,7 @@ const useItemsRenderedHandler = ({
    * It's intended to handle the following scenarions that might require additional data to be fetch:
    * - Scrolling
    * - Re-sizing the chart
-   * - Theme change (ex: go from large font-size to small could change the number of rendered cells)
+   * - Theme/Styling change (ex: go from large font-size to small could change the number of rendered cells)
    */
   useCallback(
     async ({

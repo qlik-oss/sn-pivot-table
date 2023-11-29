@@ -56,9 +56,9 @@ const TopGrid = ({
     height,
   };
 
-  useResetListCache(topGridRef, dataModel, topDimensionData);
+  useResetListCache(topGridRef, topDimensionData);
 
-  useResetListCacheAndRerender(topGridRef, width, height, headerCellHeight);
+  useResetListCacheAndRerender(topGridRef, width, height, headerCellHeight, layoutService);
 
   const totalWidth = layoutService.size.x * getRightGridColumnWidth();
 

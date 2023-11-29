@@ -71,9 +71,9 @@ const LeftGrid = ({
     grid: { divider },
   } = useStyleContext();
 
-  useResetListCache(leftGridRef, dataModel, leftDimensionData);
+  useResetListCache(leftGridRef, leftDimensionData);
 
-  useResetListCacheAndRerender(leftGridRef, width, height, contentCellHeight);
+  useResetListCacheAndRerender(leftGridRef, width, height, contentCellHeight, layoutService);
 
   const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
 
