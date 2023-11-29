@@ -42,7 +42,7 @@ export const getColumnWidthHandler =
     }
 
     // all rows except bottom one
-    if (cell?.leafCount > 0) {
+    if (!isLastRow && cell !== undefined) {
       return (cell.leafCount + cell.distanceToNextCell) * getRightGridColumnWidth();
     }
 
