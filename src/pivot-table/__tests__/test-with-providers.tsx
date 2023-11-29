@@ -1,6 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
-import React from "react";
+import React, { type ReactNode } from "react";
 import type { App, Model } from "../../types/QIX";
 import type { ExtendedSelections } from "../../types/types";
 import type { RootProps } from "../Root";
@@ -10,7 +10,7 @@ import SelectionsProvider from "../contexts/SelectionsProvider";
 import StyleProvider from "../contexts/StyleProvider";
 
 interface Props extends Partial<RootProps> {
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
 }
 
 const TestWithProvider = (props: Props) => {
@@ -85,6 +85,7 @@ const TestWithProvider = (props: Props) => {
     interactions = { select: true, active: true },
     embed = {} as stardust.Embed,
     theme = {
+      name: () => "theme",
       getStyle: (base, path, attr) => attr,
       background: { tableColorFromTheme: "inherit", isDark: false, isTransparent: false, color: "transparent" },
     } as ExtendedTheme,

@@ -1,8 +1,8 @@
-import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo } from "react";
 import { VariableSizeList } from "react-window";
 import type { DataModel, HeadersData, LayoutService, ShowLastBorder, TopDimensionData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { useResetListCache, useResetListCacheAndRerender } from "../../hooks/use-reset-list-cache";
 import MemoizedDimensionValue from "../cells/DimensionValue";
 import getItemKey from "../helpers/get-item-key";
 import { getColumnWidthHandler } from "../helpers/get-item-size-handler";
@@ -56,11 +56,9 @@ const TopGrid = ({
     height,
   };
 
-  useOnPropsChange(() => {
-    if (topGridRef.current) {
-      topGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
-    }
-  }, [dataModel, width, height, topDimensionData, topGridRef, headerCellHeight]);
+  useResetListCache(topGridRef, topDimensionData);
+
+  useResetListCacheAndRerender(topGridRef, width, height, headerCellHeight, layoutService);
 
   const totalWidth = layoutService.size.x * getRightGridColumnWidth();
 

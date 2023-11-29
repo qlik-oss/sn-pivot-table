@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { renderHook, waitFor } from "@testing-library/react";
-import type React from "react";
+import type { ReactNode } from "react";
+import React from "react";
 import { act } from "react-dom/test-utils";
 import type { VariableSizeGrid, VariableSizeList } from "react-window";
 import { ScrollDirection, ScrollableContainerOrigin, type LayoutService, type PageInfo } from "../../../types/types";
+import TestWithProvider from "../../__tests__/test-with-providers";
 import useScroll from "../use-scroll";
 
 describe("useScroll", () => {
+  const wrapper = ({ children }: { children: ReactNode }): ReactNode => <TestWithProvider>{children}</TestWithProvider>;
   let layoutService: LayoutService;
   let pageInfo: PageInfo;
   let mockedTopGridRef: VariableSizeList;
@@ -22,6 +25,7 @@ describe("useScroll", () => {
         useScroll({
           layoutService: layoutServiceAsProp,
           pageInfo: pageInfoAsProp,
+          tableRect: { width: 100, height: 200 },
           mockedRefs: {
             leftGridHorizontalScrollableContainerRef: leftGridHorizontalScrollableContainerRefMock,
             dataGridHorizontalScrollableContainerRef: dataGridHorizontalScrollableContainerRefMock,
@@ -36,6 +40,7 @@ describe("useScroll", () => {
           layoutServiceAsProp: layoutService,
           pageInfoAsProp: pageInfo,
         },
+        wrapper,
       },
     );
 
