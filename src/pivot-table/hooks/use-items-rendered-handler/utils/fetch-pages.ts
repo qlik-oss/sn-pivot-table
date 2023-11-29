@@ -60,6 +60,14 @@ export const fetchPages = async (
     );
   }
 
+  // A chart have been re-size which have triggered a onScroll event and reset both scroll directions
+  if (
+    verticalScrollDirection.current === ScrollDirection.None &&
+    horizontalScrollDirection.current === ScrollDirection.None
+  ) {
+    rowPages = getRowPages(pageInfo, measureData, gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight);
+  }
+
   await dataModel.fetchPages([...rowPages, ...columnsPages]);
 };
 

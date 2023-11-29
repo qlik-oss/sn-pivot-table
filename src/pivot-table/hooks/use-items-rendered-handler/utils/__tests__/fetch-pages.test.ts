@@ -46,7 +46,10 @@ describe("fetchPages", () => {
     jest.resetAllMocks();
   });
 
-  test("should not fetch pages if both scroll directions are None", async () => {
+  test("should fetch pages if both scroll directions are None", async () => {
+    horizontalScrollDirection.current = ScrollDirection.None;
+    verticalScrollDirection.current = ScrollDirection.None;
+    mockedGetRowPages.mockReturnValue([{ qLeft: 0, qTop: 0, qWidth: 1, qHeight: 1 }]);
     await fetchPages(
       dataModel,
       layoutService,
@@ -57,7 +60,7 @@ describe("fetchPages", () => {
       horizontalScrollDirection,
     );
 
-    expect(dataModel.fetchPages).toHaveBeenCalledWith([]);
+    expect(dataModel.fetchPages).toHaveBeenCalledWith([{ qLeft: 0, qTop: 0, qWidth: 1, qHeight: 1 }]);
   });
 
   test("should fetch both row and column pages", async () => {
