@@ -97,7 +97,7 @@ describe("getItemSizeHandler", () => {
 
     test("should return a size when cell has no leaf nodes", () => {
       leafCount = 0;
-      distanceToNextCell = 1;
+      distanceToNextCell = 2;
       list[index] = {
         leafCount,
         distanceToNextCell,
