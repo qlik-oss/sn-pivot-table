@@ -76,12 +76,57 @@ export const getFetchArea = (
   let qLeft = 0;
   let qTop = pageStartIndex;
 
+  /**
+   * Things that can happen
+   * qLastExpandedPos equals the position at which was expanded or collapsed. No data was added or removed before the position.
+   * qLastExpandedPos does not equal the position as which it was expanded/collapsed. Data was added or removed before the position.
+   *
+   * Data before the position is removed: viewService.gridColumnStartInde and viewService.gridRowStartIndex are now STALE.
+   * As the position might no longer exist. Can that be checked?
+   *
+   * Data before the position is added: viewService.gridColumnStartInde and viewService.gridRowStartIndex are still valid.
+   * But might not be where the cell was expanded.
+   */
+
   // qLastExpandedPos only exist in the layout if a new layout was received because a node was expanded or collapsed
   if (qLastExpandedPos) {
+    if (viewService.lastExpandedOrCollapsed.grid === "left") {
+      const lastRow = viewService.gridRowStartIndex + viewService.gridHeight;
+
+      if (qLastExpandedPos.qy === viewService.lastExpandedOrCollapsed.rowIndex) {
+        // No data was added before or after the expand/collapse position
+        console.log("%c No data was added before or after the expand/collapse position", "color: lime");
+        qTop = pageStartIndex + viewService.gridRowStartIndex;
+      } else if (qLastExpandedPos.qy > viewService.lastExpandedOrCollapsed.rowIndex) {
+        // Data was added before the expanded position
+        console.log("%c Data was added before the expanded position", "color: salmon");
+        qTop = pageStartIndex + viewService.gridRowStartIndex;
+      } else if (lastRow > qSize.qcy) {
+        // Data was removed before the collapsed position, last row no longer exists
+        console.log("%c Data was removed before the collapsed position, last row no longer exists", "color: yellow");
+
+        qTop = Math.max(0, qSize.qcy - maxNumberOfVisibleRows);
+        //  qLastExpandedPos.qy - distanceFromTopWhenCollapsing;
+      } else {
+        // Data was removed before the collapsed position
+        console.log("%c Data was remove before the collapsed position", "color: orange");
+        qTop = pageStartIndex + viewService.gridRowStartIndex;
+      }
+      // qTop = Math.max(0, Math.min(qSize.qcy - DEFAULT_PAGE_SIZE, qLastExpandedPos.qy));
+    }
+
     // gridColumnStartIndex might not exist anymore in the new expanded/collapsed layout
     qLeft = Math.max(0, Math.min(qSize.qcx - DEFAULT_PAGE_SIZE, viewService.gridColumnStartIndex));
     // pageStartTop + viewService.gridRowStartIndex might not exist anymore in the new expanded/collapsed layout
-    qTop = Math.max(0, Math.min(qSize.qcy - DEFAULT_PAGE_SIZE, pageStartIndex + viewService.gridRowStartIndex));
+    // qTop = Math.max(0, Math.min(qSize.qcy - DEFAULT_PAGE_SIZE, pageStartIndex + viewService.gridRowStartIndex));
+    console.log("%c qSize.qcy - maxNumberOfVisibleRows", "color: orangered", {
+      "qSize.qcy - maxNumberOfVisibleRows": qSize.qcy - maxNumberOfVisibleRows,
+      "qSize.qcy - DEFAULT_PAGE_SIZE": qSize.qcy - DEFAULT_PAGE_SIZE,
+      "qSize.qcy": qSize.qcy,
+      maxNumberOfVisibleRows,
+      qLastExpandedPos,
+      qTop,
+    });
   }
 
   return {
@@ -137,7 +182,7 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo, rect }:
         maxNumberOfVisibleRows,
         maxNumberOfVisibleColumns,
       );
-
+      console.log("%c fetchArea", "color: orangered", fetchArea, { ...viewService });
       return fetchArea ? model.getHyperCubePivotData(Q_PATH, handleMaxEnginePageSize(fetchArea)) : [];
     }
 

@@ -178,6 +178,11 @@ export interface ViewService {
   gridRowStartIndex: number;
   gridWidth: number;
   gridHeight: number;
+  lastExpandedOrCollapsed: {
+    grid: "top" | "left";
+    rowIndex: number;
+    colIndex: number;
+  };
 }
 
 export interface LayoutService {

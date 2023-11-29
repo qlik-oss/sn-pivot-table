@@ -9,6 +9,7 @@ import {
   type FetchPages,
   type LayoutService,
   type PageInfo,
+  type ViewService,
 } from "../../types/types";
 import handleMaxEnginePageSize from "../../utils/handle-max-engine-size";
 import useMutableProp from "./use-mutable-prop";
@@ -18,6 +19,7 @@ export interface UseDataModelProps {
   nextPageHandler: (pages: EngineAPI.INxPivotPage[]) => void;
   pageInfo: PageInfo;
   layoutService: LayoutService;
+  viewService: ViewService;
 }
 
 export default function useDataModel({
@@ -25,6 +27,7 @@ export default function useDataModel({
   nextPageHandler,
   pageInfo,
   layoutService,
+  viewService,
 }: UseDataModelProps): DataModel {
   const currentPage = useMutableProp(pageInfo.page);
   const genericObjectModel = model as EngineAPI.IGenericObject | undefined;
@@ -32,29 +35,49 @@ export default function useDataModel({
   const collapseLeft = useCallback<ExpandOrCollapser>(
     async (rowIndex: number, colIndex: number) => {
       await genericObjectModel?.collapseLeft?.(Q_PATH, rowIndex, colIndex, false);
+      viewService.lastExpandedOrCollapsed = {
+        grid: "left",
+        rowIndex,
+        colIndex,
+      };
     },
-    [genericObjectModel],
+    [genericObjectModel, viewService],
   );
 
   const collapseTop = useCallback<ExpandOrCollapser>(
     async (rowIndex: number, colIndex: number) => {
       await genericObjectModel?.collapseTop(Q_PATH, rowIndex, colIndex, false);
+      viewService.lastExpandedOrCollapsed = {
+        grid: "top",
+        rowIndex,
+        colIndex,
+      };
     },
-    [genericObjectModel],
+    [genericObjectModel, viewService],
   );
 
   const expandLeft = useCallback<ExpandOrCollapser>(
     async (rowIndex: number, colIndex: number) => {
       await genericObjectModel?.expandLeft(Q_PATH, rowIndex, colIndex, false);
+      viewService.lastExpandedOrCollapsed = {
+        grid: "left",
+        rowIndex,
+        colIndex,
+      };
     },
-    [genericObjectModel],
+    [genericObjectModel, viewService],
   );
 
   const expandTop = useCallback<ExpandOrCollapser>(
     async (rowIndex: number, colIndex: number) => {
       await genericObjectModel?.expandTop(Q_PATH, rowIndex, colIndex, false);
+      viewService.lastExpandedOrCollapsed = {
+        grid: "top",
+        rowIndex,
+        colIndex,
+      };
     },
-    [genericObjectModel],
+    [genericObjectModel, viewService],
   );
 
   const fetchPages = useCallback<FetchPages>(
@@ -62,6 +85,7 @@ export default function useDataModel({
       if (!genericObjectModel?.getHyperCubePivotData || pages.length === 0) return;
 
       try {
+        console.log("%c fetchPages", "color: orangered", pages);
         const pivotPages = await genericObjectModel.getHyperCubePivotData(
           Q_PATH,
           pages.reduce<EngineAPI.INxPage[]>(
