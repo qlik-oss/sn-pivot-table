@@ -81,10 +81,10 @@ describe("getItemSizeHandler", () => {
       getRightGridColumnWidth = () => columnWidth;
     });
 
-    const getHandler = () =>
+    const getHandler = (isLastRow = false) =>
       getColumnWidthHandler({
         list,
-        isLastRow: false,
+        isLastRow,
         getRightGridColumnWidth,
       });
 
@@ -97,12 +97,32 @@ describe("getItemSizeHandler", () => {
 
     test("should return a size when cell has no leaf nodes", () => {
       leafCount = 0;
+      distanceToNextCell = 1;
+      list[index] = {
+        leafCount,
+        distanceToNextCell,
+        x,
+      } as Cell;
+
+      const handler = getHandler();
+      expect(handler(index)).toEqual(columnWidth * distanceToNextCell);
+    });
+
+    test("should return a size when cell has no leaf nodes and is last row", () => {
+      leafCount = 0;
       list[index] = {
         leafCount,
         x,
       } as Cell;
 
-      const handler = getHandler();
+      const handler = getHandler(true);
+      expect(handler(index)).toEqual(columnWidth);
+    });
+
+    test("should return a size for empty last row", () => {
+      list = [];
+
+      const handler = getHandler(true);
       expect(handler(index)).toEqual(columnWidth);
     });
 
