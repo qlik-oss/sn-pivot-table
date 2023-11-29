@@ -7,11 +7,12 @@ describe("useGridHeight", () => {
   const headersData = { size: { y: 3 } } as HeadersData;
   const topDimensionData = { rowCount: 3 } as TopDimensionData;
   const tableRect = { height: 500 } as Rect;
-  const horizontalScrollbarHeight = 0;
+  let horizontalScrollbarHeight = 0;
   let pageInfo: PageInfo;
 
   beforeEach(() => {
     pageInfo = { rowsOnCurrentPage: 100 } as PageInfo;
+    horizontalScrollbarHeight = 0;
 
     jest
       .spyOn(styleProvider, "useStyleContext")
@@ -40,6 +41,19 @@ describe("useGridHeight", () => {
     expect(dataGridHeight).toBe(439);
     expect(allRowsVisible).toBe(false);
   });
+
+  test("should return grid heights when data overflows the chart because of the horizontal scroll bar", () => {
+    pageInfo.rowsOnCurrentPage = 27;
+    horizontalScrollbarHeight = 15;
+    const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } = renderUseGridHeight();
+
+    expect(containerHeight).toBe(492);
+    expect(topGridHeight).toBe(60);
+    expect(leftGridHeight).toBe(432);
+    expect(dataGridHeight).toBe(432);
+    expect(allRowsVisible).toBe(false);
+  });
+
   test("should return grid heights when data doesn't overflows the chart", () => {
     pageInfo.rowsOnCurrentPage = 10;
 

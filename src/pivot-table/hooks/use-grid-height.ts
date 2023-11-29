@@ -28,7 +28,7 @@ export default function useGridHeight({
   const leftGridHeight = Math.min(tableRect.height - headerGridHeight - GRID_BORDER, totalDataHeight);
   const dataGridHeight = Math.min(tableRect.height - topGridHeight - GRID_BORDER, totalDataHeight);
 
-  const allRowsVisible = topGridHeight + GRID_BORDER + dataGridHeight + horizontalScrollbarHeight <= tableRect.height;
+  const allRowsVisible = topGridHeight + GRID_BORDER + totalDataHeight + horizontalScrollbarHeight <= tableRect.height;
 
   return {
     containerHeight,
