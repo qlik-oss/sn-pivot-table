@@ -59,7 +59,7 @@ export default function useDataModel({
 
   const fetchPages = useCallback<FetchPages>(
     async (pages: EngineAPI.INxPage[]): Promise<void> => {
-      if (!genericObjectModel?.getHyperCubePivotData) return;
+      if (!genericObjectModel?.getHyperCubePivotData || pages.length === 0) return;
 
       try {
         const pivotPages = await genericObjectModel.getHyperCubePivotData(

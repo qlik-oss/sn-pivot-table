@@ -1,13 +1,14 @@
 import type { MeasureData, PageInfo } from "../../../../types/types";
 
 const isMissingColumnData = (measureData: MeasureData, qLeft: number, pageTop: number, qHeight: number) => {
-  const targetRows = measureData.slice(pageTop, pageTop + qHeight);
-
-  if (targetRows.length === 0) {
-    return true; // Rows are not cached
+  for (let top = pageTop; top < pageTop + qHeight; top++) {
+    const row = measureData[top];
+    if (row === undefined || row[qLeft] === undefined) {
+      return true;
+    }
   }
 
-  return targetRows.some((row) => row?.[qLeft] === undefined);
+  return false;
 };
 
 const canMergePages = (prevPage: EngineAPI.INxPage, page: EngineAPI.INxPage) =>
@@ -29,8 +30,8 @@ const getColumnPages = (
       const page = {
         qLeft: left,
         qTop: Math.max(0, pageTop + pageInfo.page * pageInfo.rowsPerPage),
-        qHeight,
         qWidth: 1,
+        qHeight,
       };
 
       if (prevPage !== undefined && canMergePages(prevPage, page)) {

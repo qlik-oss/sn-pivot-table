@@ -36,8 +36,8 @@ const getRowPages = (
       const page = {
         qLeft,
         qTop: Math.max(0, top + pageInfo.page * pageInfo.rowsPerPage),
-        qHeight: 1,
         qWidth,
+        qHeight: 1,
       };
 
       if (prevPage !== undefined && canMergePages(prevPage, page)) {
