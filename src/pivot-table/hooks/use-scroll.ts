@@ -58,7 +58,7 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
   // If the layout change reset the scroll position, except if the layout
   // change because a node was expanded or collapsed
   useLayoutEffect(() => {
-    if (!layoutService.layout.qHyperCube.qLastExpandedPos) {
+    if (!layoutService.triggerdByExpandOrCollapse) {
       if (leftGridHorizontalScrollableContainerRef.current) {
         leftGridHorizontalScrollableContainerRef.current.scrollLeft = 0;
       }
@@ -76,7 +76,7 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
   // Call scrollTo here so that when a cell is expanded or collapsed, scroll to the last known position.
   // Otherwise it will be out-of-sync with the data grid.
   useLayoutEffect(() => {
-    if (layoutService.layout.qHyperCube.qLastExpandedPos) {
+    if (layoutService.triggerdByExpandOrCollapse) {
       const scrollLeft = dataGridHorizontalScrollableContainerRef.current?.scrollLeft ?? 0;
       const scrollTop = verticalScrollableContainerRef.current?.scrollTop ?? 0;
 

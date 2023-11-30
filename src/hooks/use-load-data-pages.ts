@@ -1,6 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import { useFetch } from "@qlik/nebula-table-utils/lib/hooks";
-import { DEFAULT_PAGE_SIZE, Q_PATH } from "../constants";
+import { Q_PATH } from "../constants";
 import { MAX_COLUMN_COUNT } from "../pivot-table/constants";
 import type { Model, PivotLayout } from "../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../types/types";
@@ -15,13 +15,13 @@ interface Props {
   rect: stardust.Rect;
 }
 
-export const shouldFetchAdditionalData = (
-  qLastExpandedPos: EngineAPI.INxCellPosition | undefined,
+export const shouldFetchExpandOrCollapseData = (
+  triggerdByExpandOrCollapse: boolean,
   viewService: ViewService,
   maxNumberOfVisibleRows: number,
   maxNumberOfVisibleColumns: number,
 ) => {
-  if (!qLastExpandedPos) {
+  if (!triggerdByExpandOrCollapse) {
     return false;
   }
 
@@ -31,7 +31,7 @@ export const shouldFetchAdditionalData = (
   );
 };
 
-export const isMissingLayoutData = (
+export const isMissingInitialDataPages = (
   layout: PivotLayout,
   pageInfo: PageInfo,
   maxNumberOfVisibleRows: number,
@@ -55,7 +55,7 @@ export const isMissingLayoutData = (
  * guaranteed to work with a new layout, as its properties may no longer be valid.
  */
 export const getFetchArea = (
-  qLastExpandedPos: EngineAPI.INxCellPosition | undefined,
+  triggerdByExpandOrCollapse: boolean,
   viewService: ViewService,
   qSize: EngineAPI.ISize,
   pageInfo: PageInfo,
@@ -63,8 +63,8 @@ export const getFetchArea = (
   maxNumberOfVisibleColumns: number,
 ) => {
   const pageStartIndex = pageInfo.page * pageInfo.rowsPerPage;
-  const pageEndIndex = pageStartIndex + pageInfo.rowsPerPage;
-
+  // Do not fetch data beyond this value. Either because there is no more data in the layout or the current page ends.
+  const pageEndIndex = Math.min(pageStartIndex + pageInfo.rowsPerPage, qSize.qcy);
   if (qSize.qcy < pageStartIndex) {
     /**
      * Do not fetch data that does not exist. This can happen because "PageInfo" is resolved from the layout.
@@ -76,64 +76,80 @@ export const getFetchArea = (
   let qLeft = 0;
   let qTop = pageStartIndex;
 
-  /**
-   * Things that can happen
-   * qLastExpandedPos equals the position at which was expanded or collapsed. No data was added or removed before the position.
-   * qLastExpandedPos does not equal the position as which it was expanded/collapsed. Data was added or removed before the position.
-   *
-   * Data before the position is removed: viewService.gridColumnStartInde and viewService.gridRowStartIndex are now STALE.
-   * As the position might no longer exist. Can that be checked?
-   *
-   * Data before the position is added: viewService.gridColumnStartInde and viewService.gridRowStartIndex are still valid.
-   * But might not be where the cell was expanded.
-   */
+  if (triggerdByExpandOrCollapse) {
+    /**
+     * Scenarios that can happen after a cell is expanded or collapse at a position (row or col index):
+     *
+     * - qLastExpandedPos[qx | qy] equals the position where the cell was expanded.
+     *   - No rows or columns was added before the expanded cell.
+     *   - The last row or column index that was visible to the user when the cell was expanded exists in the data.
+     *   - Start indexes in ViewService are valid.
+     *   - After expanding, cell will be in view.
+     *
+     * - qLastExpandedPos[qx | qy] is greater than the position where the cell was expanded.
+     *   - Rows or columns was added before the expanded cell.
+     *   - The last row or column index that was visible to the user when the cell was expanded exists in the data.
+     *   - Start indexes in ViewService are valid.
+     *   - After expanding, cell could be in view or not.
+     *
+     * - qLastExpandedPos[qx | qy] equals the position where the cell was collapsed.
+     *   - No rows or columns was removed before the collapsed cell.
+     *   - Rows or columns was removed after the collapsed cell.
+     *   - The last row or column index that was visible to the user when the cell was collapse exists in the data.
+     *   - Start indexes in ViewService are valid.
+     *   - After collapsing, cell will be in view.
+     *
+     * - qLastExpandedPos[qx | qy] equals the position where the cell was collapsed.
+     *   - No rows or columns was removed before the collapsed cell.
+     *   - Rows or columns was removed after the collapsed cell.
+     *   - The last row or column index that was visible to the user when the cell was collapse NO LONGER EXIST in the data.
+     *   - Start indexes in ViewService are INVALID.
+     *   - After collapsing, cell will be in view.
+     *
+     * - qLastExpandedPos[qx | qy] is less than the position where the cell was collapsed.
+     *   - Rows or columns was removed before collapsed cell.
+     *   - The last row or column index that was visible to the user when the cell was collapse exists in the data.
+     *   - Start indexes in ViewService are valid.
+     *   - After collapsing, cell could be in view or not.
+     *
+     * - qLastExpandedPos[qx | qy] is less than the position where the cell was collapsed.
+     *   - Rows or columns was removed before collapsed cell.
+     *   - The row or column index where the cell was collapsed exist in the data.
+     *   - The last row or column index that was visible to the user when the cell was collapsed NO LONGER exists in the data
+     *   - Start indexes in ViewService are INVALID.
+     *   - After collapsing, cell will be in view.
+     *
+     * - qLastExpandedPos[qx | qy] is less than the position where the cell was collapsed.
+     *   - Rows or columns was removed before collapsed cell.
+     *   - The row or column index where the cell was collapsed NO LONGER exist in the data.
+     *   - The last row or column index that was visible to the user when the cell was collapsed NO LONGER exists in the data
+     *   - Start indexes in ViewService are INVALID.
+     *   - After collapsing, cell will not be in view.
+     *
+     */
 
-  // qLastExpandedPos only exist in the layout if a new layout was received because a node was expanded or collapsed
-  if (qLastExpandedPos) {
-    if (viewService.lastExpandedOrCollapsed.grid === "left") {
-      const lastRow = viewService.gridRowStartIndex + viewService.gridHeight;
+    qLeft = viewService.gridColumnStartIndex;
+    qTop = pageStartIndex + viewService.gridRowStartIndex;
 
-      if (qLastExpandedPos.qy === viewService.lastExpandedOrCollapsed.rowIndex) {
-        // No data was added before or after the expand/collapse position
-        console.log("%c No data was added before or after the expand/collapse position", "color: lime");
-        qTop = pageStartIndex + viewService.gridRowStartIndex;
-      } else if (qLastExpandedPos.qy > viewService.lastExpandedOrCollapsed.rowIndex) {
-        // Data was added before the expanded position
-        console.log("%c Data was added before the expanded position", "color: salmon");
-        qTop = pageStartIndex + viewService.gridRowStartIndex;
-      } else if (lastRow > qSize.qcy) {
-        // Data was removed before the collapsed position, last row no longer exists
-        console.log("%c Data was removed before the collapsed position, last row no longer exists", "color: yellow");
+    const lastVisibleRow = qTop + viewService.gridHeight;
+    const lastVisibleColumn = viewService.gridColumnStartIndex + viewService.gridWidth;
 
-        qTop = Math.max(0, qSize.qcy - maxNumberOfVisibleRows);
-        //  qLastExpandedPos.qy - distanceFromTopWhenCollapsing;
-      } else {
-        // Data was removed before the collapsed position
-        console.log("%c Data was remove before the collapsed position", "color: orange");
-        qTop = pageStartIndex + viewService.gridRowStartIndex;
-      }
-      // qTop = Math.max(0, Math.min(qSize.qcy - DEFAULT_PAGE_SIZE, qLastExpandedPos.qy));
+    if (lastVisibleRow > pageEndIndex) {
+      // Rows where removed before the collapsed cell. Last visible row no longer exists.
+      qTop = Math.max(0, pageEndIndex - maxNumberOfVisibleRows);
     }
 
-    // gridColumnStartIndex might not exist anymore in the new expanded/collapsed layout
-    qLeft = Math.max(0, Math.min(qSize.qcx - DEFAULT_PAGE_SIZE, viewService.gridColumnStartIndex));
-    // pageStartTop + viewService.gridRowStartIndex might not exist anymore in the new expanded/collapsed layout
-    // qTop = Math.max(0, Math.min(qSize.qcy - DEFAULT_PAGE_SIZE, pageStartIndex + viewService.gridRowStartIndex));
-    console.log("%c qSize.qcy - maxNumberOfVisibleRows", "color: orangered", {
-      "qSize.qcy - maxNumberOfVisibleRows": qSize.qcy - maxNumberOfVisibleRows,
-      "qSize.qcy - DEFAULT_PAGE_SIZE": qSize.qcy - DEFAULT_PAGE_SIZE,
-      "qSize.qcy": qSize.qcy,
-      maxNumberOfVisibleRows,
-      qLastExpandedPos,
-      qTop,
-    });
+    if (lastVisibleColumn > qSize.qcx) {
+      // Columns where removed before the collapsed cell. Last visible column no longer exists.
+      qLeft = Math.max(0, qSize.qcx - maxNumberOfVisibleColumns);
+    }
   }
 
   return {
     qLeft,
     qTop,
     qWidth: Math.min(MAX_COLUMN_COUNT - qLeft, qSize.qcx - qLeft, maxNumberOfVisibleColumns),
-    qHeight: Math.min(pageEndIndex - qTop, qSize.qcy - qTop, maxNumberOfVisibleRows),
+    qHeight: Math.min(pageEndIndex - qTop, maxNumberOfVisibleRows),
   };
 };
 
@@ -153,7 +169,7 @@ export const getFetchArea = (
  *
  */
 const useLoadDataPages = ({ model, layoutService, viewService, pageInfo, rect }: Props) => {
-  const { layout, isSnapshot } = layoutService;
+  const { layout, isSnapshot, triggerdByExpandOrCollapse } = layoutService;
   // Use mutable prop as there is no need to fetch new data when only rect changes
   const maxVisibleGrid = useMutableNebulaProp(getMaxVisibleRowsAndColumns(rect));
 
@@ -161,7 +177,6 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo, rect }:
   // A double render would cause the scroll position to be lost
   return useFetch<EngineAPI.INxPivotPage[]>(async () => {
     const { qHyperCube } = layout;
-    const { qLastExpandedPos } = qHyperCube;
     const { maxNumberOfVisibleRows, maxNumberOfVisibleColumns } = maxVisibleGrid.current;
 
     if (isSnapshot) {
@@ -171,24 +186,38 @@ const useLoadDataPages = ({ model, layoutService, viewService, pageInfo, rect }:
     if (
       model !== undefined &&
       "getHyperCubePivotData" in model &&
-      (shouldFetchAdditionalData(qLastExpandedPos, viewService, maxNumberOfVisibleRows, maxNumberOfVisibleColumns) ||
-        isMissingLayoutData(layout, pageInfo, maxNumberOfVisibleRows, maxNumberOfVisibleColumns))
+      (shouldFetchExpandOrCollapseData(
+        triggerdByExpandOrCollapse,
+        viewService,
+        maxNumberOfVisibleRows,
+        maxNumberOfVisibleColumns,
+      ) ||
+        isMissingInitialDataPages(layout, pageInfo, maxNumberOfVisibleRows, maxNumberOfVisibleColumns))
     ) {
       const fetchArea = getFetchArea(
-        qLastExpandedPos,
+        triggerdByExpandOrCollapse,
         viewService,
         layout.qHyperCube.qSize,
         pageInfo,
         maxNumberOfVisibleRows,
         maxNumberOfVisibleColumns,
       );
-      console.log("%c fetchArea", "color: orangered", fetchArea, { ...viewService });
+
       return fetchArea ? model.getHyperCubePivotData(Q_PATH, handleMaxEnginePageSize(fetchArea)) : [];
     }
 
     return qHyperCube.qPivotDataPages ?? [];
     // By explicitly using layout, isSnapshot, pageInfo.page and pageInfo.rowsPerPage in the deps list. Two re-dundent page fetches are skipped on first render
-  }, [layout, isSnapshot, model, viewService, pageInfo.page, pageInfo.rowsPerPage, maxVisibleGrid]);
+  }, [
+    layout,
+    isSnapshot,
+    model,
+    viewService,
+    pageInfo.page,
+    pageInfo.rowsPerPage,
+    maxVisibleGrid,
+    triggerdByExpandOrCollapse,
+  ]);
 };
 
 export default useLoadDataPages;

@@ -118,7 +118,7 @@ describe("useScroll", () => {
   });
 
   test("should scroll to last known scroll position when a cell is expanded or collapsed", async () => {
-    layoutService.layout.qHyperCube.qLastExpandedPos = { qx: 0, qy: 0 };
+    layoutService.triggerdByExpandOrCollapse = true;
     verticalScrollableContainerRefMock.scrollTop = 123;
     dataGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
 
@@ -129,7 +129,7 @@ describe("useScroll", () => {
   });
 
   test("should not scroll to last known scroll position when a cell has not been expanded or collapsed", async () => {
-    layoutService.layout.qHyperCube.qLastExpandedPos = undefined;
+    layoutService.triggerdByExpandOrCollapse = false;
     verticalScrollableContainerRefMock.scrollTop = 123;
     dataGridHorizontalScrollableContainerRefMock.scrollLeft = 321;
 

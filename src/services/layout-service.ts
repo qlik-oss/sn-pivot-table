@@ -50,6 +50,8 @@ const createLayoutService = (
     leftDimensionInfoIndexes,
     isLeftDimension,
     isFullyExpanded: !!effectiveProperties?.qHyperCubeDef?.qAlwaysFullyExpanded,
+    // qLastExpandedPos only exist in the layout if a new layout was received because a node was expanded or collapsed
+    triggerdByExpandOrCollapse: !!layout.qHyperCube.qLastExpandedPos,
   };
 };
 

@@ -178,11 +178,6 @@ export interface ViewService {
   gridRowStartIndex: number;
   gridWidth: number;
   gridHeight: number;
-  lastExpandedOrCollapsed: {
-    grid: "top" | "left";
-    rowIndex: number;
-    colIndex: number;
-  };
 }
 
 export interface LayoutService {
@@ -201,6 +196,7 @@ export interface LayoutService {
   leftDimensionInfoIndexes: number[];
   isLeftDimension: (dimensionInfoIndex: number) => boolean;
   isFullyExpanded: boolean;
+  triggerdByExpandOrCollapse: boolean;
 }
 
 export interface DataService {
