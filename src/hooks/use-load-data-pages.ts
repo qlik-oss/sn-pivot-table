@@ -135,12 +135,12 @@ export const getFetchArea = (
     const lastVisibleColumn = viewService.gridColumnStartIndex + viewService.gridWidth;
 
     if (lastVisibleRow > pageEndIndex) {
-      // Rows where removed before the collapsed cell. Last visible row no longer exists.
+      // Last visible row no longer exists.
       qTop = Math.max(0, pageEndIndex - maxNumberOfVisibleRows);
     }
 
     if (lastVisibleColumn > qSize.qcx) {
-      // Columns where removed before the collapsed cell. Last visible column no longer exists.
+      // Last visible column no longer exists.
       qLeft = Math.max(0, qSize.qcx - maxNumberOfVisibleColumns);
     }
   }
