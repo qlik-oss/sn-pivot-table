@@ -62,10 +62,12 @@ export const getFetchArea = (
   maxNumberOfVisibleRows: number,
   maxNumberOfVisibleColumns: number,
 ) => {
-  const pageStartIndex = pageInfo.page * pageInfo.rowsPerPage;
+  const pageRowStartIndex = pageInfo.page * pageInfo.rowsPerPage;
   // Do not fetch data beyond this value. Either because there is no more data in the layout or the current page ends.
-  const pageEndIndex = Math.min(pageStartIndex + pageInfo.rowsPerPage, qSize.qcy);
-  if (qSize.qcy < pageStartIndex) {
+  const pageRowEndIndex = Math.min(pageRowStartIndex + pageInfo.rowsPerPage, qSize.qcy);
+  const columnEndIndex = Math.min(MAX_COLUMN_COUNT, qSize.qcx);
+
+  if (qSize.qcy < pageRowStartIndex) {
     /**
      * Do not fetch data that does not exist. This can happen because "PageInfo" is resolved from the layout.
      * Which means it will not be updated until the next render cycle.
@@ -74,7 +76,7 @@ export const getFetchArea = (
   }
 
   let qLeft = 0;
-  let qTop = pageStartIndex;
+  let qTop = pageRowStartIndex;
 
   if (triggerdByExpandOrCollapse) {
     /**
@@ -129,27 +131,27 @@ export const getFetchArea = (
      */
 
     qLeft = viewService.gridColumnStartIndex;
-    qTop = pageStartIndex + viewService.gridRowStartIndex;
+    qTop = pageRowStartIndex + viewService.gridRowStartIndex;
 
     const lastVisibleRow = qTop + viewService.gridHeight;
     const lastVisibleColumn = viewService.gridColumnStartIndex + viewService.gridWidth;
 
-    if (lastVisibleRow > pageEndIndex) {
+    if (lastVisibleRow > pageRowEndIndex) {
       // Last visible row no longer exists.
-      qTop = Math.max(0, pageEndIndex - maxNumberOfVisibleRows);
+      qTop = Math.max(0, pageRowEndIndex - maxNumberOfVisibleRows);
     }
 
-    if (lastVisibleColumn > qSize.qcx) {
+    if (lastVisibleColumn > columnEndIndex) {
       // Last visible column no longer exists.
-      qLeft = Math.max(0, qSize.qcx - maxNumberOfVisibleColumns);
+      qLeft = Math.max(0, columnEndIndex - maxNumberOfVisibleColumns);
     }
   }
 
   return {
     qLeft,
     qTop,
-    qWidth: Math.min(MAX_COLUMN_COUNT - qLeft, qSize.qcx - qLeft, maxNumberOfVisibleColumns),
-    qHeight: Math.min(pageEndIndex - qTop, maxNumberOfVisibleRows),
+    qWidth: Math.min(columnEndIndex - qLeft, maxNumberOfVisibleColumns),
+    qHeight: Math.min(pageRowEndIndex - qTop, maxNumberOfVisibleRows),
   };
 };
 
