@@ -64,7 +64,7 @@ export const getFetchArea = (
 ) => {
   const pageRowStartIndex = pageInfo.page * pageInfo.rowsPerPage;
   // Do not fetch data beyond this value. Either because there is no more data in the layout or the current page ends.
-  const pageRowEndIndex = Math.min(pageRowStartIndex + pageInfo.rowsPerPage, qSize.qcy);
+  const rowEndIndex = Math.min(pageRowStartIndex + pageInfo.rowsPerPage, qSize.qcy);
   const columnEndIndex = Math.min(MAX_COLUMN_COUNT, qSize.qcx);
 
   if (qSize.qcy < pageRowStartIndex) {
@@ -136,9 +136,9 @@ export const getFetchArea = (
     const lastVisibleRow = qTop + viewService.gridHeight;
     const lastVisibleColumn = viewService.gridColumnStartIndex + viewService.gridWidth;
 
-    if (lastVisibleRow > pageRowEndIndex) {
+    if (lastVisibleRow > rowEndIndex) {
       // Last visible row no longer exists.
-      qTop = Math.max(0, pageRowEndIndex - maxNumberOfVisibleRows);
+      qTop = Math.max(0, rowEndIndex - maxNumberOfVisibleRows);
     }
 
     if (lastVisibleColumn > columnEndIndex) {
@@ -151,7 +151,7 @@ export const getFetchArea = (
     qLeft,
     qTop,
     qWidth: Math.min(columnEndIndex - qLeft, maxNumberOfVisibleColumns),
-    qHeight: Math.min(pageRowEndIndex - qTop, maxNumberOfVisibleRows),
+    qHeight: Math.min(rowEndIndex - qTop, maxNumberOfVisibleRows),
   };
 };
 
