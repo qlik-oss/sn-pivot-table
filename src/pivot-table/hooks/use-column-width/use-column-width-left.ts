@@ -3,7 +3,6 @@ import { useMeasureText, useOnPropsChange } from "@qlik/nebula-table-utils/lib/h
 import { useCallback, useState } from "react";
 import { PSEUDO_DIMENSION_KEY } from "../../../constants";
 import type { HeaderCell } from "../../../types/types";
-import { GRID_BORDER } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
   EXPAND_ICON_SIZE,
@@ -62,16 +61,14 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
                 !isFullyExpanded && header.isLeftDimension && collIdx < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
               const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
               const measuredHeaderWidth =
-                measureTextForHeader(label) + TOTAL_CELL_PADDING + GRID_BORDER + MENU_ICON_SIZE + lockedIconSize;
+                measureTextForHeader(label) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize;
 
               let fitToContentWidth = 0;
               if (header.isLeftDimension) {
-                fitToContentWidth =
-                  TOTAL_CELL_PADDING +
-                  Math.max(
-                    measuredHeaderWidth,
-                    estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + TOTAL_CELL_PADDING + expandIconSize,
-                  );
+                fitToContentWidth = Math.max(
+                  measuredHeaderWidth,
+                  estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + TOTAL_CELL_PADDING + expandIconSize,
+                );
               } else if (lastRowLastColumn && !header.isLeftDimension && hasPseudoDimOnLeft) {
                 fitToContentWidth = maxMeasureCellWidth;
               } else {
