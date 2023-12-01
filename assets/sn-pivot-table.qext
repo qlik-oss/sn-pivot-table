@@ -1,9 +1,9 @@
 {
-  "name": "sn-pivot-table",
+  "name": "Pivot table",
   "version": "0.0.0",
-  "description": "",
+  "description": "Display dimensions and measures as rows and columns in a table. Analyze data by multiple measures and in multiple dimensions at the same time. Use pivoting (rearranging the measures and dimensions) to get different views of the data.",
   "author": "QlikTech International AB",
-  "icon": "extension",
+  "icon": "pivot-table",
   "type": "visualization",
   "supernova": true
 }
