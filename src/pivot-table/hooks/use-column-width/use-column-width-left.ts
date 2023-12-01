@@ -65,6 +65,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
 
               let fitToContentWidth = 0;
               if (header.isLeftDimension) {
+                console.log({ header });
                 fitToContentWidth = Math.max(
                   measuredHeaderWidth,
                   estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + TOTAL_CELL_PADDING + expandIconSize,

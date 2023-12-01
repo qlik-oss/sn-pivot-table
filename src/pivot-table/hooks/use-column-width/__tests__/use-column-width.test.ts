@@ -254,13 +254,13 @@ describe("useColumnWidth", () => {
 
   describe("getRightGridColumnWidth", () => {
     beforeEach(() => {
-      const lefSideWidth = 50;
+      const leftSideWidth = 50;
       tableRect = { width: 350, height: 100 };
-      percentageConversion = (tableRect.width - lefSideWidth) / 100;
+      percentageConversion = (tableRect.width - leftSideWidth) / 100;
       layoutService.layout.qHyperCube.qNoOfLeftDims = 1;
       visibleLeftDimensionInfo = [
         {
-          columnWidth: { type: ColumnWidthType.Pixels, pixels: lefSideWidth - GRID_BORDER },
+          columnWidth: { type: ColumnWidthType.Pixels, pixels: leftSideWidth - GRID_BORDER },
           qGroupFieldDefs: [""],
         } as ExtendedDimensionInfo,
       ];
@@ -363,7 +363,7 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
-      expect(getRightGridColumnWidth(0)).toBe(132);
+      expect(getRightGridColumnWidth(0)).toBe(131);
       expect(getRightGridColumnWidth(1)).toBe(pixels);
       expect(getRightGridColumnWidth(2)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
     });
@@ -432,41 +432,46 @@ describe("useColumnWidth", () => {
   });
 
   describe("grid widths", () => {
+    let ExpectedLeftGridWidth: number;
+
     beforeEach(() => {
-      // This makes the total of the left grid 3 * measured width + 2 * icon width = 150
-      mockEstimateWidth(30);
-      mockMeasureText(30 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
+      ExpectedLeftGridWidth = 150;
+      // This makes the total of the left grid 3 * 50 px cells
+      mockEstimateWidth(5);
+      mockMeasureText(ExpectedLeftGridWidth / 3 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
     });
+
     test("should return grid and total widths when sum of all widths is tableRect.width", () => {
-      // The right side columns will default to auto, hence filling up the remaining space
       tableRect.width = 500;
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(191);
-      expect(rightGridWidth).toBe(308);
+      expect(leftGridWidth).toBe(ExpectedLeftGridWidth);
+      expect(rightGridWidth).toBe(tableRect.width - ExpectedLeftGridWidth - GRID_BORDER);
       expect(totalWidth).toEqual(tableRect.width);
       expect(showLastRightBorder).toBe(false);
     });
 
     test("should return grid and total widths when sum of all widths is greater than tableRect.width", () => {
-      meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 100 } } as ExtendedMeasureInfo;
+      const measureWidth = 100;
+      meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: measureWidth } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(191);
-      expect(rightGridWidth).toBe(208);
-      expect(totalWidth).toBe(492);
+      expect(leftGridWidth).toBe(ExpectedLeftGridWidth);
+      expect(rightGridWidth).toBe(tableRect.width - ExpectedLeftGridWidth - GRID_BORDER);
+      expect(totalWidth).toBe(ExpectedLeftGridWidth + measureWidth * 3 + GRID_BORDER);
       expect(totalWidth).toBeGreaterThan(tableRect.width);
       expect(showLastRightBorder).toBe(false);
     });
 
     test("should return grid and total widths when sum of all widths is smaller than tableRect.width", () => {
-      meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: 40 } } as ExtendedMeasureInfo;
+      const measureWidth = 40;
+      meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: measureWidth } } as ExtendedMeasureInfo;
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(191);
-      expect(rightGridWidth).toBe(120);
-      expect(totalWidth).toBe(312);
+      expect(leftGridWidth).toBe(ExpectedLeftGridWidth);
+      expect(rightGridWidth).toBe(measureWidth * 3);
+      expect(totalWidth).toBe(leftGridWidth + measureWidth * 3 + GRID_BORDER);
       expect(totalWidth).toBeLessThan(tableRect.width);
       expect(showLastRightBorder).toBe(true);
     });
