@@ -1,6 +1,6 @@
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../../../types/types";
 import { ScrollDirection } from "../../../../../types/types";
-import { BUFFER, fetchPages } from "../fetch-pages";
+import { MIN_BUFFER, fetchPages } from "../fetch-pages";
 import getColumnPages from "../get-column-pages";
 import getRowPages from "../get-row-pages";
 
@@ -128,7 +128,7 @@ describe("fetchPages", () => {
   });
 
   test("forward buffer should not exceed layout size", async () => {
-    const halfBuffer = BUFFER / 2;
+    const halfBuffer = MIN_BUFFER / 2;
     viewService.gridColumnStartIndex = layoutService.size.x - halfBuffer;
     viewService.gridRowStartIndex = layoutService.size.y - halfBuffer;
     viewService.gridWidth = layoutService.size.x;

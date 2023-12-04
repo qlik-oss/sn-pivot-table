@@ -3,7 +3,8 @@ import { useCallback } from "react";
 import { type GridOnItemsRenderedProps } from "react-window";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../types/types";
 import { ScrollDirection } from "../../../types/types";
-import { BUFFER, debouncedFetchPages, throttledFetchPages } from "./utils/fetch-pages";
+import { MIN_BUFFER } from "./constants";
+import { debouncedFetchPages, throttledFetchPages } from "./utils/fetch-pages";
 
 type Props = {
   viewService: ViewService;
@@ -54,9 +55,11 @@ const useItemsRenderedHandler = ({
       const estimatedWidth =
         viewService.gridWidth +
         leftColumnCount +
-        (horizontalScrollDirection.current === ScrollDirection.None ? 0 : BUFFER);
+        (horizontalScrollDirection.current === ScrollDirection.None ? 0 : MIN_BUFFER);
       const estimatedHeight =
-        viewService.gridHeight + topRowCount + (verticalScrollDirection.current === ScrollDirection.None ? 0 : BUFFER);
+        viewService.gridHeight +
+        topRowCount +
+        (verticalScrollDirection.current === ScrollDirection.None ? 0 : MIN_BUFFER);
 
       /**
        * A throttled fetch gives the best user experience as it reduces the number of empty cells the
@@ -65,9 +68,10 @@ const useItemsRenderedHandler = ({
        * This is a control mechanism that allows us to tweak where the user experience vs performance
        * threshold should be.
        */
-      let throttledOrDebouncedFetchPages = throttledFetchPages;
+      const throttledOrDebouncedFetchPages = throttledFetchPages;
       if (estimatedHeight * estimatedWidth > DEBOUNCED_GRID_SIZE_THRESHOLD) {
-        throttledOrDebouncedFetchPages = debouncedFetchPages;
+        // console.log("%c throttledOrDebouncedFetchPages", "color: pink");
+        // throttledOrDebouncedFetchPages = debouncedFetchPages;
       }
 
       await throttledOrDebouncedFetchPages(
