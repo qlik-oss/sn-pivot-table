@@ -1,9 +1,0 @@
-{
-  "name": "sn-pivot-table",
-  "version": "0.0.0",
-  "description": "",
-  "author": "QlikTech International AB",
-  "icon": "extension",
-  "type": "visualization",
-  "supernova": true
-}
