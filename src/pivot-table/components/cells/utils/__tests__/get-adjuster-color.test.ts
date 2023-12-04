@@ -15,7 +15,7 @@ describe("get-adjuster-color", () => {
         background: Colors.Transparent,
       },
       grid: {
-        border: Colors.Black15,
+        border: "rgba(0, 0, 0, 0.15)",
       },
     } as StyleService;
     cellInfo = { isLeftColumn: true } as AdjusterCellInfo;

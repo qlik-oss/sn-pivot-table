@@ -1,4 +1,5 @@
 import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
+import { Colors } from "../../pivot-table/components/shared-styles";
 import { DEFAULT_FONT_FAMILY } from "../../pivot-table/constants";
 import type { Component, PaletteColor } from "../../types/QIX";
 import type { LayoutService, StyleService } from "../../types/types";
@@ -237,7 +238,7 @@ describe("style-service", () => {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",
-        color: "rgba(0, 0, 0, 0.55)",
+        color: Colors.FontSecondary,
         background: "transparent",
       },
       dimensionValues: {
@@ -253,7 +254,7 @@ describe("style-service", () => {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",
-        color: "rgba(0, 0, 0, 0.55)",
+        color: Colors.FontSecondary,
         background: "transparent",
       },
       totalValues: {
@@ -268,12 +269,12 @@ describe("style-service", () => {
         fontStyle: "normal",
         textDecoration: "none",
         color: "#404040",
-        background: "rgba(0, 0, 0, 0.05)",
+        background: Colors.NullValueBackground,
       },
       grid: {
         lineClamp: 1,
-        border: "rgba(0, 0, 0, 0.15)",
-        divider: "rgba(0, 0, 0, 0.6)",
+        border: Colors.DividerLight,
+        divider: Colors.DividerDark,
         background: "transparent",
       },
       headerCellHeight: 32,

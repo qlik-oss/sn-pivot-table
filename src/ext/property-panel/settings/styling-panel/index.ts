@@ -27,7 +27,7 @@ const getStylingPanelConfig = (translator: stardust.Translator) => ({
         }),
         measureLabelSection: smallPanelSection({ section: "measureLabels" }),
         totalValuesSection: smallPanelSection({ section: "totalValues", defaultFontStyle: ["bold"] }),
-        nullValuesSection: smallPanelSection({ section: "nullValues", fallbackBackground: Colors.Black5 }),
+        nullValuesSection: smallPanelSection({ section: "nullValues", fallbackBackground: Colors.NullValueBackground }),
         gridSection,
       },
     },

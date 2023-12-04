@@ -177,7 +177,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, measureValueStyling?.[StylingPanelAttribute.FontColor]) ??
         getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelValue, ThemeAttribute.Color) ??
-        Colors.Black55,
+        Colors.FontSecondary,
       background:
         resolveColor(theme, measureValueStyling?.[StylingPanelAttribute.Background]) ??
         getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelValue, ThemeAttribute.BackgroundColor) ??
@@ -190,7 +190,7 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       color:
         resolveColor(theme, measureLabelStyling?.[StylingPanelAttribute.FontColor]) ??
         getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelName, ThemeAttribute.Color) ??
-        Colors.Black55,
+        Colors.FontSecondary,
       background:
         resolveColor(theme, measureLabelStyling?.[StylingPanelAttribute.Background]) ??
         getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelName, ThemeAttribute.BackgroundColor) ??
@@ -220,18 +220,18 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
       background:
         resolveColor(theme, nullValueStyling?.[StylingPanelAttribute.Background]) ??
         getThemeStyle(ThemeBasePath.Null, ThemePath.LabelValue, ThemeAttribute.BackgroundColor) ??
-        Colors.Black5,
+        Colors.NullValueBackground,
     },
     grid: {
       lineClamp,
       border:
         resolveColor(theme, gridStyling?.[StylingPanelAttribute.Border]) ??
         getThemeStyle(ThemeBasePath.Grid, ThemePath.Grid, ThemeAttribute.BorderColor) ??
-        Colors.Black15,
+        Colors.DividerLight,
       divider:
         resolveColor(theme, gridStyling?.[StylingPanelAttribute.Divider]) ??
         getThemeStyle(ThemeBasePath.Grid, ThemePath.Divider, ThemeAttribute.BorderColor) ??
-        Colors.Black60,
+        Colors.DividerDark,
       background:
         resolveColor(theme, gridStyling?.[StylingPanelAttribute.Background]) ??
         getThemeStyle(ThemeBasePath.Grid, ThemePath.Grid, ThemeAttribute.BackgroundColor) ??
