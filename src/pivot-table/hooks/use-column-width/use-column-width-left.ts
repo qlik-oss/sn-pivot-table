@@ -60,19 +60,19 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
               const expandIconSize =
                 !isFullyExpanded && header.isLeftDimension && collIdx < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
               const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
+              const measuredHeaderWidth =
+                measureTextForHeader(label) + TOTAL_CELL_PADDING + MENU_ICON_SIZE + lockedIconSize;
 
               let fitToContentWidth = 0;
               if (header.isLeftDimension) {
-                fitToContentWidth =
-                  TOTAL_CELL_PADDING +
-                  Math.max(
-                    measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
-                    estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
-                  );
+                fitToContentWidth = Math.max(
+                  measuredHeaderWidth,
+                  estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + TOTAL_CELL_PADDING + expandIconSize,
+                );
               } else if (lastRowLastColumn && !header.isLeftDimension && hasPseudoDimOnLeft) {
                 fitToContentWidth = maxMeasureCellWidth;
               } else {
-                fitToContentWidth = TOTAL_CELL_PADDING + measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize;
+                fitToContentWidth = measuredHeaderWidth;
               }
 
               cellWidth = getColumnWidthValue(tableRect.width, columnWidth, fitToContentWidth);
