@@ -162,6 +162,8 @@ const properties = {
  * @type object
  * @property {GeneralStylingKey} key
  * @property {TitleStyling} title
+ * @property {BackgroundColor | BackgroundColorExpression} [bgColor]
+ * @property {BackgroundImage} [bgImage]
  * @example
  * {
  *  key: "general",
@@ -172,8 +174,61 @@ const properties = {
  *      fontStyle: ["bold", "italic"],
  *      color: { color: "orangered" },
  *    }
+ *  },
+ *  bgColor: {
+ *    useExpression: true,
+ *    color: {
+ *      index: 6,
+ *      color: "#006580"
+ *    },
+ *    colorExpression: {
+ *      qStringExpression: {
+ *        qExpr: "red()"
+ *      }
+ *    }
+ *  },
+ *  bgImage: {
+ *    mode: "media",
+ *    mediaUrl: {
+ *      qStaticContentUrlDef: {
+ *        qUrl: "<path-to-image>"
+ *      }
+ *    }
  *  }
  * }
+ */
+
+/**
+ * Chart background color
+ * @name BackgroundColor
+ * @type object
+ * @property {PaletteColor} color - Background color palette
+ */
+
+/**
+ * Chart background color by expression
+ * @name BackgroundColorExpression
+ * @type object
+ * @property {boolean} useExpression - Boolean to indicate if color by expression should be used
+ * @property {StringExpression} colorExpression - Color expression, "useExpression" must also be true
+ */
+
+/**
+ * Chart background image.
+ *
+ * Background image takes precedence over background color.
+ * @name BackgroundImage
+ * @type object
+ * @property {"media"} mode - Mode
+ * @property {MediaUrl} mediaUrl - Media url
+ */
+
+/**
+ * Media url
+ * @name MediaUrl
+ * @type object
+ * @property {object} qStaticContentUrlDef - Background image mode
+ * @property {string} qStaticContentUrlDef.qUrl - Relative path of the image
  */
 
 /**

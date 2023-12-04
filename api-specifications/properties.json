@@ -323,11 +323,82 @@
         },
         "title": {
           "type": "#/definitions/TitleStyling"
+        },
+        "bgColor": {
+          "optional": true,
+          "kind": "union",
+          "items": [
+            {
+              "type": "#/definitions/BackgroundColor"
+            },
+            {
+              "type": "#/definitions/BackgroundColorExpression"
+            }
+          ]
+        },
+        "bgImage": {
+          "optional": true,
+          "type": "#/definitions/BackgroundImage"
         }
       },
       "examples": [
-        "{\n key: \"general\",\n title: {\n   main: {\n     fontSize: \"18px\",\n     fontFamily: \"Arial\",\n     fontStyle: [\"bold\", \"italic\"],\n     color: { color: \"orangered\" },\n   }\n }\n}"
+        "{\n key: \"general\",\n title: {\n   main: {\n     fontSize: \"18px\",\n     fontFamily: \"Arial\",\n     fontStyle: [\"bold\", \"italic\"],\n     color: { color: \"orangered\" },\n   }\n },\n bgColor: {\n   useExpression: true,\n   color: {\n     index: 6,\n     color: \"#006580\"\n   },\n   colorExpression: {\n     qStringExpression: {\n       qExpr: \"red()\"\n     }\n   }\n },\n bgImage: {\n   mode: \"media\",\n   mediaUrl: {\n     qStaticContentUrlDef: {\n       qUrl: \"<path-to-image>\"\n     }\n   }\n }\n}"
       ]
+    },
+    "BackgroundColor": {
+      "description": "Chart background color",
+      "kind": "object",
+      "entries": {
+        "color": {
+          "description": "Background color palette",
+          "type": "#/definitions/PaletteColor"
+        }
+      }
+    },
+    "BackgroundColorExpression": {
+      "description": "Chart background color by expression",
+      "kind": "object",
+      "entries": {
+        "useExpression": {
+          "description": "Boolean to indicate if color by expression should be used",
+          "type": "boolean"
+        },
+        "colorExpression": {
+          "description": "Color expression, \"useExpression\" must also be true",
+          "type": "StringExpression"
+        }
+      }
+    },
+    "BackgroundImage": {
+      "description": "Chart background image.\n\nBackground image takes precedence over background color.",
+      "kind": "object",
+      "entries": {
+        "mode": {
+          "description": "Mode",
+          "kind": "literal",
+          "value": "\"media\""
+        },
+        "mediaUrl": {
+          "description": "Media url",
+          "type": "#/definitions/MediaUrl"
+        }
+      }
+    },
+    "MediaUrl": {
+      "description": "Media url",
+      "kind": "object",
+      "entries": {
+        "qStaticContentUrlDef": {
+          "description": "Background image mode",
+          "kind": "object",
+          "entries": {
+            "qUrl": {
+              "description": "Relative path of the image",
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "TitleOptions": {
       "description": "Title styling options",
