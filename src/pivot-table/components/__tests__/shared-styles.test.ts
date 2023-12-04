@@ -5,7 +5,9 @@ describe("Shared styles", () => {
   let showLastBorder: ShowLastBorder;
 
   const borderColor = "red";
+
   const singleBorder = `1px ${BorderStyle.Solid} ${borderColor}`;
+
   const noBorders = {
     borderRight: BorderStyle.None,
     borderBottom: BorderStyle.None,
