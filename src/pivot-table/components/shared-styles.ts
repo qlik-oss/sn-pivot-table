@@ -4,12 +4,12 @@ import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 // TODO Replace with colors from Sprout
 export enum Colors {
-  Black3 = "rgba(0, 0, 0, 0.03)",
-  Black5 = "rgba(0, 0, 0, 0.05)",
-  Black15 = "rgba(0, 0, 0, 0.15)",
-  Black55 = "rgba(0, 0, 0, 0.55)",
-  Black60 = "rgba(0, 0, 0, 0.6)",
   Transparent = "transparent",
+  FontPrimary = "#404040",
+  FontSecondary = "#737373",
+  DividerDark = "#595959",
+  DividerLight = "#D9D9D9",
+  NullValueBackground = "#F2F2F2",
 }
 
 export const CELL_PADDING = 4;
