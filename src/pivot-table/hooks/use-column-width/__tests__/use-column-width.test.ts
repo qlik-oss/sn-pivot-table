@@ -432,20 +432,20 @@ describe("useColumnWidth", () => {
   });
 
   describe("grid widths", () => {
-    let ExpectedLeftGridWidth: number;
+    let expectedLeftGridWidth: number;
 
     beforeEach(() => {
-      ExpectedLeftGridWidth = 150;
+      expectedLeftGridWidth = 150;
       // This makes the total of the left grid 3 * 50 px cells
       mockEstimateWidth(5);
-      mockMeasureText(ExpectedLeftGridWidth / 3 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
+      mockMeasureText(expectedLeftGridWidth / 3 - TOTAL_CELL_PADDING - MENU_ICON_SIZE);
     });
 
     test("should return grid and total widths when sum of all widths is tableRect.width", () => {
       tableRect.width = 500;
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(ExpectedLeftGridWidth);
-      expect(rightGridWidth).toBe(tableRect.width - ExpectedLeftGridWidth - GRID_BORDER);
+      expect(leftGridWidth).toBe(expectedLeftGridWidth);
+      expect(rightGridWidth).toBe(tableRect.width - expectedLeftGridWidth - GRID_BORDER);
       expect(totalWidth).toEqual(tableRect.width);
       expect(showLastRightBorder).toBe(false);
     });
@@ -456,9 +456,9 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(ExpectedLeftGridWidth);
-      expect(rightGridWidth).toBe(tableRect.width - ExpectedLeftGridWidth - GRID_BORDER);
-      expect(totalWidth).toBe(ExpectedLeftGridWidth + measureWidth * 3 + GRID_BORDER);
+      expect(leftGridWidth).toBe(expectedLeftGridWidth);
+      expect(rightGridWidth).toBe(tableRect.width - expectedLeftGridWidth - GRID_BORDER);
+      expect(totalWidth).toBe(expectedLeftGridWidth + measureWidth * 3 + GRID_BORDER);
       expect(totalWidth).toBeGreaterThan(tableRect.width);
       expect(showLastRightBorder).toBe(false);
     });
@@ -469,7 +469,7 @@ describe("useColumnWidth", () => {
       layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
-      expect(leftGridWidth).toBe(ExpectedLeftGridWidth);
+      expect(leftGridWidth).toBe(expectedLeftGridWidth);
       expect(rightGridWidth).toBe(measureWidth * 3);
       expect(totalWidth).toBe(leftGridWidth + measureWidth * 3 + GRID_BORDER);
       expect(totalWidth).toBeLessThan(tableRect.width);
