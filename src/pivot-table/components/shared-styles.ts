@@ -12,6 +12,11 @@ export enum Colors {
   Transparent = "transparent",
 }
 
+export enum BorderStyle {
+  Solid = "solid",
+  None = "none",
+}
+
 export const CELL_PADDING = 4;
 
 export const DOUBLE_CELL_PADDING = CELL_PADDING * 2;
@@ -51,26 +56,23 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   wordBreak: "break-all",
 });
 
+const getBorderAttributes = (width: number, color: string) =>
+  width > 0 ? `${width}px ${BorderStyle.Solid} ${color}` : BorderStyle.None;
+
 export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
   showLastBorder?: ShowLastBorder,
 ): React.CSSProperties => {
-  const showRightBorder = !isLastColumn || showLastBorder?.right;
-  const showBottomBorder = !isLastRow || showLastBorder?.bottom;
-  const borderRightWidth = showRightBorder ? 1 : 0;
-  const borderRightColor = showRightBorder ? borderColor : undefined;
-  const borderBottomWidth = showBottomBorder ? 1 : 0;
-  const borderBottomColor = showBottomBorder ? borderColor : undefined;
+  const borderRightWidth = Number(!isLastColumn || showLastBorder?.right);
+  const borderBottomWidth = Number(!isLastRow || showLastBorder?.bottom);
 
   return {
-    ...borderStyle,
-    borderRightColor,
-    borderBottomColor,
-    borderWidth: 0,
-    borderRightWidth,
-    borderBottomWidth,
+    borderRight: getBorderAttributes(borderRightWidth, borderColor),
+    borderBottom: getBorderAttributes(borderBottomWidth, borderColor),
+    borderLeft: BorderStyle.None,
+    borderTop: BorderStyle.None,
   };
 };
 
@@ -86,15 +88,11 @@ export const getHeaderBorderStyle = (
 
   if (!cell.isLeftDimension) {
     if (cell.isLastDimension && !isLastRow) {
-      headerBorderStyle.borderBottomWidth = 2;
-      headerBorderStyle.borderBottomColor = borderColor;
+      headerBorderStyle.borderBottom = getBorderAttributes(2, borderColor);
     }
 
     if (!isFirstColumn) {
-      headerBorderStyle.borderLeftWidth = 1;
-      headerBorderStyle.borderLeftColor = borderColor;
-    } else {
-      headerBorderStyle.borderLeftWidth = 0;
+      headerBorderStyle.borderLeft = getBorderAttributes(1, borderColor);
     }
   }
 

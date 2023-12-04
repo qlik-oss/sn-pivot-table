@@ -1,46 +1,40 @@
 import type { HeaderCell, ShowLastBorder } from "../../../types/types";
-import { borderStyle, getBorderStyle, getHeaderBorderStyle } from "../shared-styles";
+import { BorderStyle, getBorderStyle, getHeaderBorderStyle } from "../shared-styles";
 
 describe("Shared styles", () => {
-  const borderColor = "red";
   let showLastBorder: ShowLastBorder;
+
+  const borderColor = "red";
+  const singleBorder = `1px ${BorderStyle.Solid} ${borderColor}`;
+  const noBorders = {
+    borderRight: BorderStyle.None,
+    borderBottom: BorderStyle.None,
+    borderLeft: BorderStyle.None,
+    borderTop: BorderStyle.None,
+  };
+
+  const borderRight = {
+    ...noBorders,
+    borderRight: singleBorder,
+  };
+  const borderBottom = {
+    ...noBorders,
+    borderBottom: singleBorder,
+  };
+  const borderRightBottom = {
+    ...noBorders,
+    borderRight: singleBorder,
+    borderBottom: singleBorder,
+  };
 
   beforeEach(() => {
     showLastBorder = { right: false, bottom: false };
   });
 
-  const baseStyle = {
-    ...borderStyle,
-    borderWidth: 0,
-    borderRightColor: undefined,
-    borderBottomColor: undefined,
-  };
-
   describe("getBorderStyle", () => {
-    const noBorder = { ...baseStyle, borderRightWidth: 0, borderBottomWidth: 0 };
-    const borderRight = {
-      ...baseStyle,
-      borderRightWidth: 1,
-      borderBottomWidth: 0,
-      borderRightColor: borderColor,
-    };
-    const borderBottom = {
-      ...baseStyle,
-      borderRightWidth: 0,
-      borderBottomWidth: 1,
-      borderBottomColor: borderColor,
-    };
-    const borderRightBottom = {
-      ...baseStyle,
-      borderRightWidth: 1,
-      borderBottomWidth: 1,
-      borderRightColor: borderColor,
-      borderBottomColor: borderColor,
-    };
-
     // last row and bottom
     test("should resolve style for last row and last column", () => {
-      expect(getBorderStyle(true, true, borderColor, showLastBorder)).toEqual(noBorder);
+      expect(getBorderStyle(true, true, borderColor, showLastBorder)).toEqual(noBorders);
     });
 
     test("should resolve style for last row and last column while `showLastBorder.right` is true", () => {
@@ -87,59 +81,29 @@ describe("Shared styles", () => {
   describe("getHeaderBorderStyle", () => {
     let cell: HeaderCell;
 
+    const doubleBorder = `2px ${BorderStyle.Solid} ${borderColor}`;
+
     const borderLeft = {
-      ...baseStyle,
-      borderBottomWidth: 0,
-      borderLeftWidth: 1,
-      borderLeftColor: borderColor,
-      borderRightWidth: 0,
-      borderRightColor: undefined,
+      ...noBorders,
+      borderLeft: singleBorder,
     };
 
     const borderLeftBottom = {
-      ...baseStyle,
-      borderLeftWidth: 1,
-      borderLeftColor: borderColor,
-      borderRightWidth: 0,
-      borderRightColor: undefined,
-      borderBottomWidth: 1,
-      borderBottomColor: borderColor,
+      ...noBorders,
+      borderLeft: singleBorder,
+      borderBottom: singleBorder,
     };
 
     const borderLeftDoubleBottom = {
-      ...baseStyle,
-      borderLeftWidth: 1,
-      borderLeftColor: borderColor,
-      borderRightWidth: 0,
-      borderRightColor: undefined,
-      borderBottomWidth: 2,
-      borderBottomColor: borderColor,
-    };
-
-    const borderRight = {
-      ...baseStyle,
-      borderLeftWidth: 0,
-      borderRightWidth: 1,
-      borderRightColor: borderColor,
-      borderBottomWidth: 0,
-    };
-
-    const borderRightBottom = {
-      ...baseStyle,
-      borderLeftWidth: 0,
-      borderRightWidth: 1,
-      borderRightColor: borderColor,
-      borderBottomWidth: 1,
-      borderBottomColor: borderColor,
+      ...noBorders,
+      borderLeft: singleBorder,
+      borderBottom: doubleBorder,
     };
 
     const borderRightDoubleBottom = {
-      ...baseStyle,
-      borderLeftWidth: 0,
-      borderRightWidth: 1,
-      borderRightColor: borderColor,
-      borderBottomWidth: 2,
-      borderBottomColor: borderColor,
+      ...noBorders,
+      borderRight: singleBorder,
+      borderBottom: doubleBorder,
     };
 
     beforeEach(() => {
