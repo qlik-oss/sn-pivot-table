@@ -1,17 +1,20 @@
 import type { stardust } from "@nebula.js/stardust";
 import { renderHook, waitFor } from "@testing-library/react";
-import { DEFAULT_PAGE_SIZE } from "../../constants";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../pivot-table/constants";
 import type { Model } from "../../types/QIX";
 import type { LayoutService, PageInfo, ViewService } from "../../types/types";
-import useLoadDataPages, { getFetchArea, isMissingLayoutData, shouldFetchAdditionalData } from "../use-load-data-pages";
+import useLoadDataPages, {
+  getFetchArea,
+  isMissingInitialDataPages,
+  shouldFetchExpandOrCollapseData,
+} from "../use-load-data-pages";
 
 describe("useLoadDataPages", () => {
+  const DEFAULT_PAGE_SIZE = 50;
   let layoutService: LayoutService;
   let viewService: ViewService;
   let pageInfo: PageInfo;
   let model: Model;
-  let qLastExpandedPos: EngineAPI.INxCellPosition | undefined;
   let rect: stardust.Rect;
 
   beforeEach(() => {
@@ -43,21 +46,11 @@ describe("useLoadDataPages", () => {
       width: 200,
       height: 100,
     };
-
-    qLastExpandedPos = undefined;
   });
 
-  describe("shouldFetchAdditionalData", () => {
-    beforeEach(() => {
-      qLastExpandedPos = {
-        qx: 0,
-        qy: 0,
-      };
-    });
-
+  describe("shouldFetchExpandOrCollapseData", () => {
     test("should return false if there was no `qLastExpandedPos`", () => {
-      qLastExpandedPos = undefined;
-      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService, 50, 50)).toBe(false);
+      expect(shouldFetchExpandOrCollapseData(false, viewService, 50, 50)).toBe(false);
     });
 
     test("should return true if viewService indicates that we are scrolling in x axis", () => {
@@ -66,7 +59,7 @@ describe("useLoadDataPages", () => {
         gridColumnStartIndex: 50,
         gridWidth: 100,
       };
-      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService, 50, 50)).toBe(true);
+      expect(shouldFetchExpandOrCollapseData(true, viewService, 50, 50)).toBe(true);
     });
 
     test("should return true if viewService indicates that we are scrolling in y axis", () => {
@@ -75,7 +68,7 @@ describe("useLoadDataPages", () => {
         gridRowStartIndex: 50,
         gridHeight: 100,
       };
-      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService, 50, 50)).toBe(true);
+      expect(shouldFetchExpandOrCollapseData(true, viewService, 50, 50)).toBe(true);
     });
 
     test("should return false if viewService is still within the boundary of `DEFAULT_PAGE_SIZE`", () => {
@@ -85,17 +78,17 @@ describe("useLoadDataPages", () => {
         gridRowStartIndex: 20,
         gridHeight: 10,
       };
-      expect(shouldFetchAdditionalData(qLastExpandedPos, viewService, 50, 50)).toBe(false);
+      expect(shouldFetchExpandOrCollapseData(true, viewService, 50, 50)).toBe(false);
     });
   });
 
-  describe("isMissingLayoutData", () => {
+  describe("isMissingInitialDataPages", () => {
     test("should return true in case of new page and while qTop is falling behind current page", () => {
       pageInfo = {
         ...pageInfo,
         page: 5,
       };
-      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(true);
+      expect(isMissingInitialDataPages(layoutService.layout, pageInfo, 50, 50)).toBe(true);
     });
 
     test("should return true if we are missing data in x axis (columns)", () => {
@@ -107,7 +100,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(true);
+      expect(isMissingInitialDataPages(layoutService.layout, pageInfo, 50, 50)).toBe(true);
     });
 
     test("should return true if we are missing data in y axis (rows)", () => {
@@ -119,7 +112,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(true);
+      expect(isMissingInitialDataPages(layoutService.layout, pageInfo, 50, 50)).toBe(true);
     });
 
     test("should return false if both axis are fulfilled with data", () => {
@@ -131,7 +124,7 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(false);
+      expect(isMissingInitialDataPages(layoutService.layout, pageInfo, 50, 50)).toBe(false);
     });
 
     test("should return fallback to default `qArea` if it is not provided (an enforced fetch trigger basically)", () => {
@@ -143,28 +136,36 @@ describe("useLoadDataPages", () => {
           },
         },
       } as LayoutService;
-      expect(isMissingLayoutData(layoutService.layout, pageInfo, 50, 50)).toBe(true);
+      expect(isMissingInitialDataPages(layoutService.layout, pageInfo, 50, 50)).toBe(true);
     });
   });
 
   describe("getFetchArea", () => {
-    beforeEach(() => {
-      qLastExpandedPos = { qx: 0, qy: 0 };
-    });
-
     test("should return null if page does not exist any more", () => {
       layoutService.layout.qHyperCube.qSize.qcy = pageInfo.page * pageInfo.rowsPerPage - 1;
 
-      expect(getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50)).toBe(
-        null,
-      );
+      expect(
+        getFetchArea(
+          true,
+          viewService,
+          layoutService.layout.qHyperCube.qSize,
+          pageInfo,
+          DEFAULT_PAGE_SIZE,
+          DEFAULT_PAGE_SIZE,
+        ),
+      ).toBe(null);
     });
 
     test("should return default area when a node has not been collapsed or expanded", () => {
-      qLastExpandedPos = undefined;
-
       expect(
-        getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        getFetchArea(
+          false,
+          viewService,
+          layoutService.layout.qHyperCube.qSize,
+          pageInfo,
+          DEFAULT_PAGE_SIZE,
+          DEFAULT_PAGE_SIZE,
+        ),
       ).toEqual({
         qLeft: 0,
         qTop: 0,
@@ -174,12 +175,18 @@ describe("useLoadDataPages", () => {
     });
 
     test("should return page based area when a node has not been collapsed or expanded", () => {
-      qLastExpandedPos = undefined;
       pageInfo.page = 1;
       layoutService.layout.qHyperCube.qSize.qcy = pageInfo.rowsPerPage * 2;
 
       expect(
-        getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+        getFetchArea(
+          false,
+          viewService,
+          layoutService.layout.qHyperCube.qSize,
+          pageInfo,
+          DEFAULT_PAGE_SIZE,
+          DEFAULT_PAGE_SIZE,
+        ),
       ).toEqual({
         qLeft: 0,
         qTop: pageInfo.rowsPerPage,
@@ -194,11 +201,17 @@ describe("useLoadDataPages", () => {
         viewService.gridWidth = 25;
         viewService.gridRowStartIndex = 0;
         viewService.gridHeight = 50;
-        qLastExpandedPos = { qx: 125, qy: 0 };
         layoutService.layout.qHyperCube.qSize.qcx = 1000;
 
         expect(
-          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+          getFetchArea(
+            true,
+            viewService,
+            layoutService.layout.qHyperCube.qSize,
+            pageInfo,
+            DEFAULT_PAGE_SIZE,
+            DEFAULT_PAGE_SIZE,
+          ),
         ).toEqual({
           qLeft: viewService.gridColumnStartIndex,
           qTop: 0,
@@ -207,16 +220,22 @@ describe("useLoadDataPages", () => {
         });
       });
 
-      test("should return area when a node has been collapsed or expanded and column index does not exists anymore", () => {
+      test("should return area when a node has been collapsed and column index does not exists anymore", () => {
         viewService.gridColumnStartIndex = 100;
         viewService.gridWidth = 25;
         viewService.gridRowStartIndex = 0;
         viewService.gridHeight = 50;
-        qLastExpandedPos = { qx: 75, qy: 0 };
         layoutService.layout.qHyperCube.qSize.qcx = 75;
 
         expect(
-          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+          getFetchArea(
+            true,
+            viewService,
+            layoutService.layout.qHyperCube.qSize,
+            pageInfo,
+            DEFAULT_PAGE_SIZE,
+            DEFAULT_PAGE_SIZE,
+          ),
         ).toEqual({
           qLeft: 25,
           qTop: 0,
@@ -227,17 +246,23 @@ describe("useLoadDataPages", () => {
     });
 
     describe("qTop", () => {
-      test("should return area when a node has been collapsed or expanded and position still exists", () => {
+      test("should return area when a node has been collapsed and row index still exists", () => {
         viewService.gridColumnStartIndex = 0;
         viewService.gridWidth = 50;
         viewService.gridRowStartIndex = 100;
         viewService.gridHeight = 25;
-        qLastExpandedPos = { qx: 0, qy: 125 };
         layoutService.layout.qHyperCube.qSize.qcy = 1000;
         pageInfo.rowsPerPage = MAX_ROW_COUNT;
 
         expect(
-          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+          getFetchArea(
+            true,
+            viewService,
+            layoutService.layout.qHyperCube.qSize,
+            pageInfo,
+            DEFAULT_PAGE_SIZE,
+            DEFAULT_PAGE_SIZE,
+          ),
         ).toEqual({
           qLeft: 0,
           qTop: viewService.gridRowStartIndex,
@@ -251,12 +276,18 @@ describe("useLoadDataPages", () => {
         viewService.gridWidth = 50;
         viewService.gridRowStartIndex = 100;
         viewService.gridHeight = 25;
-        qLastExpandedPos = { qx: 0, qy: 75 };
         layoutService.layout.qHyperCube.qSize.qcy = 75;
         pageInfo.rowsPerPage = MAX_ROW_COUNT;
 
         expect(
-          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+          getFetchArea(
+            true,
+            viewService,
+            layoutService.layout.qHyperCube.qSize,
+            pageInfo,
+            DEFAULT_PAGE_SIZE,
+            DEFAULT_PAGE_SIZE,
+          ),
         ).toEqual({
           qLeft: 0,
           qTop: 25,
@@ -270,11 +301,17 @@ describe("useLoadDataPages", () => {
       test("should return area when qWidth is clamped by MAX_COLUMN_COUNT", () => {
         viewService.gridColumnStartIndex = MAX_COLUMN_COUNT - 10;
         viewService.gridWidth = 10;
-        qLastExpandedPos = { qx: 0, qy: 0 };
         layoutService.layout.qHyperCube.qSize.qcx = MAX_COLUMN_COUNT * 2;
 
         expect(
-          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+          getFetchArea(
+            true,
+            viewService,
+            layoutService.layout.qHyperCube.qSize,
+            pageInfo,
+            DEFAULT_PAGE_SIZE,
+            DEFAULT_PAGE_SIZE,
+          ),
         ).toEqual({
           qLeft: viewService.gridColumnStartIndex,
           qTop: viewService.gridRowStartIndex,
@@ -287,14 +324,20 @@ describe("useLoadDataPages", () => {
         layoutService.layout.qHyperCube.qSize.qcx = 1000;
         viewService.gridColumnStartIndex = layoutService.layout.qHyperCube.qSize.qcx - 10;
         viewService.gridWidth = 10;
-        qLastExpandedPos = { qx: 0, qy: 0 };
 
         expect(
-          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+          getFetchArea(
+            true,
+            viewService,
+            layoutService.layout.qHyperCube.qSize,
+            pageInfo,
+            DEFAULT_PAGE_SIZE,
+            DEFAULT_PAGE_SIZE,
+          ),
         ).toEqual({
-          qLeft: 950,
+          qLeft: 990,
           qTop: viewService.gridRowStartIndex,
-          qWidth: 50,
+          qWidth: viewService.gridWidth,
           qHeight: DEFAULT_PAGE_SIZE,
         });
       });
@@ -304,13 +347,19 @@ describe("useLoadDataPages", () => {
       test("should return area when qHeight is clamped by end of page", () => {
         viewService.gridHeight = 10;
         viewService.gridRowStartIndex = MAX_ROW_COUNT - 10;
-        qLastExpandedPos = { qx: 0, qy: 0 };
         layoutService.layout.qHyperCube.qSize.qcy = MAX_ROW_COUNT * 2;
         pageInfo.rowsPerPage = MAX_ROW_COUNT;
         pageInfo.page = 0;
 
         expect(
-          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+          getFetchArea(
+            true,
+            viewService,
+            layoutService.layout.qHyperCube.qSize,
+            pageInfo,
+            DEFAULT_PAGE_SIZE,
+            DEFAULT_PAGE_SIZE,
+          ),
         ).toEqual({
           qLeft: 0,
           qTop: viewService.gridRowStartIndex,
@@ -323,17 +372,23 @@ describe("useLoadDataPages", () => {
         layoutService.layout.qHyperCube.qSize.qcy = 1000;
         viewService.gridHeight = 10;
         viewService.gridRowStartIndex = layoutService.layout.qHyperCube.qSize.qcy - 10;
-        qLastExpandedPos = { qx: 0, qy: 0 };
         pageInfo.rowsPerPage = MAX_ROW_COUNT;
         pageInfo.page = 0;
 
         expect(
-          getFetchArea(qLastExpandedPos, viewService, layoutService.layout.qHyperCube.qSize, pageInfo, 50, 50),
+          getFetchArea(
+            true,
+            viewService,
+            layoutService.layout.qHyperCube.qSize,
+            pageInfo,
+            DEFAULT_PAGE_SIZE,
+            DEFAULT_PAGE_SIZE,
+          ),
         ).toEqual({
           qLeft: 0,
-          qTop: 950,
+          qTop: 990,
           qWidth: DEFAULT_PAGE_SIZE,
-          qHeight: 50,
+          qHeight: 10,
         });
       });
     });
@@ -392,12 +447,9 @@ describe("useLoadDataPages", () => {
           layout: {
             qHyperCube: {
               ...layoutService.layout.qHyperCube,
-              qLastExpandedPos: {
-                qx: 0,
-                qy: 0,
-              },
             },
           },
+          triggerdByExpandOrCollapse: true,
         } as LayoutService;
 
         renderer();

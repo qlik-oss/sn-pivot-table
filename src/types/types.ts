@@ -196,6 +196,7 @@ export interface LayoutService {
   leftDimensionInfoIndexes: number[];
   isLeftDimension: (dimensionInfoIndex: number) => boolean;
   isFullyExpanded: boolean;
+  triggerdByExpandOrCollapse: boolean;
 }
 
 export interface DataService {
