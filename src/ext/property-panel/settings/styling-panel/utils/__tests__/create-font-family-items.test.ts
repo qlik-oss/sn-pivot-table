@@ -1,7 +1,11 @@
 import type { stardust } from "@nebula.js/stardust";
+import * as qlikChartModules from "qlik-chart-modules";
 import { DEFAULT_FONT_FAMILY } from "../../../../../../pivot-table/constants";
 import type { Args, CurrentTheme } from "../../../../../../types/QIX";
-import createFontFamilyItem, { DEFAULT_FONT_FAMILIES, type ThemeAccessor } from "../create-font-family-item";
+import type { Flags } from "../../../../../../types/types";
+import createFontFamilyItem, { type ThemeAccessor } from "../create-font-family-item";
+
+jest.mock("qlik-chart-modules");
 
 describe("createFontFamilyItem", () => {
   const translator = { get: (str: string) => str } as stardust.Translator;
@@ -9,6 +13,8 @@ describe("createFontFamilyItem", () => {
   let themeAccessor: ThemeAccessor;
   const fontFamily = "Test family";
   const themeAccessorFontFamily = "Theme family";
+  const defaultSharedFont = "Default shared font";
+  const flags: Flags = { isEnabled: () => true };
   let fontFamilies: string[] | undefined = ["Test families"];
 
   beforeEach(() => {
@@ -22,6 +28,12 @@ describe("createFontFamilyItem", () => {
           }) as CurrentTheme,
       },
     };
+
+    jest.spyOn(qlikChartModules, "getAvailableFonts").mockImplementation(() => [defaultSharedFont]);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   test("should include font family from default fonts", () => {
@@ -29,6 +41,7 @@ describe("createFontFamilyItem", () => {
       ref: "someRef",
       themeAccessor,
       translator,
+      flags,
     });
 
     expect(def.ref).toEqual("someRef");
@@ -45,18 +58,21 @@ describe("createFontFamilyItem", () => {
         label: "Test families",
         groupHeader: false,
         disabled: false,
+        styles: { fontFamily: "Test families" },
       },
       {
         value: "Test family",
         label: "Test family",
         groupHeader: false,
         disabled: false,
+        styles: { fontFamily: "Test family" },
       },
       {
         value: "Theme family",
         label: "Theme family",
         groupHeader: false,
         disabled: false,
+        styles: { fontFamily: "Theme family" },
       },
       {
         value: "DefaultHeader",
@@ -65,130 +81,11 @@ describe("createFontFamilyItem", () => {
         groupHeader: true,
       },
       {
-        value: "American Typewriter, serif",
-        label: "American Typewriter, serif",
+        value: defaultSharedFont,
+        label: defaultSharedFont,
         groupHeader: false,
         disabled: false,
-      },
-      {
-        value: "Andalé Mono, monospace",
-        label: "Andalé Mono, monospace",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Arial Black, sans-serif",
-        label: "Arial Black, sans-serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Arial, sans-serif",
-        label: "Arial, sans-serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Bradley Hand, cursive",
-        label: "Bradley Hand, cursive",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Brush Script MT, cursive",
-        label: "Brush Script MT, cursive",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Comic Sans MS, cursive",
-        label: "Comic Sans MS, cursive",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Courier, monospace",
-        label: "Courier, monospace",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Didot, serif",
-        label: "Didot, serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Georgia, serif",
-        label: "Georgia, serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Impact, sans-serif",
-        label: "Impact, sans-serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Lucida Console, monospace",
-        label: "Lucida Console, monospace",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Luminari, fantasy",
-        label: "Luminari, fantasy",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Monaco, monospace",
-        label: "Monaco, monospace",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "QlikView Sans, sans-serif",
-        label: "QlikView Sans, sans-serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Source Sans Pro, Arial, sans-serif",
-        label: "Source Sans Pro, Arial, sans-serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Source Sans Pro, sans-serif",
-        label: "Source Sans Pro, sans-serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Tahoma, sans-serif",
-        label: "Tahoma, sans-serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Times New Roman, serif",
-        label: "Times New Roman, serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Trebuchet MS, sans-serif",
-        label: "Trebuchet MS, sans-serif",
-        groupHeader: false,
-        disabled: false,
-      },
-      {
-        value: "Verdana, sans-serif",
-        label: "Verdana, sans-serif",
-        groupHeader: false,
-        disabled: false,
+        styles: { fontFamily: defaultSharedFont },
       },
     ]);
   });
@@ -201,6 +98,7 @@ describe("createFontFamilyItem", () => {
       ref: "someRef",
       themeAccessor,
       translator,
+      flags,
     });
 
     expect(def.defaultValue(null, null, args)).toEqual(fontFamily);
@@ -210,6 +108,9 @@ describe("createFontFamilyItem", () => {
         label: fontFamily,
         groupHeader: false,
         disabled: false,
+        styles: {
+          fontFamily,
+        },
       },
     ]);
   });
@@ -221,6 +122,7 @@ describe("createFontFamilyItem", () => {
       ref: "someRef",
       themeAccessor,
       translator,
+      flags,
     });
 
     expect(def.options(null, null, args).filter((f) => f.value === DEFAULT_FONT_FAMILY)).toEqual([
@@ -229,17 +131,21 @@ describe("createFontFamilyItem", () => {
         label: DEFAULT_FONT_FAMILY,
         groupHeader: false,
         disabled: false,
+        styles: {
+          fontFamily: "Source Sans Pro, sans-serif",
+        },
       },
     ]);
   });
 
   test("should remove Default section if there are no unique font families", () => {
-    fontFamilies = DEFAULT_FONT_FAMILIES;
+    fontFamilies = qlikChartModules.getAvailableFonts(flags);
 
     const def = createFontFamilyItem({
       ref: "someRef",
       themeAccessor,
       translator,
+      flags,
     });
 
     const options = def.options(null, null, args);
@@ -261,6 +167,7 @@ describe("createFontFamilyItem", () => {
       ref: "someRef",
       themeAccessor,
       translator,
+      flags,
     });
 
     expect(def.defaultValue(null, null, args)).toEqual(themeAccessorFontFamily);
@@ -272,12 +179,14 @@ describe("createFontFamilyItem", () => {
         label: fontFamily,
         groupHeader: false,
         disabled: false,
+        styles: { fontFamily },
       },
       {
         value: themeAccessorFontFamily,
         label: themeAccessorFontFamily,
         groupHeader: false,
         disabled: false,
+        styles: { fontFamily: themeAccessorFontFamily },
       },
     ]);
   });

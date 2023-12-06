@@ -1,5 +1,5 @@
 export const DEFAULT_FONT_SIZE = "12px";
-export const DEFAULT_FONT_FAMILY = "Source Sans Pro, Arial, sans-serif";
+export const DEFAULT_FONT_FAMILY = "Source Sans Pro, sans-serif";
 export const DEFAULT_CELL_HEIGHT = 24;
 export const DEFAULT_HEADER_CELL_HEIGHT = 32;
 export const DEFAULT_LINE_CLAMP = 1;

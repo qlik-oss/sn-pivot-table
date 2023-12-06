@@ -208,6 +208,8 @@ export interface DataService {
   size: PivotDataSize;
 }
 
+export type Flags = { isEnabled: (flag: string) => boolean };
+
 export interface Galaxy {
   translator: stardust.Translator;
   anything: {
@@ -215,6 +217,7 @@ export interface Galaxy {
       isUnsupportedFeature: (f: string) => boolean;
     };
   };
+  flags: Flags;
 }
 
 export interface PageInfo {

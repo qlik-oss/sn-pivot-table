@@ -1,5 +1,6 @@
 import type { stardust } from "@nebula.js/stardust";
 import { Colors } from "../../../../pivot-table/components/shared-styles";
+import type { Flags } from "../../../../types/types";
 import createColorPickerItem from "./utils/create-color-picker-item";
 import createFontFamilyItem from "./utils/create-font-family-item";
 import createFontSizeItem from "./utils/create-font-size-item";
@@ -11,9 +12,10 @@ interface Props {
   section: LargeSection;
   defaultFontStyle?: string[];
   translator: stardust.Translator;
+  flags: Flags;
 }
 
-const largePanelSection = ({ section, defaultFontStyle, translator }: Props) => ({
+const largePanelSection = ({ section, defaultFontStyle, translator, flags }: Props) => ({
   component: "panel-section",
   translation: `properties.pivot.${section}`,
   items: {
@@ -27,6 +29,7 @@ const largePanelSection = ({ section, defaultFontStyle, translator }: Props) => 
           themeAccessor: (currentTheme) =>
             getThemeValue(currentTheme, section, "fontFamily") ?? currentTheme.fontFamily,
           translator,
+          flags,
         }),
         fontWrapperItem: {
           component: "inline-wrapper",
