@@ -16,7 +16,14 @@ export type List = Record<number, Cell>;
 
 export type Grid = List[];
 
+export enum ColumnWidthLocation {
+  Dimension = "dimensions",
+  Measures = "measures",
+  Pivot = "pivot",
+}
+
 export interface HeaderCell extends HeaderData {
+  columnWidthLocation: ColumnWidthLocation;
   columnWidth?: ColumnWidth;
   qReverseSort?: boolean;
   isLocked: boolean;
@@ -84,6 +91,7 @@ export interface AdjusterCellInfo {
   isLeftColumn: boolean;
   canBeResized: boolean;
   x?: number;
+  columnWidthLocation: ColumnWidthLocation;
   colIdx?: number;
   expressionColor?: ExpressionColor;
 }

@@ -1,8 +1,10 @@
 /*  eslint-disable no-param-reassign */
+import type { ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
 import { useCallback, useMemo } from "react";
-import { PSEUDO_DIMENSION_INDEX, Q_PATH } from "../../constants";
+import { Q_PATH } from "../../constants";
 import type { Model } from "../../types/QIX";
 import {
+  ColumnWidthLocation,
   type ApplyColumnWidth,
   type DataModel,
   type ExpandOrCollapser,
@@ -82,43 +84,45 @@ export default function useDataModel({
   );
 
   const applyColumnWidth = useCallback<ApplyColumnWidth>(
-    (newColumnWidth, { dimensionInfoIndex, isLeftColumn, x = 0 }) => {
-      const { qMeasureInfo, qDimensionInfo } = layoutService.layout.qHyperCube;
-      const isPseudoDimension = dimensionInfoIndex === PSEUDO_DIMENSION_INDEX;
-      let indexes: number[];
+    (newColumnWidth, { dimensionInfoIndex, isLeftColumn, x = 0, columnWidthLocation }) => {
+      const { qMeasureInfo, qDimensionInfo, topHeadersColumnWidth } = layoutService.layout.qHyperCube;
+      let paths: { qPath: string; oldValue?: ColumnWidth }[] = [];
 
-      if (isPseudoDimension) {
-        indexes = isLeftColumn
-          ? [...Array(qMeasureInfo.length).keys()] // apply column width to all measures, since they are in the same column
-          : [layoutService.getMeasureInfoIndexFromCellIndex(x)];
-      } else {
-        // cell indexes don't correspond to dimension indexes, so we need to compensate for potential prior pseudo dim (and left side dims)
-        indexes = [dimensionInfoIndex];
+      switch (columnWidthLocation) {
+        case ColumnWidthLocation.Dimension:
+          paths = [
+            {
+              qPath: `${Q_PATH}/qDimensions/${dimensionInfoIndex}/qDef/columnWidth`,
+              oldValue: qDimensionInfo[dimensionInfoIndex].columnWidth,
+            },
+          ];
+          break;
+        case ColumnWidthLocation.Measures:
+          if (isLeftColumn) {
+            paths = qMeasureInfo.map((info, idx) => ({
+              qPath: `${Q_PATH}/qMeasures/${idx}/qDef/columnWidth`,
+              oldValue: qMeasureInfo[idx].columnWidth,
+            }));
+          } else {
+            const idx = layoutService.getMeasureInfoIndexFromCellIndex(x);
+            paths = [{ qPath: `${Q_PATH}/qMeasures/${idx}/qDef/columnWidth`, oldValue: qMeasureInfo[idx].columnWidth }];
+          }
+          break;
+        case ColumnWidthLocation.Pivot:
+          paths = [{ qPath: `${Q_PATH}/topHeadersColumnWidth`, oldValue: topHeadersColumnWidth }];
+          break;
+        default:
+          break;
       }
 
-      const patches = indexes.map((idx) => {
-        const qPath = `${Q_PATH}/${isPseudoDimension ? "qMeasures" : "qDimensions"}/${idx}/qDef/columnWidth`;
-        const oldColumnWidth = isPseudoDimension ? qMeasureInfo[idx].columnWidth : qDimensionInfo[idx].columnWidth;
-
-        return oldColumnWidth
-          ? {
-              qPath,
-              qOp: "Replace" as EngineAPI.NxPatchOpType,
-              qValue: JSON.stringify({ ...oldColumnWidth, ...newColumnWidth }),
-            }
-          : {
-              qPath,
-              qOp: "Add" as EngineAPI.NxPatchOpType,
-              qValue: JSON.stringify(newColumnWidth),
-            };
+      const patches = paths.map((value) => {
+        const { qPath, oldValue } = value;
+        const qOp = (oldValue ? "Replace" : "Add") as EngineAPI.NxPatchOpType;
+        const qValue = JSON.stringify({ ...oldValue, ...newColumnWidth });
+        return { qPath, qOp, qValue };
       });
 
-      // typescript doesn't like unresolved promises, so we have to do a no-op .then()
-      // there is nothing that needs to happen after applyPatches, so no need for this function to be async
-      model?.applyPatches(patches, true).then(
-        () => {},
-        () => {},
-      );
+      void model?.applyPatches(patches, true);
     },
     [model, layoutService],
   );

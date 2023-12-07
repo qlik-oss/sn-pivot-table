@@ -1,5 +1,11 @@
 import { PSEUDO_DIMENSION_INDEX } from "../../constants";
-import type { HeaderCell, HeadersDataMatrix, LayoutService, VisibleDimensionInfo } from "../../types/types";
+import {
+  ColumnWidthLocation,
+  type HeaderCell,
+  type HeadersDataMatrix,
+  type LayoutService,
+  type VisibleDimensionInfo,
+} from "../../types/types";
 import getKey from "../components/helpers/get-key";
 
 interface CreateMatrixProps {
@@ -42,9 +48,10 @@ const createHeaderCell = (
       isDim: false,
       headTextAlign: "left",
       dimensionInfoIndex,
-      canBeResized: false,
+      canBeResized: false, // has to be properly set later, would be incorrect after transposing otherwise
       isLeftDimension,
       isLastDimension,
+      columnWidthLocation: ColumnWidthLocation.Measures,
     };
   }
   return {
@@ -66,6 +73,7 @@ const createHeaderCell = (
     canBeResized: false, // has to be properly set later, would be incorrect after transposing otherwise
     isLeftDimension,
     isLastDimension,
+    columnWidthLocation: ColumnWidthLocation.Dimension,
   };
 };
 
@@ -112,13 +120,27 @@ const extractHeaders = (
     );
   }
 
-  // Update canBeResized, isActivelySorted and colIdx on bottom row
+  // Update canBeResized, columnWidthLocation, isActivelySorted and colIdx on bottom row
   if (matrix.length) {
     for (const [colIdx, cell] of matrix[matrix.length - 1].entries()) {
       if (cell) {
-        cell.canBeResized = cell.isLeftDimension;
+        cell.canBeResized = true;
         cell.isActivelySorted = colIdx === (layoutService.layout.qHyperCube.activelySortedColumn?.colIdx ?? 0);
         cell.colIdx = cell.colIdx || colIdx;
+
+        if (cell.dimensionInfoIndex === PSEUDO_DIMENSION_INDEX) {
+          cell.columnWidthLocation = ColumnWidthLocation.Measures;
+        } else if (!cell.isLeftDimension) {
+          if (visibleLeftDimensionInfos.at(-1) === PSEUDO_DIMENSION_INDEX) {
+            // pseudo dimension is last in left dimensions
+            cell.columnWidthLocation = ColumnWidthLocation.Measures;
+          } else if (layoutService.hasPseudoDimOnLeft) {
+            // pseudo dimension is anywhere else in left dimensions
+            cell.columnWidthLocation = ColumnWidthLocation.Pivot;
+          }
+        } else {
+          cell.columnWidthLocation = ColumnWidthLocation.Dimension;
+        }
       }
     }
   }
