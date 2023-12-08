@@ -1,6 +1,6 @@
 {
   "name": "@nebula.js/sn-pivot-table",
-  "version": "2.5.5",
+  "version": "2.6.0",
   "description": "Display dimensions and measures as rows and columns in a table. Analyze data by multiple measures and in multiple dimensions at the same time. Use pivoting (rearranging the measures and dimensions) to get different views of the data.",
   "keywords": [
     "qlik",
