@@ -15,6 +15,7 @@ const getStylingPanelConfig = (translator: stardust.Translator, flags: Flags) =>
       translation: "LayerStyleEditor.component.styling",
       ref: "components",
       useGeneral: true,
+      useBackground: true,
       defaultValue: [],
       items: {
         headerSection: largePanelSection({ section: "header", defaultFontStyle: ["bold"], translator, flags }),
