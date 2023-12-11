@@ -245,10 +245,10 @@ export type BasicCellStyling = {
   background: string;
 };
 
-export interface CellStyling extends BasicCellStyling {
+export type CellStyling = BasicCellStyling & {
   fontSize: string;
   fontFamily: string;
-}
+};
 
 export type StylingPanelOptions = {
   header: CellStyling;
