@@ -23,9 +23,11 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
   } = layoutService;
   const styleService = useStyleContext();
   const { measureText: measureTextForHeader } = useMeasureText(getMeasureTextArgs(styleService.header));
-  const { measureText: measureTextForMeasureValue } = useMeasureText(getMeasureTextArgs(styleService.measureValues));
-  const { estimateWidth: estimateWidthForDimensionValue, measureText: measureTextForDimensionValue } = useMeasureText(
+  const { estimateWidth: estimateWidthForDimensionValue } = useMeasureText(
     getMeasureTextArgs(styleService.dimensionValues),
+  );
+  const { measureText: measureTextForMeasureLabel } = useMeasureText(
+    getMeasureTextArgs(styleService.dimensionValues, styleService.measureLabels),
   );
 
   const calculateLeftGridWidthInfo = useCallback(
@@ -38,14 +40,10 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
 
       const maxMeasureColumnWidth = (dimensionsFitToContentWidth = 0) =>
         qMeasureInfo.reduce((maxWidth, { qFallbackTitle, columnWidth }) => {
-          const measureValueContentWidth = measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING;
+          const measureLabelWidth = measureTextForMeasureLabel(qFallbackTitle) + TOTAL_CELL_PADDING;
           return Math.max(
             maxWidth,
-            getColumnWidthValue(
-              tableRect.width,
-              columnWidth,
-              Math.max(measureValueContentWidth, dimensionsFitToContentWidth),
-            ),
+            getColumnWidthValue(tableRect.width, columnWidth, Math.max(measureLabelWidth, dimensionsFitToContentWidth)),
           );
         }, 0);
 
@@ -118,7 +116,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
       headersData.data,
       isFullyExpanded,
       measureTextForHeader,
-      measureTextForMeasureValue,
+      measureTextForMeasureLabel,
       qMeasureInfo,
       qNoOfLeftDims,
       tableRect.width,
@@ -132,17 +130,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
 
   useOnPropsChange(() => {
     setLeftGridWidthInfo(calculateLeftGridWidthInfo());
-  }, [
-    headersData,
-    tableRect.width,
-    qMeasureInfo,
-    measureTextForDimensionValue,
-    isFullyExpanded,
-    qNoOfLeftDims,
-    measureTextForHeader,
-    estimateWidthForDimensionValue,
-    calculateLeftGridWidthInfo,
-  ]);
+  }, [calculateLeftGridWidthInfo]);
 
   const overrideLeftGridWidth = useCallback(
     (width: number, index: number) => {

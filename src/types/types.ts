@@ -237,9 +237,7 @@ export interface PageInfo {
   rowsOnCurrentPage: number;
 }
 
-export type CellStyling = {
-  fontSize: string;
-  fontFamily: string;
+export type BasicCellStyling = {
   fontWeight: string | undefined; // "600" | "normal" from Styling panel, but from Theme it can be any supported font-weight value
   fontStyle: string; // "italic" | "normal" from Styling panel, but from Theme it can be any supported font-weight value
   textDecoration: string; // "underline" | "none" from Styling panel, but from Theme it can be any supported font-weight value
@@ -247,13 +245,18 @@ export type CellStyling = {
   background: string;
 };
 
+export type CellStyling = BasicCellStyling & {
+  fontSize: string;
+  fontFamily: string;
+};
+
 export type StylingPanelOptions = {
   header: CellStyling;
   dimensionValues: CellStyling;
   measureValues: CellStyling;
-  measureLabels: Omit<CellStyling, "fontSize" | "fontFamily">;
-  nullValues: Omit<CellStyling, "fontSize" | "fontFamily">;
-  totalValues: Omit<CellStyling, "fontSize" | "fontFamily">;
+  measureLabels: BasicCellStyling;
+  nullValues: BasicCellStyling;
+  totalValues: BasicCellStyling;
   grid: {
     lineClamp: number;
     border: string;

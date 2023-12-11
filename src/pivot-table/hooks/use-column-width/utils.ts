@@ -1,8 +1,14 @@
 import type { ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
 import { ColumnWidthType, ColumnWidthValues } from "@qlik/nebula-table-utils/lib/constants";
-import type { CellStyling } from "../../../types/types";
+import type { BasicCellStyling, CellStyling } from "../../../types/types";
 
-export const getMeasureTextArgs = (styling: CellStyling) => ({ ...styling, bold: styling.fontWeight !== "normal" });
+export const getMeasureTextArgs = (mainStyling: CellStyling, additionalStyling?: BasicCellStyling) => {
+  if (additionalStyling) {
+    return { ...mainStyling, fontStyle: additionalStyling.fontStyle, bold: additionalStyling.fontWeight !== "normal" };
+  }
+
+  return { ...mainStyling, bold: mainStyling.fontWeight !== "normal" };
+};
 
 export const getValidValue = (value: number | undefined, defaultValue: number) =>
   !!value && typeof value === "number" && !Number.isNaN(value) ? value : defaultValue;
