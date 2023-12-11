@@ -40,7 +40,6 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
 
       const maxMeasureColumnWidth = (dimensionsFitToContentWidth = 0) =>
         qMeasureInfo.reduce((maxWidth, { qFallbackTitle, columnWidth }) => {
-          // Note that the
           const measureLabelWidth = measureTextForMeasureLabel(qFallbackTitle) + TOTAL_CELL_PADDING;
           return Math.max(
             maxWidth,
