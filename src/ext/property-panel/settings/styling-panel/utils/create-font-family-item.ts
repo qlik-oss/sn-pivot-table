@@ -1,6 +1,8 @@
 import type { stardust } from "@nebula.js/stardust";
+import { getAvailableFonts } from "qlik-chart-modules";
 import { DEFAULT_FONT_FAMILY } from "../../../../../pivot-table/constants";
 import type { Args, CurrentTheme } from "../../../../../types/QIX";
+import type { Flags } from "../../../../../types/types";
 import { toValueLabel } from "./to-value-label";
 
 export type ThemeAccessor = (currentTheme: CurrentTheme) => string;
@@ -9,34 +11,16 @@ interface Props {
   ref: string;
   themeAccessor: ThemeAccessor;
   translator: stardust.Translator;
+  flags: Flags;
 }
 
-export const DEFAULT_FONT_FAMILIES: string[] = [
-  "American Typewriter, serif",
-  "Andalé Mono, monospace",
-  "Arial Black, sans-serif",
-  "Arial, sans-serif",
-  "Bradley Hand, cursive",
-  "Brush Script MT, cursive",
-  "Comic Sans MS, cursive",
-  "Courier, monospace",
-  "Didot, serif",
-  "Georgia, serif",
-  "Impact, sans-serif",
-  "Lucida Console, monospace",
-  "Luminari, fantasy",
-  "Monaco, monospace",
-  "QlikView Sans, sans-serif",
-  DEFAULT_FONT_FAMILY,
-  "Source Sans Pro, sans-serif",
-  "Tahoma, sans-serif",
-  "Times New Roman, serif",
-  "Trebuchet MS, sans-serif",
-  "Verdana, sans-serif",
-];
-
-const getFontFamilies = (currentValue: string, currentTheme: CurrentTheme, translator: stardust.Translator) => {
-  const defaultThemeFontFamily = currentTheme.fontFamily;
+const getFontFamilies = (
+  currentValue: string,
+  currentTheme: CurrentTheme,
+  translator: stardust.Translator,
+  flags: Flags,
+) => {
+  const defaultThemeFontFamily = currentTheme.fontFamily ?? DEFAULT_FONT_FAMILY;
   const customFontFamilies = currentTheme.fontFamilies ?? [];
   const themeFontFamilies = Array.from(new Set([currentValue, defaultThemeFontFamily, ...customFontFamilies]));
 
@@ -56,21 +40,21 @@ const getFontFamilies = (currentValue: string, currentTheme: CurrentTheme, trans
       metaText: translator.get("properties.default"),
       groupHeader: true,
     },
-    ...DEFAULT_FONT_FAMILIES.filter((fontFamily) => !themeFontFamilies.includes(fontFamily)).map((fontFamily) =>
-      toValueLabel(fontFamily, true),
-    ),
+    ...getAvailableFonts(flags)
+      .filter((fontFamily) => !themeFontFamilies.includes(fontFamily))
+      .map((fontFamily) => toValueLabel(fontFamily, true)),
   ];
 
   return [...themeSection, ...(allFontsSection.length > 1 ? allFontsSection : [])];
 };
 
-const createFontFamilyItem = ({ ref, themeAccessor, translator }: Props) => ({
+const createFontFamilyItem = ({ ref, themeAccessor, translator, flags }: Props) => ({
   component: "dropdown",
   ref,
   options: (data: unknown, handler: unknown, args: Args) => {
     const currentTheme = args.theme.current();
     const currentValue = themeAccessor(currentTheme);
-    return getFontFamilies(currentValue, currentTheme, translator);
+    return getFontFamilies(currentValue, currentTheme, translator, flags);
   },
   defaultValue: (data: unknown, handler: unknown, args: Args) => themeAccessor(args.theme.current()),
 });

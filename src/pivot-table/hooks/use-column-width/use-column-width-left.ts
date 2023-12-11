@@ -1,8 +1,8 @@
-import { ColumnWidthType } from "@qlik/nebula-table-utils/lib/constants";
+import type { ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
 import { useMeasureText, useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import { useCallback, useState } from "react";
 import { PSEUDO_DIMENSION_KEY } from "../../../constants";
-import type { HeaderCell } from "../../../types/types";
+import { ColumnWidthLocation, type HeaderCell } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
   EXPAND_ICON_SIZE,
@@ -17,9 +17,8 @@ import { getColumnWidthValue, getMeasureTextArgs } from "./utils";
 export default function useColumnWidthLeft({ layoutService, tableRect, headersData }: ColumnWidthLeftHook) {
   const {
     layout: {
-      qHyperCube: { qMeasureInfo, qNoOfLeftDims },
+      qHyperCube: { qMeasureInfo, qNoOfLeftDims, topHeadersColumnWidth },
     },
-    hasPseudoDimOnLeft,
     isFullyExpanded,
   } = layoutService;
   const styleService = useStyleContext();
@@ -31,10 +30,42 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
 
   const calculateLeftGridWidthInfo = useCallback(
     (widthOverride?: number, overrideIndex?: number) => {
-      const maxMeasureCellWidth = qMeasureInfo.reduce((maxWidth, { qFallbackTitle, columnWidth }) => {
-        const fitToContentWidth = measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING;
-        return Math.max(maxWidth, getColumnWidthValue(tableRect.width, columnWidth, fitToContentWidth));
-      }, 0);
+      const dimensionHeaderCellWidth = (lastRowHeader: HeaderCell) => {
+        const { label, isLocked } = lastRowHeader;
+        const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
+        return TOTAL_CELL_PADDING + measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize;
+      };
+
+      const maxMeasureColumnWidth = (dimensionsFitToContentWidth = 0) =>
+        qMeasureInfo.reduce((maxWidth, { qFallbackTitle, columnWidth }) => {
+          const measureValueContentWidth = measureTextForMeasureValue(qFallbackTitle) + TOTAL_CELL_PADDING;
+          return Math.max(
+            maxWidth,
+            getColumnWidthValue(
+              tableRect.width,
+              columnWidth,
+              Math.max(measureValueContentWidth, dimensionsFitToContentWidth),
+            ),
+          );
+        }, 0);
+
+      const dimensionsFitToContentWidth = (collIdx: number) =>
+        headersData.data.reduce((maxWidth, row) => {
+          const lastColumnHeader = row[collIdx];
+          if (!lastColumnHeader) return maxWidth;
+          if (lastColumnHeader.id === PSEUDO_DIMENSION_KEY) return maxWidth;
+
+          const fit = dimensionHeaderCellWidth(lastColumnHeader);
+
+          return Math.max(fit, maxWidth);
+        }, 0);
+
+      const dimensionValuesFitToContentWidth = (headerCell: HeaderCell, collIdx: number) => {
+        const { qApprMaxGlyphCount, isLeftDimension } = headerCell;
+        const expandIconSize =
+          !isFullyExpanded && isLeftDimension && collIdx < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
+        return TOTAL_CELL_PADDING + estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize;
+      };
 
       let sumOfWidths = 0;
 
@@ -45,47 +76,31 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
         if (widthOverride && overrideIndex !== undefined && overrideIndex === lastRowHeader.colIdx) {
           width = widthOverride;
         } else {
-          width = headersData.data.reduce((maxWidth, row, rowIdx) => {
-            const header = row[collIdx];
-            if (!header) return maxWidth;
+          let columnWidth: ColumnWidth | undefined;
+          if (lastRowHeader.columnWidthLocation === ColumnWidthLocation.Pivot) {
+            columnWidth = topHeadersColumnWidth;
+          } else if (lastRowHeader.columnWidthLocation === ColumnWidthLocation.Dimension) {
+            ({ columnWidth } = lastRowHeader);
+          }
 
-            const lastRowLastColumn = rowIdx === headersData.size.y - 1 && collIdx === headersData.size.x - 1;
-            let cellWidth = 0;
-
-            if (header.id === PSEUDO_DIMENSION_KEY && header.isLeftDimension) {
-              // Use the max width of all measures
-              cellWidth = maxMeasureCellWidth;
+          let fitToContentWidth = 0;
+          if (lastRowHeader.isLeftDimension) {
+            if (lastRowHeader.id === PSEUDO_DIMENSION_KEY) {
+              fitToContentWidth = maxMeasureColumnWidth();
             } else {
-              const { label, qApprMaxGlyphCount, columnWidth, isLocked } = header;
-              const expandIconSize =
-                !isFullyExpanded && header.isLeftDimension && collIdx < qNoOfLeftDims - 1 ? EXPAND_ICON_SIZE : 0;
-              const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
-
-              let fitToContentWidth = 0;
-              if (header.isLeftDimension) {
-                fitToContentWidth =
-                  TOTAL_CELL_PADDING +
-                  Math.max(
-                    measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize,
-                    estimateWidthForDimensionValue(qApprMaxGlyphCount as number) + expandIconSize,
-                  );
-              } else if (lastRowLastColumn && !header.isLeftDimension && hasPseudoDimOnLeft) {
-                fitToContentWidth = maxMeasureCellWidth;
-              } else {
-                fitToContentWidth = TOTAL_CELL_PADDING + measureTextForHeader(label) + MENU_ICON_SIZE + lockedIconSize;
-              }
-
-              cellWidth = getColumnWidthValue(tableRect.width, columnWidth, fitToContentWidth);
+              fitToContentWidth = Math.max(
+                dimensionsFitToContentWidth(collIdx),
+                dimensionValuesFitToContentWidth(lastRowHeader, collIdx),
+              );
             }
-
-            // The last cell setting should override the other cells in that column, so we don't pick the max
-            const isTypeAuto = !header.columnWidth || header.columnWidth.type === ColumnWidthType.Auto;
-            if (lastRowLastColumn && !isTypeAuto) {
-              return cellWidth;
+          } else if (!lastRowHeader.isLeftDimension) {
+            fitToContentWidth = dimensionsFitToContentWidth(collIdx);
+            if (lastRowHeader.columnWidthLocation === ColumnWidthLocation.Measures) {
+              fitToContentWidth = maxMeasureColumnWidth(fitToContentWidth);
             }
+          }
 
-            return Math.max(maxWidth, cellWidth);
-          }, width);
+          width = getColumnWidthValue(tableRect.width, columnWidth, fitToContentWidth);
         }
 
         sumOfWidths += width;
@@ -100,14 +115,14 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
     },
     [
       estimateWidthForDimensionValue,
-      hasPseudoDimOnLeft,
-      headersData,
+      headersData.data,
       isFullyExpanded,
       measureTextForHeader,
       measureTextForMeasureValue,
       qMeasureInfo,
       qNoOfLeftDims,
       tableRect.width,
+      topHeadersColumnWidth,
     ],
   );
 

@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
 import type { CellStyling } from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
-import { CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
+import { DOUBLE_CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
 
 interface StyledHeaderCellWrapperProps {
   interactions: stardust.Interactions;
@@ -21,7 +21,7 @@ export const StyledHeaderCellWrapper = styled(Box, {
   position: "relative",
   display: "grid",
   gridTemplateColumns: shouldShowMenuIcon ? `1fr ${HEADER_ICON_SIZE}px` : "1fr",
-  gap: CELL_PADDING,
+  gap: DOUBLE_CELL_PADDING,
   alignItems: "center",
   cursor: interactions.active ? "pointer" : "default",
   background,
@@ -41,7 +41,7 @@ export const StyledHeaderCell = styled("div")(() => ({
   flexDirection: "row",
   overflow: "hidden",
   position: "relative",
-  gap: CELL_PADDING,
+  gap: DOUBLE_CELL_PADDING,
 }));
 
 export const StyledLockIcon = styled("div")(() => ({

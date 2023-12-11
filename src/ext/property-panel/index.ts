@@ -11,7 +11,7 @@ interface PropertyPanelDefinition {
 }
 
 export default function create(env: Galaxy): PropertyPanelDefinition {
-  const { translator } = env;
+  const { translator, flags } = env;
 
   return {
     type: "items",
@@ -20,7 +20,7 @@ export default function create(env: Galaxy): PropertyPanelDefinition {
       data: createData(env),
       sorting,
       addons,
-      settings: settings(translator),
+      settings: settings(translator, flags),
     },
   };
 }

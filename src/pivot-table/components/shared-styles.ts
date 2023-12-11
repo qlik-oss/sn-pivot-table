@@ -4,12 +4,17 @@ import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 // TODO Replace with colors from Sprout
 export enum Colors {
-  Black3 = "rgba(0, 0, 0, 0.03)",
-  Black5 = "rgba(0, 0, 0, 0.05)",
-  Black15 = "rgba(0, 0, 0, 0.15)",
-  Black55 = "rgba(0, 0, 0, 0.55)",
-  Black60 = "rgba(0, 0, 0, 0.6)",
   Transparent = "transparent",
+  FontPrimary = "#404040",
+  FontSecondary = "#737373",
+  DividerDark = "#595959",
+  DividerLight = "#D9D9D9",
+  NullValueBackground = "#F2F2F2",
+}
+
+export enum BorderStyle {
+  Solid = "solid",
+  None = "none",
 }
 
 export const CELL_PADDING = 4;
@@ -51,26 +56,23 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   wordBreak: "break-all",
 });
 
+const getBorderAttributes = (width: number, color: string) =>
+  width > 0 ? `${width}px ${BorderStyle.Solid} ${color}` : BorderStyle.None;
+
 export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
   showLastBorder?: ShowLastBorder,
 ): React.CSSProperties => {
-  const showRightBorder = !isLastColumn || showLastBorder?.right;
-  const showBottomBorder = !isLastRow || showLastBorder?.bottom;
-  const borderRightWidth = showRightBorder ? 1 : 0;
-  const borderRightColor = showRightBorder ? borderColor : undefined;
-  const borderBottomWidth = showBottomBorder ? 1 : 0;
-  const borderBottomColor = showBottomBorder ? borderColor : undefined;
+  const borderRightWidth = Number(!isLastColumn || showLastBorder?.right);
+  const borderBottomWidth = Number(!isLastRow || showLastBorder?.bottom);
 
   return {
-    ...borderStyle,
-    borderRightColor,
-    borderBottomColor,
-    borderWidth: 0,
-    borderRightWidth,
-    borderBottomWidth,
+    borderRight: getBorderAttributes(borderRightWidth, borderColor),
+    borderBottom: getBorderAttributes(borderBottomWidth, borderColor),
+    borderLeft: BorderStyle.None,
+    borderTop: BorderStyle.None,
   };
 };
 
@@ -86,15 +88,11 @@ export const getHeaderBorderStyle = (
 
   if (!cell.isLeftDimension) {
     if (cell.isLastDimension && !isLastRow) {
-      headerBorderStyle.borderBottomWidth = 2;
-      headerBorderStyle.borderBottomColor = borderColor;
+      headerBorderStyle.borderBottom = getBorderAttributes(2, borderColor);
     }
 
     if (!isFirstColumn) {
-      headerBorderStyle.borderLeftWidth = 1;
-      headerBorderStyle.borderLeftColor = borderColor;
-    } else {
-      headerBorderStyle.borderLeftWidth = 0;
+      headerBorderStyle.borderLeft = getBorderAttributes(1, borderColor);
     }
   }
 

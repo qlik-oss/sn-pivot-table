@@ -5,4 +5,5 @@ export const toValueLabel = (value: string, isFontFamily = false) => ({
   label: isFontFamily ? makeFirstLetterUpperCase(value) : value,
   groupHeader: false,
   disabled: false,
+  styles: isFontFamily ? { fontFamily: value } : undefined,
 });

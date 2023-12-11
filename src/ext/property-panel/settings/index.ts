@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import type { Flags } from "../../../types/types";
 import getStylingPanelConfig from "./styling-panel";
 
 interface ExtendedVisualizationHyperCubeDef extends EngineAPI.IVisualizationHyperCubeDef {
@@ -52,14 +53,14 @@ export const getRowStylesConfig = () => ({
   },
 });
 
-const settings = (translator: stardust.Translator) => ({
+const settings = (translator: stardust.Translator, flags: Flags) => ({
   uses: "settings",
   items: {
     presentation: {
       type: "items",
       translation: "properties.presentation",
       grouped: true,
-      items: [getStylingPanelConfig(translator), getRowStylesConfig()],
+      items: [getStylingPanelConfig(translator, flags), getRowStylesConfig()],
     },
   },
 });

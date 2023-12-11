@@ -1,6 +1,6 @@
 import React from "react";
 import { areEqual } from "react-window";
-import type { ListItemData } from "../../../../types/types";
+import { ColumnWidthLocation, type ListItemData } from "../../../../types/types";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import useIsAdjustingWidth from "../../../hooks/use-is-adjusting-width";
@@ -74,7 +74,10 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
         </Text>
       </StickyCellContainer>
       <ColumnAdjusterWrapper
-        cellInfo={cell}
+        cellInfo={{
+          ...cell,
+          columnWidthLocation: cell.isPseudoDimension ? ColumnWidthLocation.Measures : ColumnWidthLocation.Dimension,
+        }}
         columnWidth={style.width as number}
         dataModel={dataModel}
         isLastColumn={isLastColumn}

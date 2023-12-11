@@ -1,20 +1,24 @@
 import { PSEUDO_DIMENSION_INDEX, PSEUDO_DIMENSION_KEY } from "../../../constants";
-import type { LayoutService, VisibleDimensionInfo } from "../../../types/types";
+import { ColumnWidthLocation, type LayoutService, type VisibleDimensionInfo } from "../../../types/types";
 import extractHeaders from "../extract-headers";
 import { createDimInfos } from "./test-helper";
 
 describe("extractHeaders", () => {
+  const mockedIsLeftDimension: jest.MockedFunction<(index: number) => boolean> = jest.fn();
+  const mockedGetDimensionInfoIndex: jest.MockedFunction<(info: VisibleDimensionInfo) => number> = jest.fn();
   let layoutService: LayoutService;
 
   beforeEach(() => {
+    mockedIsLeftDimension.mockReturnValue(false);
+    mockedGetDimensionInfoIndex.mockImplementation((info: VisibleDimensionInfo) => (info === -1 ? -1 : 0));
     layoutService = {
       layout: {
         qHyperCube: {
           activelySortedColumn: { colIdx: 0 },
         },
       },
-      isLeftDimension: jest.fn(() => false),
-      getDimensionInfoIndex: (info: VisibleDimensionInfo) => (info === -1 ? -1 : 0),
+      isLeftDimension: mockedIsLeftDimension,
+      getDimensionInfoIndex: mockedGetDimensionInfoIndex,
     } as unknown as LayoutService;
   });
 
@@ -151,5 +155,40 @@ describe("extractHeaders", () => {
     expect(headers[1][1]?.id).toBe("id-1");
     expect(headers[1][2]?.label).toBe("dim 3");
     expect(headers[1][2]?.id).toBe("id-3");
+  });
+
+  describe("ColumnWidthLocation", () => {
+    test("should have ColumnWidthLocation measures on any pseudo dimension in left", () => {
+      const sortedLeftDimensionInfo = createDimInfos([PSEUDO_DIMENSION_INDEX, 1]);
+      const sortedTopDimensionInfo = createDimInfos([2]);
+      const headers = extractHeaders(layoutService, sortedTopDimensionInfo, sortedLeftDimensionInfo);
+
+      expect(headers[0][0]?.columnWidthLocation).toBe(ColumnWidthLocation.Measures);
+    });
+
+    test("should have ColumnWidthLocation measures on last left", () => {
+      const sortedLeftDimensionInfo = createDimInfos([1, PSEUDO_DIMENSION_INDEX]);
+      const sortedTopDimensionInfo = createDimInfos([2]);
+      const headers = extractHeaders(layoutService, sortedTopDimensionInfo, sortedLeftDimensionInfo);
+
+      expect(headers[0][1]?.isLeftDimension).toBeFalsy();
+      expect(headers[0][1]?.columnWidthLocation).toBe(ColumnWidthLocation.Measures);
+    });
+
+    test("should have ColumnWidthLocation pivot on last left", () => {
+      const sortedLeftDimensionInfo = createDimInfos([PSEUDO_DIMENSION_INDEX, 1]);
+      const sortedTopDimensionInfo = createDimInfos([2]);
+      layoutService.hasPseudoDimOnLeft = true;
+      mockedIsLeftDimension.mockImplementation((index: number) => index !== 2);
+
+      mockedGetDimensionInfoIndex.mockImplementation((info) =>
+        info === PSEUDO_DIMENSION_INDEX
+          ? PSEUDO_DIMENSION_INDEX
+          : [...sortedLeftDimensionInfo, ...sortedTopDimensionInfo].indexOf(info),
+      );
+      const headers = extractHeaders(layoutService, sortedTopDimensionInfo, sortedLeftDimensionInfo);
+
+      expect(headers[0][2]?.columnWidthLocation).toBe(ColumnWidthLocation.Pivot);
+    });
   });
 });
