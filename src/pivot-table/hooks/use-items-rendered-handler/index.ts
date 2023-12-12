@@ -45,9 +45,8 @@ const useItemsRenderedHandler = ({
       overscanColumnStopIndex,
       overscanRowStartIndex,
       overscanRowStopIndex,
-      visibleColumnStartIndex,
     }: GridOnItemsRenderedProps) => {
-      viewService.gridColumnStartIndex = visibleColumnStartIndex;
+      viewService.gridColumnStartIndex = overscanColumnStartIndex;
       viewService.gridRowStartIndex = overscanRowStartIndex;
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
@@ -68,10 +67,9 @@ const useItemsRenderedHandler = ({
        * This is a control mechanism that allows us to tweak where the user experience vs performance
        * threshold should be.
        */
-      const throttledOrDebouncedFetchPages = throttledFetchPages;
+      let throttledOrDebouncedFetchPages = throttledFetchPages;
       if (estimatedHeight * estimatedWidth > DEBOUNCED_GRID_SIZE_THRESHOLD) {
-        // console.log("%c throttledOrDebouncedFetchPages", "color: pink");
-        // throttledOrDebouncedFetchPages = debouncedFetchPages;
+        throttledOrDebouncedFetchPages = debouncedFetchPages;
       }
 
       await throttledOrDebouncedFetchPages(

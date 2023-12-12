@@ -1,14 +1,17 @@
-import type { LayoutService, MeasureData, PageInfo, ScrollDirection } from "../../../../types/types";
-import { MIN_BUFFER } from "../constants";
+import {
+  ScrollDirection,
+  type LayoutService,
+  type MeasureData,
+  type PageInfo,
+  type ViewService,
+} from "../../../../types/types";
+import { MAX_BUFFER, MIN_BUFFER } from "../constants";
 import getBackBuffer from "./get-back-buffer";
 
 type GetColumnPages = {
   pageInfo: PageInfo;
   measureData: MeasureData;
-  qLeft: number;
-  pageTop: number;
-  qWidth: number;
-  qHeight: number;
+  viewService: ViewService;
   scrollDirection: React.MutableRefObject<ScrollDirection>;
   layoutService: LayoutService;
 };
@@ -38,13 +41,14 @@ const canMergePages = (prevPage: EngineAPI.INxPage, page: EngineAPI.INxPage) =>
 
 const getPages = ({ pageInfo, measureData, pageTop, qHeight, startLeft, endLeft }: GetPages) => {
   const pages = [];
+  const currentPageMinTop = pageInfo.page * pageInfo.rowsPerPage;
 
   for (let left = startLeft; left < endLeft; left++) {
     if (isMissingColumnData(measureData, left, pageTop, qHeight)) {
       const prevPage = pages[pages.length - 1] as EngineAPI.INxPage | undefined;
       const page = {
         qLeft: left,
-        qTop: Math.max(0, pageTop + pageInfo.page * pageInfo.rowsPerPage),
+        qTop: pageTop + currentPageMinTop,
         qWidth: 1,
         qHeight,
       };
@@ -60,48 +64,54 @@ const getPages = ({ pageInfo, measureData, pageTop, qHeight, startLeft, endLeft 
   return pages;
 };
 
-const getColumnPages = ({
-  pageInfo,
-  measureData,
-  scrollDirection,
-  layoutService,
-  qLeft,
-  pageTop,
-  qWidth,
-  qHeight,
-}: GetColumnPages) => {
+const getColumnPages = ({ pageInfo, measureData, scrollDirection, layoutService, viewService }: GetColumnPages) => {
+  const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
+  const columnEndIndex = layoutService.size.x;
   const minBackBuffer = getBackBuffer(scrollDirection, MIN_BUFFER);
-  const minBufferStartLeft = Math.max(qLeft - minBackBuffer, 0);
-  const minBufferWidth = Math.min(qWidth + MIN_BUFFER, layoutService.size.x - minBufferStartLeft);
+  const minBufferStartLeft = Math.max(gridColumnStartIndex - minBackBuffer, 0);
+  const minBufferWidth = Math.min(gridWidth + MIN_BUFFER, columnEndIndex - minBufferStartLeft);
+  const minBufferEndLeft = minBufferStartLeft + minBufferWidth;
 
-  const pages = getPages({
+  const minBufferPages = getPages({
     pageInfo,
     measureData,
     startLeft: minBufferStartLeft,
-    endLeft: minBufferStartLeft + minBufferWidth,
-    pageTop,
-    qHeight,
+    endLeft: minBufferEndLeft,
+    pageTop: gridRowStartIndex,
+    qHeight: gridHeight,
   });
 
-  // for (let left = qLeft; left < qLeft + qWidth; left++) {
-  //   if (isMissingColumnData(measureData, left, pageTop, qHeight)) {
-  //     const prevPage = pages[pages.length - 1] as EngineAPI.INxPage | undefined;
-  //     const page = {
-  //       qLeft: left,
-  //       qTop: Math.max(0, pageTop + pageInfo.page * pageInfo.rowsPerPage),
-  //       qWidth: 1,
-  //       qHeight,
-  //     };
+  const shouldFetchMaxBuffer = minBufferPages.length > 0;
 
-  //     if (prevPage !== undefined && canMergePages(prevPage, page)) {
-  //       prevPage.qWidth += page.qWidth;
-  //     } else {
-  //       pages.push(page);
-  //     }
-  //   }
-  // }
-  console.log("%c getColumnPages", "color: orangered", pages);
-  return pages;
+  if (shouldFetchMaxBuffer) {
+    const maxBufferStart =
+      scrollDirection.current === ScrollDirection.Backward
+        ? Math.max(0, minBufferStartLeft - MAX_BUFFER)
+        : minBufferEndLeft;
+
+    const maxBufferEnd = Math.min(maxBufferStart + MAX_BUFFER, columnEndIndex);
+
+    const maxBufferPages = getPages({
+      pageInfo,
+      measureData,
+      startLeft: maxBufferStart,
+      endLeft: maxBufferEnd,
+      pageTop: gridRowStartIndex,
+      qHeight: gridHeight,
+    });
+
+    console.log("%c fetching column max buffer", "color: lime", {
+      maxBufferStart,
+      maxBufferEnd,
+      size: maxBufferEnd - maxBufferStart,
+      maxBufferPages,
+      minBufferPages,
+    });
+
+    return [...minBufferPages, ...maxBufferPages];
+  }
+
+  return minBufferPages;
 };
 
 export default getColumnPages;

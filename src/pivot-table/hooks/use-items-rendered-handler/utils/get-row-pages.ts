@@ -1,9 +1,9 @@
 import {
   ScrollDirection,
-  type LayoutService,
   type MeasureCell,
   type MeasureData,
   type PageInfo,
+  type ViewService,
 } from "../../../../types/types";
 import { MAX_BUFFER, MIN_BUFFER } from "../constants";
 import getBackBuffer from "./get-back-buffer";
@@ -11,12 +11,8 @@ import getBackBuffer from "./get-back-buffer";
 type GetRowPages = {
   pageInfo: PageInfo;
   measureData: MeasureData;
-  qLeft: number;
-  pageTop: number;
-  qWidth: number;
-  qHeight: number;
+  viewService: ViewService;
   scrollDirection: React.MutableRefObject<ScrollDirection>;
-  layoutService: LayoutService;
 };
 
 type GetPages = {
@@ -48,15 +44,16 @@ const isMissingRowData = (measureData: MeasureData, qLeft: number, pageTop: numb
 const canMergePages = (prevPage: EngineAPI.INxPage, page: EngineAPI.INxPage) =>
   prevPage.qTop + prevPage.qHeight === page.qTop && prevPage.qLeft === page.qLeft && prevPage.qWidth === page.qWidth;
 
-export const getPages = ({ startTop, endTop, qLeft, qWidth, pageInfo, measureData }: GetPages) => {
+export const getPages = ({ startTop, endTop, qLeft, qWidth, measureData, pageInfo }: GetPages) => {
   const pages: EngineAPI.INxPage[] = [];
+  const currentPageMinTop = pageInfo.page * pageInfo.rowsPerPage;
 
   for (let top = startTop; top < endTop; top++) {
     if (isMissingRowData(measureData, qLeft, top, qWidth)) {
       const prevPage = pages.at(-1);
       const page = {
         qLeft,
-        qTop: Math.max(0, top + pageInfo.page * pageInfo.rowsPerPage),
+        qTop: top + currentPageMinTop,
         qWidth,
         qHeight: 1,
       };
@@ -72,48 +69,49 @@ export const getPages = ({ startTop, endTop, qLeft, qWidth, pageInfo, measureDat
   return pages;
 };
 
-const getRowPages = ({
-  pageInfo,
-  measureData,
-  scrollDirection,
-  layoutService,
-  qLeft,
-  pageTop,
-  qWidth,
-  qHeight,
-}: GetRowPages) => {
+const getRowPages = ({ pageInfo, measureData, scrollDirection, viewService }: GetRowPages) => {
+  const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
   const minBackBuffer = getBackBuffer(scrollDirection, MIN_BUFFER);
-  const minBufferPageTop = Math.max(pageTop - minBackBuffer, 0);
-  const minBufferHeight = Math.min(qHeight + MIN_BUFFER, layoutService.size.y - minBufferPageTop);
-  const minBufferEndTop = minBufferPageTop + minBufferHeight;
+  const minBufferTop = Math.max(gridRowStartIndex - minBackBuffer, 0);
+  const minBufferHeight = Math.min(gridHeight + MIN_BUFFER, pageInfo.rowsOnCurrentPage - minBufferTop);
+  const minBufferEndTop = minBufferTop + minBufferHeight;
 
   const minBufferPages = getPages({
-    startTop: minBufferPageTop,
+    startTop: minBufferTop,
     endTop: minBufferEndTop,
-    qLeft,
-    qWidth,
-    pageInfo,
+    qLeft: gridColumnStartIndex,
+    qWidth: gridWidth,
     measureData,
+    pageInfo,
   });
 
-  const firstMinBufferPage = minBufferPages.at(0);
-  // TODO also check for forward scroll
-  if (firstMinBufferPage && firstMinBufferPage.qTop > 0) {
-    const maxBufferStart =
-      scrollDirection.current === ScrollDirection.Backward
-        ? Math.max(0, minBufferPageTop - MAX_BUFFER)
-        : minBufferEndTop;
+  const shouldFetchMaxBuffer = minBufferPages.length > 0;
 
-    const maxBufferEnd = Math.min(maxBufferStart + MAX_BUFFER, layoutService.size.y - maxBufferStart);
-    console.log("%c maxBufferStart", "color: orangered", { maxBufferStart, maxBufferEnd });
+  if (shouldFetchMaxBuffer) {
+    const maxBufferStart =
+      scrollDirection.current === ScrollDirection.Backward ? Math.max(0, minBufferTop - MAX_BUFFER) : minBufferEndTop;
+
+    const maxBufferEnd = Math.min(maxBufferStart + MAX_BUFFER, pageInfo.rowsOnCurrentPage);
 
     const maxBufferPages = getPages({
       startTop: maxBufferStart,
       endTop: maxBufferEnd,
-      qLeft,
-      qWidth,
-      pageInfo,
+      qLeft: gridColumnStartIndex,
+      qWidth: gridWidth,
       measureData,
+      pageInfo,
+    });
+
+    console.log("%c fetching row max buffer", "color: orangered", {
+      maxBufferStart,
+      maxBufferEnd,
+      size: maxBufferEnd - maxBufferStart,
+      maxBufferPages,
+      minBufferPages,
+      // currentPageMaxTop,
+      // currentPageMinTop,
+      measureData,
+      rowsOnCurrentPage: pageInfo.rowsOnCurrentPage,
     });
 
     return [...minBufferPages, ...maxBufferPages];
