@@ -66,8 +66,19 @@ enum ThemeAttribute {
 
 const resolveFontSize = (fontSize: string | undefined) => (fontSize ? `${parseInt(fontSize, 10)}px` : undefined);
 
-const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) =>
-  color ? theme.getColorPickerColor(color) : undefined;
+export const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) => {
+  if (color) {
+    const resolvedColor = theme.getColorPickerColor(color);
+    // Handle when color is set to "none" via the color picker
+    if (resolvedColor === "none") {
+      return Colors.Transparent;
+    }
+
+    return resolvedColor;
+  }
+
+  return undefined;
+};
 
 const fontSizeToCellHeight = (fontSize: string, lineClamp: number) =>
   +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
