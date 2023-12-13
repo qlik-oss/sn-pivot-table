@@ -4,7 +4,7 @@ import type { DataModel, HeadersData, LayoutService, ShowLastBorder, TopDimensio
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { useResetListCache, useResetListCacheAndRerender } from "../../hooks/use-reset-list-cache";
 import MemoizedDimensionValue from "../cells/DimensionValue";
-import getItemKey from "../helpers/get-item-key";
+import { getListIemKey } from "../helpers/get-item-key";
 import { getColumnWidthHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
@@ -103,7 +103,7 @@ const TopGrid = ({
               listValues,
               totalDividerIndex: topDimensionData.totalDividerIndex,
             }}
-            itemKey={getItemKey}
+            itemKey={getListIemKey}
             estimatedItemSize={estimatedItemSize}
           >
             {MemoizedDimensionValue}

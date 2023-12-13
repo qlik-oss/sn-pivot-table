@@ -97,6 +97,7 @@ export interface AdjusterCellInfo {
 }
 
 export interface Cell {
+  id: string;
   ref: EngineAPI.INxPivotDimensionCell;
   x: number; // x position of cell in dataset
   y: number; // y position of cell in dataset
@@ -122,6 +123,7 @@ export interface Cell {
 }
 
 export interface MeasureCell {
+  id: string;
   ref: EngineAPI.INxPivotValuePoint;
   isNull: boolean;
   expressionColor: ExpressionColor;
