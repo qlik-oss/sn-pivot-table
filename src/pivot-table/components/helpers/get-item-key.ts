@@ -1,10 +1,13 @@
 import type { GridItemData, ListItemData } from "../../../types/types";
-import getRandomUUID from "../../data/helpers/get-random-uuid";
 
-// Fallback to uuid for empty cells
-export const getListIemKey = (index: number, data: ListItemData): string => data.list[index]?.id ?? getRandomUUID();
+/**
+ * Fallback to row/col index for empty cells. Ideally they should be random uuid but generating those
+ * on every render is expensive. There could for example be issue in the future when rendering empty cells
+ * that mix shorthand and non-shorthand style properties.
+ */
 
-// Fallback to uuid for empty cells
+export const getListIemKey = (index: number, data: ListItemData): string => data.list[index]?.id ?? index.toString();
+
 export const getGridItemKey = ({
   columnIndex,
   rowIndex,
@@ -13,4 +16,4 @@ export const getGridItemKey = ({
   columnIndex: number;
   rowIndex: number;
   data: GridItemData;
-}): string => data.grid[rowIndex]?.[columnIndex]?.id ?? getRandomUUID();
+}): string => data.grid[rowIndex]?.[columnIndex]?.id ?? `${rowIndex}-${columnIndex}`;
