@@ -111,11 +111,11 @@ export const getTotalCellDividerStyle = ({
   const style: React.CSSProperties = {};
 
   if (bottomDivider) {
-    style.borderBottomColor = borderColor;
+    style.borderBottom = getBorderAttributes(1, borderColor);
   }
 
   if (rightDivider) {
-    style.borderRightColor = borderColor;
+    style.borderRight = getBorderAttributes(1, borderColor);
   }
 
   return style;

@@ -2457,10 +2457,10 @@
     eslint-plugin-vitest "0.3.10"
     svelte-eslint-parser "0.33.1"
 
-"@qlik/nebula-table-utils@2.6.3":
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/@qlik/nebula-table-utils/-/nebula-table-utils-2.6.3.tgz#63aa078377327b6de9e803f9773bddece72f9c12"
-  integrity sha512-AqeZ4UGPGK7RQBA4QUCXmLB4QZf9n2nrQ5+fXohf/yZm9AcbSc59P8Dexl43Pgb8VB2a+Q/da+42hORfU8tVZw==
+"@qlik/nebula-table-utils@2.6.6":
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/@qlik/nebula-table-utils/-/nebula-table-utils-2.6.6.tgz#2594e3c4deb5798c1af9e3bdc16fbf57434b8ef9"
+  integrity sha512-AJ4aPFxeGs51U1DdgGt4CoDfQN4UvgPxWI9rktidhmdhtYumraHdQ+wCOJdWrSO45TGNTML1o4xOO36sEp3PMw==
 
 "@qlik/prettier-config@0.4.3":
   version "0.4.3"

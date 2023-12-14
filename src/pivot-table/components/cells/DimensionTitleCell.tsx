@@ -108,7 +108,6 @@ const DimensionTitleCell = ({
           <HeadCellMenu
             headerData={cell}
             translator={translator}
-            tabIndex={-1}
             anchorRef={anchorRef}
             open={open}
             setOpen={setOpen}
