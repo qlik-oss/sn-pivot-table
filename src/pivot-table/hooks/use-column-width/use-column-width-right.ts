@@ -132,10 +132,7 @@ export default function useColumnWidthRight({
 
   // when verticalScrollbarWidth is 0 (scrollbar is invisible)
   // there will be a 0/n division in below line which will result in 0
-  const scrollbarWidthSharePerColumn = useMemo(
-    () => parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12)),
-    [layoutService.size.x, verticalScrollbarWidth],
-  );
+  const scrollbarWidthSharePerColumn = parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12));
 
   /**
    * Gets the width of a right grid column. This is always based on the leaf width(s)
