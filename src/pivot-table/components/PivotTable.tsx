@@ -101,7 +101,7 @@ export const StickyPivotTable = ({
     overrideLeftGridWidth,
   } = useColumnWidth({
     layoutService,
-    tableRect,
+    tableWidth: tableRect.width,
     headersData,
     visibleTopDimensionInfo,
     verticalScrollbarWidth,

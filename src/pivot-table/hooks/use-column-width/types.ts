@@ -1,4 +1,4 @@
-import type { HeadersData, LayoutService, Rect, VisibleDimensionInfo } from "../../../types/types";
+import type { HeadersData, LayoutService, VisibleDimensionInfo } from "../../../types/types";
 
 export type OverrideLeftGridWidth = (width: number, index: number) => void;
 
@@ -21,13 +21,13 @@ export interface GetHeaderCellsIconsVisibilityStatus {
 
 export interface ColumnWidthLeftHook {
   layoutService: LayoutService;
-  tableRect: Rect;
+  tableWidth: number;
   headersData: HeadersData;
 }
 
 export interface ColumnWidthRightHook {
   layoutService: LayoutService;
-  tableRect: Rect;
+  tableWidth: number;
   visibleTopDimensionInfo: VisibleDimensionInfo[];
   verticalScrollbarWidth: number;
   leftGridWidth: number;

@@ -1,5 +1,5 @@
 import { useMeasureText } from "@qlik/nebula-table-utils/lib/hooks";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { GRID_BORDER } from "../../constants";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { LOCK_ICON_SIZE, MENU_ICON_SIZE, TOTAL_CELL_PADDING } from "./constants";
@@ -12,7 +12,7 @@ export type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from 
 
 export default function useColumnWidth({
   layoutService,
-  tableRect,
+  tableWidth,
   headersData,
   visibleTopDimensionInfo,
   verticalScrollbarWidth,
@@ -21,23 +21,20 @@ export default function useColumnWidth({
   const styleService = useStyleContext();
   const { measureText: measureTextForHeader } = useMeasureText(getMeasureTextArgs(styleService.header));
 
-  const leftWidths = useColumnWidthLeft({ layoutService, tableRect, headersData });
+  const leftWidths = useColumnWidthLeft({ layoutService, tableWidth, headersData });
 
   const rightWidths = useColumnWidthRight({
     layoutService,
-    tableRect,
+    tableWidth,
     visibleTopDimensionInfo,
     verticalScrollbarWidth,
     leftGridWidth: leftWidths.leftGridWidth,
   });
 
   // The full scrollable width of the chart
-  const totalWidth = useMemo(
-    () => leftWidths.leftGridWidth + rightWidths.rightGridFullWidth + GRID_BORDER,
-    [leftWidths.leftGridWidth, rightWidths.rightGridFullWidth],
-  );
+  const totalWidth = leftWidths.leftGridWidth + rightWidths.rightGridFullWidth + GRID_BORDER;
 
-  const showLastRightBorder = useMemo(() => totalWidth < tableRect.width, [totalWidth, tableRect.width]);
+  const showLastRightBorder = totalWidth < tableWidth;
 
   const getHeaderCellsIconsVisibilityStatus = useCallback<GetHeaderCellsIconsVisibilityStatus>(
     (idx, isLocked, title = "") => {
@@ -61,7 +58,7 @@ export default function useColumnWidth({
         shouldShowLockIcon,
       };
     },
-    [leftWidths, measureTextForHeader],
+    [leftWidths.leftGridColumnWidths, measureTextForHeader],
   );
 
   // Horizontal scrollbar height control based on columns (full) visibility
