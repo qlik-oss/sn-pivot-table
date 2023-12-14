@@ -137,8 +137,8 @@ export default function useSelectionsModel(
   );
 
   const isSelected = useCallback(
-    (cell: Cell) => !isLocked(cell) && selectedPivotCells.has(cell.ref.qElemNo),
-    [selectedPivotCells, isLocked],
+    (cell: Cell) => isActive && !isLocked(cell) && selectedPivotCells.has(cell.ref.qElemNo),
+    [selectedPivotCells, isLocked, isActive],
   );
 
   const model = useMemo(

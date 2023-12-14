@@ -10,14 +10,20 @@ describe("useSelectionsModel", () => {
   let updatePageInfo: jest.MockedFunction<(args: Partial<PageInfo>) => void>;
   let callbacks: Record<string, () => void>;
   let mouseEvt: React.MouseEvent;
+  let isActive = false;
 
   beforeEach(() => {
+    isActive = false;
+
     selections = {
       on: () => {},
       removeListener: () => {},
       select: () => Promise.resolve(),
-      isActive: () => false,
-      begin: () => Promise.resolve(),
+      isActive: () => isActive,
+      begin: () => {
+        isActive = true;
+        return Promise.resolve();
+      },
     } as unknown as ExtendedSelections;
 
     callbacks = {};
@@ -112,8 +118,8 @@ describe("useSelectionsModel", () => {
 
   test("should select cell and not call begin selection when already active", async () => {
     const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
-    selections.isActive = () => true;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
+    selections.isActive = () => true;
 
     await act(async () => {
       await result.current.select(cell)(mouseEvt);
@@ -126,7 +132,6 @@ describe("useSelectionsModel", () => {
 
   test("should select cell and confirm by calling related callback", async () => {
     const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
-    selections.isActive = () => true;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
