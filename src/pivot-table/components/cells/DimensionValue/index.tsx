@@ -21,7 +21,7 @@ export interface DimensionValueProps {
 
 const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Element => {
   const styleService = useStyleContext();
-  const { isSelected } = useSelectionsContext();
+  const { isSelected, isActive } = useSelectionsContext();
   const { isAdjustingWidth, setIsAdjustingWidth } = useIsAdjustingWidth([data]);
 
   const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
@@ -46,7 +46,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
     );
   }
 
-  const isCellSelected = isSelected(cell);
+  const isCellSelected = isActive && isSelected(cell);
   const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
 
   return (

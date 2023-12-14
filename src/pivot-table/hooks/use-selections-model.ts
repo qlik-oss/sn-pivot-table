@@ -14,22 +14,16 @@ export interface SelectionModel {
   isLocked: SelectionCellLookup;
 }
 
-export interface SelectedPivotCell {
-  qType: string;
-  qRow: number;
-  qCol: number;
-}
-
 type SelectedField = {
   selectionCellType: NxSelectionCellType;
   coord: number;
 };
 
-const getNextState = (cell: Cell, selectedPivotCells: Set<Cell>, selectedField: SelectedField | null) => {
-  const nextSelectedPivotCells = new Set(selectedPivotCells);
+const getNextState = (cell: Cell, selectedPivotCells: Map<number, Cell>, selectedField: SelectedField | null) => {
+  const nextSelectedPivotCells = new Map(selectedPivotCells);
 
-  if (nextSelectedPivotCells.has(cell)) {
-    nextSelectedPivotCells.delete(cell);
+  if (nextSelectedPivotCells.has(cell.ref.qElemNo)) {
+    nextSelectedPivotCells.delete(cell.ref.qElemNo);
 
     return {
       nextSelectedPivotCells,
@@ -37,7 +31,7 @@ const getNextState = (cell: Cell, selectedPivotCells: Set<Cell>, selectedField: 
     };
   }
 
-  nextSelectedPivotCells.add(cell);
+  nextSelectedPivotCells.set(cell.ref.qElemNo, cell);
 
   return {
     nextSelectedPivotCells,
@@ -53,13 +47,13 @@ export default function useSelectionsModel(
   updatePageInfo: (args: Partial<PageInfo>) => void,
 ): SelectionModel {
   const isActive = selections.isActive();
-  const [selectedPivotCells, setSelectedPivotCells] = useState<Set<Cell>>(new Set());
+  const [selectedPivotCells, setSelectedPivotCells] = useState<Map<number, Cell>>(new Map());
   const [selectedField, setSelectedField] = useState<SelectedField | null>(null);
 
   useEffect(() => {
     const clearSelections = () => {
       setSelectedField(null);
-      setSelectedPivotCells(new Set());
+      setSelectedPivotCells(new Map());
     };
     const clearSelectionAndResetPage = () => {
       clearSelections();
@@ -122,7 +116,7 @@ export default function useSelectionsModel(
           method: "selectPivotCells",
           params: [
             Q_PATH,
-            Array.from(nextSelectedPivotCells, (c) => ({
+            Array.from(nextSelectedPivotCells, ([, c]) => ({
               qType: c.selectionCellType,
               qRow: c.y,
               qCol: c.x,
@@ -140,7 +134,17 @@ export default function useSelectionsModel(
     [selections, isLocked, selectedPivotCells, selectedField],
   );
 
-  const isSelected = useCallback((cell: Cell) => selectedPivotCells.has(cell), [selectedPivotCells]);
+  const isSelected = useCallback(
+    (cell: Cell) => !isLocked(cell) && selectedPivotCells.has(cell.ref.qElemNo),
+    [selectedPivotCells, isLocked],
+  );
+
+  useEffect(() => {
+    console.log("%c selectedPivotCells", "color: orangered", {
+      selectedPivotCells,
+      selectedField,
+    });
+  }, [selectedField, selectedPivotCells]);
 
   const model = useMemo(
     () => ({
