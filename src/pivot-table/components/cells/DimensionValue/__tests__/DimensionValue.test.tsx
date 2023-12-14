@@ -257,6 +257,10 @@ describe("DimensionValue", () => {
     });
 
     describe("selections", () => {
+      beforeEach(() => {
+        mockedSelectionModel.isActive = true;
+      });
+
       test("should select cell", async () => {
         cell.ref.qCanCollapse = true;
 

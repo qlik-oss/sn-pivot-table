@@ -56,7 +56,7 @@ describe("useSelectionsModel", () => {
   });
 
   test("should not select cell when mouse event is coming from ColumnAdjuster", async () => {
-    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
     mouseEvt.target = {
       getAttribute: () => `${COLUMN_ADJUSTER_CLASS} some-other-class`,
     } as unknown as HTMLElement;
@@ -72,8 +72,8 @@ describe("useSelectionsModel", () => {
   });
 
   test("should select cell and call begin selection", async () => {
-    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
-    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 2, y: 0 } as Cell;
+    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
+    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 2, y: 0, ref: { qElemNo: 2 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
@@ -111,7 +111,7 @@ describe("useSelectionsModel", () => {
   });
 
   test("should select cell and not call begin selection when already active", async () => {
-    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
     selections.isActive = () => true;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
@@ -125,7 +125,7 @@ describe("useSelectionsModel", () => {
   });
 
   test("should select cell and confirm by calling related callback", async () => {
-    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
     selections.isActive = () => true;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
@@ -140,7 +140,7 @@ describe("useSelectionsModel", () => {
   });
 
   test("should de-select cell", async () => {
-    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
@@ -157,8 +157,8 @@ describe("useSelectionsModel", () => {
   });
 
   test("should lock cells with qType=T when qType=L is already selected", async () => {
-    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0 } as Cell;
-    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0 } as Cell;
+    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0, ref: { qElemNo: 0 } } as Cell;
+    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0, ref: { qElemNo: 0 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
@@ -170,8 +170,8 @@ describe("useSelectionsModel", () => {
   });
 
   test("should lock cells with qType=T and not on the same row", async () => {
-    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0 } as Cell;
-    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 1 } as Cell;
+    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0, ref: { qElemNo: 0 } } as Cell;
+    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 1, ref: { qElemNo: 0 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
@@ -183,8 +183,8 @@ describe("useSelectionsModel", () => {
   });
 
   test("should lock cells with qType=L when qType=T is already selected", async () => {
-    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0 } as Cell;
-    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0 } as Cell;
+    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 0, y: 0, ref: { qElemNo: 0 } } as Cell;
+    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0, ref: { qElemNo: 0 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
@@ -196,8 +196,8 @@ describe("useSelectionsModel", () => {
   });
 
   test("should lock cells with qType=L and not on the same column", async () => {
-    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0 } as Cell;
-    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 1, y: 0 } as Cell;
+    const cell1 = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0, ref: { qElemNo: 0 } } as Cell;
+    const cell2 = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
@@ -209,8 +209,8 @@ describe("useSelectionsModel", () => {
   });
 
   test("should not be possible to select a cell if it's locked", async () => {
-    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0 } as Cell;
-    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const cellLeft = { selectionCellType: NxSelectionCellType.NX_CELL_LEFT, x: 0, y: 0, ref: { qElemNo: 0 } } as Cell;
+    const cellTop = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await act(async () => {
@@ -228,7 +228,7 @@ describe("useSelectionsModel", () => {
 
   test("should handle when select method fails", async () => {
     jest.spyOn(console, "error");
-    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
     const err = new Error("FAIL");
     selections.select = () => Promise.reject(err);
@@ -242,7 +242,7 @@ describe("useSelectionsModel", () => {
   });
 
   test("should not lock cell when there are not active selections", async () => {
-    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0 } as Cell;
+    const cell = { selectionCellType: NxSelectionCellType.NX_CELL_TOP, x: 1, y: 0, ref: { qElemNo: 1 } } as Cell;
     const { result } = renderHook(() => useSelectionsModel(selections, updatePageInfo));
 
     await waitFor(() => expect(result.current.isLocked(cell)).toBeFalsy());

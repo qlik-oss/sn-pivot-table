@@ -19,7 +19,9 @@ type SelectedField = {
   coord: number;
 };
 
-const getNextState = (cell: Cell, selectedPivotCells: Map<number, Cell>, selectedField: SelectedField | null) => {
+type ElemNo = number;
+
+const getNextState = (cell: Cell, selectedPivotCells: Map<ElemNo, Cell>, selectedField: SelectedField | null) => {
   const nextSelectedPivotCells = new Map(selectedPivotCells);
 
   if (nextSelectedPivotCells.has(cell.ref.qElemNo)) {
@@ -47,7 +49,7 @@ export default function useSelectionsModel(
   updatePageInfo: (args: Partial<PageInfo>) => void,
 ): SelectionModel {
   const isActive = selections.isActive();
-  const [selectedPivotCells, setSelectedPivotCells] = useState<Map<number, Cell>>(new Map());
+  const [selectedPivotCells, setSelectedPivotCells] = useState<Map<ElemNo, Cell>>(new Map());
   const [selectedField, setSelectedField] = useState<SelectedField | null>(null);
 
   useEffect(() => {
@@ -138,13 +140,6 @@ export default function useSelectionsModel(
     (cell: Cell) => !isLocked(cell) && selectedPivotCells.has(cell.ref.qElemNo),
     [selectedPivotCells, isLocked],
   );
-
-  useEffect(() => {
-    console.log("%c selectedPivotCells", "color: orangered", {
-      selectedPivotCells,
-      selectedField,
-    });
-  }, [selectedField, selectedPivotCells]);
 
   const model = useMemo(
     () => ({
