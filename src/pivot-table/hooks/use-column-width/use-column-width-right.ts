@@ -10,7 +10,7 @@ import { getMeasureTextArgs, getPercentageValue, getPixelValue } from "./utils";
 
 export default function useColumnWidthRight({
   layoutService,
-  tableRect,
+  tableWidth,
   visibleTopDimensionInfo,
   verticalScrollbarWidth,
   leftGridWidth,
@@ -31,12 +31,9 @@ export default function useColumnWidthRight({
 
   /**
    * Calculates widths of the left columns as well as the sum of the widths.
-   * If the sum of widths exceed LEFT_SIDE_MAX_WIDTH_RATIO * tableRect.width, the left side will become scrollable
+   * If the sum of widths exceed LEFT_SIDE_MAX_WIDTH_RATIO * tableWidth, the left side will become scrollable
    */
-  const rightGridAvailableWidth = useMemo(
-    () => tableRect.width - leftGridWidth - GRID_BORDER,
-    [leftGridWidth, tableRect.width],
-  );
+  const rightGridAvailableWidth = tableWidth - leftGridWidth - GRID_BORDER;
 
   const leafTopDimension = visibleTopDimensionInfo.at(-1);
   const topGridLeavesIsPseudo = leafTopDimension === PSEUDO_DIMENSION_INDEX;
@@ -147,13 +144,10 @@ export default function useColumnWidthRight({
   );
 
   // The width of the sum of all columns, can be smaller or greater than what fits in the chart
-  const rightGridFullWidth = useMemo(() => size.x * averageLeafWidth, [averageLeafWidth, size.x]);
+  const rightGridFullWidth = size.x * averageLeafWidth;
 
   // The width that will be assigned to the top and data grid
-  const rightGridWidth = useMemo(
-    () => Math.min(rightGridFullWidth, rightGridAvailableWidth),
-    [rightGridFullWidth, rightGridAvailableWidth],
-  );
+  const rightGridWidth = Math.min(rightGridFullWidth, rightGridAvailableWidth);
 
   return {
     rightGridFullWidth,

@@ -14,13 +14,7 @@ import {
 import type { ColumnWidthLeftHook, LeftGridWidthInfo } from "./types";
 import { getColumnWidthValue, getMeasureTextArgs } from "./utils";
 
-export default function useColumnWidthLeft({ layoutService, tableRect, headersData }: ColumnWidthLeftHook) {
-  const {
-    layout: {
-      qHyperCube: { qMeasureInfo, qNoOfLeftDims, topHeadersColumnWidth },
-    },
-    isFullyExpanded,
-  } = layoutService;
+export default function useColumnWidthLeft({ layoutService, tableWidth, headersData }: ColumnWidthLeftHook) {
   const styleService = useStyleContext();
   const { measureText: measureTextForHeader } = useMeasureText(getMeasureTextArgs(styleService.header));
   const { estimateWidth: estimateWidthForDimensionValue } = useMeasureText(
@@ -32,6 +26,13 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
 
   const calculateLeftGridWidthInfo = useCallback(
     (widthOverride?: number, overrideIndex?: number) => {
+      const {
+        layout: {
+          qHyperCube: { qMeasureInfo, qNoOfLeftDims, topHeadersColumnWidth },
+        },
+        isFullyExpanded,
+      } = layoutService;
+
       const dimensionHeaderCellWidth = (lastRowHeader: HeaderCell) => {
         const { label, isLocked } = lastRowHeader;
         const lockedIconSize = isLocked ? LOCK_ICON_SIZE : 0;
@@ -43,7 +44,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
           const measureLabelWidth = measureTextForMeasureLabel(qFallbackTitle) + TOTAL_CELL_PADDING;
           return Math.max(
             maxWidth,
-            getColumnWidthValue(tableRect.width, columnWidth, Math.max(measureLabelWidth, dimensionsFitToContentWidth)),
+            getColumnWidthValue(tableWidth, columnWidth, Math.max(measureLabelWidth, dimensionsFitToContentWidth)),
           );
         }, 0);
 
@@ -98,7 +99,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
             }
           }
 
-          width = getColumnWidthValue(tableRect.width, columnWidth, fitToContentWidth);
+          width = getColumnWidthValue(tableWidth, columnWidth, fitToContentWidth);
         }
 
         sumOfWidths += width;
@@ -106,7 +107,7 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
       });
 
       return {
-        leftGridWidth: Math.min(tableRect.width * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
+        leftGridWidth: Math.min(tableWidth * LEFT_GRID_MAX_WIDTH_RATIO, sumOfWidths),
         leftGridColumnWidths: columnWidths,
         leftGridFullWidth: sumOfWidths,
       };
@@ -114,13 +115,10 @@ export default function useColumnWidthLeft({ layoutService, tableRect, headersDa
     [
       estimateWidthForDimensionValue,
       headersData.data,
-      isFullyExpanded,
+      layoutService,
       measureTextForHeader,
       measureTextForMeasureLabel,
-      qMeasureInfo,
-      qNoOfLeftDims,
-      tableRect.width,
-      topHeadersColumnWidth,
+      tableWidth,
     ],
   );
 
