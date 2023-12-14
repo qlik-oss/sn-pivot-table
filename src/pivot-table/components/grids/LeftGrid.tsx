@@ -97,7 +97,7 @@ const LeftGrid = ({
             height={height}
             width={columnWidths[colIndex]}
             itemCount={itemCount}
-            itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
+            itemSize={getRowHeightHandler(list, listValues, contentCellHeight, isLastColumn, qSize.qcy)}
             layout="vertical"
             itemData={{
               layoutService,

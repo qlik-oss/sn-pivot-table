@@ -1,7 +1,8 @@
-import type { List } from "../../../types/types";
+import type { Cell, List } from "../../../types/types";
 
 interface ColumnWidthHandlerProps {
   list: List;
+  listValues: Cell[];
   isLastRow: boolean;
   getRightGridColumnWidth: (index?: number) => number;
 }
@@ -9,9 +10,9 @@ interface ColumnWidthHandlerProps {
 type ItemSizeHandler = (index: number) => number;
 
 export const getRowHeightHandler =
-  (list: List, cellHeight: number, isLastColumn: boolean, qcy: number): ItemSizeHandler =>
+  (list: List, listValues: Cell[], cellHeight: number, isLastColumn: boolean, qcy: number): ItemSizeHandler =>
   (rowIndex: number) => {
-    const cell = isLastColumn ? list[rowIndex] : Object.values(list)[rowIndex];
+    const cell = isLastColumn ? list[rowIndex] : listValues[rowIndex];
 
     if (rowIndex === 0 && cell?.pageY > 0) {
       return (cell.leafCount + cell.pageY + cell.distanceToNextCell) * cellHeight;
@@ -29,9 +30,9 @@ export const getRowHeightHandler =
   };
 
 export const getColumnWidthHandler =
-  ({ list, isLastRow, getRightGridColumnWidth }: ColumnWidthHandlerProps): ItemSizeHandler =>
+  ({ list, listValues, isLastRow, getRightGridColumnWidth }: ColumnWidthHandlerProps): ItemSizeHandler =>
   (colIndex: number) => {
-    const cell = isLastRow ? list[colIndex] : Object.values(list)[colIndex];
+    const cell = isLastRow ? list[colIndex] : listValues[colIndex];
     // const measureInfoCount = layoutService.layout.qHyperCube.qMeasureInfo.length;
 
     // TODO: This a bit of a special case but if you are on a different page then the first.
