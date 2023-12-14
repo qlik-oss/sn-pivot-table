@@ -3,6 +3,8 @@ import type { AttrExprInfoIndex, Cell, LayoutService, PageInfo, VisibleDimension
 import extractLeftGrid from "../extract-left";
 import createNodes from "./test-helper";
 
+jest.mock("../helpers/get-random-uuid");
+
 describe("extractLeftGrid", () => {
   let layoutService: LayoutService;
   const attrExprInfoIndexes: AttrExprInfoIndex[] = [];

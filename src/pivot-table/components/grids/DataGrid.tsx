@@ -22,6 +22,7 @@ import {
 } from "../../hooks/use-is-total-cell";
 import useItemsRenderedHandler from "../../hooks/use-items-rendered-handler";
 import MemoizedDataCell from "../cells/DataCell";
+import { getGridItemKey } from "../helpers/get-item-key";
 import { borderStyle } from "../shared-styles";
 
 interface DataGridProps {
@@ -136,6 +137,7 @@ const DataGrid = ({
       onItemsRendered={onItemsRenderedHandler}
       estimatedRowHeight={rowHightCallback()}
       estimatedColumnWidth={getRightGridColumnWidth()}
+      itemKey={getGridItemKey}
     >
       {MemoizedDataCell}
     </VariableSizeGrid>
