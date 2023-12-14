@@ -1,6 +1,7 @@
 import NxDimCellType from "../../types/QIX";
 import type { AttrExprInfoIndex, LayoutService, MeasureData, PageInfo } from "../../types/types";
 import getExpressionColor from "./helpers/get-expression-color";
+import getRandomUUID from "./helpers/get-random-uuid";
 
 export interface AddPageToMeasureDataProps {
   prevData: MeasureData;
@@ -45,6 +46,7 @@ const createNewGrid = ({
 
       // If cell already exist do not create a new cell
       data[pageRowIndex][columnIndex] = data[pageRowIndex][columnIndex] ?? {
+        id: getRandomUUID(),
         ref: node,
         isNull,
         expressionColor: getExpressionColor(attrExprInfoIndexes[measureInfoIndex], node),

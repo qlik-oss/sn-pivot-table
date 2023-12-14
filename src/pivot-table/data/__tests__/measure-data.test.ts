@@ -1,6 +1,8 @@
 import type { AttrExprInfoIndex, LayoutService, MeasureCell, PageInfo } from "../../../types/types";
 import { addPageToMeasureData, createMeasureData } from "../measure-data";
 
+jest.mock("../helpers/get-random-uuid");
+
 describe("measure data", () => {
   const pageInfo = {
     page: 0,
@@ -9,6 +11,7 @@ describe("measure data", () => {
   const attrExprInfoIndexes: AttrExprInfoIndex[] = [];
   const layoutService: LayoutService = { hasPseudoDimOnLeft: false } as LayoutService;
   const testCell = {
+    id: "mocked-id",
     ref: {},
     isNull: false,
     expressionColor: { color: null, background: null },

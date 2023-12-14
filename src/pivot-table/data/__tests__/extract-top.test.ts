@@ -3,6 +3,8 @@ import type { AttrExprInfoIndex, Cell, LayoutService, VisibleDimensionInfo } fro
 import extractTopGrid from "../extract-top";
 import createNodes, { createDimInfo } from "./test-helper";
 
+jest.mock("../helpers/get-random-uuid");
+
 describe("extractTop", () => {
   let headerRows: number;
   let layoutService: LayoutService;
