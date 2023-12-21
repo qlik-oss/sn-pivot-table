@@ -120,7 +120,7 @@ const DataGrid = ({
       columnCount={layoutService.size.x}
       columnWidth={getRightGridColumnWidth}
       height={height}
-      rowCount={layoutService.size.y}
+      rowCount={pageInfo.rowsOnCurrentPage}
       rowHeight={rowHightCallback}
       width={width}
       itemData={
@@ -132,6 +132,7 @@ const DataGrid = ({
           isTotalValue,
           shouldShowTotalCellBottomDivider,
           shouldShowTotalCellRightDivider,
+          pageInfo,
         } as GridItemData
       }
       onItemsRendered={onItemsRenderedHandler}
