@@ -57,6 +57,7 @@ const ColumnAdjusterWrapper = ({
       updateWidthCallback={updateWidth}
       confirmWidthCallback={confirmWidth}
       setIsAdjustingWidth={setIsAdjustingWidth}
+      isLeftColumn={cellInfo.isLeftColumn}
     />
   );
 };
