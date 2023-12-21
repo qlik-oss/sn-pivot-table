@@ -91,7 +91,7 @@ const TopGrid = ({
             height={rowHightCallback()}
             width={width}
             itemCount={itemCount}
-            itemSize={getColumnWidthHandler({ list, isLastRow, getRightGridColumnWidth })}
+            itemSize={getColumnWidthHandler({ list, listValues, isLastRow, getRightGridColumnWidth })}
             layout="horizontal"
             itemData={{
               layoutService,

@@ -127,20 +127,19 @@ export default function useColumnWidthRight({
     return leafWidths[0];
   }, [topGridLeavesIsPseudo, leafWidths, qMeasureInfo]);
 
+  // when verticalScrollbarWidth is 0 (scrollbar is invisible)
+  // there will be a 0/n division in below line which will result in 0
+  const scrollbarWidthSharePerColumn = parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12));
+
   /**
    * Gets the width of a right grid column. This is always based on the leaf width(s)
    */
   const getRightGridColumnWidth = useCallback(
-    (index?: number) => {
-      // when verticalScrollbarWidth is 0 (scrollbar is invisible)
-      // there will be a 0/n division in below line which will result in 0
-      const scrollbarWidthSharePerColumn = parseFloat((verticalScrollbarWidth / layoutService.size.x).toFixed(12));
-
-      return topGridLeavesIsPseudo && index !== undefined
+    (index?: number) =>
+      topGridLeavesIsPseudo && index !== undefined
         ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)] - scrollbarWidthSharePerColumn
-        : averageLeafWidth - scrollbarWidthSharePerColumn;
-    },
-    [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth, verticalScrollbarWidth],
+        : averageLeafWidth - scrollbarWidthSharePerColumn,
+    [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth, scrollbarWidthSharePerColumn],
   );
 
   // The width of the sum of all columns, can be smaller or greater than what fits in the chart
