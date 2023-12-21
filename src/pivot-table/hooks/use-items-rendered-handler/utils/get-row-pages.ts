@@ -102,18 +102,6 @@ const getRowPages = ({ pageInfo, measureData, scrollDirection, viewService }: Ge
       pageInfo,
     });
 
-    console.log("%c fetching row max buffer", "color: orangered", {
-      maxBufferStart,
-      maxBufferEnd,
-      size: maxBufferEnd - maxBufferStart,
-      maxBufferPages,
-      minBufferPages,
-      // currentPageMaxTop,
-      // currentPageMinTop,
-      measureData,
-      rowsOnCurrentPage: pageInfo.rowsOnCurrentPage,
-    });
-
     return [...minBufferPages, ...maxBufferPages];
   }
 

@@ -16,6 +16,16 @@ type GetColumnPages = {
   layoutService: LayoutService;
 };
 
+type GetPagesWithMaxBuffer = {
+  pageInfo: PageInfo;
+  measureData: MeasureData;
+  viewService: ViewService;
+  scrollDirection: React.MutableRefObject<ScrollDirection>;
+  minBufferStartLeft: number;
+  minBufferEndLeft: number;
+  columnEndIndex: number;
+};
+
 type GetPages = {
   pageInfo: PageInfo;
   measureData: MeasureData;
@@ -64,6 +74,33 @@ const getPages = ({ pageInfo, measureData, pageTop, qHeight, startLeft, endLeft 
   return pages;
 };
 
+export const getPagesWithMaxBuffer = ({
+  pageInfo,
+  measureData,
+  scrollDirection,
+  viewService,
+  minBufferStartLeft,
+  minBufferEndLeft,
+  columnEndIndex,
+}: GetPagesWithMaxBuffer) => {
+  const { gridRowStartIndex, gridHeight } = viewService;
+  const maxBufferStart =
+    scrollDirection.current === ScrollDirection.Backward
+      ? Math.max(0, minBufferStartLeft - MAX_BUFFER)
+      : minBufferEndLeft;
+
+  const maxBufferEnd = Math.min(maxBufferStart + MAX_BUFFER, columnEndIndex);
+
+  return getPages({
+    pageInfo,
+    measureData,
+    startLeft: maxBufferStart,
+    endLeft: maxBufferEnd,
+    pageTop: gridRowStartIndex,
+    qHeight: gridHeight,
+  });
+};
+
 const getColumnPages = ({ pageInfo, measureData, scrollDirection, layoutService, viewService }: GetColumnPages) => {
   const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
   const columnEndIndex = layoutService.size.x;
@@ -84,31 +121,18 @@ const getColumnPages = ({ pageInfo, measureData, scrollDirection, layoutService,
   const shouldFetchMaxBuffer = minBufferPages.length > 0;
 
   if (shouldFetchMaxBuffer) {
-    const maxBufferStart =
-      scrollDirection.current === ScrollDirection.Backward
-        ? Math.max(0, minBufferStartLeft - MAX_BUFFER)
-        : minBufferEndLeft;
-
-    const maxBufferEnd = Math.min(maxBufferStart + MAX_BUFFER, columnEndIndex);
-
-    const maxBufferPages = getPages({
-      pageInfo,
-      measureData,
-      startLeft: maxBufferStart,
-      endLeft: maxBufferEnd,
-      pageTop: gridRowStartIndex,
-      qHeight: gridHeight,
-    });
-
-    console.log("%c fetching column max buffer", "color: lime", {
-      maxBufferStart,
-      maxBufferEnd,
-      size: maxBufferEnd - maxBufferStart,
-      maxBufferPages,
-      minBufferPages,
-    });
-
-    return [...minBufferPages, ...maxBufferPages];
+    return [
+      ...minBufferPages,
+      ...getPagesWithMaxBuffer({
+        pageInfo,
+        measureData,
+        scrollDirection,
+        viewService,
+        minBufferEndLeft,
+        minBufferStartLeft,
+        columnEndIndex,
+      }),
+    ];
   }
 
   return minBufferPages;
