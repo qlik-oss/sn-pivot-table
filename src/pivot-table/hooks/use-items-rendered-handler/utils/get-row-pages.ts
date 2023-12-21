@@ -44,6 +44,25 @@ const isMissingRowData = (measureData: MeasureData, qLeft: number, pageTop: numb
 const canMergePages = (prevPage: EngineAPI.INxPage, page: EngineAPI.INxPage) =>
   prevPage.qTop + prevPage.qHeight === page.qTop && prevPage.qLeft === page.qLeft && prevPage.qWidth === page.qWidth;
 
+export const getMinBufferArea = (
+  pageInfo: PageInfo,
+  viewService: ViewService,
+  scrollDirection: React.MutableRefObject<ScrollDirection>,
+) => {
+  const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
+  const minBackBuffer = getBackBuffer(scrollDirection, MIN_BUFFER);
+  const minBufferTop = Math.max(gridRowStartIndex - minBackBuffer, 0);
+  const minBufferHeight = Math.min(gridHeight + MIN_BUFFER, pageInfo.rowsOnCurrentPage - minBufferTop);
+  const minBufferEndTop = minBufferTop + minBufferHeight;
+
+  return {
+    startTop: minBufferTop,
+    endTop: minBufferEndTop,
+    qLeft: gridColumnStartIndex,
+    qWidth: gridWidth,
+  };
+};
+
 export const getPages = ({ startTop, endTop, qLeft, qWidth, measureData, pageInfo }: GetPages) => {
   const pages: EngineAPI.INxPage[] = [];
   const currentPageMinTop = pageInfo.page * pageInfo.rowsPerPage;
@@ -70,17 +89,13 @@ export const getPages = ({ startTop, endTop, qLeft, qWidth, measureData, pageInf
 };
 
 const getRowPages = ({ pageInfo, measureData, scrollDirection, viewService }: GetRowPages) => {
-  const { gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight } = viewService;
-  const minBackBuffer = getBackBuffer(scrollDirection, MIN_BUFFER);
-  const minBufferTop = Math.max(gridRowStartIndex - minBackBuffer, 0);
-  const minBufferHeight = Math.min(gridHeight + MIN_BUFFER, pageInfo.rowsOnCurrentPage - minBufferTop);
-  const minBufferEndTop = minBufferTop + minBufferHeight;
+  const { startTop, endTop, qLeft, qWidth } = getMinBufferArea(pageInfo, viewService, scrollDirection);
 
   const minBufferPages = getPages({
-    startTop: minBufferTop,
-    endTop: minBufferEndTop,
-    qLeft: gridColumnStartIndex,
-    qWidth: gridWidth,
+    startTop,
+    endTop,
+    qLeft,
+    qWidth,
     measureData,
     pageInfo,
   });
@@ -89,15 +104,15 @@ const getRowPages = ({ pageInfo, measureData, scrollDirection, viewService }: Ge
 
   if (shouldFetchMaxBuffer) {
     const maxBufferStart =
-      scrollDirection.current === ScrollDirection.Backward ? Math.max(0, minBufferTop - MAX_BUFFER) : minBufferEndTop;
+      scrollDirection.current === ScrollDirection.Backward ? Math.max(0, startTop - MAX_BUFFER) : endTop;
 
     const maxBufferEnd = Math.min(maxBufferStart + MAX_BUFFER, pageInfo.rowsOnCurrentPage);
 
     const maxBufferPages = getPages({
       startTop: maxBufferStart,
       endTop: maxBufferEnd,
-      qLeft: gridColumnStartIndex,
-      qWidth: gridWidth,
+      qLeft,
+      qWidth,
       measureData,
       pageInfo,
     });

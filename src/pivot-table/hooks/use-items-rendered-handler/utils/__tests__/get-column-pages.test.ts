@@ -6,7 +6,7 @@ import {
   type ViewService,
 } from "../../../../../types/types";
 import { MIN_BUFFER } from "../../constants";
-import getColumnPages from "../get-column-pages";
+import getColumnPages, { getMinBufferArea } from "../get-column-pages";
 
 describe("getColumnPages", () => {
   let measureData: MeasureData;
@@ -38,6 +38,32 @@ describe("getColumnPages", () => {
     } as LayoutService;
 
     scrollDirection = { current: ScrollDirection.None };
+  });
+
+  describe("getMinBufferArea", () => {
+    test("should add backward buffer", () => {
+      scrollDirection.current = ScrollDirection.Backward;
+      viewService.gridColumnStartIndex = 50;
+      const area = getMinBufferArea(layoutService, viewService, scrollDirection);
+
+      expect(area).toEqual({ endLeft: 50, pageTop: 0, qHeight: 0, startLeft: 40 });
+    });
+
+    test("backward buffer should not cause negative start left index", () => {
+      scrollDirection.current = ScrollDirection.Backward;
+      viewService.gridColumnStartIndex = 5;
+      const area = getMinBufferArea(layoutService, viewService, scrollDirection);
+
+      expect(area).toEqual({ endLeft: 10, pageTop: 0, qHeight: 0, startLeft: 0 });
+    });
+
+    test("forward buffer should not exceed layout size", () => {
+      scrollDirection.current = ScrollDirection.Forward;
+      viewService.gridColumnStartIndex = layoutService.size.x - 1;
+      const area = getMinBufferArea(layoutService, viewService, scrollDirection);
+
+      expect(area).toEqual({ endLeft: 1000, pageTop: 0, qHeight: 0, startLeft: 999 });
+    });
   });
 
   test("should return pages when columns can be merged into a single page", () => {

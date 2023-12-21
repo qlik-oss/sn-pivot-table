@@ -1,6 +1,6 @@
 import { ScrollDirection, type MeasureData, type PageInfo, type ViewService } from "../../../../../types/types";
 import { MIN_BUFFER } from "../../constants";
-import getRowPages from "../get-row-pages";
+import getRowPages, { getMinBufferArea } from "../get-row-pages";
 
 describe("getRowPages", () => {
   let measureData: MeasureData;
@@ -27,6 +27,33 @@ describe("getRowPages", () => {
     };
 
     scrollDirection = { current: ScrollDirection.None };
+  });
+
+  describe("getMinBufferArea", () => {
+    test("should add backward buffer", () => {
+      scrollDirection.current = ScrollDirection.Backward;
+      viewService.gridRowStartIndex = 50;
+      const area = getMinBufferArea(pageInfo, viewService, scrollDirection);
+
+      expect(area).toEqual({ startTop: 40, endTop: 50, qLeft: 0, qWidth: 0 });
+    });
+
+    test("backward buffer should not cause negative start top index", () => {
+      scrollDirection.current = ScrollDirection.Backward;
+      viewService.gridRowStartIndex = 5;
+      const area = getMinBufferArea(pageInfo, viewService, scrollDirection);
+
+      expect(area).toEqual({ startTop: 0, endTop: 10, qLeft: 0, qWidth: 0 });
+    });
+
+    test("forward buffer should not exceed rowsOnCurrentPage", () => {
+      scrollDirection.current = ScrollDirection.Forward;
+      pageInfo.rowsOnCurrentPage = 100;
+      viewService.gridRowStartIndex = pageInfo.rowsOnCurrentPage - 1;
+      const area = getMinBufferArea(pageInfo, viewService, scrollDirection);
+
+      expect(area).toEqual({ startTop: 99, endTop: 100, qLeft: 0, qWidth: 0 });
+    });
   });
 
   test("should return pages when rows can be merged into a single page", () => {
