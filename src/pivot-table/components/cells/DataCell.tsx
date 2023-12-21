@@ -25,9 +25,10 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
     shouldShowTotalCellBottomDivider,
     shouldShowTotalCellRightDivider,
     isTotalValue,
+    pageInfo,
   } = data;
   const cell = grid[rowIndex]?.[columnIndex];
-  const isLastRow = rowIndex === layoutService.size.y - 1;
+  const isLastRow = rowIndex === pageInfo.rowsOnCurrentPage - 1;
   const isLastColumn = columnIndex === layoutService.size.x - 1;
 
   if (!cell) {

@@ -74,6 +74,7 @@ export interface GridItemData extends ItemData {
   isTotalValue: (x: number, y: number) => boolean;
   shouldShowTotalCellBottomDivider: (y: number) => boolean;
   shouldShowTotalCellRightDivider: (x: number) => boolean;
+  pageInfo: PageInfo;
 }
 
 export interface ListItemData extends ItemData {
