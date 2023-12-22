@@ -28,7 +28,7 @@ const useData = (
   const attrExprInfoIndexes = useAttrExprInfoIndexes(
     visibleLeftDimensionInfo,
     visibleTopDimensionInfo,
-    layoutService.layout.qHyperCube.qMeasureInfo,
+    layoutService.visibleMeasureInfo,
   );
 
   const headersData = useMemo<HeadersData>(

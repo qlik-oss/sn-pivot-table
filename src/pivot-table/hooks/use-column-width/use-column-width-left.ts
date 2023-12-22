@@ -28,8 +28,9 @@ export default function useColumnWidthLeft({ layoutService, tableWidth, headersD
     (widthOverride?: number, overrideIndex?: number) => {
       const {
         layout: {
-          qHyperCube: { qMeasureInfo, qNoOfLeftDims, topHeadersColumnWidth },
+          qHyperCube: { qNoOfLeftDims, topHeadersColumnWidth },
         },
+        visibleMeasureInfo,
         isFullyExpanded,
       } = layoutService;
 
@@ -40,7 +41,7 @@ export default function useColumnWidthLeft({ layoutService, tableWidth, headersD
       };
 
       const maxMeasureColumnWidth = (dimensionsFitToContentWidth = 0) =>
-        qMeasureInfo.reduce((maxWidth, { qFallbackTitle, columnWidth }) => {
+        visibleMeasureInfo.reduce((maxWidth, { qFallbackTitle, columnWidth }) => {
           const measureLabelWidth = measureTextForMeasureLabel(qFallbackTitle) + TOTAL_CELL_PADDING;
           return Math.max(
             maxWidth,

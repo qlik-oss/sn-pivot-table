@@ -84,6 +84,25 @@ describe("createLayoutService", () => {
       expect(service.getMeasureInfoIndexFromCellIndex(4)).toEqual(1);
       expect(service.getMeasureInfoIndexFromCellIndex(5)).toEqual(2);
     });
+
+    test("should return measure info index when a measure is hidden before the requested index", () => {
+      const hiddenMeasure = getMeasureInfo();
+      hiddenMeasure.qError = { qErrorCode: 7005 };
+      layout.qHyperCube.qMeasureInfo = [getMeasureInfo(), hiddenMeasure, getMeasureInfo(), getMeasureInfo()];
+      const service = create();
+      expect(service.getMeasureInfoIndexFromCellIndex(0)).toEqual(0);
+      expect(service.getMeasureInfoIndexFromCellIndex(1)).toEqual(2);
+    });
+
+    test("should return measure info index when a measure is hidden before the requested visible index", () => {
+      const getVisibleIndex = true;
+      const hiddenMeasure = getMeasureInfo();
+      hiddenMeasure.qError = { qErrorCode: 7005 };
+      layout.qHyperCube.qMeasureInfo = [getMeasureInfo(), hiddenMeasure, getMeasureInfo(), getMeasureInfo()];
+      const service = create();
+      expect(service.getMeasureInfoIndexFromCellIndex(0, getVisibleIndex)).toEqual(0);
+      expect(service.getMeasureInfoIndexFromCellIndex(1, getVisibleIndex)).toEqual(1);
+    });
   });
 
   describe("getDimensionInfoIndex", () => {

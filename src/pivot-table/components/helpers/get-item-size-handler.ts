@@ -33,7 +33,7 @@ export const getColumnWidthHandler =
   ({ list, listValues, isLastRow, getRightGridColumnWidth }: ColumnWidthHandlerProps): ItemSizeHandler =>
   (colIndex: number) => {
     const cell = isLastRow ? list[colIndex] : listValues[colIndex];
-    // const measureInfoCount = layoutService.layout.qHyperCube.qMeasureInfo.length;
+    // const measureInfoCount = layoutService.visibleMeasureInfo.length;
 
     // TODO: This a bit of a special case but if you are on a different page then the first.
     // Scroll down a bit and expand a node. The "first row" does not exist yet as data has only been
