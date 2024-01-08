@@ -99,9 +99,10 @@ export default function useDataModel({
           break;
         case ColumnWidthLocation.Measures:
           if (isLeftColumn) {
+            // This updates hidden measures as well so that if a measure becomes visible again it will not affect the column width
             paths = qMeasureInfo.map((info, idx) => ({
               qPath: `${Q_PATH}/qMeasures/${idx}/qDef/columnWidth`,
-              oldValue: qMeasureInfo[idx].columnWidth,
+              oldValue: info.columnWidth,
             }));
           } else {
             const idx = layoutService.getMeasureInfoIndexFromCellIndex(x);

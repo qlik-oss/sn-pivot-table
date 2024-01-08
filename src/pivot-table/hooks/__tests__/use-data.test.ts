@@ -112,8 +112,9 @@ describe("useData", () => {
       layout: {
         qHyperCube,
       },
+      visibleMeasureInfo: [],
       size: { x: 3, y: 4 },
-    } as LayoutService;
+    } as unknown as LayoutService;
 
     leftDimensionData = {
       grid: [{}],

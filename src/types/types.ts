@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import type { ColumnWidth } from "@qlik/nebula-table-utils/lib/components/ColumnAdjuster";
 import type { HeaderData, SortDirection } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import type { PSEUDO_DIMENSION_INDEX } from "../constants";
-import type { ExtendedDimensionInfo, NxSelectionCellType, PivotLayout } from "./QIX";
+import type { ExtendedDimensionInfo, ExtendedMeasureInfo, NxSelectionCellType, PivotLayout } from "./QIX";
 
 export type ExpandOrCollapser = (rowIndex: number, columnIndex: number) => void;
 
@@ -193,7 +193,7 @@ export interface ViewService {
 
 export interface LayoutService {
   layout: PivotLayout;
-  getMeasureInfoIndexFromCellIndex: (index: number) => number;
+  getMeasureInfoIndexFromCellIndex: (index: number, getVisibleIndex?: boolean) => number;
   getDimensionInfo: (index: number) => VisibleDimensionInfo | undefined;
   getDimensionInfoIndex: (qDimensionInfo: VisibleDimensionInfo) => number;
   getNullValueText: () => string;
@@ -208,6 +208,7 @@ export interface LayoutService {
   isLeftDimension: (dimensionInfoIndex: number) => boolean;
   isFullyExpanded: boolean;
   triggerdByExpandOrCollapse: boolean;
+  visibleMeasureInfo: ExtendedMeasureInfo[];
 }
 
 export interface DataService {

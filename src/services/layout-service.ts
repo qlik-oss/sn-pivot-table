@@ -3,6 +3,9 @@ import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../pivot-table/constants";
 import { type PivotLayout } from "../types/QIX";
 import type { LayoutService, VisibleDimensionInfo } from "../types/types";
 
+// Error code from Engine in qDimensionInfo and qMeasureInfo when calculated condition (show condition) resolves to false
+const HIDDEN_ERROR_CODE = 7005;
+
 const createLayoutService = (
   layout: PivotLayout,
   effectiveProperties: EngineAPI.IGenericObjectProperties | undefined,
@@ -22,16 +25,22 @@ const createLayoutService = (
   const dimensionInfoIndexMap: Map<VisibleDimensionInfo, number> = new Map(
     qEffectiveInterColumnSortOrder.map((index) => [qDimensionInfo[index] ?? PSEUDO_DIMENSION_INDEX, index]),
   );
+  const visibleMeasureInfo = qMeasureInfo.filter((info) => info.qError?.qErrorCode !== HIDDEN_ERROR_CODE);
 
   return {
     layout,
     getNullValueText: () => nullValueRepresentation?.text ?? "-",
-    getMeasureInfoIndexFromCellIndex: (index: number) => {
+    getMeasureInfoIndexFromCellIndex: (index: number, getVisibleIndex = false) => {
       if (hasPseudoDimOnLeft) {
         return 0;
       }
 
-      return index % qMeasureInfo.length;
+      const visibleMeasureInfoIndex = index % visibleMeasureInfo.length;
+      if (getVisibleIndex) {
+        return visibleMeasureInfoIndex;
+      }
+
+      return qMeasureInfo.findIndex((info) => info === visibleMeasureInfo[visibleMeasureInfoIndex]);
     },
     getDimensionInfo: (index: number): VisibleDimensionInfo | undefined =>
       index === PSEUDO_DIMENSION_INDEX
@@ -52,6 +61,7 @@ const createLayoutService = (
     isFullyExpanded: !!effectiveProperties?.qHyperCubeDef?.qAlwaysFullyExpanded,
     // qLastExpandedPos only exist in the layout if a new layout was received because a node was expanded or collapsed
     triggerdByExpandOrCollapse: !!layout.qHyperCube.qLastExpandedPos,
+    visibleMeasureInfo,
   };
 };
 

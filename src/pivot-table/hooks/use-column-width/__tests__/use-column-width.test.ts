@@ -57,7 +57,6 @@ describe("useColumnWidth", () => {
       layout: {
         qHyperCube: {
           qDimensionInfo: [dimInfo, dimInfo, dimInfo],
-          qMeasureInfo: [meaInfo, meaInfo, meaInfo],
           qNoOfLeftDims: 3,
           qEffectiveInterColumnSortOrder: [0, 1, 2, -1],
         },
@@ -69,6 +68,7 @@ describe("useColumnWidth", () => {
       getMeasureInfoIndexFromCellIndex: (index: number) => index,
       getDimensionInfoIndex: mockedGetDimensionInfoIndex,
       isLeftDimension: mockedIsLeftDimension,
+      visibleMeasureInfo: [meaInfo, meaInfo, meaInfo],
     } as unknown as LayoutService;
 
     visibleLeftDimensionInfo = [dimInfo, dimInfo, dimInfo];
@@ -156,7 +156,7 @@ describe("useColumnWidth", () => {
       mockMeasureText(width);
       visibleLeftDimensionInfo = createDimInfos([0, PSEUDO_DIMENSION_INDEX]);
       visibleTopDimensionInfo = createDimInfos([1, 2]);
-      layoutService.layout.qHyperCube.qMeasureInfo = [
+      layoutService.visibleMeasureInfo = [
         { columnWidth: { type: ColumnWidthType.Pixels, pixels: 30 } } as ExtendedMeasureInfo,
       ];
       mockedGetDimensionInfoIndex.mockImplementation((info) =>
@@ -224,7 +224,7 @@ describe("useColumnWidth", () => {
 
       mockEstimateWidth(10);
       mockMeasureText(40);
-      layoutService.layout.qHyperCube.qMeasureInfo = [
+      layoutService.visibleMeasureInfo = [
         meaInfo,
         { columnWidth: { type: ColumnWidthType.Percentage, percentage: 10 } } as ExtendedMeasureInfo,
         { columnWidth: { type: ColumnWidthType.Pixels, pixels: 60 } } as ExtendedMeasureInfo,
@@ -326,7 +326,7 @@ describe("useColumnWidth", () => {
 
     test("should return right column width for auto setting", () => {
       meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(100);
@@ -337,7 +337,7 @@ describe("useColumnWidth", () => {
     test("should return right column width for auto setting when all columns can't fit (scroll)", () => {
       tableWidth = 110;
       meaInfo = { columnWidth: { type: ColumnWidthType.Auto } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(ColumnWidthValues.AutoMin);
@@ -351,7 +351,7 @@ describe("useColumnWidth", () => {
       mockEstimateWidth(estimatedWidth);
       mockMeasureText(width);
       meaInfo = { columnWidth: { type: ColumnWidthType.FitToContent } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(estimatedWidth + TOTAL_CELL_PADDING);
@@ -364,7 +364,7 @@ describe("useColumnWidth", () => {
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedMeasureInfo;
       const meaInfoWithoutValue = { columnWidth: { type: ColumnWidthType.Pixels } } as ExtendedMeasureInfo;
       const meaInfoWithNaN = { columnWidth: { type: ColumnWidthType.Pixels, pixels: NaN } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoWithoutValue, meaInfoWithNaN];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfoWithoutValue, meaInfoWithNaN];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(pixels);
@@ -379,7 +379,7 @@ describe("useColumnWidth", () => {
       const meaInfoWithNaN = {
         columnWidth: { type: ColumnWidthType.Percentage, percentage: NaN },
       } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoWithoutValue, meaInfoWithNaN];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfoWithoutValue, meaInfoWithNaN];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(percentage * percentageConversion);
@@ -390,7 +390,7 @@ describe("useColumnWidth", () => {
     test("should return right column width for column that reaches the min pixel value", () => {
       const pixels = 20;
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(ColumnWidthValues.PixelsMin);
@@ -408,7 +408,7 @@ describe("useColumnWidth", () => {
       const meaInfoFitToContent = {
         columnWidth: { type: ColumnWidthType.FitToContent },
       } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfoPixels, meaInfoFitToContent];
 
       const { getRightGridColumnWidth } = renderUseColumnWidth();
       expect(getRightGridColumnWidth(0)).toBe(131);
@@ -501,7 +501,7 @@ describe("useColumnWidth", () => {
     test("should return grid and total widths when sum of all widths is greater than tableWidth", () => {
       const measureWidth = 100;
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: measureWidth } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
       expect(leftGridWidth).toBe(expectedLeftGridWidth);
@@ -514,7 +514,7 @@ describe("useColumnWidth", () => {
     test("should return grid and total widths when sum of all widths is smaller than tableWidth", () => {
       const measureWidth = 40;
       meaInfo = { columnWidth: { type: ColumnWidthType.Pixels, pixels: measureWidth } } as ExtendedMeasureInfo;
-      layoutService.layout.qHyperCube.qMeasureInfo = [meaInfo, meaInfo, meaInfo];
+      layoutService.visibleMeasureInfo = [meaInfo, meaInfo, meaInfo];
 
       const { leftGridWidth, rightGridWidth, totalWidth, showLastRightBorder } = renderUseColumnWidth();
       expect(leftGridWidth).toBe(expectedLeftGridWidth);

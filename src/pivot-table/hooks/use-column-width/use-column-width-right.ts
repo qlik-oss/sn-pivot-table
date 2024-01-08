@@ -17,9 +17,10 @@ export default function useColumnWidthRight({
 }: ColumnWidthRightHook) {
   const {
     layout: {
-      qHyperCube: { qMeasureInfo, qNoOfLeftDims, qEffectiveInterColumnSortOrder },
+      qHyperCube: { qNoOfLeftDims, qEffectiveInterColumnSortOrder },
     },
     size,
+    visibleMeasureInfo,
   } = layoutService;
   const styleService = useStyleContext();
   const { estimateWidth: estimateWidthForMeasureValue, measureText: measureTextForMeasureValue } = useMeasureText(
@@ -46,7 +47,7 @@ export default function useColumnWidthRight({
    * For measures this means one value for each measure.
    */
   const leafWidths = useMemo(() => {
-    const columnArray = topGridLeavesIsPseudo ? qMeasureInfo : [leafTopDimension];
+    const columnArray = topGridLeavesIsPseudo ? visibleMeasureInfo : [leafTopDimension];
     const numberOfColumnRepetitions = size.x / columnArray.length;
     const widths: number[] = [];
     const autoColumnIndexes: number[] = [];
@@ -63,7 +64,7 @@ export default function useColumnWidthRight({
       (topGridLeavesIsPseudo
         ? Math.max(estimateWidthForMeasureValue(qApprMaxGlyphCount), measureTextForMeasureValue(qFallbackTitle))
         : Math.max(
-            Math.max(...qMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
+            Math.max(...visibleMeasureInfo.map((m) => estimateWidthForMeasureValue(m.qApprMaxGlyphCount))),
             estimateWidthForDimensionValue(qApprMaxGlyphCount) + leavesIconWidth,
           ));
 
@@ -108,7 +109,7 @@ export default function useColumnWidthRight({
     return widths;
   }, [
     topGridLeavesIsPseudo,
-    qMeasureInfo,
+    visibleMeasureInfo,
     leafTopDimension,
     size.x,
     rightGridAvailableWidth,
@@ -120,12 +121,12 @@ export default function useColumnWidthRight({
 
   const averageLeafWidth = useMemo(() => {
     if (topGridLeavesIsPseudo) {
-      const allMeasuresWidth = qMeasureInfo.reduce((totalWidth, _, index) => totalWidth + leafWidths[index], 0);
-      return allMeasuresWidth / qMeasureInfo.length;
+      const allMeasuresWidth = visibleMeasureInfo.reduce((totalWidth, _, index) => totalWidth + leafWidths[index], 0);
+      return allMeasuresWidth / visibleMeasureInfo.length;
     }
 
     return leafWidths[0];
-  }, [topGridLeavesIsPseudo, leafWidths, qMeasureInfo]);
+  }, [topGridLeavesIsPseudo, leafWidths, visibleMeasureInfo]);
 
   // when verticalScrollbarWidth is 0 (scrollbar is invisible)
   // there will be a 0/n division in below line which will result in 0
@@ -137,7 +138,7 @@ export default function useColumnWidthRight({
   const getRightGridColumnWidth = useCallback(
     (index?: number) =>
       topGridLeavesIsPseudo && index !== undefined
-        ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index)] - scrollbarWidthSharePerColumn
+        ? leafWidths[layoutService.getMeasureInfoIndexFromCellIndex(index, true)] - scrollbarWidthSharePerColumn
         : averageLeafWidth - scrollbarWidthSharePerColumn,
     [topGridLeavesIsPseudo, leafWidths, layoutService, averageLeafWidth, scrollbarWidthSharePerColumn],
   );
