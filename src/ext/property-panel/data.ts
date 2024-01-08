@@ -252,6 +252,18 @@ const createData = (env: Galaxy): Record<string, any> => {
             type: "string",
             show: false,
           },
+          visibilityCondition: {
+            type: "string",
+            component: "expression",
+            ref: "qCalcCondition.qCond",
+            expression: "optional",
+            expressionType: "ValueExpr",
+            translation: "Object.Table.Columns.VisibilityCondition",
+            defaultValue: { qv: "" },
+            isExpression(val: string | undefined): boolean {
+              return typeof val === "string" && val.trim().length > 0;
+            },
+          },
           cellColoring,
           ...columnResize,
           // numberFormatting: TODO
