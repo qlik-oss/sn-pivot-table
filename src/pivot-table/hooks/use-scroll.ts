@@ -55,6 +55,14 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
   const [horizontalScrollbarHeight, setHorizontalScrollbarHeight] = useState<number>(0);
   const themeName = theme.name();
 
+  const updateScrollDirection = (evt: React.SyntheticEvent) => {
+    hScrollDirection.current = getScrollDirection(evt.currentTarget.scrollLeft, prevScrollLeft.current);
+    prevScrollLeft.current = evt.currentTarget.scrollLeft;
+
+    vScrollDirection.current = getScrollDirection(evt.currentTarget.scrollTop, prevScrollTop.current);
+    prevScrollTop.current = evt.currentTarget.scrollTop;
+  };
+
   // If the layout change reset the scroll position, except if the layout
   // change because a node was expanded or collapsed
   useLayoutEffect(() => {
@@ -136,8 +144,7 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
     if (!(evt.target instanceof HTMLDivElement)) return;
 
     if (evt.target.dataset["key"] === `scrollable-container--${ScrollableContainerOrigin.DATA_GRID}`) {
-      hScrollDirection.current = getScrollDirection(evt.currentTarget.scrollLeft, prevScrollLeft.current);
-      prevScrollLeft.current = evt.currentTarget.scrollLeft;
+      updateScrollDirection(evt);
 
       topGridRef.current?.forEach((list) => list?.scrollTo(evt.currentTarget.scrollLeft));
 
@@ -150,8 +157,7 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
   const onVerticalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
 
-    vScrollDirection.current = getScrollDirection(evt.currentTarget.scrollTop, prevScrollTop.current);
-    prevScrollTop.current = evt.currentTarget.scrollTop;
+    updateScrollDirection(evt);
 
     leftGridRef.current?.filter(Boolean).forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));
 

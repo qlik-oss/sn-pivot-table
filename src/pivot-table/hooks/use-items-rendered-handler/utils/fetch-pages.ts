@@ -2,7 +2,7 @@ import { debouncer, throttler } from "qlik-chart-modules";
 import type { DataModel, LayoutService, MeasureData, PageInfo, ViewService } from "../../../../types/types";
 import { ScrollDirection } from "../../../../types/types";
 import getColumnPages from "./get-column-pages";
-import getRowPages from "./get-row-pages";
+import getRowPages, { getPages } from "./get-row-pages";
 
 type FetchPages = (
   dataModel: DataModel,
@@ -13,11 +13,6 @@ type FetchPages = (
   verticalScrollDirection: React.MutableRefObject<ScrollDirection>,
   horizontalScrollDirection: React.MutableRefObject<ScrollDirection>,
 ) => Promise<void>;
-
-export const BUFFER = 10;
-
-const getBackBuffer = (dir: React.MutableRefObject<ScrollDirection>) =>
-  dir.current === ScrollDirection.Backward ? BUFFER : 0;
 
 export const fetchPages = async (
   dataModel: DataModel,
@@ -33,31 +28,22 @@ export const fetchPages = async (
   let columnsPages: EngineAPI.INxPage[] = [];
 
   if (verticalScrollDirection.current !== ScrollDirection.None) {
-    const backBuffer = getBackBuffer(verticalScrollDirection);
-    const rowStartIndex = Math.max(gridRowStartIndex - backBuffer, 0);
-
-    rowPages = getRowPages(
+    rowPages = getRowPages({
       pageInfo,
       measureData,
-      gridColumnStartIndex,
-      rowStartIndex,
-      gridWidth,
-      Math.min(gridHeight + BUFFER, layoutService.size.y - rowStartIndex),
-    );
+      scrollDirection: verticalScrollDirection,
+      viewService,
+    });
   }
 
   if (horizontalScrollDirection.current !== ScrollDirection.None) {
-    const backBuffer = getBackBuffer(horizontalScrollDirection);
-    const columnStartIndex = Math.max(gridColumnStartIndex - backBuffer, 0);
-
-    columnsPages = getColumnPages(
+    columnsPages = getColumnPages({
       pageInfo,
       measureData,
-      columnStartIndex,
-      gridRowStartIndex,
-      Math.min(gridWidth + BUFFER, layoutService.size.x - columnStartIndex),
-      gridHeight,
-    );
+      scrollDirection: horizontalScrollDirection,
+      layoutService,
+      viewService,
+    });
   }
 
   // A chart have been re-size which have triggered a onScroll event and reset both scroll directions
@@ -65,7 +51,14 @@ export const fetchPages = async (
     verticalScrollDirection.current === ScrollDirection.None &&
     horizontalScrollDirection.current === ScrollDirection.None
   ) {
-    rowPages = getRowPages(pageInfo, measureData, gridColumnStartIndex, gridRowStartIndex, gridWidth, gridHeight);
+    rowPages = getPages({
+      measureData,
+      pageInfo,
+      qLeft: gridColumnStartIndex,
+      qWidth: gridWidth,
+      startTop: gridRowStartIndex,
+      endTop: gridRowStartIndex + gridHeight,
+    });
   }
 
   await dataModel.fetchPages([...rowPages, ...columnsPages]);
