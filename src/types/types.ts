@@ -75,6 +75,9 @@ export interface GridItemData extends ItemData {
   shouldShowTotalCellBottomDivider: (y: number) => boolean;
   shouldShowTotalCellRightDivider: (x: number) => boolean;
   pageInfo: PageInfo;
+  lastRow: List;
+  lastColumn: List;
+  attrExprInfoIndexes: AttrExprInfoIndex[];
 }
 
 export interface ListItemData extends ItemData {
@@ -121,6 +124,7 @@ export interface Cell {
   selectionCellType: NxSelectionCellType;
   dimensionInfoIndex: number;
   canBeResized: boolean;
+  visibleMeasureInfoIndex: number;
 }
 
 export interface MeasureCell {
@@ -176,6 +180,7 @@ export interface Data {
   measureData: MeasureData;
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
+  attrExprInfoIndexes: AttrExprInfoIndexes;
   nextPageHandler: (nextPages: EngineAPI.INxPivotPage[]) => void;
 }
 

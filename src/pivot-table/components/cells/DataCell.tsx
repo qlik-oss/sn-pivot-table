@@ -2,9 +2,11 @@ import React from "react";
 import { areEqual } from "react-window";
 import type { GridItemData } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import getExpressionColor from "../../data/helpers/get-expression-color";
 import { baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
 import { containerStyle, getCellStyle, getTextStyle } from "./utils/get-measure-cell-style";
+import getMeasureInfoIndex from "./utils/get-measure-info-index";
 
 export interface MeasureCellProps {
   columnIndex: number;
@@ -26,6 +28,9 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
     shouldShowTotalCellRightDivider,
     isTotalValue,
     pageInfo,
+    lastRow,
+    lastColumn,
+    attrExprInfoIndexes,
   } = data;
   const cell = grid[rowIndex]?.[columnIndex];
   const isLastRow = rowIndex === pageInfo.rowsOnCurrentPage - 1;
@@ -48,8 +53,12 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
   const isTotalValueCell = !cell.isNull && isTotalValue(columnIndex, rowIndex);
   const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
   const isNumeric = cell.isNull ? !Number.isNaN(+text) : true;
+  const measureInfoIndex = layoutService.hasPseudoDimOnLeft
+    ? getMeasureInfoIndex(lastColumn, rowIndex)
+    : getMeasureInfoIndex(lastRow, columnIndex);
+  const expressionColor = getExpressionColor(attrExprInfoIndexes[measureInfoIndex], cell.ref);
   const cellStyle = {
-    ...getCellStyle(styleService, cell.isNull, isTotalValueCell, cell.expressionColor.background),
+    ...getCellStyle(styleService, cell.isNull, isTotalValueCell, expressionColor.background),
     ...getBorderStyle(isLastRow, isLastColumn, styleService.grid.border, showLastBorder),
     ...getTotalCellDividerStyle({
       bottomDivider: shouldShowTotalCellBottomDivider(rowIndex),
@@ -70,8 +79,8 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
       data-col-index={columnIndex}
     >
       <div style={cellStyle}>
-        <span style={getTextStyle(styleService, cell.expressionColor.color, isNumeric, isTotalValueCell, cell.isNull)}>
-          {text}
+        <span style={getTextStyle(styleService, expressionColor.color, isNumeric, isTotalValueCell, cell.isNull)}>
+          {measureInfoIndex}
         </span>
       </div>
     </div>

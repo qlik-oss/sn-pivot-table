@@ -50,13 +50,8 @@ export const StickyPivotTable = ({
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
   const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
 
-  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
-    qPivotDataPages,
-    layoutService,
-    pageInfo,
-    visibleLeftDimensionInfo,
-    visibleTopDimensionInfo,
-  );
+  const { headersData, measureData, topDimensionData, leftDimensionData, attrExprInfoIndexes, nextPageHandler } =
+    useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
   const dataModel = useDataModel({
     model,
@@ -127,7 +122,8 @@ export const StickyPivotTable = ({
 
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
   const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
-
+  console.log("%c measureDAta", "color: orangered", measureData);
+  console.log("%c topData", "color: orange", topDimensionData);
   return (
     <ScrollableContainer
       ref={verticalScrollableContainerRef}
@@ -219,6 +215,9 @@ export const StickyPivotTable = ({
                   measureData={measureData}
                   leftDimensionData={leftDimensionData}
                   topDimensionData={topDimensionData}
+                  visibleTopDimensionInfo={visibleTopDimensionInfo}
+                  visibleLeftDimensionInfo={visibleLeftDimensionInfo}
+                  attrExprInfoIndexes={attrExprInfoIndexes.measures}
                   showLastBorder={{ right: showLastRightBorder, bottom: allRowsVisible }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
                   pageInfo={pageInfo}

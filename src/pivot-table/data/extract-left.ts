@@ -24,6 +24,8 @@ const extractLeftGrid = (
     nodes: EngineAPI.INxPivotDimensionCell[],
     colIdx = 0,
   ) {
+    let pseudoDimensionCount = 0;
+
     if (!grid[colIdx]) {
       grid[colIdx] = {};
     }
@@ -50,9 +52,14 @@ const extractLeftGrid = (
           dimensionInfo: visibleLeftDimensionInfo[colIdx],
           attrExprInfoIndex: attrExprInfoIndexes[colIdx],
           isLeftColumn: true,
+          visibleMeasureInfoIndex: pseudoDimensionCount % layoutService.visibleMeasureInfo.length,
         });
 
       grid[colIdx][pageY] = cell;
+
+      if (cell.isPseudoDimension) {
+        pseudoDimensionCount += 1;
+      }
 
       if (node.qSubNodes.length) {
         recursiveExtract(root || cell, cell, node.qSubNodes, colIdx + 1);

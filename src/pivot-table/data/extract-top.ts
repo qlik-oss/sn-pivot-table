@@ -24,13 +24,16 @@ const extractTopGrid = (
     nodes: EngineAPI.INxPivotDimensionCell[],
     rowIdx = 0,
   ): void {
+    let pseudoDimensionCount = 0;
+
     if (!grid[rowIdx]) {
       grid[rowIdx] = {};
     }
 
     nodes.forEach((node, currColIdx) => {
       colIdx += currColIdx === 0 ? 0 : 1;
-      const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous tail size
+      const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous
+
       // If cell already exist do not create a new cell
       const cell =
         grid[rowIdx][x] ??
@@ -45,9 +48,14 @@ const extractTopGrid = (
           dimensionInfo: visibleTopDimensionInfo[rowIdx],
           attrExprInfoIndex: attrExprInfoIndexes[rowIdx],
           isLeftColumn: false,
+          visibleMeasureInfoIndex: pseudoDimensionCount % layoutService.visibleMeasureInfo.length,
         });
 
       grid[rowIdx][x] = cell;
+
+      if (cell.isPseudoDimension) {
+        pseudoDimensionCount += 1;
+      }
 
       if (node.qSubNodes.length) {
         recursiveExtract(root || cell, cell, node.qSubNodes, rowIdx + 1);

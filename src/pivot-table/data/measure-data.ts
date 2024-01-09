@@ -1,14 +1,11 @@
 import NxDimCellType from "../../types/QIX";
-import type { AttrExprInfoIndex, LayoutService, MeasureData, PageInfo } from "../../types/types";
-import getExpressionColor from "./helpers/get-expression-color";
+import type { MeasureData, PageInfo } from "../../types/types";
 import getRandomUUID from "./helpers/get-random-uuid";
 
 export interface AddPageToMeasureDataProps {
   prevData: MeasureData;
   dataPage: EngineAPI.INxPivotPage;
   pageInfo: PageInfo;
-  attrExprInfoIndexes: AttrExprInfoIndex[];
-  layoutService: LayoutService;
 }
 
 interface CreateGridProps {
@@ -16,19 +13,9 @@ interface CreateGridProps {
   prevData: MeasureData;
   pivotValuePoints: EngineAPI.INxPivotValuePoint[][];
   pageInfo: PageInfo;
-  attrExprInfoIndexes: AttrExprInfoIndex[];
-  hasPseudoDimOnLeft: boolean;
 }
 
-const createNewGrid = ({
-  qArea,
-  prevData,
-  pivotValuePoints,
-  pageInfo,
-  attrExprInfoIndexes,
-  hasPseudoDimOnLeft,
-}: CreateGridProps) => {
-  const measureCount = attrExprInfoIndexes.length;
+const createNewGrid = ({ qArea, prevData, pivotValuePoints, pageInfo }: CreateGridProps) => {
   const data = [...prevData];
 
   pivotValuePoints.forEach((row, rowIndex) => {
@@ -42,14 +29,12 @@ const createNewGrid = ({
       }
 
       const isNull = node.qType === NxDimCellType.NX_DIM_CELL_NULL;
-      const measureInfoIndex = hasPseudoDimOnLeft ? pageRowIndex % measureCount : columnIndex % measureCount;
 
       // If cell already exist do not create a new cell
       data[pageRowIndex][columnIndex] = data[pageRowIndex][columnIndex] ?? {
         id: getRandomUUID(),
         ref: node,
         isNull,
-        expressionColor: getExpressionColor(attrExprInfoIndexes[measureInfoIndex], node),
       };
     });
   });
@@ -57,15 +42,8 @@ const createNewGrid = ({
   return data;
 };
 
-export const addPageToMeasureData = ({
-  prevData,
-  dataPage,
-  pageInfo,
-  attrExprInfoIndexes,
-  layoutService,
-}: AddPageToMeasureDataProps): MeasureData => {
+export const addPageToMeasureData = ({ prevData, dataPage, pageInfo }: AddPageToMeasureDataProps): MeasureData => {
   const { qData, qArea } = dataPage;
-  const { hasPseudoDimOnLeft } = layoutService;
 
   if (!qData.length) return prevData;
 
@@ -74,26 +52,16 @@ export const addPageToMeasureData = ({
     prevData,
     pivotValuePoints: qData as unknown as EngineAPI.INxPivotValuePoint[][],
     pageInfo,
-    attrExprInfoIndexes,
-    hasPseudoDimOnLeft,
   });
 };
 
-export const createMeasureData = (
-  dataPage: EngineAPI.INxPivotPage,
-  pageInfo: PageInfo,
-  attrExprInfoIndexes: AttrExprInfoIndex[],
-  layoutService: LayoutService,
-): MeasureData => {
+export const createMeasureData = (dataPage: EngineAPI.INxPivotPage, pageInfo: PageInfo): MeasureData => {
   const { qData, qArea } = dataPage;
-  const { hasPseudoDimOnLeft } = layoutService;
 
   return createNewGrid({
     qArea,
     prevData: [],
     pivotValuePoints: qData as unknown as EngineAPI.INxPivotValuePoint[][],
     pageInfo,
-    attrExprInfoIndexes,
-    hasPseudoDimOnLeft,
   });
 };

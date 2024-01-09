@@ -20,6 +20,7 @@ type Props = {
   attrExprInfoIndex: AttrExprInfoIndex;
   layoutService: LayoutService;
   isLeftColumn?: boolean;
+  visibleMeasureInfoIndex: number;
 };
 
 const countLeafNodes = (count: number, node: EngineAPI.INxPivotDimensionCell): number =>
@@ -67,7 +68,10 @@ const createCell = ({
   dimensionInfo,
   attrExprInfoIndex,
   isLeftColumn = true,
+  visibleMeasureInfoIndex,
 }: Props): Cell => {
+  const isPseudoDimension = node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO;
+
   const cell = {
     id: getRandomUUID(),
     ref: node,
@@ -98,11 +102,12 @@ const createCell = ({
     isTotal: node.qType === NxDimCellType.NX_DIM_CELL_TOTAL || !!parent?.isTotal,
     isEmpty: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
     isNull: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
-    isPseudoDimension: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
+    isPseudoDimension,
     expressionColor: getExpressionColor(attrExprInfoIndex, node),
     selectionCellType: isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP,
     dimensionInfoIndex: layoutService.getDimensionInfoIndex(dimensionInfo),
     canBeResized: node.qSubNodes.length === 0 && !isLeftColumn,
+    visibleMeasureInfoIndex: isPseudoDimension ? visibleMeasureInfoIndex : parent?.visibleMeasureInfoIndex ?? -1,
   };
 
   if (parent) {
