@@ -124,7 +124,7 @@ export interface Cell {
   selectionCellType: NxSelectionCellType;
   dimensionInfoIndex: number;
   canBeResized: boolean;
-  visibleMeasureInfoIndex: number;
+  visibleMeasureInfoIndex?: number;
 }
 
 export interface MeasureCell {

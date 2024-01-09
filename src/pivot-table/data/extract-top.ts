@@ -24,8 +24,6 @@ const extractTopGrid = (
     nodes: EngineAPI.INxPivotDimensionCell[],
     rowIdx = 0,
   ): void {
-    let pseudoDimensionCount = 0;
-
     if (!grid[rowIdx]) {
       grid[rowIdx] = {};
     }
@@ -48,14 +46,9 @@ const extractTopGrid = (
           dimensionInfo: visibleTopDimensionInfo[rowIdx],
           attrExprInfoIndex: attrExprInfoIndexes[rowIdx],
           isLeftColumn: false,
-          visibleMeasureInfoIndex: pseudoDimensionCount % layoutService.visibleMeasureInfo.length,
         });
 
       grid[rowIdx][x] = cell;
-
-      if (cell.isPseudoDimension) {
-        pseudoDimensionCount += 1;
-      }
 
       if (node.qSubNodes.length) {
         recursiveExtract(root || cell, cell, node.qSubNodes, rowIdx + 1);
