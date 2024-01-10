@@ -105,6 +105,9 @@ const createCell = ({
     selectionCellType: isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP,
     dimensionInfoIndex: layoutService.getDimensionInfoIndex(dimensionInfo),
     canBeResized: node.qSubNodes.length === 0 && !isLeftColumn,
+    // Any cell with a ancestor that is a pseudo dimension will also have a visible measure info index.
+    // This is intentional to simply the logic for getting measure info index, without having to traverse
+    // the node tree.
     visibleMeasureInfoIndex: isPseudoDimension ? node.qElemNo : parent?.visibleMeasureInfoIndex,
   };
 

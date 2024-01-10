@@ -362,4 +362,59 @@ describe("createCell", () => {
     expect(cell.isNull).toBe(false);
     expect(cell.isPseudoDimension).toBe(true);
   });
+
+  describe("visibleMeasureInfoIndex", () => {
+    test("pseudo dimension cell should have correct index", () => {
+      node.qType = NxDimCellType.NX_DIM_CELL_PSEUDO;
+      node.qElemNo = 0;
+
+      cell = createCell({
+        node,
+        parent: parentCell,
+        root: rootCell,
+        x,
+        y,
+        pageY,
+        layoutService,
+        dimensionInfo,
+        attrExprInfoIndex,
+      });
+
+      expect(cell.visibleMeasureInfoIndex).toBe(0);
+    });
+
+    test("dimension cell with an ancestor that is pseudo dimension cell should have correct index", () => {
+      parentCell.visibleMeasureInfoIndex = 0;
+
+      cell = createCell({
+        node,
+        parent: parentCell,
+        root: rootCell,
+        x,
+        y,
+        pageY,
+        layoutService,
+        dimensionInfo,
+        attrExprInfoIndex,
+      });
+
+      expect(cell.visibleMeasureInfoIndex).toBe(0);
+    });
+
+    test("cell should have no index if node tree have no pseudo dimension", () => {
+      cell = createCell({
+        node,
+        parent: parentCell,
+        root: rootCell,
+        x,
+        y,
+        pageY,
+        layoutService,
+        dimensionInfo,
+        attrExprInfoIndex,
+      });
+
+      expect(cell.visibleMeasureInfoIndex).toBe(undefined);
+    });
+  });
 });
