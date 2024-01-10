@@ -1,12 +1,13 @@
 import { render, screen, type RenderResult } from "@testing-library/react";
 import React from "react";
 import NxDimCellType from "../../../../types/QIX";
-import type { GridItemData, LayoutService, MeasureCell, PageInfo } from "../../../../types/types";
+import type { Cell, GridItemData, LayoutService, MeasureCell, PageInfo } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
 import DataCell, { testId } from "../DataCell";
 
 describe("DataCell", () => {
   let cell: MeasureCell;
+  let dimensionCell: Cell;
   let data: GridItemData;
   let layoutService: LayoutService;
   let renderDataCell: () => RenderResult;
@@ -50,6 +51,10 @@ describe("DataCell", () => {
       rowsOnCurrentPage: 2,
     } as PageInfo;
 
+    dimensionCell = {
+      visibleMeasureInfoIndex: 0,
+    } as Cell;
+
     data = {
       grid: [[cell]],
       layoutService,
@@ -58,6 +63,9 @@ describe("DataCell", () => {
       shouldShowTotalCellRightDivider: () => false,
       isTotalValue: () => false,
       pageInfo,
+      lastColumn: { 0: dimensionCell },
+      lastRow: { 0: dimensionCell },
+      attrExprInfoIndexes: [],
     } as GridItemData;
 
     renderDataCell = () =>
