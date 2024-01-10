@@ -15,7 +15,7 @@ import { useExtendedTheme, useReactRoot, useWaitForFonts } from "@qlik/nebula-ta
 import render from "../pivot-table/Root";
 import createStyleService from "../services/style-service";
 import type { Model, PivotLayout } from "../types/QIX";
-import type { ExtendedSelections } from "../types/types";
+import type { ExtendedSelections, Galaxy } from "../types/types";
 import useEffectiveProperties from "./use-effective-properties";
 import useFonts from "./use-fonts";
 import useLayoutService from "./use-layout-service";
@@ -25,7 +25,8 @@ import useSnapshot from "./use-snapshot";
 import useTranslations from "./use-translations";
 import useViewService from "./use-view-service";
 
-const useRender = () => {
+const useRender = (env: Galaxy) => {
+  const { flags } = env;
   const element = useElement();
   const reactRoot = useReactRoot(element);
   const layout = useStaleLayout() as PivotLayout;
@@ -82,6 +83,7 @@ const useRender = () => {
       embed,
       keyboard,
       theme,
+      flags,
     });
   }, [
     model,
@@ -108,6 +110,7 @@ const useRender = () => {
     keyboard,
     theme,
     themeName,
+    flags,
   ]);
 };
 

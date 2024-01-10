@@ -1,6 +1,8 @@
 import React from "react";
 import { areEqual } from "react-window";
+import { QB_24327_NULL_VALUE_TEXT } from "../../../../flags";
 import { ColumnWidthLocation, type ListItemData } from "../../../../types/types";
+import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import useIsAdjustingWidth from "../../../hooks/use-is-adjusting-width";
@@ -22,9 +24,10 @@ export interface DimensionValueProps {
 const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Element => {
   const styleService = useStyleContext();
   const { isSelected } = useSelectionsContext();
+  const { flags } = useBaseContext();
   const { isAdjustingWidth, setIsAdjustingWidth } = useIsAdjustingWidth([data]);
 
-  const { dataModel, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
+  const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
@@ -47,10 +50,12 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   }
 
   const isCellSelected = isSelected(cell);
+  const text =
+    cell.isNull && !flags.isEnabled(QB_24327_NULL_VALUE_TEXT) ? layoutService.getNullValueText() : cell.ref.qText;
 
   return (
     <Container
-      text={cell.ref.qText}
+      text={text}
       reactWindowStyle={style}
       isLeftColumn={isLeftColumn}
       isLastRow={isLastRow}
@@ -69,7 +74,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
           dataModel={dataModel}
         />
         <Text isLeftColumn={isLeftColumn} isCellSelected={isCellSelected} cell={cell} styleService={styleService}>
-          {cell.ref.qText}
+          {text}
         </Text>
       </StickyCellContainer>
       <ColumnAdjusterWrapper

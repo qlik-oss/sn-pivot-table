@@ -8,6 +8,7 @@ import type {
   Cell,
   DataModel,
   ExtendedSelections,
+  Flags,
   LayoutService,
   ListItemData,
   PageInfo,
@@ -50,7 +51,7 @@ describe("DimensionValue", () => {
   let isLockedSpy: jest.MockedFunction<() => boolean>;
   let mockedSelectionModel: SelectionModel;
   let layoutService: LayoutService;
-  let renderCell: (index?: number) => unknown;
+  let renderCell: (index?: number, flags?: Flags) => unknown;
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -126,9 +127,13 @@ describe("DimensionValue", () => {
       totalDividerIndex: -1,
     } as ListItemData;
 
-    renderCell = (index = 0) =>
+    renderCell = (index = 0, flags = { isEnabled: () => true }) =>
       render(<DimensionValue index={index} data={data} style={style} />, {
-        wrapper: ({ children }) => <TestWithProvider interactions={interactions}>{children}</TestWithProvider>,
+        wrapper: ({ children }) => (
+          <TestWithProvider interactions={interactions} flags={flags}>
+            {children}
+          </TestWithProvider>
+        ),
       });
   });
 
@@ -148,6 +153,22 @@ describe("DimensionValue", () => {
     renderCell(emptyCellIndex);
 
     expect(screen.getByTestId(emptyCellTestId)).toBeInTheDocument();
+  });
+
+  test("should render cell with null value text given flag is turned OFF", () => {
+    cell.isNull = true;
+    layoutService.getNullValueText = () => "null";
+    renderCell(0, { isEnabled: () => false });
+
+    expect(screen.getByText("null")).toBeInTheDocument();
+  });
+
+  test("should not render cell with null value text given flag is turned ON", () => {
+    cell.isNull = true;
+    layoutService.getNullValueText = () => "null";
+    renderCell(0, { isEnabled: () => true });
+
+    expect(screen.getByText(cell.ref.qText)).toBeInTheDocument();
   });
 
   test("should not render expand or collapse icon if cell is not expandable or collapseable", () => {
