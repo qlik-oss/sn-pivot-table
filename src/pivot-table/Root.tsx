@@ -5,7 +5,7 @@ import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-exten
 import React from "react";
 import { type Root } from "react-dom/client";
 import type { App } from "../types/QIX";
-import type { ExtendedSelections, PageInfo, StyleService } from "../types/types";
+import type { ExtendedSelections, Flags, PageInfo, StyleService } from "../types/types";
 import type { PivotTableProps } from "./components/PivotTable";
 import { Wrapper } from "./components/Wrapper";
 import BaseProvider from "./contexts/BaseProvider";
@@ -23,10 +23,11 @@ export interface RootProps extends PivotTableProps {
   embed: stardust.Embed;
   keyboard: stardust.Keyboard;
   theme: ExtendedTheme;
+  flags: Flags;
 }
 
 const render = (reactRoot: Root, props: RootProps): void => {
-  const { selections, styleService, app, model, interactions, embed, keyboard, theme } = props;
+  const { selections, styleService, app, model, interactions, embed, keyboard, theme, flags } = props;
   const muiTheme = muiSetup("ltr");
 
   reactRoot.render(
@@ -39,6 +40,7 @@ const render = (reactRoot: Root, props: RootProps): void => {
           embed={embed}
           keyboard={keyboard}
           theme={theme}
+          flags={flags}
         >
           <SelectionsProvider selections={selections} updatePageInfo={props.updatePageInfo}>
             <StyleProvider styleService={styleService}>

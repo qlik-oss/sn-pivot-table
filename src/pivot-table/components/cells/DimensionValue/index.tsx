@@ -24,7 +24,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   const { isSelected } = useSelectionsContext();
   const { isAdjustingWidth, setIsAdjustingWidth } = useIsAdjustingWidth([data]);
 
-  const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
+  const { dataModel, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
@@ -47,11 +47,10 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   }
 
   const isCellSelected = isSelected(cell);
-  const text = cell.isNull ? layoutService.getNullValueText() : cell.ref.qText;
 
   return (
     <Container
-      text={text}
+      text={cell.ref.qText}
       reactWindowStyle={style}
       isLeftColumn={isLeftColumn}
       isLastRow={isLastRow}
@@ -70,7 +69,7 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
           dataModel={dataModel}
         />
         <Text isLeftColumn={isLeftColumn} isCellSelected={isCellSelected} cell={cell} styleService={styleService}>
-          {text}
+          {cell.ref.qText}
         </Text>
       </StickyCellContainer>
       <ColumnAdjusterWrapper
