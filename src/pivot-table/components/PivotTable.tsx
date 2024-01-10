@@ -122,8 +122,7 @@ export const StickyPivotTable = ({
 
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
   const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
-  console.log("%c measureDAta", "color: orangered", measureData);
-  console.log("%c topData", "color: orange", topDimensionData);
+
   return (
     <ScrollableContainer
       ref={verticalScrollableContainerRef}
