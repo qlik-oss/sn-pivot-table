@@ -18,9 +18,7 @@ module.exports = {
     },
   },
   serve: {
-    flags: {
-      QB_24327_NULL_VALUE_TEXT: true,
-    },
+    flags: {},
     keyboardNavigation: false,
     themes: [
       {

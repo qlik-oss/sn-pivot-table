@@ -4,9 +4,7 @@ module.exports = {
     build: false,
     open: false,
     fixturePath: "test/rendering/__fixtures__",
-    flags: {
-      QB_24327_NULL_VALUE_TEXT: true,
-    },
+    flags: {},
     keyboardNavigation: false,
     themes: [
       {
