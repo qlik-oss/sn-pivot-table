@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useRef } from "react";
 import { VariableSizeList } from "react-window";
 import type {
   DataModel,
@@ -10,6 +10,7 @@ import type {
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import { useResetListCache, useResetListCacheAndRerender } from "../../hooks/use-reset-list-cache";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import MemoizedDimensionValue from "../cells/DimensionValue";
 import { getListIemKey } from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
@@ -73,6 +74,7 @@ const LeftGrid = ({
 
   useResetListCache(leftGridRef, leftDimensionData);
 
+  // TODO: first clue!
   useResetListCacheAndRerender(leftGridRef, width, height, contentCellHeight, layoutService);
 
   const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
@@ -90,31 +92,24 @@ const LeftGrid = ({
         );
 
         return (
-          <VariableSizeList
+          <VirtualizedListWrapper
             key={key}
-            ref={setListRef(leftGridRef, colIndex)}
-            style={{ ...listStyle, flexGrow: isLastColumn ? 1 : 0 }}
+            colIndex={colIndex}
+            isLastColumn={isLastColumn}
+            columnWidths={columnWidths}
             height={height}
-            width={columnWidths[colIndex]}
+            leftGridRef={leftGridRef}
             itemCount={itemCount}
-            itemSize={getRowHeightHandler(list, listValues, contentCellHeight, isLastColumn, qSize.qcy)}
-            layout="vertical"
-            itemData={{
-              layoutService,
-              dataModel,
-              list,
-              isLeftColumn: true,
-              isLast: isLastColumn && !layoutService.layout.snapshotData,
-              itemCount,
-              showLastBorder,
-              listValues,
-              totalDividerIndex: leftDimensionData.totalDividerIndex,
-            }}
-            itemKey={getListIemKey}
+            list={list}
+            listValues={listValues}
+            contentCellHeight={contentCellHeight}
+            qSize={qSize}
+            layoutService={layoutService}
+            dataModel={dataModel}
+            showLastBorder={showLastBorder}
+            leftDimensionData={leftDimensionData}
             estimatedItemSize={estimatedItemSize}
-          >
-            {MemoizedDimensionValue}
-          </VariableSizeList>
+          />
         );
       })}
     </div>
@@ -122,3 +117,70 @@ const LeftGrid = ({
 };
 
 export default memo(LeftGrid);
+
+const VirtualizedListWrapper = ({
+  colIndex,
+  isLastColumn,
+  columnWidths,
+  height,
+  key,
+  leftGridRef,
+  itemCount,
+  list,
+  listValues,
+  contentCellHeight,
+  qSize,
+  layoutService,
+  dataModel,
+  showLastBorder,
+  leftDimensionData,
+  estimatedItemSize,
+}: any) => {
+  const colRef = useRef(null);
+  const { isVisible } = useIntersectionObserver(colRef, colIndex);
+
+  if (colIndex === 19) {
+    console.log({ listValues });
+  }
+
+  return (
+    <div
+      key={key}
+      data-key={`col-${colIndex}`}
+      style={{
+        width: columnWidths[colIndex],
+        height,
+      }}
+      ref={colRef}
+    >
+      {true && (
+        <VariableSizeList
+          key={key}
+          ref={setListRef(leftGridRef, colIndex)}
+          style={{ ...listStyle, flexGrow: isLastColumn ? 1 : 0 }}
+          height={height}
+          width={columnWidths[colIndex]}
+          itemCount={itemCount}
+          itemSize={getRowHeightHandler(list, listValues, contentCellHeight, isLastColumn, qSize.qcy)}
+          layout="vertical"
+          itemData={{
+            layoutService,
+            dataModel,
+            list,
+            isLeftColumn: true,
+            isLast: isLastColumn && !layoutService.layout.snapshotData,
+            itemCount,
+            showLastBorder,
+            listValues,
+            totalDividerIndex: leftDimensionData.totalDividerIndex,
+            isVisible,
+          }}
+          itemKey={getListIemKey}
+          estimatedItemSize={estimatedItemSize}
+        >
+          {MemoizedDimensionValue}
+        </VariableSizeList>
+      )}
+    </div>
+  );
+};

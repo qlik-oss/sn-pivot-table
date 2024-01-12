@@ -157,6 +157,7 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
   const onVerticalScrollHandler = (evt: React.SyntheticEvent) => {
     if (!(evt.target instanceof HTMLDivElement)) return;
 
+    // TODO: clue 2
     updateScrollDirection(evt);
 
     leftGridRef.current?.filter(Boolean).forEach((list) => list.scrollTo(evt.currentTarget.scrollTop));

@@ -85,6 +85,7 @@ export interface ListItemData extends ItemData {
   showLastBorder: ShowLastBorder;
   listValues: Cell[];
   totalDividerIndex: number;
+  isVisible?: boolean;
 }
 
 export interface AdjusterCellInfo {

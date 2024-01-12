@@ -39,6 +39,10 @@ const useItemsRenderedHandler = ({
    * - Re-sizing the chart
    * - Theme/Styling change (ex: go from large font-size to small could change the number of rendered cells)
    */
+  // TODO:
+  // this useCallback is useless -> because of viewService.gridRowStartIndex ->
+  // it's always changing! often on every scroll!
+  // so it's being invalidated!
   useCallback(
     async ({
       overscanColumnStartIndex,
@@ -46,6 +50,9 @@ const useItemsRenderedHandler = ({
       overscanRowStartIndex,
       overscanRowStopIndex,
     }: GridOnItemsRenderedProps) => {
+      // initially we fetch data when user scrolls -> which causes rerender!
+      // the source of it is use-scroll -> onVerticalScrollHandler -> updateScrollDirection
+      // DO NOT DO IT!
       viewService.gridColumnStartIndex = overscanColumnStartIndex;
       viewService.gridRowStartIndex = overscanRowStartIndex;
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
@@ -58,6 +65,7 @@ const useItemsRenderedHandler = ({
       const estimatedHeight =
         viewService.gridHeight +
         topRowCount +
+        // verticalScrollDirection.current -> never becomes NONE
         (verticalScrollDirection.current === ScrollDirection.None ? 0 : MIN_BUFFER);
 
       /**
@@ -68,6 +76,8 @@ const useItemsRenderedHandler = ({
        * threshold should be.
        */
       let throttledOrDebouncedFetchPages = throttledFetchPages;
+      // TODO:
+      // i never hit this!
       if (estimatedHeight * estimatedWidth > DEBOUNCED_GRID_SIZE_THRESHOLD) {
         throttledOrDebouncedFetchPages = debouncedFetchPages;
       }

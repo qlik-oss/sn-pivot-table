@@ -24,13 +24,22 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
   const { isSelected } = useSelectionsContext();
   const { isAdjustingWidth, setIsAdjustingWidth } = useIsAdjustingWidth([data]);
 
-  const { dataModel, layoutService, isLeftColumn = false, showLastBorder, itemCount, isLast, totalDividerIndex } = data;
+  const {
+    dataModel,
+    layoutService,
+    isLeftColumn = false,
+    showLastBorder,
+    itemCount,
+    isLast,
+    totalDividerIndex,
+    isVisible,
+  } = data;
   const cell = getCell(index, data);
   const isLastRow = isLeftColumn ? index === itemCount - 1 : isLast;
   const isLastColumn = isLeftColumn ? isLast : index === itemCount - 1;
   const showTotalCellDivider = shouldShowTotalCellDivider(cell, totalDividerIndex);
 
-  if (cell === undefined) {
+  if (cell === undefined || !isVisible) {
     const { background } = styleService.dimensionValues;
 
     return (
@@ -73,16 +82,19 @@ const DimensionValue = ({ index, style, data }: DimensionValueProps): JSX.Elemen
           {text}
         </Text>
       </StickyCellContainer>
-      <ColumnAdjusterWrapper
-        cellInfo={{
-          ...cell,
-          columnWidthLocation: cell.isPseudoDimension ? ColumnWidthLocation.Measures : ColumnWidthLocation.Dimension,
-        }}
-        columnWidth={style.width as number}
-        dataModel={dataModel}
-        isLastColumn={isLastColumn}
-        setIsAdjustingWidth={setIsAdjustingWidth}
-      />
+
+      {!isLeftColumn && (
+        <ColumnAdjusterWrapper
+          cellInfo={{
+            ...cell,
+            columnWidthLocation: cell.isPseudoDimension ? ColumnWidthLocation.Measures : ColumnWidthLocation.Dimension,
+          }}
+          columnWidth={style.width as number}
+          dataModel={dataModel}
+          isLastColumn={isLastColumn}
+          setIsAdjustingWidth={setIsAdjustingWidth}
+        />
+      )}
     </Container>
   );
 };
