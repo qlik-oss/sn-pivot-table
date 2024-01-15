@@ -9,7 +9,7 @@ export default function ext(env: Galaxy): Record<string, unknown> {
       // This should be fixed, possibly be figuring out how much of a cell is in view and then in the snapshot scroll that cell into view by the same amount.
       cssScaling: false,
       snapshot: false,
-      export: false,
+      export: env.flags.isEnabled("CLIENT_IM4976_PIVOT_DOWNLOAD"),
       sharing: false,
       exportData: true,
       viewData: true,
