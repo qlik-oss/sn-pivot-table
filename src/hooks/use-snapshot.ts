@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { onTakeSnapshot, type stardust } from "@nebula.js/stardust";
+import { onTakeSnapshot, useImperativeHandle, type stardust } from "@nebula.js/stardust";
 import { Q_PATH } from "../constants";
+import { getViewState } from "../pivot-table/components/cells/utils/get-view-state";
 import type { Model, SnapshotLayout } from "../types/QIX";
 import type { LayoutService, ViewService } from "../types/types";
 
@@ -17,6 +18,7 @@ const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotPro
       return snapshotLayout;
     }
 
+    const { rowPartialHeight, visibleTopIndex, visibleRows, page, rowsPerPage } = getViewState(viewService);
     if ((model as EngineAPI.IGenericObject)?.getHyperCubePivotData) {
       snapshotLayout.snapshotData.content = {
         qPivotDataPages: await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [
@@ -27,6 +29,11 @@ const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotPro
             qHeight: viewService.gridHeight,
           },
         ]),
+        rowPartialHeight,
+        visibleTopIndex,
+        visibleRows,
+        page,
+        rowsPerPage,
       };
 
       snapshotLayout.snapshotData.object.size.w = rect.width;
@@ -34,6 +41,8 @@ const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotPro
     }
     return snapshotLayout;
   });
+
+  useImperativeHandle(() => ({ getViewState: () => getViewState(viewService) }), [viewService]);
 
   if (layoutService.layout.snapshotData?.content) {
     return {

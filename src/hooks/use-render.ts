@@ -42,7 +42,7 @@ const useRender = (env: Galaxy) => {
   const themeName = theme.name();
   const { translator, language } = useTranslations();
   const { pageInfo, updatePageInfo } = usePagination(layoutService);
-  const viewService = useViewService(pageInfo);
+  const viewService = useViewService(layout, pageInfo);
   const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
   const [qPivotDataPages, isLoading] = useLoadDataPages({ model, layoutService, viewService, pageInfo, rect });
   // It needs to be theme.name() because the reference to the theme object does not change when a theme is changed

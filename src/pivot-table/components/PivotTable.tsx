@@ -1,5 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import type { Model } from "../../types/QIX";
 import {
   ScrollableContainerOrigin,
@@ -49,6 +49,10 @@ export const StickyPivotTable = ({
   const tableRect = useTableRect(rect, layoutService, pageInfo.shouldShowPagination);
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
   const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
+
+  const isPrintingMode = !!(layoutService.layout.snapshotData || viewService.viewState?.visibleRows);
+  // const scrollLeft = isPrintingMode ? viewService.scrollLeft ?? 0 : 0;
+  const scrollTopPartially = isPrintingMode ? viewService.rowPartialHeight ?? 0 : 0;
 
   const { headersData, measureData, topDimensionData, leftDimensionData, attrExprInfoIndexes, nextPageHandler } =
     useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo);
@@ -122,6 +126,14 @@ export const StickyPivotTable = ({
 
   const headerCellRowHightCallback = useCallback(() => headerCellHeight, [headerCellHeight]);
   const contentCellRowHightCallback = useCallback(() => contentCellHeight, [contentCellHeight]);
+
+  useEffect(() => {
+    const element = verticalScrollableContainerRef.current;
+    if (element) {
+      // element.scrollLeft = scrollLeft;
+      element.scrollTop = scrollTopPartially;
+    }
+  }, [scrollTopPartially, verticalScrollableContainerRef]);
 
   return (
     <ScrollableContainer
