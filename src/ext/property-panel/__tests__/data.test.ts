@@ -174,6 +174,28 @@ describe("data", () => {
       test("should not show when qLibraryId does not exist", () => {
         expect(data.items.measures.items.libraryId.show({} as EngineAPI.IHyperCubeMeasureDef)).toBe(false);
       });
+
+      test("should show number formatting when flag is turned ON", () => {
+        data = createData({
+          translator,
+          anything: { sense: { isUnsupportedFeature: () => false } },
+          flags: { isEnabled: () => true },
+        });
+
+        expect(data.items.measures.items.numberFormatting).toEqual({
+          uses: "measures.items.numberFormatting",
+        });
+      });
+
+      test("should not show number formatting when flag is turned OFF", () => {
+        data = createData({
+          translator,
+          anything: { sense: { isUnsupportedFeature: () => false } },
+          flags: { isEnabled: () => false },
+        });
+
+        expect(data.items.measures.items.numberFormatting).toBe(undefined);
+      });
     });
   });
 });

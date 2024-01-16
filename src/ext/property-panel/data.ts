@@ -1,4 +1,5 @@
 import { ColumnWidthType, ColumnWidthValues } from "@qlik/nebula-table-utils/lib/constants";
+import { CLIENT_IM_5851_MEASURE_FORMATTING } from "../../constants/flags";
 import { type DimensionOrMeasureDef } from "../../types/QIX";
 import { AttrExprInfoIDs, type Galaxy } from "../../types/types";
 
@@ -117,7 +118,7 @@ const columnResize = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createData = (env: Galaxy): Record<string, any> => {
-  const { translator, anything } = env;
+  const { translator, anything, flags } = env;
 
   const data = {
     type: "items",
@@ -252,6 +253,11 @@ const createData = (env: Galaxy): Record<string, any> => {
             type: "string",
             show: false,
           },
+          numberFormatting: flags.isEnabled(CLIENT_IM_5851_MEASURE_FORMATTING)
+            ? {
+                uses: "measures.items.numberFormatting",
+              }
+            : undefined,
           visibilityCondition: {
             type: "string",
             component: "expression",
@@ -266,7 +272,6 @@ const createData = (env: Galaxy): Record<string, any> => {
           },
           cellColoring,
           ...columnResize,
-          // numberFormatting: TODO
         },
       },
     },
