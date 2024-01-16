@@ -12,6 +12,7 @@ describe("data", () => {
     data = createData({
       translator,
       anything: { sense: { isUnsupportedFeature: () => false } },
+      flags: { isEnabled: () => true },
     });
   });
 
@@ -83,6 +84,7 @@ describe("data", () => {
         data = createData({
           translator,
           anything: { sense: { isUnsupportedFeature: (f) => f === "totals" } },
+          flags: { isEnabled: () => true },
         });
         expect(data.items.dimensions.items.totalMode.show).toBe(false);
         expect(data.items.dimensions.items.totalsLabel.show(itemData, null, args)).toBe(false);

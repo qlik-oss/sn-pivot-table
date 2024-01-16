@@ -11,6 +11,7 @@ interface GetScrollableAreasDimensionsProps {
   tableRect: Rect;
 
   containerHeight: number;
+  headerGridHeight: number;
   leftGridHeight: number;
   topGridHeight: number;
   dataGridHeight: number;
@@ -41,6 +42,7 @@ const getScrollableAreasDimensions = ({
   tableRect,
 
   containerHeight,
+  headerGridHeight,
   leftGridHeight,
   topGridHeight,
   dataGridHeight,
@@ -52,16 +54,21 @@ const getScrollableAreasDimensions = ({
   verticalScrollbarWidth,
   horizontalScrollbarHeight,
 }: GetScrollableAreasDimensionsProps): GetScrollableAreasDimensionsResult => {
+  const allRowsTotalHeight = topGridHeight + dataGridHeight + GRID_BORDER;
+  // When the last row is not visisble because there is a horizontal scroll, a gap
+  // is created. This variable is there to fill that gap.
+  const gapToHorizontalScrollbar = allRowsVisible ? 0 : Math.max(0, tableRect.height - allRowsTotalHeight);
+
   const modifiedVerticalScrollbarWidth = verticalScrollbarWidth * (allRowsVisible ? 0 : 1);
   const modifiedHorizontalScrollbarHeight = horizontalScrollbarHeight * (allRowsVisible ? 0 : 1);
 
   const childWrappersScrollableContainerHeight = allRowsVisible
-    ? topGridHeight + dataGridHeight + GRID_BORDER + horizontalScrollbarHeight
+    ? allRowsTotalHeight + horizontalScrollbarHeight
     : tableRect.height;
   const childWrappersStickyContainerHeight = tableRect.height - modifiedHorizontalScrollbarHeight;
 
   const actualRightGridWidth = totalWidth - leftGridWidth - modifiedVerticalScrollbarWidth;
-  const avaliableRightGridWidth = tableRect.width - leftGridWidth - modifiedVerticalScrollbarWidth;
+  const availableRightGridWidth = tableRect.width - leftGridWidth - modifiedVerticalScrollbarWidth;
 
   return {
     rootWrapper: {
@@ -92,11 +99,11 @@ const getScrollableAreasDimensions = ({
       },
       headerGrid: {
         width: -1,
-        height: topGridHeight,
+        height: headerGridHeight,
       },
       leftGrid: {
         width: leftGridWidth,
-        height: leftGridHeight - modifiedHorizontalScrollbarHeight,
+        height: leftGridHeight - modifiedHorizontalScrollbarHeight + gapToHorizontalScrollbar,
       },
     },
     rightWrapper: {
@@ -110,7 +117,7 @@ const getScrollableAreasDimensions = ({
           height: containerHeight,
         },
         sticky: {
-          width: actualRightGridWidth < avaliableRightGridWidth ? actualRightGridWidth : avaliableRightGridWidth,
+          width: actualRightGridWidth < availableRightGridWidth ? actualRightGridWidth : availableRightGridWidth,
           height: childWrappersStickyContainerHeight,
         },
       },
@@ -120,7 +127,7 @@ const getScrollableAreasDimensions = ({
       },
       dataGrid: {
         width: rightGridWidth - modifiedVerticalScrollbarWidth,
-        height: dataGridHeight - modifiedHorizontalScrollbarHeight,
+        height: dataGridHeight - modifiedHorizontalScrollbarHeight + gapToHorizontalScrollbar,
       },
     },
   };

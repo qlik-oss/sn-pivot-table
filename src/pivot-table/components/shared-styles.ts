@@ -1,18 +1,25 @@
 import type React from "react";
-import type { ShowLastBorder } from "../../types/types";
+import type { HeaderCell, ShowLastBorder } from "../../types/types";
 import { LINE_HEIGHT_COEFFICIENT } from "../constants";
 
 // TODO Replace with colors from Sprout
 export enum Colors {
-  Black3 = "rgba(0, 0, 0, 0.03)",
-  Black5 = "rgba(0, 0, 0, 0.05)",
-  Black15 = "rgba(0, 0, 0, 0.15)",
-  Black55 = "rgba(0, 0, 0, 0.55)",
-  Black60 = "rgba(0, 0, 0, 0.6)",
   Transparent = "transparent",
+  FontPrimary = "#404040",
+  FontSecondary = "#737373",
+  DividerDark = "#595959",
+  DividerLight = "#D9D9D9",
+  NullValueBackground = "#F2F2F2",
+}
+
+export enum BorderStyle {
+  Solid = "solid",
+  None = "none",
 }
 
 export const CELL_PADDING = 4;
+
+export const DOUBLE_CELL_PADDING = CELL_PADDING * 2;
 
 export const baseFlex: React.CSSProperties = {
   display: "flex",
@@ -24,10 +31,11 @@ export const borderStyle: Pick<React.CSSProperties, "borderStyle"> = {
   borderStyle: "solid",
 };
 
-export const cellStyle: Pick<React.CSSProperties, "boxSizing" | "padding" | "userSelect"> = {
+export const baseCellStyle: React.CSSProperties = {
   boxSizing: "border-box",
-  padding: CELL_PADDING,
+  padding: `${CELL_PADDING}px ${DOUBLE_CELL_PADDING}px`,
   userSelect: "none",
+  WebkitUserSelect: "none",
 };
 
 export const textStyle: React.CSSProperties = {
@@ -48,28 +56,47 @@ export const getLineClampStyle = (clampCount: number): React.CSSProperties => ({
   wordBreak: "break-all",
 });
 
+const getBorderAttributes = (width: number, color: string) =>
+  width > 0 ? `${width}px ${BorderStyle.Solid} ${color}` : BorderStyle.None;
+
 export const getBorderStyle = (
   isLastRow: boolean,
   isLastColumn: boolean,
   borderColor: string,
   showLastBorder?: ShowLastBorder,
-) => {
-  const showRightBorder = !isLastColumn || showLastBorder?.right;
-  const showBottomBorder = !isLastRow || showLastBorder?.bottom;
-  const borderRightWidth = showRightBorder ? 1 : 0;
-  const borderRightColor = showRightBorder ? borderColor : undefined;
-  const borderBottomWidth = showBottomBorder ? 1 : 0;
-  const borderBottomColor = showBottomBorder ? borderColor : undefined;
+): React.CSSProperties => {
+  const borderRightWidth = Number(!isLastColumn || showLastBorder?.right);
+  const borderBottomWidth = Number(!isLastRow || showLastBorder?.bottom);
 
   return {
-    ...cellStyle,
-    ...borderStyle,
-    borderRightColor,
-    borderBottomColor,
-    borderWidth: 0,
-    borderRightWidth,
-    borderBottomWidth,
+    borderRight: getBorderAttributes(borderRightWidth, borderColor),
+    borderBottom: getBorderAttributes(borderBottomWidth, borderColor),
+    borderLeft: BorderStyle.None,
+    borderTop: BorderStyle.None,
   };
+};
+
+export const getHeaderBorderStyle = (
+  cell: HeaderCell,
+  isLastRow: boolean,
+  isFirstColumn: boolean,
+  isLastColumn: boolean,
+  borderColor: string,
+  showLastBorder?: ShowLastBorder,
+) => {
+  const headerBorderStyle = getBorderStyle(isLastRow, isLastColumn, borderColor, showLastBorder);
+
+  if (!cell.isLeftDimension) {
+    if (cell.isLastDimension && !isLastRow) {
+      headerBorderStyle.borderBottom = getBorderAttributes(2, borderColor);
+    }
+
+    if (!isFirstColumn) {
+      headerBorderStyle.borderLeft = getBorderAttributes(1, borderColor);
+    }
+  }
+
+  return headerBorderStyle;
 };
 
 export const getTotalCellDividerStyle = ({
@@ -84,11 +111,11 @@ export const getTotalCellDividerStyle = ({
   const style: React.CSSProperties = {};
 
   if (bottomDivider) {
-    style.borderBottomColor = borderColor;
+    style.borderBottom = getBorderAttributes(1, borderColor);
   }
 
   if (rightDivider) {
-    style.borderRightColor = borderColor;
+    style.borderRight = getBorderAttributes(1, borderColor);
   }
 
   return style;

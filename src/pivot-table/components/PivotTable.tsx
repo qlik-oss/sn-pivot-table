@@ -65,13 +65,6 @@ export const StickyPivotTable = ({
     layoutService,
   });
 
-  const { containerHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } = useGridHeight({
-    pageInfo,
-    headersData,
-    topDimensionData,
-    tableRect,
-  });
-
   const {
     onHorizontalScrollHandler,
     onVerticalScrollHandler,
@@ -84,7 +77,18 @@ export const StickyPivotTable = ({
     verticalScrollbarWidth,
     horizontalScrollbarHeight,
     horizontalScrollbarHeightSetter,
-  } = useScroll({ layoutService, pageInfo });
+    verticalScrollDirection,
+    horizontalScrollDirection,
+  } = useScroll({ layoutService, pageInfo, tableRect });
+
+  const { containerHeight, headerGridHeight, topGridHeight, leftGridHeight, dataGridHeight, allRowsVisible } =
+    useGridHeight({
+      pageInfo,
+      headersData,
+      topDimensionData,
+      tableRect,
+      horizontalScrollbarHeight,
+    });
 
   const {
     leftGridWidth,
@@ -94,19 +98,21 @@ export const StickyPivotTable = ({
     showLastRightBorder,
     getRightGridColumnWidth,
     getHeaderCellsIconsVisibilityStatus,
-  } = useColumnWidth(
+    overrideLeftGridWidth,
+  } = useColumnWidth({
     layoutService,
-    tableRect,
+    tableWidth: tableRect.width,
     headersData,
     visibleTopDimensionInfo,
     verticalScrollbarWidth,
     horizontalScrollbarHeightSetter,
-  );
+  });
 
   const { rootWrapper, leftWrapper, rightWrapper } = getScrollableAreasDimensions({
     tableRect,
 
     containerHeight,
+    headerGridHeight,
     leftGridHeight,
     topGridHeight,
     dataGridHeight,
@@ -150,8 +156,8 @@ export const StickyPivotTable = ({
               showHorizontalScrollbar
               origin={ScrollableContainerOrigin.LEFT_GRID}
             >
-              <FullSizeContainer {...leftWrapper.containers.fullSize}>
-                <StickyContainer {...leftWrapper.containers.sticky}>
+              <FullSizeContainer isLeftGrid {...leftWrapper.containers.fullSize}>
+                <StickyContainer isLeftGrid {...leftWrapper.containers.sticky}>
                   <HeaderGrid
                     dataModel={dataModel}
                     columnWidths={leftGridColumnWidths}
@@ -162,6 +168,7 @@ export const StickyPivotTable = ({
                     translator={translator}
                     changeSortOrder={changeSortOrder}
                     changeActivelySortedHeader={changeActivelySortedHeader}
+                    overrideLeftGridWidth={overrideLeftGridWidth}
                   />
 
                   <LeftGrid
@@ -199,7 +206,7 @@ export const StickyPivotTable = ({
                   topDimensionData={topDimensionData}
                   showLastBorder={{ right: showLastRightBorder, bottom: false }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
-                  visibleTopDimensionInfo={visibleTopDimensionInfo}
+                  headersData={headersData}
                 />
 
                 <DataGrid
@@ -214,6 +221,9 @@ export const StickyPivotTable = ({
                   topDimensionData={topDimensionData}
                   showLastBorder={{ right: showLastRightBorder, bottom: allRowsVisible }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
+                  pageInfo={pageInfo}
+                  verticalScrollDirection={verticalScrollDirection}
+                  horizontalScrollDirection={horizontalScrollDirection}
                 />
               </StickyContainer>
             </FullSizeContainer>

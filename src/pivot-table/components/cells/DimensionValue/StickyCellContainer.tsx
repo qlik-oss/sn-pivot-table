@@ -15,12 +15,11 @@ const StickyCellContainer = ({ children, isLeftColumn }: Props): JSX.Element => 
         display: "flex",
         flexDirection: "row",
         alignItems: align,
-        gap: `${CELL_PADDING}px`,
         width: "fit-content",
         maxWidth: "100%",
         position: "sticky",
         left: CELL_PADDING,
-        top: CELL_PADDING,
+        top: 0,
         right: isLeftColumn ? undefined : CELL_PADDING,
         alignSelf: align,
       }}

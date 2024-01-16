@@ -1,3 +1,4 @@
+import { PSEUDO_DIMENSION_INDEX } from "../../constants";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../pivot-table/constants";
 import type { ExtendedDimensionInfo, ExtendedMeasureInfo, PivotLayout, SnapshotData } from "../../types/QIX";
 import type { LayoutService } from "../../types/types";
@@ -5,8 +6,9 @@ import createLayoutService from "../layout-service";
 
 const getMeasureInfo = () => ({}) as ExtendedMeasureInfo;
 
-const getDimensionInfo = ({ qLocked, isVisible }: { qLocked?: boolean; isVisible?: boolean }) =>
+const getDimensionInfo = ({ qLocked, isVisible, id }: { qLocked?: boolean; isVisible?: boolean; id?: string }) =>
   ({
+    cId: id ?? "",
     qLocked: !qLocked,
     qCardinalities: {
       qHypercubeCardinal: isVisible ? 1 : 0,
@@ -82,6 +84,25 @@ describe("createLayoutService", () => {
       expect(service.getMeasureInfoIndexFromCellIndex(4)).toEqual(1);
       expect(service.getMeasureInfoIndexFromCellIndex(5)).toEqual(2);
     });
+
+    test("should return measure info index when a measure is hidden before the requested index", () => {
+      const hiddenMeasure = getMeasureInfo();
+      hiddenMeasure.qError = { qErrorCode: 7005 };
+      layout.qHyperCube.qMeasureInfo = [getMeasureInfo(), hiddenMeasure, getMeasureInfo(), getMeasureInfo()];
+      const service = create();
+      expect(service.getMeasureInfoIndexFromCellIndex(0)).toEqual(0);
+      expect(service.getMeasureInfoIndexFromCellIndex(1)).toEqual(2);
+    });
+
+    test("should return measure info index when a measure is hidden before the requested visible index", () => {
+      const getVisibleIndex = true;
+      const hiddenMeasure = getMeasureInfo();
+      hiddenMeasure.qError = { qErrorCode: 7005 };
+      layout.qHyperCube.qMeasureInfo = [getMeasureInfo(), hiddenMeasure, getMeasureInfo(), getMeasureInfo()];
+      const service = create();
+      expect(service.getMeasureInfoIndexFromCellIndex(0, getVisibleIndex)).toEqual(0);
+      expect(service.getMeasureInfoIndexFromCellIndex(1, getVisibleIndex)).toEqual(1);
+    });
   });
 
   describe("getDimensionInfoIndex", () => {
@@ -101,6 +122,25 @@ describe("createLayoutService", () => {
       expect(service.getDimensionInfoIndex(layout.qHyperCube.qDimensionInfo[1])).toEqual(-1);
       expect(service.getDimensionInfoIndex(layout.qHyperCube.qDimensionInfo[3])).toEqual(-1);
       expect(service.getDimensionInfoIndex(-1)).toEqual(-1);
+    });
+  });
+
+  describe("getDimensionInfo", () => {
+    test("should return dimension info for index", () => {
+      layout.qHyperCube.qEffectiveInterColumnSortOrder = [2, -1, 0];
+      layout.qHyperCube.qMeasureInfo = [getMeasureInfo(), getMeasureInfo()];
+      layout.qHyperCube.qDimensionInfo = [
+        getDimensionInfo({ qLocked: false, isVisible: true, id: "a" }),
+        getDimensionInfo({ qLocked: false, isVisible: true, id: "b" }),
+        getDimensionInfo({ qLocked: false, isVisible: true, id: "c" }),
+        getDimensionInfo({ qLocked: false, isVisible: true, id: "d" }),
+      ];
+
+      const service = create();
+      expect(service.getDimensionInfo(0)).toEqual(layout.qHyperCube.qDimensionInfo[2]);
+      expect(service.getDimensionInfo(2)).toEqual(layout.qHyperCube.qDimensionInfo[0]);
+      expect(service.getDimensionInfo(-1)).toEqual(PSEUDO_DIMENSION_INDEX);
+      expect(service.getDimensionInfo(3)).toBeUndefined();
     });
   });
 
@@ -186,6 +226,22 @@ describe("createLayoutService", () => {
 
       const service = create();
       expect(service.showTotalsAbove).toBe(false);
+    });
+  });
+
+  describe("hasData", () => {
+    test("should be true when there is data", () => {
+      layout.qHyperCube.qSize.qcx = 1;
+      layout.qHyperCube.qSize.qcy = 1;
+      const service = create();
+      expect(service.hasData).toBe(true);
+    });
+
+    test("should be false when there is no data", () => {
+      layout.qHyperCube.qSize.qcx = 0;
+      layout.qHyperCube.qSize.qcy = 0;
+      const service = create();
+      expect(service.hasData).toBe(false);
     });
   });
 });

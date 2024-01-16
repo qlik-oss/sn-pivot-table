@@ -6,15 +6,15 @@ import extractAttrExprInfoIndex from "../data/helpers/extract-attr-expr-info-ind
 const useAttrExprInfoIndexes = (
   visibleLeftDimensionInfo: VisibleDimensionInfo[],
   visibleTopDimensionInfo: VisibleDimensionInfo[],
-  qMeasureInfo: ExtendedMeasureInfo[],
+  visibleMeasureInfo: ExtendedMeasureInfo[],
 ): AttrExprInfoIndexes =>
   useMemo(
     () => ({
       left: visibleLeftDimensionInfo.map(extractAttrExprInfoIndex),
       top: visibleTopDimensionInfo.map(extractAttrExprInfoIndex),
-      measures: qMeasureInfo.map(extractAttrExprInfoIndex),
+      measures: visibleMeasureInfo.map(extractAttrExprInfoIndex),
     }),
-    [qMeasureInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo],
+    [visibleMeasureInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo],
   );
 
 export default useAttrExprInfoIndexes;

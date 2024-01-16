@@ -29,34 +29,56 @@ const HEADER_MENU_COLOR_MODIFIER = {
   },
 };
 
-enum Path {
-  Header = "header",
-  MeasureValues = "measureValues",
-  DimensionValues = "dimensionValues",
-  Grid = "grid",
-  NullValues = "nullValues",
-  TotalValues = "totalValues",
-  TotalLabels = "totalLabels",
-  MeasureLabels = "measureLabels",
-}
-
-enum Attribute {
+enum StylingPanelAttribute {
   FontSize = "fontSize",
   FontFamily = "fontFamily",
   FontColor = "fontColor",
   FontStyle = "fontStyle",
-  Color = "color",
-  CellHeight = "cellHeight",
   Background = "background",
   LineClamp = "lineClamp",
   Border = "border",
   Divider = "divider",
 }
 
+enum ThemeBasePath {
+  Dimension = `${BASE_PATH}.dimension`,
+  Measure = `${BASE_PATH}.measure`,
+  Total = `${BASE_PATH}.total`,
+  Null = `${BASE_PATH}.null`,
+  Grid = BASE_PATH,
+}
+
+enum ThemePath {
+  Grid = "grid",
+  Divider = "grid.divider",
+  LabelName = "label.name",
+  LabelValue = "label.value",
+}
+
+enum ThemeAttribute {
+  FontSize = "fontSize",
+  FontFamily = "fontFamily",
+  Color = "color",
+  BackgroundColor = "backgroundColor",
+  LineClamp = "lineClamp",
+  BorderColor = "borderColor",
+}
+
 const resolveFontSize = (fontSize: string | undefined) => (fontSize ? `${parseInt(fontSize, 10)}px` : undefined);
 
-const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) =>
-  color ? theme.getColorPickerColor(color) : undefined;
+export const resolveColor = (theme: ExtendedTheme, color: PaletteColor | undefined) => {
+  if (color) {
+    const resolvedColor = theme.getColorPickerColor(color);
+    // Handle when color is set to "none" via the color picker
+    if (resolvedColor === "none") {
+      return Colors.Transparent;
+    }
+
+    return resolvedColor;
+  }
+
+  return undefined;
+};
 
 const fontSizeToCellHeight = (fontSize: string, lineClamp: number) =>
   +(parseInt(fontSize, 10) * LINE_HEIGHT_COEFFICIENT * lineClamp + CELL_PADDING_HEIGHT).toFixed(2);
@@ -86,43 +108,45 @@ const resolveTextDecoration = (fontStyleOptions: FontStyleOptions[] | undefined)
  */
 const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService): StyleService => {
   const chartStyling = layoutService.layout.components?.find((n) => n.key === "theme");
-  const headerStyling = chartStyling?.[Path.Header];
-  const dimensionValue = chartStyling?.[Path.DimensionValues];
-  const measureValueStyling = chartStyling?.[Path.MeasureValues];
-  const measureLabelStyling = chartStyling?.[Path.MeasureLabels];
-  const totalValuesStyling = chartStyling?.[Path.TotalValues];
-  const nullValueStyling = chartStyling?.[Path.NullValues];
-  const gridStyling = chartStyling?.[Path.Grid];
-  const getThemeStyle = (paths: string[], attribute: string) => theme.getStyle(BASE_PATH, paths.join("."), attribute);
+  const headerStyling = chartStyling?.header;
+  const dimensionValue = chartStyling?.dimensionValues;
+  const measureValueStyling = chartStyling?.measureValues;
+  const measureLabelStyling = chartStyling?.measureLabels;
+  const totalValuesStyling = chartStyling?.totalValues;
+  const nullValueStyling = chartStyling?.nullValues;
+  const gridStyling = chartStyling?.grid;
+
+  const getThemeStyle = (basePath: ThemeBasePath, path: ThemePath, attribute: ThemeAttribute) =>
+    theme.getStyle(basePath, path, attribute);
 
   const lineClamp = +(
-    gridStyling?.[Attribute.LineClamp] ??
-    getThemeStyle([Path.Grid], Attribute.LineClamp) ??
+    gridStyling?.[StylingPanelAttribute.LineClamp] ??
+    getThemeStyle(ThemeBasePath.Grid, ThemePath.Grid, ThemeAttribute.LineClamp) ??
     DEFAULT_LINE_CLAMP
   );
 
   const headerBackground =
-    resolveColor(theme, headerStyling?.[Attribute.Background]) ??
-    getThemeStyle([Path.Header], Attribute.Background) ??
+    resolveColor(theme, headerStyling?.[StylingPanelAttribute.Background]) ??
+    getThemeStyle(ThemeBasePath.Dimension, ThemePath.LabelName, ThemeAttribute.BackgroundColor) ??
     Colors.Transparent;
 
   // TODO Support fontWeight, fontStyle and textDecoration in Theme
   const styleService: StyleService = {
     header: {
       fontSize:
-        resolveFontSize(headerStyling?.[Attribute.FontSize]) ??
-        getThemeStyle([Path.Header], Attribute.FontSize) ??
+        resolveFontSize(headerStyling?.[StylingPanelAttribute.FontSize]) ??
+        getThemeStyle(ThemeBasePath.Dimension, ThemePath.LabelName, ThemeAttribute.FontSize) ??
         DEFAULT_FONT_SIZE,
       fontFamily:
-        headerStyling?.[Attribute.FontFamily] ??
-        getThemeStyle([Path.Header], Attribute.FontFamily) ??
+        headerStyling?.[StylingPanelAttribute.FontFamily] ??
+        getThemeStyle(ThemeBasePath.Dimension, ThemePath.LabelName, ThemeAttribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(headerStyling?.[Attribute.FontStyle], BOLD_FONT_WEIGHT),
-      fontStyle: resolveFontStyle(headerStyling?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(headerStyling?.[Attribute.FontStyle]),
+      fontWeight: resolveFontWeight(headerStyling?.[StylingPanelAttribute.FontStyle], BOLD_FONT_WEIGHT),
+      fontStyle: resolveFontStyle(headerStyling?.[StylingPanelAttribute.FontStyle]),
+      textDecoration: resolveTextDecoration(headerStyling?.[StylingPanelAttribute.FontStyle]),
       color:
-        resolveColor(theme, headerStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.Header], Attribute.Color) ??
+        resolveColor(theme, headerStyling?.[StylingPanelAttribute.FontColor]) ??
+        getThemeStyle(ThemeBasePath.Dimension, ThemePath.LabelName, ThemeAttribute.Color) ??
         COLORING.TEXT,
       background: headerBackground,
       hoverBackground: getHoverColor(headerBackground, HEADER_MENU_COLOR_MODIFIER.hover),
@@ -130,98 +154,98 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     },
     dimensionValues: {
       fontSize:
-        resolveFontSize(dimensionValue?.[Attribute.FontSize]) ??
-        getThemeStyle([Path.DimensionValues], Attribute.FontSize) ??
+        resolveFontSize(dimensionValue?.[StylingPanelAttribute.FontSize]) ??
+        getThemeStyle(ThemeBasePath.Dimension, ThemePath.LabelValue, ThemeAttribute.FontSize) ??
         DEFAULT_FONT_SIZE,
       fontFamily:
-        dimensionValue?.[Attribute.FontFamily] ??
-        getThemeStyle([Path.DimensionValues], Attribute.FontFamily) ??
+        dimensionValue?.[StylingPanelAttribute.FontFamily] ??
+        getThemeStyle(ThemeBasePath.Dimension, ThemePath.LabelValue, ThemeAttribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(dimensionValue?.[Attribute.FontStyle], undefined),
-      fontStyle: resolveFontStyle(dimensionValue?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(dimensionValue?.[Attribute.FontStyle]),
+      fontWeight: resolveFontWeight(dimensionValue?.[StylingPanelAttribute.FontStyle], undefined),
+      fontStyle: resolveFontStyle(dimensionValue?.[StylingPanelAttribute.FontStyle]),
+      textDecoration: resolveTextDecoration(dimensionValue?.[StylingPanelAttribute.FontStyle]),
       color:
-        resolveColor(theme, dimensionValue?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.DimensionValues], Attribute.Color) ??
+        resolveColor(theme, dimensionValue?.[StylingPanelAttribute.FontColor]) ??
+        getThemeStyle(ThemeBasePath.Dimension, ThemePath.LabelValue, ThemeAttribute.Color) ??
         COLORING.TEXT,
       background:
-        resolveColor(theme, dimensionValue?.[Attribute.Background]) ??
-        getThemeStyle([Path.DimensionValues], Attribute.Background) ??
+        resolveColor(theme, dimensionValue?.[StylingPanelAttribute.Background]) ??
+        getThemeStyle(ThemeBasePath.Dimension, ThemePath.LabelValue, ThemeAttribute.BackgroundColor) ??
         Colors.Transparent,
     },
     measureValues: {
       fontSize:
-        resolveFontSize(measureValueStyling?.[Attribute.FontSize]) ??
-        getThemeStyle([Path.MeasureValues], Attribute.FontSize) ??
+        resolveFontSize(measureValueStyling?.[StylingPanelAttribute.FontSize]) ??
+        getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelValue, ThemeAttribute.FontSize) ??
         DEFAULT_FONT_SIZE,
       fontFamily:
-        measureValueStyling?.[Attribute.FontFamily] ??
-        getThemeStyle([Path.MeasureValues], Attribute.FontFamily) ??
+        measureValueStyling?.[StylingPanelAttribute.FontFamily] ??
+        getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelValue, ThemeAttribute.FontFamily) ??
         DEFAULT_FONT_FAMILY,
-      fontWeight: resolveFontWeight(measureValueStyling?.[Attribute.FontStyle], "normal"),
-      fontStyle: resolveFontStyle(measureValueStyling?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(measureValueStyling?.[Attribute.FontStyle]),
+      fontWeight: resolveFontWeight(measureValueStyling?.[StylingPanelAttribute.FontStyle], "normal"),
+      fontStyle: resolveFontStyle(measureValueStyling?.[StylingPanelAttribute.FontStyle]),
+      textDecoration: resolveTextDecoration(measureValueStyling?.[StylingPanelAttribute.FontStyle]),
       color:
-        resolveColor(theme, measureValueStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.MeasureValues], Attribute.Color) ??
-        Colors.Black55,
+        resolveColor(theme, measureValueStyling?.[StylingPanelAttribute.FontColor]) ??
+        getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelValue, ThemeAttribute.Color) ??
+        Colors.FontSecondary,
       background:
-        resolveColor(theme, measureValueStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.MeasureValues], Attribute.Background) ??
+        resolveColor(theme, measureValueStyling?.[StylingPanelAttribute.Background]) ??
+        getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelValue, ThemeAttribute.BackgroundColor) ??
         Colors.Transparent,
     },
     measureLabels: {
-      fontWeight: resolveFontWeight(measureLabelStyling?.[Attribute.FontStyle], "normal"),
-      fontStyle: resolveFontStyle(measureLabelStyling?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(measureLabelStyling?.[Attribute.FontStyle]),
+      fontWeight: resolveFontWeight(measureLabelStyling?.[StylingPanelAttribute.FontStyle], "normal"),
+      fontStyle: resolveFontStyle(measureLabelStyling?.[StylingPanelAttribute.FontStyle]),
+      textDecoration: resolveTextDecoration(measureLabelStyling?.[StylingPanelAttribute.FontStyle]),
       color:
-        resolveColor(theme, measureLabelStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.MeasureLabels], Attribute.Color) ??
-        Colors.Black55,
+        resolveColor(theme, measureLabelStyling?.[StylingPanelAttribute.FontColor]) ??
+        getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelName, ThemeAttribute.Color) ??
+        Colors.FontSecondary,
       background:
-        resolveColor(theme, measureLabelStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.MeasureLabels], Attribute.Background) ??
+        resolveColor(theme, measureLabelStyling?.[StylingPanelAttribute.Background]) ??
+        getThemeStyle(ThemeBasePath.Measure, ThemePath.LabelName, ThemeAttribute.BackgroundColor) ??
         Colors.Transparent,
     },
     totalValues: {
-      fontWeight: resolveFontWeight(totalValuesStyling?.[Attribute.FontStyle], BOLD_FONT_WEIGHT),
-      fontStyle: resolveFontStyle(totalValuesStyling?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(totalValuesStyling?.[Attribute.FontStyle]),
+      fontWeight: resolveFontWeight(totalValuesStyling?.[StylingPanelAttribute.FontStyle], BOLD_FONT_WEIGHT),
+      fontStyle: resolveFontStyle(totalValuesStyling?.[StylingPanelAttribute.FontStyle]),
+      textDecoration: resolveTextDecoration(totalValuesStyling?.[StylingPanelAttribute.FontStyle]),
       color:
-        resolveColor(theme, totalValuesStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.TotalValues], Attribute.Color) ??
+        resolveColor(theme, totalValuesStyling?.[StylingPanelAttribute.FontColor]) ??
+        getThemeStyle(ThemeBasePath.Total, ThemePath.LabelValue, ThemeAttribute.Color) ??
         COLORING.TEXT,
       background:
-        resolveColor(theme, totalValuesStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.TotalValues], Attribute.Background) ??
+        resolveColor(theme, totalValuesStyling?.[StylingPanelAttribute.Background]) ??
+        getThemeStyle(ThemeBasePath.Total, ThemePath.LabelValue, ThemeAttribute.BackgroundColor) ??
         Colors.Transparent,
     },
     nullValues: {
-      fontWeight: resolveFontWeight(nullValueStyling?.[Attribute.FontStyle], "normal"),
-      fontStyle: resolveFontStyle(nullValueStyling?.[Attribute.FontStyle]),
-      textDecoration: resolveTextDecoration(nullValueStyling?.[Attribute.FontStyle]),
+      fontWeight: resolveFontWeight(nullValueStyling?.[StylingPanelAttribute.FontStyle], "normal"),
+      fontStyle: resolveFontStyle(nullValueStyling?.[StylingPanelAttribute.FontStyle]),
+      textDecoration: resolveTextDecoration(nullValueStyling?.[StylingPanelAttribute.FontStyle]),
       color:
-        resolveColor(theme, nullValueStyling?.[Attribute.FontColor]) ??
-        getThemeStyle([Path.NullValues], Attribute.Color) ??
+        resolveColor(theme, nullValueStyling?.[StylingPanelAttribute.FontColor]) ??
+        getThemeStyle(ThemeBasePath.Null, ThemePath.LabelValue, ThemeAttribute.Color) ??
         COLORING.TEXT,
       background:
-        resolveColor(theme, nullValueStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.NullValues], Attribute.Background) ??
-        Colors.Black5,
+        resolveColor(theme, nullValueStyling?.[StylingPanelAttribute.Background]) ??
+        getThemeStyle(ThemeBasePath.Null, ThemePath.LabelValue, ThemeAttribute.BackgroundColor) ??
+        Colors.NullValueBackground,
     },
     grid: {
       lineClamp,
       border:
-        resolveColor(theme, gridStyling?.[Attribute.Border]) ??
-        getThemeStyle([Path.Grid], Attribute.Border) ??
-        Colors.Black15,
+        resolveColor(theme, gridStyling?.[StylingPanelAttribute.Border]) ??
+        getThemeStyle(ThemeBasePath.Grid, ThemePath.Grid, ThemeAttribute.BorderColor) ??
+        Colors.DividerLight,
       divider:
-        resolveColor(theme, gridStyling?.[Attribute.Divider]) ??
-        getThemeStyle([Path.Grid], Attribute.Divider) ??
-        Colors.Black60,
+        resolveColor(theme, gridStyling?.[StylingPanelAttribute.Divider]) ??
+        getThemeStyle(ThemeBasePath.Grid, ThemePath.Divider, ThemeAttribute.BorderColor) ??
+        Colors.DividerDark,
       background:
-        resolveColor(theme, gridStyling?.[Attribute.Background]) ??
-        getThemeStyle([Path.Grid], Attribute.Background) ??
+        resolveColor(theme, gridStyling?.[StylingPanelAttribute.Background]) ??
+        getThemeStyle(ThemeBasePath.Grid, ThemePath.Grid, ThemeAttribute.BackgroundColor) ??
         Colors.Transparent,
     },
   } as StyleService;
@@ -237,6 +261,10 @@ const createStyleService = (theme: ExtendedTheme, layoutService: LayoutService):
     fontSizeToCellHeight(styleService.dimensionValues.fontSize, lineClamp),
     DEFAULT_CELL_HEIGHT,
   );
+
+  styleService.contentRowHeight = styleService.contentCellHeight / lineClamp;
+
+  styleService.contentTextHeight = styleService.contentRowHeight - CELL_PADDING_HEIGHT;
 
   return styleService;
 };

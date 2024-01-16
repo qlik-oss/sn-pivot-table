@@ -8,22 +8,25 @@ import type { ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeaderCell
 import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
-import type { GetHeaderCellsIconsVisibilityStatus } from "../../hooks/use-column-width";
+import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
-import { getBorderStyle } from "../shared-styles";
-import ColumnAdjuster from "./ColumnAdjuster";
+import { baseCellStyle, getHeaderBorderStyle } from "../shared-styles";
+import ColumnAdjusterWrapper from "./ColumnAdjusterWrapper";
 import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
 
 interface DimensionTitleCellProps {
   dataModel: DataModel;
   cell: HeaderCell;
   style: React.CSSProperties;
+  isFirstColumn: boolean;
   isLastColumn: boolean;
+  isLastRow: boolean;
   translator: stardust.Translator;
   changeSortOrder: ChangeSortOrder;
   changeActivelySortedHeader: ChangeActivelySortedHeader;
   iconsVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus>;
   columnWidth: number;
+  overrideLeftGridWidth: OverrideLeftGridWidth;
 }
 
 export const testId = "title-cell";
@@ -38,12 +41,15 @@ const DimensionTitleCell = ({
   dataModel,
   cell,
   style,
+  isFirstColumn,
   isLastColumn,
+  isLastRow,
   translator,
   changeSortOrder,
   changeActivelySortedHeader,
   iconsVisibilityStatus,
   columnWidth,
+  overrideLeftGridWidth,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
@@ -61,7 +67,7 @@ const DimensionTitleCell = ({
   } = styleService.header;
   const anchorRef = useRef<HTMLDivElement>(null);
   const { shouldShowLockIcon, shouldShowMenuIcon } = iconsVisibilityStatus;
-  const { open, setOpen, handleOpenMenu } = useHeadCellDim({ interactions });
+  const { open, setOpen, handleOpenMenu, setIsAdjustingWidth } = useHeadCellDim({ interactions, dataModel });
 
   const sortFromMenu = async (evt: React.MouseEvent, newSortDirection: SortDirection) => {
     evt.stopPropagation();
@@ -82,7 +88,8 @@ const DimensionTitleCell = ({
       isDimension={cell.isDim}
       style={{
         ...style,
-        ...getBorderStyle(true, isLastColumn, styleService.grid.border),
+        ...baseCellStyle,
+        ...getHeaderBorderStyle(cell, isLastRow, isFirstColumn, isLastColumn, styleService.grid.border),
         color,
       }}
       data-testid={testId}
@@ -101,7 +108,6 @@ const DimensionTitleCell = ({
           <HeadCellMenu
             headerData={cell}
             translator={translator}
-            tabIndex={-1}
             anchorRef={anchorRef}
             open={open}
             setOpen={setOpen}
@@ -116,11 +122,13 @@ const DimensionTitleCell = ({
           <StyledHeaderAnchor ref={anchorRef} />
         </>
       )}
-      <ColumnAdjuster
+      <ColumnAdjusterWrapper
         cellInfo={{ ...cell, isLeftColumn: true }}
         columnWidth={columnWidth}
         dataModel={dataModel}
         isLastColumn={isLastColumn}
+        overrideLeftGridWidth={overrideLeftGridWidth}
+        setIsAdjustingWidth={setIsAdjustingWidth}
       />
     </StyledHeaderCellWrapper>
   );

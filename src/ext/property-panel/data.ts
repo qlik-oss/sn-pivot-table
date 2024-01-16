@@ -1,5 +1,5 @@
-import { ColumnWidthValues } from "../../pivot-table/hooks/use-column-width";
-import { ColumnWidthType, type DimensionOrMeasureDef } from "../../types/QIX";
+import { ColumnWidthType, ColumnWidthValues } from "@qlik/nebula-table-utils/lib/constants";
+import { type DimensionOrMeasureDef } from "../../types/QIX";
 import { AttrExprInfoIDs, type Galaxy } from "../../types/types";
 
 export interface Args {
@@ -251,6 +251,18 @@ const createData = (env: Galaxy): Record<string, any> => {
             ref: "qDef.cId",
             type: "string",
             show: false,
+          },
+          visibilityCondition: {
+            type: "string",
+            component: "expression",
+            ref: "qCalcCondition.qCond",
+            expression: "optional",
+            expressionType: "ValueExpr",
+            translation: "Object.Table.Columns.VisibilityCondition",
+            defaultValue: { qv: "" },
+            isExpression(val: string | undefined): boolean {
+              return typeof val === "string" && val.trim().length > 0;
+            },
           },
           cellColoring,
           ...columnResize,

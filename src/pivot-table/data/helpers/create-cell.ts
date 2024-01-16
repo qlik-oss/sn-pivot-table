@@ -2,6 +2,7 @@ import NxDimCellType, { NxSelectionCellType } from "../../../types/QIX";
 import type { AttrExprInfoIndex, Cell, LayoutService, VisibleDimensionInfo } from "../../../types/types";
 import { MAX_COLUMN_COUNT, MAX_ROW_COUNT } from "../../constants";
 import getExpressionColor from "./get-expression-color";
+import getRandomUUID from "./get-random-uuid";
 
 // qElemNo === -1 => Total
 // qElemNo === -2 => Null
@@ -68,6 +69,7 @@ const createCell = ({
   isLeftColumn = true,
 }: Props): Cell => {
   const cell = {
+    id: getRandomUUID(),
     ref: node,
     x,
     y,

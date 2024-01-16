@@ -1,8 +1,11 @@
 import { Colors } from "../../../../pivot-table/components/shared-styles";
 import createColorPickerItem from "./utils/create-color-picker-item";
+import getThemeValue from "./utils/get-theme-value";
+
+export type SmallSection = "measureLabels" | "totalValues" | "nullValues";
 
 interface Props {
-  section: "measureLabels" | "totalValues" | "nullValues";
+  section: SmallSection;
   defaultFontStyle?: string[];
   fallbackBackground?: string;
 }
@@ -28,7 +31,7 @@ const smallPanelSection = ({ section, defaultFontStyle, fallbackBackground }: Pr
             fontColor: createColorPickerItem(
               `${section}.fontColor`,
               undefined,
-              (currentTheme) => currentTheme.object?.pivotTableV2?.[section]?.color ?? currentTheme.color,
+              (currentTheme) => getThemeValue(currentTheme, section, "color") ?? currentTheme.color,
             ),
           },
         },
@@ -36,7 +39,7 @@ const smallPanelSection = ({ section, defaultFontStyle, fallbackBackground }: Pr
           `${section}.background`,
           "properties.background",
           (currentTheme) =>
-            currentTheme.object?.pivotTableV2?.[section]?.background ?? fallbackBackground ?? Colors.Transparent,
+            getThemeValue(currentTheme, section, "backgroundColor") ?? fallbackBackground ?? Colors.Transparent,
         ),
       },
     },

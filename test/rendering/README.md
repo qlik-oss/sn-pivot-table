@@ -36,24 +36,8 @@ Make sure to commit these after you've **confirmed the screenshot changes**.
 
 Sometimes tests might break, if you are certain no UI changes have been made just re-run the failed workflow.
 
-## Test cases description
+## Debug tests locally
 
-### scenario_1.fix.js
+Run `yarn start:fixture`
 
-2 dimension as rows and measure group (pseudo dimension) also as row.
-
-### scenario_2.fix.js
-
-1 dimension as row, 1 dimension as column and measure group (pseudo dimension) as column. Also a custom null value text.
-
-### scenario_3.fix.js
-
-1 dimension as column and 1 measure as column.
-
-### scenario_4.fix.js
-
-2 dimension as rows, first dimension have an expanded value.
-
-### scenario_11.fix.js
-
-Has a faked "qSize.qcx" to trigger the max column limit and show a disclaimer.
+Open in browser `http://localhost:<port>/render?fixture=./<name-of-fixture>.fix.js&theme=default`

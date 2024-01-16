@@ -1,7 +1,7 @@
 import type { DataModel } from "../../../../../types/types";
 
 const dataModelMock = (): DataModel => ({
-  fetchMoreData: () => Promise.resolve(),
+  fetchPages: () => Promise.resolve(),
   collapseLeft: () => {},
   collapseTop: () => {},
   expandLeft: () => {},

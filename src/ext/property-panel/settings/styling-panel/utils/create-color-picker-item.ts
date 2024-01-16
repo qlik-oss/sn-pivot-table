@@ -1,3 +1,4 @@
+import { Colors } from "../../../../../pivot-table/components/shared-styles";
 import type { Args, CurrentTheme } from "../../../../../types/QIX";
 
 const createColorPickerItem = (
@@ -11,9 +12,12 @@ const createColorPickerItem = (
   type: "object",
   component: "color-picker",
   width: "auto",
+  disableNone: false,
   defaultValue(data: unknown, handler: unknown, args: Args) {
     const currentTheme = args.theme.current();
-    return { color: themeAccessor(currentTheme) };
+    const color = themeAccessor(currentTheme);
+
+    return { color: color === Colors.Transparent.toString() ? "none" : color };
   },
 });
 

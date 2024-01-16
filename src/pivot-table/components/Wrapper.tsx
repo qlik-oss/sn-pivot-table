@@ -13,19 +13,14 @@ export interface WrapperProps extends PivotTableProps {
 }
 
 export const Wrapper = (props: WrapperProps) => {
-  const {
-    layoutService: { hasLimitedData, layout },
-    translator,
-    pageInfo,
-    updatePageInfo,
-    rect,
-  } = props;
+  const { layoutService, translator, pageInfo, updatePageInfo, rect } = props;
   const { keyboard, theme, interactions } = useBaseContext();
+  const { layout, hasData } = layoutService;
 
   return (
     <>
-      <StickyPivotTable {...props} />
-      {hasLimitedData && <Disclaimer translator={translator} />}
+      {hasData && <StickyPivotTable {...props} />}
+      <Disclaimer translator={translator} layoutService={layoutService} />
       <PaginationFooter
         paginationNeeded={pageInfo.shouldShowPagination}
         handleChangePage={(page) => updatePageInfo({ page })}

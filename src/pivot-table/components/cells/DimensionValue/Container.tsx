@@ -3,7 +3,7 @@ import type { Cell, ListItemData } from "../../../../types/types";
 import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
-import { getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
+import { CELL_PADDING, baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
 import { getBackground, getCursor } from "./utils/get-style";
 
 type Props = {
@@ -17,6 +17,7 @@ type Props = {
   cell: Cell;
   data: ListItemData;
   children: ReactNode;
+  isAdjustingWidth: boolean;
 };
 
 export const testId = "dimension-cell";
@@ -34,6 +35,7 @@ const Container = ({
   isLastColumn,
   isLeftColumn,
   isCellSelected,
+  isAdjustingWidth,
 }: Props): JSX.Element => {
   const styleService = useStyleContext();
   const { interactions } = useBaseContext();
@@ -48,7 +50,8 @@ const Container = ({
     !cell.isEmpty &&
     !cell.isNull &&
     !cell.isPseudoDimension &&
-    !cell.isTotal;
+    !cell.isTotal &&
+    !isAdjustingWidth;
   const onClickHandler = canBeSelected ? select(cell) : undefined;
 
   return (
@@ -62,9 +65,11 @@ const Container = ({
           rightDivider: showTotalCellDivider && !isLeftColumn,
           borderColor: styleService.grid.divider,
         }),
+        ...baseCellStyle,
+        padding: `0px ${CELL_PADDING}px`,
         cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellSelected, cell, isCellLocked }),
-        zIndex: layoutService.size.x - cell.x,
+        zIndex: isLeftColumn ? undefined : layoutService.size.x - cell.x,
         justifyContent: isLeftColumn ? undefined : "center",
         display: "flex",
       }}

@@ -1,7 +1,7 @@
 import { render, screen, type RenderResult } from "@testing-library/react";
 import React from "react";
 import NxDimCellType from "../../../../types/QIX";
-import type { GridItemData, LayoutService, MeasureCell } from "../../../../types/types";
+import type { GridItemData, LayoutService, MeasureCell, PageInfo } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
 import DataCell, { testId } from "../DataCell";
 
@@ -10,6 +10,7 @@ describe("DataCell", () => {
   let data: GridItemData;
   let layoutService: LayoutService;
   let renderDataCell: () => RenderResult;
+  let pageInfo: PageInfo;
 
   const style: React.CSSProperties = {
     position: "absolute",
@@ -45,6 +46,10 @@ describe("DataCell", () => {
       },
     } as unknown as LayoutService;
 
+    pageInfo = {
+      rowsOnCurrentPage: 2,
+    } as PageInfo;
+
     data = {
       grid: [[cell]],
       layoutService,
@@ -52,6 +57,7 @@ describe("DataCell", () => {
       shouldShowTotalCellBottomDivider: () => false,
       shouldShowTotalCellRightDivider: () => false,
       isTotalValue: () => false,
+      pageInfo,
     } as GridItemData;
 
     renderDataCell = () =>

@@ -3,9 +3,11 @@ import { getColumnWidthHandler, getRowHeightHandler } from "../get-item-size-han
 
 describe("getItemSizeHandler", () => {
   let list: List;
+  let listValues: Cell[];
 
   beforeEach(() => {
     list = {};
+    listValues = [];
   });
 
   describe("getRowHeightHandler", () => {
@@ -13,7 +15,7 @@ describe("getItemSizeHandler", () => {
     const qcy = 100;
 
     test("should return a size when cell is undefined", () => {
-      const handler = getRowHeightHandler(list, cellHeight, false, qcy);
+      const handler = getRowHeightHandler(list, listValues, cellHeight, false, qcy);
 
       expect(handler(0)).toEqual(cellHeight);
     });
@@ -25,7 +27,8 @@ describe("getItemSizeHandler", () => {
         leafCount,
         distanceToNextCell: 0,
       } as Cell;
-      const handler = getRowHeightHandler(list, cellHeight, false, qcy);
+      listValues = Object.values(list);
+      const handler = getRowHeightHandler(list, listValues, cellHeight, false, qcy);
 
       expect(handler(0)).toEqual(cellHeight * leafCount);
     });
@@ -38,7 +41,8 @@ describe("getItemSizeHandler", () => {
         leafCount,
         distanceToNextCell,
       } as Cell;
-      const handler = getRowHeightHandler(list, cellHeight, false, qcy);
+      listValues = Object.values(list);
+      const handler = getRowHeightHandler(list, listValues, cellHeight, false, qcy);
 
       expect(handler(0)).toEqual(cellHeight * (leafCount + distanceToNextCell));
     });
@@ -53,7 +57,8 @@ describe("getItemSizeHandler", () => {
         pageY,
         distanceToNextCell,
       } as Cell;
-      const handler = getRowHeightHandler(list, cellHeight, false, qcy);
+      listValues = Object.values(list);
+      const handler = getRowHeightHandler(list, listValues, cellHeight, false, qcy);
 
       expect(handler(0)).toEqual(cellHeight * (leafCount + pageY + distanceToNextCell));
     });
@@ -77,19 +82,22 @@ describe("getItemSizeHandler", () => {
         distanceToNextCell,
         x,
       } as Cell;
+      listValues = Object.values(list);
 
       getRightGridColumnWidth = () => columnWidth;
     });
 
-    const getHandler = () =>
+    const getHandler = (isLastRow = false) =>
       getColumnWidthHandler({
         list,
-        isLastRow: false,
+        listValues,
+        isLastRow,
         getRightGridColumnWidth,
       });
 
     test("should return a size when cell is undefined", () => {
       list = {};
+      listValues = [];
 
       const handler = getHandler();
       expect(handler(index)).toEqual(columnWidth);
@@ -97,12 +105,34 @@ describe("getItemSizeHandler", () => {
 
     test("should return a size when cell has no leaf nodes", () => {
       leafCount = 0;
+      distanceToNextCell = 2;
+      list[index] = {
+        leafCount,
+        distanceToNextCell,
+        x,
+      } as Cell;
+      listValues = Object.values(list);
+
+      const handler = getHandler();
+      expect(handler(index)).toEqual(columnWidth * distanceToNextCell);
+    });
+
+    test("should return a size when cell has no leaf nodes and is last row", () => {
+      leafCount = 0;
       list[index] = {
         leafCount,
         x,
       } as Cell;
+      listValues = Object.values(list);
 
-      const handler = getHandler();
+      const handler = getHandler(true);
+      expect(handler(index)).toEqual(columnWidth);
+    });
+
+    test("should return a size for empty last row", () => {
+      list = [];
+
+      const handler = getHandler(true);
       expect(handler(index)).toEqual(columnWidth);
     });
 
@@ -113,6 +143,7 @@ describe("getItemSizeHandler", () => {
         distanceToNextCell,
         x,
       } as Cell;
+      listValues = Object.values(list);
 
       const handler = getHandler();
       expect(handler(index)).toEqual(leafCount * columnWidth);
@@ -130,6 +161,7 @@ describe("getItemSizeHandler", () => {
         distanceToNextCell,
         x,
       } as Cell;
+      listValues = Object.values(list);
 
       const handler = getHandler();
       expect(handler(index)).toEqual((leafCount + distanceToNextCell + x) * columnWidth);

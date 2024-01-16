@@ -1,4 +1,5 @@
 import type { stardust } from "@nebula.js/stardust";
+import { HEAD_CELL_MENU_BUTTON_CLASS } from "@qlik/nebula-table-utils/lib/constants";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
@@ -17,6 +18,7 @@ describe("DimensionTitleCell", () => {
   const translator = { get: (s) => s } as stardust.Translator;
   const changeSortOrder = jest.fn();
   const changeActivelySortedColumn = jest.fn();
+  const overrideLeftGridWidth = jest.fn();
   const style: React.CSSProperties = {
     position: "relative",
     left: "25px",
@@ -28,7 +30,6 @@ describe("DimensionTitleCell", () => {
     shouldShowMenuIcon: true,
     shouldShowLockIcon: true,
   };
-
   let component: React.JSX.Element;
 
   beforeEach(() => {
@@ -38,11 +39,14 @@ describe("DimensionTitleCell", () => {
         cell={cell}
         translator={translator}
         style={style}
+        isLastRow
+        isFirstColumn={false}
         isLastColumn={false}
         changeSortOrder={changeSortOrder}
         changeActivelySortedHeader={changeActivelySortedColumn}
         iconsVisibilityStatus={iconsVisibilityStatus}
         columnWidth={100}
+        overrideLeftGridWidth={overrideLeftGridWidth}
       />
     );
   });
@@ -83,7 +87,7 @@ describe("DimensionTitleCell", () => {
         ),
       });
 
-      await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
+      await userEvent.click(screen.getByTestId(HEAD_CELL_MENU_BUTTON_CLASS));
 
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuGroupLabel.Sorting")).toBeInTheDocument());
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Search")).toBeInTheDocument());
@@ -100,7 +104,7 @@ describe("DimensionTitleCell", () => {
         ),
       });
 
-      await waitFor(() => expect(screen.queryByTestId("nebula-table-utils-head-menu-button")).not.toBeInTheDocument());
+      await waitFor(() => expect(screen.queryByTestId(HEAD_CELL_MENU_BUTTON_CLASS)).not.toBeInTheDocument());
     });
 
     test("should skip rendering search and select menu items if `interactions.select` is false", async () => {
@@ -113,7 +117,7 @@ describe("DimensionTitleCell", () => {
         ),
       });
 
-      await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
+      await userEvent.click(screen.getByTestId(HEAD_CELL_MENU_BUTTON_CLASS));
 
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuGroupLabel.Sorting")).toBeInTheDocument());
       await waitFor(() => expect(screen.queryByText("NebulaTableUtils.MenuItemLabel.Search")).not.toBeInTheDocument());
@@ -134,7 +138,7 @@ describe("DimensionTitleCell", () => {
         ),
       });
 
-      await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
+      await userEvent.click(screen.getByTestId(HEAD_CELL_MENU_BUTTON_CLASS));
       await userEvent.click(screen.getByText("NebulaTableUtils.MenuItemLabel.Search"));
 
       await waitFor(() =>
@@ -163,7 +167,7 @@ describe("DimensionTitleCell", () => {
         ),
       });
 
-      await userEvent.click(screen.getByTestId("nebula-table-utils-head-menu-button"));
+      await userEvent.click(screen.getByTestId(HEAD_CELL_MENU_BUTTON_CLASS));
       await userEvent.click(screen.getByText("NebulaTableUtils.MenuItemLabel.Selections"));
       await userEvent.click(screen.getByText("NebulaTableUtils.MenuItemLabel.SelectAll"));
 

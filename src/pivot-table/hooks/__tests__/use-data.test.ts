@@ -37,6 +37,7 @@ describe("useData", () => {
       layoutService: LayoutService,
       visibleTopDimensionInfo: VisibleDimensionInfo[],
       attrExprInfoIndexes: AttrExprInfoIndex[],
+      headerRows: number,
     ) => TopDimensionData
   >;
   // Measure data mocks
@@ -111,8 +112,9 @@ describe("useData", () => {
       layout: {
         qHyperCube,
       },
+      visibleMeasureInfo: [],
       size: { x: 3, y: 4 },
-    } as LayoutService;
+    } as unknown as LayoutService;
 
     leftDimensionData = {
       grid: [{}],
@@ -174,7 +176,7 @@ describe("useData", () => {
     const nextPage = {} as EngineAPI.INxPivotPage;
 
     act(() => {
-      result.current.nextPageHandler(nextPage);
+      result.current.nextPageHandler([nextPage]);
     });
 
     expect(mockedAddPageToTopDimensionData).toHaveBeenCalledWith({
@@ -183,6 +185,7 @@ describe("useData", () => {
       layoutService,
       visibleTopDimensionInfo,
       attrExprInfoIndexes,
+      headerRows: headersData.size.y,
     });
     expect(mockedAddPageToLeftDimensionData).toHaveBeenCalledWith({
       prevData: leftDimensionData,

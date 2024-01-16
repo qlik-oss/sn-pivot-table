@@ -1,4 +1,3 @@
-import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo } from "react";
 import { VariableSizeList } from "react-window";
 import type {
@@ -10,8 +9,9 @@ import type {
   VisibleDimensionInfo,
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
+import { useResetListCache, useResetListCacheAndRerender } from "../../hooks/use-reset-list-cache";
 import MemoizedDimensionValue from "../cells/DimensionValue";
-import getItemKey from "../helpers/get-item-key";
+import { getListIemKey } from "../helpers/get-item-key";
 import { getRowHeightHandler } from "../helpers/get-item-size-handler";
 import getKey from "../helpers/get-key";
 import getListMeta from "../helpers/get-list-meta";
@@ -34,7 +34,6 @@ interface LeftGridProps {
 const containerStyle: React.CSSProperties = {
   display: "flex",
   height: "fit-content",
-  width: "fit-content",
   borderWidth: "1px 0px 0px 0px",
   ...borderStyle,
 };
@@ -72,17 +71,11 @@ const LeftGrid = ({
     grid: { divider },
   } = useStyleContext();
 
-  useOnPropsChange(() => {
-    if (leftGridRef.current) {
-      leftGridRef.current.forEach((list) => list?.resetAfterIndex(0, false));
-    }
-  }, [dataModel, width, height, leftDimensionData, leftGridRef, contentCellHeight]);
+  useResetListCache(leftGridRef, leftDimensionData);
+
+  useResetListCacheAndRerender(leftGridRef, width, height, contentCellHeight, layoutService);
 
   const totalHeight = pageInfo.rowsOnCurrentPage * contentCellHeight;
-
-  if (leftDimensionData.columnCount === 0) {
-    return null;
-  }
 
   return (
     <div style={{ ...containerStyle, borderColor: divider }}>
@@ -100,11 +93,11 @@ const LeftGrid = ({
           <VariableSizeList
             key={key}
             ref={setListRef(leftGridRef, colIndex)}
-            style={listStyle}
+            style={{ ...listStyle, flexGrow: isLastColumn ? 1 : 0 }}
             height={height}
             width={columnWidths[colIndex]}
             itemCount={itemCount}
-            itemSize={getRowHeightHandler(list, contentCellHeight, isLastColumn, qSize.qcy)}
+            itemSize={getRowHeightHandler(list, listValues, contentCellHeight, isLastColumn, qSize.qcy)}
             layout="vertical"
             itemData={{
               layoutService,
@@ -117,7 +110,7 @@ const LeftGrid = ({
               listValues,
               totalDividerIndex: leftDimensionData.totalDividerIndex,
             }}
-            itemKey={getItemKey}
+            itemKey={getListIemKey}
             estimatedItemSize={estimatedItemSize}
           >
             {MemoizedDimensionValue}

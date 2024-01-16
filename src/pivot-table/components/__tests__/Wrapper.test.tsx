@@ -10,9 +10,7 @@ import { Wrapper } from "../Wrapper";
 jest.mock("../PivotTable");
 
 describe("Wrapper", () => {
-  const disclaimerText = "* Currently showing limited number of columns";
   const mockedPivotTable = StickyPivotTable as jest.MockedFunction<typeof StickyPivotTable>;
-  mockedPivotTable.mockReturnValue(<div />);
   let layoutService: LayoutService;
   let translator: stardust.Translator;
   let pageInfo: PageInfo;
@@ -21,6 +19,7 @@ describe("Wrapper", () => {
   beforeEach(() => {
     layoutService = {
       hasLimitedData: false,
+      hasData: true,
       layout: {
         qInfo: {
           qId: "test",
@@ -28,7 +27,7 @@ describe("Wrapper", () => {
       },
     } as LayoutService;
     translator = {
-      get: () => disclaimerText,
+      get: (str: string) => str,
     } as unknown as stardust.Translator;
     pageInfo = {
       page: 0,
@@ -39,26 +38,43 @@ describe("Wrapper", () => {
     } as PageInfo;
 
     rect = { width: 1000, height: 1000 };
+
+    mockedPivotTable.mockReturnValue(<div />);
   });
 
-  test("should render with a disclaimer", () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  test("should render with a limited data disclaimer", () => {
     layoutService.hasLimitedData = true;
     render(
       <TestWithProvider>
         <Wrapper {...({ layoutService, translator, pageInfo, rect } as unknown as WrapperProps)} />
       </TestWithProvider>,
     );
-    expect(screen.getByText(disclaimerText)).toBeVisible();
+    expect(screen.getByText("SNPivotTable.LimitedData")).toBeVisible();
   });
 
-  test("should render without a disclaimer", () => {
+  test("should render without limited data disclaimer", () => {
     layoutService.hasLimitedData = false;
     render(
       <TestWithProvider>
         <Wrapper {...({ layoutService, translator, pageInfo, rect } as unknown as WrapperProps)} />
       </TestWithProvider>,
     );
-    expect(screen.queryByText(disclaimerText)).toBeNull();
+    expect(screen.queryByText("SNPivotTable.LimitedData")).toBeNull();
+  });
+
+  test("should render with a no data disclaimer", () => {
+    layoutService.hasData = false;
+    render(
+      <TestWithProvider>
+        <Wrapper {...({ layoutService, translator, pageInfo, rect } as unknown as WrapperProps)} />
+      </TestWithProvider>,
+    );
+    expect(screen.getByText("SNPivotTable.NoData")).toBeVisible();
+    expect(mockedPivotTable).not.toHaveBeenCalled();
   });
 
   test("should render with pagination", () => {

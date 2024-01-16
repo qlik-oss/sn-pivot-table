@@ -1,7 +1,7 @@
 import type { stardust } from "@nebula.js/stardust";
 import React, { memo } from "react";
 import type { ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeadersData } from "../../../types/types";
-import type { GetHeaderCellsIconsVisibilityStatus } from "../../hooks/use-column-width";
+import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import DimensionTitleCell from "../cells/DimensionTitleCell";
 import EmptyHeaderCell from "../cells/EmptyHeaderCell";
 
@@ -15,6 +15,7 @@ interface HeaderGridProps {
   changeActivelySortedHeader: ChangeActivelySortedHeader;
   getHeaderCellsIconsVisibilityStatus: GetHeaderCellsIconsVisibilityStatus;
   height: number;
+  overrideLeftGridWidth: OverrideLeftGridWidth;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -32,6 +33,7 @@ const HeaderGrid = ({
   changeActivelySortedHeader,
   getHeaderCellsIconsVisibilityStatus,
   height,
+  overrideLeftGridWidth,
 }: HeaderGridProps): JSX.Element | null => (
   <div
     style={{
@@ -41,7 +43,7 @@ const HeaderGrid = ({
       height,
     }}
   >
-    {headersData.size.y > 1 && <EmptyHeaderCell columnSpan={columnWidths.length} rowSpan={headersData.size.y - 1} />}
+    {headersData.size.y > 1 && <EmptyHeaderCell columnSpan={headersData.size.x - 1} rowSpan={headersData.size.y - 1} />}
     {headersData.data.map((row, rowIndex) =>
       row.reduce((acc, cell, colIndex) => {
         if (cell) {
@@ -55,8 +57,10 @@ const HeaderGrid = ({
                 height: rowHight,
                 gridColumn: colIndex + 1,
                 gridRow: rowIndex + 1,
-                zIndex: Number(!cell.isDim),
+                zIndex: headersData.size.x - colIndex,
               }}
+              isLastRow={rowIndex === headersData.size.y - 1}
+              isFirstColumn={colIndex === 0}
               isLastColumn={colIndex === headersData.size.x - 1}
               translator={translator}
               changeSortOrder={changeSortOrder}
@@ -64,6 +68,7 @@ const HeaderGrid = ({
               cell={cell}
               iconsVisibilityStatus={iconsVisibilityStatus}
               columnWidth={columnWidths[colIndex]}
+              overrideLeftGridWidth={overrideLeftGridWidth}
             />,
           );
         }

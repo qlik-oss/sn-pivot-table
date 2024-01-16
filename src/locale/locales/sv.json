@@ -3,5 +3,10 @@
     "value": "* Visar för närvarande ett begränsat antal kolumner",
     "comment": "Disclaimer stating that not all columns can be rendered (buy 230502)",
     "version": "qruA8uvQlh+60cItLl0/7Q=="
+  },
+  "SNPivotTable.NoData": {
+    "value": "Diagrammet visas inte eftersom det inte innehåller några värden.",
+    "comment": "Disclaimer for when the chart cannot render because there is no values",
+    "version": "wME0wOApnbEfAbxAj2dfuw=="
   }
 }

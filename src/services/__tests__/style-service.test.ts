@@ -1,8 +1,9 @@
 import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
+import { Colors } from "../../pivot-table/components/shared-styles";
 import { DEFAULT_FONT_FAMILY } from "../../pivot-table/constants";
 import type { Component, PaletteColor } from "../../types/QIX";
 import type { LayoutService, StyleService } from "../../types/types";
-import createStyleService from "../style-service";
+import createStyleService, { resolveColor } from "../style-service";
 
 describe("style-service", () => {
   let themeValue: string | undefined = "18px"; // Choosing a value that works for the cellHeight calculation
@@ -24,7 +25,7 @@ describe("style-service", () => {
       getStyle: (basePath: string, path: string, attribute: string) =>
         attribute === "lineClamp" && themeValue !== undefined ? lineClamp : themeValue,
       getColorPickerColor: (paletteColor: PaletteColor) =>
-        paletteColor.index && paletteColor.index > -1 ? colorFromPalette : color,
+        paletteColor.index !== undefined && paletteColor.index > -1 ? colorFromPalette : color,
     } as unknown as ExtendedTheme;
     layoutServiceMock = {
       layout: {
@@ -78,6 +79,17 @@ describe("style-service", () => {
         ],
       },
     } as unknown as LayoutService;
+  });
+
+  describe("resolveColor", () => {
+    test("should resolve `none` color from palette", () => {
+      themeMock = {
+        getColorPickerColor: (paletteColor: PaletteColor) =>
+          paletteColor.index !== undefined && paletteColor.index > -1 ? paletteColor.color : undefined,
+      } as unknown as ExtendedTheme;
+
+      expect(resolveColor(themeMock, { index: 0, color: "none" })).toEqual(Colors.Transparent);
+    });
   });
 
   test("should resolve style from layout", () => {
@@ -141,6 +153,8 @@ describe("style-service", () => {
       },
       headerCellHeight: 32,
       contentCellHeight: 48,
+      contentRowHeight: 24,
+      contentTextHeight: 16,
     } as StyleService);
   });
 
@@ -207,6 +221,8 @@ describe("style-service", () => {
       },
       headerCellHeight: 32,
       contentCellHeight: 56,
+      contentRowHeight: 28,
+      contentTextHeight: 20,
     } as StyleService);
   });
 
@@ -233,7 +249,7 @@ describe("style-service", () => {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",
-        color: "rgba(0, 0, 0, 0.55)",
+        color: Colors.FontSecondary,
         background: "transparent",
       },
       dimensionValues: {
@@ -249,7 +265,7 @@ describe("style-service", () => {
         fontWeight: "normal",
         fontStyle: "normal",
         textDecoration: "none",
-        color: "rgba(0, 0, 0, 0.55)",
+        color: Colors.FontSecondary,
         background: "transparent",
       },
       totalValues: {
@@ -264,16 +280,18 @@ describe("style-service", () => {
         fontStyle: "normal",
         textDecoration: "none",
         color: "#404040",
-        background: "rgba(0, 0, 0, 0.05)",
+        background: Colors.NullValueBackground,
       },
       grid: {
         lineClamp: 1,
-        border: "rgba(0, 0, 0, 0.15)",
-        divider: "rgba(0, 0, 0, 0.6)",
+        border: Colors.DividerLight,
+        divider: Colors.DividerDark,
         background: "transparent",
       },
       headerCellHeight: 32,
       contentCellHeight: 24,
+      contentRowHeight: 24,
+      contentTextHeight: 16,
     } as StyleService);
   });
 });
