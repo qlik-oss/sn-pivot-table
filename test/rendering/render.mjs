@@ -26,7 +26,7 @@ test.describe("sn-pivot-table: Rendering tests", () => {
   test.beforeAll(async () => {
     nebulaServer = await serve({
       // the entry is equal to path.resolve(dirname, '../../dist/sn-pivot-table.js'),
-      // so before run the testing, yarn build should run first to generate /dist
+      // so before run the testing, pnpm build should run first to generate /dist
       entry: path.resolve(dirname, "../../"),
       ...config.serve,
     });

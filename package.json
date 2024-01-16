@@ -24,9 +24,9 @@
     "sn-pivot-table-ext"
   ],
   "scripts": {
-    "build": "yarn run locale:generate && node ./scripts/build.js --core --ext",
-    "build:dev": "yarn run locale:generate && node ./scripts/build.js --core --ext --mode development",
-    "build:watch": "yarn run locale:generate && node ./scripts/build.js --mode development -w",
+    "build": "pnpm run locale:generate && node ./scripts/build.js --core --ext",
+    "build:dev": "pnpm run locale:generate && node ./scripts/build.js --core --ext --mode development",
+    "build:watch": "pnpm run locale:generate && node ./scripts/build.js --mode development -w",
     "copy:ext": "node ./scripts/copy-ext.js",
     "format:check": "prettier --check '**' --ignore-unknown",
     "format:write": "prettier --write '**' --ignore-unknown",
@@ -36,10 +36,10 @@
     "prepare": "husky install",
     "sense": "nebula sense",
     "spec": "npx @scriptappy/cli from-jsdoc -c ./scriptappy.config.js",
-    "start": "yarn run locale:generate && nebula serve  --type sn-pivot-table",
-    "start:fixture": "yarn run locale:generate && nebula serve --config ./nebula.rendering.config.js",
-    "start:mfe": "yarn run locale:generate && nebula serve --mfe  --type sn-pivot-table",
-    "test:e2e": "yarn test:rendering",
+    "start": "pnpm run locale:generate && nebula serve  --type sn-pivot-table",
+    "start:fixture": "pnpm run locale:generate && nebula serve --config ./nebula.rendering.config.js",
+    "start:mfe": "pnpm run locale:generate && nebula serve --mfe  --type sn-pivot-table",
+    "test:e2e": "pnpm test:rendering",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",
     "test:rendering": "playwright test",
@@ -48,10 +48,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,lock}": [
-      "bash -c 'yarn lint'",
-      "bash -c 'yarn types:check'"
+      "bash -c 'pnpm lint'",
+      "bash -c 'pnpm types:check'"
     ],
-    "*": "bash -c 'yarn format:check'"
+    "*": "bash -c 'pnpm format:check'"
   },
   "prettier": "@qlik/prettier-config",
   "eslintConfig": {
@@ -80,9 +80,6 @@
     },
     "root": true
   },
-  "resolutions": {
-    "rollup": "npm:rollup@3.29.4"
-  },
   "devDependencies": {
     "@babel/core": "7.23.7",
     "@babel/preset-env": "7.23.8",
@@ -99,6 +96,7 @@
     "@nebula.js/cli-build": "4.9.0",
     "@nebula.js/cli-sense": "4.9.0",
     "@nebula.js/cli-serve": "4.9.0",
+    "@nebula.js/stardust": "4.9.0",
     "@playwright/test": "1.40.1",
     "@qlik-trial/sprout": "3.5.0",
     "@qlik/eslint-config": "0.7.1",
@@ -140,12 +138,17 @@
   "peerDependencies": {
     "@nebula.js/stardust": "^4.6.2"
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "^pnpm@8.0.0",
   "engines": {
     "node": ">=16"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "pnpm": {
+    "overrides": {
+      "rollup": "3.29.4"
+    }
   },
   "qext": {
     "name": "Pivot table",
