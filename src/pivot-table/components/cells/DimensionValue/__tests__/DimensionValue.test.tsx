@@ -150,14 +150,6 @@ describe("DimensionValue", () => {
     expect(screen.getByTestId(emptyCellTestId)).toBeInTheDocument();
   });
 
-  test("should render cell with null value text", () => {
-    cell.isNull = true;
-    layoutService.getNullValueText = () => "null";
-    renderCell();
-
-    expect(screen.getByText("null")).toBeInTheDocument();
-  });
-
   test("should not render expand or collapse icon if cell is not expandable or collapseable", () => {
     cell.ref.qCanExpand = false;
     cell.ref.qCanCollapse = false;

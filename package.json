@@ -1,6 +1,6 @@
 {
   "name": "@nebula.js/sn-pivot-table",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Display dimensions and measures as rows and columns in a table. Analyze data by multiple measures and in multiple dimensions at the same time. Use pivoting (rearranging the measures and dimensions) to get different views of the data.",
   "keywords": [
     "qlik",
@@ -24,9 +24,9 @@
     "sn-pivot-table-ext"
   ],
   "scripts": {
-    "build": "yarn run locale:generate && node ./scripts/build.js --core --ext",
-    "build:dev": "yarn run locale:generate && node ./scripts/build.js --core --ext --mode development",
-    "build:watch": "yarn run locale:generate && node ./scripts/build.js --mode development -w",
+    "build": "pnpm run locale:generate && node ./scripts/build.js --core --ext",
+    "build:dev": "pnpm run locale:generate && node ./scripts/build.js --core --ext --mode development",
+    "build:watch": "pnpm run locale:generate && node ./scripts/build.js --mode development -w",
     "copy:ext": "node ./scripts/copy-ext.js",
     "format:check": "prettier --check '**' --ignore-unknown",
     "format:write": "prettier --write '**' --ignore-unknown",
@@ -36,10 +36,10 @@
     "prepare": "husky install",
     "sense": "nebula sense",
     "spec": "npx @scriptappy/cli from-jsdoc -c ./scriptappy.config.js",
-    "start": "yarn run locale:generate && nebula serve  --type sn-pivot-table",
-    "start:fixture": "yarn run locale:generate && nebula serve --config ./nebula.rendering.config.js",
-    "start:mfe": "yarn run locale:generate && nebula serve --mfe  --type sn-pivot-table",
-    "test:e2e": "yarn test:rendering",
+    "start": "pnpm run locale:generate && nebula serve  --type sn-pivot-table",
+    "start:fixture": "pnpm run locale:generate && nebula serve --config ./nebula.rendering.config.js",
+    "start:mfe": "pnpm run locale:generate && nebula serve --mfe  --type sn-pivot-table",
+    "test:e2e": "pnpm test:rendering",
     "test:local:rendering": "./test/rendering/scripts/run-rendering-test.sh",
     "test:local:update:screenshots": "./test/rendering/scripts/update-screenshots.sh",
     "test:rendering": "playwright test",
@@ -47,11 +47,11 @@
     "types:check": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,lock}": [
-      "bash -c 'yarn lint'",
-      "bash -c 'yarn types:check'"
+    "*.{js,jsx,ts,tsx,yaml}": [
+      "bash -c 'pnpm lint'",
+      "bash -c 'pnpm types:check'"
     ],
-    "*": "bash -c 'yarn format:check'"
+    "*": "bash -c 'pnpm format:check'"
   },
   "prettier": "@qlik/prettier-config",
   "eslintConfig": {
@@ -80,12 +80,9 @@
     },
     "root": true
   },
-  "resolutions": {
-    "rollup": "npm:rollup@3.29.4"
-  },
   "devDependencies": {
     "@babel/core": "7.23.7",
-    "@babel/preset-env": "7.23.7",
+    "@babel/preset-env": "7.23.8",
     "@babel/preset-react": "7.23.3",
     "@babel/preset-typescript": "7.23.3",
     "@commitlint/cli": "18.4.4",
@@ -93,19 +90,20 @@
     "@emotion/react": "11.11.3",
     "@emotion/styled": "11.11.0",
     "@material-ui/core": "4.12.4",
-    "@mui/material": "5.15.3",
+    "@mui/material": "5.15.4",
     "@mui/styled-engine-sc": "5.14.12",
     "@nebula.js/cli": "4.9.0",
     "@nebula.js/cli-build": "4.9.0",
     "@nebula.js/cli-sense": "4.9.0",
     "@nebula.js/cli-serve": "4.9.0",
+    "@nebula.js/stardust": "4.9.0",
     "@playwright/test": "1.40.1",
     "@qlik-trial/sprout": "3.5.0",
-    "@qlik/eslint-config": "0.6.6",
+    "@qlik/eslint-config": "0.7.1",
     "@qlik/nebula-table-utils": "2.6.7",
-    "@qlik/prettier-config": "0.4.5",
+    "@qlik/prettier-config": "0.4.6",
     "@qlik/tsconfig": "0.2.3",
-    "@rollup/plugin-typescript": "11.1.5",
+    "@rollup/plugin-typescript": "11.1.6",
     "@scriptappy/cli": "0.10.0",
     "@scriptappy/from-jsdoc": "0.19.0",
     "@testing-library/jest-dom": "6.2.0",
@@ -113,6 +111,7 @@
     "@testing-library/user-event": "14.5.2",
     "@types/d3-color": "3.1.3",
     "@types/jest": "29.5.11",
+    "@types/node": "20.11.5",
     "@types/qlik-engineapi": "12.67.16",
     "@types/react": "18.2.47",
     "@types/react-dom": "18.2.18",
@@ -121,13 +120,14 @@
     "babel-eslint": "10.1.0",
     "d3-color": "3.1.0",
     "eslint": "8.56.0",
+    "fs-extra": "11.2.0",
     "globby": "14.0.0",
     "husky": "8.0.3",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "jest-junit": "16.0.0",
     "lint-staged": "15.2.0",
-    "prettier": "3.1.1",
+    "prettier": "3.2.2",
     "qlik-chart-modules": "0.59.0",
     "qlik-object-conversion": "0.16.4",
     "react": "18.2.0",
@@ -135,17 +135,23 @@
     "react-window": "1.8.10",
     "tslib": "2.6.2",
     "typescript": "5.3.3",
-    "uuid": "9.0.1"
+    "uuid": "9.0.1",
+    "yargs": "17.7.2"
   },
   "peerDependencies": {
     "@nebula.js/stardust": "^4.6.2"
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "^pnpm@8.0.0",
   "engines": {
     "node": ">=16"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "pnpm": {
+    "overrides": {
+      "rollup": "3.29.4"
+    }
   },
   "qext": {
     "name": "Pivot table",

@@ -2,7 +2,7 @@ import type { stardust } from "@nebula.js/stardust";
 import type { ExtendedTheme } from "@qlik/nebula-table-utils/lib/hooks/use-extended-theme/types";
 import React, { type ReactNode } from "react";
 import type { App, Model } from "../../types/QIX";
-import type { ExtendedSelections } from "../../types/types";
+import type { ExtendedSelections, Flags } from "../../types/types";
 import type { RootProps } from "../Root";
 import { CELL_PADDING_HEIGHT, DEFAULT_CELL_HEIGHT } from "../constants";
 import BaseProvider from "../contexts/BaseProvider";
@@ -90,6 +90,9 @@ const TestWithProvider = (props: Props) => {
       background: { tableColorFromTheme: "inherit", isDark: false, isTransparent: false, color: "transparent" },
     } as ExtendedTheme,
     keyboard = {} as stardust.Keyboard,
+    flags = {
+      isEnabled: () => true,
+    } as Flags,
   } = props;
 
   // This enables only overriding one or several default properties, not necessarily the entire object
@@ -106,7 +109,15 @@ const TestWithProvider = (props: Props) => {
   } as unknown as ExtendedSelections;
 
   return (
-    <BaseProvider model={model} app={app} interactions={interactions} embed={embed} theme={theme} keyboard={keyboard}>
+    <BaseProvider
+      model={model}
+      app={app}
+      interactions={interactions}
+      embed={embed}
+      theme={theme}
+      keyboard={keyboard}
+      flags={flags}
+    >
       <SelectionsProvider selections={mockedSelections} updatePageInfo={updatePageInfo}>
         <StyleProvider styleService={styleService}>{children}</StyleProvider>
       </SelectionsProvider>

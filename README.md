@@ -55,13 +55,13 @@ Look into [Build a simple mashup using nebula.js](https://qlik.dev/tutorials/bui
 Install all dependencies:
 
 ```sh
-yarn
+pnpm install
 ```
 
 Build a nebula.js visualization as a Qlik Sense extension:
 
 ```sh
-yarn build
+pnpm build
 ```
 
 Compress the generated 'sn-pivot-table-ext' folder into the 'application/zip' file format
