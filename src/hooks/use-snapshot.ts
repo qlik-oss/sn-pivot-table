@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { onTakeSnapshot, type stardust } from "@nebula.js/stardust";
+import { onTakeSnapshot, useImperativeHandle, type stardust } from "@nebula.js/stardust";
 import { Q_PATH } from "../constants";
 import type { Model, SnapshotLayout } from "../types/QIX";
 import type { LayoutService, ViewService } from "../types/types";
@@ -9,41 +9,34 @@ interface UseSnapshotProps {
   viewService: ViewService;
   rect: stardust.Rect;
   model: Model;
+  element: HTMLElement;
 }
 
-const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotProps): stardust.Rect => {
-  onTakeSnapshot(async (copyOfLayout: SnapshotLayout) => {
-    if (!copyOfLayout.snapshotData) {
-      return copyOfLayout;
+const useSnapshot = ({ layoutService, viewService, rect, model, element }: UseSnapshotProps): stardust.Rect => {
+  onTakeSnapshot(async (snapshotLayout: SnapshotLayout) => {
+    if (!snapshotLayout.snapshotData || !model || snapshotLayout.snapshotData.content) {
+      return snapshotLayout;
     }
 
-    if (!model) {
-      return copyOfLayout;
+    if ((model as EngineAPI.IGenericObject)?.getHyperCubePivotData) {
+      const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [
+        {
+          qLeft: viewService.gridColumnStartIndex,
+          qTop: viewService.gridRowStartIndex,
+          qWidth: viewService.gridWidth,
+          qHeight: viewService.gridHeight,
+        },
+      ]);
+
+      snapshotLayout.snapshotData.content = {
+        qPivotDataPages: pivotPages,
+      };
     }
 
-    if (!copyOfLayout.snapshotData.content) {
-      if ((model as EngineAPI.IGenericObject)?.getHyperCubePivotData) {
-        const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [
-          {
-            qLeft: viewService.gridColumnStartIndex,
-            qTop: viewService.gridRowStartIndex,
-            qWidth: viewService.gridWidth,
-            qHeight: viewService.gridHeight,
-          },
-        ]);
+    snapshotLayout.snapshotData.object.size.w = rect.width;
+    snapshotLayout.snapshotData.object.size.h = rect.height;
 
-        copyOfLayout.snapshotData.content = {
-          qPivotDataPages: pivotPages,
-        };
-      }
-
-      copyOfLayout.snapshotData.object.size.w = rect.width;
-      copyOfLayout.snapshotData.object.size.h = rect.height;
-
-      return copyOfLayout;
-    }
-
-    return copyOfLayout;
+    return snapshotLayout;
   });
 
   if (layoutService.layout.snapshotData?.content) {
@@ -54,6 +47,11 @@ const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotPro
       height: layoutService.layout.snapshotData.object.size.h,
     };
   }
+
+  useImperativeHandle(
+    () => ({ getViewState: () => getViewState(layoutService, viewService, element) }),
+    [layoutService, viewService, element],
+  );
 
   return rect;
 };
