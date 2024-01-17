@@ -98,6 +98,9 @@ devDependencies:
   '@types/jest':
     specifier: 29.5.11
     version: 29.5.11
+  '@types/node':
+    specifier: 20.11.5
+    version: 20.11.5
   '@types/qlik-engineapi':
     specifier: 12.67.16
     version: 12.67.16
