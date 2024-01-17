@@ -22,13 +22,13 @@ To capture same screenshot on the same operating system both locally and on a CI
 If you've updated the UI, you need to run the update-screenshots.sh script:
 
     # Install dependencies
-    yarn --frozen-lockfile
+    pnpm install --frozen-lockfile
 
     # Build nebula.js visualization
-    yarn build
+    pnpm build
 
     chmod 777 ./test/rendering/scripts/update-screenshots.sh
-    yarn test:local:update:screenshots
+    pnpm test:local:update:screenshots
 
 It will spin up a docker container with playwright and enable us to emulate our CI server for updating the reference screenshots. The `--update-snapshots` will generate new screenshots for you.
 
@@ -38,6 +38,6 @@ Sometimes tests might break, if you are certain no UI changes have been made jus
 
 ## Debug tests locally
 
-Run `yarn start:fixture`
+Run `pnpm start:fixture`
 
 Open in browser `http://localhost:<port>/render?fixture=./<name-of-fixture>.fix.js&theme=default`

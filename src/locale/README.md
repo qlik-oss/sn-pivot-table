@@ -20,13 +20,13 @@ translator.get("company.hello_user", ["John"]); // Hello John
 Generate all.json
 
 ```sh
-yarn locale:generate
+pnpm locale:generate
 ```
 
 verify locale
 
 ```sh
-yarn locale:verify
+pnpm locale:verify
 ```
 
 ## Locale specific strings

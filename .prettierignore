@@ -1,5 +1,4 @@
 .cache/
-.yarn/
 dist/
 core/esm/
 .DS_Store
@@ -8,7 +7,7 @@ sn-pivot-table-ext
 coverage
 node_modules
 mashup-example
-yarn.lock
+pnpm-lock.yaml
 test-report
 api-specifications
 CHANGELOG.md
