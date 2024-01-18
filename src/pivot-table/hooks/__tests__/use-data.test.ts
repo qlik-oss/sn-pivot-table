@@ -43,12 +43,7 @@ describe("useData", () => {
   // Measure data mocks
   let mockedAddPageToMeasureData: jest.MockedFunction<(args: AddPageToMeasureDataProps) => MeasureData>;
   let mockedCreateMeasureData: jest.MockedFunction<
-    (
-      dataPage: EngineAPI.INxPivotPage,
-      pageInfo: PageInfo,
-      attrExprInfoIndexes: AttrExprInfoIndex[],
-      layoutService: LayoutService,
-    ) => MeasureData
+    (dataPage: EngineAPI.INxPivotPage, pageInfo: PageInfo) => MeasureData
   >;
   // Left data mocks
   let mockedAddPageToLeftDimensionData: jest.MockedFunction<
@@ -199,8 +194,6 @@ describe("useData", () => {
       prevData: measureData,
       dataPage: nextPage,
       pageInfo,
-      attrExprInfoIndexes,
-      layoutService,
     });
   });
 });

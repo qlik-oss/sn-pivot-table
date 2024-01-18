@@ -3,6 +3,7 @@ import { useOnPropsChange } from "@qlik/nebula-table-utils/lib/hooks";
 import React, { memo, useLayoutEffect } from "react";
 import { VariableSizeGrid } from "react-window";
 import type {
+  AttrExprInfoIndex,
   DataModel,
   GridItemData,
   LayoutService,
@@ -13,6 +14,7 @@ import type {
   ShowLastBorder,
   TopDimensionData,
   ViewService,
+  VisibleDimensionInfo,
 } from "../../../types/types";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import {
@@ -36,6 +38,9 @@ interface DataGridProps {
   measureData: MeasureData;
   topDimensionData: TopDimensionData;
   leftDimensionData: LeftDimensionData;
+  visibleTopDimensionInfo: VisibleDimensionInfo[];
+  visibleLeftDimensionInfo: VisibleDimensionInfo[];
+  attrExprInfoIndexes: AttrExprInfoIndex[];
   showLastBorder: ShowLastBorder;
   getRightGridColumnWidth: (index?: number) => number;
   pageInfo: PageInfo;
@@ -61,6 +66,9 @@ const DataGrid = ({
   measureData,
   leftDimensionData,
   topDimensionData,
+  visibleTopDimensionInfo,
+  visibleLeftDimensionInfo,
+  attrExprInfoIndexes,
   showLastBorder,
   getRightGridColumnWidth,
   pageInfo,
@@ -133,6 +141,9 @@ const DataGrid = ({
           shouldShowTotalCellBottomDivider,
           shouldShowTotalCellRightDivider,
           pageInfo,
+          lastRow: topDimensionData.grid.at(visibleTopDimensionInfo.length - 1),
+          lastColumn: leftDimensionData.grid.at(visibleLeftDimensionInfo.length - 1),
+          attrExprInfoIndexes,
         } as GridItemData
       }
       onItemsRendered={onItemsRenderedHandler}

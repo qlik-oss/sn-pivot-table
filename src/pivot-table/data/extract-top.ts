@@ -30,7 +30,7 @@ const extractTopGrid = (
 
     nodes.forEach((node, currColIdx) => {
       colIdx += currColIdx === 0 ? 0 : 1;
-      const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous tail size
+      const x = qArea.qLeft + colIdx - node.qUp; // Start position + current page position - previous
       // If cell already exist do not create a new cell
       const cell =
         grid[rowIdx][x] ??

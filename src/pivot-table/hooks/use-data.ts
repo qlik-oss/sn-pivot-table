@@ -44,12 +44,10 @@ const useData = (
             prevData,
             dataPage: nextDataPage,
             pageInfo,
-            attrExprInfoIndexes: attrExprInfoIndexes.measures,
-            layoutService,
           }),
-        createMeasureData(qPivotDataPages[0], pageInfo, attrExprInfoIndexes.measures, layoutService),
+        createMeasureData(qPivotDataPages[0], pageInfo),
       ),
-    [qPivotDataPages, pageInfo, attrExprInfoIndexes, layoutService],
+    [qPivotDataPages, pageInfo],
   );
 
   const deriveTopDimensionDataFromProps = useCallback(
@@ -127,8 +125,6 @@ const useData = (
           prevData,
           dataPage: nextPage,
           pageInfo,
-          attrExprInfoIndexes: attrExprInfoIndexes.measures,
-          layoutService,
         }),
       );
       setTopDimensionData((prevData) =>
@@ -171,6 +167,7 @@ const useData = (
     measureData,
     topDimensionData,
     leftDimensionData,
+    attrExprInfoIndexes,
     nextPageHandler,
   };
 };

@@ -1,4 +1,4 @@
-import type { AttrExprInfoIndex, LayoutService, MeasureCell, PageInfo } from "../../../types/types";
+import type { MeasureCell, PageInfo } from "../../../types/types";
 import { addPageToMeasureData, createMeasureData } from "../measure-data";
 
 jest.mock("../helpers/get-random-uuid");
@@ -8,13 +8,10 @@ describe("measure data", () => {
     page: 0,
     rowsPerPage: 100,
   } as PageInfo;
-  const attrExprInfoIndexes: AttrExprInfoIndex[] = [];
-  const layoutService: LayoutService = { hasPseudoDimOnLeft: false } as LayoutService;
   const testCell = {
     id: "mocked-id",
     ref: {},
     isNull: false,
-    expressionColor: { color: null, background: null },
   } as MeasureCell;
 
   describe("create", () => {
@@ -26,7 +23,7 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 2, qHeight: 2, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
-      const data = createMeasureData(dataPage, pageInfo, attrExprInfoIndexes, layoutService);
+      const data = createMeasureData(dataPage, pageInfo);
 
       expect(data).toEqual([
         [testCell, testCell],
@@ -39,7 +36,7 @@ describe("measure data", () => {
         qData: [[{}, {}]],
         qArea: { qWidth: 2, qHeight: 1, qLeft: 0, qTop: 1 },
       } as unknown as EngineAPI.INxPivotPage;
-      const data = createMeasureData(dataPage, pageInfo, attrExprInfoIndexes, layoutService);
+      const data = createMeasureData(dataPage, pageInfo);
 
       expect(data).toEqual([undefined, [testCell, testCell]]);
       expect(data).not.toBe(dataPage.qData); // Should not be referentially equal
@@ -50,7 +47,7 @@ describe("measure data", () => {
         qData: [[{}, {}]],
         qArea: { qWidth: 2, qHeight: 1, qLeft: 1, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
-      const data = createMeasureData(dataPage, pageInfo, attrExprInfoIndexes, layoutService);
+      const data = createMeasureData(dataPage, pageInfo);
 
       expect(data).toEqual([[undefined, testCell, testCell]]);
       expect(data).not.toBe(dataPage.qData); // Should not be referentially equal
@@ -66,7 +63,7 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 2, qHeight: 2, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
-      const prevData = createMeasureData(dataPage, pageInfo, attrExprInfoIndexes, layoutService);
+      const prevData = createMeasureData(dataPage, pageInfo);
 
       const nextDataPage = {
         qData: [
@@ -80,8 +77,6 @@ describe("measure data", () => {
         prevData,
         dataPage: nextDataPage,
         pageInfo,
-        attrExprInfoIndexes,
-        layoutService,
       });
 
       expect(data).toEqual([
@@ -98,7 +93,7 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 2, qHeight: 2, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
-      const prevData = createMeasureData(dataPage, pageInfo, attrExprInfoIndexes, layoutService);
+      const prevData = createMeasureData(dataPage, pageInfo);
 
       const nextDataPage = {
         qData: [[{}, {}]],
@@ -109,8 +104,6 @@ describe("measure data", () => {
         prevData,
         dataPage: nextDataPage,
         pageInfo,
-        attrExprInfoIndexes,
-        layoutService,
       });
 
       expect(data).toEqual([
@@ -127,7 +120,7 @@ describe("measure data", () => {
         ],
         qArea: { qWidth: 2, qHeight: 2, qLeft: 0, qTop: 0 },
       } as unknown as EngineAPI.INxPivotPage;
-      const prevData = createMeasureData(dataPage, pageInfo, attrExprInfoIndexes, layoutService);
+      const prevData = createMeasureData(dataPage, pageInfo);
 
       const nextDataPage = {
         qData: [],
@@ -138,8 +131,6 @@ describe("measure data", () => {
         prevData,
         dataPage: nextDataPage,
         pageInfo,
-        attrExprInfoIndexes,
-        layoutService,
       });
 
       expect(data).toEqual(prevData);

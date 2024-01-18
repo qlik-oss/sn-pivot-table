@@ -30,6 +30,14 @@ const createLayoutService = (
   return {
     layout,
     getNullValueText: () => nullValueRepresentation?.text ?? "-",
+    /**
+     * This method only works if pseudo dimensions are on the left grid OR pseudo dimensions are
+     * on the top grid and at the last row (leaf nodes). To get the correct value in the other cases
+     * use the "getMeasureInfoIndex" function.
+     *
+     * For some features this is just fine, for example the column width feature is only applicable
+     * on the last row when re-sizing a column in the top grid.
+     */
     getMeasureInfoIndexFromCellIndex: (index: number, getVisibleIndex = false) => {
       if (hasPseudoDimOnLeft) {
         return 0;

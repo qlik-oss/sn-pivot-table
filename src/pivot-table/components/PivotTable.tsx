@@ -50,13 +50,8 @@ export const StickyPivotTable = ({
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
   const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
 
-  const { headersData, measureData, topDimensionData, leftDimensionData, nextPageHandler } = useData(
-    qPivotDataPages,
-    layoutService,
-    pageInfo,
-    visibleLeftDimensionInfo,
-    visibleTopDimensionInfo,
-  );
+  const { headersData, measureData, topDimensionData, leftDimensionData, attrExprInfoIndexes, nextPageHandler } =
+    useData(qPivotDataPages, layoutService, pageInfo, visibleLeftDimensionInfo, visibleTopDimensionInfo);
 
   const dataModel = useDataModel({
     model,
@@ -219,6 +214,9 @@ export const StickyPivotTable = ({
                   measureData={measureData}
                   leftDimensionData={leftDimensionData}
                   topDimensionData={topDimensionData}
+                  visibleTopDimensionInfo={visibleTopDimensionInfo}
+                  visibleLeftDimensionInfo={visibleLeftDimensionInfo}
+                  attrExprInfoIndexes={attrExprInfoIndexes.measures}
                   showLastBorder={{ right: showLastRightBorder, bottom: allRowsVisible }}
                   getRightGridColumnWidth={getRightGridColumnWidth}
                   pageInfo={pageInfo}

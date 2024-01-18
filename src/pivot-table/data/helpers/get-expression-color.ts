@@ -15,8 +15,8 @@ const getExpressionColor = (
 ) => {
   // Cast to object type as cell.qAttrExps is EngineAPI.INxAttributeExpressionValues | EngineAPI.INxAttributeExpressionValues[]
   const attrsExprValues = cell.qAttrExps as unknown as EngineAPI.INxAttributeExpressionValues;
-  const expressionColor = attrsExprValues?.qValues?.[attrsExprInfo.cellForegroundColor]?.qText;
-  const expressionBackground = attrsExprValues?.qValues?.[attrsExprInfo.cellBackgroundColor]?.qText;
+  const expressionColor = attrsExprValues?.qValues?.[attrsExprInfo?.cellForegroundColor]?.qText;
+  const expressionBackground = attrsExprValues?.qValues?.[attrsExprInfo?.cellBackgroundColor]?.qText;
 
   const background = expressionBackground ? toRGB(expressionBackground) : null;
   const color = expressionColor ? toRGB(expressionColor) : null;

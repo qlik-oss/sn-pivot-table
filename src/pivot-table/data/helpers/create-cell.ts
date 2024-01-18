@@ -68,6 +68,8 @@ const createCell = ({
   attrExprInfoIndex,
   isLeftColumn = true,
 }: Props): Cell => {
+  const isPseudoDimension = node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO;
+
   const cell = {
     id: getRandomUUID(),
     ref: node,
@@ -98,11 +100,15 @@ const createCell = ({
     isTotal: node.qType === NxDimCellType.NX_DIM_CELL_TOTAL || !!parent?.isTotal,
     isEmpty: node.qType === NxDimCellType.NX_DIM_CELL_EMPTY,
     isNull: node.qType === NxDimCellType.NX_DIM_CELL_NULL,
-    isPseudoDimension: node.qType === NxDimCellType.NX_DIM_CELL_PSEUDO,
+    isPseudoDimension,
     expressionColor: getExpressionColor(attrExprInfoIndex, node),
     selectionCellType: isLeftColumn ? NxSelectionCellType.NX_CELL_LEFT : NxSelectionCellType.NX_CELL_TOP,
     dimensionInfoIndex: layoutService.getDimensionInfoIndex(dimensionInfo),
     canBeResized: node.qSubNodes.length === 0 && !isLeftColumn,
+    // Any cell with a ancestor that is a pseudo dimension will also have a visible measure info index.
+    // This is intentional to simply the logic for getting measure info index, without having to traverse
+    // the node tree.
+    visibleMeasureInfoIndex: isPseudoDimension ? node.qElemNo : parent?.visibleMeasureInfoIndex,
   };
 
   if (parent) {
