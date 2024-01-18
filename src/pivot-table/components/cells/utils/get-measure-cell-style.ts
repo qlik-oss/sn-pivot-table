@@ -1,6 +1,8 @@
-import type { StyleService } from "../../../../types/types";
+import type { ExtendedMeasureInfo } from "../../../../types/QIX";
+import type { Flags, StyleService } from "../../../../types/types";
 import { BOLD_FONT_WEIGHT } from "../../../constants";
 import { getLineClampStyle, textStyle } from "../../shared-styles";
+import resolveTextAlign from "./resolve-text-align";
 
 const numericStyle: React.CSSProperties = {
   display: "flex",
@@ -15,10 +17,6 @@ const nilStyle: React.CSSProperties = {
   flexDirection: "row",
   height: "100%",
   backgroundClip: "padding-box",
-};
-
-export const containerStyle: React.CSSProperties = {
-  justifyContent: "center",
 };
 
 export const getCellStyle = (
@@ -91,4 +89,11 @@ export const getTextStyle = (
     fontStyle,
     textDecoration,
   };
+};
+
+export const getTextAlign = (measureInfo: ExtendedMeasureInfo, isNumeric: boolean, flags: Flags) => {
+  const { textAlign } = measureInfo;
+  const defaultAlign = isNumeric ? "flex-end" : "center";
+
+  return resolveTextAlign(textAlign, defaultAlign, flags);
 };

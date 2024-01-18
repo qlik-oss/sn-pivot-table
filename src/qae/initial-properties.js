@@ -118,6 +118,7 @@ const properties = {
  * @type object
  * @extends NxInlineDimensionDef
  * @property {ColumnWidth=} columnWidth
+ * @property {TextAlign=} textAlign
  */
 
 /**
@@ -126,6 +127,7 @@ const properties = {
  * @type object
  * @extends NxInlineMeasureDef
  * @property {ColumnWidth=} columnWidth
+ * @property {TextAlign=} textAlign
  */
 
 /**
@@ -136,6 +138,20 @@ const properties = {
  * @property {('auto' | 'FitToContent' | 'pixels' | 'percentage')} type - Defines how the column width is set. For the right grid, `auto` calculates the width(s) so the total width of the columns equals the right grid width. If the width reaches a minimum value, the columns will overflow. For the left grid, `auto` is N/A and defaults to `fitToContent`. `fitToContent` calculates a width based on the column's content. `pixels` uses a specified pixel value. `percentage` sets the column width to specified percentage of the chart/grid width
  * @property {number=} pixels - Pixel value used if type is `pixels`
  * @property {number=} percentage - Percentage value used if type is `percentage`. Note that for the left grid columns, this is a percentage of the whole chart width. For the right grid columns, it is a percentage of the right grid width
+ */
+
+/**
+ * Font styling values
+ * @name TextAlignValues
+ * @type {"left" | "center" | "right"}
+ */
+
+/**
+ * Set the alignment of text in the chart.
+ * @name TextAlign
+ * @type object
+ * @property {boolean} auto - If true the chart decides text alignment, otherwise the "align" value is used.
+ * @property {TextAlignValues=} align - Align value
  */
 
 /**

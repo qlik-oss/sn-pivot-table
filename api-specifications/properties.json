@@ -223,6 +223,10 @@
         "columnWidth": {
           "optional": true,
           "type": "#/definitions/ColumnWidth"
+        },
+        "textAlign": {
+          "optional": true,
+          "type": "#/definitions/TextAlign"
         }
       }
     },
@@ -238,6 +242,10 @@
         "columnWidth": {
           "optional": true,
           "type": "#/definitions/ColumnWidth"
+        },
+        "textAlign": {
+          "optional": true,
+          "type": "#/definitions/TextAlign"
         }
       }
     },
@@ -276,6 +284,39 @@
           "description": "Percentage value used if type is `percentage`. Note that for the left grid columns, this is a percentage of the whole chart width. For the right grid columns, it is a percentage of the right grid width",
           "optional": true,
           "type": "number"
+        }
+      }
+    },
+    "TextAlignValues": {
+      "description": "Font styling values",
+      "kind": "union",
+      "items": [
+        {
+          "kind": "literal",
+          "value": "\"left\""
+        },
+        {
+          "kind": "literal",
+          "value": "\"center\""
+        },
+        {
+          "kind": "literal",
+          "value": "\"right\""
+        }
+      ]
+    },
+    "TextAlign": {
+      "description": "Set the alignment of text in the chart.",
+      "kind": "object",
+      "entries": {
+        "auto": {
+          "description": "If true the chart decides text alignment, otherwise the \"align\" value is used.",
+          "type": "boolean"
+        },
+        "align": {
+          "description": "Align value",
+          "optional": true,
+          "type": "#/definitions/TextAlignValues"
         }
       }
     },

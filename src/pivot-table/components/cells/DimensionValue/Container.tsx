@@ -5,6 +5,7 @@ import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import { CELL_PADDING, baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
 import { getBackground, getCursor } from "./utils/get-style";
+import getTextAlign from "./utils/get-text-align";
 
 type Props = {
   text: string;
@@ -38,7 +39,7 @@ const Container = ({
   isAdjustingWidth,
 }: Props): JSX.Element => {
   const styleService = useStyleContext();
-  const { interactions } = useBaseContext();
+  const { interactions, flags } = useBaseContext();
   const { select, isLocked } = useSelectionsContext();
   const { layoutService, showLastBorder } = data;
 
@@ -70,7 +71,7 @@ const Container = ({
         cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellSelected, cell, isCellLocked }),
         zIndex: isLeftColumn ? undefined : layoutService.size.x - cell.x,
-        justifyContent: isLeftColumn ? undefined : "center",
+        justifyContent: getTextAlign(cell, layoutService, isLeftColumn, flags),
         display: "flex",
       }}
       aria-hidden="true"
