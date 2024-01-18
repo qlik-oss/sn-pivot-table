@@ -28,6 +28,14 @@ type Size = {
 export interface SnapshotData {
   content?: {
     qPivotDataPages?: EngineAPI.INxPivotPage[];
+    rowPartialHeight?: number;
+    scrollLeft?: number;
+    scrollTopRatio?: number;
+    visibleLeft?: number;
+    visibleWidth?: number;
+    visibleTop?: number;
+    visibleHeight?: number;
+    page?: number;
   };
   object: {
     size: Size;

@@ -1,8 +1,14 @@
-import { useMemo } from "@nebula.js/stardust";
+import { useMemo, useOptions } from "@nebula.js/stardust";
 import createViewService from "../services/view-service";
-import type { PageInfo, ViewService } from "../types/types";
+import type { PivotLayout } from "../types/QIX";
+import type { PageInfo, UseOptions, ViewService } from "../types/types";
 
 // eslint-disable-next-line react-hooks/exhaustive-deps
-const useViewService = (pageInfo: PageInfo): ViewService => useMemo(() => createViewService(), [pageInfo.page]);
+const useViewService = (layout: PivotLayout, pageInfo: PageInfo): ViewService => {
+  const { viewState } = useOptions() as UseOptions;
+  // TODO: fix the dependencies conflict, apparently pageInfo.page is no longer counted as the useMemo dependency
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => createViewService(viewState, layout), [pageInfo.page, layout.snapshotData]);
+};
 
 export default useViewService;

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { onTakeSnapshot, useImperativeHandle, type stardust } from "@nebula.js/stardust";
 import { Q_PATH } from "../constants";
+import getViewState from "../pivot-table/components/cells/utils/get-view-state";
 import type { Model, SnapshotLayout } from "../types/QIX";
 import type { LayoutService, ViewService } from "../types/types";
 
@@ -19,6 +20,11 @@ const useSnapshot = ({ layoutService, viewService, rect, model, element }: UseSn
     }
 
     if ((model as EngineAPI.IGenericObject)?.getHyperCubePivotData) {
+      const { scrollLeft, scrollTopRatio, visibleLeft, visibleWidth, visibleTop, visibleHeight, page } = getViewState(
+        layoutService.layout,
+        viewService,
+        element,
+      );
       const pivotPages = await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [
         {
           qLeft: viewService.gridColumnStartIndex,
@@ -30,6 +36,14 @@ const useSnapshot = ({ layoutService, viewService, rect, model, element }: UseSn
 
       snapshotLayout.snapshotData.content = {
         qPivotDataPages: pivotPages,
+        // rowPartialHeight,
+        scrollLeft,
+        scrollTopRatio,
+        visibleLeft,
+        visibleWidth,
+        visibleTop,
+        visibleHeight,
+        page,
       };
     }
 
@@ -39,6 +53,13 @@ const useSnapshot = ({ layoutService, viewService, rect, model, element }: UseSn
     return snapshotLayout;
   });
 
+  useImperativeHandle(
+    () => ({
+      getViewState: () => getViewState(layoutService.layout, viewService, element),
+    }),
+    [layoutService.layout, viewService, element],
+  );
+
   if (layoutService.layout.snapshotData?.content) {
     return {
       left: rect.left,
@@ -47,11 +68,6 @@ const useSnapshot = ({ layoutService, viewService, rect, model, element }: UseSn
       height: layoutService.layout.snapshotData.object.size.h,
     };
   }
-
-  useImperativeHandle(
-    () => ({ getViewState: () => getViewState(layoutService, viewService, element) }),
-    [layoutService, viewService, element],
-  );
 
   return rect;
 };

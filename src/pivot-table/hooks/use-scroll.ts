@@ -77,6 +77,7 @@ const useScroll = ({ layoutService, pageInfo, tableRect, mockedRefs }: Props) =>
 
       if (verticalScrollableContainerRef.current) {
         verticalScrollableContainerRef.current.scrollTop = 0;
+        verticalScrollableContainerRef.current.scrollTop = 0;
       }
     }
   }, [layoutService]);

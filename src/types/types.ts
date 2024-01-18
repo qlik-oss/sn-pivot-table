@@ -184,11 +184,38 @@ export interface ExtendedSelections extends stardust.ObjectSelections {
   removeListener: (name: string, callback: () => void) => void;
 }
 
+export interface ViewState {
+  rowPartialHeight: number;
+  scrollLeft: number;
+  scrollTopRatio?: number;
+  visibleTop: number;
+  visibleHeight: number;
+  visibleLeft?: number;
+  visibleWidth?: number;
+  page?: number;
+}
+
 export interface ViewService {
   gridColumnStartIndex: number;
   gridRowStartIndex: number;
   gridWidth: number;
   gridHeight: number;
+  qTop: number;
+  qHeight: number;
+  rowPartialHeight?: number;
+  scrollLeft?: number;
+  scrollTopRatio?: number;
+  visibleLeft?: number;
+  visibleWidth?: number;
+  visibleTop?: number;
+  visibleHeight?: number;
+  viewState: ViewState;
+  page?: number;
+  rowsPerPage?: number;
+}
+
+export interface UseOptions {
+  viewState: ViewState;
 }
 
 export interface LayoutService {
