@@ -91,7 +91,7 @@ export const getTextStyle = (
   };
 };
 
-export const getTextAlign = (measureInfo: ExtendedMeasureInfo, isNumeric: boolean, flags: Flags) => {
+export const getJustifyContent = (measureInfo: ExtendedMeasureInfo, isNumeric: boolean, flags: Flags) => {
   const { textAlign } = measureInfo;
   const defaultAlign = isNumeric ? "flex-end" : "center";
 

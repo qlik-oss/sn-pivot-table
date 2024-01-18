@@ -6,7 +6,7 @@ import { useStyleContext } from "../../contexts/StyleProvider";
 import getExpressionColor from "../../data/helpers/get-expression-color";
 import { baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
-import { getCellStyle, getTextAlign, getTextStyle } from "./utils/get-measure-cell-style";
+import { getCellStyle, getJustifyContent, getTextStyle } from "./utils/get-measure-cell-style";
 import getMeasureInfoIndex from "./utils/get-measure-info-index";
 
 export interface MeasureCellProps {
@@ -69,7 +69,7 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
     }),
     ...baseCellStyle,
     display: "flex",
-    justifyContent: getTextAlign(layoutService.visibleMeasureInfo[measureInfoIndex], isNumeric, flags),
+    justifyContent: getJustifyContent(layoutService.visibleMeasureInfo[measureInfoIndex], isNumeric, flags),
   };
 
   return (

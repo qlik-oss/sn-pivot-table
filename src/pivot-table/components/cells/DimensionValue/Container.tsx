@@ -4,8 +4,8 @@ import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import { CELL_PADDING, baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
+import getJustifyContent from "./utils/get-justify-content";
 import { getBackground, getCursor } from "./utils/get-style";
-import getTextAlign from "./utils/get-text-align";
 
 type Props = {
   text: string;
@@ -71,7 +71,7 @@ const Container = ({
         cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellSelected, cell, isCellLocked }),
         zIndex: isLeftColumn ? undefined : layoutService.size.x - cell.x,
-        justifyContent: getTextAlign(cell, layoutService, isLeftColumn, flags),
+        justifyContent: getJustifyContent(cell, layoutService, isLeftColumn, flags),
         display: "flex",
       }}
       aria-hidden="true"
