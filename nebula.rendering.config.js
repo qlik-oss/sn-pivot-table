@@ -4,7 +4,9 @@ module.exports = {
     build: false,
     open: false,
     fixturePath: "test/rendering/__fixtures__",
-    flags: {},
+    flags: {
+      CLIENT_IM_5863_PVT_TEXT_ALIGN: true,
+    },
     keyboardNavigation: false,
     themes: [
       {

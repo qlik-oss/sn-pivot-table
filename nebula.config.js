@@ -18,7 +18,9 @@ module.exports = {
     },
   },
   serve: {
-    flags: {},
+    flags: {
+      CLIENT_IM_5863_PVT_TEXT_ALIGN: true,
+    },
     keyboardNavigation: false,
     themes: [
       {
