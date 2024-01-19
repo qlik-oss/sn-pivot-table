@@ -274,18 +274,6 @@ const createData = (env: Galaxy): Record<string, any> => {
             translation: "Common.Text.TextAlignment",
           }),
           ...columnResize,
-          dimensionLimits: {
-            uses: "dimensions.items.dimensionLimits",
-          },
-          globalGrouping: {
-            type: "boolean",
-            translation: "properties.dimensionLimits.globalGrouping",
-            ref: "qOtherTotalSpec.qGlobalOtherGrouping",
-            defaultValue: false,
-            show(itemData: EngineAPI.IHyperCubeDimensionDef) {
-              return itemData?.qOtherTotalSpec?.qOtherMode !== "OTHER_OFF";
-            },
-          },
         },
       },
       measures: {
