@@ -266,12 +266,12 @@ const createData = (env: Galaxy): Record<string, any> => {
           },
           cellColoring,
           ...createTextAlignItems({
-            key: "textAlign",
-            translation: "Common.Text.TextAlignment",
-          }),
-          ...createTextAlignItems({
             key: "labelTextAlign",
             translation: "Common.Text.LabelTextAlignment",
+          }),
+          ...createTextAlignItems({
+            key: "textAlign",
+            translation: "Common.Text.TextAlignment",
           }),
           ...columnResize,
           dimensionLimits: {
@@ -343,12 +343,12 @@ const createData = (env: Galaxy): Record<string, any> => {
           },
           cellColoring,
           ...createTextAlignItems({
-            key: "textAlign",
-            translation: "Common.Text.TextAlignment",
-          }),
-          ...createTextAlignItems({
             key: "labelTextAlign",
             translation: "Common.Text.LabelTextAlignment",
+          }),
+          ...createTextAlignItems({
+            key: "textAlign",
+            translation: "Common.Text.TextAlignment",
           }),
           ...columnResize,
         },

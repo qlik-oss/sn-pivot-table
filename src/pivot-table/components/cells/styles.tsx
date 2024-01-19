@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import type { stardust } from "@nebula.js/stardust";
 import type { CellStyling } from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
-import { DOUBLE_CELL_PADDING, baseFlex, textStyle } from "../shared-styles";
+import { DOUBLE_CELL_PADDING, baseFlex } from "../shared-styles";
 
 interface StyledHeaderCellWrapperProps {
   interactions: stardust.Interactions;
@@ -60,11 +60,11 @@ export const StyledLabel = styled("div", {
     textDecoration,
     justifyContent,
   }: Omit<CellStyling, "color" | "background"> & { justifyContent: string | undefined }) => ({
-    ...textStyle,
     display: "flex",
     justifyContent,
     alignSelf: "center",
     flexGrow: 1,
+    maxWidth: "100%",
     fontWeight,
     fontSize,
     fontFamily,

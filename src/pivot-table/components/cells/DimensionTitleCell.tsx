@@ -17,7 +17,7 @@ import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import type { GetHeaderCellsIconsVisibilityStatus, OverrideLeftGridWidth } from "../../hooks/use-column-width";
 import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
-import { baseCellStyle, getHeaderBorderStyle } from "../shared-styles";
+import { baseCellStyle, getHeaderBorderStyle, textStyle } from "../shared-styles";
 import ColumnAdjusterWrapper from "./ColumnAdjusterWrapper";
 import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
 import resolveTextAlign from "./utils/resolve-text-align";
@@ -114,7 +114,7 @@ const DimensionTitleCell = ({
           </StyledLockIcon>
         )}
         <StyledLabel {...{ fontFamily, fontSize, fontStyle, fontWeight, textDecoration, justifyContent: textAlign }}>
-          <span>{cell.label}</span>
+          <span style={textStyle}>{cell.label}</span>
         </StyledLabel>
       </StyledHeaderCell>
       {cell.isDim && (
