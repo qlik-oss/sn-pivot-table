@@ -288,7 +288,7 @@
       }
     },
     "TextAlignValues": {
-      "description": "Font styling values",
+      "description": "Text align values",
       "kind": "union",
       "items": [
         {

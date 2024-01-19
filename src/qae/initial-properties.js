@@ -141,7 +141,7 @@ const properties = {
  */
 
 /**
- * Font styling values
+ * Text align values
  * @name TextAlignValues
  * @type {"left" | "center" | "right"}
  */
