@@ -116,12 +116,12 @@ const columnResize = {
   },
 };
 
-const textAlignItems = {
-  textAlignAuto: {
-    ref: "qDef.textAlign.auto",
+const createTextAlignItems = ({ key, translation }: { key: "textAlign" | "labelTextAlign"; translation: string }) => ({
+  [`${key}Auto`]: {
+    ref: `qDef.${key}.auto`,
     type: "boolean",
     component: "switch",
-    translation: "Common.Text.TextAlignment",
+    translation,
     options: [
       {
         value: true,
@@ -134,8 +134,8 @@ const textAlignItems = {
     ],
     defaultValue: true,
   },
-  textAlign: {
-    ref: "qDef.textAlign.align",
+  [key]: {
+    ref: `qDef.${key}.align`,
     type: "string",
     component: "item-selection-list",
     horizontal: true,
@@ -163,9 +163,9 @@ const textAlignItems = {
       },
     ],
     defaultValue: "left",
-    show: (data: DimensionOrMeasureDef) => data.qDef.textAlign !== undefined && !data.qDef.textAlign.auto,
+    show: (data: DimensionOrMeasureDef) => data.qDef[key] !== undefined && !data.qDef[key]?.auto,
   },
-};
+});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createData = (env: Galaxy): Record<string, any> => {
@@ -265,8 +265,27 @@ const createData = (env: Galaxy): Record<string, any> => {
             },
           },
           cellColoring,
-          ...textAlignItems,
+          ...createTextAlignItems({
+            key: "textAlign",
+            translation: "Common.Text.TextAlignment",
+          }),
+          ...createTextAlignItems({
+            key: "labelTextAlign",
+            translation: "Common.Text.LabelTextAlignment",
+          }),
           ...columnResize,
+          dimensionLimits: {
+            uses: "dimensions.items.dimensionLimits",
+          },
+          globalGrouping: {
+            type: "boolean",
+            translation: "properties.dimensionLimits.globalGrouping",
+            ref: "qOtherTotalSpec.qGlobalOtherGrouping",
+            defaultValue: false,
+            show(itemData: EngineAPI.IHyperCubeDimensionDef) {
+              return itemData?.qOtherTotalSpec?.qOtherMode !== "OTHER_OFF";
+            },
+          },
         },
       },
       measures: {
@@ -323,7 +342,14 @@ const createData = (env: Galaxy): Record<string, any> => {
             },
           },
           cellColoring,
-          ...textAlignItems,
+          ...createTextAlignItems({
+            key: "textAlign",
+            translation: "Common.Text.TextAlignment",
+          }),
+          ...createTextAlignItems({
+            key: "labelTextAlign",
+            translation: "Common.Text.LabelTextAlignment",
+          }),
           ...columnResize,
         },
       },

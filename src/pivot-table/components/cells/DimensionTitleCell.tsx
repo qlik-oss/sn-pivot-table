@@ -4,7 +4,14 @@ import Locked from "@qlik-trial/sprout/icons/react/Lock";
 import HeadCellMenu, { MenuAvailabilityFlags } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu";
 import type { SortDirection, SortingRelatedArgs } from "@qlik/nebula-table-utils/lib/components/HeadCellMenu/types";
 import React, { useRef } from "react";
-import type { ChangeActivelySortedHeader, ChangeSortOrder, DataModel, HeaderCell } from "../../../types/types";
+import type { ExtendedDimensionInfo } from "../../../types/QIX";
+import type {
+  ChangeActivelySortedHeader,
+  ChangeSortOrder,
+  DataModel,
+  HeaderCell,
+  LayoutService,
+} from "../../../types/types";
 import { HEADER_ICON_SIZE } from "../../constants";
 import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
@@ -13,6 +20,7 @@ import { useHeadCellDim } from "../../hooks/use-head-cell-dim";
 import { baseCellStyle, getHeaderBorderStyle } from "../shared-styles";
 import ColumnAdjusterWrapper from "./ColumnAdjusterWrapper";
 import { StyledHeaderAnchor, StyledHeaderCell, StyledHeaderCellWrapper, StyledLabel, StyledLockIcon } from "./styles";
+import resolveTextAlign from "./utils/resolve-text-align";
 
 interface DimensionTitleCellProps {
   dataModel: DataModel;
@@ -27,6 +35,7 @@ interface DimensionTitleCellProps {
   iconsVisibilityStatus: ReturnType<GetHeaderCellsIconsVisibilityStatus>;
   columnWidth: number;
   overrideLeftGridWidth: OverrideLeftGridWidth;
+  layoutService: LayoutService;
 }
 
 export const testId = "title-cell";
@@ -50,10 +59,11 @@ const DimensionTitleCell = ({
   iconsVisibilityStatus,
   columnWidth,
   overrideLeftGridWidth,
+  layoutService,
 }: DimensionTitleCellProps): JSX.Element => {
   const listboxRef = useRef<HTMLDivElement>(null);
   const styleService = useStyleContext();
-  const { app, model, interactions, embed } = useBaseContext();
+  const { app, model, interactions, embed, flags } = useBaseContext();
   const {
     fontSize,
     fontFamily,
@@ -77,6 +87,8 @@ const DimensionTitleCell = ({
   const sortRelatedArgs: SortingRelatedArgs = { sortFromMenu, changeActivelySortedHeader };
   const searchRelatedArgs = { embed, listboxRef };
   const selectionRelatedArgs = { model: model as EngineAPI.IGenericObject, app };
+  const { labelTextAlign } = (layoutService.getDimensionInfo(cell.dimensionInfoIndex) as ExtendedDimensionInfo) ?? {};
+  const textAlign = resolveTextAlign(labelTextAlign, "flex-start", flags);
 
   return (
     <StyledHeaderCellWrapper
@@ -101,7 +113,9 @@ const DimensionTitleCell = ({
             <Locked height={HEADER_ICON_SIZE} />
           </StyledLockIcon>
         )}
-        <StyledLabel {...{ fontFamily, fontSize, fontStyle, fontWeight, textDecoration }}>{cell.label}</StyledLabel>
+        <StyledLabel {...{ fontFamily, fontSize, fontStyle, fontWeight, textDecoration, justifyContent: textAlign }}>
+          <span>{cell.label}</span>
+        </StyledLabel>
       </StyledHeaderCell>
       {cell.isDim && (
         <>

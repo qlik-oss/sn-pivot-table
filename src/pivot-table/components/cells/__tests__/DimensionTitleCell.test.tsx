@@ -4,7 +4,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import type { App, ExtendedDimensionInfo } from "../../../../types/QIX";
-import type { DataModel, HeaderCell } from "../../../../types/types";
+import type { DataModel, HeaderCell, LayoutService } from "../../../../types/types";
 import TestWithProvider from "../../../__tests__/test-with-providers";
 import type { GetHeaderCellsIconsVisibilityStatus } from "../../../hooks/use-column-width";
 import DimensionTitleCell, { testId } from "../DimensionTitleCell";
@@ -30,6 +30,7 @@ describe("DimensionTitleCell", () => {
     shouldShowMenuIcon: true,
     shouldShowLockIcon: true,
   };
+  const layoutService = { getDimensionInfo: () => ({}) } as unknown as LayoutService;
   let component: React.JSX.Element;
 
   beforeEach(() => {
@@ -47,6 +48,7 @@ describe("DimensionTitleCell", () => {
         iconsVisibilityStatus={iconsVisibilityStatus}
         columnWidth={100}
         overrideLeftGridWidth={overrideLeftGridWidth}
+        layoutService={layoutService}
       />
     );
   });

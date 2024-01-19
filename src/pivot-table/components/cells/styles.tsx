@@ -50,14 +50,25 @@ export const StyledLockIcon = styled("div")(() => ({
 
 export const StyledLabel = styled("div", {
   shouldForwardProp: (prop: string) =>
-    !["fontSize", "fontFamily", "fontWeight", "fontStyle", "textDecoration"].includes(prop),
-})(({ fontSize, fontFamily, fontWeight, fontStyle, textDecoration }: Omit<CellStyling, "color" | "background">) => ({
-  ...textStyle,
-  alignSelf: "center",
-  flexGrow: 1,
-  fontWeight,
-  fontSize,
-  fontFamily,
-  fontStyle,
-  textDecoration,
-}));
+    !["fontSize", "fontFamily", "fontWeight", "fontStyle", "textDecoration", "justifyContent"].includes(prop),
+})(
+  ({
+    fontSize,
+    fontFamily,
+    fontWeight,
+    fontStyle,
+    textDecoration,
+    justifyContent,
+  }: Omit<CellStyling, "color" | "background"> & { justifyContent: string | undefined }) => ({
+    ...textStyle,
+    display: "flex",
+    justifyContent,
+    alignSelf: "center",
+    flexGrow: 1,
+    fontWeight,
+    fontSize,
+    fontFamily,
+    fontStyle,
+    textDecoration,
+  }),
+);
