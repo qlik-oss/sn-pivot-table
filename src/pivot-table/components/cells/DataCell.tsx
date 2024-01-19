@@ -1,11 +1,12 @@
 import React from "react";
 import { areEqual } from "react-window";
 import type { GridItemData } from "../../../types/types";
+import { useBaseContext } from "../../contexts/BaseProvider";
 import { useStyleContext } from "../../contexts/StyleProvider";
 import getExpressionColor from "../../data/helpers/get-expression-color";
 import { baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../shared-styles";
 import EmptyCell from "./EmptyCell";
-import { containerStyle, getCellStyle, getTextStyle } from "./utils/get-measure-cell-style";
+import { getCellStyle, getJustifyContent, getTextStyle } from "./utils/get-measure-cell-style";
 import getMeasureInfoIndex from "./utils/get-measure-info-index";
 
 export interface MeasureCellProps {
@@ -19,6 +20,7 @@ export const testId = "measure-cell";
 
 const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): JSX.Element | null => {
   const styleService = useStyleContext();
+  const { flags } = useBaseContext();
   const { background } = styleService.measureValues;
   const {
     grid,
@@ -67,17 +69,11 @@ const MeasureCell = ({ columnIndex, rowIndex, style, data }: MeasureCellProps): 
     }),
     ...baseCellStyle,
     display: "flex",
-    justifyContent: isNumeric ? "flex-end" : "center",
+    justifyContent: getJustifyContent(layoutService.visibleMeasureInfo[measureInfoIndex], isNumeric, flags),
   };
 
   return (
-    <div
-      title={text}
-      style={{ ...style, ...containerStyle }}
-      data-testid={testId}
-      data-row-index={rowIndex}
-      data-col-index={columnIndex}
-    >
+    <div title={text} style={style} data-testid={testId} data-row-index={rowIndex} data-col-index={columnIndex}>
       <div style={cellStyle}>
         <span style={getTextStyle(styleService, expressionColor.color, isNumeric, isTotalValueCell, cell.isNull)}>
           {text}

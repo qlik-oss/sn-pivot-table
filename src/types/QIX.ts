@@ -38,6 +38,11 @@ interface NullValueRepresentation {
   text?: string;
 }
 
+export type TextAlign = {
+  auto: boolean;
+  align: "left" | "center" | "right";
+};
+
 export interface PaletteColor {
   index?: number;
   color?: string;
@@ -158,10 +163,12 @@ export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
     qHypercubeCardinal: number;
   };
   columnWidth?: ColumnWidth;
+  textAlign?: TextAlign;
 }
 
 export interface ExtendedMeasureInfo extends EngineAPI.INxMeasureInfo {
   columnWidth?: ColumnWidth;
+  textAlign?: TextAlign;
 }
 
 export interface ExtendedHyperCube extends EngineAPI.IHyperCube {
@@ -194,10 +201,12 @@ export default NxDimCellType;
 // types for properties
 interface ExtendedInlineDimensionDef extends EngineAPI.INxInlineDimensionDef {
   columnWidth: ColumnWidth;
+  textAlign?: TextAlign;
 }
 
 interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
   columnWidth: ColumnWidth;
+  textAlign?: TextAlign;
 }
 
 export interface DimensionOrMeasureDef {

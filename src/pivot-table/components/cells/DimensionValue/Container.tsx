@@ -4,6 +4,7 @@ import { useBaseContext } from "../../../contexts/BaseProvider";
 import { useSelectionsContext } from "../../../contexts/SelectionsProvider";
 import { useStyleContext } from "../../../contexts/StyleProvider";
 import { CELL_PADDING, baseCellStyle, getBorderStyle, getTotalCellDividerStyle } from "../../shared-styles";
+import getJustifyContent from "./utils/get-justify-content";
 import { getBackground, getCursor } from "./utils/get-style";
 
 type Props = {
@@ -38,7 +39,7 @@ const Container = ({
   isAdjustingWidth,
 }: Props): JSX.Element => {
   const styleService = useStyleContext();
-  const { interactions } = useBaseContext();
+  const { interactions, flags } = useBaseContext();
   const { select, isLocked } = useSelectionsContext();
   const { layoutService, showLastBorder } = data;
 
@@ -70,7 +71,7 @@ const Container = ({
         cursor: getCursor(canBeSelected),
         background: getBackground({ styleService, isCellSelected, cell, isCellLocked }),
         zIndex: isLeftColumn ? undefined : layoutService.size.x - cell.x,
-        justifyContent: isLeftColumn ? undefined : "center",
+        justifyContent: getJustifyContent(cell, layoutService, isLeftColumn, flags),
         display: "flex",
       }}
       aria-hidden="true"

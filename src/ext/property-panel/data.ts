@@ -116,6 +116,57 @@ const columnResize = {
   },
 };
 
+const textAlignItems = {
+  textAlignAuto: {
+    ref: "qDef.textAlign.auto",
+    type: "boolean",
+    component: "switch",
+    translation: "Common.Text.TextAlignment",
+    options: [
+      {
+        value: true,
+        translation: "Common.Auto",
+      },
+      {
+        value: false,
+        translation: "Common.Custom",
+      },
+    ],
+    defaultValue: true,
+  },
+  textAlign: {
+    ref: "qDef.textAlign.align",
+    type: "string",
+    component: "item-selection-list",
+    horizontal: true,
+    items: [
+      {
+        component: "icon-item",
+        icon: "align_left",
+        labelPlacement: "bottom",
+        value: "left",
+        translation: "properties.dock.left",
+      },
+      {
+        component: "icon-item",
+        icon: "align_center",
+        labelPlacement: "bottom",
+        value: "center",
+        translation: "Common.Center",
+      },
+      {
+        component: "icon-item",
+        icon: "align_right",
+        labelPlacement: "bottom",
+        value: "right",
+        translation: "properties.dock.right",
+      },
+    ],
+    defaultValue: "left",
+    show: (data: DimensionOrMeasureDef) => data.qDef.textAlign !== undefined && !data.qDef.textAlign.auto,
+  },
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createData = (env: Galaxy): Record<string, any> => {
   const { translator, anything, flags } = env;
@@ -214,6 +265,7 @@ const createData = (env: Galaxy): Record<string, any> => {
             },
           },
           cellColoring,
+          ...textAlignItems,
           ...columnResize,
         },
       },
@@ -271,6 +323,7 @@ const createData = (env: Galaxy): Record<string, any> => {
             },
           },
           cellColoring,
+          ...textAlignItems,
           ...columnResize,
         },
       },

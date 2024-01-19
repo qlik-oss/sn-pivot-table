@@ -45,6 +45,7 @@ describe("DataCell", () => {
           qMeasureInfo: [],
         },
       },
+      visibleMeasureInfo: [{}],
     } as unknown as LayoutService;
 
     pageInfo = {

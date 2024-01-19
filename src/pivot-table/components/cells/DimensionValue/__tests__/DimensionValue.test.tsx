@@ -84,6 +84,7 @@ describe("DimensionValue", () => {
       isDimensionLocked: jest.fn().mockReturnValue(false),
       showTotalsAbove: true,
       size: { x: 100 },
+      getDimensionInfo: () => ({}),
     } as unknown as LayoutService;
 
     expandLeftSpy = jest.spyOn(dataModel, "expandLeft");
