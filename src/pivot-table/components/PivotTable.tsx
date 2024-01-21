@@ -50,7 +50,7 @@ export const StickyPivotTable = ({
   const { visibleLeftDimensionInfo, visibleTopDimensionInfo } = useVisibleDimensions(layoutService, qPivotDataPages);
   const { changeSortOrder, changeActivelySortedHeader } = useSorting(model, layoutService.layout.qHyperCube);
 
-  const isPrintingMode = !!(layoutService.layout.snapshotData || viewService.viewState?.visibleRows);
+  const isPrintingMode = !!layoutService.layout.snapshotData;
   // const scrollLeft = isPrintingMode ? viewService.scrollLeft ?? 0 : 0;
   const scrollTopPartially = isPrintingMode ? viewService.rowPartialHeight ?? 0 : 0;
 
