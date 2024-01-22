@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { stardust } from "@nebula.js/stardust";
+import type { DimensionOrMeasureDef } from "../../../types/QIX";
 import type { Args } from "../data";
-import createData from "../data";
+import createData, { createTextAlignItems } from "../data";
 
 describe("data", () => {
   const translator = { get: (str) => str } as stardust.Translator;
@@ -196,6 +197,70 @@ describe("data", () => {
 
         expect(data.items.measures.items.numberFormatting).toBe(undefined);
       });
+    });
+  });
+
+  describe("createTextAlignItems", () => {
+    test("should return undefined when flag is disabled", () => {
+      const def = createTextAlignItems({
+        flags: { isEnabled: () => false },
+        key: "textAlign",
+        translation: "translation",
+      });
+
+      expect(def).toBe(undefined);
+    });
+
+    test("should return text align definition", () => {
+      const def = createTextAlignItems({
+        flags: { isEnabled: () => true },
+        key: "textAlign",
+        translation: "translation",
+      });
+
+      expect(def?.textAlign).toBeDefined();
+      expect(def?.textAlignAuto).toBeDefined();
+    });
+
+    test("should return label text align definition", () => {
+      const def = createTextAlignItems({
+        flags: { isEnabled: () => true },
+        key: "labelTextAlign",
+        translation: "translation",
+      });
+
+      expect(def?.labelTextAlign).toBeDefined();
+      expect(def?.labelTextAlignAuto).toBeDefined();
+    });
+
+    test("show should return false when defintion does not exist", () => {
+      const def = createTextAlignItems({
+        flags: { isEnabled: () => true },
+        key: "textAlign",
+        translation: "translation",
+      });
+
+      expect(def?.textAlign?.show?.({ qDef: { textAlign: undefined } } as DimensionOrMeasureDef)).toBe(false);
+    });
+
+    test("show should return false when auto is true", () => {
+      const def = createTextAlignItems({
+        flags: { isEnabled: () => true },
+        key: "textAlign",
+        translation: "translation",
+      });
+
+      expect(def?.textAlign?.show?.({ qDef: { textAlign: { auto: true } } } as DimensionOrMeasureDef)).toBe(false);
+    });
+
+    test("show should return true when auto is false", () => {
+      const def = createTextAlignItems({
+        flags: { isEnabled: () => true },
+        key: "textAlign",
+        translation: "translation",
+      });
+
+      expect(def?.textAlign?.show?.({ qDef: { textAlign: { auto: false } } } as DimensionOrMeasureDef)).toBe(true);
     });
   });
 });

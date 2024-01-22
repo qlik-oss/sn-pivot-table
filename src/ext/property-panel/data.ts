@@ -1,7 +1,7 @@
 import { ColumnWidthType, ColumnWidthValues } from "@qlik/nebula-table-utils/lib/constants";
-import { CLIENT_IM_5851_MEASURE_FORMATTING } from "../../constants/flags";
+import { CLIENT_IM_5851_MEASURE_FORMATTING, CLIENT_IM_5863_PVT_TEXT_ALIGN } from "../../constants/flags";
 import { type DimensionOrMeasureDef } from "../../types/QIX";
-import { AttrExprInfoIDs, type Galaxy } from "../../types/types";
+import { AttrExprInfoIDs, type Flags, type Galaxy } from "../../types/types";
 
 export interface Args {
   properties: EngineAPI.IGenericHyperCubeProperties;
@@ -116,56 +116,70 @@ const columnResize = {
   },
 };
 
-const createTextAlignItems = ({ key, translation }: { key: "textAlign" | "labelTextAlign"; translation: string }) => ({
-  [`${key}Auto`]: {
-    ref: `qDef.${key}.auto`,
-    type: "boolean",
-    component: "switch",
-    translation,
-    options: [
-      {
-        value: true,
-        translation: "Common.Auto",
-      },
-      {
-        value: false,
-        translation: "Common.Custom",
-      },
-    ],
-    defaultValue: true,
-  },
-  [key]: {
-    ref: `qDef.${key}.align`,
-    type: "string",
-    component: "item-selection-list",
-    horizontal: true,
-    items: [
-      {
-        component: "icon-item",
-        icon: "align_left",
-        labelPlacement: "bottom",
-        value: "left",
-        translation: "properties.dock.left",
-      },
-      {
-        component: "icon-item",
-        icon: "align_center",
-        labelPlacement: "bottom",
-        value: "center",
-        translation: "Common.Center",
-      },
-      {
-        component: "icon-item",
-        icon: "align_right",
-        labelPlacement: "bottom",
-        value: "right",
-        translation: "properties.dock.right",
-      },
-    ],
-    defaultValue: "left",
-    show: (data: DimensionOrMeasureDef) => data.qDef[key] !== undefined && !data.qDef[key]?.auto,
-  },
-});
+export const createTextAlignItems = ({
+  key,
+  translation,
+  flags,
+}: {
+  key: "textAlign" | "labelTextAlign";
+  translation: string;
+  flags: Flags;
+}) => {
+  if (!flags.isEnabled(CLIENT_IM_5863_PVT_TEXT_ALIGN)) {
+    return undefined;
+  }
+
+  return {
+    [`${key}Auto`]: {
+      ref: `qDef.${key}.auto`,
+      type: "boolean",
+      component: "switch",
+      translation,
+      options: [
+        {
+          value: true,
+          translation: "Common.Auto",
+        },
+        {
+          value: false,
+          translation: "Common.Custom",
+        },
+      ],
+      defaultValue: true,
+    },
+    [key]: {
+      ref: `qDef.${key}.align`,
+      type: "string",
+      component: "item-selection-list",
+      horizontal: true,
+      items: [
+        {
+          component: "icon-item",
+          icon: "align_left",
+          labelPlacement: "bottom",
+          value: "left",
+          translation: "properties.dock.left",
+        },
+        {
+          component: "icon-item",
+          icon: "align_center",
+          labelPlacement: "bottom",
+          value: "center",
+          translation: "Common.Center",
+        },
+        {
+          component: "icon-item",
+          icon: "align_right",
+          labelPlacement: "bottom",
+          value: "right",
+          translation: "properties.dock.right",
+        },
+      ],
+      defaultValue: "left",
+      show: (data: DimensionOrMeasureDef) => data.qDef[key] !== undefined && !data.qDef[key]?.auto,
+    },
+  };
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createData = (env: Galaxy): Record<string, any> => {
@@ -266,10 +280,12 @@ const createData = (env: Galaxy): Record<string, any> => {
           },
           cellColoring,
           ...createTextAlignItems({
+            flags,
             key: "labelTextAlign",
             translation: "Common.Text.LabelTextAlignment",
           }),
           ...createTextAlignItems({
+            flags,
             key: "textAlign",
             translation: "Common.Text.TextAlignment",
           }),
@@ -331,10 +347,12 @@ const createData = (env: Galaxy): Record<string, any> => {
           },
           cellColoring,
           ...createTextAlignItems({
+            flags,
             key: "labelTextAlign",
             translation: "Common.Text.LabelTextAlignment",
           }),
           ...createTextAlignItems({
+            flags,
             key: "textAlign",
             translation: "Common.Text.TextAlignment",
           }),
