@@ -10,15 +10,16 @@ interface UseSnapshotProps {
   viewService: ViewService;
   rect: stardust.Rect;
   model: Model;
+  element: HTMLElement;
 }
 
-const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotProps): stardust.Rect => {
+const useSnapshot = ({ layoutService, viewService, rect, model, element }: UseSnapshotProps): stardust.Rect => {
   onTakeSnapshot(async (snapshotLayout: SnapshotLayout) => {
     if (!snapshotLayout.snapshotData || !model || snapshotLayout.snapshotData.content) {
       return snapshotLayout;
     }
 
-    const { rowPartialHeight, visibleTopIndex, visibleRows, page, rowsPerPage } = getViewState(viewService);
+    const { rowPartialHeight } = getViewState(viewService, element, layoutService.layout);
     if ((model as EngineAPI.IGenericObject)?.getHyperCubePivotData) {
       snapshotLayout.snapshotData.content = {
         qPivotDataPages: await (model as EngineAPI.IGenericObject).getHyperCubePivotData(Q_PATH, [
@@ -30,10 +31,7 @@ const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotPro
           },
         ]),
         rowPartialHeight,
-        visibleTopIndex,
-        visibleRows,
-        page,
-        rowsPerPage,
+        // visibleRows,
       };
 
       snapshotLayout.snapshotData.object.size.w = rect.width;
@@ -42,7 +40,10 @@ const useSnapshot = ({ layoutService, viewService, rect, model }: UseSnapshotPro
     return snapshotLayout;
   });
 
-  useImperativeHandle(() => ({ getViewState: () => getViewState(viewService) }), [viewService]);
+  useImperativeHandle(
+    () => ({ getViewState: () => getViewState(viewService, element, layoutService.layout) }),
+    [viewService, element, layoutService.layout],
+  );
 
   if (layoutService.layout.snapshotData?.content) {
     return {

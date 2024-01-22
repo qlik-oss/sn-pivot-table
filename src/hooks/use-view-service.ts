@@ -1,7 +1,18 @@
 import { useMemo } from "@nebula.js/stardust";
-import createViewService from "../services/view-service";
-import type { PivotLayout } from "../types/QIX";
+import type { PivotLayout, SnapshotData } from "../types/QIX";
 import type { PageInfo, ViewService } from "../types/types";
+
+const createViewService = (snapshotData: SnapshotData | undefined): ViewService => ({
+  gridColumnStartIndex: 0,
+  gridRowStartIndex: 0,
+  gridWidth: 0,
+  gridHeight: 0,
+  rowPartialHeight: snapshotData?.content?.rowPartialHeight ?? 0,
+  visibleRows: snapshotData?.content?.visibleRows,
+  // visibleTopIndex: snapshotData?.content?.visibleTopIndex,
+  // rowsPerPage: snapshotData?.content?.rowsPerPage,
+  // page: snapshotData?.content?.page,
+});
 
 const useViewService = (layout: PivotLayout, pageInfo: PageInfo): ViewService =>
   useMemo(

@@ -43,7 +43,7 @@ const useRender = (env: Galaxy) => {
   const { translator, language } = useTranslations();
   const { pageInfo, updatePageInfo } = usePagination(layoutService);
   const viewService = useViewService(layout, pageInfo);
-  const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model });
+  const rect = useSnapshot({ rect: useRect(), layoutService, viewService, model, element });
   const [qPivotDataPages, isLoading] = useLoadDataPages({ model, layoutService, viewService, pageInfo, rect });
   // It needs to be theme.name() because the reference to the theme object does not change when a theme is changed
   // eslint-disable-next-line react-hooks/exhaustive-deps

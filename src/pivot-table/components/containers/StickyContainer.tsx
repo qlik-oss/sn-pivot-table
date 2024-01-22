@@ -10,6 +10,7 @@ interface StickyContainerProps {
 
 const StickyContainer = ({ width, height, children, style, isLeftGrid }: StickyContainerProps): JSX.Element => (
   <div
+    data-key="sticky-container"
     data-testid="sticky-container"
     style={{
       position: "sticky",

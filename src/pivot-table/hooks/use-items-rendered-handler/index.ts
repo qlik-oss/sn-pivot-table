@@ -45,11 +45,17 @@ const useItemsRenderedHandler = ({
       overscanColumnStopIndex,
       overscanRowStartIndex,
       overscanRowStopIndex,
+      visibleRowStartIndex,
+      visibleRowStopIndex,
     }: GridOnItemsRenderedProps) => {
       viewService.gridColumnStartIndex = overscanColumnStartIndex;
       viewService.gridRowStartIndex = overscanRowStartIndex;
       viewService.gridWidth = overscanColumnStopIndex - overscanColumnStartIndex + 1;
       viewService.gridHeight = overscanRowStopIndex - overscanRowStartIndex + 1;
+      viewService.visibleTopIndex = visibleRowStartIndex + pageInfo.page * pageInfo.rowsPerPage;
+      viewService.visibleRows = visibleRowStopIndex - visibleRowStartIndex + 1;
+      viewService.page = pageInfo.page;
+      viewService.rowsPerPage = pageInfo.rowsPerPage;
 
       const estimatedWidth =
         viewService.gridWidth +
