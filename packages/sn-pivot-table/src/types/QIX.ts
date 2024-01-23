@@ -164,11 +164,13 @@ export interface ExtendedDimensionInfo extends EngineAPI.INxDimensionInfo {
   };
   columnWidth?: ColumnWidth;
   textAlign?: TextAlign;
+  labelTextAlign?: TextAlign;
 }
 
 export interface ExtendedMeasureInfo extends EngineAPI.INxMeasureInfo {
   columnWidth?: ColumnWidth;
   textAlign?: TextAlign;
+  labelTextAlign?: TextAlign;
 }
 
 export interface ExtendedHyperCube extends EngineAPI.IHyperCube {
@@ -202,11 +204,13 @@ export default NxDimCellType;
 interface ExtendedInlineDimensionDef extends EngineAPI.INxInlineDimensionDef {
   columnWidth: ColumnWidth;
   textAlign?: TextAlign;
+  labelTextAlign?: TextAlign;
 }
 
 interface ExtendedInlineMeasureDef extends EngineAPI.INxInlineMeasureDef {
   columnWidth: ColumnWidth;
   textAlign?: TextAlign;
+  labelTextAlign?: TextAlign;
 }
 
 export interface DimensionOrMeasureDef {

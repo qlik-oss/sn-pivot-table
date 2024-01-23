@@ -164,6 +164,7 @@ export const StickyPivotTable = ({
                     changeSortOrder={changeSortOrder}
                     changeActivelySortedHeader={changeActivelySortedHeader}
                     overrideLeftGridWidth={overrideLeftGridWidth}
+                    layoutService={layoutService}
                   />
 
                   <LeftGrid

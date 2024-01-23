@@ -1,8 +1,9 @@
+import { CLIENT_IM_5863_PVT_TEXT_ALIGN } from "../../../../constants/flags";
 import type { TextAlign } from "../../../../types/QIX";
 import type { Flags } from "../../../../types/types";
 
 const resolveTextAlign = (textAlign: TextAlign | undefined, defaultValue: string | undefined, flags: Flags) => {
-  if (!flags.isEnabled("CLIENT_IM_5863_PVT_TEXT_ALIGN") || textAlign?.auto) {
+  if (!flags.isEnabled(CLIENT_IM_5863_PVT_TEXT_ALIGN) || textAlign?.auto) {
     return defaultValue;
   }
 
